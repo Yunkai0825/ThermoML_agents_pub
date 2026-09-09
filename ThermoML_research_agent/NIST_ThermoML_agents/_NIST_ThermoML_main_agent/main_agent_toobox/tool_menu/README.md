@@ -1,0 +1,5 @@
+Wrap all the tools subagents have into several MCP subagents as tool catalog. The main agent, if feel needed, can call this subagent_tool_menu MCP tool to inspect the tools accessible to the subagents, and optionally can send purpose+task instruction to run specific subagent tools through this main agent MCP tool. Since this is just a menu and wrapper with tool_menu_hooks, all the context token limit should be less than 150 tokens.
+
+This hook is an interactive tool: the agent can call those tools showed up in the menu, but the description of those tools and their docstrings should never occur in the main agent system prompt (i.e. MCP should allow the agent to run those not predefined tools, but those tools should not pollute the system prompt unless requested by the menu tool). The menu tool context auto disappears after the agent executed the tool from the menu (or skip using the tools in the menu)
+
+Use `ThermoML_research_agent/NIST_ThermoML_agents/general_tool_management_helpers/general_tool_menu_tools` to define the core structure and operations of a tool menu.

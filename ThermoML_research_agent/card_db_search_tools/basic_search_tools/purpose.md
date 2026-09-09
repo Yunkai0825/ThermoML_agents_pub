@@ -1,0 +1,1 @@
+Search tools for each individual db. Will be used as part of the agentic systems and called by agent, and thus the calling api should be dynamic. The input from agents might need to be normalized (e.g. to InChi search from names given by the agent) to match the database. Each search tool must have and only have one api function.

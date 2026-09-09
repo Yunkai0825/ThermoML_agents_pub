@@ -1,0 +1,540 @@
+{
+  "$schema": "thermoml_compound_sample_schema_v1",
+  "$id": "CDS_compound_sample",
+  "title": "CDS Compound Sample/Purity Card (per-DOI)",
+  "description": "Per-paper sample provenance and purity information for ALL compounds used in one paper. One card per DOI. Each compound may have multiple samples (batches) with different purities, sources, and purification treatments. Blocks reference compounds by DOI-scoped org_num and globally resolve them through comp_num_id.",
+  "version": "2.0.0",
+  "database_stats": {
+    "total_cards": 11923,
+    "total_compound_sample_records": 60461,
+    "compounds_with_0_samples": 1911,
+    "compounds_with_1_sample": 58995,
+    "compounds_with_multi_samples": 207,
+    "max_samples_per_compound": 6,
+    "compounds_per_paper_median": 3,
+    "compounds_per_paper_max": 94,
+    "papers_with_multi_sample_block_refs": 107,
+    "records_with_source_info": "98.9%",
+    "note": "107 papers have blocks that reference different samples of the same compound — the block-level Component[].nSampleNm distinguishes which sample each measurement used."
+  },
+  "card_structure": {
+    "key": {
+      "description": "Primary key: one card per DOI. PCS blocks reference entries using org_num plus sample_num.",
+      "fields": {
+        "doi": {
+          "type": "string",
+          "description": "DOI of the paper"
+        },
+        "lit_id": {
+          "type": "string",
+          "description": "TRC literature identifier derived from TRCRefID (yrYrPub-sAuthor1-sAuthor2-nAuthorn). Unique per paper; 1:1 with DOI.",
+          "example": "2005-pat-klo-0"
+        },
+        "lit_num_id": {
+          "type": "string",
+          "description": "Global literature registry ID. Format: GLOBlit_<positive integer>.",
+          "example": "GLOBlit_1"
+        }
+      }
+    },
+    "compounds": {
+      "description": "Array of all compounds in this paper, each with their sample(s)",
+      "type": "array",
+      "items": {
+        "fields": {
+          "org_num": {
+            "type": "string",
+            "description": "DOI-scoped source compound ID. Format: DOIcomp_<positive integer>."
+          },
+          "comp_num_id": {
+            "type": "string",
+            "description": "Global compound registry ID. Format: GLOBcomp_<positive integer>."
+          },
+          "inchi_key": {
+            "type": "string",
+            "description": "Canonical compound structure key."
+          },
+          "samples": {
+            "description": "Array of sample records for this compound in this paper. Usually 1 entry; >1 when the paper uses multiple batches.",
+            "type": "array",
+            "items": {
+              "fields": {
+                "sample_num": {
+                  "type": "string",
+                  "description": "DOI compound-scoped sample ID. Format: DOIcompSample_<component>_<sample>."
+                },
+                "source": {
+                  "type": "string|null",
+                  "description": "Sample source (eSource)",
+                  "allowed_values": [
+                    "Commercial source",
+                    "Isolated from a natural product",
+                    "Not stated in the document",
+                    "Standard Reference Material (SRM)",
+                    "Synthesized by others",
+                    "Synthesized by the authors"
+                  ]
+                },
+                "status": {
+                  "type": "string|null",
+                  "description": "Sample status (eStatus) — used instead of source when sample was not characterized",
+                  "allowed_values": [
+                    "noSample",
+                    "notDescribed",
+                    "previousPaper",
+                    "unknown"
+                  ]
+                },
+                "purity_steps": {
+                  "description": "Ordered purification/analysis steps. Each step may contain purity measurements, analysis methods, and/or purification methods.",
+                  "type": "array",
+                  "items": {
+                    "fields": {
+                      "step": {
+                        "type": "integer",
+                        "description": "Step number (nStep)"
+                      },
+                      "purity": {
+                        "description": "Purity measurement (at most one type per step)",
+                        "fields": {
+                          "mass_fraction": {
+                            "type": "number|null",
+                            "description": "Mass fraction purity (nPurityMass), e.g., 99.5 means 99.5%"
+                          },
+                          "mass_fraction_digits": {
+                            "type": "integer|null",
+                            "description": "Significant digits (nPurityMassDigits)"
+                          },
+                          "mol_fraction": {
+                            "type": "number|null",
+                            "description": "Mole fraction purity (nPurityMol)"
+                          },
+                          "mol_fraction_digits": {
+                            "type": "integer|null",
+                            "description": "Significant digits (nPurityMolDigits)"
+                          },
+                          "vol_fraction": {
+                            "type": "number|null",
+                            "description": "Volume fraction purity (nPurityVol) — rare, 24 occurrences"
+                          },
+                          "vol_fraction_digits": {
+                            "type": "integer|null",
+                            "description": "Significant digits (nPurityVolDigits)"
+                          }
+                        }
+                      },
+                      "impurities": {
+                        "description": "Known impurity levels",
+                        "fields": {
+                          "water_mass_pct": {
+                            "type": "number|null",
+                            "description": "Water content as mass percent (nWaterMassPerCent)"
+                          },
+                          "water_mass_pct_digits": {
+                            "type": "integer|null",
+                            "description": "Significant digits"
+                          },
+                          "halide_mass_pct": {
+                            "type": "number|null",
+                            "description": "Halide content as mass percent (nHalideMassPerCent)"
+                          },
+                          "halide_mass_pct_digits": {
+                            "type": "integer|null",
+                            "description": "Significant digits"
+                          },
+                          "halide_mol_pct": {
+                            "type": "number|null",
+                            "description": "Halide content as mole percent (nHalideMolPerCent) — very rare, 2 occurrences",
+                            "not_observed_in_current_build": true
+                          },
+                          "halide_mol_pct_digits": {
+                            "type": "integer|null",
+                            "description": "Significant digits",
+                            "not_observed_in_current_build": true
+                          },
+                          "unknown_pct": {
+                            "type": "number|null",
+                            "description": "Unknown impurity percent (nUnknownPerCent)",
+                            "not_observed_in_current_build": true
+                          },
+                          "unknown_pct_digits": {
+                            "type": "integer|null",
+                            "description": "Significant digits",
+                            "not_observed_in_current_build": true
+                          }
+                        }
+                      },
+                      "analysis_methods": {
+                        "type": "array|null",
+                        "description": "Methods used to determine purity at this step",
+                        "items": {
+                          "type": "string",
+                          "description": "Standard (eAnalMeth) or custom (sAnalMeth, prefixed with [custom]) method name"
+                        }
+                      },
+                      "purification_methods": {
+                        "type": "array|null",
+                        "description": "Purification methods applied at this step",
+                        "items": {
+                          "type": "string",
+                          "description": "Standard (ePurifMethod) or custom (sPurifMethod, prefixed with [custom]) method name"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "formula": {
+            "type": "string",
+            "description": "[audited] Present in 100.0% of cards. Example: CH4"
+          },
+          "name": {
+            "type": "string",
+            "description": "[audited] Present in 100.0% of cards. Example: methane"
+          }
+        }
+      }
+    }
+  },
+  "enumerations": {
+    "all_sample_sources": [
+      "Commercial source",
+      "Isolated from a natural product",
+      "Not stated in the document",
+      "Standard Reference Material (SRM)",
+      "Synthesized by others",
+      "Synthesized by the authors"
+    ],
+    "all_sample_statuses": [
+      "noSample",
+      "notDescribed",
+      "previousPaper",
+      "unknown"
+    ],
+    "standard_analysis_methods": [
+      "Acid-base titration",
+      "CO2 yield in combustion products",
+      "Chemical analysis",
+      "DSC",
+      "Density",
+      "Difference between bubble and dew temperatures",
+      "Estimated by the compiler",
+      "Estimation",
+      "Fraction melting in an adiabatic calorimeter",
+      "Gas chromatography",
+      "HPLC",
+      "Ion chromatography",
+      "Ion-selective electrode",
+      "Karl Fischer titration",
+      "Mass loss on drying",
+      "Mass spectrometry",
+      "NMR (other)",
+      "NMR (proton)",
+      "Not known",
+      "Other",
+      "Other types of titration",
+      "Spectroscopy",
+      "Stated by supplier",
+      "Thermal analysis using temperature-time measurement"
+    ],
+    "standard_purification_methods": [
+      "Chemical reagent treatment",
+      "Crystallization from melt",
+      "Crystallization from solution",
+      "De-gassed by boiling or ultrasonically",
+      "De-gassed by evacuation",
+      "De-gassed by freezing and melting in vacuum",
+      "Dried by oven heating",
+      "Dried by vacuum heating",
+      "Dried in a desiccator",
+      "Dried with chemical reagent",
+      "Fractional crystallization",
+      "Fractional distillation",
+      "Impurity adsorption",
+      "Liquid chromatography",
+      "Molecular sieve treatment",
+      "None used",
+      "Other",
+      "Preparative gas chromatography",
+      "Salting out of solution",
+      "Solvent extraction",
+      "Steam distillation",
+      "Sublimation",
+      "Unspecified",
+      "Zone refining"
+    ],
+    "note": "Custom (free-text) analysis and purification methods also exist, prefixed with [custom]. There are ~160 unique custom analysis methods and ~150 unique custom purification methods in the database."
+  },
+  "field_universe_audit": {
+    "generated": "2026-08-03",
+    "source": "full scan of every card in the database (audit_card_fields.py)",
+    "rows_scanned": 11923,
+    "distinct_paths": 35,
+    "wildcards": "ID-grammar keys collapsed: <GLOBxxx_N>, <PROPblock_N>, <BLKxxx_N>, <DOIcomp_N>, <doi>, <n>",
+    "paths": {
+      "compounds": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "compounds[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "compounds[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBcomp_51"
+      },
+      "compounds[].formula": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "CH4"
+      },
+      "compounds[].inchi_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "VNWKTOKETHGBQD-UHFFFAOYSA-N"
+      },
+      "compounds[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "methane"
+      },
+      "compounds[].org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "DOIcomp_1"
+      },
+      "compounds[].samples": {
+        "types": [
+          "array",
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "compounds[].samples[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "compounds[].samples[].purity_steps": {
+        "types": [
+          "array",
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "compounds[].samples[].purity_steps[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 98.75,
+        "example": null
+      },
+      "compounds[].samples[].purity_steps[].analysis_methods": {
+        "types": [
+          "array",
+          "null"
+        ],
+        "pct": 98.75,
+        "example": null
+      },
+      "compounds[].samples[].purity_steps[].analysis_methods[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 98.32,
+        "example": "Stated by supplier"
+      },
+      "compounds[].samples[].purity_steps[].impurities": {
+        "types": [
+          "object"
+        ],
+        "pct": 98.75,
+        "example": null
+      },
+      "compounds[].samples[].purity_steps[].impurities.halide_mass_pct": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 98.75,
+        "example": "0.0421"
+      },
+      "compounds[].samples[].purity_steps[].impurities.halide_mass_pct_digits": {
+        "types": [
+          "integer",
+          "null"
+        ],
+        "pct": 98.75,
+        "example": "3"
+      },
+      "compounds[].samples[].purity_steps[].impurities.water_mass_pct": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 98.75,
+        "example": "0.1"
+      },
+      "compounds[].samples[].purity_steps[].impurities.water_mass_pct_digits": {
+        "types": [
+          "integer",
+          "null"
+        ],
+        "pct": 98.75,
+        "example": "1"
+      },
+      "compounds[].samples[].purity_steps[].purification_methods": {
+        "types": [
+          "array",
+          "null"
+        ],
+        "pct": 98.75,
+        "example": null
+      },
+      "compounds[].samples[].purity_steps[].purification_methods[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 61.18,
+        "example": "None used"
+      },
+      "compounds[].samples[].purity_steps[].purity": {
+        "types": [
+          "object"
+        ],
+        "pct": 98.75,
+        "example": null
+      },
+      "compounds[].samples[].purity_steps[].purity.mass_fraction": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 98.75,
+        "example": "99.34"
+      },
+      "compounds[].samples[].purity_steps[].purity.mass_fraction_digits": {
+        "types": [
+          "integer",
+          "null"
+        ],
+        "pct": 98.75,
+        "example": "4"
+      },
+      "compounds[].samples[].purity_steps[].purity.mol_fraction": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 98.75,
+        "example": "99.95"
+      },
+      "compounds[].samples[].purity_steps[].purity.mol_fraction_digits": {
+        "types": [
+          "integer",
+          "null"
+        ],
+        "pct": 98.75,
+        "example": "4"
+      },
+      "compounds[].samples[].purity_steps[].purity.vol_fraction": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 98.75,
+        "example": "99.8"
+      },
+      "compounds[].samples[].purity_steps[].purity.vol_fraction_digits": {
+        "types": [
+          "integer",
+          "null"
+        ],
+        "pct": 98.75,
+        "example": "3"
+      },
+      "compounds[].samples[].purity_steps[].step": {
+        "types": [
+          "integer"
+        ],
+        "pct": 98.75,
+        "example": "1"
+      },
+      "compounds[].samples[].sample_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "DOIcompSample_1_1"
+      },
+      "compounds[].samples[].source": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Commercial source"
+      },
+      "compounds[].samples[].status": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "notDescribed"
+      },
+      "key": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "key.doi": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "10.1007/s10765-005-5566-6"
+      },
+      "key.lit_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "2005-pat-klo-0"
+      },
+      "key.lit_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBlit_1"
+      }
+    }
+  }
+}

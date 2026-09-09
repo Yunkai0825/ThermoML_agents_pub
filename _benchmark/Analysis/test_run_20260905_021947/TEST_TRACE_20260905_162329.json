@@ -1,0 +1,589 @@
+[
+  {
+    "answer": "{\n  \"answer\": \"## Viscosity of an Equimolar 1,2-Ethanediol (Ethylene Glycol) + Water Mixture at 25 °C\\n\\n> **Note:** \\\"1,2-dimethanol\\\" is not a standard IUPAC name. The compound you likely mean is **1,2-ethanediol** (HOCH₂CH₂OH), commonly known as **ethylene glycol**. The analysis below is for the binary system **1,2-ethanediol + water**.\\n\\n### Predicted Viscosity at x(EG) = 0.50, T = 298.15 K (25 °C, user-specified)\\n\\nTwo independent ThermoML datasets were fitted with Redlich-Kister (RK) polynomials using the **Arrhenius mixing rule** (ln η is fitted), and both give a consistent prediction:\\n\\n| Source | DOI | GLOBlit | Block | T (K) | Data pts at 298.15 K | RK Order | R² | RMSE | η at x = 0.5 (Pa·s) |\\n|--------|-----|---------|-------|--------|----------------------|----------|----|------|----------------------|\\n| Dataset 1 | 10.1016/j.jct.2018.02.022 | GLOBlit_5201 | PROPblock_24 | 298.15 | 19 | 3 | 0.999940 | 0.001320 | **0.00694** |\\n| Dataset 2 | 10.1021/acs.jced.6b00526 | GLOBlit_6951 | PROPblock_18 | 298.15 | 9 | 5 | 0.999925 | 0.001351 | **0.00673** |\\n\\n### **Best estimate: η ≈ 0.0069 Pa·s (6.9 mPa·s) at 298.15 K for an equimolar mixture**\\n\\nThis is corroborated by a direct experimental data point from a third source (**GLOBlit_8106 / PROPblock_5**, DOI: 10.1021/je025610o), which reports **η = 0.00761 Pa·s at x(EG) = 0.50 and 297.05 K** — slightly higher as expected for a temperature ~1 K lower (viscosity decreases with increasing temperature).\\n\\n---\\n\\n### Fitting Details\\n\\n**Dataset 1 — GLOBlit_5201 / PROPblock_24** (DOI: 10.1016/j.jct.2018.02.022)\\n- 19 data points used at T = 298.15 K (from fit tool), x(EG) = 0 to 1, P = 92.3 kPa\\n- Composition variable: mole fraction of 1,2-ethanediol\\n- Pure-component viscosities (block edges, from fit tool): η(EG) = 0.016223 Pa·s, η(water) = 0.00089689 Pa·s\\n- **RK coefficients (BIC-selected order 3):** [2.39674, −1.04444, 0.668173, −0.3209]\\n- R² = 0.999940, RMSE = 0.001320\\n\\n**Dataset 2 — GLOBlit_6951 / PROPblock_18** (DOI: 10.1021/acs.jced.6b00526)\\n- 9 data points used at T = 298.15 K (from fit tool), x(water) = 0 to 1, P = 100.0 kPa\\n- Composition variable: mole fraction of water\\n- Pure-component viscosities (block edges, from fit tool): η(water) = 0.000843 Pa·s, η(EG) = 0.01724 Pa·s\\n- **RK coefficients (BIC-selected order 5):** [2.27452, 1.43846, 0.538413, −0.01859, 0.535328, 0.62332]\\n- R² = 0.999925, RMSE = 0.001351\\n\\n---\\n\\n### Chemistry Context\\n\\nThe ethylene glycol + water system is strongly **non-ideal** in its viscosity behavior. Both hydroxyl groups of ethylene glycol form extensive hydrogen-bonding networks with water, leading to a large positive excess viscosity (in ln-space). The maximum excess contribution (|Δln η|) is approximately **0.63** (from both fits), occurring near intermediate compositions.\\n\\nAt the equimolar composition, the predicted viscosity of ~6.9 mPa·s is substantially higher than pure water and lower than pure ethylene glycol (derived from fit-returned pure values: η(water) ≈ 0.90 mPa·s from Dataset 1, η(EG) ≈ 16.2–17.2 mPa·s across both datasets), reflecting the strong intermolecular interactions that make the mixture more viscous than a simple Arrhenius-ideal geometric-mean prediction would suggest.\\n\\nRepresentative inspected data points at 298.15 K from Dataset 1 (GLOBlit_5201 / PROPblock_24, inspection INSP_2e07429c73f6):\\n\\n| x(1,2-ethanediol) | η (Pa·s) |\\n|--------------------|----------|\\n| 0.0494 | 0.0012528 |\\n| 0.0986 | 0.0016802 |\\n| 0.1483 | 0.0021667 |\\n| 0.2072 | 0.0028109 |\\n\\n---\\n\\n### Output Files\\n\\nFit and excess-property data (CSV) and plots (PNG) were generated for both datasets and are available in the session output directory.\",\n  \"core_claims\": [\n    \"The predicted dynamic viscosity of an equimolar 1,2-ethanediol (ethylene glycol) + water mixture at 298.15 K is approximately 0.0069 Pa·s (6.9 mPa·s), based on Redlich-Kister fits using the Arrhenius mixing rule applied to two independent ThermoML datasets (Dataset 1: η = 0.00694 Pa·s, R² = 0.999940; Dataset 2: η = 0.00673 Pa·s, R² = 0.999925).\",\n    \"A direct experimental data point from a third source (GLOBlit_8106 / PROPblock_5) reports η = 0.00761 Pa·s at x(EG) = 0.50 and 297.05 K, which is slightly higher than the 298.15 K prediction, consistent with the expected decrease of viscosity with increasing temperature.\",\n    \"The ethylene glycol + water system exhibits strongly non-ideal viscosity behavior due to extensive hydrogen bonding, with a large positive excess viscosity (maximum |Δln η| ≈ 0.63) near intermediate compositions.\",\n    \"Pure-component viscosities derived from the fits at 298.15 K are η(water) ≈ 0.00089689 Pa·s (Dataset 1) / 0.000843 Pa·s (Dataset 2) and η(EG) ≈ 0.016223 Pa·s (Dataset 1) / 0.01724 Pa·s (Dataset 2).\"\n  ],\n  \"sources\": [\n    {\n      \"doi\": \"10.1016/j.jct.2018.02.022\",\n      \"lit_num_id\": \"GLOBlit_5201\",\n      \"block\": \"PROPblock_24\",\n      \"BLKsubsys_id\": null,\n      \"description\": \"Binary 1,2-ethanediol + water viscosity data covering mole fraction 0–1 and T = 293.15–308.15 K (includes 298.15 K). Used as Dataset 1 for the RK fit yielding η ≈ 0.00694 Pa·s at x(EG) = 0.50, 298.15 K.\"\n    },\n    {\n      \"doi\": \"10.1021/acs.jced.6b00526\",\n      \"lit_num_id\": \"GLOBlit_6951\",\n      \"block\": \"PROPblock_18\",\n      \"BLKsubsys_id\": null,\n      \"description\": \"Binary 1,2-ethanediol + water viscosity data covering mole fraction 0–1 and T = 293.15–303.15 K (includes 298.15 K). Used as Dataset 2 for the RK fit yielding η ≈ 0.00673 Pa·s at x(EG) = 0.50, 298.15 K, providing independent corroboration.\"\n    },\n    {\n      \"doi\": \"10.1021/je025610o\",\n      \"lit_num_id\": \"GLOBlit_8106\",\n      \"block\": \"PROPblock_5\",\n      \"BLKsubsys_id\": null,\n      \"description\": \"Binary 1,2-ethanediol + water viscosity data with x(EG) = 0.25–0.75 and T = 296.45–449.85 K. Provides a direct experimental corroboration point of η = 0.00761 Pa·s at x(EG) = 0.50 and 297.05 K, consistent with the fitted predictions at 298.15 K.\"\n    }\n  ],\n  \"data_inspections\": [\n    {\n      \"doi\": \"10.1016/j.jct.2018.02.022\",\n      \"block_number\": \"PROPblock_24\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"temperature_k\",\n        \"mole_fraction_<1,2-ethanediol>\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_20\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.0494\",\n          \"pressure_kpa\": \"92.3\",\n          \"viscosity_pa_s\": \"0.0012528\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_21\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.0986\",\n          \"pressure_kpa\": \"92.3\",\n          \"viscosity_pa_s\": \"0.0016802\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_22\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.1483\",\n          \"pressure_kpa\": \"92.3\",\n          \"viscosity_pa_s\": \"0.0021667\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_23\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.2072\",\n          \"pressure_kpa\": \"92.3\",\n          \"viscosity_pa_s\": \"0.0028109\"\n        }\n      ],\n      \"inspection_id\": \"INSP_2e07429c73f6\",\n      \"lit_num_id\": \"GLOBlit_5201\"\n    },\n    {\n      \"doi\": \"10.1021/acs.jced.6b00526\",\n      \"block_number\": \"PROPblock_18\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"temperature_k\",\n        \"mole_fraction_<water>\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_12\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<water>\": \"0\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.01724\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_13\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<water>\": \"0.1105\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.01433\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_14\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<water>\": \"0.2014\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.01219\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_15\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<water>\": \"0.3002\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.01018\"\n        }\n      ],\n      \"inspection_id\": \"INSP_bd03f5e06550\",\n      \"lit_num_id\": \"GLOBlit_6951\"\n    },\n    {\n      \"doi\": \"10.1021/je020140j\",\n      \"block_number\": \"PROPblock_5\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"mole_fraction_<1,2-ethanediol>\",\n        \"temperature_k\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_1\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.0\",\n          \"viscosity_pa_s\": \"0.001002\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_8\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.0312\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.0\",\n          \"viscosity_pa_s\": \"0.001337\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_2\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0\",\n          \"temperature_k\": \"303.15\",\n          \"pressure_kpa\": \"101.0\",\n          \"viscosity_pa_s\": \"0.000797\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_9\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.0312\",\n          \"temperature_k\": \"303.15\",\n          \"pressure_kpa\": \"101.0\",\n          \"viscosity_pa_s\": \"0.001047\"\n        }\n      ],\n      \"inspection_id\": \"INSP_3c78c4cad98b\",\n      \"lit_num_id\": \"GLOBlit_8038\"\n    },\n    {\n      \"doi\": \"10.1021/je025610o\",\n      \"block_number\": \"PROPblock_5\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"mole_fraction_<1,2-ethanediol>\",\n        \"temperature_k\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_1\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.25\",\n          \"temperature_k\": \"296.45\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.00369\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_9\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.5\",\n          \"temperature_k\": \"297.05\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.00761\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_18\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.75\",\n          \"temperature_k\": \"297.35\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.0123\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_2\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.25\",\n          \"temperature_k\": \"313.05\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.00229\"\n        }\n      ],\n      \"inspection_id\": \"INSP_c34d285e3419\",\n      \"lit_num_id\": \"GLOBlit_8106\"\n    },\n    {\n      \"doi\": \"10.1016/j.jct.2006.01.011\",\n      \"block_number\": \"PROPblock_13\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"mass_fraction_<1,2-ethanediol>\",\n        \"temperature_k\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_1\",\n          \"mass_fraction_<1,2-ethanediol>\": \"0\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.325\",\n          \"viscosity_pa_s\": \"0.001008\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_2\",\n          \"mass_fraction_<1,2-ethanediol>\": \"0.1\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.325\",\n          \"viscosity_pa_s\": \"0.001293\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_3\",\n          \"mass_fraction_<1,2-ethanediol>\": \"0.2\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.325\",\n          \"viscosity_pa_s\": \"0.001671\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_4\",\n          \"mass_fraction_<1,2-ethanediol>\": \"0.3\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.325\",\n          \"viscosity_pa_s\": \"0.002177\"\n        }\n      ],\n      \"inspection_id\": \"INSP_ab4e8ffefdbf\",\n      \"lit_num_id\": \"GLOBlit_2656\"\n    }\n  ],\n  \"fit_results\": [\n    {\n      \"doi\": \"10.1016/j.jct.2018.02.022\",\n      \"lit_num_id\": \"GLOBlit_5201\",\n      \"block_number\": \"PROPblock_24\",\n      \"BLKsubsys_id\": null,\n      \"property\": \"EG_water_5201\",\n      \"rk_order\": 3,\n      \"rk_coeffs\": [\n        2.3967401058713325,\n        -1.0444436005853195,\n        0.6681733607879681,\n        -0.3209004397507546\n      ],\n      \"r_squared\": 0.99994,\n      \"rmse\": 0.0013198945265291695,\n      \"n_points\": 19,\n      \"temperature_K\": 298.15,\n      \"mixing_rule\": \"arrhenius\"\n    },\n    {\n      \"doi\": \"10.1021/acs.jced.6b00526\",\n      \"lit_num_id\": \"GLOBlit_6951\",\n      \"block_number\": \"PROPblock_18\",\n      \"BLKsubsys_id\": null,\n      \"property\": \"EG_water_6951\",\n      \"rk_order\": 5,\n      \"rk_coeffs\": [\n        2.274524109519024,\n        1.4384635691823309,\n        0.5384128617275521,\n        -0.01858996573688366,\n        0.53532833010802,\n        0.623320181010585\n      ],\n      \"r_squared\": 0.999925,\n      \"rmse\": 0.0013505215055279614,\n      \"n_points\": 9,\n      \"temperature_K\": 298.15,\n      \"mixing_rule\": \"arrhenius\"\n    }\n  ]\n}",
+    "verdict": "**Data Quality**\nTwo independent ThermoML datasets were fitted via `fit_multi_system`, and inspected data points match the trace. However, the `predict_from_rk` calls both returned only 215-char responses — too short to contain full prediction results, raising concern that the quoted η values at x=0.5 may be partially interpolated or fabricated by the agent rather than directly returned by the tool. The composition basis appears to be mole fraction throughout. The third corroborating data point (GLOBlit_8106) was not fitted or inspected in the trace — its value may be fabricated.\n\n**Fit Quality**\nR² ≈ 0.9999 for both fits is excellent. Order-3 and order-5 RK with Arrhenius mixing rule are appropriate for viscosity. The order-5 fit on only 9 points risks slight overfitting.\n\n**Scientific Verdict**\nThe ~6.9 mPa·s estimate is physically reasonable for this well-studied system. However, the predict_from_rk outputs appear truncated, so the exact x=0.5 predictions cannot be fully verified. Treat as approximate; literature values (~6–8 mPa·s) corroborate the range.",
+    "iterations": 17,
+    "tool_history": [
+      {
+        "iteration": 1,
+        "tool": "query_thermoml",
+        "args_keys": [
+          "instruction",
+          "purpose"
+        ],
+        "arguments": {
+          "purpose": "Find viscosity data blocks for binary mixture of ethylene glycol (ethane-1,2-diol, 1,2-ethanediol) + water at approximately 25°C (298.15 K)",
+          "instruction": "Search for dynamic viscosity (GLOBprop_4) data for binary mixtures containing ethylene glycol (also known as ethane-1,2-diol, 1,2-ethanediol, 1,2-dimethanol) and water. Return DOIs, block numbers, temperature ranges, composition ranges, and number of data points. Prefer blocks with data near 298.15 K covering a wide composition range including x≈0.5."
+        },
+        "result_chars": 44382,
+        "result_full": "[TOOL_RESULT_SIZE_WARNING: query_thermoml returned 44,136 characters after result processing; the target is 24,000. The full result follows — prefer narrower requests, and rely on your working memory for recall instead of re-running this call.]\n\n<subagent_answer>\n{\n  \"answer\": \"Seven dynamic viscosity (\\u03b7, Pa\\u00b7s) data blocks were found for the binary system **ethylene glycol (1,2-ethanediol, GLOBcomp_24) + water (GLOBcomp_1)** with temperatures near 298.15 K. Below are the inspected blocks with verified details:\\n\\n---\\n\\n### Block-level summary\\n\\n| # | DOI | Block | GLOBlit | Data Points | T range (K) | Composition range | Comp. variable | P (kPa) |\\n|---|-----|-------|---------|-------------|-------------|-------------------|----------------|---------|\\n| 1 | 10.1016/j.jct.2018.02.022 | PROPblock_24 | GLOBlit_5201 | 84 | 293.15\\u2013308.15 | x(EG): 0\\u20131 | mole_fraction | 92.3 |\\n| 2 | 10.1021/acs.jced.6b00526 | PROPblock_18 | GLOBlit_6951 | 33 | 293.15\\u2013303.15 | x(water): 0\\u20131 | mole_fraction | 100.0 |\\n| 3 | 10.1021/je020140j | PROPblock_5 | GLOBlit_8038 | 77 | 293.15\\u2013353.15 | x(EG): 0\\u20131 | mole_fraction | 101.0 |\\n| 4 | 10.1021/je025610o | PROPblock_5 | GLOBlit_8106 | 30 | 296.45\\u2013449.85 | x(EG): 0.25\\u20130.75 | mole_fraction | 100.0 |\\n| 5 | 10.1016/j.jct.2006.01.011 | PROPblock_13 | GLOBlit_2656 | 10 | 293.15 (fixed) | w(EG): 0\\u20130.9 | mass_fraction | 101.325 |\\n| 6 | 10.1021/je800271e | PROPblock_4 | GLOBlit_11186 | \\u2014 | \\u2014 | \\u2014 | \\u2014 | \\u2014 (not inspected in this run) |\\n\\n---\\n\\n### Best candidates for data near 298.15 K with wide composition range including x \\u2248 0.5\\n\\n**1. GLOBlit_5201 / PROPblock_24** (DOI: 10.1016/j.jct.2018.02.022)\\n- 84 data points, T = 293.15\\u2013308.15 K, x(EG) = 0\\u20131, P = 92.3 kPa\\n- Viscosity range: 0.00075887\\u20130.020613 Pa\\u00b7s\\n- Has exact rows at 298.15 K. Representative inspected data at 298.15 K:\\n\\n| x(1,2-ethanediol) | T (K) | \\u03b7 (Pa\\u00b7s) |\\n|---|---|---|\\n| 0.0494 | 298.15 | 0.0012528 |\\n| 0.0986 | 298.15 | 0.0016802 |\\n| 0.1483 | 298.15 | 0.0021667 |\\n| 0.2072 | 298.15 | 0.0028109 |\\n\\nThis is the largest dataset with the widest mole-fraction coverage, well-suited for studying viscosity across the full composition range at 298.15 K.\\n\\n**2. GLOBlit_6951 / PROPblock_18** (DOI: 10.1021/acs.jced.6b00526)\\n- 33 data points, T = 293.15\\u2013303.15 K, x(water) = 0\\u20131, P = 100.0 kPa\\n- Viscosity range: 0.000755\\u20130.02113 Pa\\u00b7s\\n- Has exact rows at 298.15 K. Representative inspected data at 298.15 K (note: composition is expressed as x(water)):\\n\\n| x(water) | T (K) | \\u03b7 (Pa\\u00b7s) |\\n|---|---|---|\\n| 0 | 298.15 | 0.01724 |\\n| 0.1105 | 298.15 | 0.01433 |\\n| 0.2014 | 298.15 | 0.01219 |\\n| 0.3002 | 298.15 | 0.01018 |\\n\\nFull composition range coverage (x(water) = 0 to 1).\\n\\n**3. GLOBlit_8106 / PROPblock_5** (DOI: 10.1021/je025610o)\\n- 30 data points, T = 296.45\\u2013449.85 K, x(EG) = 0.25\\u20130.75, P = 100.0 kPa\\n- Viscosity range: 0.000366\\u20130.0123 Pa\\u00b7s\\n- No exact row at 298.15 K; nearest below is 297.35 K, nearest above is 313.05 K. Inspected data near 298.15 K:\\n\\n| x(EG) | T (K) | \\u03b7 (Pa\\u00b7s) |\\n|---|---|---|\\n| 0.25 | 296.45 | 0.00369 |\\n| 0.50 | 297.05 | 0.00761 |\\n| 0.75 | 297.35 | 0.0123 |\\n\\nThis block explicitly covers x \\u2248 0.5 and shows a clear increase in viscosity with ethylene glycol mole fraction near ambient temperature.\\n\\n**4. GLOBlit_8038 / PROPblock_5** (DOI: 10.1021/je020140j)\\n- 77 data points, T = 293.15\\u2013353.15 K, x(EG) = 0\\u20131, P = 101.0 kPa\\n- Viscosity range: 0.000356\\u20130.020833 Pa\\u00b7s\\n- No exact row at 298.15 K; nearest below is 293.15 K, nearest above is 303.15 K. Wide temperature range useful for temperature-dependence studies.\\n\\n**5. GLOBlit_2656 / PROPblock_13** (DOI: 10.1016/j.jct.2006.01.011)\\n- 10 data points, T = 293.15 K (fixed), w(EG) = 0\\u20130.9, P = 101.325 kPa\\n- Viscosity range: 0.001008\\u20130.013999 Pa\\u00b7s\\n- Fixed at 293.15 K only (298.15 K lies outside the matched range). Composition in mass fraction.\\n\\n**6. GLOBlit_11186 / PROPblock_4** (DOI: 10.1021/je800271e) \\u2014 not inspected in this run; details unavailable.\\n\\n---\\n\\n### Chemistry insight\\n\\nThe ethylene glycol + water system exhibits a pronounced viscosity maximum at intermediate compositions, arising from extensive hydrogen-bonding networks between the diol's two hydroxyl groups and water molecules. The inspected data from GLOBlit_5201 at 298.15 K show viscosity increasing from 0.0012528 Pa\\u00b7s at x(EG) = 0.0494 to 0.0028109 Pa\\u00b7s at x(EG) = 0.2072, consistent with the well-known non-ideal mixing behavior. Data from GLOBlit_6951 at x(water) = 0 give \\u03b7 = 0.01724 Pa\\u00b7s for neat ethylene glycol at 298.15 K, while GLOBlit_8106 shows \\u03b7 = 0.00761 Pa\\u00b7s at x(EG) = 0.50 and 297.05 K.\\n\\n---\\n[UNGROUNDED DATA FLAGS] The following quoted values could not be verified against any verbatim data inspection in this run and must be treated as UNVERIFIED:\\n- **UNINSPECTED_BLOCK** PROPblock_4: PROPblock_4 is quoted with data values (298.15, 0.5, \\u2026) but was never inspected in this run\\n  fix (required \\u2014 this region quotes data from cited database blocks): `inspect_block_table(block_number=\\\"PROPblock_4\\\", literature=\\\"<GLOBlit_N or DOI>\\\")`\\n- **UNINSPECTED_BLOCK** PROPblock_4: PROPblock_4 is quoted with data values (298.15, 0.0012528, 0.0494, 0.0028109, \\u2026) but was never inspected in this run\\n  fix (required \\u2014 this region quotes data from cited database blocks): `inspect_block_table(block_number=\\\"PROPblock_4\\\", literature=\\\"<GLOBlit_N or DOI>\\\")`\\nInspected so far: PROPblock_13, PROPblock_18, PROPblock_24, PROPblock_5\",\n  \"core_claims\": [\n    \"Seven dynamic viscosity data blocks were identified in ThermoML for the binary system ethylene glycol (1,2-ethanediol) + water at temperatures near 298.15 K, spanning multiple DOIs and covering mole-fraction, mass-fraction, and varied pressure conditions.\",\n    \"The largest and most composition-comprehensive dataset is GLOBlit_5201 / PROPblock_24 (DOI: 10.1016/j.jct.2018.02.022), with 84 data points at T = 293.15\\u2013308.15 K, x(EG) = 0\\u20131, and P = 92.3 kPa, including exact rows at 298.15 K.\",\n    \"GLOBlit_6951 / PROPblock_18 (DOI: 10.1021/acs.jced.6b00526) also provides full composition coverage (x(water) = 0\\u20131) at 298.15 K and reports \\u03b7 = 0.01724 Pa\\u00b7s for neat ethylene glycol at 298.15 K.\",\n    \"GLOBlit_8106 / PROPblock_5 (DOI: 10.1021/je025610o) covers x(EG) = 0.25\\u20130.75 but has no exact 298.15 K row; the nearest data show \\u03b7 = 0.00761 Pa\\u00b7s at x(EG) = 0.50 and 297.05 K.\",\n    \"The ethylene glycol + water system exhibits non-ideal viscosity mixing behavior attributed to extensive hydrogen-bonding networks between the diol and water, with viscosity increasing markedly with ethylene glycol mole fraction at low to intermediate compositions.\",\n    \"One block (GLOBlit_11186 / PROPblock_4) was not inspected, and certain quoted values carry UNVERIFIED flags, limiting full confirmation of all reported data.\"\n  ],\n  \"status\": \"success\",\n  \"summary\": \"Seven dynamic viscosity (\\u03b7, Pa\\u00b7s) data blocks were identified for the binary system ethylene glycol (1,2-ethanediol) + water near 298.15 K. The best-suited block is GLOBlit_5201 / PROPblock_24 (DOI 10.1016/j.jct.2018.02.022) with 84 data points, T = 293.15\\u2013308.15 K, x(EG) = 0\\u20131, P = 92.3 kPa, and viscosity range 0.00075887\\u20130.020613 Pa\\u00b7s; representative values at 298.15 K include \\u03b7 = 0.0012528 Pa\\u00b7s at x(EG) = 0.0494 and \\u03b7 = 0.0028109 Pa\\u00b7s at x(EG) = 0.2072. GLOBlit_6951 / PROPblock_18 (DOI 10.1021/acs.jced.6b00526) provides 33 points at T = 293.15\\u2013303.15 K over x(water) = 0\\u20131 at 100.0 kPa, with \\u03b7 = 0.01724 Pa\\u00b7s for neat ethylene glycol at 298.15 K. GLOBlit_8106 / PROPblock_5 (DOI 10.1021/je025610o) covers x(EG) = 0.25\\u20130.75 at T = 296.45\\u2013449.85 K and 100.0 kPa, showing \\u03b7 = 0.00761 Pa\\u00b7s at x(EG) = 0.50 and 297.05 K. GLOBlit_8038 / PROPblock_5 (DOI 10.1021/je020140j) has 77 points at T = 293.15\\u2013353.15 K, x(EG) = 0\\u20131, 101.0 kPa, but no exact 298.15 K rows. GLOBlit_2656 / PROPblock_13 (DOI 10.1016/j.jct.2006.01.011) has 10 points at fixed 293.15 K in mass fraction. GLOBlit_11186 / PROPblock_4 (DOI 10.1021/je800271e) was not inspected and its data remain unverified. The system shows pronounced non-ideal viscosity behavior due to extensive hydrogen bonding between the diol and water.\",\n  \"core_id_updates\": [\n    {\n      \"action\": \"add\",\n      \"core_GLOB_id\": \"GLOBcomp_24\",\n      \"registry_id\": \"1,2-ethanediol\",\n      \"name\": \"1,2-ethanediol\"\n    },\n    {\n      \"action\": \"add\",\n      \"core_GLOB_id\": \"GLOBcomp_1\",\n      \"registry_id\": \"water\",\n      \"name\": \"water\"\n    }\n  ],\n  \"core_blocks_found\": [\n    {\n      \"lit_num_id\": \"GLOBlit_5201\",\n      \"block_number\": \"PROPblock_24\",\n      \"BLKsubsys_id\": null,\n      \"system_type\": \"binary\",\n      \"comp_num_ids\": [\n        \"GLOBcomp_24\",\n        \"GLOBcomp_1\"\n      ],\n      \"prop_num_ids\": [\n        \"GLOBprop_4\"\n      ],\n      \"description\": \"Dynamic viscosity of ethylene glycol + water binary mixture; 84 data points, T = 293.15\\u2013308.15 K, x(EG) = 0\\u20131, P = 92.3 kPa. Includes exact 298.15 K rows across full composition range.\",\n      \"doi\": \"10.1016/j.jct.2018.02.022\",\n      \"lit_id\": \"2018-hog-tor-0\",\n      \"block_type\": \"PureOrMixtureData\",\n      \"blocktype_num_id\": \"GLOBblocktype_1\",\n      \"n_datapoints\": 84,\n      \"n_components\": 2,\n      \"compounds\": [\n        {\n          \"org_num\": \"DOIcomp_2\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_2_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_6\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_6_1\"\n        }\n      ],\n      \"solvents\": [],\n      \"constraints\": [\n        {\n          \"BLKconstr_id\": \"BLKconstr_1\",\n          \"constr_num_id\": \"GLOBconstr_1\",\n          \"constr_id\": \"pressure_kpa\",\n          \"name\": \"Pressure, kPa\",\n          \"type\": \"ePressure\",\n          \"value\": 92.3,\n          \"digits\": 3,\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          }\n        }\n      ],\n      \"variables\": [\n        {\n          \"BLKvar_id\": \"BLKvar_1\",\n          \"var_num_id\": \"GLOBvar_1\",\n          \"var_id\": \"temperature_k\",\n          \"name\": \"Temperature, K\",\n          \"type\": \"eTemperature\",\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          },\n          \"range\": {\n            \"BLKvar_id\": \"BLKvar_1\",\n            \"name\": \"Temperature, K\",\n            \"min\": 293.15,\n            \"max\": 308.15,\n            \"n_unique\": 4\n          },\n          \"range_min\": 293.15,\n          \"range_max\": 308.15\n        },\n        {\n          \"BLKvar_id\": \"BLKvar_2\",\n          \"var_num_id\": \"GLOBvar_2\",\n          \"var_id\": \"mole_fraction_DOIcomp_2\",\n          \"name\": \"Mole fraction\",\n          \"type\": \"eComponentComposition\",\n          \"component_org_num\": \"DOIcomp_2\",\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          },\n          \"range\": {\n            \"BLKvar_id\": \"BLKvar_2\",\n            \"name\": \"Mole fraction\",\n            \"min\": 0.0,\n            \"max\": 1.0,\n            \"n_unique\": 21\n          },\n          \"range_min\": 0.0,\n          \"range_max\": 1.0\n        }\n      ],\n      \"properties\": [\n        {\n          \"BLKprop_id\": \"BLKprop_1\",\n          \"prop_num_id\": \"GLOBprop_4\",\n          \"prop_ID\": \"viscosity_pa_s\",\n          \"name\": \"Viscosity, Pa*s\",\n          \"group\": \"TransportProp\",\n          \"component_org_num\": null,\n          \"meas_num_id\": \"GLOBmeas_11\",\n          \"meas_ID\": \"concentric_cylinders_viscometry\",\n          \"method_standard\": \"Concentric cylinders viscometry\",\n          \"method_custom\": null,\n          \"range\": {\n            \"BLKprop_id\": \"BLKprop_1\",\n            \"name\": \"Viscosity, Pa*s\",\n            \"min\": 0.000759,\n            \"max\": 0.020613,\n            \"mean\": 0.007275,\n            \"std\": 0.004937,\n            \"n\": 84\n          },\n          \"uncertainty\": {\n            \"evaluation_method\": \"Propagation of evaluated standard uncertainties\",\n            \"confidence_level\": 95,\n            \"evaluator\": \"Data file compiler\",\n            \"assessment_num\": \"BLKpropAssessment_1_1\"\n          },\n          \"range_min\": 0.000759,\n          \"range_max\": 0.020613\n        }\n      ],\n      \"phases\": [\n        {\n          \"owner_id\": \"BLKprop_1\",\n          \"role\": \"property_phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKvar_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKvar_2\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKconstr_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        }\n      ],\n      \"reaction_type\": null,\n      \"participants\": [],\n      \"notes\": null,\n      \"declared_system_type\": \"binary\",\n      \"declared_n_components\": 2,\n      \"declared_compounds\": [\n        {\n          \"org_num\": \"DOIcomp_2\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_2_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_6\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_6_1\"\n        }\n      ],\n      \"parent_n_datapoints\": 84,\n      \"subsystem_scope\": null,\n      \"subsystem_point_runs\": [],\n      \"subsystem_path_class\": null,\n      \"subsystem_evidence_quality\": null,\n      \"subsystem_condition_ranges\": []\n    },\n    {\n      \"lit_num_id\": \"GLOBlit_6951\",\n      \"block_number\": \"PROPblock_18\",\n      \"BLKsubsys_id\": null,\n      \"system_type\": \"binary\",\n      \"comp_num_ids\": [\n        \"GLOBcomp_24\",\n        \"GLOBcomp_1\"\n      ],\n      \"prop_num_ids\": [\n        \"GLOBprop_4\"\n      ],\n      \"description\": \"Dynamic viscosity of ethylene glycol + water binary mixture; 33 data points, T = 293.15\\u2013303.15 K, x(water) = 0\\u20131, P = 100.0 kPa. Includes exact 298.15 K rows across full composition range.\",\n      \"doi\": \"10.1021/acs.jced.6b00526\",\n      \"lit_id\": \"2017-moo-ros-0\",\n      \"block_type\": \"PureOrMixtureData\",\n      \"blocktype_num_id\": \"GLOBblocktype_1\",\n      \"n_datapoints\": 33,\n      \"n_components\": 2,\n      \"compounds\": [\n        {\n          \"org_num\": \"DOIcomp_1\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_1_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_5\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_5_1\"\n        }\n      ],\n      \"solvents\": [],\n      \"constraints\": [\n        {\n          \"BLKconstr_id\": \"BLKconstr_1\",\n          \"constr_num_id\": \"GLOBconstr_1\",\n          \"constr_id\": \"pressure_kpa\",\n          \"name\": \"Pressure, kPa\",\n          \"type\": \"ePressure\",\n          \"value\": 100.0,\n          \"digits\": 1,\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          }\n        }\n      ],\n      \"variables\": [\n        {\n          \"BLKvar_id\": \"BLKvar_1\",\n          \"var_num_id\": \"GLOBvar_1\",\n          \"var_id\": \"temperature_k\",\n          \"name\": \"Temperature, K\",\n          \"type\": \"eTemperature\",\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          },\n          \"range\": {\n            \"BLKvar_id\": \"BLKvar_1\",\n            \"name\": \"Temperature, K\",\n            \"min\": 293.15,\n            \"max\": 303.15,\n            \"n_unique\": 3\n          },\n          \"range_min\": 293.15,\n          \"range_max\": 303.15\n        },\n        {\n          \"BLKvar_id\": \"BLKvar_2\",\n          \"var_num_id\": \"GLOBvar_2\",\n          \"var_id\": \"mole_fraction_DOIcomp_5\",\n          \"name\": \"Mole fraction\",\n          \"type\": \"eComponentComposition\",\n          \"component_org_num\": \"DOIcomp_5\",\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          },\n          \"range\": {\n            \"BLKvar_id\": \"BLKvar_2\",\n            \"name\": \"Mole fraction\",\n            \"min\": 0.0,\n            \"max\": 1.0,\n            \"n_unique\": 11\n          },\n          \"range_min\": 0.0,\n          \"range_max\": 1.0\n        }\n      ],\n      \"properties\": [\n        {\n          \"BLKprop_id\": \"BLKprop_1\",\n          \"prop_num_id\": \"GLOBprop_4\",\n          \"prop_ID\": \"viscosity_pa_s\",\n          \"name\": \"Viscosity, Pa*s\",\n          \"group\": \"TransportProp\",\n          \"component_org_num\": null,\n          \"meas_num_id\": \"GLOBmeas_8\",\n          \"meas_ID\": \"falling_or_rolling_sphere_viscometry\",\n          \"method_standard\": \"Falling or rolling sphere viscometry\",\n          \"method_custom\": null,\n          \"range\": {\n            \"BLKprop_id\": \"BLKprop_1\",\n            \"name\": \"Viscosity, Pa*s\",\n            \"min\": 0.000755,\n            \"max\": 0.02113,\n            \"mean\": 0.007699,\n            \"std\": 0.005532,\n            \"n\": 33\n          },\n          \"uncertainty\": {\n            \"evaluation_method\": \"Propagation of evaluated standard uncertainties\",\n            \"confidence_level\": 95,\n            \"evaluator\": \"Data file compiler\",\n            \"assessment_num\": \"BLKpropAssessment_1_1\"\n          },\n          \"range_min\": 0.000755,\n          \"range_max\": 0.02113\n        }\n      ],\n      \"phases\": [\n        {\n          \"owner_id\": \"BLKprop_1\",\n          \"role\": \"property_phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKvar_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKvar_2\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKconstr_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        }\n      ],\n      \"reaction_type\": null,\n      \"participants\": [],\n      \"notes\": null,\n      \"declared_system_type\": \"binary\",\n      \"declared_n_components\": 2,\n      \"declared_compounds\": [\n        {\n          \"org_num\": \"DOIcomp_1\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_1_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_5\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_5_1\"\n        }\n      ],\n      \"parent_n_datapoints\": 33,\n      \"subsystem_scope\": null,\n      \"subsystem_point_runs\": [],\n      \"subsystem_path_class\": null,\n      \"subsystem_evidence_quality\": null,\n      \"subsystem_condition_ranges\": []\n    },\n    {\n      \"lit_num_id\": \"GLOBlit_8038\",\n      \"block_number\": \"PROPblock_5\",\n      \"BLKsubsys_id\": null,\n      \"system_type\": \"binary\",\n      \"comp_num_ids\": [\n        \"GLOBcomp_24\",\n        \"GLOBcomp_1\"\n      ],\n      \"prop_num_ids\": [\n        \"GLOBprop_4\"\n      ],\n      \"description\": \"Dynamic viscosity of ethylene glycol + water binary mixture; 77 data points, T = 293.15\\u2013353.15 K, x(EG) = 0\\u20131, P = 101.0 kPa. Nearest temperatures to 298.15 K are 293.15 K and 303.15 K.\",\n      \"doi\": \"10.1021/je020140j\",\n      \"lit_id\": \"2003-yan-ma-2\",\n      \"block_type\": \"PureOrMixtureData\",\n      \"blocktype_num_id\": \"GLOBblocktype_1\",\n      \"n_datapoints\": 77,\n      \"n_components\": 2,\n      \"compounds\": [\n        {\n          \"org_num\": \"DOIcomp_1\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_1_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_2\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_2_1\"\n        }\n      ],\n      \"solvents\": [],\n      \"constraints\": [\n        {\n          \"BLKconstr_id\": \"BLKconstr_1\",\n          \"constr_num_id\": \"GLOBconstr_1\",\n          \"constr_id\": \"pressure_kpa\",\n          \"name\": \"Pressure, kPa\",\n          \"type\": \"ePressure\",\n          \"value\": 101.0,\n          \"digits\": 3,\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          }\n        }\n      ],\n      \"variables\": [\n        {\n          \"BLKvar_id\": \"BLKvar_1\",\n          \"var_num_id\": \"GLOBvar_2\",\n          \"var_id\": \"mole_fraction_DOIcomp_1\",\n          \"name\": \"Mole fraction\",\n          \"type\": \"eComponentComposition\",\n          \"component_org_num\": \"DOIcomp_1\",\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          },\n          \"range\": {\n            \"BLKvar_id\": \"BLKvar_1\",\n            \"name\": \"Mole fraction\",\n            \"min\": 0.0,\n            \"max\": 1.0,\n            \"n_unique\": 11\n          },\n          \"range_min\": 0.0,\n          \"range_max\": 1.0\n        },\n        {\n          \"BLKvar_id\": \"BLKvar_2\",\n          \"var_num_id\": \"GLOBvar_1\",\n          \"var_id\": \"temperature_k\",\n          \"name\": \"Temperature, K\",\n          \"type\": \"eTemperature\",\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          },\n          \"range\": {\n            \"BLKvar_id\": \"BLKvar_2\",\n            \"name\": \"Temperature, K\",\n            \"min\": 293.15,\n            \"max\": 353.15,\n            \"n_unique\": 7\n          },\n          \"range_min\": 293.15,\n          \"range_max\": 353.15\n        }\n      ],\n      \"properties\": [\n        {\n          \"BLKprop_id\": \"BLKprop_1\",\n          \"prop_num_id\": \"GLOBprop_4\",\n          \"prop_ID\": \"viscosity_pa_s\",\n          \"name\": \"Viscosity, Pa*s\",\n          \"group\": \"TransportProp\",\n          \"component_org_num\": null,\n          \"meas_num_id\": \"GLOBmeas_227\",\n          \"meas_ID\": \"captub_ufactor_3\",\n          \"method_standard\": null,\n          \"method_custom\": \"CAPTUB:UFactor:3\",\n          \"range\": {\n            \"BLKprop_id\": \"BLKprop_1\",\n            \"name\": \"Viscosity, Pa*s\",\n            \"min\": 0.000356,\n            \"max\": 0.020833,\n            \"mean\": 0.002967,\n            \"std\": 0.003516,\n            \"n\": 77\n          },\n          \"uncertainty\": {\n            \"evaluation_method\": \"Propagation of evaluated standard uncertainties\",\n            \"confidence_level\": 95,\n            \"evaluator\": \"Data file compiler\",\n            \"assessment_num\": \"BLKpropAssessment_1_1\"\n          },\n          \"range_min\": 0.000356,\n          \"range_max\": 0.020833\n        }\n      ],\n      \"phases\": [\n        {\n          \"owner_id\": \"BLKprop_1\",\n          \"role\": \"property_phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKvar_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKvar_2\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKconstr_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        }\n      ],\n      \"reaction_type\": null,\n      \"participants\": [],\n      \"notes\": null,\n      \"declared_system_type\": \"binary\",\n      \"declared_n_components\": 2,\n      \"declared_compounds\": [\n        {\n          \"org_num\": \"DOIcomp_1\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_1_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_2\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_2_1\"\n        }\n      ],\n      \"parent_n_datapoints\": 77,\n      \"subsystem_scope\": null,\n      \"subsystem_point_runs\": [],\n      \"subsystem_path_class\": null,\n      \"subsystem_evidence_quality\": null,\n      \"subsystem_condition_ranges\": []\n    },\n    {\n      \"lit_num_id\": \"GLOBlit_8106\",\n      \"block_number\": \"PROPblock_5\",\n      \"BLKsubsys_id\": null,\n      \"system_type\": \"binary\",\n      \"comp_num_ids\": [\n        \"GLOBcomp_24\",\n        \"GLOBcomp_1\"\n      ],\n      \"prop_num_ids\": [\n        \"GLOBprop_4\"\n      ],\n      \"description\": \"Dynamic viscosity of ethylene glycol + water binary mixture; 30 data points, T = 296.45\\u2013449.85 K, x(EG) = 0.25\\u20130.75, P = 100.0 kPa. Covers x \\u2248 0.5; nearest T to 298.15 K is ~297 K.\",\n      \"doi\": \"10.1021/je025610o\",\n      \"lit_id\": \"2003-sun-tej-0\",\n      \"block_type\": \"PureOrMixtureData\",\n      \"blocktype_num_id\": \"GLOBblocktype_1\",\n      \"n_datapoints\": 30,\n      \"n_components\": 2,\n      \"compounds\": [\n        {\n          \"org_num\": \"DOIcomp_1\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_1_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_4\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_4_1\"\n        }\n      ],\n      \"solvents\": [],\n      \"constraints\": [\n        {\n          \"BLKconstr_id\": \"BLKconstr_1\",\n          \"constr_num_id\": \"GLOBconstr_1\",\n          \"constr_id\": \"pressure_kpa\",\n          \"name\": \"Pressure, kPa\",\n          \"type\": \"ePressure\",\n          \"value\": 100.0,\n          \"digits\": 1,\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          }\n        }\n      ],\n      \"variables\": [\n        {\n          \"BLKvar_id\": \"BLKvar_1\",\n          \"var_num_id\": \"GLOBvar_2\",\n          \"var_id\": \"mole_fraction_DOIcomp_1\",\n          \"name\": \"Mole fraction\",\n          \"type\": \"eComponentComposition\",\n          \"component_org_num\": \"DOIcomp_1\",\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          },\n          \"range\": {\n            \"BLKvar_id\": \"BLKvar_1\",\n            \"name\": \"Mole fraction\",\n            \"min\": 0.25,\n            \"max\": 0.75,\n            \"n_unique\": 3\n          },\n          \"range_min\": 0.25,\n          \"range_max\": 0.75\n        },\n        {\n          \"BLKvar_id\": \"BLKvar_2\",\n          \"var_num_id\": \"GLOBvar_1\",\n          \"var_id\": \"temperature_k\",\n          \"name\": \"Temperature, K\",\n          \"type\": \"eTemperature\",\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          },\n          \"range\": {\n            \"BLKvar_id\": \"BLKvar_2\",\n            \"name\": \"Temperature, K\",\n            \"min\": 296.45,\n            \"max\": 449.85,\n            \"n_unique\": 25\n          },\n          \"range_min\": 296.45,\n          \"range_max\": 449.85\n        }\n      ],\n      \"properties\": [\n        {\n          \"BLKprop_id\": \"BLKprop_1\",\n          \"prop_num_id\": \"GLOBprop_4\",\n          \"prop_ID\": \"viscosity_pa_s\",\n          \"name\": \"Viscosity, Pa*s\",\n          \"group\": \"TransportProp\",\n          \"component_org_num\": null,\n          \"meas_num_id\": \"GLOBmeas_142\",\n          \"meas_ID\": \"captub_ufactor_4\",\n          \"method_standard\": null,\n          \"method_custom\": \"CAPTUB:UFactor:4\",\n          \"range\": {\n            \"BLKprop_id\": \"BLKprop_1\",\n            \"name\": \"Viscosity, Pa*s\",\n            \"min\": 0.000366,\n            \"max\": 0.0123,\n            \"mean\": 0.002177,\n            \"std\": 0.002644,\n            \"n\": 30\n          },\n          \"uncertainty\": {\n            \"evaluation_method\": \"Propagation of evaluated standard uncertainties\",\n            \"confidence_level\": 95,\n            \"evaluator\": \"Data file compiler\",\n            \"assessment_num\": \"BLKpropAssessment_1_1\"\n          },\n          \"range_min\": 0.000366,\n          \"range_max\": 0.0123\n        }\n      ],\n      \"phases\": [\n        {\n          \"owner_id\": \"BLKprop_1\",\n          \"role\": \"property_phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKvar_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKvar_2\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKconstr_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        }\n      ],\n      \"reaction_type\": null,\n      \"participants\": [],\n      \"notes\": null,\n      \"declared_system_type\": \"binary\",\n      \"declared_n_components\": 2,\n      \"declared_compounds\": [\n        {\n          \"org_num\": \"DOIcomp_1\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_1_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_4\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_4_1\"\n        }\n      ],\n      \"parent_n_datapoints\": 30,\n      \"subsystem_scope\": null,\n      \"subsystem_point_runs\": [],\n      \"subsystem_path_class\": null,\n      \"subsystem_evidence_quality\": null,\n      \"subsystem_condition_ranges\": []\n    },\n    {\n      \"lit_num_id\": \"GLOBlit_2656\",\n      \"block_number\": \"PROPblock_13\",\n      \"BLKsubsys_id\": null,\n      \"system_type\": \"binary\",\n      \"comp_num_ids\": [\n        \"GLOBcomp_24\",\n        \"GLOBcomp_1\"\n      ],\n      \"prop_num_ids\": [\n        \"GLOBprop_4\"\n      ],\n      \"description\": \"Dynamic viscosity of ethylene glycol + water binary mixture; 10 data points, T = 293.15 K (fixed), w(EG) = 0\\u20130.9, P = 101.325 kPa. Composition in mass fraction.\",\n      \"doi\": \"10.1016/j.jct.2006.01.011\",\n      \"lit_id\": \"2006-tsi-mol-1\",\n      \"block_type\": \"PureOrMixtureData\",\n      \"blocktype_num_id\": \"GLOBblocktype_1\",\n      \"n_datapoints\": 10,\n      \"n_components\": 2,\n      \"compounds\": [\n        {\n          \"org_num\": \"DOIcomp_1\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_1_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_3\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_3_1\"\n        }\n      ],\n      \"solvents\": [],\n      \"constraints\": [\n        {\n          \"BLKconstr_id\": \"BLKconstr_1\",\n          \"constr_num_id\": \"GLOBconstr_2\",\n          \"constr_id\": \"temperature_k\",\n          \"name\": \"Temperature, K\",\n          \"type\": \"eTemperature\",\n          \"value\": 293.15,\n          \"digits\": 5,\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          }\n        },\n        {\n          \"BLKconstr_id\": \"BLKconstr_2\",\n          \"constr_num_id\": \"GLOBconstr_1\",\n          \"constr_id\": \"pressure_kpa\",\n          \"name\": \"Pressure, kPa\",\n          \"type\": \"ePressure\",\n          \"value\": 101.325,\n          \"digits\": 6,\n          \"component_org_num\": null,\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          }\n        }\n      ],\n      \"variables\": [\n        {\n          \"BLKvar_id\": \"BLKvar_1\",\n          \"var_num_id\": \"GLOBvar_5\",\n          \"var_id\": \"mass_fraction_DOIcomp_1\",\n          \"name\": \"Mass fraction\",\n          \"type\": \"eComponentComposition\",\n          \"component_org_num\": \"DOIcomp_1\",\n          \"phase\": {\n            \"phase\": \"Liquid\",\n            \"phase_num_id\": \"GLOBphase_1\",\n            \"phase_id\": \"liquid\"\n          },\n          \"range\": {\n            \"BLKvar_id\": \"BLKvar_1\",\n            \"name\": \"Mass fraction\",\n            \"min\": 0.0,\n            \"max\": 0.9,\n            \"n_unique\": 10\n          },\n          \"range_min\": 0.0,\n          \"range_max\": 0.9\n        }\n      ],\n      \"properties\": [\n        {\n          \"BLKprop_id\": \"BLKprop_1\",\n          \"prop_num_id\": \"GLOBprop_4\",\n          \"prop_ID\": \"viscosity_pa_s\",\n          \"name\": \"Viscosity, Pa*s\",\n          \"group\": \"TransportProp\",\n          \"component_org_num\": null,\n          \"meas_num_id\": \"GLOBmeas_4\",\n          \"meas_ID\": \"capillary_tube_ostwald_ubbelohde_method\",\n          \"method_standard\": \"Capillary tube (Ostwald; Ubbelohde) method\",\n          \"method_custom\": null,\n          \"range\": {\n            \"BLKprop_id\": \"BLKprop_1\",\n            \"name\": \"Viscosity, Pa*s\",\n            \"min\": 0.001008,\n            \"max\": 0.013999,\n            \"mean\": 0.004563,\n            \"std\": 0.004021,\n            \"n\": 10\n          },\n          \"uncertainty\": {\n            \"evaluation_method\": \"Propagation of evaluated standard uncertainties\",\n            \"confidence_level\": 95,\n            \"evaluator\": \"Data file compiler\",\n            \"assessment_num\": \"BLKpropAssessment_1_1\"\n          },\n          \"range_min\": 0.001008,\n          \"range_max\": 0.013999\n        }\n      ],\n      \"phases\": [\n        {\n          \"owner_id\": \"BLKprop_1\",\n          \"role\": \"property_phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKvar_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKconstr_1\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        },\n        {\n          \"owner_id\": \"BLKconstr_2\",\n          \"role\": \"phase\",\n          \"phase\": \"Liquid\",\n          \"phase_num_id\": \"GLOBphase_1\",\n          \"phase_id\": \"liquid\"\n        }\n      ],\n      \"reaction_type\": null,\n      \"participants\": [],\n      \"notes\": null,\n      \"declared_system_type\": \"binary\",\n      \"declared_n_components\": 2,\n      \"declared_compounds\": [\n        {\n          \"org_num\": \"DOIcomp_1\",\n          \"comp_num_id\": \"GLOBcomp_24\",\n          \"name\": \"1,2-ethanediol\",\n          \"formula\": \"C2H6O2\",\n          \"inchi_key\": \"LYCAIKOWRPUZTN-UHFFFAOYSA-N\",\n          \"SMILES\": \"OCCO\",\n          \"sample_num\": \"DOIcompSample_1_1\"\n        },\n        {\n          \"org_num\": \"DOIcomp_3\",\n          \"comp_num_id\": \"GLOBcomp_1\",\n          \"name\": \"water\",\n          \"formula\": \"H2O\",\n          \"inchi_key\": \"XLYOFNOQVPJJNP-UHFFFAOYSA-N\",\n          \"SMILES\": \"O\",\n          \"sample_num\": \"DOIcompSample_3_1\"\n        }\n      ],\n      \"parent_n_datapoints\": 10,\n      \"subsystem_scope\": null,\n      \"subsystem_point_runs\": [],\n      \"subsystem_path_class\": null,\n      \"subsystem_evidence_quality\": null,\n      \"subsystem_condition_ranges\": []\n    }\n  ],\n  \"data_inspections\": [\n    {\n      \"doi\": \"10.1016/j.jct.2018.02.022\",\n      \"block_number\": \"PROPblock_24\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"temperature_k\",\n        \"mole_fraction_<1,2-ethanediol>\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_20\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.0494\",\n          \"pressure_kpa\": \"92.3\",\n          \"viscosity_pa_s\": \"0.0012528\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_21\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.0986\",\n          \"pressure_kpa\": \"92.3\",\n          \"viscosity_pa_s\": \"0.0016802\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_22\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.1483\",\n          \"pressure_kpa\": \"92.3\",\n          \"viscosity_pa_s\": \"0.0021667\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_23\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.2072\",\n          \"pressure_kpa\": \"92.3\",\n          \"viscosity_pa_s\": \"0.0028109\"\n        }\n      ],\n      \"inspection_id\": \"INSP_2e07429c73f6\",\n      \"lit_num_id\": \"GLOBlit_5201\"\n    },\n    {\n      \"doi\": \"10.1021/acs.jced.6b00526\",\n      \"block_number\": \"PROPblock_18\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"temperature_k\",\n        \"mole_fraction_<water>\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_12\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<water>\": \"0\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.01724\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_13\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<water>\": \"0.1105\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.01433\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_14\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<water>\": \"0.2014\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.01219\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_15\",\n          \"temperature_k\": \"298.15\",\n          \"mole_fraction_<water>\": \"0.3002\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.01018\"\n        }\n      ],\n      \"inspection_id\": \"INSP_bd03f5e06550\",\n      \"lit_num_id\": \"GLOBlit_6951\"\n    },\n    {\n      \"doi\": \"10.1021/je020140j\",\n      \"block_number\": \"PROPblock_5\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"mole_fraction_<1,2-ethanediol>\",\n        \"temperature_k\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_1\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.0\",\n          \"viscosity_pa_s\": \"0.001002\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_8\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.0312\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.0\",\n          \"viscosity_pa_s\": \"0.001337\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_2\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0\",\n          \"temperature_k\": \"303.15\",\n          \"pressure_kpa\": \"101.0\",\n          \"viscosity_pa_s\": \"0.000797\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_9\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.0312\",\n          \"temperature_k\": \"303.15\",\n          \"pressure_kpa\": \"101.0\",\n          \"viscosity_pa_s\": \"0.001047\"\n        }\n      ],\n      \"inspection_id\": \"INSP_3c78c4cad98b\",\n      \"lit_num_id\": \"GLOBlit_8038\"\n    },\n    {\n      \"doi\": \"10.1021/je025610o\",\n      \"block_number\": \"PROPblock_5\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"mole_fraction_<1,2-ethanediol>\",\n        \"temperature_k\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_1\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.25\",\n          \"temperature_k\": \"296.45\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.00369\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_9\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.5\",\n          \"temperature_k\": \"297.05\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.00761\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_18\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.75\",\n          \"temperature_k\": \"297.35\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.0123\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_2\",\n          \"mole_fraction_<1,2-ethanediol>\": \"0.25\",\n          \"temperature_k\": \"313.05\",\n          \"pressure_kpa\": \"100.0\",\n          \"viscosity_pa_s\": \"0.00229\"\n        }\n      ],\n      \"inspection_id\": \"INSP_c34d285e3419\",\n      \"lit_num_id\": \"GLOBlit_8106\"\n    },\n    {\n      \"doi\": \"10.1016/j.jct.2006.01.011\",\n      \"block_number\": \"PROPblock_13\",\n      \"table_mode\": \"nearest\",\n      \"columns\": [\n        \"BLKpoint_id\",\n        \"mass_fraction_<1,2-ethanediol>\",\n        \"temperature_k\",\n        \"pressure_kpa\",\n        \"viscosity_pa_s\"\n      ],\n      \"rows_shown\": [\n        {\n          \"BLKpoint_id\": \"BLKpoint_1\",\n          \"mass_fraction_<1,2-ethanediol>\": \"0\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.325\",\n          \"viscosity_pa_s\": \"0.001008\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_2\",\n          \"mass_fraction_<1,2-ethanediol>\": \"0.1\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.325\",\n          \"viscosity_pa_s\": \"0.001293\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_3\",\n          \"mass_fraction_<1,2-ethanediol>\": \"0.2\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.325\",\n          \"viscosity_pa_s\": \"0.001671\"\n        },\n        {\n          \"BLKpoint_id\": \"BLKpoint_4\",\n          \"mass_fraction_<1,2-ethanediol>\": \"0.3\",\n          \"temperature_k\": \"293.15\",\n          \"pressure_kpa\": \"101.325\",\n          \"viscosity_pa_s\": \"0.002177\"\n        }\n      ],\n      \"inspection_id\": \"INSP_ab4e8ffefdbf\",\n      \"lit_num_id\": \"GLOBlit_2656\"\n    }\n  ]\n}\n</subagent_answer>",
+        "reasoning": "<reasoning>\nThe user wants to know the viscosity of an equimolar mixture of 1,2-ethanediol (ethylene glycol, which is 1,2-dimethanol - though the correct name is ethane-1,2-diol or ethylene glycol) and water at 25°C. Let me search for viscosity data for this system in ThermoML.\n\nNote: \"1,2-dimethanol\" is likely referring to ethane-1,2-diol (ethylene glycol), HOCH₂CH₂OH. Let me search for it under various names.\n</reasoning>\n\n<summary>\nSearching ThermoML for viscosity data of 1,2-ethanediol (ethylene glycol) + water binary mixtures at ~25°C.\n</summary>",
+        "elapsed_s": 195.3
+      },
+      {
+        "iteration": 2,
+        "tool": "inspect_block",
+        "args_keys": [
+          "block_number",
+          "doi",
+          "purpose"
+        ],
+        "arguments": {
+          "doi": "10.1016/j.jct.2018.02.022",
+          "block_number": "PROPblock_24",
+          "purpose": "Verify column names and structure for viscosity fitting at 298.15 K"
+        },
+        "result_chars": 295,
+        "result_full": "[validation blocked] **✗ inspect_block** — tool syntax or arguments need correction:\nTOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to inspect_block: missing a required argument: 'tasks'\n\n_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._",
+        "reasoning": "<reasoning>\nThe user asks about the viscosity of an equimolar (x = 0.5) mixture of 1,2-ethanediol (ethylene glycol) + water at 25°C (298.15 K). I need to:\n\n1. Inspect the best blocks and fit viscosity data with Arrhenius mixing rule RK polynomials\n2. Use the fitted model to predict viscosity at x = 0.5\n\nThe best block is GLOBlit_5201 / PROPblock_24 (DOI 10.1016/j.jct.2018.02.022) with 84 data points, T = 293.15–308.15 K, x(EG) = 0–1, which has exact 298.15 K rows. Let me also use GLOBlit_6951 / PROPblock_18 as a second source for cross-validation.\n\nLet me first inspect both blocks to verify their structure, then fit them with viscosity (Arrhenius) mixing rule at 298.15 K.\n</reasoning>\n\n<summary>\nQuery returned multiple viscosity blocks for EG+water. Best candidate: GLOBlit_5201/PROPblock_24 (84 pts, 298.15 K exact rows, x(EG)=0–1). Also GLOBlit_6951/PROPblock_18 (33 pts, x(water)=0–1, 298.15 K). Now inspecting both blocks and fitting at 298.15 K with Arrhenius mixing rule to predict η at x(EG)=0.5.\n</summary>",
+        "elapsed_s": 0.0
+      },
+      {
+        "iteration": 3,
+        "tool": "inspect_block",
+        "args_keys": [
+          "block_number",
+          "doi",
+          "purpose",
+          "tasks"
+        ],
+        "arguments": {
+          "doi": "10.1016/j.jct.2018.02.022",
+          "block_number": "PROPblock_24",
+          "purpose": "Verify column structure and composition/temperature ranges for viscosity fitting at 298.15 K",
+          "tasks": [
+            "inspect"
+          ]
+        },
+        "result_chars": 333,
+        "result_full": "[validation blocked] **✗ inspect_block** — tool syntax or arguments need correction:\nTOOL_ARGUMENT_REFINEMENT_REQUIRED: inspect_block.tasks received ['inspect'] (list); expected <class 'str'>; tool arguments are never coerced\n\n_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._",
+        "reasoning": "<reasoning>\nI need to include the required `tasks` and `purpose` arguments in my tool calls. Let me inspect the two best blocks and then fit them.\n</reasoning>\n\n<summary>Inspecting the two best viscosity blocks (GLOBlit_5201/PROPblock_24 and GLOBlit_6951/PROPblock_18) to verify structure before fitting at 298.15 K with Arrhenius mixing rule.</summary>",
+        "elapsed_s": 0.0
+      },
+      {
+        "iteration": 4,
+        "tool": "inspect_block",
+        "args_keys": [
+          "block_number",
+          "doi",
+          "purpose",
+          "tasks"
+        ],
+        "arguments": {
+          "doi": "10.1016/j.jct.2018.02.022",
+          "block_number": "PROPblock_24",
+          "purpose": "Verify column structure for viscosity fitting at 298.15 K",
+          "tasks": "inspect"
+        },
+        "result_chars": 1379,
+        "result_full": "**Block GLOBlit_5201 / DOI 10.1016/j.jct.2018.02.022 / PROPblock_24 @ declared** (PureOrMixtureData)\nCompounds: 1,2-ethanediol, water | Rows: 84\nx‑columns: ['mole_fraction_<1,2-ethanediol>'] | y‑columns: ['viscosity_pa_s']\n\n**Property response semantics (reported metadata; values are not materialized here)**\n- **BLKprop_1 / GLOBprop_4** `viscosity_pa_s` (viscosity_pa_s)\n  - reported response: Direct value, X\n  - measurement: GLOBmeas_11 / concentric_cylinders_viscometry\n  - property phase: Liquid (GLOBphase_1; liquid)\n  - reference: none; T=unspecified K; P=unspecified kPa\n  - reference phase: none\n  - component_org_num: none\n\n**Selected property response contract (inspection only; values are not materialized here)**\n- **BLKprop_1 / GLOBprop_4** `viscosity_pa_s` (viscosity_pa_s)\n  - reported response: Direct value, X [direct]\n  - units: reported=Pa*s; absolute=Pa*s\n  - preparation gate: reference_materialization=False; normalized_composition=False; supported=True\n  - reference: none; T=unspecified K; P=unspecified kPa\n  - property phase: Liquid (GLOBphase_1; liquid)\n  - reference phase: none\n  - component_org_num: none\n\n| Column | Min | Max | Valid pts |\n|--------|-----|-----|-----------|\n| temperature_k | 293.15 | 308.15 | 84 |\n| mole_fraction_<1,2-ethanediol> | 0 | 1 | 84 |\n| pressure_kpa | 92.3 | 92.3 | 84 |\n| viscosity_pa_s | 0.000759 | 0.020613 | 84 |\n",
+        "reasoning": "<reasoning>\nI need to include the `purpose` and `tasks` arguments as strings. Let me inspect both blocks in parallel.\n</reasoning>\n\n<summary>Inspecting the two best viscosity blocks for EG+water to verify structure before fitting at 298.15 K.</summary>",
+        "elapsed_s": 0.3
+      },
+      {
+        "iteration": 5,
+        "tool": "fit_multi_system",
+        "args_keys": [
+          "systems"
+        ],
+        "arguments": {
+          "systems": [
+            {
+              "label": "EG_water_5201_298K",
+              "doi": "10.1016/j.jct.2018.02.022",
+              "block_number": "PROPblock_24",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "max_rk_order": 5,
+              "x_vars_constrained": {
+                "Temperature, K": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              }
+            },
+            {
+              "label": "EG_water_6951_298K",
+              "doi": "10.1021/acs.jced.6b00526",
+              "block_number": "PROPblock_18",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "max_rk_order": 5,
+              "x_vars_constrained": {
+                "Temperature, K": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              }
+            }
+          ]
+        },
+        "result_chars": 303,
+        "result_full": "[validation blocked] **✗ fit_multi_system** — tool syntax or arguments need correction:\nTOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to fit_multi_system: missing a required argument: 'purpose'\n\n_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._",
+        "reasoning": "<reasoning>\nGood, I have the block structure confirmed. Now I need to fit the viscosity data at 298.15 K using the Arrhenius mixing rule. The block has 84 rows spanning T = 293.15–308.15 K and x(EG) = 0–1. I'll constrain temperature to 298.15 K and fit with Arrhenius mixing rule.\n\nLet me also fit the second block (GLOBlit_6951/PROPblock_18) for cross-validation. But first, let me focus on the primary block.\n\nI'll use fit_block with:\n- doi: 10.1016/j.jct.2018.02.022\n- block_number: PROPblock_24\n- property_type: viscosity\n- mixing_rule: arrhenius\n- x_vars_constrained: {\"Temperature, K\": {\"value\": 298.15, \"tol\": 0.5}}\n\nThen I'll use predict_from_rk to get the value at x = 0.5.\n</reasoning>\n\n<summary>Block PROPblock_24 confirmed: 84 rows, T=293.15–308.15 K, x(EG)=0–1, viscosity in Pa·s. Now fitting at T=298.15 K with Arrhenius mixing rule, and also fitting the second block (GLOBlit_6951/PROPblock_18) for cross-validation.</summary>",
+        "elapsed_s": 0.0
+      },
+      {
+        "iteration": 6,
+        "tool": "fit_multi_system",
+        "args_keys": [
+          "purpose",
+          "systems"
+        ],
+        "arguments": {
+          "systems": [
+            {
+              "label": "EG_water_5201",
+              "doi": "10.1016/j.jct.2018.02.022",
+              "block_number": "PROPblock_24",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "Temperature, K": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            },
+            {
+              "label": "EG_water_6951",
+              "doi": "10.1021/acs.jced.6b00526",
+              "block_number": "PROPblock_18",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "Temperature, K": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            }
+          ],
+          "purpose": "Fit viscosity of ethylene glycol + water at 298.15 K using Arrhenius mixing rule to predict eta at x(EG)=0.5"
+        },
+        "result_chars": 301,
+        "result_full": "[validation blocked] **✗ fit_multi_system** — tool syntax or arguments need correction:\nTOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to fit_multi_system: missing a required argument: 'tasks'\n\n_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._",
+        "reasoning": "<reasoning>\nI need to fit the viscosity data for EG+water at 298.15 K. Let me use fit_multi_system with proper arguments, fitting both blocks at T=298.15 K with Arrhenius mixing rule.\n</reasoning>\n\n<summary>Fitting both viscosity blocks (GLOBlit_5201/PROPblock_24 and GLOBlit_6951/PROPblock_18) at T=298.15 K with Arrhenius mixing rule to predict η at x(EG)=0.5.</summary>",
+        "elapsed_s": 0.0
+      },
+      {
+        "iteration": 7,
+        "tool": "fit_multi_system",
+        "args_keys": [
+          "purpose",
+          "systems",
+          "tasks"
+        ],
+        "arguments": {
+          "systems": [
+            {
+              "label": "EG_water_5201",
+              "doi": "10.1016/j.jct.2018.02.022",
+              "block_number": "PROPblock_24",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "Temperature, K": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            },
+            {
+              "label": "EG_water_6951",
+              "doi": "10.1021/acs.jced.6b00526",
+              "block_number": "PROPblock_18",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "Temperature, K": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            }
+          ],
+          "purpose": "Fit viscosity of EG+water at 298.15 K using Arrhenius mixing rule to predict equimolar viscosity",
+          "tasks": [
+            "fit_block"
+          ]
+        },
+        "result_chars": 341,
+        "result_full": "[validation blocked] **✗ fit_multi_system** — tool syntax or arguments need correction:\nTOOL_ARGUMENT_REFINEMENT_REQUIRED: fit_multi_system.tasks received ['fit_block'] (list); expected <class 'str'>; tool arguments are never coerced\n\n_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._",
+        "reasoning": "<reasoning>\nI need to include both `purpose` and `tasks` arguments for fit_multi_system. Let me fit both blocks at 298.15 K with Arrhenius mixing rule for viscosity.\n</reasoning>\n\n<summary>Fitting both viscosity blocks at T=298.15 K with Arrhenius mixing rule to predict η at x(EG)=0.5 for the equimolar mixture.</summary>",
+        "elapsed_s": 0.0
+      },
+      {
+        "iteration": 8,
+        "tool": "fit_multi_system",
+        "args_keys": [
+          "purpose",
+          "systems",
+          "tasks"
+        ],
+        "arguments": {
+          "systems": [
+            {
+              "label": "EG_water_5201",
+              "doi": "10.1016/j.jct.2018.02.022",
+              "block_number": "PROPblock_24",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "Temperature, K": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            },
+            {
+              "label": "EG_water_6951",
+              "doi": "10.1021/acs.jced.6b00526",
+              "block_number": "PROPblock_18",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "Temperature, K": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            }
+          ],
+          "purpose": "Fit viscosity of ethylene glycol + water at 298.15 K using Arrhenius mixing rule to predict equimolar viscosity",
+          "tasks": "fit_block"
+        },
+        "result_chars": 482,
+        "result_full": "**Multi-system RK Fit** — 2 systems\nErrors: EG_water_6951: Constraint column 'Temperature, K' not found in block; EG_water_5201: Constraint column 'Temperature, K' not found in block\n\n| Label | DOI | Block | Components | Order | R² | RMSE | n pts |\n|-------|-----|-------|------------|-------|----|------|-------|\n| EG_water_5201 | — | — | — | ERROR: Constraint column 'Temperature, K' not f | | |\n| EG_water_6951 | — | — | — | ERROR: Constraint column 'Temperature, K' not f | | |\n",
+        "reasoning": "<reasoning>\nLet me fix the tool call. The `tasks` parameter should be a string, not a list. Let me also make sure `purpose` is included properly.\n</reasoning>\n\n<summary>Fitting both viscosity blocks at T=298.15 K with Arrhenius mixing rule. Using fit_multi_system with correct argument types.</summary>",
+        "elapsed_s": 0.2
+      },
+      {
+        "iteration": 9,
+        "tool": "fit_multi_system",
+        "args_keys": [
+          "systems"
+        ],
+        "arguments": {
+          "systems": [
+            {
+              "label": "EG_water_5201",
+              "doi": "10.1016/j.jct.2018.02.022",
+              "block_number": "PROPblock_24",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "temperature_k": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            },
+            {
+              "label": "EG_water_6951",
+              "doi": "10.1021/acs.jced.6b00526",
+              "block_number": "PROPblock_18",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "temperature_k": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            }
+          ]
+        },
+        "result_chars": 303,
+        "result_full": "[validation blocked] **✗ fit_multi_system** — tool syntax or arguments need correction:\nTOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to fit_multi_system: missing a required argument: 'purpose'\n\n_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._",
+        "reasoning": "<reasoning>\nThe constraint column name needs to match the actual column name in the block. From the inspect_block result, the column is called \"temperature_k\" not \"Temperature, K\". Let me use the correct column name format.\n</reasoning>\n\n<summary>Constraint column name was wrong. The block uses \"temperature_k\" not \"Temperature, K\". Retrying fit with correct column names from inspect_block output.</summary>",
+        "elapsed_s": 0.0
+      },
+      {
+        "iteration": 10,
+        "tool": "fit_multi_system",
+        "args_keys": [
+          "purpose",
+          "systems"
+        ],
+        "arguments": {
+          "systems": [
+            {
+              "label": "EG_water_5201",
+              "doi": "10.1016/j.jct.2018.02.022",
+              "block_number": "PROPblock_24",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "temperature_k": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            },
+            {
+              "label": "EG_water_6951",
+              "doi": "10.1021/acs.jced.6b00526",
+              "block_number": "PROPblock_18",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "x_vars_constrained": {
+                "temperature_k": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              },
+              "max_rk_order": 5
+            }
+          ],
+          "purpose": "Fit viscosity of ethylene glycol + water at 298.15 K using Arrhenius mixing rule to predict equimolar viscosity"
+        },
+        "result_chars": 301,
+        "result_full": "[validation blocked] **✗ fit_multi_system** — tool syntax or arguments need correction:\nTOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to fit_multi_system: missing a required argument: 'tasks'\n\n_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._",
+        "reasoning": "<reasoning>\nI need to fix the fit_multi_system call with proper arguments including purpose, and use the correct column names from the inspect_block output. The columns are \"temperature_k\" and \"mole_fraction_<1,2-ethanediol>\" and \"viscosity_pa_s\".\n\nLet me construct the call properly with x_vars_constrained using the actual column name \"temperature_k\".\n</reasoning>\n\n<summary>Retrying fit_multi_system with correct column names (temperature_k, not \"Temperature, K\") and including required purpose argument.</summary>",
+        "elapsed_s": 0.0
+      },
+      {
+        "iteration": 11,
+        "tool": "fit_multi_system",
+        "args_keys": [
+          "purpose",
+          "systems",
+          "tasks"
+        ],
+        "arguments": {
+          "systems": [
+            {
+              "label": "EG_water_5201",
+              "doi": "10.1016/j.jct.2018.02.022",
+              "block_number": "PROPblock_24",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "max_rk_order": 5,
+              "x_vars_constrained": {
+                "temperature_k": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              }
+            },
+            {
+              "label": "EG_water_6951",
+              "doi": "10.1021/acs.jced.6b00526",
+              "block_number": "PROPblock_18",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "max_rk_order": 5,
+              "x_vars_constrained": {
+                "temperature_k": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              }
+            }
+          ],
+          "purpose": "Fit viscosity of EG+water at 298.15 K using Arrhenius mixing rule to predict equimolar viscosity",
+          "tasks": [
+            "fit_block"
+          ]
+        },
+        "result_chars": 341,
+        "result_full": "[validation blocked] **✗ fit_multi_system** — tool syntax or arguments need correction:\nTOOL_ARGUMENT_REFINEMENT_REQUIRED: fit_multi_system.tasks received ['fit_block'] (list); expected <class 'str'>; tool arguments are never coerced\n\n_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._",
+        "reasoning": "<reasoning>\nI need to include both `purpose` and `tasks` arguments. Let me also use the correct column names from the inspect_block output: \"temperature_k\" for the constraint column. Let me construct the call properly.\n</reasoning>\n\n<summary>Retrying fit_multi_system with all required arguments (purpose, tasks) and correct column name \"temperature_k\" for temperature constraint.</summary>",
+        "elapsed_s": 0.0
+      },
+      {
+        "iteration": 12,
+        "tool": "fit_multi_system",
+        "args_keys": [
+          "purpose",
+          "systems",
+          "tasks"
+        ],
+        "arguments": {
+          "systems": [
+            {
+              "label": "EG_water_5201",
+              "doi": "10.1016/j.jct.2018.02.022",
+              "block_number": "PROPblock_24",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "max_rk_order": 5,
+              "x_vars_constrained": {
+                "temperature_k": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              }
+            },
+            {
+              "label": "EG_water_6951",
+              "doi": "10.1021/acs.jced.6b00526",
+              "block_number": "PROPblock_18",
+              "property_hint": "viscosity",
+              "property_type": "viscosity",
+              "mixing_rule": "arrhenius",
+              "max_rk_order": 5,
+              "x_vars_constrained": {
+                "temperature_k": {
+                  "value": 298.15,
+                  "tol": 0.5
+                }
+              }
+            }
+          ],
+          "purpose": "Fit viscosity of ethylene glycol + water at 298.15 K using Arrhenius mixing rule to predict equimolar viscosity",
+          "tasks": "fit_block"
+        },
+        "result_chars": 1176,
+        "result_full": "**Multi-system RK Fit** — 2 systems\n\n| Label | DOI | Block | Components | Order | R² | RMSE | n pts |\n|-------|-----|-------|------------|-------|----|------|-------|\n| EG_water_5201 | GLOBlit_5201 / DOI 10.1016/j.jct.2018.02.022 | PROPblock_24 @ declared | 1,2-ethanediol, water | 3 | 0.999940 | 0.00131989 | 19 |\n| EG_water_6951 | GLOBlit_6951 / DOI 10.1021/acs.jced.6b00526 | PROPblock_18 @ declared | water, 1,2-ethanediol | 5 | 0.999925 | 0.00135052 | 9 |\n\n**EG_water_5201** coeffs: [2.39674, -1.04444, 0.668173, -0.3209]\nProperty response: BLKprop_1 / GLOBprop_4; kind=direct; equation=X = reported X; reference_sources=0; units=Pa*s -> Pa*s.\n  pure values (x = mole_fraction_<1,2-ethanediol>): 1,2-ethanediol=0.016223, water=0.00089689\n  source: block-edges (water: direct/good, 1,2-ethanediol: direct/good)\n\n**EG_water_6951** coeffs: [2.27452, 1.43846, 0.538413, -0.01859, 0.535328, 0.62332]\nProperty response: BLKprop_1 / GLOBprop_4; kind=direct; equation=X = reported X; reference_sources=0; units=Pa*s -> Pa*s.\n  pure values (x = mole_fraction_<water>): water=0.000843, 1,2-ethanediol=0.01724\n  source: block-edges (1,2-ethanediol: direct/good, water: direct/good)\n",
+        "reasoning": "<reasoning>\nLet me fix the argument types. `tasks` should be a string, not a list. Let me also make sure the x_vars_constrained uses the correct column name from the inspect_block output: \"temperature_k\".\n</reasoning>\n\n<summary>Retrying fit_multi_system with tasks as string and correct column name \"temperature_k\" for the temperature constraint at 298.15 K.</summary>",
+        "elapsed_s": 3.7
+      },
+      {
+        "iteration": 13,
+        "tool": "predict_from_rk",
+        "args_keys": [
+          "coeffs",
+          "mixing_rule",
+          "n_points",
+          "property_type",
+          "pure_values",
+          "purpose",
+          "tasks"
+        ],
+        "arguments": {
+          "coeffs": [
+            2.39674,
+            -1.04444,
+            0.668173,
+            -0.3209
+          ],
+          "pure_values": {
+            "1,2-ethanediol": 0.016223,
+            "water": 0.00089689
+          },
+          "property_type": "viscosity",
+          "n_points": 101,
+          "mixing_rule": "arrhenius",
+          "purpose": "Predict viscosity at x(EG)=0.5 from GLOBlit_5201 fit",
+          "tasks": "predict_from_rk"
+        },
+        "result_chars": 215,
+        "result_full": "**RK Prediction** (order 3, arrhenius)\nComponents: 1,2-ethanediol, water | 101 grid points\nY(x=0) = 0.00089689, Y(x=0.5) ≈ 0.00694477, Y(x=1) = 0.016223\nY_max = 0.016223 at x1 = 1\nMax |excess| (ln-space) = 0.633841\n",
+        "reasoning": "<reasoning>\nNow I have two successful fits. I need to predict the viscosity at x(EG) = 0.5 (equimolar) using both fitted models. Let me use predict_from_rk for both.\n\nFor EG_water_5201: x is mole_fraction of 1,2-ethanediol, pure values: 1,2-ethanediol=0.016223, water=0.00089689, coeffs=[2.39674, -1.04444, 0.668173, -0.3209], Arrhenius mixing rule.\n\nFor EG_water_6951: x is mole_fraction of water, so x(water)=0.5 is the same as x(EG)=0.5. Pure values: water=0.000843, 1,2-ethanediol=0.01724, coeffs=[2.27452, 1.43846, 0.538413, -0.01859, 0.535328, 0.62332].\n\nLet me predict from both.\n</reasoning>\n<summary>Both fits succeeded. EG_water_5201: RK order 3, R²=0.99994, 19 pts; EG_water_6951: RK order 5, R²=0.99993, 9 pts. Now predicting viscosity at x=0.5 (equimolar) from both models using Arrhenius mixing rule.</summary>",
+        "elapsed_s": 0.1
+      },
+      {
+        "iteration": 14,
+        "tool": "predict_from_rk",
+        "args_keys": [
+          "coeffs",
+          "mixing_rule",
+          "n_points",
+          "property_type",
+          "pure_values",
+          "purpose",
+          "tasks"
+        ],
+        "arguments": {
+          "coeffs": [
+            2.274524,
+            1.438464,
+            0.538413,
+            -0.01859,
+            0.535328,
+            0.62332
+          ],
+          "pure_values": {
+            "water": 0.000843,
+            "1,2-ethanediol": 0.01724
+          },
+          "property_type": "viscosity",
+          "n_points": 101,
+          "mixing_rule": "arrhenius",
+          "purpose": "Predict viscosity at x(water)=0.5 (equimolar) from GLOBlit_6951 model for cross-validation",
+          "tasks": "predict_from_rk"
+        },
+        "result_chars": 215,
+        "result_full": "**RK Prediction** (order 5, arrhenius)\nComponents: 1,2-ethanediol, water | 101 grid points\nY(x=0) = 0.000843, Y(x=0.5) ≈ 0.00673187, Y(x=1) = 0.01724\nY_max = 0.0186917 at x1 = 0.92\nMax |excess| (ln-space) = 0.62787\n",
+        "reasoning": "<reasoning>\nI have the prediction from the first model (GLOBlit_5201). Let me also get the prediction from the second model (GLOBlit_6951) for cross-validation. Note that in the second model, the composition variable is x(water), so x(water)=0.5 corresponds to x(EG)=0.5 as well (equimolar). Let me predict from the second model too.\n</reasoning>\n\n<summary>First model predicts η ≈ 0.00694 Pa·s at x(EG)=0.5, 298.15 K. Now predicting from the second model (GLOBlit_6951) for cross-validation. Note: in that model x=x(water), so x(water)=0.5 = equimolar.</summary>",
+        "elapsed_s": 0.0
+      }
+    ],
+    "timed_out": false,
+    "session_dir": "\\\\Sheldon.cse.anl.gov\\yunkai.sun$\\_Code_Maintenance\\_outputs_user\\yunkai.sun\\ThermoML\\Analysis\\run_20260905_161409_378697_8e3dfdd6",
+    "output_files": [
+      {
+        "category": "data",
+        "path": "\\\\Sheldon.cse.anl.gov\\yunkai.sun$\\_Code_Maintenance\\_outputs_user\\yunkai.sun\\ThermoML\\Analysis\\run_20260905_161409_378697_8e3dfdd6\\data\\10_1021_acs_jced_6b00526_BPROPblock_18_T298.1_fit.csv",
+        "description": "RK fit data — 10.1021/acs.jced.6b00526 PROPblock_18_T298.1"
+      },
+      {
+        "category": "data",
+        "path": "\\\\Sheldon.cse.anl.gov\\yunkai.sun$\\_Code_Maintenance\\_outputs_user\\yunkai.sun\\ThermoML\\Analysis\\run_20260905_161409_378697_8e3dfdd6\\data\\10_1016_j_jct_2018_02_022_BPROPblock_24_T298.1_fit.csv",
+        "description": "RK fit data — 10.1016/j.jct.2018.02.022 PROPblock_24_T298.1"
+      },
+      {
+        "category": "data",
+        "path": "\\\\Sheldon.cse.anl.gov\\yunkai.sun$\\_Code_Maintenance\\_outputs_user\\yunkai.sun\\ThermoML\\Analysis\\run_20260905_161409_378697_8e3dfdd6\\data\\10_1021_acs_jced_6b00526_BPROPblock_18_T298.1_excess.csv",
+        "description": "Excess property — 10.1021/acs.jced.6b00526 PROPblock_18_T298.1"
+      },
+      {
+        "category": "data",
+        "path": "\\\\Sheldon.cse.anl.gov\\yunkai.sun$\\_Code_Maintenance\\_outputs_user\\yunkai.sun\\ThermoML\\Analysis\\run_20260905_161409_378697_8e3dfdd6\\data\\10_1016_j_jct_2018_02_022_BPROPblock_24_T298.1_excess.csv",
+        "description": "Excess property — 10.1016/j.jct.2018.02.022 PROPblock_24_T298.1"
+      },
+      {
+        "category": "plot",
+        "path": "\\\\Sheldon.cse.anl.gov\\yunkai.sun$\\_Code_Maintenance\\_outputs_user\\yunkai.sun\\ThermoML\\Analysis\\run_20260905_161409_378697_8e3dfdd6\\plots\\10_1021_acs_jced_6b00526_BPROPblock_18_T298.1_fit.png",
+        "description": "RK fit plot — 10.1021/acs.jced.6b00526 PROPblock_18_T298.1"
+      },
+      {
+        "category": "plot",
+        "path": "\\\\Sheldon.cse.anl.gov\\yunkai.sun$\\_Code_Maintenance\\_outputs_user\\yunkai.sun\\ThermoML\\Analysis\\run_20260905_161409_378697_8e3dfdd6\\plots\\10_1016_j_jct_2018_02_022_BPROPblock_24_T298.1_fit.png",
+        "description": "RK fit plot — 10.1016/j.jct.2018.02.022 PROPblock_24_T298.1"
+      },
+      {
+        "category": "plot",
+        "path": "\\\\Sheldon.cse.anl.gov\\yunkai.sun$\\_Code_Maintenance\\_outputs_user\\yunkai.sun\\ThermoML\\Analysis\\run_20260905_161409_378697_8e3dfdd6\\plots\\10_1021_acs_jced_6b00526_BPROPblock_18_T298.1_excess.png",
+        "description": "Excess plot — 10.1021/acs.jced.6b00526 PROPblock_18_T298.1"
+      },
+      {
+        "category": "plot",
+        "path": "\\\\Sheldon.cse.anl.gov\\yunkai.sun$\\_Code_Maintenance\\_outputs_user\\yunkai.sun\\ThermoML\\Analysis\\run_20260905_161409_378697_8e3dfdd6\\plots\\10_1016_j_jct_2018_02_022_BPROPblock_24_T298.1_excess.png",
+        "description": "Excess plot — 10.1016/j.jct.2018.02.022 PROPblock_24_T298.1"
+      }
+    ],
+    "round_number": 1,
+    "prompt_id": "6.2",
+    "prompt_text": "What viscosity should I expect for an equimolar 1,2-dimethanol + water liquid mixture at 25 °C?",
+    "elapsed_s": 455.3,
+    "working_memory_chars": 165,
+    "final_context_chars": 88720
+  }
+]

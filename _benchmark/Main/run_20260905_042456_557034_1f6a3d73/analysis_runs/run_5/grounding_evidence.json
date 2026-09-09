@@ -1,0 +1,691 @@
+{
+  "generated": "2026-09-05T04:34:06",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_10",
+      "block_number": "PROPblock_10",
+      "lit_id": null,
+      "literals": [
+        "2.058e-8"
+      ],
+      "detail": "2.058e-8 (near '…-386.91 | 0.995546 | 2.064e-8 | | 1 | -384.59 | 0.995575 | 2…') matches no inspected row/stat, database table, or other source of PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_10\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 2.058e-08})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_10",
+      "block_number": "PROPblock_10",
+      "lit_id": null,
+      "literals": [
+        "2.058e-8"
+      ],
+      "detail": "2.058e-8 (near '…: 2.058e-8 (near '…-386.91 | 0.995546 | 2.064e-8 |…') matches no inspected row/stat, database table, or other source of PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_10\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 2.058e-08})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_10",
+      "block_number": "PROPblock_10",
+      "lit_id": null,
+      "literals": [
+        "2.058e-08"
+      ],
+      "detail": "2.058e-08 (near '…it_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": …') matches no inspected row/stat, database table, or other source of PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_10\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 2.058e-08})"
+    }
+  ],
+  "verified": [
+    {
+      "anchor": "PROPblock_1",
+      "values": [
+        "298.15",
+        "100",
+        "0.25",
+        "0.50",
+        "0.75",
+        "-7.42e-7",
+        "-1.014e-6",
+        "-7.05e-7",
+        "-9.960e-7"
+      ]
+    }
+  ],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_10",
+      "values": [
+        "298.15",
+        "101.0",
+        "1.8068301e-5",
+        "4.070376e-5",
+        "-3.98239e-6",
+        "-1.5386e-7",
+        "1.03864e-8",
+        "1.33311e-7",
+        "8.30673e-7",
+        "7.17478e-7",
+        "0.995546",
+        "2.064e-8",
+        "-384.59",
+        "0.995575",
+        "-392.37",
+        "0.998247",
+        "1.295e-8",
+        "-404.87",
+        "6.580e-9",
+        "-423.77",
+        "2.499e-9",
+        "-449.74",
+        "6.883e-10",
+        "0.999547",
+        "0.999935",
+        "0.999995",
+        "101",
+        "-1e-6",
+        "0.5",
+        "-386.91"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [
+      {
+        "fit_id": "FIT_fb94acd2c8e6",
+        "heading": "**RK Fit** — GLOBlit_2825 / DOI 10.1016/j.jct.2007.05.004 / PROPblock_10 @ declared",
+        "blocks": [
+          "PROPblock_10"
+        ],
+        "n_values": 34
+      },
+      {
+        "fit_id": "FIT_0d9519f9e2a1",
+        "heading": "**RK Prediction** (order 5, linear)",
+        "blocks": [],
+        "n_values": 9
+      }
+    ],
+    "cited_blocks": {
+      "PROPblock_1": {
+        "lit_num_id": "GLOBlit_2395",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_1365f8ab7be4"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.jct.2004.03.011",
+          "n_rows": 206,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "pressure_kpa",
+            "mole_fraction_<methanol>",
+            "excess_molar_volume_m3_mol"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              298.15,
+              523.15
+            ],
+            "pressure_kpa": [
+              100.0,
+              60000.0
+            ],
+            "mole_fraction_<methanol>": [
+              0.25,
+              0.75
+            ],
+            "excess_molar_volume_m3_mol": [
+              -2.545e-06,
+              -5e-09
+            ]
+          }
+        }
+      },
+      "PROPblock_10": {
+        "lit_num_id": "GLOBlit_2825",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_5d31e929df24",
+          "INSP_41f65b5c2ff4",
+          "INSP_924974a9f3ca"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.jct.2007.05.004",
+          "n_rows": 39,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "mole_fraction_<water>",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              293.15,
+              303.15
+            ],
+            "mole_fraction_<water>": [
+              0.0,
+              1.0
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "mass_density_kg_m3": [
+              782.48,
+              998.2
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "298.15",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "100",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.25",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.50",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.75",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "1.8068301e-5",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "4.070376e-5",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "-3.98239e-6",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "-1.5386e-7",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "1.03864e-8",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "1.33311e-7",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "8.30673e-7",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "7.17478e-7",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "0.995546",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "2.064e-8",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "-384.59",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "0.995575",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "-392.37",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "0.998247",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "1.295e-8",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "-404.87",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "6.580e-9",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "-423.77",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "2.499e-9",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "-449.74",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "6.883e-10",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "2.058e-8",
+        "region": "PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.999547",
+        "region": "PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.999935",
+        "region": "PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.999995",
+        "region": "PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "101",
+        "region": "PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "100",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.25",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "-7.42e-7",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.50",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "-1.014e-6",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.75",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "-7.05e-7",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "-1.014e-6",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.50",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "-9.960e-7",
+        "region": "PROPblock_1",
+        "verdict": "fit_artifact",
+        "source": "FIT_0d9519f9e2a1"
+      },
+      {
+        "token": "-1e-6",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_0d9519f9e2a1"
+      },
+      {
+        "token": "0.5",
+        "region": "PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "-386.91",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "0.995546",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "2.064e-8",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "-384.59",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "0.995575",
+        "region": "PROPblock_10",
+        "verdict": "fit_artifact",
+        "source": "FIT_fb94acd2c8e6"
+      },
+      {
+        "token": "2.058e-8",
+        "region": "PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "2.058e-08",
+        "region": "PROPblock_10",
+        "verdict": "ungrounded"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1016/j.jct.2007.05.004",
+      "lit_num_id": "GLOBlit_2825",
+      "block_number": "PROPblock_10",
+      "BLKsubsys_id": null,
+      "table_mode": "rdp",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<water>",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_14",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "787.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_15",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.049",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "795.47"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_16",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.0993",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "804.11"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_17",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.1973",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "821.73"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_18",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.2983",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "840.79"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_19",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.3985",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "860.59"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_20",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.5003",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "881.69"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_21",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.5994",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "902.96"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_23",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.7986",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "947.17"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_24",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.8999",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "969.84"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_25",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.9512",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "982.53"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_26",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "1",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "997.05"
+        }
+      ],
+      "inspection_id": "INSP_5d31e929df24",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.jct.2007.05.004",
+      "lit_num_id": "GLOBlit_2825",
+      "block_number": "PROPblock_10",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<water>",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_9",
+          "temperature_k": "293.15",
+          "mole_fraction_<water>": "0.6997",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "928.45"
+        }
+      ],
+      "inspection_id": "INSP_41f65b5c2ff4",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.jct.2007.05.004",
+      "lit_num_id": "GLOBlit_2825",
+      "block_number": "PROPblock_10",
+      "BLKsubsys_id": null,
+      "table_mode": "complete",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<water>",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_22",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.6997",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "925.21"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_23",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.7986",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "947.17"
+        }
+      ],
+      "inspection_id": "INSP_924974a9f3ca",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.jct.2004.03.011",
+      "lit_num_id": "GLOBlit_2395",
+      "block_number": "PROPblock_1",
+      "BLKsubsys_id": null,
+      "table_mode": "complete",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "mole_fraction_<methanol>",
+        "excess_molar_volume_m3_mol"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "298.15",
+          "pressure_kpa": "100",
+          "mole_fraction_<methanol>": "0.25",
+          "excess_molar_volume_m3_mol": "-7.42e-07"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_2",
+          "temperature_k": "298.15",
+          "pressure_kpa": "100",
+          "mole_fraction_<methanol>": "0.5",
+          "excess_molar_volume_m3_mol": "-1.014e-06"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_3",
+          "temperature_k": "298.15",
+          "pressure_kpa": "100",
+          "mole_fraction_<methanol>": "0.75",
+          "excess_molar_volume_m3_mol": "-7.05e-07"
+        }
+      ],
+      "inspection_id": "INSP_1365f8ab7be4",
+      "markdown": ""
+    }
+  ]
+}

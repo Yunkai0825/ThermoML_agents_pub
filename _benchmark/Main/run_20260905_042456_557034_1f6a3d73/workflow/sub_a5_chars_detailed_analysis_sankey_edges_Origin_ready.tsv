@@ -1,0 +1,36 @@
+Source	Target	Value	source_full	target_full	flow_type	ids	provenance	edge_order	appearance_order	appearance_key
+A5 · dispatch brief	A5 · agent context (dedup merge)	1910	Main/A5:support:BRIEF	Main/A5:context	context		run_history.md::Step 1 [main · c1]	1	1	Main/A5:support:BRIEF
+A5 · working-memory render	A5 · agent context (dedup merge)	314	Main/A5:support:WM_RENDER	Main/A5:context	memory			2	2	Main/A5:context
+A5 · <malformed_tool_call_1> · delivered as-is	A5 · agent context (dedup merge)	104	Main/A5:<malformed_tool_call_1>#1:asis	Main/A5:context	context		run_history.md::Step 1 [main - A_5 · c1]	3	3	Main/A5:support:WM_RENDER
+A5 · predict_from_rk · delivered as-is	A5 · agent context (dedup merge)	345	Main/A5:predict_from_rk#1:asis	Main/A5:context	context		run_history.md::Step 2 [main - A_5 · c2]	4	4	Main/A5:<malformed_tool_call_1>#1:asis
+A5 · predict_from_rk · raw results	A5 · predict_from_rk · hardcoded compact	206	Main/A5:predict_from_rk#2:raw	Main/A5:predict_from_rk#2:hardcoded	retained		run_history.md::Step 3 [main - A_5 · c3]	5	5	Main/A5:predict_from_rk#1:asis
+A5 · predict_from_rk · raw results	A5 · hardcoded compaction cut	7374	Main/A5:predict_from_rk#2:raw	Main/A5:sink:hardcoded_cut	removed		run_history.md::Step 3 [main - A_5 · c3]	6	6	Main/A5:predict_from_rk#2:raw
+A5 · predict_from_rk · hardcoded compact	A5 · predict_from_rk · delivered as-is	206	Main/A5:predict_from_rk#2:hardcoded	Main/A5:predict_from_rk#2:asis	retained		run_history.md::Step 3 [main - A_5 · c3]	7	7	Main/A5:predict_from_rk#2:hardcoded
+A5 · predict_from_rk · delivered as-is	A5 · agent context (dedup merge)	206	Main/A5:predict_from_rk#2:asis	Main/A5:context	context		run_history.md::Step 3 [main - A_5 · c3]	8	8	Main/A5:sink:hardcoded_cut
+A5 · list_session_files · delivered as-is	A5 · agent context (dedup merge)	212	Main/A5:list_session_files#1:asis	Main/A5:context	context		run_history.md::Step 4 [main - A_5 · c4]	9	9	Main/A5:predict_from_rk#2:asis
+A5 · predict_from_rk · raw results	A5 · predict_from_rk · hardcoded compact	205	Main/A5:predict_from_rk#3:raw	Main/A5:predict_from_rk#3:hardcoded	retained		run_history.md::Step 5 [main - A_5 · c5]	10	10	Main/A5:list_session_files#1:asis
+A5 · predict_from_rk · raw results	A5 · hardcoded compaction cut	1181	Main/A5:predict_from_rk#3:raw	Main/A5:sink:hardcoded_cut	removed		run_history.md::Step 5 [main - A_5 · c5]	11	11	Main/A5:predict_from_rk#3:raw
+A5 · predict_from_rk · hardcoded compact	A5 · predict_from_rk · delivered as-is	205	Main/A5:predict_from_rk#3:hardcoded	Main/A5:predict_from_rk#3:asis	retained		run_history.md::Step 5 [main - A_5 · c5]	12	12	Main/A5:predict_from_rk#3:hardcoded
+A5 · predict_from_rk · delivered as-is	A5 · agent context (dedup merge)	205	Main/A5:predict_from_rk#3:asis	Main/A5:context	context		run_history.md::Step 5 [main - A_5 · c5]	13	13	Main/A5:predict_from_rk#3:asis
+A5 · predict_from_rk · raw results	A5 · predict_from_rk · hardcoded compact	204	Main/A5:predict_from_rk#4:raw	Main/A5:predict_from_rk#4:hardcoded	retained		run_history.md::Step 6 [main - A_5 · c6]	14	14	Main/A5:predict_from_rk#4:raw
+A5 · predict_from_rk · raw results	A5 · hardcoded compaction cut	229	Main/A5:predict_from_rk#4:raw	Main/A5:sink:hardcoded_cut	removed		run_history.md::Step 6 [main - A_5 · c6]	15	15	Main/A5:predict_from_rk#4:hardcoded
+A5 · predict_from_rk · hardcoded compact	A5 · predict_from_rk · delivered as-is	204	Main/A5:predict_from_rk#4:hardcoded	Main/A5:predict_from_rk#4:asis	retained		run_history.md::Step 6 [main - A_5 · c6]	16	16	Main/A5:predict_from_rk#4:asis
+A5 · predict_from_rk · delivered as-is	A5 · agent context (dedup merge)	204	Main/A5:predict_from_rk#4:asis	Main/A5:context	context		run_history.md::Step 6 [main - A_5 · c6]	17	17	Main/A5:predict_from_rk#5:raw
+A5 · predict_from_rk · raw results	A5 · predict_from_rk · hardcoded compact	177	Main/A5:predict_from_rk#5:raw	Main/A5:predict_from_rk#5:hardcoded	retained		run_history.md::Step 7 [main - A_5 · c7]	18	18	Main/A5:predict_from_rk#5:hardcoded
+A5 · predict_from_rk · raw results	A5 · hardcoded compaction cut	6057	Main/A5:predict_from_rk#5:raw	Main/A5:sink:hardcoded_cut	removed		run_history.md::Step 7 [main - A_5 · c7]	19	19	Main/A5:predict_from_rk#5:asis
+A5 · predict_from_rk · hardcoded compact	A5 · predict_from_rk · delivered as-is	177	Main/A5:predict_from_rk#5:hardcoded	Main/A5:predict_from_rk#5:asis	retained		run_history.md::Step 7 [main - A_5 · c7]	20	20	Main/A5:predict_from_rk#6:raw
+A5 · predict_from_rk · delivered as-is	A5 · agent context (dedup merge)	177	Main/A5:predict_from_rk#5:asis	Main/A5:context	context		run_history.md::Step 7 [main - A_5 · c7]	21	21	Main/A5:predict_from_rk#6:hardcoded
+A5 · predict_from_rk · raw results	A5 · predict_from_rk · hardcoded compact	188	Main/A5:predict_from_rk#6:raw	Main/A5:predict_from_rk#6:hardcoded	retained		run_history.md::Step 8 [main - A_5 · c8]	22	22	Main/A5:predict_from_rk#6:asis
+A5 · predict_from_rk · raw results	A5 · hardcoded compaction cut	5846	Main/A5:predict_from_rk#6:raw	Main/A5:sink:hardcoded_cut	removed		run_history.md::Step 8 [main - A_5 · c8]	23	23	Main/A5:answer
+A5 · predict_from_rk · hardcoded compact	A5 · predict_from_rk · delivered as-is	188	Main/A5:predict_from_rk#6:hardcoded	Main/A5:predict_from_rk#6:asis	retained		run_history.md::Step 8 [main - A_5 · c8]	24	24	Main/A5:deliverable
+A5 · predict_from_rk · delivered as-is	A5 · agent context (dedup merge)	188	Main/A5:predict_from_rk#6:asis	Main/A5:context	context		run_history.md::Step 8 [main - A_5 · c8]	25	25	Main/A5:env:written
+A5 · agent context (dedup merge)	A5 · answer	1716	Main/A5:context	Main/A5:answer	synthesis			26	26	Main/A5:env:wm
+A5 · answer	A5 · result envelope to Main (deliverable)	1716	Main/A5:answer	Main/A5:deliverable	relay			27	27	Main/A5:support:SCAFFOLD
+A5 · agent context (dedup merge)	A5 · envelope · LLM-written fields	750	Main/A5:context	Main/A5:env:written	synthesis			28	28	Main/A5:env:scaffold
+A5 · envelope · LLM-written fields	A5 · result envelope to Main (deliverable)	750	Main/A5:env:written	Main/A5:deliverable	relay			29	29	Main/A5:sink:condensed_in_synthesis
+A5 · agent context (dedup merge)	A5 · envelope · WM-assembled fields	4	Main/A5:context	Main/A5:env:wm	memory			30	30	Main/A5:sink:memory_uncited
+A5 · envelope · WM-assembled fields	A5 · result envelope to Main (deliverable)	4	Main/A5:env:wm	Main/A5:deliverable	relay			31		
+A5 · envelope JSON scaffolding	A5 · envelope · JSON scaffolding	117	Main/A5:support:SCAFFOLD	Main/A5:env:scaffold	metadata			32		
+A5 · envelope · JSON scaffolding	A5 · result envelope to Main (deliverable)	117	Main/A5:env:scaffold	Main/A5:deliverable	relay			33		
+A5 · agent context (dedup merge)	A5 · condensed away in synthesis	1081	Main/A5:context	Main/A5:sink:condensed_in_synthesis	removed			34		
+A5 · agent context (dedup merge)	A5 · memory carry not cited (WM render / transient)	314	Main/A5:context	Main/A5:sink:memory_uncited	removed			35		

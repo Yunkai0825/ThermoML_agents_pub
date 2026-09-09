@@ -1,0 +1,318 @@
+{
+  "meas_ID": "heating_cooling_curves",
+  "identity": {
+    "name": "Heating/Cooling curves",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Heating/Cooling curves",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Differential Scanning Calorimetry (DSC/DTA)",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 57,
+      "property_groups": [
+        "PhaseTransition"
+      ],
+      "n_papers": 10,
+      "per_group": {
+        "PhaseTransition": {
+          "instances": 57,
+          "papers": 10
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature as a function of time T(t)",
+          "thermal arrest duration (plateau length on time axis)",
+          "slope of cooling/heating curve dT/dt"
+        ],
+        "derived_observables": [
+          "phase transition temperature (onset of thermal arrest or slope change)",
+          "liquidus temperature",
+          "solidus temperature",
+          "eutectic temperature",
+          "supercooling magnitude (difference between equilibrium freezing point and observed nucleation temperature)"
+        ],
+        "target_properties": [
+          "melting point / freezing point",
+          "crystallization temperature",
+          "eutectic temperature",
+          "solidus temperature",
+          "liquidus temperature",
+          "solid-solid phase transition temperature",
+          "phase diagram boundaries (T-x projections)"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "liquid",
+          "solid-liquid coexistence (mushy zone in mixtures)",
+          "polymorphic solid phases"
+        ],
+        "supported_sample_types": [
+          "pure metals and inorganic salts",
+          "pure organic compounds",
+          "binary and multicomponent alloys",
+          "molten salt mixtures",
+          "eutectic systems",
+          "aqueous salt solutions",
+          "organic mixtures",
+          "fats, waxes, and phase-change materials"
+        ],
+        "unsupported_sample_types": [
+          "gases (no detectable thermal arrest)",
+          "amorphous materials with glass transitions only (no sharp arrest; DSC preferred)",
+          "samples that decompose before melting",
+          "highly volatile liquids that evaporate during slow heating",
+          "samples requiring sub-millikelvin transition resolution"
+        ],
+        "typical_output_formats": [
+          "T vs. t curve (heating curve)",
+          "T vs. t curve (cooling curve)",
+          "dT/dt vs. T plot (inverse rate method)",
+          "phase diagram constructed from multiple composition runs"
+        ],
+        "units": {
+          "temperature": "K or °C",
+          "time": "s or min",
+          "cooling_heating_rate": "K/min or K/s",
+          "supercooling": "K"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "heating_cooling_rate",
+            "typical_range": "0.5 K/min to 10 K/min",
+            "hard_limits": "rates above ~20 K/min cause significant thermal lag between sample interior and thermocouple; rates below ~0.1 K/min are impractical due to excessive run times and environmental drift",
+            "notes": "slower rates give sharper thermal arrests and better accuracy; cooling rates should be slow enough to avoid excessive supercooling but fast enough to prevent annealing artifacts"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 1800 K",
+            "hard_limits": "limited by furnace capability at the upper end and cryostat at the lower end; thermocouple type sets practical limits (Type K: up to ~1600 K, Type S/R: up to ~2000 K)",
+            "notes": "must extend well above and below the expected transition to establish stable baseline slopes"
+          },
+          {
+            "parameter": "sample_mass",
+            "typical_range": "1 g to 100 g",
+            "hard_limits": "minimum ~0.5 g needed for adequate thermal inertia to produce detectable arrests; upper limit set by furnace size and uniformity",
+            "notes": "larger samples give longer, more clearly defined thermal arrests but increase temperature gradients"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (ambient)",
+            "hard_limits": "standard apparatus operates at atmospheric pressure; sealed capsules may develop modest internal pressure with volatile samples",
+            "notes": "high-pressure variants exist but are uncommon for simple heating/cooling curve work"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "measured response variable",
+            "typical_values": "200 K to 1800 K",
+            "effect": "the primary signal; thermal arrests and slope changes reveal phase transitions"
+          },
+          {
+            "name": "time",
+            "role": "independent variable (abscissa)",
+            "typical_values": "minutes to hours per run",
+            "effect": "duration of thermal arrests is proportional to latent heat for a given sample mass and heat loss rate"
+          },
+          {
+            "name": "heating_cooling_rate",
+            "role": "controlled experimental parameter",
+            "typical_values": "1 K/min to 5 K/min",
+            "effect": "slower rates produce sharper arrests and reduce systematic error from thermal lag; faster rates increase supercooling in cooling curves"
+          },
+          {
+            "name": "composition",
+            "role": "varied across runs (for phase diagram construction)",
+            "typical_values": "0 to 100 mol% of each component",
+            "effect": "determines which phase boundaries are crossed and the shape of the T(t) curve; eutectic compositions show a single arrest, off-eutectic show two arrests"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "programmable furnace — resistance-wound tube or muffle furnace with controlled heating/cooling ramp capability",
+          "thermocouple — Type K (Ni-Cr/Ni-Al, up to ~1600 K), Type S or R (Pt-Rh, up to ~2000 K), or Type T (Cu/Cu-Ni, for sub-ambient to ~600 K), immersed in or in direct contact with the sample",
+          "temperature recorder — strip chart recorder, digital data logger, or computer-based acquisition system sampling at ≥1 Hz",
+          "sample container — crucible (alumina, graphite, stainless steel, or glass depending on temperature and reactivity)",
+          "insulation sleeve or Dewar — surrounds crucible to provide controlled, approximately Newtonian heat loss environment",
+          "stirring device (optional) — mechanical stirrer or magnetic stir bar to improve temperature uniformity in liquid samples and reduce supercooling",
+          "reference thermocouple or cold-junction compensation — for accurate absolute temperature measurement"
+        ],
+        "environmental_requirements": [
+          "inert or protective atmosphere (N2, Ar) when samples oxidize at elevated temperature",
+          "draft-free environment to avoid erratic cooling rates",
+          "stable ambient temperature for reproducible cooling curves"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "bulk sample in crucible (no specific shape requirement)",
+            "sample should fill crucible sufficiently to immerse thermocouple tip"
+          ],
+          "size_limits": "typically 1–100 g; smaller samples give shorter arrests that are harder to resolve; larger samples improve signal but increase internal gradients",
+          "thickness_limits": "not critical as for thin-film techniques, but sample depth should allow thermocouple immersion (typically ≥5 mm melt depth)",
+          "surface_requirements": [
+            "clean sample free of surface oxides or contaminants that could act as heterogeneous nucleation sites or insulating barriers"
+          ],
+          "mounting_requirements": [
+            "thermocouple tip must be positioned at the center of the sample mass, not touching crucible walls",
+            "thermocouple sheath must be inert to sample material at operating temperature",
+            "crucible seated stably in furnace to prevent movement during melting"
+          ],
+          "preparation_requirements": [
+            "known mass weighed to ±0.1% on analytical balance",
+            "pre-dried to remove moisture (especially for hygroscopic salts)",
+            "pre-melted and homogenized for alloys or mixtures to ensure uniform composition",
+            "crushed or ground to small pieces for initial loading to ensure good packing around thermocouple"
+          ]
+        },
+        "calibration_requirements": [
+          "thermocouple calibration against certified reference thermometer or fixed-point cells (ice point 273.15 K, Sn 505.08 K, Zn 692.68 K, Al 933.47 K)",
+          "cooling rate verification — measure actual dT/dt to confirm programmed rate is achieved",
+          "validation run with a high-purity standard (e.g., Sn or Zn) to verify that measured transition temperature matches accepted value within stated accuracy"
+        ],
+        "reference_materials": [
+          "tin (Sn) — melting point 505.08 K, high purity (≥99.99%)",
+          "zinc (Zn) — melting point 692.68 K",
+          "aluminum (Al) — melting point 933.47 K",
+          "lead (Pb) — melting point 600.61 K",
+          "indium (In) — melting point 429.75 K",
+          "ice/water — melting point 273.15 K",
+          "naphthalene — melting point 353.4 K (for organic range)"
+        ],
+        "consumables": [
+          "crucibles (alumina, graphite, or steel; single-use if sample attacks crucible)",
+          "thermocouple protection sheaths (alumina or quartz tubes)",
+          "inert gas supply (argon or nitrogen)",
+          "replacement thermocouples (degradation at high temperature over time)"
+        ],
+        "safety_notes": [
+          "high-temperature furnaces require burn protection and thermal gloves",
+          "molten metals and salts pose splash and spill hazards",
+          "some samples may release toxic fumes when heated — use fume hood or sealed system",
+          "reactive metals (alkali metals, Mg) require special inert-atmosphere handling"
+        ]
+      },
+      "performance": {
+        "sensitivity": "can detect thermal arrests from latent heats as small as ~1 kJ/mol in samples of a few grams; sensitivity limited by heat capacity of sample + crucible relative to latent heat",
+        "detection_limit": "transitions with very small latent heats (<0.5 kJ/mol) or diffuse second-order transitions may not produce a detectable arrest or slope change; DSC is preferred for such cases",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement; single thermocouple reads average temperature)",
+          "temporal": "~1 s with digital data acquisition; thermal time constant of sample-crucible assembly is typically 5–60 s",
+          "spectral": "not applicable",
+          "energy": "not applicable (technique does not directly measure heat; only temperature)"
+        },
+        "dynamic_range": "temperature range 200 K to 1800 K (with appropriate thermocouples and furnaces); transition temperatures from cryogenic to near-refractory",
+        "accuracy": "±0.1 K to ±2 K for transition temperatures depending on purity of sample, cooling/heating rate, and thermocouple calibration; ±0.1 K achievable for pure metals at very slow rates; ±1–2 K typical for mixtures",
+        "precision": "±0.05 K to ±0.5 K (repeatability of transition temperature from replicate heating/cooling cycles on the same sample)",
+        "throughput": "one sample per run; each heating or cooling cycle takes 30 minutes to several hours depending on temperature range and rate",
+        "measurement_speed": "inherently slow; a single heating-cooling cycle over a 200 K range at 2 K/min requires ~3.3 hours; faster rates reduce time but degrade accuracy"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "thermocouple EMF (millivolts) converted to temperature via calibration polynomial; recorded as T(t) at constant time intervals",
+        "preprocessing_steps": [
+          "cold-junction compensation or reference-junction correction applied to raw thermocouple voltage",
+          "conversion of EMF to temperature using thermocouple calibration tables or polynomials (ITS-90 scale)",
+          "smoothing of T(t) data with moving average or Savitzky-Golay filter to reduce noise without distorting arrest shape",
+          "calculation of dT/dt (cooling or heating rate) as a function of T for the inverse-rate method"
+        ],
+        "analysis_methods": [
+          "visual inspection of T(t) curve: identify horizontal plateaux (pure substance arrests) or slope changes (mixture liquidus/solidus)",
+          "inverse-rate method: plot dt/dT vs. T; transitions appear as peaks, with peak position giving transition temperature and peak area proportional to latent heat",
+          "tangent construction: draw tangent lines to the pre-transition and arrest segments; intersection gives the onset transition temperature",
+          "first-derivative method: plot dT/dt vs. t; transition onset appears as a sharp minimum (cooling) or maximum (heating)",
+          "construction of phase diagrams: plot transition temperatures vs. composition from a series of samples"
+        ],
+        "model_assumptions": [
+          "Newtonian cooling: heat exchange between sample and surroundings is proportional to temperature difference (dQ/dt = hA·ΔT)",
+          "sample temperature is uniform (no internal gradients); valid when Biot number Bi = hL/k << 1",
+          "thermal arrest occurs at thermodynamic equilibrium temperature (no kinetic barriers other than nucleation supercooling on cooling)",
+          "latent heat is released/absorbed at constant temperature for a pure substance (Gibbs phase rule: F=0 for a pure substance at its melting point under constant pressure)"
+        ],
+        "fit_parameters": [
+          "transition temperature (onset of arrest or inflection point)",
+          "supercooling magnitude (for cooling curves)",
+          "duration of thermal arrest (proportional to latent heat / heat loss rate)",
+          "slope of T(t) before and after arrest (related to Cp and heat transfer coefficient)"
+        ],
+        "common_artifacts": [
+          "supercooling: on cooling, temperature drops below the equilibrium freezing point before nucleation occurs, then recalesces to the freezing plateau — the undershoot is not the true transition temperature",
+          "thermal lag: thermocouple does not respond instantaneously; apparent arrest temperature is shifted from the true value, especially at high heating/cooling rates",
+          "recalescence spike: rapid temperature rise upon nucleation in supercooled liquid, producing a sharp upward spike before the arrest plateau",
+          "crucible-thermocouple interaction: if thermocouple touches crucible wall, it senses furnace temperature rather than sample temperature, distorting the arrest shape",
+          "composition shift: in alloys, segregation during solidification can shift apparent liquidus and solidus temperatures from equilibrium values",
+          "oxidation or contamination: surface oxide film on molten metals can act as nucleation catalyst (reducing supercooling) or insulating layer (increasing thermal lag)"
+        ],
+        "quality_control_checks": [
+          "compare heating and cooling transition temperatures — heating values are usually closer to equilibrium (no supercooling)",
+          "repeat at multiple rates: extrapolate transition temperature to zero heating/cooling rate to obtain equilibrium value",
+          "verify thermocouple calibration with melting-point standards before and after the experimental run",
+          "check that thermal arrest is horizontal (pure substance) or has expected shape for the mixture composition",
+          "inspect for recalescence spike on cooling curves and report supercooling magnitude separately"
+        ],
+        "failure_modes": [
+          "thermocouple failure (open circuit or drift) due to corrosion by aggressive melts",
+          "sample leakage from cracked crucible causing loss of material and changing effective composition",
+          "furnace controller malfunction causing uncontrolled heating/cooling rate",
+          "excessive supercooling preventing detection of the freezing transition within the measurement window",
+          "sample decomposition at elevated temperature before reaching the expected transition"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty ±0.5–2 K for transition temperatures; can be ±0.1 K for high-purity metals with slow rates and careful calibration",
+        "random_sources": [
+          "thermocouple noise and EMF fluctuations",
+          "ambient temperature fluctuations affecting cooling rate",
+          "irreproducibility of nucleation (supercooling varies from run to run)",
+          "data acquisition digitization noise"
+        ],
+        "systematic_sources": [
+          "thermocouple calibration offset (drift over time at high temperature)",
+          "thermal lag between thermocouple and sample center (rate-dependent)",
+          "furnace temperature gradient across sample",
+          "cold-junction compensation error",
+          "impurity depression of melting point (unintentional contamination lowers observed freezing point)"
+        ],
+        "operator_dependence": "moderate — thermocouple placement in the sample center, choice of cooling rate, and graphical determination of arrest temperature all introduce operator-dependent variability",
+        "model_dependence": "low to moderate — Newtonian cooling assumption and uniform-temperature assumption are generally adequate for small samples in insulated crucibles; large samples or fast rates violate these assumptions",
+        "dominant_error_sources": [
+          "supercooling in cooling curves (can be several K to tens of K depending on substance and nucleation conditions)",
+          "thermal lag at finite heating/cooling rates",
+          "thermocouple calibration uncertainty (especially at high temperatures where thermocouple aging occurs)"
+        ],
+        "reported_as": [
+          "transition temperature with combined expanded uncertainty U(T) at 95% confidence (k=2)",
+          "mean ± standard deviation from replicate heating/cooling cycles",
+          "heating curve onset temperature (preferred over cooling curve value to avoid supercooling bias)"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Heating/cooling curve analysis is a classical thermal analysis technique in which a sample is heated or cooled at a controlled rate while its temperature is recorded as a function of time. Phase transitions manifest as thermal arrests — horizontal plateaux on the T(t) curve for pure substances where latent heat is absorbed or released at constant temperature, or as changes in the slope of T(t) for mixtures where solidification or melting occurs over a temperature range. The method is one of the oldest and simplest approaches for determining melting points, freezing points, eutectic temperatures, and constructing phase diagrams. It requires no quantitative heat measurement (unlike DSC or DTA), relying solely on the shape of the temperature-time trace.",
+      "how_it_operates": "A sample of known mass is placed in a crucible with a thermocouple immersed at its center. The crucible is positioned inside a programmable furnace and heated above the melting point, then cooled at a controlled rate (typically 1–5 K/min). During cooling, the thermocouple continuously records temperature at fixed time intervals. When the sample reaches a phase transition, the latent heat released during crystallization counterbalances the heat loss to the environment, causing the temperature to remain approximately constant (thermal arrest) until the transition is complete. The process is then reversed on heating to measure the melting transition. The length of the arrest plateau is proportional to the ratio of latent heat to the rate of heat loss.",
+      "core_theory": "The technique relies on the energy balance between latent heat release and Newtonian heat loss: during a first-order phase transition, the latent heat L (J/mol) released at the transition temperature Tt maintains dT/dt ≈ 0 despite continued heat extraction. For a pure substance at constant pressure, the Gibbs phase rule gives zero degrees of freedom during melting/freezing (F = C − P + 2 = 1 − 2 + 2 = 1, minus 1 for fixed pressure = 0), so temperature remains constant until one phase is fully consumed. For a binary mixture, the liquidus arrest corresponds to the temperature at which the first solid phase appears (or last solid melts), identifiable as a slope change rather than a flat arrest. The eutectic arrest remains at constant temperature regardless of composition, as three phases coexist (F = 0 at fixed P). Quantitative extraction of latent heat is possible using the Newtonian cooling model: L = hA ∫(Tt − Tenv) dt over the arrest duration, but this is rarely done — DSC is preferred when quantitative heat values are needed.",
+      "setup": "The apparatus consists of a resistance-wound tube or muffle furnace with a programmable temperature controller capable of linear heating and cooling ramps. The sample (1–100 g) is contained in a crucible (alumina for oxides and salts, graphite or steel for metals) with a thermocouple (Type K for T < 1600 K, Type S or R for higher temperatures) inserted through a protective sheath so its junction sits at the center of the sample mass. The crucible may be surrounded by an insulation sleeve to slow and regularize heat loss. Temperature is recorded by a digital data logger or computer acquisition system sampling at 1 Hz or faster. For oxidation-sensitive samples, the furnace tube is purged with argon or nitrogen. Optional stirring (mechanical or magnetic) in the liquid phase improves temperature homogeneity and reduces supercooling.",
+      "suitable_for": "Heating/cooling curve analysis is ideally suited for determining melting and freezing points of pure substances, especially metals and inorganic salts where thermal arrests are long and well-defined. It is the standard method for constructing binary and ternary phase diagrams by measuring liquidus and solidus temperatures as a function of composition. The technique is widely used in metallurgy, ceramics, molten salt chemistry, and quality control of phase-change materials. It handles relatively large sample quantities (grams to tens of grams) and is appropriate when transition temperatures are the primary data of interest and quantitative heat values are not required.",
+      "core_limitations": "The technique cannot measure latent heat or heat capacity quantitatively — it detects only the temperature at which transitions occur. Sensitivity is limited for transitions with small latent heats, broad transitions, or second-order transitions, which may produce only subtle slope changes that are difficult to distinguish from baseline curvature. Supercooling is an inherent limitation of cooling curves: the sample can cool several degrees below the equilibrium freezing point before nucleation occurs, making the cooling arrest temperature systematically lower than the true transition temperature. Accuracy at rapid cooling/heating rates is degraded by thermal lag between the thermocouple and the sample center. The technique is relatively slow (hours per cycle) and measures only one sample at a time.",
+      "sample_preparation": "Samples are weighed to ±0.1% precision and placed in a clean, inert crucible. For metals and alloys, pieces are pre-melted under inert atmosphere to create a homogeneous ingot, then re-loaded in the measurement crucible with the thermocouple positioned centrally. For salts and organic compounds, finely ground material is packed around the thermocouple to ensure good thermal contact. Hygroscopic materials must be dried prior to measurement. The crucible material must be chosen to avoid reaction with the sample at operating temperature (e.g., alumina for molten salts, graphite for non-carbide-forming metals). The sample depth should be sufficient to fully immerse the thermocouple junction (≥5 mm above the tip).",
+      "calibration_and_references": "The thermocouple is calibrated at fixed points on the ITS-90 temperature scale using high-purity metal melting-point standards: ice/water (273.15 K), indium (429.75 K), tin (505.08 K), lead (600.61 K), zinc (692.68 K), aluminum (933.47 K). A validation run is performed with a known standard material at the target heating/cooling rate to verify that the measured arrest temperature agrees with the accepted value within the stated uncertainty. Calibration is repeated if the thermocouple is exposed to aggressive environments or after extended use at high temperatures, as thermocouple wire degradation causes EMF drift.",
+      "data_interpretation": "The T(t) curve is inspected for thermal arrests and slope changes. For pure substances, the arrest temperature is read directly from the plateau or, more precisely, determined by the tangent construction: tangent lines are drawn along the pre-arrest slope and the arrest plateau, and their intersection defines the onset transition temperature. On cooling curves, the minimum temperature before recalescence (supercooling trough) should not be reported as the transition temperature — the arrest plateau after recalescence gives the equilibrium value. The inverse-rate method (plotting dt/dT vs. T) converts subtle slope changes into peaks, facilitating identification of liquidus and solidus temperatures in mixtures. Heating curves are generally preferred for accurate transition temperatures because they are free from supercooling artifacts. Phase diagrams are constructed by plotting transition temperatures vs. composition for a series of samples.",
+      "common_pitfalls": "The most common error is reporting the supercooling trough on a cooling curve as the transition temperature — this can underestimate the true freezing point by several kelvin. Placing the thermocouple against the crucible wall rather than in the sample center causes it to track furnace temperature instead of sample temperature, smearing out and shifting the arrest. Using too fast a cooling/heating rate introduces thermal lag that shifts apparent transition temperatures. Failing to pre-melt and homogenize alloy samples leads to composition gradients and irreproducible arrests. Ignoring impurity effects can cause misinterpretation — even 0.1 mol% impurity can depress the melting point of a 'pure' substance by 0.1–1 K and introduce a solidus-liquidus gap where a sharp arrest was expected.",
+      "artifacts_and_failure_modes": "Supercooling is the dominant artifact in cooling curves: nucleation delay causes the sample temperature to drop below the equilibrium transition temperature before crystallization begins, followed by a rapid recalescence spike back up to the arrest plateau. In extreme cases, supercooling can exceed 20 K (e.g., for water or Bi), making the cooling curve unreliable for transition temperature determination. Recalescence spikes can be misinterpreted as an additional transition if not recognized. Thermal lag artifacts cause the apparent arrest to slope slightly rather than being perfectly flat, and shift the observed transition temperature relative to the true value — this error scales with heating/cooling rate. In mixtures, dendritic solidification can cause microsegregation that distorts the shape of the cooling curve and shifts the solidus temperature. Thermocouple degradation (wire contamination, insulation breakdown) produces calibration drift that may go unnoticed without periodic re-calibration.",
+      "reporting_checklist": "Published heating/cooling curve results should report: sample identity and purity; sample mass; crucible and thermocouple material and type; heating and/or cooling rate used; whether transition temperature was determined from heating or cooling curve; method of transition temperature extraction (direct plateau reading, tangent construction, inverse-rate method); observed supercooling magnitude (for cooling curves); number of replicate cycles and reproducibility; thermocouple calibration procedure and reference standards used; atmosphere (air, N2, Ar); combined expanded uncertainty U(T) at 95% confidence level with dominant uncertainty sources identified. For ThermoML encoding, transition temperatures are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

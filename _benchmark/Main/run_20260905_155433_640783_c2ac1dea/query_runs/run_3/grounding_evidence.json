@@ -1,0 +1,162 @@
+{
+  "generated": "2026-09-05T16:03:53",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNINSPECTED_BLOCK",
+      "anchor": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+      "block_number": "PROPblock_5",
+      "lit_id": null,
+      "literals": [
+        "278.15",
+        "373.15",
+        "298.16",
+        "498.17",
+        "301.28",
+        "321.01",
+        "293.5",
+        "328.2",
+        "294.3",
+        "328.3",
+        "297.3",
+        "328.3",
+        "393.0",
+        "413.2",
+        "393.0",
+        "413.2"
+      ],
+      "detail": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3 is quoted with data values (278.15, 373.15, 298.16, 498.17, …) but was never inspected in this run",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_5\", literature=\"<GLOBlit_N or DOI>\"); inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\"); inspect_block_table(block_number=\"PROPblock_2\", literature=\"<GLOBlit_N or DOI>\"); inspect_block_table(block_number=\"PROPblock_3\", literature=\"<GLOBlit_N or DOI>\")"
+    },
+    {
+      "kind": "UNINSPECTED_BLOCK",
+      "anchor": "PROPblock_3",
+      "block_number": "PROPblock_3",
+      "lit_id": null,
+      "literals": [
+        "62"
+      ],
+      "detail": "PROPblock_3 is quoted with data values (62, …) but was never inspected in this run",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_3\", literature=\"<GLOBlit_N or DOI>\")"
+    }
+  ],
+  "verified": [],
+  "partially_grounded": [],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_5": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_1": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_2": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_3": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "278.15",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "373.15",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "298.16",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "498.17",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "301.28",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "321.01",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "293.5",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "328.2",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "294.3",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "328.3",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "297.3",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "328.3",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "393.0",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "413.2",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "393.0",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "413.2",
+        "region": "PROPblock_5 + PROPblock_1 + PROPblock_2 + PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "62",
+        "region": "PROPblock_3",
+        "verdict": "uninspected_block"
+      }
+    ]
+  },
+  "inspections": []
+}

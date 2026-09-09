@@ -1,0 +1,345 @@
+{
+  "meas_ID": "phase_equilibration",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Phase equilibration",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Phase equilibration",
+    "thermoml_custom_codes": [
+      "PHEQ"
+    ],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "yes",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 806,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium",
+        "PhaseTransition",
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 159,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 795,
+          "papers": 159
+        },
+        "PhaseTransition": {
+          "instances": 9,
+          "papers": 2
+        },
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 2,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "equilibrium phase compositions (mole or mass fractions of each component in each phase)",
+          "equilibrium temperature (T)",
+          "equilibrium pressure (P)",
+          "number and identity of coexisting phases"
+        ],
+        "derived_observables": [
+          "activity coefficients (γi) from phase compositions and equation-of-state or gE model",
+          "partition coefficients (Ki = yi/xi)",
+          "relative volatility (αij = Ki/Kj)",
+          "phase diagrams (T-x-y, P-x-y, ternary triangular diagrams)",
+          "excess Gibbs energy parameters from data regression",
+          "Henry's law constants from dilute-region compositions",
+          "azeotropic compositions and temperatures"
+        ],
+        "target_properties": [
+          "vapor–liquid equilibrium (VLE) compositions",
+          "liquid–liquid equilibrium (LLE) compositions and mutual solubilities",
+          "vapor–liquid–liquid equilibrium (VLLE) compositions",
+          "solid–liquid equilibrium (SLE) solubility curves",
+          "phase boundary temperatures and pressures",
+          "azeotropic points",
+          "bubble-point and dew-point curves"
+        ],
+        "phases_measured": [
+          "liquid (single or multiple liquid phases)",
+          "vapor",
+          "solid (in SLE studies)",
+          "supercritical fluid (near-critical equilibria)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "multicomponent liquid mixtures",
+          "gas–liquid systems",
+          "partially miscible liquid pairs",
+          "electrolyte solutions (with appropriate analytical methods)",
+          "polymer–solvent systems",
+          "ionic liquid mixtures",
+          "aqueous and organic solvent systems"
+        ],
+        "unsupported_sample_types": [
+          "extremely fast-reacting systems where equilibrium cannot be maintained",
+          "systems with components that decompose at the equilibration temperature",
+          "systems requiring pressures beyond the cell rating",
+          "highly viscous systems where mass transfer to equilibrium is impractically slow",
+          "colloidal or emulsion-forming systems where phase separation is ambiguous"
+        ],
+        "typical_output_formats": [
+          "T-x-y diagram (isobaric VLE)",
+          "P-x-y diagram (isothermal VLE)",
+          "solubility curve (T vs. x for SLE)",
+          "mutual solubility diagram for LLE (binodal curve)",
+          "ternary phase diagram (triangular coordinates)",
+          "tabulated phase compositions at each T, P condition"
+        ],
+        "units": {
+          "composition": "mole fraction (dimensionless) or mass fraction (dimensionless)",
+          "temperature": "K",
+          "pressure": "kPa or MPa",
+          "activity_coefficient": "dimensionless",
+          "partition_coefficient": "dimensionless",
+          "Henry_constant": "kPa or MPa"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "250 K to 600 K",
+            "hard_limits": "limited by cell material, sealing gaskets, and thermal stability of components; cryogenic cells extend to ~200 K, high-T cells to ~700 K",
+            "notes": "temperature must be controlled to ±0.01–0.1 K for reliable equilibrium data"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.001 MPa to 20 MPa",
+            "hard_limits": "depends on cell design and window/seal ratings; specialized high-pressure cells reach 100 MPa or higher",
+            "notes": "low-pressure VLE often conducted at total pressures below 0.2 MPa; high-pressure VLE may approach critical conditions"
+          },
+          {
+            "parameter": "equilibration_time",
+            "typical_range": "30 min to 24 h",
+            "hard_limits": "must be long enough for all phases to reach thermodynamic equilibrium; highly viscous or slowly diffusing systems may require days",
+            "notes": "equilibrium is verified by observing no further change in phase compositions with additional equilibration time"
+          },
+          {
+            "parameter": "stirring_rate",
+            "typical_range": "100 rpm to 1000 rpm (for stirred cells)",
+            "hard_limits": "too vigorous stirring can cause emulsification in LLE; insufficient stirring prolongs equilibration",
+            "notes": "stirring is stopped before sampling to allow phase disengagement"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled thermodynamic variable",
+            "typical_values": "273 K to 473 K",
+            "effect": "determines the position on the phase diagram; higher T generally increases mutual solubility in LLE and shifts VLE compositions"
+          },
+          {
+            "name": "pressure",
+            "role": "controlled thermodynamic variable",
+            "typical_values": "0.01 MPa to 10 MPa",
+            "effect": "in VLE, pressure determines boiling behavior; in LLE at moderate pressures, effect on liquid compositions is usually small"
+          },
+          {
+            "name": "overall_composition",
+            "role": "feed variable",
+            "typical_values": "covers full mole fraction range 0–1",
+            "effect": "determines the relative amounts of coexisting phases and must span the two-phase region to produce meaningful equilibrium data"
+          },
+          {
+            "name": "stirring_intensity",
+            "role": "operational variable",
+            "typical_values": "moderate agitation",
+            "effect": "accelerates approach to equilibrium by increasing interfacial area and mass transfer; must be stopped before sampling to allow phase settling"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "equilibrium cell — glass or stainless steel vessel (50–500 mL typical volume) with viewing windows, sampling ports for each phase, and pressure/temperature fittings",
+          "thermostated bath or jacket — circulating liquid bath or electrical heating mantle providing temperature control to ±0.01–0.05 K",
+          "temperature sensor — platinum resistance thermometer (Pt100) or calibrated thermocouple inserted into the cell or cell wall",
+          "pressure sensor — pressure transducer or precision bourdon gauge for measuring total system pressure",
+          "stirring mechanism — magnetic stir bar, mechanical impeller, or rocking/oscillating cell mechanism for mixing phases",
+          "sampling valves — HPLC-style or needle valves connected to capillary lines for withdrawing small aliquots from each phase without disturbing equilibrium",
+          "analytical instrument — gas chromatograph (GC), HPLC, refractometer, Karl Fischer titrator, or densimeter for determining phase compositions",
+          "vacuum/inert gas manifold — for degassing feed mixtures and purging the cell",
+          "feed delivery system — syringe pumps or volumetric burettes for introducing known amounts of each component"
+        ],
+        "environmental_requirements": [
+          "constant temperature environment — thermostat stability ±0.01–0.05 K over the duration of equilibration",
+          "draft-free laboratory to prevent thermal gradients across the cell",
+          "adequate ventilation and fume extraction when working with volatile organic solvents",
+          "inert atmosphere capability for air-sensitive or oxidation-prone samples"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid samples loaded directly into cell",
+            "solid solutes weighed and dissolved or dispersed in the cell for SLE"
+          ],
+          "size_limits": "total cell charge typically 20–300 mL; minimum charge must ensure both phases have sufficient volume for representative sampling",
+          "thickness_limits": "",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "feed components of known purity (≥99% for high-quality VLE data)",
+            "degassing of liquids by vacuum, ultrasonic treatment, or boiling under reflux to remove dissolved gases",
+            "drying of hygroscopic components over molecular sieves if water is not a component of interest",
+            "accurate mass or volume measurement of each component charged to the cell"
+          ]
+        },
+        "calibration_requirements": [
+          "temperature sensor calibrated against ITS-90 fixed points or a certified reference thermometer (uncertainty ≤0.02 K)",
+          "pressure transducer calibrated against a dead-weight pressure gauge or certified reference (uncertainty ≤0.1% of reading)",
+          "analytical instrument calibrated with gravimetrically prepared standard mixtures spanning the expected composition range",
+          "GC response factors determined for each component using at least five standard solutions",
+          "refractometer calibrated with pure components and verified against literature refractive indices"
+        ],
+        "reference_materials": [
+          "well-characterized binary VLE systems for validation (e.g., cyclohexane + n-heptane, ethanol + water)",
+          "IUPAC recommended reference systems for LLE validation",
+          "pure component liquids of certified purity for GC calibration",
+          "certified refractive index standards for refractometer checks"
+        ],
+        "consumables": [
+          "GC carrier gas (helium or nitrogen, high purity)",
+          "GC columns (packed or capillary, appropriate for the chemical system)",
+          "HPLC mobile phase solvents",
+          "septa and sampling syringes",
+          "O-rings and sealing gaskets for the equilibrium cell",
+          "molecular sieves for drying",
+          "chromatographic calibration standards"
+        ],
+        "safety_notes": [
+          "high-pressure cells must be pressure-tested and operated within rated limits; use blast shields",
+          "volatile and flammable solvents require proper ventilation and elimination of ignition sources",
+          "glass equilibrium cells can implode under vacuum or shatter under overpressure — use safety screening",
+          "cryogenic operation requires standard cold-burn precautions",
+          "toxic solvents require fume hood operation and appropriate personal protective equipment"
+        ]
+      },
+      "performance": {
+        "sensitivity": "phase composition changes of 0.001 in mole fraction are detectable with modern GC analytical methods",
+        "detection_limit": "minor component mole fractions as low as 10⁻⁴ to 10⁻⁵ detectable depending on analytical technique (GC-FID, GC-TCD, HPLC)",
+        "resolution": {
+          "spatial": "not applicable (bulk phase sampling)",
+          "temporal": "equilibrium is a steady-state measurement; sampling time resolution ~1 min per phase",
+          "spectral": "not applicable (composition determined by chromatographic or physical property measurement)",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "full composition range from pure component to pure component (x = 0 to 1); pressure range from sub-atmospheric to tens of MPa",
+        "accuracy": "phase compositions: ±0.001 to ±0.01 in mole fraction (0.1–1%) depending on analytical method and system; temperature: ±0.02–0.1 K; pressure: ±0.1–1 kPa",
+        "precision": "repeatability of phase compositions: ±0.001–0.005 in mole fraction from replicate samplings at the same T, P",
+        "throughput": "typically 3–10 equilibrium points per day, depending on equilibration time and number of compositions",
+        "measurement_speed": "each equilibrium point requires 0.5–24 h for equilibration plus 10–30 min for sampling and analysis"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "chromatographic peak areas (GC, HPLC) or physical property reading (refractive index, density) for each sampled phase, plus T and P readings from sensors",
+        "preprocessing_steps": [
+          "conversion of GC peak areas to mole fractions using predetermined response factors and internal/external standard calibration",
+          "or conversion of refractive index/density readings to compositions using calibration curves for the specific system",
+          "verification that mole fractions in each phase sum to unity (material balance check)",
+          "correction for sample withdrawal effects if significant volume was removed",
+          "averaging of replicate analyses for each phase at the same equilibrium condition"
+        ],
+        "analysis_methods": [
+          "thermodynamic consistency tests: Herington test, Van Ness point test, or area test to verify data quality",
+          "regression to activity coefficient models (NRTL, UNIQUAC, Wilson, Margules) or equations of state (SRK, PR with mixing rules)",
+          "calculation of activity coefficients: γi = yi·P/(xi·Pi_sat) for VLE at low to moderate pressures (modified Raoult's law)",
+          "Barker's method or maximum-likelihood regression for simultaneous fitting of model parameters",
+          "construction of T-x-y, P-x-y, or ternary phase diagrams from tabulated data"
+        ],
+        "model_assumptions": [
+          "thermodynamic equilibrium has been achieved — chemical potentials of each component are equal across coexisting phases",
+          "sampled aliquots are representative of the bulk phase composition (no sampling bias)",
+          "vapor phase behaves ideally or follows a chosen equation of state for fugacity corrections",
+          "liquid phase non-ideality described by the chosen activity coefficient model",
+          "pressure effect on liquid-phase fugacity is negligible (Poynting correction) at low to moderate pressures"
+        ],
+        "fit_parameters": [
+          "binary interaction parameters for activity coefficient models (e.g., τ12, τ21 for NRTL; Δλ12, Δλ21 for Wilson)",
+          "equation-of-state binary interaction parameters (kij)",
+          "temperature dependence coefficients for interaction parameters",
+          "Henry's law constants for dilute solute systems"
+        ],
+        "common_artifacts": [
+          "incomplete equilibration: compositions still drifting at the time of sampling, producing non-equilibrium data that appear as scatter",
+          "sampling-induced perturbation: withdrawing too large a sample volume shifts the overall composition and disturbs the phase ratio",
+          "entrainment: droplets of one phase carried into the sampling line of the other phase, biasing composition toward the overall feed",
+          "dissolved gas contamination: residual air or inert gas alters VLE compositions, especially at low total pressures",
+          "adsorption losses: trace components adsorbing on cell walls or sampling lines, reducing apparent concentration",
+          "temperature gradients across the cell producing local non-equilibrium conditions"
+        ],
+        "quality_control_checks": [
+          "verify equilibrium attainment: sample at increasing equilibration times until compositions plateau",
+          "replicate samplings from each phase to assess analytical reproducibility",
+          "thermodynamic consistency tests on the full dataset (area test, point test)",
+          "material balance closure: confirm that overall composition from phase compositions and phase volumes matches the known feed",
+          "compare results for one or two tie lines with published literature data for the same system",
+          "check that sampled compositions lie within physically meaningful bounds (0 ≤ xi ≤ 1)"
+        ],
+        "failure_modes": [
+          "emulsification during stirring — phases fail to separate cleanly, producing ambiguous or un-sampleable mixtures",
+          "cell leak at elevated pressure — loss of volatile component shifts compositions systematically",
+          "plugged sampling line — capillary blocked by precipitated solids or viscous liquid, preventing representative withdrawal",
+          "analytical instrument drift — GC retention time or detector response shifts during a long measurement campaign",
+          "decomposition of thermally sensitive component during prolonged high-temperature equilibration"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty in phase compositions: 0.001–0.01 mole fraction (0.1–1%); temperature: 0.02–0.1 K; pressure: 0.1–1 kPa",
+        "random_sources": [
+          "analytical repeatability (GC peak area integration, refractometer reading)",
+          "temperature fluctuations during sampling",
+          "pressure fluctuations (especially in boiling VLE systems)",
+          "inhomogeneity in sampled aliquots",
+          "variability in sample injection volume for GC analysis"
+        ],
+        "systematic_sources": [
+          "GC response factor calibration bias",
+          "incomplete degassing of feed liquids (dissolved gas shifts equilibrium compositions)",
+          "temperature sensor calibration offset",
+          "pressure transducer zero drift or calibration offset",
+          "dead volume in sampling lines (composition of stagnant liquid in line differs from bulk phase)",
+          "entrainment of the wrong phase during sampling",
+          "adsorption of trace components on cell walls or tubing"
+        ],
+        "operator_dependence": "moderate to high — equilibration time judgment, stirring protocol, sampling technique (avoiding entrainment), and GC operation all depend on operator skill and experience",
+        "model_dependence": "moderate — derived quantities (activity coefficients, model parameters) depend strongly on the choice of thermodynamic model and equation of state; raw composition data are model-independent",
+        "dominant_error_sources": [
+          "analytical method accuracy (GC calibration, detector linearity) — typically the largest contributor to composition uncertainty",
+          "incomplete equilibration — producing systematic bias toward the feed composition",
+          "entrainment during sampling — mixing phases and biasing compositions"
+        ],
+        "reported_as": [
+          "standard uncertainty u(x) in mole fraction for each component in each phase",
+          "combined expanded uncertainty U(x) at 95% confidence (k=2)",
+          "relative standard uncertainty as percentage",
+          "standard deviation from replicate samplings"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Phase equilibration is a fundamental experimental method for determining the equilibrium compositions of coexisting phases in multicomponent systems. A mixture of known overall composition is loaded into a thermostatted equilibrium cell, brought to a controlled temperature and pressure, and allowed sufficient time for thermodynamic equilibrium to be established between the coexisting phases (vapor–liquid, liquid–liquid, solid–liquid, or combinations thereof). Small aliquots are then withdrawn from each phase through dedicated sampling ports and analyzed by gas chromatography, HPLC, refractometry, or other compositional analysis techniques. The method is the workhorse of experimental phase equilibrium thermodynamics, providing the primary data needed for constructing phase diagrams, validating thermodynamic models, and designing separation processes such as distillation, extraction, and crystallization.",
+      "how_it_operates": "The experiment proceeds in four stages: loading, equilibration, sampling, and analysis. In the loading stage, precisely weighed or volumetrically measured quantities of each component are introduced into a clean, evacuated or inert-gas-purged equilibrium cell. During equilibration, the cell is brought to the target temperature using a thermostated circulating bath or electrical jacket, and the contents are mixed by magnetic stirring, mechanical agitation, or rocking of the entire cell to promote mass transfer between phases. Stirring is maintained until no further change in phase compositions is detected — typically verified by withdrawing small test samples at increasing time intervals. Once equilibrium is confirmed, stirring is stopped and the phases are allowed to disengage and settle. Samples are then withdrawn from each phase through narrow-bore capillary sampling lines connected to valves positioned at the appropriate heights in the cell. The withdrawn samples are immediately injected into the analytical instrument (GC, HPLC, or titrator) or measured by a physical-property method (refractometry, densimetry) to determine the composition of each phase.",
+      "core_theory": "At thermodynamic equilibrium, the chemical potential (or fugacity) of every component is equal in all coexisting phases: μᵢᵅ = μᵢᵝ for all components i and all phases α, β. For vapor–liquid equilibrium, this condition is commonly expressed as yᵢ·φᵢᵛ·P = xᵢ·γᵢ·Pᵢˢᵃᵗ·φᵢˢᵃᵗ·exp[Vᵢˡ(P − Pᵢˢᵃᵗ)/RT], where yᵢ and xᵢ are vapor and liquid mole fractions, φ are fugacity coefficients, γᵢ is the liquid-phase activity coefficient, and the exponential is the Poynting correction. At low to moderate pressures, simplification to the modified Raoult's law yᵢ·P = xᵢ·γᵢ·Pᵢˢᵃᵗ is often adequate. For liquid–liquid equilibrium, the condition becomes xᵢᵅ·γᵢᵅ = xᵢᵝ·γᵢᵝ in each liquid phase. Phase equilibration experiments directly measure the compositions (xᵢ, yᵢ) that satisfy these conditions, providing the experimental basis for fitting activity coefficient models (NRTL, UNIQUAC, Wilson) and equations of state with mixing rules.",
+      "setup": "A typical phase equilibration apparatus centers on an equilibrium cell — a jacketed glass or stainless steel vessel of 50–500 mL capacity, equipped with viewing windows for visual observation of phases, sampling ports positioned at heights corresponding to each phase, and ports for temperature and pressure sensors. The cell is immersed in or surrounded by a thermostatted circulating bath that maintains temperature within ±0.01–0.05 K. Temperature is measured by a calibrated platinum resistance thermometer (Pt100 or Pt25) inserted into a thermowell in the cell wall. Pressure is measured by a calibrated pressure transducer connected to the vapor space. Mixing is provided by a Teflon-coated magnetic stir bar driven by an external rotating magnet, a mechanical paddle stirrer entering through a sealed bearing, or by rocking the entire cell on a motorized cradle. Sampling is accomplished via narrow-bore stainless steel capillary lines (0.5–1.0 mm ID) terminating in multiport sampling valves (HPLC-type) that inject fixed-volume aliquots directly into the analytical instrument. For high-pressure work, the cell is constructed from high-strength alloy steel with sapphire windows and rated to the required working pressure.",
+      "suitable_for": "Phase equilibration is applicable to virtually any system where two or more fluid (or fluid + solid) phases coexist and can be sampled. It is the method of choice for measuring VLE data for distillation design, LLE data for extraction process development, VLLE data for heterogeneous azeotrope systems, and SLE solubility data for crystallization. It handles binary through multicomponent systems, including aqueous–organic mixtures, hydrocarbon blends, ionic liquid systems, gas–liquid systems (CO₂, N₂, H₂, CH₄ dissolved in solvents), and polymer–solvent systems. The technique is especially valuable when the system exhibits complex behavior such as azeotropy, liquid–liquid immiscibility, or retrograde phenomena, as it provides direct tie-line data without assumptions about phase behavior.",
+      "core_limitations": "The primary limitation is the requirement for true thermodynamic equilibrium, which can be difficult to achieve for highly viscous systems, systems with slow mass transfer kinetics, or systems near critical points where phase boundaries become diffuse. Sampling always involves withdrawing material from the cell, which perturbs the phase ratio and overall composition — minimizing this perturbation requires small sample volumes relative to total cell charge. Entrainment of one phase into another during sampling is a persistent challenge, particularly in LLE where liquid–liquid interfaces can be disturbed. The method requires a reliable analytical technique for every component in the system; involatile or thermally labile components may be difficult to quantify by GC. Accuracy is ultimately limited by the analytical method rather than the equilibration step itself. The technique is labor-intensive and relatively low-throughput compared to indirect methods such as headspace analysis or ebulliometry.",
+      "sample_preparation": "Feed components must be of high purity (typically ≥99 mol%) as impurities can substantially shift phase equilibrium, particularly in the dilute region. Each component is dried over molecular sieves (3Å or 4Å) if water is not a target species, and degassed by one of three methods: repeated freeze–pump–thaw cycles, prolonged vacuum exposure with ultrasonic agitation, or boiling under total reflux followed by collection under inert atmosphere. The degassed components are loaded into the equilibrium cell by mass (weighed on an analytical balance to ±0.1 mg) or by calibrated volumetric delivery. The cell itself must be thoroughly cleaned (solvent rinsing, drying under vacuum) between experiments to prevent cross-contamination. For SLE studies, the solid component is ground to a fine powder to accelerate dissolution kinetics and ensure equilibrium is reached in a reasonable time.",
+      "calibration_and_references": "Three calibration elements are essential. First, the temperature sensor is calibrated against ITS-90 fixed-point standards or a reference thermometer traceable to national standards, achieving uncertainty ≤0.02 K. Second, the pressure transducer is calibrated against a dead-weight tester or certified reference gauge across the anticipated pressure range. Third, the analytical instrument (GC, HPLC, refractometer) is calibrated using gravimetrically prepared standard mixtures covering the expected composition range, with at least five calibration points to verify linearity and determine response factors. GC calibration should include determination of detector response factors for every component using an internal standard method. The entire apparatus is validated by measuring equilibrium data for a well-characterized reference system — commonly cyclohexane + n-heptane (VLE), ethanol + water (VLE), or n-hexane + nitrobenzene (LLE) — and comparing with accepted literature values or IUPAC recommended data.",
+      "data_interpretation": "Raw analytical signals (GC peak areas or refractive index readings) are converted to phase compositions using pre-established calibration curves or response factors. For GC analysis, the mole fraction of component i in a phase is calculated as xᵢ = (Aᵢ/fᵢ) / Σⱼ(Aⱼ/fⱼ), where Aᵢ is the peak area and fᵢ the response factor. Material balance verification — checking that mole fractions in each phase sum to unity and that the overall composition implied by the phase compositions and phase ratio matches the known feed — provides a critical internal consistency check. The measured (T, P, xᵢ, yᵢ) data are then processed through thermodynamic consistency tests (Herington area test, Van Ness point test) to detect systematic errors. Consistent data are regressed to activity coefficient models or equations of state to extract binary interaction parameters for process simulation. Phase diagrams are constructed by plotting measured tie lines and phase boundaries.",
+      "common_pitfalls": "The most serious pitfall is premature sampling before true equilibrium is achieved, which yields compositions biased toward the feed. This is avoided by performing time-study experiments where samples are taken at progressively longer equilibration times until compositions stabilize. Entrainment — the drawing of droplets of one phase into the sampling line of another — is particularly problematic in LLE studies where the liquid–liquid interface sits near a sampling port; dedicated anti-entrainment devices (sintered frits, capillary traps) and careful positioning of sampling lines mitigate this. Withdrawing too large a sample volume disturbs the phase equilibrium by altering the overall composition and the relative volumes of each phase. Inadequate degassing introduces dissolved gases (especially air and CO₂) that can significantly affect VLE at low pressures. Temperature gradients across a large cell or between the cell and the sampling lines can cause condensation or vaporization in the sampling path, altering the withdrawn composition.",
+      "artifacts_and_failure_modes": "Incomplete equilibration produces data that scatter around the true equilibrium curve and fail thermodynamic consistency tests. Entrainment creates a systematic shift: vapor-phase compositions appear enriched in the less volatile component, while liquid-phase compositions shift toward the overall composition. Sampling line condensation (in VLE) or crystallization (in SLE) produces apparent enrichment in the less volatile or less soluble component. Pressure fluctuations during sampling (flash vaporization as the sample passes through the valve) can alter the composition of the withdrawn aliquot. Emulsification in LLE — caused by over-vigorous stirring of systems with low interfacial tension — prevents clean phase separation and makes sampling impossible. Cell leaks cause gradual loss of volatile components, producing a systematic drift in measured compositions over a measurement campaign. Analytical instrument drift (GC retention time shifts, detector sensitivity changes) introduces progressive errors unless calibration standards are rerun periodically.",
+      "reporting_checklist": "Published phase equilibration data should include: source and purity of all components, method of feed purification and degassing, cell type and volume, temperature control method and measured uncertainty, pressure measurement method and uncertainty, equilibration time and the evidence used to confirm equilibrium attainment, description of sampling technique and anti-entrainment measures, analytical method with calibration procedure and response factors, number of replicate analyses per sampling point, tabulated phase compositions with standard uncertainties for each component in each phase, temperature and pressure for each data point, thermodynamic consistency test results, and the activity coefficient or equation-of-state model used for data correlation with fitted parameters. For ThermoML encoding, compositions are reported as mole fractions with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "meas_ID": "direct_measurement",
+  "identity": {
+    "name": "Direct measurement",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Direct measurement",
+    "thermoml_custom_codes": [
+      "DIRECT"
+    ],
+    "measurement_family": "Visual / Direct Observation",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 234,
+      "property_groups": [
+        "Criticals"
+      ],
+      "n_papers": 69,
+      "per_group": {
+        "Criticals": {
+          "instances": 234,
+          "papers": 69
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "visual observation of phase change (meniscus disappearance, opalescence, bubble/dew point)",
+          "temperature at which a defined physical event occurs",
+          "pressure at which a defined physical event occurs",
+          "visual turbidity or cloudiness onset/disappearance",
+          "volume or level change indicating phase boundary"
+        ],
+        "derived_observables": [
+          "critical temperature (Tc) from disappearance of meniscus",
+          "critical pressure (Pc) from critical isochore convergence",
+          "critical density (ρc) from rectilinear diameter rule or visual cell volume",
+          "phase boundary curve (P-T or T-x) from repeated visual observations",
+          "solubility limit from dissolution/precipitation endpoint"
+        ],
+        "target_properties": [
+          "critical temperature (Tc)",
+          "critical pressure (Pc)",
+          "critical density (ρc)",
+          "critical molar volume (Vc)",
+          "phase transition temperatures (boiling, melting, sublimation)",
+          "cloud point temperature or pressure",
+          "bubble point and dew point conditions",
+          "solubility limits",
+          "upper and lower critical solution temperatures (UCST, LCST)"
+        ],
+        "phases_measured": [
+          "liquid",
+          "vapor",
+          "liquid–vapor coexistence",
+          "liquid–liquid coexistence",
+          "solid–liquid coexistence",
+          "supercritical fluid (near critical point)"
+        ],
+        "supported_sample_types": [
+          "pure fluids",
+          "binary mixtures",
+          "multicomponent mixtures",
+          "gas–liquid systems",
+          "liquid–liquid systems",
+          "solutions (electrolyte and non-electrolyte)",
+          "volatile organic compounds",
+          "refrigerants and industrial gases",
+          "polymer solutions (for UCST/LCST determination)"
+        ],
+        "unsupported_sample_types": [
+          "opaque samples where visual observation is impossible (without auxiliary detection)",
+          "highly reactive or explosive mixtures requiring sealed non-visual apparatus",
+          "extremely high-pressure systems beyond view-cell rating",
+          "samples requiring sub-millikelvin temperature resolution"
+        ],
+        "typical_output_formats": [
+          "single-point critical constants (Tc, Pc, ρc)",
+          "P-T phase boundary curve",
+          "T-x or P-x phase diagram at fixed other variable",
+          "cloud point curve",
+          "tabulated transition temperatures at specified pressures"
+        ],
+        "units": {
+          "temperature": "K",
+          "pressure": "MPa or kPa",
+          "density": "kg/m³ or mol/dm³",
+          "molar_volume": "cm³/mol or dm³/mol",
+          "composition": "mole fraction (dimensionless)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 700 K",
+            "hard_limits": "limited by view-cell window material and sealing integrity; sapphire windows tolerate up to ~800 K, borosilicate glass up to ~500 K",
+            "notes": "for critical property measurements the range must bracket the expected Tc"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 20 MPa",
+            "hard_limits": "depends on cell construction; standard view cells rated to ~50 MPa, specialized cells to ~200 MPa",
+            "notes": "pressure must be controllable with sufficient resolution near the critical point or phase boundary"
+          },
+          {
+            "parameter": "temperature_stability",
+            "typical_range": "±0.01 K to ±0.1 K",
+            "hard_limits": "must be better than the expected uncertainty in Tc or transition temperature",
+            "notes": "thermostatted baths or air ovens with PID control are standard"
+          },
+          {
+            "parameter": "composition_accuracy",
+            "typical_range": "±0.001 to ±0.01 mole fraction",
+            "hard_limits": "gravimetric loading accuracy limited by balance precision and transfer losses",
+            "notes": "for mixtures, the overall composition must be known to interpret the observation correctly"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned or controlled variable",
+            "typical_values": "200 K to 700 K",
+            "effect": "temperature is slowly varied to locate the point at which the visual event occurs"
+          },
+          {
+            "name": "pressure",
+            "role": "controlled or observed variable",
+            "typical_values": "0.1 MPa to 50 MPa",
+            "effect": "pressure may be independently controlled (in variable-volume cells) or observed at the transition"
+          },
+          {
+            "name": "composition",
+            "role": "fixed at loading (for mixtures)",
+            "typical_values": "0 to 1 mole fraction",
+            "effect": "composition determines location on phase diagram; different loadings map out the phase envelope"
+          },
+          {
+            "name": "heating_cooling_rate",
+            "role": "controlled approach rate",
+            "typical_values": "0.01 K/min to 1 K/min near the transition",
+            "effect": "slower rates improve precision of the observed transition point but increase measurement time"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "high-pressure optical view cell — thick-walled vessel with sapphire or borosilicate windows permitting visual observation of the sample",
+          "temperature measurement — calibrated platinum resistance thermometer (PRT) or thermocouple in direct contact with or embedded near the sample fluid",
+          "pressure transducer — calibrated pressure gauge or electronic transducer connected to the cell",
+          "thermostatting system — liquid bath, air oven, or heating jacket with PID temperature controller",
+          "stirring mechanism (optional) — magnetic stirrer or rocking mechanism for ensuring compositional uniformity in mixtures",
+          "variable-volume device (optional) — piston or mercury column for adjusting cell pressure independently of temperature",
+          "light source and viewing optics — illumination behind or beside the cell to enhance visibility of meniscus, opalescence, or turbidity",
+          "data logging system — computer or recorder capturing temperature, pressure, and event timestamps"
+        ],
+        "environmental_requirements": [
+          "stable laboratory temperature to reduce thermostat load drift",
+          "adequate ventilation or fume extraction when working with volatile or toxic fluids",
+          "safety shielding around high-pressure view cells to protect against window failure"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid sample loaded into view cell (no geometric constraints on the sample itself)",
+            "cell volume typically 1–100 cm³"
+          ],
+          "size_limits": "typically 0.5–50 cm³ of fluid, depending on cell volume; enough to produce a visible liquid level",
+          "thickness_limits": "not applicable (bulk fluid measurement)",
+          "surface_requirements": [
+            "view-cell windows must be clean and unscratched for clear visual observation"
+          ],
+          "mounting_requirements": [
+            "cell must be securely mounted within thermostat and properly sealed",
+            "pressure connections leak-tested before each run"
+          ],
+          "preparation_requirements": [
+            "sample purity verified (typically >99% or known composition for mixtures)",
+            "degassing to remove dissolved air that can shift phase boundaries",
+            "gravimetric preparation for mixtures — components weighed on analytical balance",
+            "drying of hygroscopic components if necessary"
+          ]
+        },
+        "calibration_requirements": [
+          "temperature sensor calibration against ITS-90 fixed points or a certified reference thermometer",
+          "pressure transducer calibration against a dead-weight tester or certified reference gauge",
+          "validation measurement of a well-characterized reference substance (e.g., CO2 critical point: Tc = 304.13 K, Pc = 7.375 MPa)"
+        ],
+        "reference_materials": [
+          "carbon dioxide (CO2) — Tc = 304.13 K, Pc = 7.375 MPa; primary reference for critical property validation",
+          "sulfur hexafluoride (SF6) — Tc = 318.72 K, Pc = 3.76 MPa; alternative critical point reference",
+          "water (H2O) — Tc = 647.10 K, Pc = 22.064 MPa; for high-temperature validation",
+          "n-alkane homologous series — well-characterized critical loci for mixture validation"
+        ],
+        "consumables": [
+          "high-purity sample gases or liquids",
+          "O-rings and gaskets rated for operating pressure and temperature",
+          "replacement sapphire or glass windows",
+          "cleaning solvents for cell and window maintenance"
+        ],
+        "safety_notes": [
+          "high-pressure view cells pose burst and shrapnel hazard — use behind safety shields with rated windows",
+          "toxic or flammable fluids require fume hood operation and adherence to MSDS guidelines",
+          "cryogenic temperatures require standard cold-burn precautions",
+          "never exceed the pressure rating of the view cell or its fittings"
+        ]
+      },
+      "performance": {
+        "sensitivity": "depends on the specific property and observation method; critical opalescence provides a sharp natural indicator near Tc; cloud point detection limited by visual acuity or photodetector sensitivity",
+        "detection_limit": "not applicable in the usual sense — the method detects the occurrence of a macroscopic phase event rather than a concentration",
+        "resolution": {
+          "spatial": "not applicable (bulk observation)",
+          "temporal": "limited by thermal equilibration time; effective temporal resolution ~1–60 s near the transition depending on approach rate",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "temperatures from cryogenic (~100 K) to high-temperature (~800 K); pressures from sub-atmospheric to ~200 MPa with specialized cells",
+        "accuracy": "critical temperature: ±0.01 K to ±0.5 K depending on apparatus and substance; critical pressure: ±0.005 MPa to ±0.1 MPa; phase transition temperatures: ±0.05 K to ±1 K",
+        "precision": "repeatability ±0.01 K to ±0.1 K for critical temperature; ±0.005 MPa to ±0.05 MPa for critical pressure with well-controlled experiments",
+        "throughput": "single sample per experiment; one critical point determination may take several hours to a full day including loading, equilibration, and repeated observations",
+        "measurement_speed": "slow near the transition by design — approach rates of 0.01–0.1 K/min are common for precise determination"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "visual observation of a physical event (meniscus disappearance, opalescence, turbidity onset) correlated with simultaneous readings of temperature and pressure from calibrated sensors",
+        "preprocessing_steps": [
+          "correction of raw temperature for thermometer calibration offsets",
+          "correction of raw pressure for transducer calibration and hydrostatic head",
+          "averaging of heating and cooling approach values to reduce hysteresis bias",
+          "correction for impurity effects if sample purity is less than ideal"
+        ],
+        "analysis_methods": [
+          "identification of critical point as the temperature/pressure at which the meniscus disappears and critical opalescence is strongest",
+          "rectilinear diameter method — averaging coexisting liquid and vapor densities to extrapolate critical density",
+          "bracketing approach — repeated heating/cooling cycles to narrow the transition temperature window",
+          "graphical or statistical interpolation of cloud-point/bubble-point data to construct phase envelopes"
+        ],
+        "model_assumptions": [
+          "the observed visual event corresponds to the true thermodynamic phase boundary",
+          "thermal equilibrium has been achieved at the moment of observation",
+          "sample composition is uniform throughout the cell (adequate mixing for mixtures)",
+          "impurities do not significantly shift the observed transition relative to the pure-component value"
+        ],
+        "fit_parameters": [
+          "critical temperature (Tc) from meniscus disappearance",
+          "critical pressure (Pc) simultaneous with Tc observation",
+          "critical density (ρc) from rectilinear diameter extrapolation or known cell volume and mass loading",
+          "phase boundary coordinates (T, P, x) from individual observations"
+        ],
+        "common_artifacts": [
+          "thermal lag — the observed transition temperature shifts depending on approach rate direction (heating vs. cooling)",
+          "gravitational density gradient — near the critical point, the large compressibility causes significant density stratification, making the meniscus difficult to locate precisely",
+          "wetting/adsorption on cell walls — thin films on windows can obscure or mimic meniscus behavior",
+          "impurity-induced rounding — trace impurities broaden the critical region and shift Tc",
+          "overshoot/undershoot — too-fast approach rates cause the observed transition to lag the true equilibrium value"
+        ],
+        "quality_control_checks": [
+          "reproducibility of transition temperature over multiple heating/cooling cycles",
+          "consistency between heating and cooling approach values (small hysteresis indicates good equilibration)",
+          "validation against literature values for well-characterized reference substances",
+          "verification that repeated observations at the same composition yield self-consistent phase boundary points",
+          "mass balance check — confirm that total loaded mass accounts for cell volume and measured density"
+        ],
+        "failure_modes": [
+          "window fogging or deposits obscuring the visual observation",
+          "leak in the high-pressure cell causing composition change or pressure loss",
+          "inadequate stirring leading to composition gradients in mixtures",
+          "thermometer malposition giving temperature not representative of the sample fluid",
+          "pressure transducer drift during long experiments"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: Tc ±0.05–0.5 K; Pc ±0.01–0.1 MPa; ρc ±1–5 kg/m³; phase transition temperatures ±0.1–1 K",
+        "random_sources": [
+          "visual judgment of the exact moment of meniscus disappearance or cloud point onset",
+          "temperature fluctuations from thermostat instability",
+          "pressure fluctuations from pump or regulator noise",
+          "difficulty distinguishing opalescence endpoint in near-critical region"
+        ],
+        "systematic_sources": [
+          "temperature sensor calibration uncertainty",
+          "pressure transducer calibration uncertainty",
+          "sample purity — impurities systematically shift critical properties",
+          "thermal gradient between sensor location and sample observation point",
+          "finite approach rate causing systematic shift of observed transition",
+          "gravitational effects near the critical point (density stratification)"
+        ],
+        "operator_dependence": "high — the technique relies on visual observation, and the operator's judgment of the transition endpoint is a major uncertainty source; experience significantly improves precision",
+        "model_dependence": "low to moderate — the measurement is largely model-free, but interpretation of critical density via rectilinear diameter involves an assumption of linearity near Tc; impurity corrections require an equation-of-state model",
+        "dominant_error_sources": [
+          "subjectivity of visual endpoint detection (especially for critical density)",
+          "sample purity (impurities shift and broaden critical properties)",
+          "thermal equilibration — insufficient equilibration time biases the result toward the approach direction"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k=2)",
+          "standard uncertainty u(Tc), u(Pc)",
+          "reproducibility from repeated measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Direct measurement is a generic category in the NIST ThermoML database denoting that a thermophysical property was obtained by direct experimental observation rather than through a named, codified technique or derivation from other measured quantities. It serves as a catch-all classification for experiments in which the investigator determined the property value through immediate physical observation — most commonly visual detection of a phase event — without further specification of the instrumental method. In the ThermoML schema, 'Direct measurement' is applied predominantly to critical properties (Tc, Pc, ρc) where the experimentalist observes phenomena such as meniscus disappearance or critical opalescence to establish the critical point. The category contrasts with derived or calculated methods and with technique-specific classifications such as DSC or ebulliometry, where the measurement principle is explicitly identified.",
+      "how_it_operates": "Because 'Direct measurement' is a generic classification rather than a single defined technique, the operational principle encompasses any procedure in which the property of interest is obtained from a direct, real-time experimental observation. In the dominant use case — critical property determination — the operator loads a sample of known composition into a high-pressure optical view cell, thermostatically controls the temperature and pressure, and visually observes the phase behavior. The temperature and pressure are slowly varied until a defined physical event is detected: the disappearance of the liquid–vapor meniscus signals the critical temperature and pressure, while critical opalescence (intense scattering of light due to density fluctuations at all length scales) provides a secondary confirmation. The observation is correlated with calibrated thermometer and pressure transducer readings recorded at the moment of the event. For other properties (e.g., melting points, solubility limits), analogous direct observation applies — the operator detects the onset or completion of a phase change and records the corresponding state variables.",
+      "core_theory": "Direct measurement of critical properties relies on the fundamental thermodynamic definition of the critical point: it is the state at which the distinction between coexisting liquid and vapor phases vanishes. At the critical temperature Tc and critical pressure Pc, the isothermal compressibility diverges, density fluctuations extend to macroscopic length scales (producing critical opalescence), and the liquid–vapor meniscus disappears because the densities of the two phases become equal. No constitutive model or equation of state is required to identify the critical point — its detection is inherently model-free and follows directly from the thermodynamic definition. For other directly measured properties (phase transition temperatures, solubility limits), the theoretical basis is similarly straightforward: the property corresponds to the thermodynamic state condition at which a defined phase equilibrium is established or broken, observed as a macroscopic physical change.",
+      "setup": "The experimental apparatus for the most common direct-measurement scenario — critical property determination — centers on a high-pressure optical view cell equipped with sapphire or thick borosilicate glass windows. The cell is mounted inside a thermostatted liquid bath or air oven with PID temperature control capable of ±0.01 K stability. A calibrated platinum resistance thermometer (PRT) or thermocouple is positioned in or near the fluid space, and a calibrated pressure transducer is connected to the cell. For mixture studies, a variable-volume element (piston, bellows, or mercury displacement column) allows pressure adjustment independent of temperature. A light source behind or beside the cell illuminates the sample for clear observation of the meniscus and opalescence. For other direct-measurement applications (e.g., visual solubility determination), simpler apparatus may suffice — a glass tube in a thermostatted bath with a thermometer and visual inspection may be adequate.",
+      "suitable_for": "Direct measurement in its ThermoML usage is most commonly applied to the determination of critical properties (Tc, Pc, ρc) of pure fluids and mixtures via visual observation of the critical point. It is also appropriate for measuring phase transition temperatures (boiling, melting, freezing, cloud points, bubble/dew points) where the transition is detected by direct visual observation or a simple physical indicator rather than by a calorimetric or spectroscopic technique. The method is well suited to transparent or translucent fluid samples where phase changes produce visible effects — meniscus disappearance, turbidity onset, crystal appearance/disappearance, or bubble formation. It is particularly valuable for systems where the critical point is the primary target, since the critical opalescence phenomenon provides an unambiguous natural endpoint indicator.",
+      "core_limitations": "The chief limitation of 'Direct measurement' as a ThermoML classification is its inherent ambiguity — it indicates what the investigator observed but not the specific instrumental technique, making it difficult for a downstream data consumer to fully assess the measurement methodology and associated uncertainty. As an experimental method, direct visual observation of phase transitions requires transparent samples and view cells, excluding opaque systems unless auxiliary detection (e.g., acoustic, electrical) is used. The precision of the endpoint is limited by human visual acuity and judgment, introducing a subjective component. Near the critical point, gravitational density stratification and critical slowing down of equilibration require very patient approach rates and can cause significant uncertainty in Tc and especially ρc. The method provides point-by-point data rather than continuous property curves, and each determination may take hours.",
+      "sample_preparation": "For critical property measurements, the sample must be of high purity (>99.5% is typical, >99.9% preferred) because even small impurity concentrations shift the critical temperature measurably. Samples are degassed to remove dissolved air, which also shifts phase boundaries. For mixtures, components are loaded gravimetrically into the view cell, often by condensation from the gas phase or syringe injection of liquids, with careful mass accounting on an analytical balance. The cell is then sealed and leak-tested before measurements begin. For solubility or phase-transition-temperature measurements, the sample is similarly prepared to known purity and composition and loaded into the observation vessel. Hygroscopic materials require drying; reactive systems may require inert-atmosphere handling.",
+      "calibration_and_references": "Temperature sensors are calibrated against ITS-90 fixed points or a certified reference PRT traceable to a national metrology institute. Pressure transducers are calibrated against a dead-weight pressure balance or a reference transducer of known accuracy. The overall measurement procedure is validated by reproducing the critical properties of a well-characterized reference substance — carbon dioxide (Tc = 304.13 K, Pc = 7.375 MPa, ρc = 467.6 kg/m³) is the most commonly used reference because its critical point is conveniently accessible and thoroughly studied. Sulfur hexafluoride (SF6) provides an alternative near-ambient reference. For melting-point or boiling-point validation, certified reference materials from NIST (e.g., SRM 1493 for melting point) or other NMIs are used.",
+      "data_interpretation": "Interpretation of direct-measurement data is straightforward in principle: the property value is read from calibrated instruments at the moment the visual event is unambiguously observed. For critical temperature and pressure, the accepted practice is to perform multiple heating and cooling approaches and average the results, with the half-difference between heating and cooling values providing a measure of thermal lag uncertainty. Critical density is more challenging — it may be calculated from the known cell volume and total sample mass (if volume is well-characterized) or estimated by the rectilinear diameter method, which averages the densities of coexisting liquid and vapor phases extrapolated to the critical temperature. For cloud-point or bubble-point data, the observed (T, P, x) points from multiple loadings are combined to construct phase envelopes, which may be compared with equation-of-state predictions.",
+      "common_pitfalls": "The most significant pitfall is insufficient equilibration time, especially near the critical point where critical slowing down causes density fluctuations and phase separation/re-merging to take minutes to hours. Operators unfamiliar with critical phenomena may record a premature transition temperature if the approach rate is too fast. A second common mistake is neglecting the gravitational density gradient, which can cause the meniscus to appear to vanish at a temperature slightly different from the true Tc because the density difference is still finite but spread over a tall cell. Sample impurity is a frequent source of systematic error — even 0.1% impurity can shift Tc by several tenths of a kelvin. For mixtures, inadequate stirring produces composition gradients that make the observed phase boundary unrepresentative of the nominal overall composition.",
+      "artifacts_and_failure_modes": "Thermal lag artifacts cause the observed transition temperature to be too high on heating and too low on cooling; averaging these provides partial correction but may not eliminate the bias if the heating and cooling rates are not symmetric. Gravitational density stratification in tall cells near the critical point can produce an 'apparent meniscus disappearance' at a temperature below the true Tc. Window fogging from condensation (especially on the cooler window surface) can obscure visual observation. Pressure leaks cause sample loss, changing the overall composition in mixture experiments and leading to irreproducible results. Adsorbed films on cell windows or walls can nucleate phases prematurely, shifting observed transition temperatures. In severe cases, cell window failure under high pressure constitutes a catastrophic failure mode with safety implications.",
+      "reporting_checklist": "For ThermoML-encoded direct measurements, the following should be reported: (1) the specific property measured (e.g., Tc, Pc, ρc, cloud point T); (2) the observation criterion used (e.g., meniscus disappearance, critical opalescence, turbidity onset, visual dissolution); (3) sample purity and source; (4) sample composition for mixtures (with preparation method); (5) cell type and window material; (6) thermometer type, location, and calibration; (7) pressure sensor type and calibration; (8) approach rate and direction (heating/cooling); (9) number of replicate observations; (10) combined expanded uncertainty at 95% confidence level (k=2) as encoded in nCombExpandUncertValue; (11) any corrections applied (thermal lag, impurity, hydrostatic head); and (12) reference substance validation result. Because 'Direct measurement' is a generic classification, thorough methodological reporting is especially important to enable assessment of data quality by downstream users."
+    }
+  }
+}

@@ -1,0 +1,317 @@
+{
+  "meas_ID": "dipping_refractometry_monochromatic",
+  "identity": {
+    "name": "Dipping refractometry (monochromatic)",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Dipping refractometry (monochromatic)",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Optical / Refractometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "yes",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 1,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 1,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "critical angle of total internal reflection at prism-liquid interface (θc)",
+          "position of light-dark boundary (shadow line) on detector scale"
+        ],
+        "derived_observables": [
+          "refractive index at measurement wavelength (nD at 589.3 nm or nλ at specified wavelength)",
+          "molar refraction (Rm, requires density data)",
+          "excess molar refraction (RmE, for mixtures)",
+          "Lorentz-Lorenz function ((n²−1)/(n²+2))",
+          "specific refraction"
+        ],
+        "target_properties": [
+          "refractive index (nD or nλ)",
+          "molar refraction",
+          "excess molar refraction of mixtures",
+          "composition of binary mixtures (from calibration curve)",
+          "temperature coefficient of refractive index (dn/dT)"
+        ],
+        "phases_measured": [
+          "liquid",
+          "liquid mixtures and solutions"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "solutions (aqueous and non-aqueous)",
+          "reaction mixtures (in situ monitoring)",
+          "process streams (inline or at-line)",
+          "viscous liquids (syrups, oils)",
+          "colloidal solutions and emulsions (if optically clear at interface)"
+        ],
+        "unsupported_sample_types": [
+          "solids (prism cannot be dipped into a solid)",
+          "gases (refractive index differences too small for critical-angle measurement)",
+          "opaque liquids (light must reach prism-sample interface)",
+          "highly absorbing liquids at measurement wavelength (shadow line becomes diffuse)",
+          "extremely volatile liquids that evaporate faster than measurement time",
+          "strongly heterogeneous suspensions with particles at the prism face"
+        ],
+        "typical_output_formats": [
+          "refractive index vs. temperature curve",
+          "refractive index vs. composition curve (isothermal)",
+          "single-point nD value at specified T and λ",
+          "time series of nD for process monitoring"
+        ],
+        "units": {
+          "refractive_index": "dimensionless",
+          "temperature": "K or °C",
+          "wavelength": "nm",
+          "molar_refraction": "cm³/mol",
+          "critical_angle": "degrees"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "288 K to 338 K (15 °C to 65 °C)",
+            "hard_limits": "limited by thermal stability of optical cement in prism assembly and by liquid boiling point; specialized designs extend to 200 °C",
+            "notes": "dn/dT ≈ −3 × 10⁻⁴ to −5 × 10⁻⁴ K⁻¹ for typical organics; temperature must be controlled to within ±0.01–0.05 K for 4th-decimal-place accuracy"
+          },
+          {
+            "parameter": "wavelength",
+            "typical_range": "589.3 nm (sodium D line); also 486.1 nm (F line), 656.3 nm (C line)",
+            "hard_limits": "source must be monochromatic; bandwidth < 1 nm to avoid chromatic blurring of shadow line",
+            "notes": "monochromatic operation eliminates dispersion correction needed in white-light Abbe refractometers"
+          },
+          {
+            "parameter": "refractive_index_range",
+            "typical_range": "1.300 to 1.700",
+            "hard_limits": "sample nD must be lower than prism nD (typically ~1.73 for dense flint glass or 1.90 for special prisms)",
+            "notes": "maximum measurable nD depends on prism glass; most instruments cover 1.30–1.70"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "atmospheric (0.1 MPa)",
+            "hard_limits": "standard dipping refractometers are open to atmosphere; sealed immersion probes available for moderate pressures",
+            "notes": "pressure correction is negligible for liquids at ambient conditions"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled variable",
+            "typical_values": "293.15 K to 323.15 K",
+            "effect": "refractive index decreases with increasing temperature for most liquids; dn/dT ≈ −0.0003 to −0.0005 K⁻¹"
+          },
+          {
+            "name": "wavelength",
+            "role": "fixed parameter (monochromatic source)",
+            "typical_values": "589.3 nm (Na D line)",
+            "effect": "refractive index varies with wavelength per dispersion relation; monochromatic source eliminates need for dispersion correction"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable (for mixtures)",
+            "typical_values": "0 to 1 mole fraction",
+            "effect": "refractive index is a function of composition; approximately linear for ideal mixtures, nonlinear for non-ideal systems"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa",
+            "effect": "negligible effect on liquid refractive index at atmospheric conditions; relevant only for high-pressure studies"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "high-refractive-index prism (dense flint glass, n ≈ 1.73, or special high-index glass, n ≈ 1.90) with polished measuring surface designed for immersion",
+          "monochromatic light source — sodium vapor lamp (589.3 nm D line), LED with narrow-band filter, or laser diode at specified wavelength",
+          "telescope or optical system with crosshair/reticle for observing the critical angle shadow line",
+          "angular scale (vernier or digital encoder) calibrated in refractive index units or angle degrees",
+          "temperature sensor (thermistor or Pt100 RTD) integrated near the prism-liquid interface",
+          "temperature control system — circulating water jacket around prism housing or Peltier thermostat",
+          "protective housing or mounting bracket for immersing the prism assembly into sample vessels",
+          "eyepiece or CCD/photodiode detector array for shadow line position readout"
+        ],
+        "environmental_requirements": [
+          "stable temperature environment — draft-free location or temperature-controlled enclosure",
+          "sample vessel large enough to fully immerse the prism measuring surface",
+          "vibration-free mounting to prevent drift and readout jitter",
+          "clean laboratory atmosphere (dust and aerosol contamination degrade prism surface and shadow line clarity)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample in open vessel, beaker, or process tank",
+            "sufficient depth to fully cover the prism face (typically ≥ 10 mm immersion)"
+          ],
+          "size_limits": "minimum sample volume typically 10–50 mL depending on prism size and vessel geometry; in-process applications may have unlimited volume",
+          "thickness_limits": "not applicable (bulk liquid measurement); liquid layer above prism face must be at least several mm to avoid surface film artifacts",
+          "surface_requirements": [
+            "prism measuring face must be clean and free of scratches",
+            "sample must be optically clear at the prism interface (suspended particles scatter light and blur the shadow line)"
+          ],
+          "mounting_requirements": [
+            "prism assembly immersed vertically or at specified angle into sample liquid",
+            "secure clamping to prevent movement during reading",
+            "liquid surface should be above the prism face by at least 5–10 mm to avoid meniscus effects"
+          ],
+          "preparation_requirements": [
+            "filter or degas sample if particulates or bubbles are present",
+            "equilibrate sample temperature to measurement temperature before reading",
+            "ensure sample is homogeneous (mix thoroughly for solutions)",
+            "for hygroscopic liquids, protect from atmospheric moisture uptake"
+          ]
+        },
+        "calibration_requirements": [
+          "verify instrument zero using distilled water at known temperature (nD = 1.33299 at 293.15 K, 589.3 nm)",
+          "check with certified refractive index standard liquids (e.g., Cargille or PTB standards) spanning the measurement range",
+          "verify temperature sensor calibration against a traceable reference thermometer",
+          "periodic inspection of prism surface for scratches or coating degradation",
+          "confirm angular scale linearity using multiple standard liquids across the range"
+        ],
+        "reference_materials": [
+          "distilled water — nD = 1.33299 at 20.0 °C (primary calibration reference)",
+          "certified refractive index standard liquids (Cargille Labs, PTB, or equivalent) covering nD 1.30–1.70",
+          "toluene — well-characterized nD reference (nD = 1.4961 at 20 °C, 589.3 nm)",
+          "cyclohexane — nD = 1.4266 at 20 °C (secondary check standard)",
+          "2,2,4-trimethylpentane (isooctane) — nD = 1.3915 at 20 °C"
+        ],
+        "consumables": [
+          "lens cleaning tissue and optical-grade solvent (acetone, ethanol) for prism cleaning",
+          "distilled or deionized water for calibration checks",
+          "certified refractive index standard liquids (replaceable)",
+          "sample filtration supplies (syringe filters, filter paper) if needed"
+        ],
+        "safety_notes": [
+          "glass prism is fragile — handle with care to avoid chipping or scratching the polished face",
+          "sodium vapor lamps contain metallic sodium; dispose according to hazardous waste protocols",
+          "organic solvents used for cleaning or as samples require appropriate ventilation and PPE",
+          "hot liquids can cause burns; use thermal protection when measuring at elevated temperatures"
+        ]
+      },
+      "performance": {
+        "sensitivity": "refractive index change of ±0.0001 is readily detectable; high-quality instruments resolve 0.00005 nD changes",
+        "detection_limit": "not applicable in the usual sense — measures absolute refractive index within instrument range (1.30–1.70)",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement at prism interface)",
+          "temporal": "reading time 10–60 seconds per measurement; faster with digital readout and CCD detection",
+          "spectral": "measurement at a single wavelength (monochromatic); no spectral scanning capability",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "nD from 1.300 to 1.700 (standard prism); extended to 1.86 with special high-index prism glasses",
+        "accuracy": "±0.0001 to ±0.0005 in nD (less precise than benchtop Abbe refractometers; depends on instrument quality and temperature control)",
+        "precision": "±0.0001 to ±0.0003 nD (repeatability under identical conditions)",
+        "throughput": "moderate — 1–3 minutes per measurement including equilibration; faster for process monitoring with automated readout",
+        "measurement_speed": "shadow line appears instantaneously upon immersion; readout takes 10–60 seconds; temperature equilibration may add 1–5 minutes"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "visual or photoelectric detection of the light-dark boundary position (shadow line) at the critical angle of total internal reflection, read from an angular scale calibrated in nD units",
+        "preprocessing_steps": [
+          "temperature correction: adjust measured nD to reference temperature using known dn/dT or measured temperature coefficient",
+          "wavelength verification: confirm monochromatic source is at nominal wavelength (e.g., 589.3 nm)",
+          "prism constant correction: apply instrument-specific correction factor from calibration",
+          "averaging: take multiple readings and compute mean nD with standard deviation"
+        ],
+        "analysis_methods": [
+          "Snell's law at critical angle: n_sample = n_prism × sin(θc), where θc is the critical angle of total internal reflection",
+          "linear interpolation on calibrated angular scale for direct nD readout",
+          "Lorentz-Lorenz equation: Rm = (M/ρ) × (n²−1)/(n²+2), for molar refraction calculation (requires density ρ and molar mass M)",
+          "excess molar refraction: RmE = Rm(mixture) − Σ xi·Rm,i(pure), for mixture non-ideality analysis",
+          "polynomial fitting of nD vs. T for temperature dependence characterization"
+        ],
+        "model_assumptions": [
+          "Snell's law holds exactly at the planar prism-liquid interface (no surface film or gradient layer)",
+          "the light source is sufficiently monochromatic that dispersion within the source bandwidth is negligible",
+          "sample is homogeneous in the optical path from prism face to at least several wavelengths depth",
+          "temperature is uniform across the prism-liquid interface at the time of reading",
+          "the prism refractive index is known accurately at the measurement temperature and wavelength"
+        ],
+        "fit_parameters": [
+          "refractive index nD (primary measurand)",
+          "temperature coefficient dn/dT (from nD vs. T data)",
+          "molar refraction Rm (from nD and density)"
+        ],
+        "common_artifacts": [
+          "diffuse shadow line: caused by turbid samples, contaminated prism surface, or polychromatic light leakage — makes precise location of the critical angle uncertain",
+          "temperature gradient artifact: unequilibrated sample produces a smeared or shifting shadow line due to thermal gradient at the prism-liquid interface",
+          "bubble artifact: air bubbles adhering to prism face displace liquid from the optical path and produce erratic readings",
+          "evaporation artifact: volatile samples with a surface exposed to air develop a composition gradient at the liquid surface, altering the interfacial nD",
+          "prism contamination: residual film from previous sample shifts the effective interface refractive index"
+        ],
+        "quality_control_checks": [
+          "verify with distilled water at known temperature: nD(H2O, 20 °C, 589.3 nm) = 1.33299 ± 0.00002",
+          "check with a second certified reference liquid at a different nD value within the measurement range",
+          "inspect shadow line sharpness — a crisp boundary indicates clean prism, correct focus, and monochromatic illumination",
+          "take replicate readings (≥ 3) and confirm standard deviation is within ±0.0002 nD",
+          "compare heating and cooling measurements at the same temperature to check for thermal equilibration"
+        ],
+        "failure_modes": [
+          "scratched or chipped prism face — produces a permanently diffuse shadow line; prism must be repolished or replaced",
+          "degraded optical cement in prism assembly — causes stray light and ghost images at elevated temperatures",
+          "failed temperature control — temperature drift during reading produces irreproducible nD values",
+          "monochromatic source failure — lamp flicker, LED intensity drift, or filter degradation reduces signal quality",
+          "sample filming of prism — some polymeric or surfactant-containing samples deposit a thin film on the prism that shifts nD systematically"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty ±0.0001 to ±0.0005 in nD; ±0.0001 for well-controlled laboratory measurements, ±0.0003 to ±0.0005 for process or field conditions",
+        "random_sources": [
+          "operator variability in locating the shadow line position (visual readout)",
+          "short-term temperature fluctuations at the prism-liquid interface",
+          "vibration-induced jitter in shadow line position",
+          "electronic noise in photodetector readout (digital instruments)"
+        ],
+        "systematic_sources": [
+          "temperature measurement offset (thermometer calibration error)",
+          "prism refractive index uncertainty (temperature and wavelength dependence of prism glass)",
+          "angular scale calibration error or mechanical wear",
+          "residual sample contamination on prism surface from previous measurement",
+          "wavelength deviation of light source from nominal value",
+          "incomplete thermal equilibration between prism and sample"
+        ],
+        "operator_dependence": "moderate for visual-readout instruments (operator must judge shadow line position); low for digital/CCD-based instruments with automatic boundary detection",
+        "model_dependence": "low — Snell's law is exact for homogeneous isotropic media; uncertainty arises primarily from experimental conditions rather than model limitations",
+        "dominant_error_sources": [
+          "temperature control and measurement (contributes ±0.0001–0.0002 nD per 0.1 K uncertainty)",
+          "shadow line location precision (±0.0001–0.0003 nD depending on line sharpness and readout method)",
+          "prism surface cleanliness"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(nD) at 95% confidence (k = 2)",
+          "standard deviation from replicate measurements",
+          "absolute uncertainty in nD units (e.g., ±0.0002)"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Dipping refractometry (monochromatic) is an optical technique for measuring the refractive index of liquids by immersing a high-refractive-index glass prism directly into the sample. Unlike bench-mounted Abbe refractometers that require the sample to be placed between prism surfaces, the dipping refractometer is inserted into the liquid in situ — in beakers, reaction vessels, process tanks, or pipelines. A monochromatic light source (typically a sodium vapor lamp at 589.3 nm) illuminates the prism-liquid interface, and the critical angle of total internal reflection is observed as a sharp light-dark boundary (shadow line) through a built-in telescope. The angular position of this boundary is directly related to the refractive index of the liquid via Snell's law. The monochromatic design eliminates chromatic dispersion of the shadow line, yielding a crisper boundary than white-light instruments and providing the refractive index at a well-defined wavelength without need for dispersion compensation.",
+      "how_it_operates": "The instrument consists of a polished high-index glass prism (typically dense flint glass, nprism ≈ 1.73) housed in a protective metal body with a temperature sensor and an integral optical system. When the prism face is immersed in the sample liquid, light from a monochromatic source enters the prism and strikes the prism-liquid interface at a range of angles. At angles below the critical angle θc, light refracts into the liquid and is lost; at angles above θc, total internal reflection occurs and the light returns through the prism to the viewing telescope. This produces a sharp shadow line whose angular position corresponds to θc. The refractive index of the liquid is calculated from Snell's law: n_sample = n_prism × sin(θc). In practice, the telescope eyepiece contains a calibrated scale that reads directly in refractive index units. A circulating-water jacket or thermoelectric element surrounding the prism housing maintains the measurement temperature, which is monitored by an embedded thermistor or RTD.",
+      "core_theory": "The measurement is based on the principle of total internal reflection at the interface between the high-index prism glass and the lower-index sample liquid. Snell's law at the critical angle gives n_sample × sin(90°) = n_prism × sin(θc), so n_sample = n_prism × sin(θc). Since n_prism is known from the glass manufacturer's data (corrected for temperature), measuring θc determines n_sample absolutely. The use of monochromatic light ensures that the refractive index corresponds to a single, well-defined wavelength, avoiding the complication of dispersion that broadens the shadow line in white-light refractometry. The refractive index depends on temperature (dn/dT ≈ −3 × 10⁻⁴ to −5 × 10⁻⁴ K⁻¹ for typical organic liquids), wavelength (normal dispersion described by the Cauchy or Sellmeier equation), composition, and to a negligible extent, pressure at ambient conditions. The Lorentz-Lorenz relation connects the refractive index to molecular polarizability: (n²−1)/(n²+2) = (4πNα)/(3V), providing a path from measured nD and density to molar refraction.",
+      "setup": "A dipping refractometer comprises a cylindrical or conical probe body housing the measuring prism at its tip, with the optical path folded through internal prisms and lenses to a telescope or digital detector at the opposite end. Monochromatic illumination is provided by a sodium vapor lamp directed onto the prism face via a built-in illumination window, or by an LED with a narrowband interference filter. The sample vessel must be deep enough to submerge the prism face by at least 5–10 mm. Temperature is controlled by circulating thermostatted water through a jacket surrounding the prism housing, with temperature monitored by an RTD sensor positioned close to the measuring surface. For laboratory use, the refractometer is clamped to a stand above the sample vessel. For process applications, the probe is mounted through a flange in a pipe or tank wall. Digital models replace the visual telescope with a CCD line detector that automatically locates the shadow line and outputs nD directly.",
+      "suitable_for": "Dipping refractometry is ideal for situations where the sample cannot conveniently be transferred to a bench refractometer — large-volume vessels, reaction mixtures undergoing chemical change, process streams in industrial settings, or temperature-sensitive samples that would cool during transfer. It is widely used in the food and beverage industry (sugar content of syrups, juices), petroleum industry (characterization of fuels and oils), chemical process monitoring (reaction conversion tracking via nD change), and pharmaceutical quality control. The technique works well for pure liquids, binary and multicomponent solutions, and any optically transparent liquid within the instrument's refractive index range (typically 1.30–1.70). Because the prism contacts only the sample surface layer, it is suitable for large volumes where only surface composition is needed, and it provides rapid readings for process control applications.",
+      "core_limitations": "The accuracy of dipping refractometry (±0.0001 to ±0.0005 nD) is generally lower than that of a well-maintained Abbe refractometer (±0.0001) or precision V-prism refractometer due to the less rigidly controlled optical geometry of an immersion probe and greater susceptibility to temperature gradients. The sample must be optically transparent at the prism-liquid interface — turbid, opaque, or strongly colored liquids produce a diffuse or invisible shadow line. The sample refractive index must be lower than that of the prism glass, limiting the upper measurable nD to about 1.70 (or 1.86 with special prism materials). The technique cannot measure solids or gases. Temperature control is more challenging than in bench refractometers because the prism is immersed in a potentially large and thermally variable sample volume. Volatile samples in open vessels suffer from evaporative cooling and composition changes at the liquid surface near the prism.",
+      "sample_preparation": "Sample preparation is minimal — the primary requirement is that the liquid at the prism interface be homogeneous, free of bubbles, and free of suspended particles. For laboratory measurements, the sample should be filtered through a 0.45 µm membrane filter if any particulates or haze are present. Dissolved gases should be removed by gentle degassing (ultrasonication or vacuum) to prevent bubble formation on the prism face. The sample temperature should be equilibrated to the target measurement temperature before immersion of the refractometer, or sufficient equilibration time must be allowed after immersion. For hygroscopic liquids, work in a dry atmosphere or cover the sample vessel to prevent moisture uptake. For volatile samples, minimize headspace above the liquid and make readings quickly after immersion.",
+      "calibration_and_references": "Calibration is performed by measuring the refractive index of distilled water at a known temperature (nD = 1.33299 at 20.00 °C, 589.3 nm) and verifying agreement within ±0.0002 nD. If the reading deviates, the instrument zero is adjusted using the built-in fine-adjustment screw or digital offset. A second calibration point using a certified refractive index standard liquid (available from Cargille Labs, PTB, or NIST-traceable suppliers) at a higher nD value confirms the linearity of the angular scale. The temperature sensor is calibrated against a traceable reference thermometer (Pt100 or SPRT) at least at two temperatures spanning the measurement range. Calibration should be checked at the start of each measurement session and whenever the prism housing is disassembled or the temperature control system is modified. For highest accuracy, the prism refractive index at the measurement temperature must be known — this is supplied by the manufacturer and may require a temperature correction.",
+      "data_interpretation": "The primary measurement result is the refractive index nD (or nλ for non-sodium wavelengths) read directly from the instrument scale or digital display. Temperature corrections are applied if the measurement temperature deviates from the reference temperature: nD(Tref) ≈ nD(Tmeas) + (dn/dT) × (Tref − Tmeas). For mixtures, the measured nD is related to composition through a calibration curve or mixing rule (e.g., Arago-Biot, Lorentz-Lorenz, or Newton rules). Molar refraction Rm is calculated from the Lorentz-Lorenz equation: Rm = (M/ρ) × (n²−1)/(n²+2), where M is the molar mass and ρ is the density (obtained from a separate measurement). Excess molar refraction for mixtures, RmE = Rm(mix) − Σ xi Rm,i, provides insight into molecular interactions and volume changes on mixing. Statistical analysis of replicate readings provides the standard deviation and expanded uncertainty of the reported nD value.",
+      "common_pitfalls": "The most frequent error is inadequate temperature equilibration — because the prism housing is immersed in a large liquid volume, thermal equilibrium between the circulating-water jacket and the sample may take several minutes, and premature readings yield biased nD values. Air bubbles trapped on the prism face are another common problem: they partially occlude the measuring surface and produce a diffuse or split shadow line, leading to erratic readings. Dirty or contaminated prism surfaces from incomplete cleaning between samples cause systematic offsets. Reading the shadow line while the sample is being stirred can introduce vibration artifacts. For volatile samples in open vessels, evaporative cooling at the liquid surface creates a thermal gradient at the prism interface, shifting nD upward from the bulk value. Using a white or broadband light source instead of monochromatic illumination produces a broad colored boundary that is difficult to locate precisely, negating the advantage of the monochromatic design.",
+      "artifacts_and_failure_modes": "A diffuse or fringed shadow line is the most common artifact and indicates either a contaminated prism face, polychromatic light leakage, or a thermally non-uniform sample layer adjacent to the prism. Double shadow lines can appear when a thin film of different composition coats the prism surface — for instance, water condensation on the prism when measuring water-immiscible organics. Temperature drift during a reading series manifests as a monotonic trend in successive nD values that tracks the slow approach to thermal equilibrium. Mechanical damage to the prism face (scratches or chips) permanently degrades shadow line sharpness and requires professional repolishing or prism replacement. Degradation of optical cement holding the prism assembly together occurs when the instrument is used above the cement's rated temperature (typically 60–80 °C), causing stray light, ghost images, and loss of contrast. Electronic failure of the temperature sensor produces incorrect temperature readings that propagate into large nD errors via the temperature correction.",
+      "reporting_checklist": "Published results obtained by dipping refractometry should report: the instrument manufacturer and model; the measurement wavelength and light source type (e.g., sodium D line, 589.3 nm); the measurement temperature and method of temperature control (circulating bath, Peltier); the calibration procedure and reference materials used (e.g., distilled water at 20.0 °C); the number of replicate readings and their standard deviation; the combined expanded uncertainty U(nD) with coverage factor (k = 2, 95% confidence); the sample description (purity, preparation, filtration); whether the reported nD was corrected to a reference temperature; and for mixtures, the composition variable and its uncertainty. For ThermoML encoding, refractive index values are accompanied by nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

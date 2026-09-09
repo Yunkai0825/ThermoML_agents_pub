@@ -1,0 +1,381 @@
+{
+  "meas_ID": "chromatography",
+  "identity": {
+    "name": "Chromatography",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Chromatography",
+    "thermoml_custom_codes": [
+      "CHROM"
+    ],
+    "measurement_family": "Chromatography / Separation",
+    "modality": {
+      "contact": "yes",
+      "destructive": "partially",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 21413,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium",
+        "ActivityFugacityOsmoticProp",
+        "ReactionEquilibriumProp",
+        "VaporPBoilingTAzeotropTandP",
+        "PhaseTransition"
+      ],
+      "n_papers": 2074,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 12275,
+          "papers": 1869
+        },
+        "ActivityFugacityOsmoticProp": {
+          "instances": 9080,
+          "papers": 212
+        },
+        "ReactionEquilibriumProp": {
+          "instances": 37,
+          "papers": 9
+        },
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 12,
+          "papers": 6
+        },
+        "PhaseTransition": {
+          "instances": 9,
+          "papers": 5
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "retention time (tR) — time from injection to peak maximum",
+          "peak area — integrated detector signal proportional to analyte mass",
+          "peak height — maximum detector response for a given analyte",
+          "detector response signal (voltage or current vs. time chromatogram)"
+        ],
+        "derived_observables": [
+          "mole fraction (xi) of each component in the analyzed phase",
+          "mass fraction (wi) of each component",
+          "activity coefficient at infinite dilution (γ∞)",
+          "Henry's law constant (KH)",
+          "partition coefficient (K) between two phases",
+          "net retention volume (VN)",
+          "specific retention volume (Vg)",
+          "adjusted retention time (t'R = tR − tM)"
+        ],
+        "target_properties": [
+          "composition of equilibrium liquid and vapor phases (VLE, LLE, VLLE)",
+          "activity coefficients at infinite dilution (γ∞)",
+          "Henry's law constants",
+          "partition coefficients (liquid-liquid, gas-liquid)",
+          "vapor pressure (indirect, from retention data)",
+          "excess Gibbs energy (from γ∞ data)",
+          "reaction equilibrium constants (from product/reactant composition)"
+        ],
+        "phases_measured": [
+          "liquid (sampled from VLE, LLE, or VLLE equilibrium cells)",
+          "vapor (condensed samples from VLE headspace)",
+          "supercritical fluid (in SFC applications)",
+          "dissolved species in solution"
+        ],
+        "supported_sample_types": [
+          "volatile organic mixtures (GC with FID, TCD, or MS)",
+          "non-volatile or thermally labile mixtures (HPLC with UV, RI, or MS)",
+          "aqueous and organic solutions",
+          "binary and multicomponent liquid mixtures",
+          "ionic liquid systems (as stationary phase for γ∞ or as analyte)",
+          "polymer solutions (inverse GC for γ∞ and χ parameters)",
+          "gas mixtures (GC with TCD)",
+          "reaction product mixtures for equilibrium composition"
+        ],
+        "unsupported_sample_types": [
+          "inorganic salts or refractory materials with no volatility or solubility in mobile phase",
+          "samples that decompose in the injector or column before elution",
+          "high-molecular-weight polymers above the column exclusion limit (standard columns)",
+          "permanent gases requiring specialized packed columns not available in standard setups",
+          "extremely reactive species that degrade the stationary phase"
+        ],
+        "typical_output_formats": [
+          "chromatogram (detector signal vs. time)",
+          "calibrated composition table (xi or wi for each component)",
+          "T-x-y phase diagram data points (from sampled equilibrium phases)",
+          "ln(γ∞) vs. 1/T plots",
+          "Henry's law constant vs. temperature tables"
+        ],
+        "units": {
+          "retention_time": "min or s",
+          "peak_area": "arbitrary units (mV·s or counts·s)",
+          "mole_fraction": "dimensionless (0 to 1)",
+          "mass_fraction": "dimensionless (0 to 1)",
+          "activity_coefficient": "dimensionless",
+          "henrys_law_constant": "kPa or MPa (or Pa·m³/mol depending on convention)",
+          "partition_coefficient": "dimensionless",
+          "retention_volume": "cm³ or mL",
+          "temperature": "K",
+          "pressure": "kPa or MPa"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "column_temperature",
+            "typical_range": "303 K to 523 K (GC); 293 K to 353 K (HPLC)",
+            "hard_limits": "limited by stationary phase thermal stability; polysiloxane columns typically ≤ 623 K; HPLC columns typically ≤ 353 K",
+            "notes": "column temperature must be stable within ±0.1 K for reproducible retention times; for γ∞ measurements via GC, temperature control to ±0.01 K is desirable"
+          },
+          {
+            "parameter": "carrier_gas_flow_rate",
+            "typical_range": "1–5 mL/min (capillary GC); 20–60 mL/min (packed column GC)",
+            "hard_limits": "flow must be above minimum for adequate plate count and below maximum for column back-pressure limits",
+            "notes": "flow rate affects peak width, resolution, and retention time; must be measured or controlled precisely for VN calculations in γ∞ work"
+          },
+          {
+            "parameter": "mobile_phase_flow_rate_HPLC",
+            "typical_range": "0.5–2.0 mL/min (analytical HPLC)",
+            "hard_limits": "limited by column back-pressure rating (typically ≤ 40 MPa for standard HPLC, ≤ 100 MPa for UHPLC)",
+            "notes": "isocratic or gradient elution; gradient composition must be reported for quantitative work"
+          },
+          {
+            "parameter": "injection_volume",
+            "typical_range": "0.1–2 µL (capillary GC); 1–20 µL (HPLC)",
+            "hard_limits": "must be small enough to avoid column overloading; for γ∞ by GC, injection must be in the infinite-dilution regime (typically ≤ 0.5 µL of dilute solution)",
+            "notes": "split injection ratios (e.g., 1:50 to 1:200) commonly used in capillary GC to reduce on-column mass"
+          },
+          {
+            "parameter": "detector_temperature",
+            "typical_range": "523 K to 573 K (FID); depends on detector type",
+            "hard_limits": "must exceed the maximum column temperature to prevent analyte condensation in the detector",
+            "notes": "TCD detector temperature set to avoid condensation; MS transfer line typically 523–573 K"
+          }
+        ],
+        "variables": [
+          {
+            "name": "column_temperature",
+            "role": "primary controlled variable",
+            "typical_values": "303 K to 523 K (GC); ambient to 353 K (HPLC)",
+            "effect": "controls retention, selectivity, and peak shape; higher T reduces retention times; γ∞ determined as a function of T"
+          },
+          {
+            "name": "carrier_gas_identity",
+            "role": "controlled variable (GC)",
+            "typical_values": "helium, nitrogen, hydrogen, argon",
+            "effect": "affects optimal linear velocity, plate height, and detector response; helium and hydrogen give best efficiency; nitrogen is less expensive"
+          },
+          {
+            "name": "mobile_phase_composition",
+            "role": "controlled variable (HPLC)",
+            "typical_values": "acetonitrile/water, methanol/water, hexane/ethyl acetate mixtures",
+            "effect": "determines selectivity and retention; gradient programs change composition over time for complex mixtures"
+          },
+          {
+            "name": "stationary_phase_type",
+            "role": "selected variable",
+            "typical_values": "polydimethylsiloxane (PDMS), polyethylene glycol (PEG/Wax), C18 bonded silica, ionic liquids, porous polymers",
+            "effect": "determines selectivity and retention mechanism; must match analyte polarity and volatility"
+          },
+          {
+            "name": "pressure",
+            "role": "controlled or ambient",
+            "typical_values": "atmospheric for phase-sampling work; inlet pressure 50–400 kPa (GC)",
+            "effect": "column head pressure determines flow rate; for VLE/LLE sampling, system pressure sets equilibrium conditions"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "chromatograph — GC or HPLC system with temperature-controlled column oven",
+          "separation column — capillary (GC: 15–60 m × 0.25–0.53 mm i.d.) or packed (HPLC: 50–250 mm × 2.1–4.6 mm i.d.) with appropriate stationary phase",
+          "injector — split/splitless (GC), autosampler with syringe (GC or HPLC), or gas sampling valve",
+          "detector — flame ionization detector (FID), thermal conductivity detector (TCD), mass spectrometer (MS), refractive index detector (RI), or UV-Vis detector",
+          "carrier gas or mobile phase delivery system — pressure regulator and flow controller (GC) or solvent pump with degasser (HPLC)",
+          "data acquisition and integration system — chromatography workstation software for peak detection, integration, and quantification",
+          "equilibrium cell or sampling apparatus — for VLE/LLE studies, a thermostatted cell with sampling valves or syringes for withdrawing liquid and vapor phase samples",
+          "temperature controller — column oven thermostat (±0.1 K) and, for γ∞ by GC, a precision bath or oven (±0.01 K)"
+        ],
+        "environmental_requirements": [
+          "stable laboratory temperature to minimize retention time drift",
+          "carrier gas of high purity (≥ 99.999% for FID; ≥ 99.99% for TCD) to reduce detector baseline noise",
+          "HPLC-grade solvents and degassed mobile phases to prevent bubble formation and baseline artifacts",
+          "adequate ventilation for volatile solvents and detector gases (hydrogen for FID)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample aliquots withdrawn from equilibrium phases",
+            "gas/vapor samples collected via gas-tight syringe or sampling loop",
+            "dissolved samples in appropriate solvent compatible with the chromatographic system"
+          ],
+          "size_limits": "GC injection: 0.1–2 µL liquid; HPLC injection: 1–20 µL; total sample volume for equilibrium cell typically 50–500 mL",
+          "thickness_limits": "not applicable (liquid/gas samples)",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "filtration through 0.2–0.45 µm membrane filters (HPLC) to protect columns",
+            "dilution in a compatible solvent if concentration exceeds the linear detector range",
+            "for VLE sampling: rapid quenching or pressure-locked sampling to prevent flash evaporation",
+            "for γ∞ by GC: preparation of extremely dilute solutions or direct vapor-phase injection of trace amounts",
+            "derivatization for non-volatile or thermally labile analytes (GC) when needed"
+          ]
+        },
+        "calibration_requirements": [
+          "external standard calibration — prepare standards of known concentration spanning the expected sample range; plot peak area vs. concentration for each analyte",
+          "internal standard calibration — add a known amount of a compound not present in the sample to correct for injection volume variability",
+          "response factor determination — measure relative detector response (area per mole) for each analyte relative to the internal standard or reference",
+          "retention time identification — confirm analyte identity by matching retention time to pure standards or by MS library match",
+          "column dead time (tM) determination — inject a non-retained marker (methane for GC, uracil for reversed-phase HPLC) to establish the void time",
+          "for γ∞ by GC: precise measurement of stationary phase mass loaded on packed column, carrier gas flow rate at column temperature, and column pressure drop"
+        ],
+        "reference_materials": [
+          "analytical standards of known purity (≥ 99%) for each target analyte",
+          "certified reference mixtures (e.g., EPA standard mixtures for environmental GC, NIST SRM solutions)",
+          "internal standards (compounds chemically similar to analytes but chromatographically resolved)",
+          "dead-time markers — methane or air (GC), uracil or thiourea (HPLC)",
+          "for γ∞ work: solvents of known vapor pressure (Antoine equation parameters) as stationary phase or reference"
+        ],
+        "consumables": [
+          "separation columns (capillary or packed; typical lifetime 1,000–10,000 injections for GC, 500–5,000 for HPLC)",
+          "guard columns or pre-columns to protect the analytical column",
+          "syringes (gas-tight and liquid, various volumes)",
+          "septa for GC injector (replaced every 50–100 injections)",
+          "carrier gas (helium, nitrogen, or hydrogen cylinders)",
+          "HPLC-grade solvents (acetonitrile, methanol, water, hexane)",
+          "filter membranes (0.2–0.45 µm)",
+          "vials, crimp caps, and autosampler accessories",
+          "detector consumables — hydrogen and air for FID, filaments for TCD"
+        ],
+        "safety_notes": [
+          "hydrogen carrier gas or FID fuel gas is flammable — ensure leak-free connections and proper ventilation",
+          "organic solvents (HPLC) are flammable and toxic — use in a fume hood with appropriate PPE",
+          "high-temperature GC oven (up to 623 K) — burn hazard; allow cooling before opening",
+          "compressed gas cylinders must be chained and regulated per laboratory safety protocols",
+          "mass spectrometer high-vacuum systems have implosion risk; follow manufacturer safety procedures"
+        ]
+      },
+      "performance": {
+        "sensitivity": "FID: ~10 pg carbon/s (detection limit ~0.1 ppm for typical injection); TCD: ~1 ng/mL carrier gas; MS: sub-pg level in SIM mode; UV (HPLC): ~1 ng on-column for strongly absorbing analytes; RI (HPLC): ~1 µg on-column",
+        "detection_limit": "GC-FID: 0.1–10 ppm (v/v) depending on analyte and injection volume; GC-MS (SIM): 0.001–0.1 ppm; HPLC-UV: 0.01–1 µg/mL; overall limits depend on sample preparation and injection volume",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "peak widths at half height typically 1–10 s (capillary GC) or 5–30 s (HPLC); defines minimum time between resolvable peaks",
+          "spectral": "MS provides m/z resolution for identification; UV detector provides wavelength selectivity",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "FID: ~10⁷ (from pg to µg level); TCD: ~10⁴; UV-Vis: ~10⁴ to 10⁵; RI: ~10³; overall quantitative range typically covers 3–4 orders of magnitude with single calibration",
+        "accuracy": "composition analysis by calibrated chromatography: ±0.5–2% relative in mole fraction for major components (xi > 0.05); ±5–10% for trace components; γ∞ by GC: ±3–5% when all corrections are applied carefully",
+        "precision": "repeatability 0.2–1% RSD in peak area for autosampler injections; manual injection 1–3% RSD; retention time repeatability ≤ 0.1% RSD under isothermal conditions",
+        "throughput": "GC run time 5–60 min per injection; HPLC run time 5–30 min; autosampler enables unattended sequential analysis of 50–200 samples per day",
+        "measurement_speed": "single chromatographic run: 5–60 min; total analysis time including equilibration and column re-conditioning: 10–90 min per sample"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "detector signal (voltage or current) as a function of time, recorded as a chromatogram; FID produces ion current proportional to carbon mass flux; TCD produces voltage proportional to thermal conductivity difference; MS produces ion counts at selected m/z values; UV produces absorbance at selected wavelength; RI produces differential refractive index signal",
+        "preprocessing_steps": [
+          "baseline correction — subtract detector baseline drift using polynomial or spline fitting",
+          "peak detection — identify chromatographic peaks by threshold, slope, or derivative analysis",
+          "peak integration — calculate area under each peak using trapezoidal, valley-to-valley, or Gaussian/EMG deconvolution methods",
+          "retention time correction — adjust for small flow rate or temperature variations using internal standard or reference peak alignment",
+          "dead-time subtraction — compute adjusted retention time t'R = tR − tM for capacity factor calculations"
+        ],
+        "analysis_methods": [
+          "external standard method: Ci = (Ai / Astd) × Cstd for each analyte i, where A is peak area and C is concentration",
+          "internal standard method: Ci = (Ai / AIS) × (CIS / RFi) where RFi is the response factor relative to the internal standard",
+          "area normalization: xi = (Ai / RFi) / Σ(Aj / RFj) for mole or mass fraction when all components are detected",
+          "γ∞ from GC retention data: ln(γ∞₁₃) = ln(n₃RT / V_N P₁ˢᵃᵗ) − (B₁₁ − V₁ˡ)P₁ˢᵃᵗ/(RT) + (2B₁₂ − V₁∞)Jpo/(RT) where subscript 1 = solute, 3 = stationary phase solvent, V_N = net retention volume, B₁₁ and B₁₂ are virial coefficients, V₁ˡ is liquid molar volume, J is James-Martin pressure correction factor",
+          "Henry's law constant from headspace GC: KH = Cg/Cl at equilibrium, determined from phase ratio and peak areas",
+          "van 't Hoff analysis: plot ln(γ∞) vs. 1/T to extract partial molar excess enthalpy and entropy at infinite dilution"
+        ],
+        "model_assumptions": [
+          "detector response is linear over the concentration range of interest (calibration curve is linear or well-characterized nonlinear)",
+          "for area normalization: all components in the mixture produce a detector response (no 'invisible' components)",
+          "for γ∞ by GC: solute is at infinite dilution in the stationary phase (Henry's law region; symmetric peak shape confirms this)",
+          "ideal gas behavior of the carrier gas (corrections via virial equation when accuracy demands it)",
+          "equilibrium is established between the mobile and stationary phases in the column (sufficient theoretical plates)",
+          "for VLE/LLE phase sampling: the withdrawn sample is representative of the bulk equilibrium phase and does not perturb the equilibrium significantly"
+        ],
+        "fit_parameters": [
+          "response factor (RFi) for each analyte relative to a reference or internal standard",
+          "calibration curve slope and intercept (or polynomial coefficients for nonlinear calibration)",
+          "net retention volume (VN) for γ∞ calculation",
+          "activity coefficient at infinite dilution (γ∞)",
+          "van 't Hoff slope (ΔH_E∞/R) and intercept from ln(γ∞) vs. 1/T regression"
+        ],
+        "common_artifacts": [
+          "ghost peaks — residual peaks from previous injections due to incomplete column elution or septum bleed",
+          "peak tailing — asymmetric peaks caused by active sites on the column or secondary retention mechanisms, distorting area integration",
+          "co-elution — two or more components with identical retention times producing a single unresolved peak, leading to composition errors",
+          "column bleed — elevated and rising baseline at high temperatures from stationary phase degradation, especially with polysiloxane columns",
+          "split discrimination — in split injection mode, high-boiling analytes may be under-represented because they do not fully vaporize in the injector",
+          "sample degradation — thermally labile analytes decompose in the hot GC injector, producing artifact peaks and underestimating the true concentration"
+        ],
+        "quality_control_checks": [
+          "inject calibration standards at the beginning, middle, and end of each analytical sequence to verify response stability",
+          "run duplicate or triplicate injections and verify peak area RSD ≤ 2%",
+          "check mass balance — sum of all component mole fractions should equal 1.00 ± 0.02 for complete analysis",
+          "verify retention time stability — retention time shift ≤ 0.05 min over the analytical sequence",
+          "run blank injections to confirm absence of carryover or ghost peaks",
+          "for γ∞ by GC: verify infinite-dilution condition by injecting several different amounts and confirming that the calculated γ∞ is independent of injection size",
+          "compare results from two different column types or detector types when possible for cross-validation"
+        ],
+        "failure_modes": [
+          "column degradation — loss of efficiency (plate count), increased tailing, or shifted retention times requiring column replacement",
+          "detector contamination or failure — reduced sensitivity, noisy baseline, or no signal (e.g., extinguished FID flame, contaminated TCD filament)",
+          "leak in carrier gas or mobile phase lines — loss of pressure, unstable flow, and irreproducible retention times",
+          "injector septum failure — leaking septum causes peak area irreproducibility and ghost peaks from septum fragments",
+          "stationary phase mass loss (GC packed columns for γ∞) — gradual loss of liquid loading changes VN and introduces systematic error; must re-determine mass periodically",
+          "sample vaporization failure in GC injector — incomplete vaporization of high-boiling components leads to discrimination and incorrect composition"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: ±0.002–0.01 in mole fraction for major components; ±3–5% relative for γ∞ (well-controlled GC); ±5–15% for Henry's law constants",
+        "random_sources": [
+          "injection volume variability (manual syringe ±2–5%; autosampler ±0.5–1%)",
+          "detector noise and baseline fluctuation",
+          "integration reproducibility (peak start/end selection)",
+          "temperature fluctuation of column oven",
+          "flow rate fluctuation of carrier gas or mobile phase"
+        ],
+        "systematic_sources": [
+          "calibration standard purity and concentration accuracy",
+          "response factor errors (nonlinear detector response, incorrect RF values)",
+          "co-elution of unresolved peaks leading to biased area measurement",
+          "sample evaporation or degradation during handling (especially volatile components in VLE samples)",
+          "flash vaporization of sampled liquid at reduced pressure during transfer from equilibrium cell to chromatograph",
+          "for γ∞ by GC: uncertainty in stationary phase mass, vapor pressure of solute (P_sat), and virial coefficient corrections (B11, B12)",
+          "dead-time (tM) measurement error propagating into VN and γ∞"
+        ],
+        "operator_dependence": "moderate — sample handling, injection technique (especially manual injection), peak integration parameter selection, and equilibrium cell sampling procedure are skill-dependent; autosampler and automated integration reduce operator effects",
+        "model_dependence": "moderate for composition analysis (depends on detector linearity and RF accuracy); high for γ∞ by GC (depends on vapor pressure data, virial coefficients, and assumption of infinite dilution); moderate for Henry's law constants (depends on phase ratio and equilibrium assumptions)",
+        "dominant_error_sources": [
+          "sample representativeness — whether the withdrawn aliquot truly represents the bulk equilibrium phase (especially for VLE with volatile components)",
+          "calibration accuracy — purity of standards and correctness of response factors",
+          "for γ∞ by GC: vapor pressure of the pure solute (P₁ˢᵃᵗ) is often the largest single uncertainty contributor",
+          "co-elution and peak overlap for complex mixtures"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(xi) at 95% confidence (k=2) in mole fraction",
+          "relative standard uncertainty as percentage",
+          "repeatability as relative standard deviation (RSD) from replicate injections",
+          "for γ∞: combined expanded uncertainty U(γ∞) at 95% confidence"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Chromatography is a family of separation-based analytical techniques used to determine the composition of liquid and gas mixtures by partitioning components between a mobile phase and a stationary phase. In the NIST ThermoML database, 'Chromatography' serves as the general entry encompassing gas chromatography (GC), high-performance liquid chromatography (HPLC), and other chromatographic variants when the specific sub-type is not labeled. With 21,413 instances across 2,074 papers, it is by far the most widely used measurement method in ThermoML. Its dominant application is the quantitative analysis of equilibrium phase compositions (VLE, LLE, VLLE), followed by the determination of activity coefficients at infinite dilution via GC retention data. Chromatography provides the essential analytical link between thermodynamic equilibrium experiments (performed in separate equilibrium cells) and the numerical composition data reported in the database.",
+      "how_it_operates": "A small aliquot of the sample (liquid or vapor phase withdrawn from an equilibrium cell, or a dilute solution) is injected into a flowing stream of carrier gas (GC) or liquid mobile phase (HPLC). The sample travels through a column packed with or coated by a stationary phase material. Different components interact with the stationary phase to varying degrees based on their volatility (GC), polarity, size, or chemical affinity (HPLC), causing them to travel through the column at different speeds and emerge (elute) at characteristic retention times. A detector at the column outlet produces a signal proportional to the amount of each component as it elutes, generating a chromatogram — a plot of detector response versus time. The area under each peak, after calibration, yields the concentration of the corresponding component in the original sample.",
+      "core_theory": "For composition analysis, the fundamental relationship is that the peak area Ai of component i is proportional to its mass or moles in the injected sample: Ai = RFi × ni, where RFi is the detector response factor. Quantification uses either external calibration (comparing peak area to standards of known concentration) or internal standard normalization. For activity coefficients at infinite dilution measured by GC, the core equation is ln(γ∞₁₃) = ln(n₃RT / V_N P₁ˢᵃᵗ) − (B₁₁ − V₁ˡ)P₁ˢᵃᵗ/(RT) + (2B₁₂ − V₁∞)Jpo/(RT), where n₃ is the moles of stationary phase solvent on the column, V_N is the net retention volume corrected for gas compressibility via the James-Martin factor J, P₁ˢᵃᵗ is the pure solute vapor pressure, B₁₁ and B₁₂ are second virial coefficients, V₁ˡ is the molar volume of the pure liquid solute, and V₁∞ is the partial molar volume at infinite dilution. Henry's law constants are derived from the partitioning of a dilute solute between gas and liquid phases: KH = lim(xi→0) fi/xi, which can be obtained from headspace GC or from the temperature dependence of retention data.",
+      "setup": "A typical chromatographic setup for ThermoML-type measurements consists of a commercial chromatograph (GC or HPLC), a separation column selected for the analytes of interest, a detector matched to the analytes, and a data system for acquisition and integration. For VLE/LLE composition analysis, the chromatograph is coupled to an equilibrium cell — a thermostatted, pressure-rated vessel where the mixture is brought to phase equilibrium. Liquid and/or vapor samples are withdrawn through sampling valves or with microsyringes and injected into the chromatograph. For activity coefficient measurements at infinite dilution, a GC is configured with a packed column whose stationary phase is a precisely weighed amount of the solvent of interest; trace amounts of the solute are injected and the retention volume is measured. The column oven temperature is controlled to ±0.1 K (or ±0.01 K for precision γ∞ work), and the carrier gas flow rate is measured with a soap-bubble flow meter or electronic mass flow controller.",
+      "suitable_for": "Chromatography is suitable for quantitative analysis of virtually any multicomponent mixture where the components can be vaporized (GC) or dissolved in a mobile phase (HPLC). In ThermoML, its primary applications are: (1) composition analysis of coexisting phases from VLE, LLE, or VLLE equilibrium experiments, which accounts for 12,275 of its 21,413 instances; (2) determination of activity coefficients at infinite dilution (9,080 instances), which is crucial for modeling non-ideal solution behavior and selecting entrainers for extractive distillation; (3) determination of Henry's law constants for gas solubility; and (4) analysis of reaction equilibrium product distributions. It handles binary through multicomponent systems, aqueous and non-aqueous solvents, and analytes spanning a wide volatility range from light gases to heavy organic compounds.",
+      "core_limitations": "Chromatography is an offline, ex-situ measurement — it analyzes a sample that has been withdrawn from the system under study, rather than making measurements in place. This introduces the fundamental limitation that the sample must be transferred without altering its composition, which is particularly challenging for volatile mixtures where flash evaporation can occur during depressurization. The technique is partially destructive: the injected aliquot is consumed in the analysis. Detection is limited to components that produce a detector response — FID cannot detect water, permanent gases, or fully halogenated compounds; TCD has lower sensitivity; RI detectors cannot be used with gradient elution. For γ∞ measurement by GC, accuracy is limited by the quality of ancillary data (solute vapor pressure, virial coefficients) required for the calculation. Very similar compounds (e.g., structural isomers) may co-elute if column selectivity is insufficient, leading to incorrect composition.",
+      "sample_preparation": "For VLE/LLE phase composition analysis, samples are withdrawn from the equilibrium cell using gas-tight syringes, sampling valves, or recirculation loops. The liquid phase must be sampled without flash evaporation, often achieved by using heated sample lines, rapid transfer into pre-evacuated vials, or pressure-locked syringes. Vapor phase samples are typically condensed or collected via gas sampling loops. Samples may be diluted in a suitable solvent to bring concentrations within the calibrated detector range. For HPLC analysis, liquid samples are filtered through 0.2–0.45 µm membranes to remove particulates that could block the column. For GC analysis of non-volatile compounds, chemical derivatization (e.g., silylation, acetylation) may be required. For γ∞ measurements, the GC column is prepared by coating or loading the stationary phase solvent onto an inert support and carefully weighing the loaded packing before and after column preparation to determine n₃.",
+      "calibration_and_references": "Chromatographic composition analysis requires calibration to convert peak areas to concentrations. The external standard method prepares a series of solutions of known concentration for each analyte, injected under the same conditions as the samples, to construct a calibration curve (peak area vs. concentration). The internal standard method adds a known quantity of a reference compound (not present in the sample) to both standards and samples, correcting for injection volume variability. Response factors must be determined for each analyte-detector combination; for FID, effective carbon number (ECN) estimation provides approximate response factors when standards are unavailable. The dead time tM is measured by injection of a non-retained compound (methane for GC, uracil for RP-HPLC). For γ∞ measurement by GC, calibration focuses on accurate flow rate measurement (soap-bubble meter or electronic MFC), column pressure drop (inlet and outlet manometers), and temperature (calibrated thermometer or PRT in the column oven).",
+      "data_interpretation": "Chromatographic data interpretation begins with peak identification by retention time matching against pure-component standards or by MS library matching. Peak areas are determined by integration and converted to composition using calibration curves or response factor normalization. For complete phase composition analysis, the area normalization method requires that all components be detected, and yields mole or mass fractions directly: xi = (Ai/RFi) / Σ(Aj/RFj). Quality is checked by verifying that Σxi = 1.00 ± 0.02. For γ∞ determination, the net retention volume VN = (tR − tM) × Fc × J is calculated from the adjusted retention time, corrected flow rate Fc at column temperature, and the James-Martin compressibility correction factor J = 3[(pi/po)² − 1] / [2((pi/po)³ − 1)]. The activity coefficient is then computed from VN and ancillary thermophysical data. Temperature-dependent γ∞ data are commonly analyzed via van 't Hoff plots (ln γ∞ vs. 1/T) to extract partial molar excess enthalpies at infinite dilution.",
+      "common_pitfalls": "The most common pitfall in chromatographic phase analysis for VLE/LLE is sample composition change during withdrawal and transfer — flash evaporation of volatile components when a pressurized liquid sample is depressurized, or condensation of heavy components in cold sampling lines, systematically biases the reported composition. Using incorrect or outdated response factors leads to systematic composition errors, especially for mixtures where detector response varies significantly among components (e.g., FID response per mole differs for oxygenated vs. hydrocarbon compounds). For γ∞ by GC, exceeding the infinite-dilution regime by injecting too much solute produces artificially low γ∞ values because the measurement enters the non-Henry's law region. Ignoring the gas-phase non-ideality corrections (virial coefficients) can introduce 5–15% systematic error in γ∞, particularly at lower temperatures where B₁₂ corrections are significant. Column degradation over time shifts retention times and can alter response factors if active sites develop.",
+      "artifacts_and_failure_modes": "Ghost peaks from column bleed, septum fragments, or sample carryover from previous injections can be mistaken for mixture components, inflating the apparent number of species and distorting compositions. Peak tailing due to surface adsorption in the column or injector produces asymmetric peaks whose integration is sensitive to the choice of baseline and end-point, reducing quantitative accuracy. Co-elution is perhaps the most insidious artifact: if two components have identical retention times, their combined peak is attributed to a single species, leading to errors in both composition and component count. In γ∞ measurements, gradual loss of stationary phase from packed GC columns (bleeding) reduces the effective n₃, causing a systematic increase in the apparent γ∞ over time — periodic re-weighing of column packing is essential. Detector saturation from overloaded injections produces truncated peaks with underestimated areas. Leak development in gas lines causes unstable baselines and irreproducible retention times.",
+      "reporting_checklist": "Published chromatographic data in ThermoML should report: chromatographic technique (GC, HPLC, or variant), column type and dimensions (length, diameter, film thickness or particle size), stationary phase identity, detector type, carrier gas or mobile phase identity and flow rate, column temperature (isothermal value or temperature program), injection volume and mode (split, splitless, on-column), calibration method (external standard, internal standard, or area normalization) with standard purities stated, whether all mixture components were detected and quantified, mass balance closure (Σxi), uncertainty in mole fraction as combined expanded uncertainty U(xi) at 95% confidence level, and any corrections applied for gas-phase non-ideality or sample handling effects. For γ∞ measurements, additionally report: stationary phase mass on the column, dead time measurement method, James-Martin pressure correction factor, source of vapor pressure and virial coefficient data used in the calculation, and verification of the infinite-dilution condition. ThermoML encodes uncertainties as nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

@@ -1,0 +1,326 @@
+{
+  "meas_ID": "open_capillary",
+  "identity": {
+    "name": "Open capillary",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Open capillary",
+    "thermoml_custom_codes": [
+      "OPENCP"
+    ],
+    "measurement_family": "Diffusion",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 30,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 11,
+      "per_group": {
+        "TransportProp": {
+          "instances": 30,
+          "papers": 11
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "initial concentration of solute in capillary (c0)",
+          "final (residual) concentration of solute in capillary after diffusion time (c_t)",
+          "diffusion time (t)",
+          "capillary internal diameter (d)",
+          "capillary effective length (L)",
+          "temperature of thermostated bath (T)"
+        ],
+        "derived_observables": [
+          "mutual (binary) diffusion coefficient D12",
+          "concentration-averaged diffusion coefficient over the experimental concentration range"
+        ],
+        "target_properties": [
+          "mutual diffusion coefficient (D12)",
+          "tracer diffusion coefficient (when one component is at very low concentration)",
+          "intradiffusion coefficient (with isotopic labeling variants)"
+        ],
+        "phases_measured": [
+          "liquid (single-phase binary or multicomponent solutions)",
+          "liquid (aqueous electrolyte solutions)",
+          "liquid (organic–organic mixtures)"
+        ],
+        "supported_sample_types": [
+          "aqueous electrolyte solutions",
+          "aqueous non-electrolyte solutions (sugars, polymers, small organics)",
+          "organic binary liquid mixtures",
+          "dilute polymer solutions",
+          "surfactant solutions below CMC",
+          "ionic liquid mixtures"
+        ],
+        "unsupported_sample_types": [
+          "gases (no liquid boundary condition)",
+          "highly viscous melts (diffusion time becomes impractically long)",
+          "supercritical fluids (no stable meniscus at capillary opening)",
+          "suspensions or colloidal dispersions (sedimentation interferes)",
+          "volatile solvents with high vapor pressure (evaporation at open end)"
+        ],
+        "typical_output_formats": [
+          "D12 vs. concentration curve at fixed T",
+          "D12 vs. temperature at fixed composition",
+          "residual concentration fraction (c_t/c0) vs. diffusion time",
+          "tabulated D12 values with associated uncertainties"
+        ],
+        "units": {
+          "diffusion_coefficient": "m²/s (SI) or cm²/s (CGS, widely used historically)",
+          "concentration": "mol/L or mol/m³",
+          "temperature": "K",
+          "time": "s",
+          "length": "m or mm (capillary dimensions)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "capillary_length",
+            "typical_range": "10 mm to 50 mm",
+            "hard_limits": "must be long enough that radial diffusion equilibrates rapidly compared to axial diffusion (L >> d); too long increases measurement time excessively",
+            "notes": "effective length corrected for end effects; typical L/d ratio > 20"
+          },
+          {
+            "parameter": "capillary_internal_diameter",
+            "typical_range": "0.5 mm to 2 mm",
+            "hard_limits": "too wide allows convective mixing; too narrow makes filling and analysis difficult",
+            "notes": "narrow bore capillaries preferred to suppress natural convection; precision-bore glass capillaries with ±0.5% tolerance required"
+          },
+          {
+            "parameter": "diffusion_time",
+            "typical_range": "1 hour to 7 days (typically 12–72 hours)",
+            "hard_limits": "must be long enough for measurable concentration change but short enough to avoid complete equilibration; optimal when c_t/c0 ≈ 0.3–0.7",
+            "notes": "time selected based on estimated D12 and capillary geometry using Fick's second law solutions"
+          },
+          {
+            "parameter": "temperature",
+            "typical_range": "283 K to 353 K",
+            "hard_limits": "limited by solvent volatility at upper end and freezing at lower end; thermostated bath stability ±0.01 K required",
+            "notes": "diffusion coefficient has strong temperature dependence (~2–3% per K), so strict temperature control is essential"
+          },
+          {
+            "parameter": "concentration_difference",
+            "typical_range": "0.01 mol/L to 1 mol/L (initial capillary concentration vs. bulk solvent)",
+            "hard_limits": "must be large enough for reliable analytical detection but small enough to approximate differential diffusion coefficient",
+            "notes": "large concentration differences yield concentration-averaged D12; for differential D12, the driving concentration difference should be kept small"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled variable (fixed per run)",
+            "typical_values": "288 K to 333 K",
+            "effect": "diffusion coefficient increases roughly exponentially with temperature following Arrhenius-type behavior"
+          },
+          {
+            "name": "initial_concentration",
+            "role": "controlled variable (set at filling)",
+            "typical_values": "0.01 to 2 mol/L",
+            "effect": "determines the concentration at which D12 is measured; integral vs. differential D12 depends on the initial-to-bulk concentration span"
+          },
+          {
+            "name": "diffusion_time",
+            "role": "controlled variable",
+            "typical_values": "12 h to 72 h",
+            "effect": "longer times give greater concentration change (better signal) but approach equilibrium and increase risk of convective disturbances"
+          },
+          {
+            "name": "capillary_geometry",
+            "role": "fixed apparatus parameter",
+            "typical_values": "L = 20–40 mm, d = 0.8–1.5 mm",
+            "effect": "defines the boundary conditions in Fick's law solution; must be measured to high precision (±0.1%) for accurate D12 calculation"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision-bore glass capillaries — uniform internal diameter (±0.5%), open at one end, closed at the other",
+          "thermostated water bath — temperature controlled to ±0.01 K over the entire diffusion period",
+          "capillary holder/rack — positions capillaries vertically with open end immersed at a defined depth in the reservoir",
+          "solvent reservoir — large volume vessel containing pure solvent or solution of different concentration, volume >> capillary volume to maintain essentially constant boundary concentration",
+          "gentle stirring mechanism — slow stirrer or circulation pump to maintain uniform concentration at the capillary mouth without inducing flow inside capillary",
+          "analytical instrument for concentration measurement — differential refractometer, UV-vis spectrophotometer, conductivity meter, or interferometer",
+          "microsyringe or precision filling apparatus — for filling capillaries with solution of known concentration",
+          "precision calipers or micrometer — for measuring capillary length and verifying internal diameter",
+          "timer — for recording diffusion time to ±1 s accuracy"
+        ],
+        "environmental_requirements": [
+          "vibration-free location to prevent convective disturbance in capillary",
+          "constant temperature room or well-insulated bath enclosure to minimize thermal gradients",
+          "absence of drafts or air currents near the bath surface",
+          "level surface for capillary holder to ensure strictly vertical orientation"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid solution — fills capillary completely by capillary action or microsyringe injection"
+          ],
+          "size_limits": "capillary volume typically 5–50 µL; reservoir volume > 100 mL to approximate infinite bath condition",
+          "thickness_limits": "not applicable (liquid sample)",
+          "surface_requirements": [
+            "solution must wet the capillary wall to ensure complete filling without air bubbles"
+          ],
+          "mounting_requirements": [
+            "capillaries positioned vertically — open end downward (denser solution in capillary) or upward (less dense solution) to minimize buoyancy-driven convection",
+            "capillary tip must be flush-cut and polished to define a sharp open boundary",
+            "open end immersed at least 5 mm below the reservoir liquid surface"
+          ],
+          "preparation_requirements": [
+            "solutions prepared gravimetrically to known concentration (±0.1%)",
+            "solutions degassed to prevent bubble formation during diffusion",
+            "capillaries cleaned with chromic acid or piranha solution, rinsed with distilled water, and dried before filling",
+            "reservoir solvent filtered and degassed"
+          ]
+        },
+        "calibration_requirements": [
+          "capillary internal diameter measured by mercury weighing method or optical microscopy (±0.1%)",
+          "capillary effective length measured with traveling microscope or caliper (±0.05 mm)",
+          "analytical method calibrated with standard solutions of known concentration spanning the expected range",
+          "validation run with a system of known D12 (e.g., 0.33 mol/L KCl in water at 298.15 K, D12 = 1.838 × 10⁻⁹ m²/s)",
+          "bath temperature verified with calibrated platinum resistance thermometer"
+        ],
+        "reference_materials": [
+          "KCl in water — benchmark system for aqueous electrolyte diffusion; well-characterized D12 values from Gosting and coworkers",
+          "sucrose in water — standard non-electrolyte reference system",
+          "NaCl in water — widely studied reference with extensive literature data",
+          "urea in water — non-electrolyte reference at moderate concentrations"
+        ],
+        "consumables": [
+          "precision-bore glass capillaries (single use or cleaned between runs)",
+          "high-purity solvents (distilled/deionized water, HPLC-grade organics)",
+          "standard reference solutes (KCl, sucrose, NaCl, analytical grade)",
+          "cleaning solutions (chromic acid, detergent, distilled water rinse)",
+          "microsyringe needles for capillary filling"
+        ],
+        "safety_notes": [
+          "glass capillaries are fragile and produce sharp fragments when broken — handle with care",
+          "chromic acid cleaning solution is highly corrosive and carcinogenic — use proper PPE and fume hood",
+          "organic solvents require fume hood operation and proper ventilation",
+          "hot water baths (>60 °C) present burn hazard"
+        ]
+      },
+      "performance": {
+        "sensitivity": "can detect diffusion coefficients spanning ~10⁻¹² to 10⁻⁸ m²/s; most practical for D12 in the range 10⁻¹⁰ to 10⁻⁹ m²/s",
+        "detection_limit": "minimum measurable D12 ~10⁻¹² m²/s (requires very long diffusion times); effectively limited by patience and convective stability",
+        "resolution": {
+          "spatial": "not applicable (bulk averaged measurement over capillary volume)",
+          "temporal": "limited by diffusion timescale; minimum practical experiment duration ~1 hour for fast-diffusing systems",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "D12 from ~10⁻¹² m²/s (large macromolecules, viscous media) to ~10⁻⁸ m²/s (small molecules in low-viscosity solvents); approximately four decades",
+        "accuracy": "1–3% for well-conducted measurements with careful calibration; 2–5% achievable with routine operation",
+        "precision": "0.5–2% (repeatability from replicate capillaries in the same bath run)",
+        "throughput": "multiple capillaries (5–20) can be run simultaneously in the same bath; throughput limited by diffusion time (hours to days per batch)",
+        "measurement_speed": "slow — single determination requires 12–72 hours of diffusion; batch processing partially compensates (multiple samples/concentrations simultaneously)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "concentration of solute remaining in the capillary after the diffusion period, measured by refractometry (refractive index difference), UV-vis absorbance, conductivity, or interferometry",
+        "preprocessing_steps": [
+          "rinse exterior of capillary after removal from bath to eliminate adhering reservoir solution",
+          "expel and collect capillary contents quantitatively (by air displacement or centrifugation)",
+          "measure concentration of expelled solution using calibrated analytical method",
+          "compute fractional residual concentration ratio c_t/c0"
+        ],
+        "analysis_methods": [
+          "Anderson-Saddington series solution: c_t/c0 = (8/π²) Σ [1/(2n+1)²] exp[−(2n+1)²π²Dt/(4L²)] for n=0,1,2,... ; D extracted by fitting or from the leading-term approximation at long times",
+          "leading-term approximation (valid when Dt/L² > 0.2): ln(c_t/c0) ≈ ln(8/π²) − π²Dt/(4L²); D obtained from slope of ln(c_t/c0) vs. t",
+          "multiple-time-point method: several capillaries with identical filling withdrawn at different times to map c_t/c0 vs. t and fit D",
+          "end-effect correction: effective length L_eff = L + δ, where δ accounts for diffusion beyond the capillary mouth into the reservoir"
+        ],
+        "model_assumptions": [
+          "one-dimensional diffusion along the capillary axis — radial concentration is uniform (valid when L >> d)",
+          "constant boundary condition at the open end — reservoir concentration remains constant (valid when reservoir volume >> capillary volume)",
+          "zero-flux boundary condition at the closed end",
+          "diffusion coefficient D12 is constant over the concentration range in the capillary (best satisfied when Δc is small)",
+          "no convective transport inside the capillary — purely diffusive mass transfer",
+          "instantaneous establishment of boundary concentration at the capillary mouth upon immersion"
+        ],
+        "fit_parameters": [
+          "mutual diffusion coefficient D12",
+          "effective capillary length L_eff (or end-effect correction δ)",
+          "initial capillary concentration c0 (verified, not usually fitted)"
+        ],
+        "common_artifacts": [
+          "convective mixing — density-driven flow inside capillary if orientation is incorrect (denser solution above less dense) produces anomalously high apparent D12",
+          "end-effect error — diffusion beyond the geometric capillary mouth; if uncorrected, D12 is systematically underestimated",
+          "bubble formation — dissolved gas coming out of solution blocks diffusion path and gives low apparent D12",
+          "incomplete capillary filling — air trapped at closed end shortens effective length, causing systematic error in D12",
+          "evaporative concentration change at reservoir surface — alters boundary concentration at capillary mouth",
+          "thermal convection — temperature gradients in bath induce flow, most problematic for capillaries with large d"
+        ],
+        "quality_control_checks": [
+          "run replicate capillaries (≥3) in each batch and verify D12 agreement within ±2%",
+          "validate with a reference system (e.g., KCl/water) to confirm apparatus accuracy",
+          "measure D12 at multiple diffusion times and verify time-independent result (confirms absence of convection)",
+          "invert capillary orientation in companion runs to test for convective artifacts",
+          "inspect capillaries for bubbles under magnification before and after immersion",
+          "verify bath temperature stability throughout the diffusion period from continuous log"
+        ],
+        "failure_modes": [
+          "convective overturning during diffusion (density inversion) — D12 values scattered and anomalously high",
+          "capillary breakage during handling or extraction — loss of sample",
+          "analytical method failure — refractometer drift, UV lamp instability — produces unreliable c_t values",
+          "air bubble nucleation during diffusion — blocks diffusion path, gives low and irreproducible D12",
+          "bath temperature excursion — uncontrolled temperature change invalidates constant-T assumption"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 1–3% for D12; best-practice measurements achieve ~1%",
+        "random_sources": [
+          "precision of concentration measurement (refractometry ±0.0001 nD, or UV-vis absorbance ±0.002 AU)",
+          "capillary-to-capillary variability in bore diameter",
+          "temperature fluctuations in the thermostated bath (±0.01 K contributes ~0.02–0.06% to D12 uncertainty)",
+          "timing uncertainty (negligible for long diffusion times)",
+          "variability in capillary filling (meniscus position at open end)"
+        ],
+        "systematic_sources": [
+          "uncertainty in capillary internal diameter (1% error in d propagates as ~2% error in end-effect correction)",
+          "uncertainty in effective capillary length and end-effect correction δ",
+          "assumption of constant D12 over the concentration range in the capillary (integral vs. differential D12)",
+          "residual convective transport in capillary (always slightly enhances apparent D12)",
+          "temperature calibration offset of the bath thermometer",
+          "evaporative losses from reservoir changing boundary concentration"
+        ],
+        "operator_dependence": "moderate — skill required in capillary filling (avoiding bubbles), orientation setup (buoyancy stability), extraction and quantitative recovery of capillary contents, and analytical measurement",
+        "model_dependence": "low to moderate — the Anderson-Saddington series solution is exact for the ideal geometry; main model uncertainty comes from the end-effect correction and the assumption that D12 is concentration-independent",
+        "dominant_error_sources": [
+          "capillary geometry measurement (length and diameter)",
+          "end-effect correction",
+          "analytical precision of concentration measurement",
+          "residual convection (especially in wide-bore capillaries or with adverse density gradients)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(D12) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of D12",
+          "standard deviation from replicate capillary measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The open capillary method is a classical technique for measuring mutual diffusion coefficients (D12) in liquid solutions. In this approach, a narrow precision-bore glass capillary — closed at one end and open at the other — is filled with a solution of known concentration, and the open end is immersed in a large reservoir of pure solvent or a solution of different concentration maintained at constant temperature. Diffusion occurs along the capillary axis, driven by the concentration gradient between the capillary interior and the reservoir. After a precisely timed diffusion period, the capillary is withdrawn and its contents analyzed to determine the residual solute concentration. The diffusion coefficient is then calculated from the fractional concentration change using analytical solutions to Fick's second law for the appropriate boundary conditions. First systematized by Anderson and Saddington (1949), this method remains valued for its simplicity, low cost, and ability to run many simultaneous determinations.",
+      "how_it_operates": "A precision glass capillary (typically 0.5–2 mm bore, 10–50 mm long) sealed at one end is filled completely with a solution of precisely known concentration c0 using a microsyringe. The open end is then carefully immersed in a large thermostatted reservoir of pure solvent (or solution of concentration c_s ≠ c0). The concentration difference between the capillary interior and the reservoir drives Fickian diffusion along the capillary axis. Because the reservoir volume is much larger than the capillary volume (typically >1000:1), the concentration at the capillary mouth remains essentially constant at c_s throughout the experiment. The closed end imposes a zero-flux boundary condition. After a predetermined diffusion time t (hours to days), the capillary is removed from the reservoir, its exterior rinsed, and the contents expelled and analyzed — typically by differential refractometry, UV-vis spectrophotometry, or conductimetry — to determine the residual mean concentration c_t.",
+      "core_theory": "The concentration profile inside the capillary evolves according to Fick's second law: ∂c/∂t = D12 ∂²c/∂x² with boundary conditions c(0,t) = c_s at the open end (x = 0) and ∂c/∂x = 0 at the closed end (x = L). The initial condition is c(x,0) = c0 uniformly along the capillary. The Anderson-Saddington solution for the mean concentration remaining in the capillary is: c̄_t/c0 = (8/π²) Σ_{n=0}^{∞} [1/(2n+1)²] exp[−(2n+1)²π²D12·t/(4L²)], where c_s = 0 (pure solvent reservoir). For sufficiently long diffusion times (D12·t/L² > 0.2), the series converges rapidly and the leading term dominates: c̄_t/c0 ≈ (8/π²) exp(−π²D12·t/(4L²)). D12 is extracted either by solving this transcendental equation numerically for D12 given the measured c̄_t/c0 and t, or by plotting ln(c̄_t/c0) versus t for multiple withdrawal times and determining D12 from the slope (−π²D12/(4L²)). An end-effect correction replaces L with L_eff = L + δ (where δ ≈ 0.34d for a flush-cut capillary mouth) to account for diffusion extending slightly beyond the geometric end of the capillary into the reservoir.",
+      "setup": "A typical open capillary apparatus consists of a rack holding 5–20 precision-bore glass capillaries (Pyrex or borosilicate, internal diameter 0.8–1.5 mm, length 20–40 mm) vertically in a large-volume glass reservoir (0.5–2 L). The reservoir sits in a high-stability thermostated water bath controlled to ±0.01 K via a PID controller and precision thermometer. A gentle magnetic stirrer or slow circulation pump maintains uniform concentration in the reservoir without generating flow at the capillary mouths. Capillaries are flame-sealed at one end and have their open ends ground flat and polished. Filling is accomplished with narrow-gauge microsyringe needles inserted to the closed end, withdrawing as solution flows in. The analytical station consists of either a differential refractometer (for non-electrolyte systems, sensitivity ~10⁻⁶ refractive index units), a UV-vis spectrophotometer (for chromophore-containing solutes), or a conductivity meter (for electrolyte solutions). A precision analytical balance (±0.01 mg), traveling microscope or digital caliper for capillary dimensions, and a calibrated stopwatch or timer complete the apparatus.",
+      "suitable_for": "The open capillary method is well-suited for measuring mutual diffusion coefficients of binary liquid solutions at ambient or moderately elevated temperatures. It is particularly practical for aqueous electrolyte solutions (the historical domain of Anderson and Saddington), aqueous solutions of sugars, amino acids, and small organic molecules, and organic–organic mixtures where the diffusing species can be quantified by simple analytical methods. The technique excels when many data points at different concentrations or temperatures are needed because multiple capillaries can be run simultaneously. It is appropriate for systems where D12 falls in the range 10⁻¹⁰ to 10⁻⁹ m²/s with diffusion times of 1–3 days, and for dilute polymer solutions with slower diffusion requiring longer run times.",
+      "core_limitations": "The principal limitation is measurement speed: each determination typically requires 12–72 hours of diffusion time, making it unsuitable for rapid screening or volatile systems. The method inherently measures a concentration-averaged diffusion coefficient over the capillary's concentration range, not a true differential D12 at a single concentration, unless very small concentration differences are used (which reduces analytical precision). Natural convection is the most serious systematic threat — if the density arrangement is gravitationally unstable (denser solution above less dense) or if temperature gradients exist, convective mixing enhances mass transfer and inflates the apparent D12. The analytical step for determining residual concentration introduces additional uncertainty beyond that of purely optical in-situ methods such as interferometry. The technique requires that the solution wet the capillary wall and fill without bubbles — poorly wetting systems or dissolved gas can cause failures.",
+      "sample_preparation": "Solutions are prepared gravimetrically using analytical-grade solutes and high-purity solvents (distilled, deionized water with resistivity >18 MΩ·cm, or HPLC-grade organics). Stock solutions are degassed by sonication under partial vacuum or by helium sparging to prevent bubble nucleation during diffusion. The reservoir is filled with pure solvent (or reference solution) and allowed to equilibrate to the bath temperature for at least 2 hours. Capillaries are cleaned by drawing chromic acid cleaning solution through them, followed by copious rinsing with distilled water and drying in a clean oven (110 °C, 1 hour) or with filtered dry air. Immediately before the experiment, capillaries are filled from the closed end using a fine microsyringe needle, withdrawing the needle slowly while dispensing solution to avoid trapping air bubbles. The filled capillary is inspected under a magnifying glass to verify the absence of bubbles and that the meniscus at the open end is properly defined.",
+      "calibration_and_references": "The apparatus is calibrated geometrically and validated against a reference system. Capillary internal diameter is measured by the mercury weighing method — a known length of capillary is filled with mercury, weighed, and the diameter calculated from the mercury density and column length. Capillary effective length is measured with a traveling microscope (±0.01 mm). The analytical method (refractometer, spectrophotometer, or conductimeter) is calibrated using at least five standard solutions spanning the expected concentration range, with a calibration curve verified for linearity or fitted with an appropriate polynomial. Apparatus validation is performed by measuring D12 for a well-characterized reference system such as 0.33 mol/L KCl in water at 298.15 K (accepted D12 = 1.838 × 10⁻⁹ m²/s) or 1.0 mol/L sucrose in water at 298.15 K (accepted D12 ≈ 5.23 × 10⁻¹⁰ m²/s). Agreement within 1–2% of the accepted value confirms proper apparatus function.",
+      "data_interpretation": "After measuring the residual mean concentration c̄_t in the capillary, the fractional concentration ratio c̄_t/c0 (or (c̄_t − c_s)/(c0 − c_s) when the reservoir is not pure solvent) is computed. This ratio is inserted into the Anderson-Saddington series equation, which is solved for D12 either by numerical root-finding or by using tabulated values relating c̄_t/c0 to the dimensionless Fourier number Fo = D12·t/L_eff². The end-effect correction is applied by replacing L with L_eff = L + 0.34d (Stokes correction) or a value determined experimentally by measuring D12 at different capillary lengths and extrapolating. When multiple capillaries are withdrawn at different times from the same batch, plotting ln[(π²/8)(c̄_t/c0)] versus t should yield a straight line with slope −π²D12/(4L_eff²), from which D12 is obtained by linear regression. Deviations from linearity at short times indicate that higher-order series terms are significant, while deviations at long times may signal convective contamination. The resulting D12 is the integral (concentration-averaged) diffusion coefficient over the range c_s to c0.",
+      "common_pitfalls": "The most critical pitfall is convective contamination of the diffusion process. The capillary must be oriented so that the denser solution is always below the less dense — typically open end down when the capillary solution is denser than the reservoir. Failure to observe this orientation leads to density-driven overturning and grossly elevated apparent D12 values. Incomplete degassing of solutions causes gas bubbles to nucleate inside the capillary during the long diffusion period, partially blocking the diffusion path and yielding low, scattered D12 values. Imprecise knowledge of capillary dimensions — especially the internal diameter, which enters the end-effect correction — introduces systematic bias. Extracting capillary contents incompletely (solution retained on walls) produces concentration measurement errors. Allowing the reservoir concentration to change (insufficiently large reservoir volume, or evaporation) violates the constant boundary condition assumption. Finally, vibration from nearby equipment or foot traffic can induce streaming in the capillary.",
+      "artifacts_and_failure_modes": "Convective overturning is the most devastating failure mode — it produces D12 values 50–200% above the true value and is recognizable by high scatter among replicate capillaries with preferentially upward-biased outliers. Bubble formation partway through the experiment creates a physical barrier to diffusion, yielding anomalously low D12 values that are recognizable by downward outliers and poor inter-capillary reproducibility. End-effect errors, if the correction δ is inaccurate, introduce a systematic bias of 2–5% that is consistent across all measurements but shifts the entire D12 scale. Thermal cycling of the bath (inadequate PID control) modulates the true diffusion rate and can produce averaged D12 values that differ from the nominal temperature value. Capillary wall adsorption of the solute (relevant for surfactants, proteins, or dyes) depletes the capillary solution concentration beyond what diffusion alone predicts, artificially increasing the apparent D12. Contamination of the reservoir through leaching from bath components or atmospheric dust absorption can alter the boundary concentration over multi-day experiments.",
+      "reporting_checklist": "Publications using the open capillary method should report: capillary dimensions (internal diameter and effective length with uncertainties), end-effect correction applied (model and value of δ), diffusion time (with thermostat stability over that period), bath temperature and control precision, initial capillary and reservoir concentrations, number of replicate capillaries per determination, analytical method used for concentration measurement and its calibration, whether the D12 reported is integral (concentration-averaged) or differential, validation result against a reference system (e.g., KCl/water), density arrangement orientation (open end up or down), combined expanded uncertainty with coverage factor and confidence level, and raw c̄_t/c0 data if practical. For ThermoML encoding, D12 values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

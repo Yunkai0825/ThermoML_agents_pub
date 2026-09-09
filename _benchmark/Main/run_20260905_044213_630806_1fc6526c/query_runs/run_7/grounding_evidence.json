@@ -1,0 +1,68 @@
+{
+  "generated": "2026-09-05T04:46:33",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNINSPECTED_BLOCK",
+      "anchor": "PROPblock_6",
+      "block_number": "PROPblock_6",
+      "lit_id": null,
+      "literals": [
+        "0.3",
+        "0.35",
+        "298.15"
+      ],
+      "detail": "PROPblock_6 is quoted with data values (0.3, 0.35, 298.15, …) but was never inspected in this run",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_6\", literature=\"<GLOBlit_N or DOI>\")"
+    }
+  ],
+  "verified": [],
+  "partially_grounded": [],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_8": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_4": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_10": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_6": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "0.3",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "0.35",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      }
+    ]
+  },
+  "inspections": []
+}

@@ -1,0 +1,334 @@
+{
+  "meas_ID": "coaxial_cylinder_capacitor",
+  "identity": {
+    "name": "Coaxial cylinder capacitor",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Coaxial cylinder capacitor",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Optical / Refractometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 126,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 17,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 126,
+          "papers": 17
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "capacitance of cell filled with sample (C_sample)",
+          "capacitance of evacuated cell (C_vacuum)",
+          "capacitance of cell filled with reference fluid (C_ref)",
+          "resonant frequency or impedance bridge balance readings"
+        ],
+        "derived_observables": [
+          "relative permittivity / dielectric constant (εᵣ = C_sample / C_vacuum)",
+          "molar polarization (Pm, via Clausius-Mossotti relation)",
+          "dipole moment (μ, from temperature-dependent molar polarization)",
+          "electronic polarizability (from high-frequency limiting permittivity)",
+          "refractive index (n, via Maxwell relation n² ≈ εᵣ at optical frequencies)"
+        ],
+        "target_properties": [
+          "relative permittivity (dielectric constant, εᵣ)",
+          "molar polarization",
+          "dipole moment",
+          "dielectric loss (tan δ, if measured at multiple frequencies)",
+          "refractive index (derived via Lorentz-Lorenz / Clausius-Mossotti linkage)"
+        ],
+        "phases_measured": [
+          "liquid",
+          "compressed liquid",
+          "supercritical fluid",
+          "gas (low-density dielectric measurements)"
+        ],
+        "supported_sample_types": [
+          "pure polar and nonpolar liquids",
+          "binary and multicomponent liquid mixtures",
+          "electrolyte solutions (at low to moderate conductivity)",
+          "compressed gases and supercritical fluids",
+          "refrigerants and industrial fluids",
+          "organic solvents",
+          "ionic liquids (low conductivity variants)"
+        ],
+        "unsupported_sample_types": [
+          "highly conducting liquids (DC conductivity overwhelms capacitive signal)",
+          "concentrated electrolyte solutions (electrode polarization dominates)",
+          "solids (cannot fill coaxial gap)",
+          "viscous pastes or slurries that trap air bubbles in the annular gap",
+          "corrosive fluids incompatible with electrode materials"
+        ],
+        "typical_output_formats": [
+          "εᵣ vs. T at fixed pressure",
+          "εᵣ vs. P at fixed temperature",
+          "εᵣ vs. composition at fixed T and P",
+          "molar polarization vs. T (Debye plot)",
+          "capacitance vs. frequency (for dielectric spectroscopy mode)"
+        ],
+        "units": {
+          "capacitance": "pF",
+          "relative_permittivity": "dimensionless",
+          "molar_polarization": "cm³/mol",
+          "dipole_moment": "D (Debye) or C·m",
+          "temperature": "K",
+          "pressure": "MPa",
+          "frequency": "Hz or kHz"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 500 K",
+            "hard_limits": "lower limit set by sample freezing; upper limit by electrode seal integrity and sample thermal stability",
+            "notes": "cryostat-equipped cells extend to ~100 K; high-temperature cells to ~600 K"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 200 MPa",
+            "hard_limits": "limited by mechanical strength of cylindrical electrodes and pressure seals; specialized cells reach 500 MPa",
+            "notes": "coaxial cylinder geometry is inherently strong under hydrostatic pressure due to cylindrical symmetry"
+          },
+          {
+            "parameter": "measurement_frequency",
+            "typical_range": "1 kHz to 10 MHz",
+            "hard_limits": "low-frequency limit set by electrode polarization; high-frequency limit by stray capacitance and lead inductance",
+            "notes": "1 kHz is standard for static permittivity; multi-frequency sweeps used for dielectric relaxation studies"
+          },
+          {
+            "parameter": "cell_gap_ratio",
+            "typical_range": "b/a = 1.1 to 2.0 (outer/inner radius ratio)",
+            "hard_limits": "ratio too close to 1 reduces sensitivity; ratio too large increases fringe field errors",
+            "notes": "b/a ≈ 1.2–1.5 provides good compromise between sensitivity and field uniformity"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned or controlled variable",
+            "typical_values": "200 K to 500 K",
+            "effect": "permittivity of polar liquids is strongly temperature-dependent through the Debye orientation mechanism"
+          },
+          {
+            "name": "pressure",
+            "role": "secondary controlled variable",
+            "typical_values": "0.1 MPa to 200 MPa",
+            "effect": "pressure increases density and modifies molecular packing, altering permittivity; important for PVT-coupled studies"
+          },
+          {
+            "name": "composition",
+            "role": "mixture variable",
+            "typical_values": "mole fraction 0 to 1",
+            "effect": "excess permittivity and excess molar polarization reveal mixing behavior and molecular interactions"
+          },
+          {
+            "name": "measurement_frequency",
+            "role": "fixed or scanned depending on study type",
+            "typical_values": "1 kHz for static εᵣ; swept 100 Hz to 10 MHz for relaxation",
+            "effect": "at low frequencies εᵣ reflects static (orientation + distortion) polarization; at high frequencies only electronic and atomic contributions remain"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "coaxial cylindrical capacitor cell — precision-machined inner and outer electrodes (stainless steel, Inconel, or gold-plated) with defined radii a and b and active length L",
+          "impedance bridge or LCR meter — high-precision capacitance measurement (e.g., Andeen-Hagerling AH 2500A, 0.01 pF resolution)",
+          "thermostat — liquid bath (silicone oil, ethanol) or cryostat for temperature control to ±0.01 K",
+          "pressure generation system — hand pump or syringe pump for high-pressure studies with pressure transducer (±0.01 MPa)",
+          "temperature sensor — platinum resistance thermometer (PRT) or calibrated thermistor in close thermal contact with cell",
+          "coaxial guard electrodes — guard rings at both ends of the cylindrical capacitor to eliminate fringe (stray) field effects",
+          "vacuum system — turbo or rotary pump for evacuating cell during vacuum capacitance measurement",
+          "fill and drain ports — capillary tubing welded to cell body for sample introduction without trapping air",
+          "shielded coaxial cabling — low-loss cables connecting cell electrodes to bridge, minimizing stray capacitance"
+        ],
+        "environmental_requirements": [
+          "temperature stability ±0.01 K or better during capacitance reading",
+          "vibration isolation to prevent microphonic capacitance fluctuations",
+          "electromagnetic shielding to eliminate stray capacitance pickup from nearby equipment",
+          "dry atmosphere or inert gas purge around cell to prevent moisture condensation at low temperatures"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid — must completely fill the annular gap between inner and outer cylinders without trapped gas bubbles"
+          ],
+          "size_limits": "cell volume typically 1–50 mL depending on electrode dimensions",
+          "thickness_limits": "annular gap width (b − a) typically 0.5–5 mm; defines sample thickness",
+          "surface_requirements": [
+            "electrode surfaces must be clean, smooth, and free of adsorbed films or oxide layers that alter effective gap spacing",
+            "gold plating or passivation to prevent corrosion by sample fluids"
+          ],
+          "mounting_requirements": [
+            "cell must be leak-tight at maximum operating pressure",
+            "PTFE, Viton, or metal-to-metal seals for electrode insulation and pressure containment",
+            "cell orientation (vertical preferred) to facilitate complete filling and bubble removal"
+          ],
+          "preparation_requirements": [
+            "sample must be degassed under vacuum or by helium sparging to prevent dissolved gas forming bubbles when pressurized or heated",
+            "sample dried over molecular sieves or by distillation for moisture-sensitive measurements",
+            "cell flushed with sample several times before final fill to remove residues",
+            "for mixtures, prepare gravimetrically with ±0.0001 g accuracy"
+          ]
+        },
+        "calibration_requirements": [
+          "vacuum capacitance measurement (C₀) to determine geometric cell constant: C₀ = 2πε₀L/ln(b/a)",
+          "capacitance measurement with standard reference liquid of known permittivity (e.g., cyclohexane, benzene, toluene) to verify cell constant and check for systematic errors",
+          "stray capacitance and lead correction — subtraction of parasitic contributions measured with guard electrodes disconnected",
+          "temperature calibration of PRT against ITS-90 fixed points or certified reference thermometer",
+          "pressure transducer calibration against a dead-weight pressure balance"
+        ],
+        "reference_materials": [
+          "cyclohexane — well-characterized εᵣ ≈ 2.024 at 298.15 K, common low-permittivity reference",
+          "benzene — εᵣ ≈ 2.284 at 298.15 K (caution: carcinogen, increasingly replaced)",
+          "water — εᵣ ≈ 78.36 at 298.15 K, high-permittivity reference (IAPWS standard)",
+          "nitrogen gas — near-unity permittivity for verifying vacuum capacitance corrections",
+          "methanol — εᵣ ≈ 32.66 at 298.15 K, intermediate polarity reference"
+        ],
+        "consumables": [
+          "PTFE or elastomer O-rings for cell seals",
+          "reference liquids (cyclohexane, toluene) of analytical grade",
+          "molecular sieves for sample drying",
+          "cleaning solvents (acetone, ethanol) for cell flush",
+          "inert gas supply (nitrogen, helium) for cell purging"
+        ],
+        "safety_notes": [
+          "high-pressure cells are pressurized vessels — follow pressure equipment safety regulations and use blast shields during operation above 50 MPa",
+          "many dielectric fluids (benzene, chlorinated solvents) are toxic or carcinogenic — use in fume hood with proper PPE",
+          "electrical connections carry AC voltage — guard against shock when operating impedance bridge at elevated voltages",
+          "cryogenic operation requires standard cryogen handling precautions"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capacitance resolution of 0.001–0.01 pF enables detection of permittivity changes as small as Δεᵣ ≈ 0.001 for typical cell geometries",
+        "detection_limit": "εᵣ values from ~1 (vacuum/gas) to >200 (highly polar liquids); minimum detectable change ~10⁻⁴ in εᵣ",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement of fluid filling the entire annular gap)",
+          "temporal": "single capacitance reading in 1–30 s depending on bridge settling time and averaging",
+          "spectral": "frequency resolution defined by impedance bridge specifications, typically Δf/f < 0.01%",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "εᵣ from ~1 (gases) to ~200 (formamide, water at low T); capacitance dynamic range typically 0.1 pF to 1000 pF",
+        "accuracy": "0.01–0.1% in εᵣ for well-designed cells with proper calibration; best results ±0.01% achieved with guarded cells and sub-ppm bridge accuracy",
+        "precision": "0.005–0.05% (repeatability of εᵣ at fixed T and P conditions)",
+        "throughput": "single sample per loading; complete T-scan or P-scan takes 2–8 hours depending on number of state points and equilibration time",
+        "measurement_speed": "individual εᵣ determination in 1–5 minutes including thermal equilibration; bridge reading itself takes seconds"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "capacitance (pF) and dissipation factor (tan δ) measured by impedance bridge or LCR meter at the excitation frequency",
+        "preprocessing_steps": [
+          "subtraction of stray (parasitic) capacitance determined from guard electrode and cabling calibration",
+          "correction for electrode thermal expansion at temperatures different from calibration temperature",
+          "correction for pressure-induced deformation of electrode gap at high pressures (elastic compression of cylinders)",
+          "vacuum capacitance (C₀) ratio calculation: εᵣ = C_sample / C₀",
+          "temperature and pressure interpolation to exact state-point values if readings are not at exact target conditions"
+        ],
+        "analysis_methods": [
+          "direct ratio method: εᵣ = C_sample / C_vacuum — primary method for relative permittivity",
+          "substitution method: compare sample capacitance with reference liquid of known εᵣ to cancel systematic geometry errors",
+          "Clausius-Mossotti analysis: (εᵣ−1)/(εᵣ+2) × M/ρ = Pm to obtain molar polarization from εᵣ and density",
+          "Debye analysis: plot Pm vs. 1/T to extract dipole moment μ from slope and electronic polarizability from intercept",
+          "Kirkwood-Fröhlich analysis for associating liquids: includes correlation factor g to account for short-range dipole correlations",
+          "dielectric relaxation fitting (Cole-Cole, Cole-Davidson, Havriliak-Negami models) if multi-frequency data are available"
+        ],
+        "model_assumptions": [
+          "electric field between coaxial cylinders is purely radial and uniform along the cylinder axis (infinite-length approximation, corrected by guard electrodes)",
+          "sample is homogeneous and isotropic within the measurement gap",
+          "electrode surfaces are perfectly smooth and geometrically parallel (no eccentricity)",
+          "sample does not react with or adsorb onto electrode surfaces",
+          "at the measurement frequency, ionic conductivity contribution to measured capacitance is negligible (low-loss regime)",
+          "Clausius-Mossotti relation assumes non-associating, non-polar or weakly polar molecules in a mean-field environment"
+        ],
+        "fit_parameters": [
+          "relative permittivity εᵣ (primary result)",
+          "dissipation factor tan δ (dielectric loss)",
+          "vacuum cell constant C₀ = 2πε₀L/ln(b/a)",
+          "molar polarization Pm (derived from εᵣ, density, and molar mass)",
+          "dipole moment μ (from Debye plot slope)",
+          "relaxation time τ and distribution parameters (α, β) for dielectric relaxation models"
+        ],
+        "common_artifacts": [
+          "electrode polarization: at low frequencies, charge buildup at electrode-liquid interface produces anomalously high apparent εᵣ — mitigated by using frequencies above 1 kHz",
+          "residual gas bubbles: trapped air in the annular gap reduces measured capacitance and gives erroneously low εᵣ — must be eliminated by careful filling and degassing",
+          "fringe field leakage: capacitance from electric field extending beyond the active electrode length inflates C_sample — corrected by guard electrodes",
+          "temperature gradients: non-uniform T across the cell causes spatial variation in εᵣ, yielding an averaged value biased toward the warmer or cooler region",
+          "electrode eccentricity: misalignment of inner cylinder introduces cos(θ) dependence in gap width, biasing capacitance high — controlled by precision machining and centering"
+        ],
+        "quality_control_checks": [
+          "verify vacuum capacitance C₀ reproduces within 0.01% day-to-day to confirm electrode geometry stability",
+          "measure εᵣ of reference liquid (cyclohexane or water) at standard conditions and compare with literature values within stated accuracy",
+          "check frequency independence of εᵣ at the measurement frequency to confirm absence of electrode polarization or relaxation effects",
+          "compare results from filling and draining runs to detect bubble or contamination artifacts",
+          "inspect dissipation factor tan δ — anomalously high values indicate conductivity contamination or moisture ingress",
+          "verify pressure seal integrity: no capacitance drift at constant T and P over extended hold periods"
+        ],
+        "failure_modes": [
+          "seal failure at high pressure — sample leaks from cell, capacitance drops suddenly to near-vacuum value",
+          "electrode corrosion or surface filming — gradual drift in C₀ and systematic shift in εᵣ over time",
+          "sample decomposition at elevated temperature — irreversible change in capacitance and discoloration of sample",
+          "moisture contamination of hygroscopic samples — εᵣ rises anomalously due to water's high permittivity",
+          "lead cable damage or connector degradation — intermittent or noisy capacitance readings",
+          "bridge overrange — sample with very high εᵣ or conductivity exceeds bridge measurement range"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.1% in εᵣ for pure liquids; 0.1–0.5% for high-pressure or mixture measurements",
+        "random_sources": [
+          "impedance bridge resolution and electronic noise",
+          "temperature fluctuations during capacitance reading (dεᵣ/dT coupling)",
+          "pressure fluctuations in high-pressure experiments",
+          "sample inhomogeneity from incomplete mixing in multicomponent systems",
+          "vibration-induced microphonic capacitance noise"
+        ],
+        "systematic_sources": [
+          "vacuum cell constant (C₀) uncertainty from machining tolerances on electrode radii and length",
+          "stray capacitance correction residual",
+          "thermal expansion correction for electrode dimensions at non-ambient temperatures",
+          "pressure deformation correction for electrode gap at high pressures",
+          "reference liquid permittivity uncertainty propagated through substitution calibration",
+          "sample purity and moisture content (especially for polar liquids)",
+          "electrode surface condition (adsorbed films altering effective gap)"
+        ],
+        "operator_dependence": "low to moderate — fill procedure quality (bubble avoidance) and cell cleanliness depend on operator skill; once filled, measurement is largely automated",
+        "model_dependence": "low for direct εᵣ measurements (simple ratio C/C₀); moderate to high for derived quantities (molar polarization depends on density data accuracy; dipole moment extraction depends on Debye model validity for associating liquids)",
+        "dominant_error_sources": [
+          "vacuum cell constant C₀ determination (geometry uncertainty)",
+          "thermal expansion and pressure deformation corrections at extreme conditions",
+          "sample purity (trace water or ionic impurities in dielectric fluids)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(εᵣ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of εᵣ",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The coaxial cylinder capacitor is a dielectric measurement technique that determines the relative permittivity (dielectric constant) of fluids by measuring the electrical capacitance of a precision-machined cell consisting of two concentric cylindrical electrodes with the sample filling the annular gap. The technique exploits the direct proportionality between capacitance and the dielectric constant of the interstitial medium: C = 2πε₀εᵣL/ln(b/a), where a and b are the inner and outer electrode radii and L is the active electrode length. Widely used in the NIST ThermoML database for permittivity measurements across temperature and pressure ranges, the coaxial geometry provides excellent field uniformity, mechanical strength for high-pressure operation, and straightforward calibration through vacuum and reference-liquid measurements.",
+      "how_it_operates": "The sample fluid is introduced through fill ports into the annular gap between a precision inner cylinder (radius a) and a concentric outer cylinder (radius b). A high-precision impedance bridge or LCR meter applies an AC excitation voltage (typically at 1–10 kHz) across the electrodes and measures the resulting capacitance C_sample and, optionally, the dissipation factor tan δ. The relative permittivity is obtained as the ratio εᵣ = C_sample / C₀, where C₀ is the vacuum capacitance of the empty cell determined in a separate calibration measurement. Guard electrodes at both ends of the active cylinder length confine the electric field to the measurement region, eliminating fringe-field errors. Temperature is regulated by immersing the cell in a thermostat bath, and for high-pressure studies a syringe pump pressurizes the sample through flexible capillary lines while a pressure transducer monitors the system pressure.",
+      "core_theory": "For an ideal coaxial capacitor of infinite length, the electric field is purely radial: E(r) = V/(r·ln(b/a)), where V is the applied voltage and r is the radial coordinate. The capacitance per unit length is C/L = 2πε₀εᵣ/ln(b/a). The total capacitance of a cell with active length L is C = 2πε₀εᵣL/ln(b/a), making εᵣ directly proportional to capacitance for fixed geometry. Guard electrodes approximate the infinite-length condition by eliminating fringe fields. The Clausius-Mossotti relation links εᵣ to molecular properties: (εᵣ−1)/(εᵣ+2) × M/ρ = (Nₐ/3ε₀)(α + μ²/3kᵦT), where α is the electronic polarizability, μ is the permanent dipole moment, M is molar mass, ρ is density, Nₐ is Avogadro's number, and kᵦ is the Boltzmann constant. For non-polar fluids this simplifies to the Lorentz-Lorenz relation connecting εᵣ to refractive index via n² = εᵣ at optical frequencies.",
+      "setup": "A typical coaxial cylinder capacitor cell consists of two precision-machined concentric cylinders (stainless steel, Inconel, or gold-plated metal) with the inner electrode supported by insulating spacers (PTFE, ceramic, or sapphire). Guard rings are machined at both ends of the active electrodes, separated from the measuring electrode by narrow gaps (~0.1 mm), and driven at the same potential to enforce uniform radial field geometry. Fill and drain ports (capillary tubes, typically 0.5–1 mm ID) are welded to the outer cylinder for sample introduction. The cell is connected to a high-precision capacitance bridge (e.g., Andeen-Hagerling AH 2500A with ~0.01 pF resolution) via shielded three-terminal coaxial cabling. The assembled cell is mounted in a thermostatic bath or cryostat with a calibrated PRT providing temperature measurement. For high-pressure operation, the cell is placed inside a pressure vessel or constructed as a self-pressurizing unit with Bridgman-type seals.",
+      "suitable_for": "The coaxial cylinder capacitor is ideally suited for measuring the static relative permittivity of pure liquids, liquid mixtures, compressed fluids, and supercritical fluids over wide temperature and pressure ranges. Its robust metallic construction makes it the method of choice for high-pressure dielectric studies up to 200–500 MPa. The technique is widely applied to polar organic solvents, alcohols, refrigerants, hydrocarbons, and industrial fluids. It provides the raw εᵣ data needed to derive molar polarization and dipole moments via the Clausius-Mossotti equation, making it valuable for molecular characterization. The coaxial geometry is also used for density determination of fluids when combined with a vibrating tube densimeter in tandem setups.",
+      "core_limitations": "The primary limitation is that the sample must be a fluid capable of completely filling the annular gap without trapping bubbles, which excludes solids, highly viscous pastes, and gas-liquid two-phase mixtures. Highly conducting samples (concentrated electrolyte solutions, molten salts) produce overwhelming electrode polarization at low frequencies, degrading accuracy or requiring correction models. The method provides a single spatially averaged εᵣ for the entire cell volume; local inhomogeneities or composition gradients are not resolved. Accuracy of the absolute εᵣ depends critically on knowledge of the geometric cell constant (C₀), which requires precision machining (electrode radii to ±1 µm) and corrections for thermal expansion and pressure deformation. At very high permittivities (εᵣ > 100), the fractional change in capacitance per unit εᵣ decreases, reducing sensitivity to small perturbations.",
+      "sample_preparation": "Liquid samples must be thoroughly degassed before loading to prevent gas bubbles from forming in the annular gap, which would reduce the measured capacitance and introduce scatter. Degassing is accomplished by vacuum distillation, repeated freeze-pump-thaw cycles, or helium sparging. For moisture-sensitive dielectrics (e.g., nitrobenzene, DMSO), samples are dried over activated molecular sieves (3 Å or 4 Å) and handled under dry nitrogen or argon atmosphere. The cell interior is cleaned by flushing with analytical-grade acetone and ethanol, then dried under vacuum. For mixture preparation, components are weighed gravimetrically on an analytical balance (±0.0001 g) and mixed in sealed vessels to prevent composition changes from evaporation. The sample is introduced into the cell slowly through the fill port while the cell is slightly tilted or held vertically to allow air to escape from the drain port, ensuring complete filling of the annular gap.",
+      "calibration_and_references": "Calibration follows a two-step protocol. First, the geometric cell constant C₀ is determined by measuring the capacitance of the evacuated cell using a high-vacuum pump (pressure < 1 Pa). This vacuum capacitance, corrected for residual gas contribution, establishes the absolute scale: εᵣ = C/C₀. Second, the cell constant is verified by measuring a reference liquid of well-known permittivity — cyclohexane (εᵣ = 2.0243 at 298.15 K, 0.1 MPa), toluene, or deionized water (εᵣ = 78.36 at 298.15 K) — and comparing with literature values. Agreement within 0.05% confirms proper cell operation. Temperature calibration uses a PRT traceable to ITS-90 via NIST-certified fixed points. For high-pressure work, the pressure transducer is calibrated against a dead-weight tester, and the electrode gap correction for elastic deformation is determined from the known elastic moduli of the electrode material and finite-element modeling of the cell geometry under pressure.",
+      "data_interpretation": "The primary result, relative permittivity εᵣ, is computed as the ratio C_sample/C₀ after applying corrections for stray capacitance, thermal expansion of electrodes, and (at high pressure) elastic deformation of the gap. The dissipation factor tan δ provides a diagnostic check — values below 10⁻³ confirm the sample is in the low-loss regime where the measured capacitance accurately represents εᵣ. To obtain molar polarization Pm, the measured εᵣ is combined with independently measured density ρ and molar mass M via the Clausius-Mossotti relation: Pm = (εᵣ−1)/(εᵣ+2) × M/ρ. A linear plot of Pm vs. 1/T (Debye plot) yields the permanent dipole moment μ from the slope and the distortion polarizability α_d from the intercept. For associating liquids where the Clausius-Mossotti approximation breaks down, the Kirkwood-Fröhlich model with a correlation factor g is used to account for short-range dipole ordering.",
+      "common_pitfalls": "The most frequent error source is incomplete filling of the annular gap — even a single small gas bubble reduces the effective capacitance and yields an erroneously low εᵣ. Operators should verify complete filling by comparing capacitance readings from consecutive fill-drain-refill cycles. Electrode polarization at low measurement frequencies (below ~500 Hz) produces anomalously high apparent permittivity, particularly for slightly conducting samples; choosing a measurement frequency of 1–10 kHz avoids this artifact for most dielectric liquids. Neglecting thermal expansion of the electrodes between the calibration temperature and the measurement temperature introduces a systematic error in C₀ that propagates directly into εᵣ. Similarly, ignoring pressure-induced contraction of the gap at high pressures causes εᵣ to be overestimated. Using impure or wet samples is particularly damaging for low-permittivity fluids, where even ~100 ppm water can shift εᵣ by 0.1%.",
+      "artifacts_and_failure_modes": "Electrode polarization artifacts manifest as a sharp rise in apparent εᵣ at low frequencies and are revealed by sweeping the excitation frequency (εᵣ should plateau at the static value above ~1 kHz). Residual gas bubbles cause an apparent εᵣ that is lower than the true value and that may fluctuate as bubbles migrate under thermal convection; this is diagnosed by comparing heating and cooling scans. Fringe-field leakage past the guard electrodes, caused by guard-gap contamination or electrical breakdown of the guard insulator, adds parasitic capacitance and systematically inflates εᵣ. Electrode surface degradation (corrosion, deposit formation) slowly changes the effective gap and shifts C₀, detectable by periodic vacuum recalibration. Mechanical failure of high-pressure seals leads to sudden sample loss, identifiable by a step change in capacitance toward the vacuum value. Cable or connector degradation introduces intermittent noise and drift in bridge readings.",
+      "reporting_checklist": "Published coaxial cylinder capacitor results should report: electrode dimensions (inner radius a, outer radius b, active length L) or geometric cell constant C₀; measurement frequency; temperature and pressure with stated uncertainties; thermostat type and stability; sample purity and drying method; degassing procedure; reference liquid used for calibration and agreement achieved; corrections applied (thermal expansion, pressure deformation, stray capacitance); εᵣ values with combined expanded uncertainty U(εᵣ) at 95% confidence level (k = 2); derived quantities (molar polarization, dipole moment) with propagated uncertainties; density source and uncertainty if Clausius-Mossotti analysis is performed. For ThermoML encoding, permittivity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

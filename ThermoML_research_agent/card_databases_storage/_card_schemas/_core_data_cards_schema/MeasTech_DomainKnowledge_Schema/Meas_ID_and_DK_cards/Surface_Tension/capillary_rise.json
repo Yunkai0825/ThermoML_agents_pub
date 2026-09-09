@@ -1,0 +1,315 @@
+{
+  "meas_ID": "capillary_rise",
+  "identity": {
+    "name": "Capillary rise",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Capillary rise",
+    "thermoml_custom_codes": [
+      "CAPRISE"
+    ],
+    "measurement_family": "Surface Tension",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 85,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 32,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 85,
+          "papers": 32
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "height of liquid column in capillary tube (h)",
+          "capillary tube inner radius (R)",
+          "contact angle between liquid and capillary wall (θ)"
+        ],
+        "derived_observables": [
+          "surface tension (γ) via Jurin's law: γ = ρghR/(2 cos θ)",
+          "capillary constant (a² = 2γ/(ρg))"
+        ],
+        "target_properties": [
+          "surface tension (γ)",
+          "capillary constant",
+          "wetting behavior (contact angle)"
+        ],
+        "phases_measured": [
+          "liquid (in contact with its vapor or air)",
+          "liquid-liquid interface (differential capillary rise variant)"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "aqueous solutions (electrolyte, surfactant, polymer)",
+          "organic solvents",
+          "molten salts (with high-temperature capillary apparatus)",
+          "ionic liquids"
+        ],
+        "unsupported_sample_types": [
+          "highly viscous liquids (extremely slow equilibration of meniscus height)",
+          "liquids that do not wet glass (contact angle > 90°, e.g., mercury — gives capillary depression instead)",
+          "volatile liquids with very high vapor pressures (rapid evaporation distorts meniscus level)",
+          "suspensions or slurries containing particles that block the capillary bore",
+          "reactive liquids that attack glass or quartz capillary material"
+        ],
+        "typical_output_formats": [
+          "surface tension γ at each temperature T",
+          "γ vs. T curves",
+          "γ vs. composition at fixed T",
+          "capillary rise height h vs. T"
+        ],
+        "units": {
+          "surface_tension": "mN/m (= dyn/cm in CGS)",
+          "capillary_rise_height": "mm or cm",
+          "capillary_radius": "mm or µm",
+          "density": "kg/m³ or g/cm³",
+          "temperature": "K",
+          "contact_angle": "degrees"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "capillary_inner_radius",
+            "typical_range": "0.1 mm to 0.5 mm",
+            "hard_limits": "must be small enough for capillary forces to dominate gravity but large enough to avoid excessive viscous drag; radii below ~0.05 mm are difficult to calibrate accurately",
+            "notes": "narrower capillaries give larger rise heights and better sensitivity, but are harder to clean and more susceptible to clogging"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 373 K for aqueous systems; 253 K to 573 K with specialized thermostats",
+            "hard_limits": "limited by thermostat capability and by boiling point of liquid; high-temperature variants extend to molten salts above 600 K",
+            "notes": "temperature must be controlled to ±0.01 K for high-accuracy surface tension measurements"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "atmospheric (0.1 MPa)",
+            "hard_limits": "standard capillary rise operates at ambient pressure; pressurized variants are uncommon",
+            "notes": "measurement assumes liquid is in equilibrium with its vapor or with air at ambient pressure"
+          },
+          {
+            "parameter": "capillary_rise_height",
+            "typical_range": "5 mm to 100 mm (depends on radius and surface tension)",
+            "hard_limits": "height must be measurable with sufficient precision (cathetometer resolution ~0.01 mm); very low surface tension liquids may give rise heights too small to measure accurately in wide capillaries",
+            "notes": "for water in a 0.2 mm radius capillary, h ≈ 73 mm at 25 °C"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "278 K to 353 K in 5 K steps",
+            "effect": "surface tension decreases with increasing temperature for most liquids; temperature control precision directly limits γ accuracy"
+          },
+          {
+            "name": "composition",
+            "role": "variable for mixture studies",
+            "typical_values": "mole fraction 0 to 1 in steps of 0.05–0.1",
+            "effect": "surface tension of mixtures depends on composition; surfactant solutions show steep γ decrease above the critical micelle concentration"
+          },
+          {
+            "name": "capillary_radius",
+            "role": "fixed instrument parameter",
+            "typical_values": "0.1 mm to 0.5 mm",
+            "effect": "determines sensitivity and the magnitude of the capillary rise; must be precisely known for accurate γ calculation"
+          },
+          {
+            "name": "liquid_density",
+            "role": "required input parameter",
+            "typical_values": "600 kg/m³ to 1800 kg/m³ (depending on liquid)",
+            "effect": "density enters directly in Jurin's law; must be known at the measurement temperature to the same or better accuracy than the target γ uncertainty"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision glass or quartz capillary tube — uniform circular bore with known inner radius (calibrated to ±0.5 µm or better)",
+          "cathetometer or traveling microscope — optical instrument for measuring the height of the meniscus above the flat liquid surface with ±0.01 mm resolution",
+          "thermostatted liquid reservoir — wide-bore container holding the bulk liquid, maintained at the measurement temperature",
+          "thermostat or circulating water bath — temperature control to ±0.01 K for high-accuracy work",
+          "thermometer — calibrated platinum resistance thermometer (PRT) or precision thermocouple for measuring liquid temperature",
+          "spirit level and vertical alignment fixture — ensures capillary is perfectly vertical",
+          "illumination source — for clear visualization of the meniscus through the cathetometer",
+          "vibration-free support stand — minimizes mechanical disturbances to the meniscus"
+        ],
+        "environmental_requirements": [
+          "vibration-free bench or optical table to prevent meniscus oscillation",
+          "stable ambient temperature or temperature-controlled enclosure to minimize thermal gradients",
+          "dust-free environment to prevent contamination of the liquid surface and capillary bore",
+          "draft-free enclosure around the capillary to avoid evaporative cooling gradients"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample in a reservoir wide enough (diameter > 40 mm) that the meniscus in the reservoir is essentially flat"
+          ],
+          "size_limits": "typically 20–100 mL of liquid to fill the reservoir and allow the capillary to be immersed",
+          "thickness_limits": "not applicable (bulk liquid measurement)",
+          "surface_requirements": [
+            "liquid surface in the reservoir must be free of dust, films, and surface-active contaminants",
+            "capillary inner wall must be scrupulously clean and wetted by the liquid"
+          ],
+          "mounting_requirements": [
+            "capillary must be mounted perfectly vertical (checked with spirit level or plumb line)",
+            "capillary tip must be immersed in the liquid reservoir to a small depth",
+            "reservoir must be wide enough that the liquid level change due to capillary uptake is negligible"
+          ],
+          "preparation_requirements": [
+            "liquid should be freshly distilled or purified and degassed to remove dissolved gases",
+            "capillary must be cleaned with chromic acid or piranha solution, rinsed with distilled water, and dried or steamed before use",
+            "for high-accuracy work, the capillary inner radius must be calibrated (mercury column method or microscopy)",
+            "density of the liquid at the measurement temperature must be known or measured independently"
+          ]
+        },
+        "calibration_requirements": [
+          "capillary bore radius calibration — filling with mercury and weighing to determine inner volume, or measuring bore diameter by optical microscopy at multiple positions along the tube",
+          "cathetometer calibration — verified against a precision gauge block or calibrated scale",
+          "temperature calibration — thermometer checked against ITS-90 fixed points or a reference PRT",
+          "validation measurement — surface tension of a reference liquid (e.g., pure water) measured and compared to accepted literature values"
+        ],
+        "reference_materials": [
+          "pure water — IAPWS recommended surface tension: γ = 71.97 mN/m at 25 °C, widely used primary reference",
+          "n-hexane — γ ≈ 17.89 mN/m at 25 °C, low surface tension reference",
+          "toluene — γ ≈ 27.93 mN/m at 25 °C, intermediate reference",
+          "benzene — γ ≈ 28.22 mN/m at 25 °C, classical reference liquid"
+        ],
+        "consumables": [
+          "precision glass or quartz capillary tubes (may need replacement if scratched or contaminated)",
+          "chromic acid or piranha solution for capillary cleaning",
+          "high-purity solvents (ethanol, acetone) for rinsing",
+          "distilled or deionized water for final rinsing and reference measurements",
+          "thermostat fluid (water or silicone oil for circulating bath)"
+        ],
+        "safety_notes": [
+          "chromic acid and piranha solution are highly corrosive — use with appropriate PPE (gloves, goggles, fume hood)",
+          "glass capillaries are fragile and can produce sharp fragments if broken",
+          "hot thermostats and molten salt setups present burn hazards",
+          "organic solvents used for cleaning require proper ventilation and fire precautions"
+        ]
+      },
+      "performance": {
+        "sensitivity": "a 0.01 mm change in capillary rise height corresponds to ~0.005–0.02 mN/m change in surface tension depending on capillary radius and liquid density",
+        "detection_limit": "surface tension values as low as ~5 mN/m can be measured with narrow capillaries; practical lower limit is set by measurable rise height and meniscus visibility",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement)",
+          "temporal": "equilibration time for meniscus is typically 5–30 minutes; not suited for rapid kinetic measurements",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "surface tension from ~10 mN/m (low-tension organic liquids) to ~500 mN/m (molten salts and metals); most common range 15–75 mN/m for organic liquids and aqueous solutions",
+        "accuracy": "0.01–0.1% for pure liquids with carefully calibrated capillaries and known contact angle; 0.1–0.3% typical for routine measurements",
+        "precision": "0.01–0.05% (repeatability of height readings with a high-quality cathetometer)",
+        "throughput": "single sample at a time; one temperature point requires 15–60 minutes for full thermal equilibration and repeated height readings",
+        "measurement_speed": "inherently slow — each measurement requires meniscus equilibration (5–30 min) plus multiple cathetometer readings; a full γ vs. T curve over 10 temperatures takes several hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "visual reading of meniscus height in capillary relative to the flat liquid surface in the reservoir, measured with a cathetometer or traveling microscope",
+        "preprocessing_steps": [
+          "record multiple independent height readings and average to reduce parallax and reading errors",
+          "correct for meniscus shape deviation from hemispherical — apply Rayleigh or Lord Kelvin correction for capillary rise in tubes of finite radius",
+          "correct for the curvature of the meniscus in the reservoir if the reservoir is not sufficiently wide",
+          "apply Jurin's law: γ = ρghR/(2 cos θ) using measured h, known R, measured ρ, and assumed or measured θ",
+          "correct for liquid density difference if the vapor above the meniscus has non-negligible density (high-temperature or high-pressure work)"
+        ],
+        "analysis_methods": [
+          "Jurin's law (zero-order): γ = ρghR/2 for perfectly wetting liquids (θ = 0)",
+          "Rayleigh correction: accounts for deviation of meniscus shape from a perfect hemisphere, adding a correction term proportional to R/h",
+          "Sugden method: iterative correction using tabulated values relating capillary rise to capillary constant a² = 2γ/(ρg)",
+          "Lane method: numerical solution of the Laplace-Young equation for the full meniscus profile to extract γ from h and R",
+          "linear regression of γ vs. T to obtain the temperature coefficient dγ/dT and surface entropy"
+        ],
+        "model_assumptions": [
+          "capillary bore is perfectly circular and uniform along its length",
+          "contact angle θ is zero (complete wetting) for clean glass with most pure liquids; deviations require explicit contact angle measurement",
+          "liquid is in static mechanical equilibrium — no flow or vibration",
+          "gravitational field is uniform and known (standard g = 9.80665 m/s²)",
+          "vapor density above the meniscus is negligible compared to liquid density (valid at low to moderate temperatures)"
+        ],
+        "fit_parameters": [
+          "surface tension γ (primary result)",
+          "contact angle θ (if not assumed zero, fitted or measured independently)",
+          "capillary constant a² = 2γ/(ρg)",
+          "temperature coefficient dγ/dT (from γ vs. T regression)"
+        ],
+        "common_artifacts": [
+          "contamination artifact: trace surfactant or dust on the liquid surface lowers apparent γ and introduces time-dependent drift",
+          "contact angle artifact: incomplete wetting (θ > 0) due to inadequate capillary cleaning causes systematic underestimation of γ if θ = 0 is assumed",
+          "non-uniform bore artifact: variations in capillary radius along the tube cause the rise height to depend on immersion depth, introducing scatter",
+          "evaporation artifact: meniscus height slowly changes as volatile liquid evaporates from the reservoir or capillary tip",
+          "thermal gradient artifact: temperature difference between capillary tip and reservoir causes density-driven flow and meniscus instability"
+        ],
+        "quality_control_checks": [
+          "verify with a reference liquid (pure water): measured γ should agree with IAPWS recommended values within 0.1%",
+          "repeat measurements with multiple capillaries of different radii — γ should be independent of R if the technique is correct",
+          "check for time stability: meniscus height should be constant after equilibration, ruling out contamination drift or evaporation",
+          "measure ascending and descending approaches to verify absence of contact angle hysteresis",
+          "inspect capillary bore uniformity by measuring radius at several points along the tube"
+        ],
+        "failure_modes": [
+          "capillary contamination or organic film on inner wall — meniscus fails to advance smoothly, producing irreproducible heights",
+          "air bubble trapped in capillary bore — blocks liquid rise or creates a false meniscus position",
+          "capillary bore ellipticity or non-uniformity — systematic error in γ that varies with capillary position",
+          "liquid contamination by surface-active impurities — steady decline in apparent γ over time",
+          "loss of vertical alignment — tilted capillary gives a reduced apparent height and underestimates γ"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.05–0.3% for pure liquids with well-characterized capillaries; 0.3–1% for routine work or mixtures",
+        "random_sources": [
+          "cathetometer reading repeatability (parallax, meniscus edge detection)",
+          "temperature fluctuations in the thermostat",
+          "meniscus oscillation from residual vibrations",
+          "slight variations in repeated immersion and withdrawal of the capillary"
+        ],
+        "systematic_sources": [
+          "capillary radius calibration uncertainty (typically the dominant systematic error)",
+          "contact angle deviation from zero (even 1° introduces ~0.015% error in γ)",
+          "density uncertainty of the liquid at the measurement temperature",
+          "meniscus shape correction (Rayleigh or Sugden) accuracy",
+          "cathetometer scale calibration error",
+          "gravitational acceleration uncertainty (local g vs. standard g)",
+          "thermal expansion of the glass capillary affecting bore radius at elevated temperatures"
+        ],
+        "operator_dependence": "moderate — requires skill in capillary cleaning, vertical alignment, cathetometer focusing on the meniscus edge, and contamination avoidance",
+        "model_dependence": "low to moderate — Jurin's law is exact for ideal conditions; corrections for finite capillary radius (Rayleigh, Sugden, Lane) are well-established and contribute small uncertainties",
+        "dominant_error_sources": [
+          "capillary radius calibration uncertainty (a 0.1% error in R propagates directly to 0.1% error in γ)",
+          "contact angle uncertainty (deviations from θ = 0 due to imperfect cleaning)",
+          "surface contamination reducing apparent γ"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(γ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of γ",
+          "standard deviation from repeated height measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Capillary rise is one of the oldest and most accurate methods for measuring the surface tension of liquids. The technique exploits the spontaneous ascent of a wetting liquid inside a narrow-bore glass tube: the liquid rises until the upward pull of surface tension along the contact line is balanced by the downward gravitational force of the liquid column. By measuring the equilibrium rise height in a capillary of known radius and combining it with the liquid density, the surface tension is calculated using Jurin's law. First employed quantitatively in the early 19th century, capillary rise remains a primary reference method for surface tension due to its simplicity, minimal equipment requirements, and exceptional accuracy for pure liquids.",
+      "how_it_operates": "A clean, precision-bore glass capillary tube is mounted vertically with its lower end immersed in a reservoir of the liquid under study. Surface tension pulls the liquid upward along the wetted inner wall of the capillary, forming a concave meniscus. The liquid rises until the hydrostatic pressure of the column ρgh equals the capillary pressure 2γ cos θ / R, where ρ is the liquid density, g is gravitational acceleration, h is the rise height above the flat liquid surface in the reservoir, R is the capillary inner radius, and θ is the contact angle. An operator reads the meniscus height with a cathetometer (a telescope on a precision vertical slide) by first focusing on the bottom of the meniscus in the capillary and then on the flat surface in the reservoir, recording the difference as h.",
+      "core_theory": "The equilibrium of capillary rise is governed by the Laplace-Young equation. For a circular capillary of inner radius R, the pressure difference across the meniscus is ΔP = 2γ cos θ / R. At equilibrium, this capillary pressure equals the hydrostatic pressure of the raised liquid column: ρgh = 2γ cos θ / R, which gives Jurin's law: γ = ρghR / (2 cos θ). For a liquid that perfectly wets the capillary wall (θ = 0, cos θ = 1), this simplifies to γ = ρghR / 2. Corrections are needed because the meniscus is not exactly hemispherical: Lord Rayleigh derived a first-order correction γ = (ρgR/2)(h + R/3 − 0.1288 R²/h + 0.1312 R³/h²), and Sugden tabulated exact numerical corrections relating the capillary constant a² = 2γ/(ρg) to the measured h and R. These corrections are essential when R/h is not negligibly small.",
+      "setup": "A typical capillary rise apparatus consists of a precision-bore glass or quartz capillary tube (inner radius 0.1–0.5 mm, length 100–300 mm) clamped vertically in a support frame with a spirit level for alignment. The capillary is immersed in a wide-mouth reservoir (diameter > 40 mm) containing the liquid, which is held in a thermostatted water jacket or circulating bath controlled to ±0.01 K. A calibrated platinum resistance thermometer monitors the liquid temperature. The meniscus height is read with a cathetometer mounted on a vibration-free stand, equipped with a telescope of ×20–×50 magnification and a vernier or digital encoder reading to ±0.01 mm. Illumination is provided from behind the capillary to produce a sharp silhouette of the meniscus. The entire apparatus is enclosed in a draft shield to suppress evaporative cooling and convection.",
+      "suitable_for": "Capillary rise is ideally suited for measuring the surface tension of pure liquids and solutions that wet glass completely. It is the method of choice when the highest accuracy is required — uncertainties of 0.01–0.1% are achievable for pure, non-volatile liquids such as water, hydrocarbons, alcohols, and common organic solvents. The method is widely used for determining γ vs. temperature relationships, surface tension of binary and multicomponent liquid mixtures as a function of composition, and validation of surface tension values measured by other techniques. It is also applicable to molten salts and ionic liquids when high-temperature capillary setups with quartz tubes are employed.",
+      "core_limitations": "The technique requires that the liquid fully wets the capillary wall (contact angle ≈ 0°); for non-wetting or partially wetting systems, the contact angle must be independently known, which introduces substantial additional uncertainty. Highly viscous liquids may take hours to reach equilibrium meniscus height, making measurements impractical. Volatile liquids suffer from evaporation at the meniscus, causing the height to drift. The method requires relatively large sample volumes (20–100 mL) compared to techniques such as the pendant drop method. It provides only a static equilibrium measurement and cannot track dynamic or time-dependent surface tension changes. The capillary bore must be known to high precision, and even small non-uniformities in the bore introduce systematic errors.",
+      "sample_preparation": "The liquid must be of the highest purity obtainable, since trace surfactant contamination as low as parts per million can measurably reduce surface tension. Liquids should be freshly distilled, filtered, or purified by appropriate methods and degassed under vacuum or by sparging with inert gas to remove dissolved air that could form bubbles in the capillary. The glass capillary must be scrupulously cleaned: a standard protocol involves soaking in freshly prepared chromic acid or piranha solution, rinsing exhaustively with distilled water, steaming for 10–15 minutes, and drying in a clean oven. After cleaning, the capillary should be used promptly and handled only at the outer surface to prevent contamination of the bore. The liquid density at each measurement temperature must be known independently — typically from the literature or from a separate densimetry measurement.",
+      "calibration_and_references": "Calibration of the capillary bore radius is the most critical step, since radius uncertainty propagates linearly into the surface tension result. The standard method fills the capillary with mercury (a non-wetting liquid of known density), measures the mercury column length, and calculates the internal volume and hence the average bore radius. Alternatively, the bore can be measured by optical microscopy of cross-sections at several points along the capillary. The cathetometer is calibrated against a precision gauge block or certified scale. Temperature calibration of the thermometer is verified against ITS-90 fixed points. The entire system is validated by measuring the surface tension of pure water and comparing with the IAPWS-recommended value (71.97 ± 0.02 mN/m at 25 °C). A second validation with a non-aqueous reference such as toluene or n-hexane confirms the calibration across a different surface tension range.",
+      "data_interpretation": "The equilibrium rise height h is measured as the difference between the bottom of the meniscus in the capillary and the flat liquid surface in the reservoir, typically averaged over 3–5 independent readings. The raw height is corrected for meniscus shape using the Rayleigh correction (for small R/h) or the Sugden tabulation (for arbitrary R/h). Surface tension is then computed from γ = ρghR / (2 cos θ), using the calibrated capillary radius R, the liquid density ρ at the measurement temperature, and θ = 0 for well-cleaned glass with most pure organic liquids and water. Results at multiple temperatures are fitted to a linear or polynomial γ(T) relationship to obtain the temperature coefficient dγ/dT (typically negative, −0.05 to −0.15 mN/(m·K) for common liquids). For mixture studies, γ vs. mole fraction data can be analyzed with thermodynamic models such as the Eötvös, Guggenheim, or Butler equations.",
+      "common_pitfalls": "The most frequent pitfall is contamination of the capillary bore or the liquid surface. Even trace amounts of surface-active impurities cause the measured surface tension to be lower than the true value, and the error is insidious because it often produces apparently reproducible but systematically biased results. Failure to achieve complete wetting (θ ≠ 0) due to inadequate cleaning biases γ low when θ = 0 is assumed in the calculation. Air bubbles trapped in the capillary bore — usually introduced during immersion — block the liquid column and produce a false, reduced rise height. Insufficient equilibration time, especially for viscous liquids or just after a temperature change, leads to a meniscus that has not reached its final height. Misalignment of the capillary from the vertical direction systematically reduces the apparent rise height by the factor cos α, where α is the tilt angle.",
+      "artifacts_and_failure_modes": "Contamination drift is observable as a slow monotonic decrease in apparent γ over minutes to hours as surface-active impurities accumulate at the meniscus — a time-stability check readily reveals this. Contact angle hysteresis manifests as a difference between heights measured when the meniscus advances (immersion) versus recedes (withdrawal); hysteresis above 0.1 mm indicates inadequate capillary cleaning. Bore non-uniformity produces inconsistent γ values when measurements are repeated at different immersion depths. Evaporation artifacts appear as a gradual increase in the apparent rise height as liquid evaporates from the reservoir, effectively concentrating non-volatile solutes. Thermal gradient artifacts occur when the capillary extends beyond the thermostatted region — the liquid near the meniscus is at a different temperature (and thus different density and surface tension) than the bulk, causing a biased result.",
+      "reporting_checklist": "Published capillary rise surface tension results should report: capillary material and inner radius with calibration method and uncertainty, method used for measuring rise height (cathetometer specifications), meniscus shape correction method applied (Rayleigh, Sugden, or Lane), liquid purity and preparation method, density values used and their source, contact angle assumed or measured, thermostat type and temperature stability, number of replicate height readings with standard deviation, validation result against a reference liquid (typically pure water), combined expanded uncertainty with coverage factor and confidence level, and any corrections for vapor buoyancy or reservoir meniscus curvature. For ThermoML encoding, surface tension values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

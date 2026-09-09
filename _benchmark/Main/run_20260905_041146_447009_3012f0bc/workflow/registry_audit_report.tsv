@@ -1,0 +1,15 @@
+severity	check	subject	detail
+INFO	balance	detailed/chars	sources emit 240,226 / sinks absorb 240,226
+INFO	balance	detailed/ids	sources emit 482 / sinks absorb 482
+INFO	balance	detailed/blocks	sources emit 57 / sinks absorb 57
+INFO	balance	detailed/pts	sources emit 2,062 / sinks absorb 2,062
+INFO	balance	agentic/chars	sources emit 240,226 / sinks absorb 240,226
+INFO	balance	agentic/ids	sources emit 394 / sinks absorb 394
+INFO	balance	agentic/blocks	sources emit 47 / sinks absorb 47
+INFO	balance	agentic/pts	sources emit 1,607 / sinks absorb 1,607
+INFO	balance	pooled/chars	sources emit 240,226 / sinks absorb 240,226
+INFO	balance	pooled/ids	sources emit 190 / sinks absorb 190
+INFO	balance	pooled/blocks	sources emit 26 / sinks absorb 26
+FAIL	balance	pooled/pts	1 ids never reach a sink: ['GLOBlit_2825::PROPblock_21']
+INFO	balance	pooled/pts	sources emit 803 / sinks absorb 803
+FAIL	raw_coverage	Main	1 evidence ids missing from ids-detailed: ['GLOBlit_5201::PROPblock_11']

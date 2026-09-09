@@ -1,0 +1,317 @@
+{
+  "meas_ID": "correlation_gas_chromatography",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Correlation gas chromatography",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Correlation gas chromatography",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Chromatography / Separation",
+    "modality": {
+      "contact": "yes",
+      "destructive": "partially",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 258,
+      "property_groups": [
+        "PhaseTransition"
+      ],
+      "n_papers": 38,
+      "per_group": {
+        "PhaseTransition": {
+          "instances": 258,
+          "papers": 38
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "retention time of analyte (t_a) at each column temperature",
+          "retention time of reference compounds (t_ref) at each column temperature",
+          "column temperature (T) at each run",
+          "dead time (t_0) or non-retained marker retention time"
+        ],
+        "derived_observables": [
+          "enthalpy of transfer from solution to gas phase (ΔHtrans) via van't Hoff slope",
+          "enthalpy of vaporization (ΔHvap) by correlation with reference standards",
+          "enthalpy of sublimation (ΔHsub) by correlation with reference standards",
+          "estimated vapor pressure at 298.15 K via Clausius-Clapeyron extrapolation",
+          "adjusted retention time ratios ln(t_a/t_ref) at each temperature"
+        ],
+        "target_properties": [
+          "enthalpy of vaporization at 298.15 K (ΔlgHm(298.15 K))",
+          "enthalpy of sublimation at 298.15 K (ΔcrgHm(298.15 K))",
+          "vapor pressure estimates at 298.15 K"
+        ],
+        "phases_measured": [
+          "liquid → gas (vaporization)",
+          "solid → gas (sublimation)"
+        ],
+        "supported_sample_types": [
+          "pure organic liquids",
+          "pure organic solids (sublimation measurements)",
+          "low-volatility compounds",
+          "thermally labile compounds that decompose in conventional methods",
+          "ionic liquids (limited applications)",
+          "natural product extracts and fragrance compounds",
+          "pharmaceutical intermediates",
+          "polycyclic aromatic hydrocarbons",
+          "compounds with very low vapor pressures (down to ~0.001 Pa at 298 K)"
+        ],
+        "unsupported_sample_types": [
+          "inorganic salts with no measurable GC retention",
+          "polymers and high-molecular-weight macromolecules",
+          "gases at ambient conditions (no retention)",
+          "compounds that decompose on the GC column at all accessible temperatures",
+          "compounds that react irreversibly with the stationary phase",
+          "samples with no available reference compounds of similar volatility"
+        ],
+        "typical_output_formats": [
+          "ln(t_a/t_ref) vs. 1/T plot (correlation plot)",
+          "ΔHtrans(Tm) values at mean column temperature",
+          "ΔHvap(298.15 K) or ΔHsub(298.15 K) after temperature adjustment",
+          "tabulated retention times at each column temperature for all compounds"
+        ],
+        "units": {
+          "retention_time": "min or s",
+          "temperature": "K",
+          "enthalpy_of_vaporization": "kJ/mol",
+          "enthalpy_of_sublimation": "kJ/mol",
+          "vapor_pressure": "Pa or kPa",
+          "gas_constant": "R = 8.3145 J/(mol·K)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "column_temperature_range",
+            "typical_range": "323 K to 623 K (50 °C to 350 °C)",
+            "hard_limits": "lower limit set by adequate volatility to produce measurable retention; upper limit set by column stationary phase thermal stability (typically 573–673 K)",
+            "notes": "at least 5–6 isothermal temperatures spaced at 5 K intervals are recommended for reliable slope determination"
+          },
+          {
+            "parameter": "number_of_reference_compounds",
+            "typical_range": "3 to 10 reference standards per run",
+            "hard_limits": "minimum 3 references required for reliable correlation; more references improve statistical robustness",
+            "notes": "references must have well-known ΔHvap or ΔHsub at 298.15 K from independent calorimetric or Clausius-Clapeyron measurements"
+          },
+          {
+            "parameter": "carrier_gas_flow_rate",
+            "typical_range": "1 to 5 mL/min (capillary column) or 20–60 mL/min (packed column)",
+            "hard_limits": "flow rate must be constant across all temperature runs; measured at column outlet",
+            "notes": "helium or nitrogen as carrier gas; flow rate affects retention times but not the correlation slope"
+          },
+          {
+            "parameter": "isothermal_hold_time",
+            "typical_range": "sufficient to elute all compounds (10–60 min per temperature)",
+            "hard_limits": "must be truly isothermal — temperature stability ±0.1 K during each run",
+            "notes": "temperature-programmed runs are NOT used; each temperature is a separate isothermal injection"
+          }
+        ],
+        "variables": [
+          {
+            "name": "column_temperature",
+            "role": "primary scanned variable",
+            "typical_values": "5–15 isothermal temperatures from 323 K to 623 K at 5 K intervals",
+            "effect": "variation of T generates the van't Hoff plot; slope of ln(t_a/t_ref) vs. 1/T yields ΔHtrans/R"
+          },
+          {
+            "name": "stationary_phase_type",
+            "role": "fixed experimental choice",
+            "typical_values": "non-polar (DB-1, DB-5, HP-1) or moderately polar (DB-WAX) capillary columns",
+            "effect": "stationary phase determines relative retention and must not introduce specific interactions that distort the enthalpy correlation"
+          },
+          {
+            "name": "injection_volume",
+            "role": "controlled input",
+            "typical_values": "0.1–1.0 µL of dilute solution (1–5% v/v in volatile solvent)",
+            "effect": "must be small enough to avoid column overloading and peak asymmetry; split injection typically 50:1 to 200:1"
+          },
+          {
+            "name": "reference_compound_identity",
+            "role": "critical experimental choice",
+            "typical_values": "n-alkanes (C6–C20), or compounds of known ΔHvap from same chemical family",
+            "effect": "quality of final ΔHvap depends directly on accuracy of reference compound enthalpies; structurally similar references reduce systematic errors"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "gas chromatograph with precise isothermal temperature control (±0.1 K)",
+          "capillary GC column (typically 15–30 m × 0.25 mm i.d., 0.25 µm film; non-polar stationary phase such as DB-1 or DB-5)",
+          "flame ionization detector (FID) — most common; universal for organics",
+          "split/splitless injector operated in split mode (high split ratio)",
+          "carrier gas supply (helium or nitrogen) with electronic pressure/flow control",
+          "data acquisition system for precise retention time measurement (0.01 min resolution)",
+          "autosampler (optional but recommended for reproducibility across temperature series)",
+          "non-retained marker compound (methane or air peak) for dead time measurement"
+        ],
+        "environmental_requirements": [
+          "stable laboratory temperature to avoid drift in GC oven calibration",
+          "consistent carrier gas pressure and purity (99.999% for helium)",
+          "no drafts or vibrations near the GC oven that could disturb temperature control"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid solution — target and reference compounds dissolved together in a volatile solvent"
+          ],
+          "size_limits": "nanogram to microgram quantities on-column (typically 0.1–1 µL injection of dilute solution)",
+          "thickness_limits": "not applicable (solution injection)",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "dissolve target analyte and 3–10 reference compounds in a common volatile solvent (methanol, dichloromethane, hexane)",
+            "solution concentration: 1–5% (v/v) to avoid column overloading",
+            "ensure all components are soluble and non-reactive with each other",
+            "filter solution if particulates are present to prevent column contamination"
+          ]
+        },
+        "calibration_requirements": [
+          "retention times of reference compounds with independently known ΔHvap or ΔHsub at 298.15 K (from calorimetry or Clausius-Clapeyron analysis)",
+          "dead time (t_0) measurement at each temperature using methane or air injection",
+          "GC oven temperature verification with an independent thermometer or thermocouple",
+          "column conditioning at maximum operating temperature before measurements"
+        ],
+        "reference_materials": [
+          "n-alkanes (n-hexane through n-eicosane) — well-characterized ΔHvap from Chickos and Acree compilations",
+          "n-alkanols (1-propanol through 1-decanol) — for polar compound correlations",
+          "naphthalene, biphenyl, anthracene — sublimation enthalpy standards",
+          "benzoic acid — sublimation standard with well-known ΔHsub",
+          "additional standards from same chemical family as target (e.g., esters for ester targets)"
+        ],
+        "consumables": [
+          "high-purity carrier gas (helium or nitrogen, 99.999%)",
+          "GC column (replaced periodically due to stationary phase degradation)",
+          "GC inlet septa and liners",
+          "solvents for sample preparation (HPLC or GC grade)",
+          "reference compound standards (analytical grade)"
+        ],
+        "safety_notes": [
+          "hydrogen gas (if used as carrier) requires explosion-proof leak detection and proper ventilation",
+          "FID uses hydrogen flame — appropriate fire safety protocols required",
+          "solvent vapors from sample preparation require fume hood use",
+          "high GC oven temperatures (>300 °C) require burn awareness"
+        ]
+      },
+      "performance": {
+        "sensitivity": "nanogram-level detection with FID; method requires only trace quantities of analyte",
+        "detection_limit": "on-column detection typically ~10 pg for FID; method applicability limited by ability to resolve peaks, not detection",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "retention time precision ±0.01 min (±0.6 s) is sufficient for correlation analysis",
+          "spectral": "not applicable",
+          "energy": "enthalpy resolution ~0.5–1.0 kJ/mol (determined by scatter in van't Hoff plot)"
+        },
+        "dynamic_range": "ΔHvap from ~20 kJ/mol (small volatile molecules) to ~200 kJ/mol (large low-volatility compounds)",
+        "accuracy": "1–5% in ΔHvap (298.15 K) depending on quality of reference data, number of temperatures, and structural similarity of references to target; best results achieve ±1 kJ/mol",
+        "precision": "0.5–2% (repeatability of ΔHtrans from replicate van't Hoff plots)",
+        "throughput": "multiple compounds (target + references) measured simultaneously per injection; full temperature series completed in 1–2 days",
+        "measurement_speed": "each isothermal run takes 10–60 min; 5–15 temperatures required per compound set; total experimental time ~4–20 hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "chromatographic peaks on FID trace as a function of time at each isothermal column temperature; peak retention times are the primary extracted data",
+        "preprocessing_steps": [
+          "measure retention time at peak maximum (or peak centroid) for each compound at each temperature",
+          "subtract dead time t_0 to obtain adjusted retention time t_a' = t_a − t_0",
+          "compute ln(t_a'/t_ref') for each target-reference pair at each temperature",
+          "verify peak identity by retention order consistency across temperatures",
+          "exclude any temperature points with poor peak shape, coelution, or baseline instability"
+        ],
+        "analysis_methods": [
+          "van't Hoff correlation plot: plot ln(t_a'/t_ref') vs. 1/T for each target-reference pair",
+          "linear regression of ln(t_a'/t_ref') vs. 1/T yields slope = (ΔHtrans,a − ΔHtrans,ref)/R",
+          "compute ΔHtrans(Tm) at mean column temperature Tm from slope and known ΔHtrans,ref",
+          "temperature adjustment from Tm to 298.15 K using ΔCp correction: ΔHvap(298.15 K) = ΔHvap(Tm) + ΔCp × (298.15 − Tm)",
+          "ΔCp estimation via group contribution methods (Chickos-Acree) or from experimental Cp data if available",
+          "statistical analysis: weighted least-squares fit with uncertainty propagation from reference data errors"
+        ],
+        "model_assumptions": [
+          "retention is governed by equilibrium partitioning between mobile and stationary phases (no kinetic effects)",
+          "van't Hoff equation applies: d[ln(t_a'/t_ref')]/d(1/T) = (ΔHtrans,a − ΔHtrans,ref)/R is constant over the temperature range",
+          "the ratio of activity coefficients of target and reference in the stationary phase varies negligibly with temperature compared to the exponential vapor pressure term",
+          "column interactions do not introduce differential enthalpy contributions beyond the solution-to-gas transfer",
+          "ΔCp correction for temperature adjustment from Tm to 298.15 K is adequately described by group contribution estimates"
+        ],
+        "fit_parameters": [
+          "slope of ln(t_a'/t_ref') vs. 1/T — yields differential transfer enthalpy (ΔHtrans,a − ΔHtrans,ref)/R",
+          "intercept of the correlation line (related to entropy differences, not usually reported)",
+          "ΔHvap(Tm) or ΔHsub(Tm) — enthalpy at mean experimental temperature",
+          "ΔCp(l,g) — heat capacity difference for temperature adjustment to 298.15 K"
+        ],
+        "common_artifacts": [
+          "non-linear van't Hoff plot — indicates temperature-dependent ΔCp effects or phase change of analyte on column",
+          "outlier temperature points due to incomplete isothermal equilibration of GC oven",
+          "peak tailing or asymmetry causing systematic retention time error at certain temperatures",
+          "coelution of target and reference peaks at specific temperatures leading to incorrect retention time assignment",
+          "column bleed at high temperatures adding baseline slope that shifts apparent peak maximum"
+        ],
+        "quality_control_checks": [
+          "verify linearity of ln(t_a'/t_ref') vs. 1/T plot (R² ≥ 0.99 expected for good data)",
+          "cross-validate: use each reference compound independently and check that derived ΔHvap values agree within stated uncertainty",
+          "compare ΔHvap from correlation GC with independent calorimetric or Clausius-Clapeyron values when available",
+          "check that dead time corrections are consistent across all temperatures",
+          "verify that derived ΔHvap is independent of which reference compound is used as the denominator in the retention time ratio",
+          "ensure the number of isothermal temperatures is sufficient (≥5) for reliable linear regression"
+        ],
+        "failure_modes": [
+          "thermal decomposition of target or reference compound on-column (irreproducible retention times, ghost peaks)",
+          "stationary phase degradation at elevated temperatures (column bleed producing spurious peaks)",
+          "inadequate reference data — if reference ΔHvap values are inaccurate, derived target values inherit the error",
+          "phase transitions of target on the column (solid melting at column temperature) causing discontinuity in van't Hoff plot",
+          "carrier gas flow instability producing variable dead times and systematic retention time errors"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 1–5% for ΔHvap(298.15 K); best practice achieves ±1–2 kJ/mol",
+        "random_sources": [
+          "retention time measurement precision (peak position determination)",
+          "column temperature fluctuations (±0.1 K contributes ~0.1% uncertainty)",
+          "injection volume variability affecting peak shape",
+          "detector noise affecting peak maximum determination",
+          "replicate-to-replicate variation in isothermal runs"
+        ],
+        "systematic_sources": [
+          "accuracy of reference compound ΔHvap or ΔHsub values (dominant systematic source)",
+          "ΔCp correction for temperature adjustment from Tm to 298.15 K (can contribute 1–5 kJ/mol for large Tm − 298 K difference)",
+          "dead time measurement error (especially at high temperatures where t_0 may be less precise)",
+          "non-ideal behavior in stationary phase (differential activity coefficient effects)",
+          "column selectivity effects if reference compounds are structurally dissimilar to target",
+          "GC oven temperature calibration offset"
+        ],
+        "operator_dependence": "low to moderate — primary operator choices are reference compound selection, temperature range, and solution preparation; injection technique matters less with autosampler use",
+        "model_dependence": "moderate to high — the method fundamentally assumes that retention time ratios follow van't Hoff behavior and that reference compound enthalpies are accurate; ΔCp temperature correction adds additional model dependence via group contribution estimates",
+        "dominant_error_sources": [
+          "accuracy of reference compound enthalpy values (literature values may carry 1–3% uncertainty themselves)",
+          "ΔCp correction for large temperature extrapolations from Tm to 298.15 K",
+          "non-linearity in van't Hoff plot indicating breakdown of model assumptions"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔHvap) at 95% confidence (k=2)",
+          "standard deviation from multiple independent reference-based determinations",
+          "standard error of the regression slope in the van't Hoff plot"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Correlation gas chromatography (CGC) is an indirect thermodynamic method developed primarily by Chickos, Acree, Verevkin, and co-workers that determines enthalpies of vaporization and sublimation by correlating GC retention time behavior of an unknown analyte with that of reference compounds whose enthalpies are independently established. Unlike conventional calorimetric or vapor pressure methods, CGC does not measure absolute thermodynamic quantities. Instead, it exploits the thermodynamic basis of chromatographic retention: because ln(adjusted retention time) varies linearly with 1/T via the van't Hoff relationship, the slope of a differential retention time ratio plot directly encodes an enthalpy difference. By measuring target and reference compounds simultaneously under identical GC conditions across a range of isothermal column temperatures, systematic instrumental effects cancel, and the target enthalpy is recovered through a simple linear regression. The method is particularly valuable for low-volatility and thermally labile compounds where conventional techniques are difficult or impossible to apply, and it has produced a substantial portion of the vaporization/sublimation enthalpy data in the NIST ThermoML database.",
+      "how_it_operates": "The experiment begins by preparing a dilute solution containing the target analyte and 3–10 reference compounds with well-known enthalpies of vaporization (or sublimation) dissolved in a volatile solvent. This solution is injected into a gas chromatograph operating isothermally at a fixed column temperature. The FID records the chromatogram, and retention times are measured at the peak maximum for each compound, along with the dead time from a non-retained marker (methane or air). The process is repeated at 5–15 different isothermal column temperatures, typically spanning a 30–80 K range in 5 K increments. At each temperature, the adjusted retention times (t_a' = t_a − t_0) are computed, and the natural logarithm of the ratio ln(t_a'/t_ref') is calculated for each target-reference pair. Plotting these ln-ratios against 1/T yields straight lines whose slopes are proportional to the difference in transfer enthalpies (ΔHtrans,a − ΔHtrans,ref)/R. Since the reference enthalpies are known, the target enthalpy at the mean column temperature is extracted, and then adjusted to 298.15 K using heat capacity corrections.",
+      "core_theory": "The thermodynamic foundation rests on the van't Hoff equation applied to the equilibrium partitioning of solutes between the GC mobile phase (carrier gas) and the stationary phase. For a solute A in equilibrium between the gas phase and the stationary phase, the adjusted retention time is proportional to the partition coefficient K_A, so ln(t_a') = −ΔGtrans,A/(RT) + const. Taking the ratio of adjusted retention times for the analyte and a reference compound at the same temperature eliminates column-specific constants: ln(t_a'/t_ref') = −(ΔHtrans,a − ΔHtrans,ref)/(RT) + (ΔStrans,a − ΔStrans,ref)/R. The slope of ln(t_a'/t_ref') vs. 1/T gives −(ΔHtrans,a − ΔHtrans,ref)/R. The critical insight is that ΔHtrans ≈ ΔHvap for volatile liquid analytes (the stationary phase interaction contribution approximately cancels in the ratio when references are structurally analogous). The enthalpy at the mean experimental temperature Tm is then corrected to 298.15 K using ΔHvap(298.15 K) = ΔHvap(Tm) + ΔCp(l,g)·(298.15 − Tm), where ΔCp(l,g) is estimated from group contribution methods or experimental heat capacity data.",
+      "setup": "A standard analytical gas chromatograph equipped with a flame ionization detector, split/splitless injector, and electronic pressure control is used. The column is typically a 15–30 m capillary column with 0.25 mm internal diameter and 0.25 µm non-polar stationary phase film (e.g., 100% dimethylpolysiloxane, DB-1 or equivalent). The key instrumentation requirement beyond a standard GC is exceptional isothermal temperature stability (±0.1 K or better), since the method relies on precise retention time differences across small temperature intervals. An autosampler is recommended for uniform injection across the temperature series. Helium or nitrogen serves as the carrier gas at a controlled constant flow rate. A non-retained marker compound (methane) is co-injected or injected separately at each temperature to measure the column dead time. The entire temperature series (5–15 isothermal runs) forms a single CGC experiment.",
+      "suitable_for": "Correlation gas chromatography is exceptionally well-suited for determining vaporization enthalpies of organic compounds with low to moderate volatility — precisely the compounds that are difficult to measure by Knudsen effusion, static vapor pressure, or conventional calorimetry. It excels for thermally labile compounds that would decompose during long equilibration in calorimetric measurements, since GC retention involves brief exposure at column temperature. The method is widely applied to families of structurally related compounds (homologous series of alkanes, alcohols, esters, ethers, amines), polycyclic aromatic hydrocarbons, heterocycles, pharmaceutical intermediates, ionic liquid precursors, natural product aroma compounds, and other specialty chemicals. For sublimation enthalpies, solid compounds can be dissolved and injected, with the CGC measurement reflecting the solid-to-gas transfer when the column temperature is below the melting point of the analyte. The ability to measure multiple compounds simultaneously in a single experimental campaign makes CGC highly efficient for populating thermodynamic databases.",
+      "core_limitations": "The most fundamental limitation is that CGC does not measure absolute thermodynamic properties — all derived enthalpies are only as accurate as the reference compound data used in the correlation. If reference ΔHvap values are biased, the target values will inherit that bias. The method assumes that the van't Hoff plot is linear over the experimental temperature range, which can break down for compounds undergoing conformational changes, dimerization, or other temperature-dependent structural effects. The ΔCp correction required to adjust enthalpies from the mean column temperature (often 400–500 K) to 298.15 K introduces additional uncertainty, particularly for compounds where group contribution ΔCp estimates are unreliable. The technique cannot be applied to compounds that decompose on the GC column, that are completely non-volatile at accessible column temperatures, or that react with the stationary phase. Additionally, compounds with no available structurally similar references may show increased systematic error due to differential stationary phase interaction effects that do not cancel in the retention time ratio.",
+      "sample_preparation": "Sample preparation is straightforward. The target compound and 3–10 reference standards are dissolved together in a common volatile solvent (methanol, dichloromethane, or hexane) at concentrations of approximately 1–5% (v/v). The total number of components should not exceed the resolution capability of the column. All components should be soluble, non-reactive with each other, and stable at the highest planned column temperature. Reference compounds are selected to bracket the volatility range of the target: their retention times should span those of the analyte at all experimental temperatures. For sublimation enthalpy determination, the solid target is dissolved in the solvent and its column temperature is maintained below the melting point of the pure solid. The solution is injected via a split injector (split ratio 50:1 to 200:1) to avoid column overloading. Only nanogram to microgram quantities reach the column, so sample consumption is minimal — milligram amounts of target compound are sufficient for the entire experimental campaign.",
+      "calibration_and_references": "The calibration framework in CGC is fundamentally different from conventional instrument calibration — instead of calibrating the instrument response, the method calibrates the thermodynamic scale via reference compounds. Each reference must have a well-established ΔHvap(298.15 K) or ΔHsub(298.15 K) from independent calorimetric or vapor pressure measurements, typically drawn from critically evaluated compilations such as those by Chickos and Acree (J. Phys. Chem. Ref. Data, 2003) or NIST-recommended values. The n-alkane series (C6–C20) is the most commonly used reference set for non-polar targets because their vaporization enthalpies are known with ±0.3–1.0% accuracy. For polar targets, references of the same chemical family should be used (e.g., n-alkanols for alcohol targets, n-alkanoic acid esters for ester targets). Column dead time is calibrated at each temperature using a non-retained marker. GC oven temperature is verified against an independent thermometer. The internal consistency of the calibration is checked by treating each reference as an unknown and verifying that its ΔHvap is recovered from the other references.",
+      "data_interpretation": "After measuring retention times at all isothermal temperatures, data analysis proceeds in four stages. First, adjusted retention times are computed by subtracting the dead time at each temperature. Second, ln(t_a'/t_ref') vs. 1/T is plotted for each target-reference pair; linear regression yields the slope (ΔHtrans,a − ΔHtrans,ref)/R. Third, ΔHtrans,a at the mean experimental temperature Tm is computed from the known reference enthalpies. Multiple reference compounds provide multiple independent estimates of ΔHtrans,a(Tm), and these are averaged (or treated by weighted least squares) to produce a best estimate with a statistical uncertainty. Fourth, the temperature adjustment from Tm to 298.15 K is performed: ΔHvap(298.15 K) = ΔHvap(Tm) + ΔCp(l,g)·(298.15 − Tm). For sublimation, an analogous correction uses ΔCp(cr,g). The sign of the correction matters: Tm is typically higher than 298.15 K, so the correction adds to the enthalpy for vaporization (ΔCp(l,g) is negative, and 298.15 − Tm is also negative, giving a positive correction). The reliability of the final value is assessed by examining the linearity of the van't Hoff plots and the consistency among reference-based estimates.",
+      "common_pitfalls": "The most common pitfall is selection of inappropriate reference compounds — using references from a different chemical class than the target can introduce uncompensated stationary phase interaction effects, leading to systematic errors of several kJ/mol. Operating over too narrow a temperature range reduces the precision of the van't Hoff slope; at least a 30 K span with ≥5 temperatures is recommended. Failure to precisely measure and subtract dead time introduces systematic curvature in the van't Hoff plot, since the error in t_a' becomes temperature-dependent. Using temperature-programmed GC rather than true isothermal runs invalidates the van't Hoff analysis framework entirely. Neglecting the ΔCp correction when the mean column temperature differs significantly from 298.15 K can introduce errors of 5–10 kJ/mol for ΔT > 100 K. Column overloading from too concentrated solutions causes asymmetric peaks and shifts the apparent retention time. Finally, assuming that published reference ΔHvap values are all equally reliable without checking their provenance can propagate hidden errors through the correlation.",
+      "artifacts_and_failure_modes": "Non-linearity in the ln(t_a'/t_ref') vs. 1/T plot is the primary diagnostic for problems. Causes include: thermal decomposition of the analyte at high column temperatures (manifested as decreasing peak area and erratic retention times), phase changes of the analyte on-column (solid melting), temperature-dependent conformational equilibria, and GC oven temperature calibration errors. Column bleed at high temperatures produces a rising baseline that can shift apparent peak maxima, especially for small or broad peaks. Coelution artifacts occur when two or more compounds have overlapping retention times at a particular temperature — this can usually be resolved by adjusting the temperature set but must be detected by careful inspection of peak shapes. Stationary phase degradation over the course of a long experimental campaign introduces a slow drift in retention times that appears as scatter in the van't Hoff plot. If the carrier gas flow is not constant across all temperatures, apparent retention time ratios are distorted. Loss of the non-retained marker peak (e.g., methane not detected at high temperature due to reduced sensitivity) makes dead time correction impossible at those temperatures.",
+      "reporting_checklist": "Publications using correlation gas chromatography should report: (1) column specifications (length, diameter, film thickness, stationary phase identity); (2) carrier gas type and flow rate; (3) complete list of isothermal column temperatures used; (4) dead time measurement method and values at each temperature; (5) identity and source of each reference compound; (6) literature ΔHvap or ΔHsub values used for each reference with citations; (7) ΔHtrans(Tm) at mean experimental temperature before temperature adjustment; (8) ΔCp correction method (group contribution scheme or experimental source) and value used; (9) final ΔHvap(298.15 K) or ΔHsub(298.15 K) with combined expanded uncertainty at 95% confidence; (10) correlation coefficients (R²) for each van't Hoff regression line; (11) comparison with values from other methods if available; (12) evidence of reference compound cross-validation (treating each reference as unknown). For ThermoML encoding, ΔHvap or ΔHsub values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

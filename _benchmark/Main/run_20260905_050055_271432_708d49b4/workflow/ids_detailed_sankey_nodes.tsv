@@ -1,0 +1,17 @@
+key	label	kind	role	is_source	is_sink	value	n_ids	ids	blocks	order	provenance	args	meta
+Main:context	Main · agent context (dedup merge)	merge	context	0	0	4	2	GLOBcomp_1;GLOBcomp_2		1			agent=MAIN;sid=Main
+Main:search_id_alignment#1:raw	Main · search_id_alignment (menu) · raw results	raw	raw	1	0	1	1	GLOBcomp_2		20	run_history.md::Step 4 [main · c2]	"{""query"": ""ethanol"", ""entity_type"": ""compound""}"	menu=True;reexec_checked=True;status=ok;verdict=KEEP
+Main:answer	Main · final answer	answer	answer	0	1	2	2	GLOBcomp_1;GLOBcomp_2		20	result.md::run_20260905_050055_271432_708d49b4		
+Main:search_id_alignment#1:hardcoded	Main · search_id_alignment (menu) · hardcoded compact	hardcoded	hardcoded	0	0	1	1	GLOBcomp_2		21	run_history.md::Step 4 [main · c2]		
+Main:sink:dedup_exit	Main · re-confirmed known IDs (dedup)	removed	sink	0	1	2	2	GLOBcomp_1;GLOBcomp_2		21			
+Main:search_id_alignment#1:agentic	Main · search_id_alignment (menu) · agentic kept	agentic	agentic	0	0	1	1	GLOBcomp_2		22	run_history.md::Step 4 [main · c2]		
+Main:sink:triage_cut	Main · agentic triage cut	removed	sink	0	1	8	8	GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905		25			
+Main:search_id_alignment#2:raw	Main · search_id_alignment (menu) · raw results	raw	raw	1	0	1	1	GLOBcomp_2		30	run_history.md::Step 6 [main · c3]	"{""entity_type"": ""compound"", ""query"": ""ethyl alcohol""}"	menu=True;reexec_checked=True;status=ok;verdict=KEEP
+Main:search_id_alignment#2:hardcoded	Main · search_id_alignment (menu) · hardcoded compact	hardcoded	hardcoded	0	0	1	1	GLOBcomp_2		31	run_history.md::Step 6 [main · c3]		
+Main:search_id_alignment#2:agentic	Main · search_id_alignment (menu) · agentic kept	agentic	agentic	0	0	1	1	GLOBcomp_2		32	run_history.md::Step 6 [main · c3]		
+Main:search_id_alignment#3:raw	Main · search_id_alignment (menu) · raw results	raw	raw	1	0	1	1	GLOBcomp_1		40	run_history.md::Step 9 [main · c4]	"{""entity_type"": ""compound"", ""query"": ""water""}"	menu=True;reexec_checked=True;status=ok;verdict=KEEP
+Main:search_id_alignment#3:hardcoded	Main · search_id_alignment (menu) · hardcoded compact	hardcoded	hardcoded	0	0	1	1	GLOBcomp_1		41	run_history.md::Step 9 [main · c4]		
+Main:search_id_alignment#3:agentic	Main · search_id_alignment (menu) · agentic kept	agentic	agentic	0	0	1	1	GLOBcomp_1		42	run_history.md::Step 9 [main · c4]		
+Main:search_id_alignment#4:raw	Main · search_id_alignment (menu) · raw results	raw	raw	1	0	9	9	GLOBcomp_1;GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905		50	run_history.md::Step 10 [main · c5]	"{""entity_type"": ""compound"", ""query"": ""aqua""}"	menu=True;reexec_checked=True;status=ok;verdict=KEEP
+Main:search_id_alignment#4:hardcoded	Main · search_id_alignment (menu) · hardcoded compact	hardcoded	hardcoded	0	0	9	9	GLOBcomp_1;GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905		51	run_history.md::Step 10 [main · c5]		
+Main:search_id_alignment#4:agentic	Main · search_id_alignment (menu) · agentic kept	agentic	agentic	0	0	1	1	GLOBcomp_1		52	run_history.md::Step 10 [main · c5]		

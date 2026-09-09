@@ -1,0 +1,353 @@
+{
+  "meas_ID": "sessile_drop",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Sessile Drop",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Sessile Drop",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Surface Tension",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "yes"
+    },
+    "db_usage": {
+      "instance_count": 5,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 5,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "drop profile coordinates from digital image (edge detection of silhouette)",
+          "contact angle at three-phase contact line (θ)",
+          "drop base diameter (contact circle width)",
+          "drop height (apex to baseline distance)",
+          "density difference between drop liquid and surrounding fluid (Δρ)"
+        ],
+        "derived_observables": [
+          "surface tension γ (via axisymmetric drop shape analysis, ADSA)",
+          "interfacial tension γ_12 (liquid-liquid or liquid-solid)",
+          "contact angle θ (static, advancing, receding)",
+          "contact angle hysteresis (θ_adv − θ_rec)",
+          "work of adhesion W_a = γ(1 + cos θ)",
+          "Bond number Bo = ΔρgR²/γ",
+          "drop volume (from profile integration)"
+        ],
+        "target_properties": [
+          "surface tension of liquids (liquid-air interface)",
+          "interfacial tension (liquid-liquid interface)",
+          "static contact angle",
+          "advancing contact angle",
+          "receding contact angle",
+          "contact angle hysteresis",
+          "work of adhesion",
+          "surface free energy of solids (via contact angle models)"
+        ],
+        "phases_measured": [
+          "liquid-vapor (surface tension)",
+          "liquid-liquid (interfacial tension)",
+          "liquid-solid (contact angle and wettability)",
+          "high-temperature melt-vapor",
+          "melt-substrate"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "liquid mixtures and solutions",
+          "surfactant solutions",
+          "polymer melts",
+          "molten metals and alloys",
+          "molten salts and ionic liquids",
+          "oils and petroleum fractions",
+          "biological fluids",
+          "high-viscosity liquids"
+        ],
+        "unsupported_sample_types": [
+          "gases (no drop formation)",
+          "highly volatile liquids that evaporate before measurement",
+          "liquids with extremely low viscosity that spread completely on the substrate (θ → 0)",
+          "opaque surrounding media that prevent optical imaging of the drop profile",
+          "samples that chemically attack or dissolve the substrate during measurement"
+        ],
+        "typical_output_formats": [
+          "γ vs. T curve",
+          "θ vs. T curve",
+          "θ vs. time (dynamic wetting/spreading kinetics)",
+          "advancing and receding θ vs. drop volume",
+          "drop profile image with fitted Young-Laplace curve overlay",
+          "tabulated γ or θ values at discrete temperatures"
+        ],
+        "units": {
+          "surface_tension": "mN/m (= dyn/cm)",
+          "interfacial_tension": "mN/m",
+          "contact_angle": "degrees (°)",
+          "temperature": "K",
+          "density": "kg/m³",
+          "drop_volume": "µL",
+          "drop_base_diameter": "mm",
+          "work_of_adhesion": "mN/m (= mJ/m²)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "288 K to 473 K (standard goniometer with thermostated cell)",
+            "hard_limits": "cryogenic to >1800 K with specialized high-temperature sessile drop furnaces",
+            "notes": "high-temperature work on molten metals requires inert atmosphere or vacuum and ceramic/graphite substrates"
+          },
+          {
+            "parameter": "drop_volume",
+            "typical_range": "1 µL to 20 µL",
+            "hard_limits": "0.5 µL to ~50 µL; drop must be large enough for gravity to deform profile (Bond number > 0.1 for ADSA) yet small enough to remain axisymmetric",
+            "notes": "for contact angle only, smaller drops (1–5 µL) are preferred to minimize gravitational distortion of the contact line"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "ambient (0.1 MPa)",
+            "hard_limits": "atmospheric to ~10 MPa in pressurized cells for high-pressure studies",
+            "notes": "standard measurements performed at atmospheric pressure; pressurized cells are specialized"
+          },
+          {
+            "parameter": "dosing_rate",
+            "typical_range": "0.5 µL/s to 5 µL/s",
+            "hard_limits": "must be slow enough to avoid kinetic effects on drop shape; quasi-static deposition",
+            "notes": "for advancing/receding angle, volume is increased/decreased at controlled rate via motorized syringe"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "scanned or fixed variable",
+            "typical_values": "293 K to 373 K (common); up to 1800 K for molten metals",
+            "effect": "surface tension generally decreases with increasing temperature; contact angle may change due to substrate or liquid property shifts"
+          },
+          {
+            "name": "drop_volume",
+            "role": "controlled variable",
+            "typical_values": "2–10 µL for contact angle; 5–20 µL for surface tension via ADSA",
+            "effect": "larger drops give stronger gravitational deformation (higher Bond number) improving ADSA sensitivity; excessively large drops become non-axisymmetric"
+          },
+          {
+            "name": "substrate_type_and_roughness",
+            "role": "fixed experimental parameter (for contact angle measurements)",
+            "typical_values": "polished glass, silicon wafer, PTFE, metal coupon; Ra < 0.1 µm preferred",
+            "effect": "roughness and chemistry determine equilibrium contact angle; hysteresis increases with roughness"
+          },
+          {
+            "name": "surrounding_medium",
+            "role": "fixed experimental parameter",
+            "typical_values": "ambient air, nitrogen, argon, or immiscible second liquid",
+            "effect": "determines whether surface tension (air) or interfacial tension (second liquid) is measured; inert atmospheres prevent oxidation of reactive samples"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision motorized syringe/dosing system — delivers controlled drop volumes (typical resolution ±0.01 µL) via a blunt-tip needle",
+          "CCD or CMOS camera — high-resolution digital camera (≥1024×768 pixels) with telecentric or macro lens for capturing drop silhouette",
+          "backlight illumination — diffuse, uniform LED or halogen backlight positioned opposite camera for high-contrast silhouette imaging",
+          "flat solid substrate — polished, chemically defined surface on a leveled stage (for contact angle); or drop hanging from needle tip (for pendant configuration)",
+          "thermostated sample enclosure — temperature-controlled chamber (Peltier, circulating bath, or resistive furnace) surrounding the drop and substrate",
+          "optical bench and leveling stage — vibration-damped platform ensuring the substrate is horizontal and camera is aligned to the drop equator",
+          "image analysis software — ADSA (Axisymmetric Drop Shape Analysis) or equivalent algorithm for fitting Young-Laplace profiles and extracting γ and θ",
+          "density measurement input — accurate densities of drop liquid and surrounding phase required for ADSA surface tension calculation",
+          "frame grabber or digital interface — for capturing and transferring images to the analysis computer"
+        ],
+        "environmental_requirements": [
+          "vibration-free surface to prevent drop oscillation during image capture",
+          "draft-free enclosure to eliminate convective disturbance of the drop",
+          "temperature-controlled chamber with ±0.1 K stability for accurate temperature-dependent measurements",
+          "inert atmosphere (N₂, Ar) for oxidation-sensitive or high-temperature samples",
+          "humidity control for hygroscopic liquids or when measuring contact angle on moisture-sensitive substrates"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample: sufficient volume to form 5–20 drops (typically 0.5–2 mL)",
+            "substrate: flat coupon or wafer, minimum ~10 mm × 10 mm, thickness ≥ 1 mm"
+          ],
+          "size_limits": "drop volume 0.5–50 µL; substrate lateral dimensions at least 3× drop base diameter",
+          "thickness_limits": "substrate thickness ≥ 1 mm to ensure mechanical rigidity and thermal uniformity",
+          "surface_requirements": [
+            "substrate surface must be flat (deviation < 1 µm over drop contact area)",
+            "surface roughness Ra < 0.1 µm for reproducible contact angle measurements",
+            "chemically homogeneous — no contaminant films, adsorbed layers, or oxidation patches",
+            "known surface chemistry (cleaned and characterized surface energy)"
+          ],
+          "mounting_requirements": [
+            "substrate placed on precision-leveled stage (tilt < 0.1°) to ensure axisymmetric drop shape",
+            "needle positioned vertically above substrate center with XYZ micropositioner",
+            "camera and backlight aligned coplanar with the substrate surface (optical axis at drop equator)"
+          ],
+          "preparation_requirements": [
+            "liquid: filtered, degassed, and equilibrated to measurement temperature",
+            "substrate cleaning: solvent rinse (acetone, ethanol), UV-ozone or plasma treatment for high-energy surfaces",
+            "density of liquid and surrounding phase measured independently at each temperature",
+            "substrate roughness characterized by profilometry or AFM if contact angle is the target"
+          ]
+        },
+        "calibration_requirements": [
+          "optical magnification calibration using a precision sphere or stage micrometer of known diameter",
+          "image pixel-to-length conversion factor determined before each session",
+          "needle outer diameter measurement for volume calibration when using ADSA-P (pendant variant)",
+          "temperature sensor calibration within the measurement cell against a certified reference",
+          "verification with reference liquids of known surface tension (e.g., water, hexadecane, DMSO)"
+        ],
+        "reference_materials": [
+          "ultrapure water — γ = 72.8 mN/m at 293 K; primary surface tension reference",
+          "n-hexadecane — γ = 27.5 mN/m at 293 K; nonpolar reference liquid",
+          "dimethyl sulfoxide (DMSO) — γ = 43.5 mN/m at 293 K; polar aprotic reference",
+          "diiodomethane — γ = 50.8 mN/m at 293 K; high-density, high-γ reference",
+          "PTFE substrate — reference low-energy surface (θ_water ≈ 108–112°) for contact angle validation",
+          "clean glass substrate — reference high-energy surface (θ_water < 10° after plasma cleaning)"
+        ],
+        "consumables": [
+          "blunt-tip dosing needles (stainless steel or PTFE-coated, gauge 18–22)",
+          "precision syringes (glass or PTFE, 0.5–5 mL capacity)",
+          "substrate coupons (glass slides, silicon wafers, PTFE sheets)",
+          "cleaning solvents (acetone, ethanol, ultrapure water)",
+          "inert gas supply (N₂ or Ar) for purging sample chamber"
+        ],
+        "safety_notes": [
+          "high-temperature sessile drop furnaces require burn protection and proper shielding",
+          "molten metal drops require inert atmosphere to prevent ignition or oxidation hazards",
+          "organic solvents used for cleaning require fume hood ventilation",
+          "UV-ozone or plasma cleaning systems require appropriate eye and skin protection"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving surface tension differences of ~0.1 mN/m and contact angle differences of ~0.5° between samples under optimized conditions",
+        "detection_limit": "surface tension measurable for γ > ~1 mN/m (limited by drop shape deformation at very low γ); contact angle measurable for θ > ~5° (below this, drop spreading makes angle indeterminate)",
+        "resolution": {
+          "spatial": "image resolution ~5–10 µm/pixel with standard macro lens; sub-pixel edge detection achieves effective resolution of ~1 µm along drop profile",
+          "temporal": "single frame capture in ~10–100 ms; video-rate imaging (30–60 fps) for dynamic contact angle studies",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "surface tension from ~1 mN/m (very low γ liquid-liquid) to ~2000 mN/m (molten metals); contact angle from ~5° to ~175°",
+        "accuracy": "surface tension: 0.5–1 mN/m (0.1–1% for typical liquids); contact angle: 1–2° for static angle, 2–5° for advancing/receding angles",
+        "precision": "surface tension: 0.1–0.3 mN/m (repeatability); contact angle: 0.5–1° (repeatability under controlled conditions)",
+        "throughput": "single drop measurement in 1–5 minutes; temperature-dependent sweep requires 30–120 minutes depending on equilibration time per point",
+        "measurement_speed": "image acquisition is near-instantaneous; rate-limiting step is thermal equilibration of drop and substrate (1–10 minutes per temperature)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "grayscale digital image of drop silhouette; edge-detected profile coordinates (r, z) extracted from image by thresholding and sub-pixel interpolation",
+        "preprocessing_steps": [
+          "image acquisition with uniform backlight and optimized camera exposure",
+          "baseline detection: identify substrate surface (horizontal line) defining the contact plane",
+          "edge detection: apply Canny or Sobel filter with sub-pixel interpolation to extract drop profile coordinates",
+          "symmetry check: verify that left and right drop profiles are mirror-symmetric about the vertical axis",
+          "noise filtering: smooth profile coordinates using moving average or spline fitting while preserving the contact point"
+        ],
+        "analysis_methods": [
+          "Axisymmetric Drop Shape Analysis (ADSA): fit the full drop profile to the Young-Laplace equation ΔP = γ(1/R₁ + 1/R₂) to extract γ and θ simultaneously",
+          "tangent line method: fit a polynomial or circle to the drop profile near the contact point and measure the angle between the tangent and the substrate baseline",
+          "polynomial fitting: fit the drop profile to a polynomial and compute dz/dr at the contact point to obtain θ",
+          "Young-Dupré analysis: calculate work of adhesion W_a = γ_LV(1 + cos θ) from measured γ and θ",
+          "Owens-Wendt or van Oss-Chaudhury-Good models: use contact angles of multiple probe liquids to decompose solid surface free energy into dispersive and polar components",
+          "Zisman plot: plot cos θ vs. γ_LV for a homologous series of liquids to determine critical surface tension of the substrate"
+        ],
+        "model_assumptions": [
+          "drop is axisymmetric about the vertical axis (requires level substrate and vertical needle)",
+          "drop is in mechanical equilibrium — no inertial, viscous, or evaporative flow during image capture",
+          "gravitational acceleration is uniform and known (g = 9.80665 m/s²)",
+          "density difference Δρ between drop phase and surrounding phase is accurately known at the measurement temperature",
+          "line tension effects are negligible (valid for drops with base diameter >> 1 µm)",
+          "substrate is rigid, smooth, chemically homogeneous, and non-deforming under the drop"
+        ],
+        "fit_parameters": [
+          "surface tension γ (or interfacial tension γ₁₂)",
+          "contact angle θ at the three-phase contact line",
+          "drop apex curvature radius R₀ (initial condition for Young-Laplace integration)",
+          "Bond number Bo = ΔρgR₀²/γ (shape parameter)",
+          "contact point coordinates (r_c, z_c) on the baseline"
+        ],
+        "common_artifacts": [
+          "drop asymmetry from tilted substrate — produces different left and right contact angles, invalidating axisymmetric ADSA fitting",
+          "evaporation artifact — slow decrease of drop volume shifts contact angle and surface tension over time",
+          "needle interference — if the dosing needle remains in the drop, it distorts the profile away from axisymmetric shape",
+          "vibration-induced oscillation — environmental vibrations cause transient drop shape distortion and blurred edges",
+          "optical distortion — lens aberration or incorrect pixel calibration introduces systematic error in profile coordinates",
+          "substrate contamination — adsorbed films or residues alter contact angle irreproducibly"
+        ],
+        "quality_control_checks": [
+          "verify γ of ultrapure water at 293 K: measured value should agree with 72.8 ± 0.5 mN/m",
+          "check drop symmetry: left and right contact angles should agree within 1°",
+          "confirm that successive drops on the same substrate give reproducible θ within ±1°",
+          "compare ADSA-derived γ with independent measurement (e.g., Wilhelmy plate or pendant drop) for cross-validation",
+          "inspect residuals of Young-Laplace fit — systematic deviations indicate non-axisymmetric drop or contamination",
+          "measure advancing and receding angles to quantify hysteresis and assess substrate quality"
+        ],
+        "failure_modes": [
+          "complete spreading (θ → 0°) on high-energy substrates — no measurable contact angle",
+          "drop detachment from needle during deposition — irregular drop shape with satellite droplets",
+          "substrate dissolution or chemical reaction — drop base changes size/shape over time",
+          "air bubble entrapment at drop-substrate interface — distorts contact line geometry",
+          "camera defocus or saturation — edge detection fails or produces noisy profile",
+          "insufficient density data — ADSA produces incorrect γ when Δρ is inaccurate"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: 0.5–1 mN/m for surface tension (0.5–1.5% relative); 1–2° for contact angle",
+        "random_sources": [
+          "image noise and edge detection variability (sub-pixel interpolation uncertainty)",
+          "drop volume variability between successive depositions",
+          "vibration-induced drop oscillation during image capture",
+          "temperature fluctuation within the measurement cell",
+          "random substrate heterogeneity (local roughness, chemical patches)"
+        ],
+        "systematic_sources": [
+          "optical calibration error (pixel-to-length conversion factor)",
+          "density uncertainty of drop liquid and surrounding phase",
+          "gravitational constant local value (minor, typically < 0.01%)",
+          "baseline (substrate surface) detection error — a 1-pixel offset shifts θ by ~0.5–1°",
+          "lens distortion (barrel/pincushion) if not corrected",
+          "evaporation-driven volume change during measurement",
+          "thermal gradient between drop and temperature sensor"
+        ],
+        "operator_dependence": "moderate — results depend on substrate cleaning quality, syringe technique (drop deposition smoothness), camera/light alignment, and correct baseline identification",
+        "model_dependence": "low to moderate — ADSA fitting relies on Young-Laplace equation which is rigorous for axisymmetric equilibrium drops; tangent-line methods are more sensitive to the fitting region chosen by the operator",
+        "dominant_error_sources": [
+          "baseline (substrate surface) detection — most critical for contact angle accuracy",
+          "density accuracy for ADSA surface tension determination",
+          "substrate cleanliness and homogeneity for contact angle reproducibility",
+          "drop axisymmetry (substrate leveling)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(γ) at 95% confidence (k = 2)",
+          "combined expanded uncertainty U(θ) at 95% confidence (k = 2)",
+          "standard deviation from replicate drops (n ≥ 5)",
+          "relative uncertainty as percentage of measured γ"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The sessile drop method is a widely used optical technique for measuring surface tension, interfacial tension, and contact angle by analyzing the shape of a small liquid drop resting on a flat solid substrate. A precisely dosed liquid drop (typically 1–20 µL) is deposited onto a horizontal surface, and its silhouette is captured by a digital camera against a uniform backlight. The drop profile is fitted to the Young-Laplace equation using Axisymmetric Drop Shape Analysis (ADSA) to extract surface tension, or the tangent angle at the three-phase contact line is measured directly to obtain the contact angle. The technique is non-contact, non-destructive, requires only microlitre sample volumes, and is applicable from room temperature to above 1800 K with specialized high-temperature furnaces.",
+      "how_it_operates": "A precision motorized syringe dispenses a controlled volume of liquid through a blunt-tip needle onto a flat, level substrate inside a temperature-controlled enclosure. The drop assumes an equilibrium shape governed by the balance between surface tension (which tends to minimize surface area, making the drop spherical) and gravity (which flattens the drop). A high-resolution CCD or CMOS camera, positioned at the level of the substrate surface and illuminated from behind by a diffuse backlight, captures a sharp silhouette image of the drop. Image analysis software detects the drop edge with sub-pixel precision and extracts profile coordinates. For surface tension measurement, the full axisymmetric profile is fitted to a numerical solution of the Young-Laplace equation, yielding γ as the best-fit parameter. For contact angle measurement, the tangent to the drop profile at the point where it meets the substrate defines the angle θ. Advancing and receding contact angles are obtained by slowly increasing or decreasing the drop volume via the syringe while continuously imaging.",
+      "core_theory": "The shape of an axisymmetric sessile drop is governed by the Young-Laplace equation, which relates the pressure difference across the liquid-air interface to the surface tension and local curvature: ΔP = γ(1/R₁ + 1/R₂), where R₁ and R₂ are the principal radii of curvature. For a sessile drop under gravity, the hydrostatic pressure adds a term Δρ·g·z, where Δρ is the density difference between liquid and surrounding phase, g is gravitational acceleration, and z is the height above the drop apex. The resulting differential equation is integrated numerically from the apex (where R₁ = R₂ = R₀) outward along the meridional profile. ADSA fits the experimental profile coordinates to this computed curve, using γ and R₀ as adjustable parameters. The contact angle θ is defined by Young's equation: γ_SV = γ_SL + γ_LV·cos θ, where the subscripts denote solid-vapor, solid-liquid, and liquid-vapor interfaces. The Bond number Bo = Δρ·g·R₀²/γ quantifies the relative importance of gravity to surface tension and must be sufficiently large (Bo > 0.1) for ADSA to yield reliable γ values.",
+      "setup": "A typical sessile drop instrument consists of a precision dosing system (motorized syringe with stepper-motor plunger, holding a glass or PTFE syringe fitted with a blunt stainless-steel needle of known outer diameter), a digital camera (CCD or CMOS, ≥1024×768 resolution) equipped with a telecentric or macro lens, and a diffuse LED backlight positioned directly opposite the camera to produce a high-contrast drop silhouette. The substrate sits on a precision-leveled stage with tilt adjustment (sensitivity < 0.1°), enclosed in a thermostated chamber with optical windows. For ambient-temperature work, a Peltier element or circulating-fluid jacket provides ±0.1 K temperature stability. For high-temperature studies on molten metals and oxides, a tube furnace with alumina or graphite susceptor, inert gas purge (Ar or He), and a long-working-distance zoom lens replaces the standard chamber. All components are mounted on a vibration-damped optical bench. Image analysis software (commercial: Krüss ADVANCE, DataPhysics SCA, Biolin Theta; open-source: OpenDrop, ImageJ plugins) performs edge detection, Young-Laplace fitting, and contact angle determination.",
+      "suitable_for": "The sessile drop method is the instrument of choice when both surface tension and contact angle data are needed from the same experimental setup. It excels at measuring the surface tension of pure liquids, solutions, and surfactant systems at temperatures from ambient to well above 1000 K. It is the standard technique for static, advancing, and receding contact angle measurements used to characterize wettability of solid surfaces — critical in coatings, adhesion, printing, oil recovery, and biomedical implant research. The method is well suited for high-temperature studies on molten metals, alloys, slags, and glasses where other tensiometric methods (Wilhelmy plate, du Noüy ring) are impractical. It handles both low-viscosity and moderately high-viscosity liquids, and can be adapted for liquid-liquid interfacial tension by immersing the substrate and drop in a second immiscible phase.",
+      "core_limitations": "The principal limitation is the requirement for axisymmetric drop shape — any substrate tilt, heterogeneity, or drop asymmetry degrades accuracy. For surface tension via ADSA, the Bond number must be sufficiently large (Bo > 0.1), meaning the method loses sensitivity for very small drops or very high surface tensions where gravitational deformation is minimal. Contact angle measurements are sensitive to substrate roughness (Ra > 0.1 µm introduces hysteresis and irreproducibility) and chemical heterogeneity. Evaporation of volatile liquids changes drop volume during measurement, introducing time-dependent errors unless the atmosphere is saturated. The technique requires independent knowledge of the liquid and surrounding phase densities at each temperature. For very low contact angles (θ < 5°), the thin spreading film becomes indistinguishable from the substrate, and for very high contact angles (θ > 170°), the narrow contact region is difficult to resolve optically.",
+      "sample_preparation": "The liquid sample must be clean, free of particulates, and degassed to prevent bubble formation at the drop-substrate interface. Filtering through a 0.2 µm membrane and brief ultrasonication under vacuum are standard preparation steps. The liquid density at each measurement temperature must be known from independent measurement (e.g., vibrating-tube densimeter). For the substrate, rigorous cleaning is essential: glass and silicon wafers are typically cleaned by sequential rinsing with acetone, ethanol, and ultrapure water, followed by UV-ozone or oxygen plasma treatment to remove organic contaminants and produce a reproducibly high-energy surface. Low-energy substrates (PTFE, polyethylene) are cleaned with ethanol and dried under nitrogen. The substrate roughness should be characterized by optical profilometry or AFM — Ra < 0.1 µm is required for reproducible contact angle results. Immediately before measurement, the substrate is handled only with clean tweezers and kept in a dust-free environment.",
+      "calibration_and_references": "Optical calibration establishes the pixel-to-length conversion factor using a precision sphere or certified calibration reticle of known dimensions placed at the drop position. This calibration is verified at the start of each session and whenever the camera or lens is repositioned. Surface tension is validated by measuring ultrapure water at 293.15 K (reference γ = 72.75 mN/m); agreement within ±0.5 mN/m confirms correct system operation. Additional reference liquids include n-hexadecane (γ = 27.5 mN/m) and diiodomethane (γ = 50.8 mN/m) spanning a wide γ range. For contact angle validation, water on clean PTFE (θ ≈ 108–112°) and water on plasma-cleaned glass (θ < 10°) serve as high- and low-angle benchmarks. Temperature calibration of the cell sensor is checked against the melting point of a reference solid or the known γ(T) curve of water. The dosing system volume delivery is verified gravimetrically by dispensing and weighing multiple drops.",
+      "data_interpretation": "Raw digital images are processed by first identifying the substrate baseline (flat bright region below the drop shadow) and then applying edge detection (Canny filter with sub-pixel refinement) to extract the meridional profile coordinates (r, z) of the drop. For surface tension, the ADSA algorithm numerically integrates the Young-Laplace equation from the apex and iteratively adjusts γ, R₀, and the apex position to minimize the sum of squared deviations between computed and experimental profiles. The quality of the fit is assessed by the residual root-mean-square deviation, which should be below the pixel resolution. For contact angle, a tangent line (or polynomial/circle fit) to the profile near the contact point yields θ; the contact point is defined by the intersection of the detected profile with the substrate baseline. When both advancing and receding angles are measured, contact angle hysteresis is reported as Δθ = θ_adv − θ_rec. Solid surface free energy components are derived from contact angle data using models such as Owens-Wendt (dispersive and polar components from two probe liquids) or van Oss-Chaudhury-Good (Lifshitz-van der Waals, acid, and base components from three probe liquids).",
+      "common_pitfalls": "The most pervasive pitfall is inadequate substrate cleaning — even a monomolecular contaminant film can shift contact angles by 10–30° and reduce surface tension accuracy by altering the wetting behavior near the contact line. Substrate tilt as small as 0.5° introduces left-right asymmetry in the drop, causing ADSA fitting to converge on incorrect γ values and producing different contact angles on each side. Evaporation during measurement is frequently underestimated; for volatile liquids, the ambient atmosphere must be saturated with the liquid vapor, or the measurement must be completed within seconds. Placing the camera even slightly above or below the substrate plane shifts the apparent contact angle — the optical axis must be aligned precisely at the contact line height. Using incorrect density values (e.g., room-temperature density at an elevated measurement temperature) produces a systematic error in γ proportional to the density error. Leaving the dosing needle in the drop during ADSA measurement distorts the profile and violates the axisymmetric assumption.",
+      "artifacts_and_failure_modes": "Substrate tilt artifact produces asymmetric drops where left and right contact angles differ; the ADSA fitting may still converge but yields an averaged, incorrect γ. Evaporation artifact causes progressive drop shrinkage, shifting equilibrium γ upward (due to surfactant enrichment) and reducing contact angle as the contact line recedes. Vibration artifact produces transient image blur and oscillating contact lines, which manifest as noisy or broadened edge detection and scatter in replicate measurements. Needle-in-drop artifact appears as a localized distortion of the upper drop profile, causing ADSA residuals to increase near the apex. Substrate dissolution or swelling by the liquid causes the baseline to shift over time and the contact angle to drift. Air bubble entrapment at the drop-substrate interface is visible as a bright spot in the silhouette image and causes asymmetric wetting and irregular contact angles. Lens distortion artifact systematically warps the drop profile, producing Bond-number dependent bias in γ if the distortion is not calibrated and corrected.",
+      "reporting_checklist": "Published sessile drop results should report: liquid identity and purity; substrate material, surface treatment, and roughness (Ra); drop volume; dosing needle gauge and whether the needle was withdrawn or left in place; chamber atmosphere and humidity; temperature and its uncertainty; density values used for ADSA with their source and uncertainty; magnification calibration method; image analysis software and algorithm (ADSA, tangent, polynomial); number of replicate drops (n ≥ 5 recommended); mean γ or θ with combined expanded uncertainty at 95% confidence (k = 2); contact angle type (static, advancing, or receding); whether equilibrium was verified by time-series monitoring; and any corrections applied (e.g., evaporation, line tension). For ThermoML encoding, surface tension and contact angle values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

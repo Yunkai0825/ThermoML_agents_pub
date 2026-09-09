@@ -1,0 +1,331 @@
+{
+  "meas_ID": "dynamic_equilibration",
+  "identity": {
+    "name": "Dynamic equilibration",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Dynamic equilibration",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Chromatography / Separation",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "yes",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 6,
+      "property_groups": [
+        "ReactionEquilibriumProp"
+      ],
+      "n_papers": 5,
+      "per_group": {
+        "ReactionEquilibriumProp": {
+          "instances": 6,
+          "papers": 5
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "equilibrium temperature (T)",
+          "equilibrium pressure (P)",
+          "phase compositions from sampling and analysis (e.g., GC, HPLC, Karl Fischer titration, refractometry)",
+          "flow rate or recirculation rate of each phase",
+          "liquid level or phase volume"
+        ],
+        "derived_observables": [
+          "equilibrium mole fractions (x_i, y_i) in coexisting phases",
+          "activity coefficients (γ_i) from equilibrium composition and equation-of-state or excess Gibbs energy models",
+          "partition coefficients (K_i = y_i/x_i)",
+          "relative volatility (α_ij)",
+          "vapor-liquid or liquid-liquid distribution ratios",
+          "excess Gibbs energy (G^E) from fitted activity coefficient models",
+          "Henry's law constants (from dilute-region data)",
+          "equilibrium constants for reactive equilibrium systems"
+        ],
+        "target_properties": [
+          "vapor-liquid equilibrium (VLE) phase compositions and P-T-x-y data",
+          "liquid-liquid equilibrium (LLE) tie-line compositions",
+          "solid-liquid equilibrium (SLE) liquidus compositions",
+          "reaction equilibrium constants",
+          "activity coefficients at equilibrium",
+          "partition coefficients",
+          "relative volatilities"
+        ],
+        "phases_measured": [
+          "vapor (gas)",
+          "liquid (single phase)",
+          "liquid-liquid (two immiscible liquid phases)",
+          "solid-liquid (solid phase in contact with saturated liquid)",
+          "vapor-liquid-liquid (three-phase equilibrium)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "multicomponent liquid mixtures",
+          "aqueous and organic solutions",
+          "electrolyte solutions (with appropriate sampling methods)",
+          "systems with volatile solutes or solvents",
+          "azeotrope-forming mixtures",
+          "partially miscible liquid pairs",
+          "reactive mixtures at chemical equilibrium"
+        ],
+        "unsupported_sample_types": [
+          "highly viscous systems (impede recirculation and mixing)",
+          "systems that form stable emulsions (prevent clean phase separation)",
+          "samples that decompose under prolonged heating or pumping",
+          "supercritical single-phase systems (no phase boundary to equilibrate)",
+          "systems with extremely low mutual solubility where sampling concentrations approach analytical detection limits"
+        ],
+        "typical_output_formats": [
+          "P-T-x-y tables (VLE)",
+          "T-x-x' tie-line tables (LLE)",
+          "x-y diagrams at constant T or P",
+          "P-x or T-x phase diagrams",
+          "activity coefficient vs. composition tables"
+        ],
+        "units": {
+          "temperature": "K",
+          "pressure": "kPa or MPa",
+          "composition": "mole fraction (dimensionless)",
+          "activity_coefficient": "dimensionless",
+          "partition_coefficient": "dimensionless",
+          "flow_rate": "mL/min or cm³/min",
+          "equilibrium_constant": "dimensionless or units depend on convention"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "250 K to 600 K",
+            "hard_limits": "lower limit set by fluid freezing or viscosity; upper limit set by thermal stability of components and apparatus seals",
+            "notes": "most VLE work is in the 280–450 K range; LLE studies can extend to lower temperatures for UCST/LCST determination"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "1 kPa to 10 MPa",
+            "hard_limits": "low-pressure limit set by leak tightness and vapor sampling; high-pressure limit set by mechanical strength of glass or metal equilibrium cells",
+            "notes": "recirculating stills for VLE are commonly designed for sub-atmospheric to moderate pressures; high-pressure designs use metal cells with sight glasses"
+          },
+          {
+            "parameter": "recirculation_rate",
+            "typical_range": "0.5 mL/min to 50 mL/min (liquid phase); vapor phase recirculation varies with still design",
+            "hard_limits": "too low: equilibration is slow and concentration gradients persist; too high: entrainment of one phase into the other or incomplete phase disengagement",
+            "notes": "optimal rate depends on system viscosity, phase density difference, and still geometry"
+          },
+          {
+            "parameter": "equilibration_time",
+            "typical_range": "30 min to several hours per equilibrium point",
+            "hard_limits": "must be long enough for steady-state composition in both phases; verified by repeated sampling showing no drift",
+            "notes": "dynamic methods typically reach equilibrium faster than static methods due to active circulation and mixing"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled variable (isothermal mode) or measured variable (isobaric mode)",
+            "typical_values": "280 K to 450 K for most VLE; wider range for LLE",
+            "effect": "determines the equilibrium pressure and composition for a given system; controls which phases coexist"
+          },
+          {
+            "name": "pressure",
+            "role": "controlled variable (isobaric mode) or measured variable (isothermal mode)",
+            "typical_values": "5 kPa to 5 MPa",
+            "effect": "at constant T, pressure adjusts with feed composition to satisfy the phase equilibrium condition"
+          },
+          {
+            "name": "overall_feed_composition",
+            "role": "independently varied parameter",
+            "typical_values": "full composition range from 0 to 1 mole fraction, typically 10–20 points across the range",
+            "effect": "determines the location on the phase diagram; each feed composition yields a different equilibrium point"
+          },
+          {
+            "name": "recirculation_rate",
+            "role": "operational parameter (held constant during a measurement)",
+            "typical_values": "1–20 mL/min for liquid recirculation",
+            "effect": "affects the rate of approach to equilibrium and efficiency of mass transfer; not a thermodynamic variable"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "equilibrium cell (glass or metal) — contains the coexisting phases with provision for circulation and sampling; often a modified Othmer, Cottrell, or Rogalski-type recirculating still for VLE",
+          "recirculation system — magnetic or mechanical pump, Cottrell pump (vapor-lift), or convective loop that continuously circulates one or both phases through boiling and condensation zones",
+          "temperature measurement — platinum resistance thermometer (PRT) or calibrated thermocouple immersed in the liquid phase, with resolution ±0.01 K",
+          "pressure measurement — calibrated pressure transducer or manometer for total system pressure, with resolution ±0.01 kPa",
+          "sampling ports — septum-sealed or valve-actuated ports for withdrawing small aliquots of each phase without disturbing equilibrium",
+          "analytical instrument — gas chromatograph (GC), HPLC, or refractometer for determining composition of sampled phases",
+          "heating/cooling system — thermostat bath, electric heating mantle, or oil jacket for temperature control of the equilibrium cell",
+          "condenser — water-cooled or cryogen-cooled reflux condenser to prevent vapor loss in VLE stills",
+          "mixing element — magnetic stirrer or static mixer in the circulation loop to enhance mass transfer",
+          "data acquisition — digital temperature and pressure logging, interfaced to computer"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (±1 °C ambient) to minimize thermal fluctuations",
+          "fume hood or ventilation for work with volatile or toxic solvents",
+          "inert atmosphere (N₂ or Ar blanket) for oxygen- or moisture-sensitive systems",
+          "grounding and shielding for sensitive temperature and pressure instruments"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "bulk liquid samples loaded directly into the equilibrium cell"
+          ],
+          "size_limits": "typically 50 mL to 500 mL total charge; enough to fill the cell and circulation loop with adequate holdup for sampling",
+          "thickness_limits": "not applicable (bulk liquid technique)",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "degassing — dissolved air and light gases must be removed by vacuum degassing, freeze-pump-thaw, or prolonged boiling under reflux to avoid systematic errors in pressure and composition",
+            "drying — water-sensitive systems require drying over molecular sieves or distillation",
+            "purity verification — purity of each component checked by GC or refractive index (≥99 mol% typical)",
+            "known composition feed — components weighed gravimetrically to prepare charges of known overall composition"
+          ]
+        },
+        "calibration_requirements": [
+          "temperature sensor calibration against ITS-90 fixed points or a certified reference thermometer",
+          "pressure transducer calibration against a dead-weight gauge or reference manometer",
+          "GC or analytical calibration using gravimetrically prepared standard mixtures spanning the expected composition range",
+          "validation with a well-characterized reference system (e.g., cyclohexane + heptane for VLE, water + 1-butanol for LLE)"
+        ],
+        "reference_materials": [
+          "cyclohexane + n-heptane — well-characterized VLE reference system",
+          "ethanol + water — widely measured VLE/LLE system",
+          "water + 1-butanol — standard LLE reference system with UCST",
+          "benzene + cyclohexane — nearly ideal VLE reference",
+          "pure component vapor pressures from NIST or DIPPR databases for consistency checks"
+        ],
+        "consumables": [
+          "GC columns and carrier gas (helium or nitrogen) for composition analysis",
+          "PTFE and Viton O-rings and septa for sampling ports",
+          "thermal grease for thermometer junctions",
+          "vacuum pump oil (for degassing apparatus)",
+          "molecular sieves (3 Å or 4 Å) for drying solvents",
+          "inert gas supply (N₂ or Ar) for blanketing"
+        ],
+        "safety_notes": [
+          "glass equilibrium cells are pressurized — use blast shields and safety glasses; never exceed rated pressure",
+          "flammable solvent vapors require grounded equipment and spark-free environment",
+          "vacuum degassing involves implosion risk — use proper vacuum-rated glassware",
+          "hot oil baths or heating mantles pose burn hazard",
+          "toxic solvent exposure — use fume hood and appropriate PPE during sampling"
+        ]
+      },
+      "performance": {
+        "sensitivity": "ability to distinguish composition differences of ±0.001 mole fraction with GC analysis; ±0.0005 with optimized analytical methods",
+        "detection_limit": "limited by analytical instrument — typically ≥0.0001 mole fraction for GC-FID; can reach 10⁻⁶ mole fraction with GC-MS for trace components",
+        "resolution": {
+          "spatial": "not applicable (bulk equilibrium measurement)",
+          "temporal": "not applicable (steady-state measurement); equilibration monitored over minutes to hours",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "full mole fraction range 0 to 1; pressure range from a few kPa to ~10 MPa depending on apparatus",
+        "accuracy": "temperature: ±0.02–0.1 K; pressure: ±0.05–0.5 kPa; composition: ±0.001–0.005 mole fraction (depends on analytical method and calibration)",
+        "precision": "temperature: ±0.01 K; pressure: ±0.02 kPa; composition: ±0.0005–0.002 mole fraction (repeatability of replicate samplings)",
+        "throughput": "1–5 equilibrium points per day depending on equilibration time and number of compositions",
+        "measurement_speed": "30 min to 4 h per equilibrium point including equilibration and analysis; faster than static equilibration for many systems"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "equilibrium temperature (from PRT), equilibrium pressure (from transducer), and chromatographic peak areas or refractive indices from phase samples",
+        "preprocessing_steps": [
+          "convert GC peak areas to mole fractions using calibration curves from standard mixtures",
+          "correct pressure readings for head of liquid in manometer lines if applicable",
+          "verify steady-state by comparing compositions from successive samples taken 10–30 min apart",
+          "correct for small sample withdrawal effect on overall system composition if significant"
+        ],
+        "analysis_methods": [
+          "thermodynamic consistency tests: Herington area test, Van Ness point-by-point test, Wisniak L-W test to verify data quality",
+          "correlation of activity coefficients using excess Gibbs energy models (Margules, Van Laar, Wilson, NRTL, UNIQUAC)",
+          "equation of state modeling (Peng-Robinson, SRK) with mixing rules for comparison with measured data",
+          "construction of P-x-y, T-x-y, or x-y phase diagrams from tabulated data",
+          "regression of model parameters (e.g., NRTL α₁₂, τ₁₂, τ₂₁) to the measured equilibrium data"
+        ],
+        "model_assumptions": [
+          "both phases are at thermodynamic equilibrium (equal chemical potentials for each component in all coexisting phases)",
+          "the Gibbs phase rule determines degrees of freedom: F = C − P + 2",
+          "vapor phase is typically modeled as an ideal gas or with a virial equation truncated at the second coefficient for low to moderate pressures",
+          "liquid phase non-ideality is captured by activity coefficient models (γ-φ approach) or by equation of state (φ-φ approach)",
+          "no chemical reaction during equilibration unless specifically studying reaction equilibrium",
+          "sampled phases are representative of bulk equilibrium compositions (no wall effects or sampling bias)"
+        ],
+        "fit_parameters": [
+          "binary interaction parameters for activity coefficient models (e.g., NRTL: τ₁₂, τ₂₁, α₁₂; Wilson: Λ₁₂, Λ₂₁; UNIQUAC: Δu₁₂, Δu₂₁)",
+          "binary interaction parameters for equations of state (k_ij)",
+          "Antoine or Wagner equation parameters for pure component vapor pressures if refined simultaneously"
+        ],
+        "common_artifacts": [
+          "partial entrainment of liquid droplets into the vapor phase, causing apparent enrichment of less volatile component in vapor samples",
+          "inadequate degassing leading to elevated total pressure and apparent positive deviation from expected VLE behavior",
+          "condensation in sampling lines (cold spots) between the vapor sample port and the analytical instrument, biasing vapor composition",
+          "thermal decomposition of heat-sensitive components during extended recirculation at elevated temperature",
+          "leaks in the recirculation loop causing air ingress and oxidation or pressure drift"
+        ],
+        "quality_control_checks": [
+          "thermodynamic consistency test on completed dataset (area test deviation <3% for high-quality data)",
+          "comparison of pure component vapor pressure end-points with literature or NIST values",
+          "verification that mass balance closes (total moles in = total moles out for each component)",
+          "replicate measurements at selected compositions to confirm repeatability",
+          "cross-check equilibrium temperature and pressure against the Clausius-Clapeyron relation or Antoine equation for each pure component"
+        ],
+        "failure_modes": [
+          "failure of recirculation pump — loss of circulation leads to incomplete equilibration and concentration gradients",
+          "thermostat failure — temperature drift invalidates equilibrium condition",
+          "condenser failure — vapor loss from system changes overall composition and pressure",
+          "emulsion formation in LLE — phases do not separate cleanly, preventing representative sampling",
+          "blockage of sampling port or circulation tubing by precipitated solids or polymer deposits",
+          "GC calibration drift during a long experimental campaign producing systematic composition errors"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: T ±0.02–0.1 K; P ±0.05–0.5 kPa; x and y ±0.001–0.005 mole fraction",
+        "random_sources": [
+          "temperature fluctuations from thermostat oscillation",
+          "pressure noise from recirculation pump pulsations",
+          "sampling variability (aliquot-to-aliquot composition scatter)",
+          "GC injection volume variability and detector noise",
+          "short-term ambient temperature fluctuations affecting condenser efficiency"
+        ],
+        "systematic_sources": [
+          "incomplete degassing (residual dissolved air elevates pressure systematically)",
+          "temperature sensor calibration offset",
+          "pressure transducer zero drift or hysteresis",
+          "GC calibration curve bias (poor fit or matrix effects)",
+          "preferential adsorption on cell walls or circulation tubing altering bulk composition",
+          "systematic entrainment of liquid into vapor phase or vice versa",
+          "heat leak from circulation pump adding to system enthalpy"
+        ],
+        "operator_dependence": "moderate to high — degassing procedure, equilibration time judgment, sampling technique, and GC calibration preparation are operator-dependent skills that significantly affect data quality",
+        "model_dependence": "moderate — derived quantities (activity coefficients, excess Gibbs energy) depend strongly on the chosen thermodynamic model (NRTL, Wilson, UNIQUAC, EOS); raw T-P-x-y data are model-independent",
+        "dominant_error_sources": [
+          "composition analysis uncertainty (GC calibration and sampling technique)",
+          "incomplete degassing (especially for low-pressure VLE measurements)",
+          "inadequate equilibration time producing data that are not truly at phase equilibrium"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k=2) for T, P, and mole fractions",
+          "standard deviation of replicate analyses",
+          "thermodynamic consistency test deviation as a data quality metric"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Dynamic equilibration is a phase equilibrium technique in which one or both phases are continuously circulated, agitated, or recirculated to accelerate the approach to thermodynamic equilibrium between coexisting phases. Unlike static equilibration, where phases are loaded into a cell and left undisturbed until equilibrium is reached by diffusion alone, dynamic methods employ mechanical pumps, vapor-lift (Cottrell) pumps, magnetic stirring, or convective boiling loops to maintain vigorous contact between phases. The technique is widely used for measuring vapor-liquid equilibrium (VLE) via recirculating stills, liquid-liquid equilibrium (LLE) via stirred or pumped cells, and solid-liquid equilibrium (SLE) via agitated dissolvers. Dynamic equilibration generally achieves steady-state faster than static methods, enables representative sampling of well-mixed phases, and is the method of choice for generating high-quality P-T-x-y data sets for thermodynamic model development.",
+      "how_it_operates": "In a typical dynamic VLE apparatus (recirculating still), a liquid mixture is loaded into a boiling flask and heated to generate vapor. The vapor rises through a Cottrell pump — a vertical tube where a boiling liquid-vapor mixture is lifted by buoyancy — and contacts a temperature sensor at the top where the equilibrium temperature is recorded. The vapor then passes through a condenser and the condensate (representing the equilibrium vapor composition) collects in a receiver before being returned to the boiling flask. Simultaneously, liquid from the flask circulates through a separate loop. Both the condensed vapor and the liquid are sampled through septum ports and analyzed (typically by gas chromatography) to determine the equilibrium vapor and liquid compositions. For LLE applications, the two immiscible liquid phases are circulated through a jacketed equilibrium cell using peristaltic or diaphragm pumps, passed through a mixing section to promote mass transfer, and then separated in a settling chamber before sampling. In both cases, equilibrium is confirmed when successive samples show no composition drift over time.",
+      "core_theory": "Dynamic equilibration relies on the thermodynamic condition that at phase equilibrium the fugacity (or equivalently, the chemical potential) of each component is equal in all coexisting phases: f_i^α = f_i^β for every component i across phases α and β. For VLE, this leads to the modified Raoult's law y_i·P·φ_i^V = x_i·γ_i·P_i^sat·φ_i^sat·exp[(V_i^L(P − P_i^sat))/(RT)] at low to moderate pressures, where φ denotes fugacity coefficients, γ activity coefficients, and P_i^sat pure component vapor pressures. The dynamic recirculation ensures that both phases achieve this fugacity equality rapidly by continuously generating fresh interfacial area and eliminating mass transfer resistances. The Gibbs phase rule F = C − P + 2 dictates the experimental degrees of freedom: for a binary VLE system (C=2, P=2), fixing either T or P fully determines the equilibrium state.",
+      "setup": "A dynamic equilibration apparatus for VLE typically consists of a round-bottom boiling flask (100–500 mL) connected to a Cottrell tube, a thermometer well at the top of the Cottrell tube housing a calibrated PRT (±0.01 K), a water-cooled reflux condenser, a condensate receiver with a sampling port, and a liquid return loop with its own sampling port. The system is connected to a precision pressure controller or manostat and a calibrated pressure transducer. For LLE, the apparatus features a jacketed glass or stainless steel equilibrium cell (50–250 mL), circulation pumps for each phase, a thermostatted mixing section, a gravity settling section, and sampling valves. All connections use PTFE or glass to minimize adsorption. Temperature is controlled by a circulating thermostat bath (±0.01–0.05 K stability). A gas chromatograph with appropriate column and detector (FID, TCD) is set up adjacent to the apparatus, with validated calibration curves for the system of interest.",
+      "suitable_for": "Dynamic equilibration is ideally suited for measuring VLE of low- to moderate-viscosity liquid mixtures at sub-atmospheric to moderate pressures, particularly for generating complete P-T-x-y data sets used in process design and thermodynamic model parameterization. It excels for systems with moderate to high relative volatility where recirculation efficiently generates fresh vapor-liquid contact. The technique is widely used for azeotrope identification and characterization, measurement of activity coefficients over the full composition range, and determination of bubble and dew point curves. For LLE, dynamic methods are preferred when diffusion-limited equilibration in static cells would be prohibitively slow due to low mutual solubility or high viscosity. The method is also applied to SLE measurement of solubility curves by agitated dissolution in temperature-controlled cells.",
+      "core_limitations": "Dynamic equilibration requires significantly more complex apparatus than static methods — recirculation pumps, condensers, and multiple sampling ports introduce potential leak points and dead volumes. The technique assumes that sampling does not perturb the equilibrium state, which requires that only small aliquots are withdrawn relative to total system volume. Entrainment of liquid droplets into the vapor phase (or vapor bubbles into the liquid sampling line) is a persistent source of systematic error in VLE stills and must be controlled by proper still design (demisting sections, entrainment traps). For systems that foam, emulsify, or decompose upon prolonged heating and circulation, dynamic methods may be unsuitable. High-pressure operation (>10 MPa) requires specialized metal cells, making the technique less accessible than static methods for near-critical systems. The need for offline analytical composition measurement (GC, HPLC) adds time and introduces additional uncertainty.",
+      "sample_preparation": "Each component should be of verified high purity (≥99 mol%), checked by gas chromatography and/or refractive index measurement against literature values. The most critical preparation step is thorough degassing: dissolved air and light impurities must be removed by repeated freeze-pump-thaw cycles (at least three), vigorous boiling under reflux at reduced pressure, or ultrasonic vacuum degassing. Inadequate degassing is the single most common source of systematic error in VLE measurements, leading to elevated total pressures and erroneous vapor compositions. For LLE, components are dried over molecular sieves when water sensitivity exists. Known-composition feed mixtures are prepared by gravimetric weighing of each component on an analytical balance (±0.1 mg). The total charge volume must be sufficient to fill the equilibrium cell, all circulation tubing, and the condenser holdup while leaving enough liquid to allow representative sampling without significantly changing the overall composition.",
+      "calibration_and_references": "Temperature sensors are calibrated against ITS-90 fixed points (triple point of water 273.16 K, melting point of gallium 302.91 K, or Sn/In for higher ranges) or against a certified standard PRT traceable to a national metrology institute. Pressure transducers are calibrated against a dead-weight gauge or a high-accuracy reference manometer. The GC is calibrated by injecting gravimetrically prepared standard mixtures of the components at 5–8 compositions spanning the expected range, fitting a response factor curve, and checking linearity and reproducibility. To validate the entire apparatus and procedure, a well-characterized reference system is measured first — cyclohexane + n-heptane is a common choice for VLE, and water + 1-butanol for LLE — and results are compared against published literature data and NIST recommended values. Agreement within the stated uncertainty confirms proper function of the equipment and procedure.",
+      "data_interpretation": "Raw data from a dynamic equilibration experiment consist of tables of equilibrium temperature, pressure, liquid-phase mole fraction (x), and vapor-phase mole fraction (y) or the corresponding LLE tie-line compositions. These data are first subjected to thermodynamic consistency testing: the Herington area test checks whether the integral of ln(γ₁/γ₂) over composition deviates from zero by less than a few percent, while the Van Ness point-by-point test and the Wisniak L-W test assess internal consistency of each data point. Activity coefficients are computed from the raw T-P-x-y data using γ_i = y_i·P/(x_i·P_i^sat) (correcting for vapor-phase non-ideality with virial coefficients at moderate pressures). The activity coefficient data are then correlated with excess Gibbs energy models (NRTL, Wilson, UNIQUAC) by least-squares regression to extract binary interaction parameters suitable for process simulation.",
+      "common_pitfalls": "The most frequent pitfall is inadequate degassing, which introduces non-condensable gases that elevate the total pressure above the true equilibrium vapor pressure, producing systematically high apparent volatilities. Entrainment of liquid droplets into the vapor phase is another common issue, especially at high boiling rates; this causes the measured vapor composition to be biased toward the liquid composition, reducing the apparent relative volatility. Insufficient equilibration time — sampling before steady-state is truly reached — yields scattered, irreproducible data that fail consistency tests. Cold spots in sampling lines between the vapor takeoff and the GC injection port cause partial condensation and loss of the less volatile component from the vapor sample. Over-withdrawal of sample from a small-volume still can shift the overall composition significantly, invalidating subsequent data points unless the still is recharged.",
+      "artifacts_and_failure_modes": "Liquid entrainment into vapor samples (or vapor carryover into liquid samples) is the most common artifact, detectable as anomalous points that fall between the true vapor and liquid composition curves and cause thermodynamic consistency tests to fail. Condenser flooding, which occurs when cooling water flow is too high or the reflux ratio is excessive, can return partially equilibrated condensate to the still before it is sampled, smearing the vapor composition. Pump failure or blockage halts circulation and converts the dynamic apparatus into a poorly mixed static cell, producing unreliable data. Thermal decomposition manifests as a gradual drift in measured compositions and the appearance of new GC peaks corresponding to degradation products. Leaks at joints or sampling ports cause air ingress (pressure increase) or loss of volatile components (composition shift). In LLE systems, emulsion formation during vigorous pumping makes phase separation impossible, requiring reduction of circulation rate or addition of centrifugal separation.",
+      "reporting_checklist": "Published dynamic equilibration results should include: apparatus type and design (e.g., modified Othmer still, Cottrell-type recirculating still, Rogalski-Malanowski design); temperature and pressure measurement instruments with stated calibration traceability and uncertainty; analytical method (GC column type, detector, calibration procedure); degassing procedure used; equilibration criterion (e.g., constant composition in successive samples over a specified time interval); complete T-P-x-y data tables with combined expanded uncertainties (k=2) for each measured quantity; thermodynamic consistency test results (Herington, Van Ness, or Wisniak); purity of feed components; reference system validation results; and activity coefficient model parameters fitted to the data. For ThermoML encoding, equilibrium compositions are reported as mole fractions with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

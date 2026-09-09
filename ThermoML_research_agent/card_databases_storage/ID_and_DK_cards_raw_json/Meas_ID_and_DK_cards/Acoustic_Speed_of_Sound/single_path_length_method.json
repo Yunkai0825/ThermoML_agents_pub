@@ -1,0 +1,331 @@
+{
+  "meas_ID": "single_path_length_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Single path-length method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Single path-length method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Acoustic / Speed of Sound",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 732,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 137,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 732,
+          "papers": 137
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "time-of-flight of acoustic pulse (t)",
+          "acoustic path length (L, calibrated)",
+          "temperature of sample (T)",
+          "pressure of sample (P)",
+          "received acoustic signal amplitude"
+        ],
+        "derived_observables": [
+          "speed of sound (u = 2L/t for pulse-echo, u = L/t for through-transmission)",
+          "isentropic compressibility (κS = 1/(ρu²), requires independent density)",
+          "isentropic bulk modulus (KS = ρu²)",
+          "acoustic impedance (Z = ρu)"
+        ],
+        "target_properties": [
+          "speed of sound in liquid or gas",
+          "isentropic compressibility",
+          "isentropic bulk modulus",
+          "acoustic impedance"
+        ],
+        "phases_measured": [
+          "liquid (most common)",
+          "gas",
+          "compressed liquid",
+          "supercritical fluid",
+          "liquid mixtures"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "ionic liquids",
+          "gases and gas mixtures",
+          "compressed fluids under moderate to high pressure",
+          "aqueous solutions",
+          "organic solvents"
+        ],
+        "unsupported_sample_types": [
+          "highly viscous fluids that attenuate ultrasound within the path length",
+          "two-phase or bubbly mixtures (scattering and attenuation)",
+          "solids (require specialized solid-state transducer coupling)",
+          "suspensions with heavy particle loading (excessive scattering)",
+          "samples with dissolved gas near saturation (bubble nucleation on transducer)"
+        ],
+        "typical_output_formats": [
+          "speed of sound u vs. temperature T at fixed pressure",
+          "speed of sound u vs. pressure P at fixed temperature",
+          "speed of sound u vs. composition (mole fraction) at fixed T and P",
+          "isentropic compressibility κS vs. T or composition (when density is known)"
+        ],
+        "units": {
+          "speed_of_sound": "m/s",
+          "time_of_flight": "µs",
+          "path_length": "mm or cm",
+          "temperature": "K",
+          "pressure": "MPa",
+          "isentropic_compressibility": "TPa⁻¹ or Pa⁻¹",
+          "bulk_modulus": "GPa or MPa",
+          "acoustic_impedance": "kg/(m²·s) or MRayl"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 373 K",
+            "hard_limits": "limited by cell material, seals, and transducer Curie temperature; specialized cells extend to 200–600 K",
+            "notes": "most literature data cover 288–328 K at ambient pressure"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 100 MPa",
+            "hard_limits": "limited by cell pressure rating and seal integrity; some designs reach 400 MPa",
+            "notes": "ambient-pressure studies dominate the ThermoML database for this technique"
+          },
+          {
+            "parameter": "acoustic_frequency",
+            "typical_range": "1 MHz to 10 MHz",
+            "hard_limits": "lower limit set by cell geometry and diffraction; upper limit set by attenuation in sample",
+            "notes": "2–5 MHz is the most common range; frequency must be chosen to minimize diffraction corrections"
+          },
+          {
+            "parameter": "path_length",
+            "typical_range": "10 mm to 100 mm",
+            "hard_limits": "must be long enough for clear echo separation but short enough to avoid excessive attenuation",
+            "notes": "20–50 mm is typical; calibrated to ±1 µm using reference fluid"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "273 K to 373 K in 5 K steps",
+            "effect": "speed of sound varies strongly with temperature; typically decreases with increasing T in liquids (except water below 347 K)"
+          },
+          {
+            "name": "pressure",
+            "role": "scanned or fixed variable",
+            "typical_values": "0.1 MPa (ambient) to 100 MPa",
+            "effect": "speed of sound increases with pressure in liquids and gases; enables derivation of equation-of-state parameters"
+          },
+          {
+            "name": "composition",
+            "role": "scanned variable for mixtures",
+            "typical_values": "full mole fraction range 0 to 1",
+            "effect": "speed of sound is a sensitive probe of intermolecular interactions and mixture non-ideality"
+          },
+          {
+            "name": "acoustic_frequency",
+            "role": "usually fixed",
+            "typical_values": "2 MHz to 5 MHz",
+            "effect": "frequency should be high enough to avoid diffraction corrections but low enough to minimize viscous absorption; dispersion indicates relaxation processes"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "piezoelectric transducer — typically PZT or quartz crystal disc generating and/or receiving ultrasonic pulses at 1–10 MHz",
+          "acoustic reflector — polished stainless steel or quartz plate returning the echo in pulse-echo mode; second transducer in through-transmission mode",
+          "acoustic cell — thermostated metal (stainless steel, Inconel) or glass cell with precisely machined cavity defining the path length",
+          "pulse generator/receiver — generates short electrical pulses to excite the transducer and amplifies received echo signals",
+          "digital oscilloscope or time-interval counter — measures time-of-flight with nanosecond resolution",
+          "thermostat — circulating water bath or Peltier-controlled jacket for temperature control to ±0.01 K",
+          "pressure system (for high-pressure work) — hand pump or syringe pump with calibrated pressure gauge or transducer",
+          "temperature sensor — calibrated platinum resistance thermometer (PRT) or thermistor in contact with sample",
+          "data acquisition computer — records waveforms and extracts time-of-flight via cross-correlation or threshold detection"
+        ],
+        "environmental_requirements": [
+          "temperature stability ±0.01 K or better at measurement point",
+          "vibration-free environment to avoid spurious acoustic reflections and transducer microphonics",
+          "pressure stability to ±0.001 MPa for high-pressure measurements",
+          "sample cell must be leak-tight and chemically inert to the fluid under study"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid fills the entire acoustic path between transducer and reflector",
+            "no bubbles or particulate matter in the acoustic path"
+          ],
+          "size_limits": "cell volume typically 5–50 mL; at least enough fluid to fill the acoustic cavity and flow lines",
+          "thickness_limits": "not applicable — path length is defined by cell geometry, not sample thickness",
+          "surface_requirements": [
+            "transducer and reflector faces must be parallel to within ~0.01° (for plane-wave approximation)",
+            "reflector surface must be optically flat and polished to minimize diffuse scattering"
+          ],
+          "mounting_requirements": [
+            "transducer acoustically coupled to sample via direct immersion or thin couplant layer",
+            "cell sealed with O-rings or metal gaskets for pressure work",
+            "rigid mechanical mounting to prevent path-length drift under temperature and pressure changes"
+          ],
+          "preparation_requirements": [
+            "sample degassed by vacuum, sonication, or helium sparging to avoid dissolved gas bubbles",
+            "sample filtered to remove suspended particles that scatter ultrasound",
+            "sample dried (for non-aqueous work) using molecular sieves to remove trace water",
+            "sample purity verified by refractive index, density, or GC"
+          ]
+        },
+        "calibration_requirements": [
+          "path-length calibration using a reference fluid of known speed of sound at the measurement temperature (typically distilled water using IAPWS-95 values)",
+          "time-base calibration of oscilloscope or counter against a traceable frequency standard",
+          "temperature sensor calibration against ITS-90 fixed points or a certified reference PRT",
+          "pressure transducer calibration against a dead-weight pressure balance (for high-pressure work)",
+          "verification of cell alignment and parallelism (checking for path-length dependence on transducer position)"
+        ],
+        "reference_materials": [
+          "distilled, degassed water — primary calibration fluid; speed of sound known to ±0.01% from IAPWS-95 (Del Grosso and Mader values)",
+          "n-hexane — secondary reference with well-established u(T) data",
+          "toluene — common secondary reference for organic systems",
+          "dry nitrogen or argon — gas-phase calibration standard with well-known u(T, P)"
+        ],
+        "consumables": [
+          "O-rings and gaskets for cell sealing",
+          "acoustic couplant (for external-transducer designs)",
+          "degassed calibration water",
+          "molecular sieves (3 Å or 4 Å) for sample drying",
+          "syringe filters (0.2–0.45 µm) for sample clarification"
+        ],
+        "safety_notes": [
+          "high-pressure cells must be hydrostatically tested to 1.5× working pressure before use",
+          "flammable or toxic solvents require fume-hood operation and proper ventilation",
+          "piezoelectric transducers generate non-ionizing ultrasound; no special radiation precautions needed at typical power levels"
+        ]
+      },
+      "performance": {
+        "sensitivity": "speed of sound resolution of ~0.01 m/s achievable with nanosecond timing and well-calibrated path length",
+        "detection_limit": "not applicable — technique measures a bulk fluid property rather than a trace analyte",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement averaged over acoustic beam cross-section, typically 5–15 mm diameter)",
+          "temporal": "time-of-flight resolution ~1 ns with modern digital oscilloscopes; equivalent to ~0.001 m/s in speed of sound",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "speed of sound from ~100 m/s (gases near ambient) to ~2000 m/s (dense liquids); path lengths from 10 mm to 100 mm",
+        "accuracy": "0.05–0.5% in speed of sound; limited primarily by path-length calibration uncertainty and uncanceled electronic delays",
+        "precision": "0.01–0.05% (repeatability at fixed T, P conditions with stable sample)",
+        "throughput": "single sample; measurement at one T, P condition takes 1–10 minutes including thermal equilibration",
+        "measurement_speed": "individual time-of-flight acquisition is fast (~ms); throughput limited by thermal equilibration time at each T, P set point"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "electrical voltage waveform from transducer: a time-domain trace showing the excitation pulse and one or more echo returns, digitized at 100 MHz to 1 GHz sampling rate",
+        "preprocessing_steps": [
+          "signal averaging of multiple pulse-echo acquisitions (typically 100–1000 shots) to improve signal-to-noise ratio",
+          "bandpass filtering to remove low-frequency noise and high-frequency electronic artifacts",
+          "time-of-flight extraction by zero-crossing, threshold, peak, or cross-correlation method",
+          "correction for electronic trigger delay (cable delays, pulser/receiver group delay)",
+          "correction for diffraction effects at low frequencies or short path lengths"
+        ],
+        "analysis_methods": [
+          "pulse-echo: u = 2L/t, where L is the calibrated one-way path length and t is the round-trip time-of-flight",
+          "through-transmission: u = L/t, where L is the transducer-to-transducer distance and t is the one-way time-of-flight",
+          "cross-correlation of excitation and echo waveforms for sub-sample timing resolution",
+          "temperature and pressure dependence fitted to polynomial u(T) or u(T,P) equations",
+          "derivation of isentropic compressibility: κS = 1/(ρu²) using independently measured density ρ"
+        ],
+        "model_assumptions": [
+          "acoustic propagation is in the plane-wave regime (transducer diameter >> acoustic wavelength)",
+          "the fluid is homogeneous, isotropic, and at thermodynamic equilibrium within the acoustic cell",
+          "attenuation is low enough that the echo signal is clearly resolvable above noise after the round trip",
+          "speed of sound is non-dispersive at the measurement frequency (no relaxation processes in the frequency range used)",
+          "the path length is constant and accurately known at the measurement temperature and pressure (thermal expansion and pressure deformation corrections applied)"
+        ],
+        "fit_parameters": [
+          "speed of sound u (primary result)",
+          "path length L (from calibration)",
+          "electronic delay offset Δt (systematic correction)",
+          "diffraction correction factor (geometry-dependent)",
+          "polynomial coefficients in u(T) or u(T,P) correlations"
+        ],
+        "common_artifacts": [
+          "electronic delay artifact: uncorrected trigger and cable delays produce a constant offset in time-of-flight, biasing u systematically",
+          "diffraction artifact: at low frequencies or short path lengths, the acoustic beam diverges, causing apparent time-of-flight changes",
+          "bubble artifact: dissolved gas coming out of solution nucleates bubbles on transducer or reflector, causing erratic echo amplitude and timing",
+          "mode conversion artifact: in high-pressure metal cells, acoustic energy coupling into cell wall modes can produce spurious echoes",
+          "thermal gradient artifact: incomplete thermal equilibration creates a temperature gradient along the path, producing an averaged (biased) speed of sound"
+        ],
+        "quality_control_checks": [
+          "reproduce the speed of sound in reference water within ±0.05% of IAPWS-95 values at multiple temperatures",
+          "verify that repeated measurements at the same T, P yield standard deviation < 0.02 m/s",
+          "check for temperature equilibration by monitoring u vs. time until stable within noise",
+          "inspect echo waveform shape for distortion, secondary echoes, or baseline drift",
+          "compare pulse-echo and through-transmission results (if both modes available) for consistency",
+          "confirm linearity by verifying that u is independent of pulse repetition rate and excitation voltage"
+        ],
+        "failure_modes": [
+          "loss of echo signal due to excessive attenuation (highly viscous sample or very long path length)",
+          "bubble formation on transducer face destroying acoustic coupling",
+          "transducer debonding or depolarization at elevated temperature (approaching Curie point)",
+          "O-ring or seal failure in high-pressure cell causing leak and pressure loss",
+          "corrosion or chemical attack of cell and transducer materials by aggressive solvents or acids"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.05–0.5% in speed of sound; 0.1–1% in derived isentropic compressibility",
+        "random_sources": [
+          "electronic noise in transducer signal (timing jitter)",
+          "temperature measurement noise (thermometer fluctuations)",
+          "pressure fluctuations (for high-pressure measurements)",
+          "trigger jitter in pulse generator and oscilloscope",
+          "signal averaging residual noise"
+        ],
+        "systematic_sources": [
+          "path-length calibration uncertainty (dominant source; typically 1–10 µm uncertainty on L)",
+          "electronic delay offset not fully corrected (pulser/receiver group delay, cable transit time)",
+          "temperature measurement bias (thermometer calibration offset)",
+          "diffraction correction error",
+          "thermal expansion of cell changing path length between calibration and measurement temperatures",
+          "pressure deformation of cell changing path length at elevated pressures",
+          "sample impurity effects (water content, dissolved gases)"
+        ],
+        "operator_dependence": "low to moderate — main operator-dependent factors are sample preparation quality (degassing thoroughness, cleanliness) and cell assembly (alignment, seal integrity)",
+        "model_dependence": "low — the measurement relies on straightforward u = distance/time; the main model-dependent step is the path-length calibration using a reference fluid equation of state",
+        "dominant_error_sources": [
+          "path-length calibration uncertainty (single largest source for single-path methods)",
+          "uncanceled electronic delays (these are systematic and not eliminated as in differential dual-path methods)",
+          "temperature measurement accuracy (through both the direct effect on u and the indirect effect on path-length calibration)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(u) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of u",
+          "standard deviation from repeated measurements at each state point"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The single path-length method is the simplest and most widely used acoustic technique for measuring the speed of sound in fluids. It determines speed of sound by measuring the transit time of an ultrasonic pulse over a single, precisely calibrated fixed distance within an acoustic cell. The technique operates in either pulse-echo mode, where a single transducer sends a pulse to a reflector and receives the return echo, or through-transmission mode, where separate sending and receiving transducers face each other across the fluid. With 732 measurement instances across 137 papers in the ThermoML database, it is the dominant speed-of-sound technique for thermophysical property studies, valued for its simplicity, mechanical robustness, and ability to operate over wide temperature and pressure ranges.",
+      "how_it_operates": "In pulse-echo mode, an electrical pulse from a pulse generator excites a piezoelectric transducer (typically PZT at 1–10 MHz) bonded to one end of an acoustic cell filled with the sample fluid. The transducer emits a short ultrasonic burst that propagates through the fluid, reflects off a polished metal or quartz plate at the opposite end, and returns to the same transducer, which now acts as a receiver. The round-trip time-of-flight t is measured using a high-speed digital oscilloscope or time-interval counter, and the speed of sound is calculated as u = 2L/t, where L is the one-way calibrated path length. In through-transmission mode, a second transducer replaces the reflector and the one-way transit time gives u = L/t. The time-of-flight is typically extracted by zero-crossing detection, threshold triggering, or cross-correlation of the transmitted and received waveforms, with signal averaging over hundreds of shots to reduce random timing noise to sub-nanosecond levels.",
+      "core_theory": "The measurement rests on the definition of speed of sound as the ratio of propagation distance to transit time: u = d/t. For pulse-echo geometry, d = 2L (round trip) and for through-transmission, d = L (one way). The speed of sound in a fluid is a thermodynamic property related to the isentropic compressibility by u² = 1/(ρκS) = (∂P/∂ρ)S, where ρ is the density and κS is the isentropic compressibility. Accurate determination requires that the acoustic propagation be in the plane-wave regime, meaning the transducer diameter D should satisfy D >> λ = u/f where f is the frequency, so that diffraction spreading is negligible over the path length. When this condition is marginally met, a diffraction correction to the apparent time-of-flight must be applied, typically using the analytical expressions of Williams (1951) or numerical Fresnel-integral calculations. The path length L must be corrected for thermal expansion of the cell material between the calibration temperature and the measurement temperature, and for elastic compression at elevated pressures.",
+      "setup": "A typical single path-length cell consists of a cylindrical or rectangular stainless steel body with a precisely machined internal cavity 20–50 mm in length. A piezoelectric transducer disc (10–15 mm diameter, resonant at 2–5 MHz) is mounted at one end with an acoustic seal, and a polished stainless steel reflector plate is mounted at the opposite end. The cell is filled and drained through small-bore tubes fitted with valves. A calibrated platinum resistance thermometer is inserted into a well drilled into the cell body near the acoustic path. The entire assembly is immersed in a thermostatted water bath or enclosed in a temperature-controlled jacket providing stability of ±0.01 K. For high-pressure work, the cell is enclosed in a thick-walled pressure vessel connected to a hand pump or syringe pump, with pressure monitored by a calibrated strain-gauge transducer or Bourdon gauge. The transducer is driven by a commercial pulser/receiver unit, and the received echo waveform is digitized by an oscilloscope at 100 MHz–1 GHz sampling rate and transferred to a computer for automated time-of-flight extraction.",
+      "suitable_for": "The single path-length method is suitable for measuring speed of sound in virtually any fluid that transmits ultrasound with tolerable attenuation over the cell path length. It is the standard choice for systematic studies of pure liquids, binary and multicomponent liquid mixtures, aqueous electrolyte solutions, and ionic liquids across temperature and pressure ranges. It is particularly well suited for ambient-pressure surveys over the temperature range 278–343 K, where most literature data concentrate, and for moderate high-pressure studies up to 100–200 MPa. The technique handles corrosive, viscous, or expensive fluids well because the cell volume is small (5–50 mL) and the wetted surfaces can be fabricated from chemically resistant alloys. It is the method of choice when a single, reliable speed-of-sound instrument is needed and the target accuracy of 0.05–0.5% is sufficient.",
+      "core_limitations": "The fundamental limitation of the single path-length method is that systematic errors in the path length L and in the electronic time delay propagate directly into the speed of sound without cancellation. Unlike dual-path or variable-path methods, where the difference between two measurements eliminates constant offsets, the single-path approach requires that every source of systematic error — cable delay, trigger delay, transducer ringing, thermal expansion, and pressure deformation — be independently characterized and corrected. This makes achieving accuracy better than ~0.03% difficult without extraordinary care. The technique also assumes the fluid is acoustically homogeneous and non-dispersive at the measurement frequency; samples exhibiting significant acoustic relaxation (e.g., some polymer solutions, micellar systems) will show frequency-dependent speed of sound that must be recognized and reported. Very high-viscosity fluids (>1 Pa·s) may attenuate the ultrasonic pulse to below the detection threshold within the path length.",
+      "sample_preparation": "The sample fluid must be thoroughly degassed before introduction into the acoustic cell, because dissolved gas can nucleate microbubbles on the transducer or reflector surface under temperature changes or reduced pressure, causing erratic echo signals and timing errors. Degassing is performed by vacuum, ultrasonic agitation, helium sparging, or a combination. Non-aqueous samples should be dried over activated molecular sieves (3 Å or 4 Å) and their residual water content checked by Karl Fischer titration, since trace water can shift the speed of sound by several m/s in organic solvents. The sample should be filtered through a 0.2–0.45 µm membrane to remove suspended particles that scatter the ultrasonic beam. Sample purity is verified by comparing refractive index or density against literature values. The cell should be flushed with the sample several times before sealing to ensure complete displacement of the previous fluid.",
+      "calibration_and_references": "Path-length calibration is the single most critical step and is performed by filling the cell with a reference fluid of accurately known speed of sound, measuring the time-of-flight, and computing L = u_ref × t/2 (pulse-echo) or L = u_ref × t (through-transmission). Distilled, degassed water is the nearly universal calibration fluid because its speed of sound is known to ±0.005% from the IAPWS-95 formulation and the Del Grosso and Mader (1972) equation across 274–368 K. The calibration is performed at the same temperatures and pressures as the subsequent sample measurements so that thermal expansion and pressure deformation of the cell are implicitly absorbed into L(T,P). A secondary check is made using a well-characterized organic liquid (n-hexane, toluene, or cyclohexane) to detect any bias. The oscilloscope time base is verified against a rubidium or GPS-disciplined frequency standard to ensure nanosecond accuracy. Temperature sensors are calibrated against ITS-90 fixed points or a NIST-traceable reference PRT.",
+      "data_interpretation": "The primary data product is the time-of-flight t extracted from the digitized echo waveform. Modern practice favors cross-correlation of the transmitted and received waveforms for sub-sample timing precision, though zero-crossing and threshold methods remain common. The raw time-of-flight is corrected for the electronic trigger delay Δt_elec (determined by a short-circuit or face-to-face transducer measurement) and, if necessary, for diffraction. Speed of sound is then u = 2L(T,P)/[t − Δt_elec] for pulse-echo mode. Data are collected as a function of temperature and/or pressure and fitted to polynomial correlations — typically a third- to fifth-order polynomial in T at fixed P, or a rational polynomial in T and P for equation-of-state applications. Isentropic compressibility κS = 1/(ρu²) is computed by combining the speed-of-sound data with independently measured densities ρ(T,P). The Newton-Laplace relation connects acoustic and thermodynamic quantities, enabling derivation of isobaric and isochoric heat capacities when combined with thermal expansivity and density data.",
+      "common_pitfalls": "The most consequential pitfall is neglecting to re-calibrate the path length whenever the cell is disassembled, repaired, or operated at a new temperature range, since thermal expansion of the cell body changes L. Using inadequately degassed samples is a pervasive source of irreproducible results; even a single microbubble on the transducer face can shift the apparent time-of-flight by tens of nanoseconds. Relying on simple threshold triggering on noisy echoes introduces random and systematic errors that are avoided by cross-correlation methods. Failing to correct for electronic delays can bias the speed of sound by 0.1–1% in short cells. Ignoring diffraction corrections at low frequencies or short path lengths leads to systematic overestimation of the transit time and underestimation of u. Operators sometimes neglect to verify thermal equilibration, recording data while the cell is still equilibrating, which produces apparent hysteresis between heating and cooling runs.",
+      "artifacts_and_failure_modes": "Electronic delay artifacts appear as a constant offset in all time-of-flight values and bias u by a fixed amount that scales inversely with the true transit time — this error is proportionally larger in short cells. Diffraction artifacts arise when the acoustic beam spreads significantly over the path length, making the effective path slightly longer than the geometric distance and increasing the apparent transit time. Bubble artifacts manifest as sudden jumps, dropouts, or scatter in u vs. T data, particularly near the boiling point or when reducing pressure. Thermal gradient artifacts occur when the thermostat equilibration time is insufficient, producing a spatial temperature gradient along the path that causes the measured u to be an average over different local speeds of sound. Mode-conversion artifacts in all-metal high-pressure cells can produce spurious echoes arriving before or after the true fluid echo, confusing automated time-of-flight extraction. Transducer aging or depolarization at elevated temperatures gradually reduces echo amplitude and eventually causes signal loss.",
+      "reporting_checklist": "Published single path-length speed-of-sound data should report: acoustic cell material and geometry, path length and how it was calibrated (reference fluid, equation used, calibration temperatures), transducer frequency and type, pulse-echo or through-transmission mode, time-of-flight extraction method (threshold, zero-crossing, cross-correlation), corrections applied (electronic delay, diffraction, thermal expansion of cell), temperature measurement method and calibration traceability, pressure measurement method and calibration (for high-pressure work), sample source, purity, and preparation (degassing, drying), measured u values with combined expanded uncertainty U(u) at 95% confidence level (k=2), and comparison with literature or reference-fluid values as a consistency check. For ThermoML encoding, speed of sound values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

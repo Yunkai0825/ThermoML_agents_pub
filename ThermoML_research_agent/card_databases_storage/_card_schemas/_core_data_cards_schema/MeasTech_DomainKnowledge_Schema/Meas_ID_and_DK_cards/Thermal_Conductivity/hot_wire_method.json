@@ -1,0 +1,341 @@
+{
+  "meas_ID": "hot_wire_method",
+  "identity": {
+    "name": "Hot wire method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Hot wire method",
+    "thermoml_custom_codes": [
+      "HOTW"
+    ],
+    "measurement_family": "Thermal Conductivity",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 244,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 44,
+      "per_group": {
+        "TransportProp": {
+          "instances": 244,
+          "papers": 44
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "wire resistance change ΔR(t) proportional to wire temperature rise ΔT(t)",
+          "voltage across hot wire as a function of time V(t)",
+          "current through hot wire I (held constant or measured)"
+        ],
+        "derived_observables": [
+          "thermal conductivity λ from slope of ΔT vs. ln(t)",
+          "thermal diffusivity α from intercept analysis or short-time transient",
+          "heat flux per unit length q = I²R/L"
+        ],
+        "target_properties": [
+          "thermal conductivity (λ)",
+          "thermal diffusivity (α)",
+          "thermal conductivity as function of temperature",
+          "thermal conductivity as function of pressure"
+        ],
+        "phases_measured": [
+          "liquid",
+          "gas",
+          "supercritical fluid",
+          "solid (with modified apparatus, e.g. cross-wire or parallel-plate variant)"
+        ],
+        "supported_sample_types": [
+          "pure liquids (organic and inorganic)",
+          "liquid mixtures and solutions",
+          "molten salts and ionic liquids",
+          "gases and gas mixtures",
+          "supercritical fluids",
+          "nanofluids and colloidal suspensions",
+          "refrigerants",
+          "lubricants and heat transfer fluids",
+          "electrically non-conducting liquids (standard bare-wire)",
+          "electrically conducting liquids (with insulated wire variant)"
+        ],
+        "unsupported_sample_types": [
+          "opaque solids (standard configuration; requires modified cross-wire variant)",
+          "highly viscous or gelling materials that cannot fill the measurement cell uniformly",
+          "samples with strong radiative absorption at wire emission wavelengths (leads to radiation errors)",
+          "chemically reactive samples that attack the platinum wire",
+          "samples with extreme thermal conductivity > ~5 W/(m·K) (signal too small for reliable extraction)"
+        ],
+        "typical_output_formats": [
+          "ΔT vs. ln(t) plot (linear region yields λ)",
+          "λ vs. T at fixed pressure",
+          "λ vs. P at fixed temperature",
+          "deviation plot: (λ_measured − λ_correlation)/λ_correlation vs. T"
+        ],
+        "units": {
+          "thermal_conductivity": "W/(m·K)",
+          "thermal_diffusivity": "m²/s",
+          "temperature": "K",
+          "pressure": "MPa",
+          "time": "s or ms",
+          "heat_flux_per_length": "W/m",
+          "resistance": "Ω"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 700 K for standard liquid cells",
+            "hard_limits": "lower limit set by sample freezing; upper limit by wire oxidation (~800 K in air) or cell seal integrity; specialized cells to >1000 K",
+            "notes": "most ThermoML data covers 273–473 K range"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 100 MPa",
+            "hard_limits": "limited by pressure vessel rating; some setups to 500 MPa",
+            "notes": "atmospheric pressure measurements most common; high-pressure work requires autoclave-type cells"
+          },
+          {
+            "parameter": "applied_power_per_unit_length",
+            "typical_range": "0.5 W/m to 3 W/m",
+            "hard_limits": "must be low enough to limit wire overtemperature to ~3–5 K to remain in linear heat conduction regime; too low gives poor signal-to-noise",
+            "notes": "typical wire temperature rise of 1–4 K over measurement duration"
+          },
+          {
+            "parameter": "measurement_time_window",
+            "typical_range": "0.1 s to 10 s",
+            "hard_limits": "lower bound set by wire thermal inertia and electronic settling (~10–50 ms); upper bound by onset of natural convection",
+            "notes": "usable time window identified from linearity of ΔT vs. ln(t) plot; shorter for low-viscosity fluids, longer for viscous fluids or gases at high pressure"
+          },
+          {
+            "parameter": "wire_diameter",
+            "typical_range": "5 µm to 25 µm",
+            "hard_limits": "thinner wires (<5 µm) are fragile and difficult to handle; thicker wires (>50 µm) violate line-source approximation",
+            "notes": "standard: 7–10 µm Pt wire; some designs use 25 µm with finite-wire corrections"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled variable (set by thermostat)",
+            "typical_values": "200 K to 700 K",
+            "effect": "thermal conductivity depends on temperature; cell equilibrated to target T before each measurement"
+          },
+          {
+            "name": "pressure",
+            "role": "controlled variable (set by pressurization system)",
+            "typical_values": "0.1 MPa to 100 MPa",
+            "effect": "thermal conductivity of liquids shows weak pressure dependence; gases and supercritical fluids show strong pressure dependence"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable for mixtures",
+            "typical_values": "mole fractions 0 to 1",
+            "effect": "thermal conductivity of mixtures depends on composition; measured at multiple compositions for binary/ternary systems"
+          },
+          {
+            "name": "applied_heating_power",
+            "role": "controlled input (constant current or constant power mode)",
+            "typical_values": "0.5–3 W/m (heat per unit wire length)",
+            "effect": "determines magnitude of temperature rise; multiple power levels used to verify absence of convection"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "hot wire — thin platinum wire (typically 5–25 µm diameter, 50–200 mm long) serving as both line heat source and resistance thermometer",
+          "compensating wire (optional) — identical wire at ambient temperature in Wheatstone bridge configuration for lead resistance compensation",
+          "constant-current power supply or programmable DC source — supplies stable heating current (typically 10–200 mA)",
+          "Wheatstone bridge or Kelvin double bridge — detects small resistance changes in hot wire with high sensitivity",
+          "high-resolution voltmeter or data acquisition system — digitizes bridge imbalance voltage at kHz sampling rate (≥1 kS/s)",
+          "measurement cell — stainless steel or Inconel pressure vessel containing sample and wire assembly, with feed-through electrical connections",
+          "thermostat — oil bath, air oven, or cryostat maintaining cell at target temperature to ±0.01 K",
+          "pressure control system (for high-pressure work) — hand pump, syringe pump, or gas compressor with precision pressure gauge",
+          "timing electronics — precise trigger and clock for synchronizing heating onset with data acquisition"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature or temperature-controlled room to minimize thermostat drift",
+          "vibration isolation to prevent convective disturbance of the fluid sample",
+          "electromagnetic shielding or twisted-pair wiring to reduce electrical noise pickup",
+          "ventilation for gas or volatile fluid handling"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid sample surrounding wire in all radial directions (cell diameter >> wire length)",
+            "sufficient sample volume to approximate infinite medium (typically 20–200 mL)"
+          ],
+          "size_limits": "cell volume typically 20–200 mL; must ensure sample extends at least 10–15 mm radially from wire to approximate infinite medium boundary condition",
+          "thickness_limits": "not applicable (bulk fluid measurement); cell radius must exceed thermal penetration depth during measurement, r_cell >> √(4αt_max)",
+          "surface_requirements": [
+            "wire surface must be clean, free of oxide buildup (for bare-wire measurements on non-conducting fluids)",
+            "anodized or polymer-coated wire for electrically conducting liquids (insulated-wire variant)"
+          ],
+          "mounting_requirements": [
+            "wire tensioned straight under slight mechanical tension (spring-loaded or weight-tensioned) to prevent sagging or vibration",
+            "wire ends soldered or spot-welded to rigid support posts with minimal thermal mass",
+            "wire centered in cell to maintain radial symmetry"
+          ],
+          "preparation_requirements": [
+            "sample degassed under vacuum or by sonication to remove dissolved air that can form bubbles on wire",
+            "sample dried if hygroscopic (water content affects λ significantly)",
+            "sample filtered to remove particulates that may deposit on wire",
+            "sample composition verified by GC, Karl Fischer, or refractive index"
+          ]
+        },
+        "calibration_requirements": [
+          "wire resistance vs. temperature calibration (R(T) curve) determines dR/dT used to convert voltage to temperature",
+          "wire length measurement (to ±0.1 mm) for computing heat per unit length q",
+          "bridge balance and amplifier gain calibration",
+          "validation measurement on a certified reference liquid (typically toluene or water) at standard conditions"
+        ],
+        "reference_materials": [
+          "toluene — NIST certified reference data, λ ≈ 0.1311 W/(m·K) at 298.15 K; primary validation standard for liquid thermal conductivity",
+          "water — λ ≈ 0.6065 W/(m·K) at 298.15 K; well-characterized but requires insulated-wire variant (conducting fluid)",
+          "n-heptane — λ ≈ 0.1237 W/(m·K) at 298.15 K; common liquid reference",
+          "NIST SRM 1490 (polyisobutylene in cetane) — viscous liquid thermal conductivity reference",
+          "nitrogen gas — for gas-phase thermal conductivity validation"
+        ],
+        "consumables": [
+          "platinum wire (5–25 µm diameter, 99.99% purity)",
+          "silver solder or spot-welding electrodes for wire attachment",
+          "O-rings and seals for pressure cell",
+          "cleaning solvents (acetone, ethanol) for cell and wire"
+        ],
+        "safety_notes": [
+          "high-pressure cells require hydrostatic testing and pressure relief valves",
+          "flammable solvents (toluene, heptane) require proper ventilation and fire safety",
+          "hot surfaces at elevated temperatures — burn hazard",
+          "thin platinum wire is extremely fragile; handle with care using anti-static tweezers"
+        ]
+      },
+      "performance": {
+        "sensitivity": "detects thermal conductivity differences of ~0.001 W/(m·K) (relative changes ~0.1%)",
+        "detection_limit": "practical lower limit ~0.005 W/(m·K) (limited by signal-to-noise at very low λ values, e.g., insulating gases at low pressure)",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement averaging over wire length)",
+          "temporal": "temperature rise sampled at 1–10 kHz; measurement duration 0.1–10 s",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "λ from ~0.01 W/(m·K) (gases at low pressure) to ~2 W/(m·K) (water, aqueous solutions); some setups to ~5 W/(m·K) with optimized design",
+        "accuracy": "0.3–1.0% for absolute thermal conductivity (primary/reference method — no calibration against another λ standard required); 0.5–2% typical for routine laboratory measurements",
+        "precision": "0.1–0.3% (repeatability between successive runs at identical T and P)",
+        "throughput": "single measurement takes 1–10 s heating + equilibration time between runs; approximately 5–15 min per (T, P) state point including equilibration",
+        "measurement_speed": "transient measurement itself is fast (1–10 s); total throughput limited by sample equilibration to each new T or P set point"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "time-resolved voltage imbalance from Wheatstone bridge, proportional to wire temperature rise ΔT(t) during constant-power heating",
+        "preprocessing_steps": [
+          "convert bridge voltage to wire resistance change ΔR(t) using bridge calibration",
+          "convert ΔR(t) to temperature rise ΔT(t) using wire R(T) calibration (dR/dT)",
+          "correct for finite wire radius using Healy-de Groot-Kestin correction term",
+          "correct for finite wire heat capacity (wire thermal inertia) at short times",
+          "correct for outer boundary effects at long times (finite cell diameter)",
+          "correct for axial conduction at wire ends",
+          "correct for radiative heat transfer (significant above ~500 K or for gases)"
+        ],
+        "analysis_methods": [
+          "ideal line-source analysis: plot ΔT vs. ln(t); thermal conductivity λ = q/(4π·slope) from linear region",
+          "full numerical solution with finite-element or finite-difference model fitting all corrections simultaneously",
+          "COMSOL or custom FEM models for non-ideal geometries",
+          "regression of ΔT(t) data over validated time window excluding early-time (wire inertia) and late-time (convection) deviations",
+          "multiple-power extrapolation: measure at several power levels and extrapolate to zero power to eliminate convection effects"
+        ],
+        "model_assumptions": [
+          "infinite line heat source in an infinite homogeneous medium (ideal model)",
+          "constant and uniform heat flux per unit length q along the wire",
+          "heat conduction is purely radial (no axial or longitudinal conduction in wire or fluid)",
+          "sample is initially at uniform temperature (thermal equilibrium before heating)",
+          "natural convection is negligible during the measurement time window",
+          "sample properties (λ, α, ρCp) are constant over the small temperature rise ΔT",
+          "radiation heat transfer is negligible (or correctable)"
+        ],
+        "fit_parameters": [
+          "thermal conductivity λ (primary result from slope of ΔT vs. ln(t))",
+          "thermal diffusivity α (from intercept or from short-time transient analysis)",
+          "onset time t_start (beginning of valid linear region)",
+          "end time t_end (end of valid linear region, before convection onset)"
+        ],
+        "common_artifacts": [
+          "natural convection onset — ΔT vs. ln(t) curve deviates upward at long times as buoyancy-driven flow enhances heat transfer; limits usable time window",
+          "wire thermal inertia — ΔT deviates downward at very short times (<50 ms) because wire itself has finite heat capacity; corrected by Healy–de Groot–Kestin analysis or by excluding early data",
+          "electrical noise spikes at heating onset from relay switching or current transient",
+          "systematic curvature from finite cell diameter if measurement time is too long (outer boundary reflection)",
+          "radiation error at high temperatures causing apparent increase in measured λ",
+          "sedimentation or aggregation of nanoparticles in nanofluid measurements causing irreproducible results",
+          "dissolved gas bubble nucleation on wire during heating"
+        ],
+        "quality_control_checks": [
+          "verify ΔT vs. ln(t) linearity over at least one decade in time (R² > 0.9999 in fit region)",
+          "measure at multiple power levels — λ must be power-independent (absence of convection)",
+          "validate against reference fluid (toluene) at standard conditions — agreement within 0.5–1%",
+          "check residuals from linear fit for systematic deviation patterns (curvature → convection or boundary effects)",
+          "repeat measurements (≥ 4 runs at each state point) and compute standard deviation",
+          "inspect short-time and long-time deviations to confirm correct time window selection"
+        ],
+        "failure_modes": [
+          "wire breakage during pressurization, thermal cycling, or sample loading — loss of signal; requires complete cell rebuild",
+          "bubble formation on wire (from dissolved gas or boiling) — erratic ΔT trace with sudden slope changes",
+          "wire contamination or coating degradation (insulated wire variant) — drift in R(T) calibration",
+          "convection-dominated regime (sample too hot, wire power too high, or measurement too long) — systematically low apparent λ",
+          "electrical short through conducting sample (bare-wire in ionic liquid) — zero or anomalous bridge signal"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.3–1.0% for absolute λ; 2% for less optimized setups",
+        "random_sources": [
+          "electronic noise in bridge voltage measurement",
+          "temperature fluctuations in thermostat bath",
+          "vibration-induced fluid motion near wire",
+          "timing jitter in data acquisition trigger",
+          "variability in wire–fluid thermal contact (minor for well-immersed wire)"
+        ],
+        "systematic_sources": [
+          "uncertainty in wire length measurement (±0.1 mm → ~0.1% in λ)",
+          "uncertainty in wire dR/dT calibration coefficient",
+          "residual natural convection not fully eliminated by time-window selection",
+          "radiation heat loss at elevated temperatures (correctable but adds uncertainty)",
+          "finite wire radius correction (Healy–de Groot–Kestin) — small residual model error",
+          "axial end-effect correction uncertainty",
+          "applied current or power measurement uncertainty",
+          "sample purity and composition uncertainty"
+        ],
+        "operator_dependence": "low — once the wire cell is assembled and calibrated, measurements are highly automated and reproducible; main operator-dependent step is wire installation and tensioning",
+        "model_dependence": "low to moderate — the ideal line-source model with standard corrections is well-established and robust; deviations arise only at extreme conditions (very high T, very short or long times, highly viscous fluids)",
+        "dominant_error_sources": [
+          "natural convection at long measurement times (especially for low-viscosity fluids at elevated temperatures)",
+          "wire calibration (dR/dT) uncertainty propagates directly to λ",
+          "radiation correction uncertainty at T > 500 K"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(λ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of λ",
+          "standard deviation from repeated measurements at each state point"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The transient hot wire (THW) method is the gold-standard primary technique for measuring the thermal conductivity of fluids. A thin platinum wire (typically 5–25 µm diameter) immersed in the sample serves simultaneously as a line heat source and a resistance thermometer. When a step-function electrical current is applied, the wire heats the surrounding fluid and its own temperature rise ΔT(t) is recorded over a measurement window of 1–10 s. Thermal conductivity is extracted from the slope of ΔT versus ln(t) using the analytical solution to the radial heat conduction equation for an infinite line source. As a primary (absolute) method, it requires no calibration against another thermal conductivity standard — λ is determined directly from measurable electrical and geometric quantities. The technique has been used since the pioneering work of Haarman (1971) and the NIST group (Roder, Nieto de Castro) and remains the reference method endorsed by IUPAC for fluid thermal conductivity. It accounts for 244 measurement instances across 44 papers in the NIST ThermoML database.",
+      "how_it_operates": "A constant electrical current (10–200 mA) is suddenly applied to a thin platinum wire stretched axially through a cylindrical cell filled with the test fluid, which has been equilibrated to the desired temperature and pressure. The wire dissipates electrical energy as heat at a rate q = I²R/L (watts per meter of wire length). Heat conducts radially into the surrounding fluid, and the wire temperature rises logarithmically with time. Because platinum has a well-characterized linear resistance–temperature relationship, the wire's resistance change ΔR(t) — measured via a Wheatstone or Kelvin bridge with microvolt sensitivity — directly yields the temperature rise ΔT(t). Many instruments use a compensating wire (identical but shorter, or in the same bridge arm at ambient) to cancel lead resistance and common-mode thermal drifts. The bridge imbalance voltage is sampled at 1–10 kHz and recorded for the duration of the heating pulse.",
+      "core_theory": "The method is grounded in the analytical solution to the transient radial heat conduction equation for an infinitely long, infinitely thin line source of constant power q [W/m] embedded in an infinite homogeneous medium initially at uniform temperature T₀. The solution gives ΔT(r,t) = (q/4πλ)·E₁(r²/4αt), where E₁ is the exponential integral and α = λ/(ρCp) is the thermal diffusivity. At the wire surface (r → 0), for times much longer than the wire thermal inertia time constant, this reduces to ΔT(t) ≈ (q/4πλ)·[ln(4αt/a²) − γ], where a is the wire radius and γ = 0.5772 is Euler's constant. Crucially, a plot of ΔT against ln(t) is linear with slope q/(4πλ), so λ = q/(4π·slope). This requires no knowledge of the thermal diffusivity, wire radius, or initial temperature offset for the slope-based determination. The thermal diffusivity α can in principle be obtained from the intercept, though with lower accuracy. Standard corrections account for finite wire radius and heat capacity (Healy–de Groot–Kestin 1976), outer boundary effects, axial conduction, radiation, and compression work.",
+      "setup": "A typical transient hot wire apparatus consists of a thin platinum wire (7–10 µm diameter, 99.99% purity, 100–200 mm long) spot-welded or soldered to rigid metal support posts inside a stainless steel or Inconel pressure vessel (cell volume ~50–200 mL). The wire is tensioned by a small spring or weight to keep it straight and prevent vibrational artifacts. Electrical connections pass through pressure-rated feed-throughs. A Wheatstone bridge circuit (often with a shorter compensating wire in an adjacent arm) detects the wire resistance change with microvolt resolution. A stable DC current source delivers a precisely known heating current, triggered simultaneously with a high-speed data acquisition system (16–24 bit ADC, ≥1 kS/s). The cell is immersed in a thermostat bath (oil or air) controlled to ±0.01 K. For high-pressure measurements, a syringe pump or hand pump pressurizes the sample through a capillary line, monitored by a calibrated pressure transducer.",
+      "suitable_for": "The transient hot wire method is ideally suited and widely considered the most accurate technique for thermal conductivity of electrically non-conducting liquids, including organic solvents, hydrocarbons, refrigerants, heat transfer fluids, and lubricants. With an insulated (anodized or polymer-coated) wire variant, it extends to electrically conducting fluids such as aqueous solutions, molten salts, and ionic liquids. It is also applied to gases and supercritical fluids, where the short measurement time (1–2 s) effectively suppresses natural convection. The method can cover wide ranges of temperature (200–700 K) and pressure (0.1–100 MPa) in a single apparatus. It is the preferred technique whenever absolute accuracy of 1% or better is required, and it is a primary method — its results can serve as reference data without recourse to external calibration standards for λ.",
+      "core_limitations": "The primary limitation is that the practical thermal conductivity range is bounded at the upper end: for samples with λ > ~2 W/(m·K), the wire temperature rise becomes very small and difficult to measure with adequate signal-to-noise. This makes the method challenging for liquid metals and high-conductivity solids (modified configurations are needed). The method requires adequate sample volume (~20–200 mL) to approximate the infinite-medium boundary condition, which may be problematic for scarce or expensive fluids. For electrically conducting liquids, an insulated wire is mandatory, which introduces additional correction terms and slightly degrades accuracy. Natural convection sets an upper limit on the usable measurement time, particularly for low-viscosity fluids at elevated temperatures; this limits the maximum achievable signal and can reduce accuracy in unfavorable cases. The technique is not well suited to highly viscous or gelling materials that cannot uniformly fill the measurement cell.",
+      "sample_preparation": "The sample must be carefully degassed before loading into the measurement cell, because dissolved gas can nucleate as bubbles on the heated wire, causing erratic temperature traces. Degassing is typically done under vacuum with stirring or by ultrasonic bath treatment. Hygroscopic samples must be dried, as even small amounts of water can significantly alter thermal conductivity (water has λ ~0.6 W/(m·K) compared to ~0.1 W/(m·K) for many organic liquids). The sample should be filtered through a 0.2–0.5 µm membrane to remove particulates that could deposit on the wire. For mixture measurements, composition must be verified independently (e.g., by GC, refractive index, or density) before and ideally after the measurement campaign to check for compositional drift. The sample is loaded into the cell slowly to avoid trapping air pockets and to ensure the wire is fully and uniformly surrounded by fluid.",
+      "calibration_and_references": "As a primary (absolute) method, the transient hot wire technique does not require calibration against a thermal conductivity standard — λ is determined from the measured slope, known heating power, and the fundamental line-source solution. However, validation measurements on certified reference fluids are essential to confirm proper operation. Toluene is the universally accepted validation liquid, with NIST-recommended values (λ = 0.1311 W/(m·K) at 298.15 K, 0.1 MPa). Agreement within 0.5% confirms valid operation. Additional references include n-heptane (λ ≈ 0.1237 W/(m·K) at 298.15 K) and water (for insulated-wire setups). The wire's R(T) calibration is performed by measuring wire resistance at several precisely known temperatures (e.g., using a calibrated PRT in the same thermostat), fitting R = R₀(1 + αT + βT²), and determining dR/dT to ±0.01%. Bridge balance and amplifier gain are calibrated against precision resistors.",
+      "data_interpretation": "The core analysis plots ΔT(t) against ln(t) and identifies the linear region by regression. Points at short times (< 50–100 ms) are excluded due to wire thermal inertia effects, and points at long times (where the curve bends upward) are excluded due to natural convection onset. The thermal conductivity is computed as λ = q/(4π·m), where m is the slope from the linear fit and q = I²R/L is the dissipated power per unit length. A good measurement shows R² > 0.9999 over at least one decade in time. Standard corrections are applied sequentially or simultaneously: the Healy–de Groot–Kestin finite-wire correction (accounts for wire radius and heat capacity), outer boundary correction (for finite cell diameter), radiation correction (significant above ~500 K), and compressive work correction (important for gases). For highest accuracy, some groups use a full numerical model that fits all parameters (λ, α, t_start, t_end) simultaneously to the raw ΔT(t) curve. Measurements at multiple heating powers are compared; if λ varies with power, natural convection is present in the data window and the power must be reduced or the time window shortened.",
+      "common_pitfalls": "The most frequent pitfall is including data from the convection-affected regime in the linear fit, which produces systematically low apparent thermal conductivity because the convective enhancement of heat transfer steepens the ΔT(t) curve beyond the conductive regime. Using an insufficient equilibration time between successive heating runs leads to residual temperature gradients that bias the subsequent measurement. Neglecting the wire heat capacity correction at short times can artificially steepen the initial slope and produce erroneously high λ values. Failure to degass the sample allows bubble nucleation on the wire, which is immediately apparent as large scatter or sudden jumps in ΔT(t). Operating a bare platinum wire in an electrically conducting liquid produces a short circuit through the sample, yielding meaningless data; the insulated-wire variant must be used. Over-tensioning the wire can cause it to break during thermal cycling due to differential expansion.",
+      "artifacts_and_failure_modes": "Natural convection is the dominant artifact: buoyancy-driven fluid motion around the hot wire transfers heat faster than pure conduction, causing ΔT to rise faster than logarithmically at long times. The onset time depends on the Rayleigh number (proportional to q·t² for a line source) and is earlier for low-viscosity fluids at high temperatures. Radiation heat transfer becomes significant above ~500 K, especially for gases (low λ, hence small conductive temperature rise relative to radiation correction); if uncorrected, it produces an apparent thermal conductivity that includes a radiative component. Wire contamination (oxide buildup, sample decomposition products) shifts the R(T) calibration and introduces systematic λ drift over a measurement campaign. Electrical noise at the heating current onset can corrupt the first few milliseconds of data. In nanofluid studies, sedimentation, aggregation, or thermophoretic migration of particles during the measurement can produce time-dependent and irreproducible λ values.",
+      "reporting_checklist": "Published transient hot wire results should report: wire material, diameter, and length; whether bare or insulated wire was used; heating power per unit length q; usable time window (t_start to t_end) and basis for selection; number of replicate runs per state point; corrections applied (wire heat capacity, outer boundary, radiation, end effects, compression work); validation measurement on reference liquid (toluene) with deviation from reference value; sample purity (source and stated purity), degassing procedure, and composition verification method; equilibration time and thermostat stability; temperature and pressure measurement uncertainties; combined expanded uncertainty U(λ) with confidence level (typically 95%, k=2); and tabulated λ(T, P) data. For ThermoML encoding, thermal conductivity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

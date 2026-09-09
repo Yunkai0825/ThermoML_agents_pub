@@ -1,0 +1,321 @@
+{
+  "meas_ID": "derived_from_speed_of_sound",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Derived from speed of sound",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Derived from speed of sound",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Acoustic / Speed of Sound",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 9,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 9,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "speed of sound u(T,P) from acoustic measurements",
+          "density ρ(T,P) from independent densimetry (vibrating tube, pycnometry, etc.)"
+        ],
+        "derived_observables": [
+          "isentropic compressibility κS = 1/(ρu²)",
+          "isobaric heat capacity Cp (from κS, ρ, and thermal expansion data)",
+          "isochoric heat capacity Cv = Cp·κS/κT",
+          "isothermal compressibility κT = κS·Cp/Cv",
+          "isobaric thermal expansion coefficient αP = (1/ρ)(∂ρ/∂T)_P",
+          "internal pressure πint = T·αP/κT − P",
+          "ratio of heat capacities γ = Cp/Cv = κT/κS"
+        ],
+        "target_properties": [
+          "isentropic compressibility (κS)",
+          "isothermal compressibility (κT)",
+          "isobaric heat capacity (Cp)",
+          "isochoric heat capacity (Cv)",
+          "isobaric thermal expansion coefficient (αP)",
+          "internal pressure (πint)",
+          "heat capacity ratio (γ = Cp/Cv)"
+        ],
+        "phases_measured": [
+          "liquid (most common)",
+          "compressed liquid",
+          "supercritical fluid",
+          "liquid mixtures"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary liquid mixtures",
+          "multicomponent liquid mixtures",
+          "ionic liquids",
+          "organic solvents",
+          "aqueous solutions",
+          "compressed liquids under pressure",
+          "refrigerants and working fluids"
+        ],
+        "unsupported_sample_types": [
+          "gases at low pressure (large uncertainties in derived compressibilities)",
+          "multiphase systems (speed of sound ill-defined across phase boundaries)",
+          "highly viscous materials where acoustic attenuation prevents accurate u measurement",
+          "solids (different derivation framework required)",
+          "heterogeneous suspensions or emulsions"
+        ],
+        "typical_output_formats": [
+          "κS vs. T at constant P",
+          "κS vs. P at constant T",
+          "Cp vs. T at constant P",
+          "κT vs. T at constant P",
+          "αP vs. T at constant P",
+          "tabulated derived properties on (T, P) grid"
+        ],
+        "units": {
+          "speed_of_sound": "m/s",
+          "density": "kg/m³ or g/cm³",
+          "isentropic_compressibility": "Pa⁻¹ or TPa⁻¹",
+          "isothermal_compressibility": "Pa⁻¹ or TPa⁻¹",
+          "heat_capacity_isobaric": "J/(mol·K) or J/(g·K)",
+          "heat_capacity_isochoric": "J/(mol·K) or J/(g·K)",
+          "thermal_expansion_coefficient": "K⁻¹",
+          "internal_pressure": "MPa",
+          "temperature": "K",
+          "pressure": "MPa"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 473 K",
+            "hard_limits": "limited by the T-range of the input speed-of-sound and density data; must remain in single-phase region",
+            "notes": "derivations require u(T,P) and ρ(T,P) data on overlapping T,P grids"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 200 MPa",
+            "hard_limits": "upper limit set by availability of u and ρ data under pressure; must avoid phase boundaries",
+            "notes": "high-pressure speed-of-sound data from pulse-echo or sing-around techniques extend range"
+          },
+          {
+            "parameter": "data_grid_density",
+            "typical_range": "ΔT = 5–10 K, ΔP = 5–25 MPa",
+            "hard_limits": "grid must be fine enough for accurate numerical differentiation; coarse grids amplify derivative errors",
+            "notes": "finer grids or analytical fitting functions reduce numerical differentiation artifacts"
+          },
+          {
+            "parameter": "input_data_accuracy",
+            "typical_range": "u: ±0.01–0.1%; ρ: ±0.01–0.05%",
+            "hard_limits": "propagated uncertainties in derived properties scale as multiples of input uncertainties, especially through derivatives",
+            "notes": "independent high-accuracy measurements of u and ρ are essential for reliable derivations"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "independent variable (grid axis)",
+            "typical_values": "273 K to 473 K in 5–10 K steps",
+            "effect": "temperature dependence of u and ρ drives the derivation of thermal expansion and heat capacity"
+          },
+          {
+            "name": "pressure",
+            "role": "independent variable (grid axis)",
+            "typical_values": "0.1 MPa to 200 MPa in 10–25 MPa steps",
+            "effect": "pressure dependence of u and ρ required for isothermal compressibility and pressure-dependent properties"
+          },
+          {
+            "name": "speed_of_sound",
+            "role": "primary input observable",
+            "typical_values": "800–2000 m/s for common liquids",
+            "effect": "directly determines κS through κS = 1/(ρu²); accuracy of u dominates κS uncertainty"
+          },
+          {
+            "name": "density",
+            "role": "primary input observable",
+            "typical_values": "600–1600 kg/m³ for common liquids",
+            "effect": "required for κS calculation and for thermal derivatives (αP); its temperature and pressure derivatives feed all derived quantities"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "speed-of-sound measurement apparatus (pulse-echo, sing-around, or interferometric cell) — provides u(T,P)",
+          "high-precision densimeter (vibrating-tube, magnetic float, or pycnometer) — provides ρ(T,P)",
+          "temperature control system — thermostat or circulating bath for stable T during both u and ρ measurements",
+          "pressure generation system — piston-cylinder or syringe pump for high-pressure measurements",
+          "computational software — for fitting, numerical differentiation, and thermodynamic integration"
+        ],
+        "environmental_requirements": [
+          "temperature stability ≤ ±0.01 K during speed-of-sound and density measurements",
+          "pressure stability ≤ ±0.01 MPa for high-pressure data points",
+          "consistent sample identity and purity between u and ρ measurement campaigns"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample — no specific geometry requirement",
+            "sufficient volume to fill both acoustic cell and densimeter"
+          ],
+          "size_limits": "typically 5–50 mL total for acoustic cell plus densimeter; varies by apparatus",
+          "thickness_limits": "not applicable (bulk liquid measurement)",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "high purity (≥99.5%, preferably ≥99.9%) to ensure u and ρ reflect intrinsic fluid properties",
+            "degassed thoroughly to eliminate dissolved gas bubbles that scatter acoustic pulses",
+            "dried if hygroscopic to maintain known water content",
+            "identical sample batch used for both u and ρ measurements to avoid composition mismatch"
+          ]
+        },
+        "calibration_requirements": [
+          "speed-of-sound apparatus calibrated with reference fluids (water — IAPWS-95 values)",
+          "densimeter calibrated with water and dried air (or vacuum) at each temperature",
+          "pressure transducer calibrated against dead-weight gauge",
+          "temperature sensors (PRT or thermistor) calibrated on ITS-90 scale"
+        ],
+        "reference_materials": [
+          "water — IAPWS-95 equation of state provides reference u(T,P) and ρ(T,P) to high accuracy",
+          "n-heptane — well-characterized acoustic and volumetric reference fluid",
+          "toluene — secondary reference with extensive speed-of-sound data",
+          "cyclohexane — reference fluid for acoustic calibration"
+        ],
+        "consumables": [
+          "high-purity calibration fluids (water, n-heptane)",
+          "syringe filters or molecular sieves for sample degassing",
+          "desiccants for moisture-sensitive samples"
+        ],
+        "safety_notes": [
+          "high-pressure systems require rated tubing, fittings, and burst protection",
+          "flammable organic solvents require proper ventilation and ignition source control",
+          "pressurized liquid handling requires standard high-pressure safety protocols"
+        ]
+      },
+      "performance": {
+        "sensitivity": "κS derivation sensitive to ±0.01 m/s changes in speed of sound; Cp derivation sensitive to temperature derivative precision of ρ and u",
+        "detection_limit": "not applicable — derivation method, not a direct measurement; limited by input data quality",
+        "resolution": {
+          "spatial": "not applicable (bulk property derivation)",
+          "temporal": "not applicable (equilibrium thermodynamic derivation)",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "κS: ~100–2000 TPa⁻¹ for common liquids; Cp: ~0.5–5 J/(g·K)",
+        "accuracy": "κS: ±0.01–0.1% (direct from u and ρ); Cp: ±0.5–2% (involves derivatives, larger propagated uncertainty); κT: ±1–3%",
+        "precision": "limited by reproducibility of input u and ρ data; typically ±0.01% for κS, ±0.3–1% for Cp",
+        "throughput": "computational derivation is fast once input data are collected; input data collection is rate-limiting",
+        "measurement_speed": "derivation itself is essentially instantaneous; collecting input u(T,P) and ρ(T,P) datasets requires hours to days per fluid"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "tabulated speed-of-sound u(T,P) and density ρ(T,P) datasets from independent measurements, plus their temperature and pressure derivatives",
+        "preprocessing_steps": [
+          "fit u(T,P) and ρ(T,P) data to smooth analytical functions (polynomials, rational polynomials, or Padé approximants)",
+          "compute analytical derivatives (∂ρ/∂T)_P, (∂ρ/∂P)_T, (∂u/∂T)_P, (∂u/∂P)_T from fitted functions",
+          "alternatively, use numerical differentiation with appropriate smoothing to minimize noise amplification",
+          "verify self-consistency of fitted surfaces by checking residuals against original data"
+        ],
+        "analysis_methods": [
+          "direct calculation: κS = 1/(ρu²) at each (T,P) point",
+          "thermal expansion from density: αP = −(1/ρ)(∂ρ/∂T)_P",
+          "isobaric heat capacity via thermodynamic relation: Cp = −T(∂ρ/∂T)²_P / [ρ²((∂ρ/∂P)_T − 1/u²)]",
+          "isothermal compressibility: κT = κS + TVαP²/Cp = κS·Cp/Cv",
+          "isochoric heat capacity: Cv = Cp·κS/κT",
+          "numerical integration along isobars/isotherms for cumulative property tables",
+          "Davis-Gordon method: stepwise integration of Cp from an initial reference value using speed-of-sound data only"
+        ],
+        "model_assumptions": [
+          "fluid is in thermodynamic equilibrium at each (T,P) point",
+          "fluid behaves as a single homogeneous phase — no phase boundaries crossed",
+          "speed of sound is measured in the zero-frequency (thermodynamic) limit — dispersion effects are negligible",
+          "density and speed-of-sound data sets are measured on the same fluid composition and purity",
+          "analytical fitting functions adequately represent the true T,P surface without over- or under-fitting",
+          "standard thermodynamic Maxwell relations and exact differential relationships hold"
+        ],
+        "fit_parameters": [
+          "polynomial or rational function coefficients for u(T,P) surface",
+          "polynomial or rational function coefficients for ρ(T,P) surface",
+          "reference Cp value at one (T₀, P₀) point for integration-based methods"
+        ],
+        "common_artifacts": [
+          "derivative amplification: small systematic errors in u or ρ data are amplified by differentiation, producing oscillatory artifacts in Cp or αP",
+          "over-fitting artifact: overly flexible fitting functions follow noise in input data, generating spurious structure in derivatives",
+          "under-fitting artifact: excessively constrained fits smooth out real physical features (phase transitions, anomalies)",
+          "edge effects: derivatives are unreliable near the boundaries of the measured (T,P) grid due to extrapolation",
+          "composition mismatch: if u and ρ datasets come from slightly different sample purities, derived properties contain systematic offsets"
+        ],
+        "quality_control_checks": [
+          "compare derived κS with direct acoustic measurements where available",
+          "cross-check derived Cp against independent calorimetric measurements (DSC, drop calorimetry)",
+          "verify thermodynamic self-consistency: Cp/Cv = κT/κS at all (T,P) points",
+          "check that derived αP agrees with direct dilatometric measurements",
+          "examine residuals of u(T,P) and ρ(T,P) fits for systematic trends or excessive scatter",
+          "test sensitivity to fitting polynomial order — stable results across reasonable orders indicate robustness"
+        ],
+        "failure_modes": [
+          "input data with insufficient T,P coverage — derivation fails at points outside measured range",
+          "numerical instability in differentiation when input data have comparable scatter to the physical variation",
+          "crossing a phase boundary within the data grid — thermodynamic derivatives diverge or become discontinuous",
+          "use of incompatible u and ρ datasets (different samples, purities, or conditions)",
+          "Cp integration without an accurate reference starting value — accumulated offset propagates through entire dataset"
+        ]
+      },
+      "uncertainty": {
+        "level": "κS: ±0.01–0.1% (directly from u and ρ); Cp and κT: ±0.5–3% (derivative amplification); αP: ±0.5–2%",
+        "random_sources": [
+          "scatter in speed-of-sound measurements propagated into κS",
+          "scatter in density measurements propagated into αP and compressibility",
+          "noise amplification through numerical or analytical differentiation",
+          "fitting residuals in u(T,P) and ρ(T,P) surfaces"
+        ],
+        "systematic_sources": [
+          "calibration bias in speed-of-sound apparatus (path length, diffraction corrections)",
+          "calibration bias in density measurements (reference fluid uncertainty)",
+          "temperature measurement offset between u and ρ experiments",
+          "pressure calibration offset between u and ρ experiments",
+          "sample purity or composition difference between u and ρ datasets",
+          "choice of fitting function that systematically misrepresents the true surface",
+          "acoustic dispersion (frequency-dependent u) not corrected to zero-frequency limit"
+        ],
+        "operator_dependence": "low for derivation itself (computational); moderate for input data acquisition (sample handling, degassing quality, instrument operation)",
+        "model_dependence": "moderate to high — choice of fitting function for u(T,P) and ρ(T,P) strongly affects derivative-dependent quantities (Cp, κT, αP); direct κS is model-independent",
+        "dominant_error_sources": [
+          "numerical differentiation noise amplification — the dominant uncertainty source for all derivative-dependent properties",
+          "quality and density of the input (T,P) data grid — coarse grids increase differentiation errors",
+          "composition or purity mismatch between speed-of-sound and density datasets"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k=2) for each derived property",
+          "relative uncertainty as percentage",
+          "propagated uncertainty from stated u and ρ uncertainties via standard GUM framework"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Derived from speed of sound is a thermodynamic derivation method — not a direct measurement technique — that uses experimentally measured speed-of-sound u(T,P) and density ρ(T,P) data to calculate a suite of thermodynamic properties through rigorous thermodynamic relations. The fundamental connection is that the speed of sound in a fluid is related to the isentropic compressibility by κS = 1/(ρu²), from which isothermal compressibility, heat capacities, and thermal expansion can be obtained via Maxwell relations and exact thermodynamic identities. This approach is valued because acoustic measurements can achieve very high precision (±0.01% in u), and the derived properties inherit this precision for directly calculated quantities like κS, while derivative-dependent properties such as Cp and κT are obtainable with accuracies competitive with or superior to direct calorimetric methods.",
+      "how_it_operates": "The derivation begins with two independently measured datasets: speed of sound u as a function of temperature and pressure, and density ρ as a function of temperature and pressure. The most straightforward derived quantity is the isentropic compressibility, calculated directly as κS = 1/(ρu²) at each (T,P) point. To obtain heat capacities and isothermal compressibility, temperature and pressure derivatives of ρ and u are required. The thermal expansion coefficient is computed as αP = −(1/ρ)(∂ρ/∂T)_P. The isobaric heat capacity follows from the exact relation Cp = Tu²αP² / (u²(∂ρ/∂P)_T − 1) or equivalently from the combined thermodynamic identity linking Cp, κS, αP, ρ, and T. Isothermal compressibility is then κT = κS + TVαP²/Cp, and the isochoric heat capacity is Cv = Cp·κS/κT. In practice, the input u(T,P) and ρ(T,P) data are first fitted to smooth analytical functions, from which derivatives are obtained analytically, avoiding the noise amplification inherent in direct numerical differentiation of discrete data.",
+      "core_theory": "The fundamental thermodynamic identity connecting speed of sound to compressibility is u² = (∂P/∂ρ)_S = 1/(ρκS), giving the isentropic compressibility as κS = 1/(ρu²). This is an exact relation requiring no model assumptions beyond thermodynamic equilibrium. The connection to isothermal properties uses the exact relation κT = κS·Cp/Cv, together with Cp − Cv = TVαP²/κT. Combining these with the thermal expansion coefficient αP = −(1/ρ)(∂ρ/∂T)_P and the isothermal compressibility expression κT = −(1/V)(∂V/∂P)_T = (1/ρ)(∂ρ/∂P)_T yields the isobaric heat capacity: Cp = −T(∂ρ/∂T)²_P / [ρ²((∂ρ/∂P)_T − 1/u²)]. The Davis-Gordon integration method offers an alternative path: starting from a known Cp at one reference state (T₀, P₀), the method integrates along isobars and isotherms using speed-of-sound data alone, exploiting (∂Cp/∂P)_T = −T(∂²V/∂T²)_P to propagate Cp across the entire (T,P) domain.",
+      "setup": "No dedicated instrument is required for the derivation itself — it is a computational procedure. However, the derivation depends entirely on two high-quality input datasets. Speed of sound is typically measured using a pulse-echo, sing-around, or Brillouin scattering apparatus, where an acoustic pulse traverses a known path length in the fluid and the travel time is measured to nanosecond precision. Density is typically measured using a vibrating-tube densimeter (Anton Paar DMA series or equivalent) or a magnetic float densimeter for high-pressure work. Both instruments require high-stability thermostats (±0.01 K or better) and, for elevated pressures, precision pressure generators with calibrated transducers. The computational step requires software for surface fitting (polynomial regression, rational functions, or spline interpolation) and analytical or numerical differentiation, commonly implemented in MATLAB, Python, or Fortran.",
+      "suitable_for": "This derivation method is particularly well-suited for pure liquids and liquid mixtures where both speed of sound and density can be measured with high precision. It is widely applied to characterize the full thermodynamic surface of industrially important fluids including refrigerants, working fluids for heat engines, ionic liquids, hydrocarbons, and aqueous electrolyte solutions. The method excels when direct calorimetric measurement of Cp is difficult — for example, at elevated pressures where scanning calorimetry becomes impractical — because speed-of-sound cells and vibrating-tube densimeters operate routinely to 200 MPa and beyond. It is also valuable for generating internally consistent property tables from a minimal set of primary measurements, since all derived quantities share the same underlying thermodynamic framework.",
+      "core_limitations": "The most significant limitation is that all derivative-dependent properties (Cp, κT, αP) amplify uncertainties present in the input data through differentiation. Even small systematic errors or noise in u(T,P) or ρ(T,P) can produce appreciable distortions in derived second-order properties. The method requires two complete, independent datasets (u and ρ) measured on the same fluid composition over an overlapping (T,P) grid — if either dataset is sparse, noisy, or covers a limited range, the derivation quality degrades substantially. The method is restricted to single-phase regions; near phase boundaries, thermodynamic derivatives diverge and the derivation breaks down. It also assumes that the measured speed of sound represents the thermodynamic (zero-frequency) limit, which is valid for most liquids at ultrasonic frequencies but fails for highly viscous or viscoelastic fluids exhibiting acoustic dispersion.",
+      "sample_preparation": "Because this is a derivation method, sample preparation pertains to the upstream speed-of-sound and density measurements. The fluid sample must be of high purity (≥99.5%, preferably ≥99.9% by mass) and the identical batch should be used for both u and ρ measurements to avoid composition-related systematic offsets in derived quantities. Thorough degassing is critical for speed-of-sound measurements: dissolved gases create microbubbles that scatter acoustic pulses and produce anomalously low u values. Common degassing methods include vacuum distillation, ultrasonic degassing under reduced pressure, or helium sparging. Hygroscopic liquids must be dried over molecular sieves and their water content determined by Karl Fischer titration. For mixtures, compositions must be prepared gravimetrically on a precision balance and verified spectroscopically or chromatographically.",
+      "calibration_and_references": "No calibration is required for the derivation step itself, but the input measurements demand rigorous calibration. Speed-of-sound apparatus is calibrated using water, whose u(T,P) values are known to ±0.005% from the IAPWS-95 equation of state; the acoustic path length is determined from the water calibration. Vibrating-tube densimeters are calibrated with ultrapure degassed water and dried air (or vacuum) at each measurement temperature. Pressure transducers are calibrated against dead-weight piston gauges (traceable to national standards). Temperature sensors (Pt-100 or SPRT) are calibrated on the ITS-90 scale. Reference fluids for cross-validation include n-heptane, toluene, and cyclohexane, for which reliable literature u(T,P) and ρ(T,P) data and recommended equations of state exist.",
+      "data_interpretation": "The derivation proceeds in stages. First, raw u(T,P) and ρ(T,P) data are fitted to smooth analytical surfaces — typically bivariate polynomials in T and P, rational polynomials, or Padé approximants. The quality of these fits is assessed by examining residuals and testing for systematic patterns. Second, κS = 1/(ρu²) is computed directly at each grid point — this step involves no differentiation and is highly accurate. Third, temperature and pressure derivatives of ρ (and optionally u) are obtained analytically from the fitted surfaces. Fourth, αP, Cp, κT, and Cv are calculated from the thermodynamic relations. Internal consistency is verified by checking that Cp/Cv = κT/κS and that Cp − Cv = TVαP²/κT hold at every point. Derived property tables are typically reported on the same (T,P) grid as the input measurements, with uncertainties propagated from the stated uncertainties in u and ρ using the GUM (Guide to the Expression of Uncertainty in Measurement) framework.",
+      "common_pitfalls": "The dominant pitfall is poor numerical differentiation — if u(T,P) or ρ(T,P) data contain scatter, direct numerical derivatives amplify this noise into large oscillatory artifacts in Cp and κT. Using fitting functions with too many free parameters (over-fitting) captures noise as spurious structure in derivatives, while too few parameters (under-fitting) smooths away real physical trends. A frequently overlooked error is using u and ρ data from different sample batches or purities, which introduces systematic offsets that appear directly in κS and propagate into all derived quantities. Edge effects arise when derivatives are evaluated near the boundaries of the (T,P) data grid, where the fitting function is essentially extrapolating. Another common pitfall is neglecting acoustic dispersion corrections for moderately viscous fluids, which causes the measured u to exceed the thermodynamic equilibrium value.",
+      "artifacts_and_failure_modes": "Derivative amplification artifacts manifest as unphysical oscillations in Cp(T) or κT(P) curves, often with a period set by the data grid spacing — these signal inadequate fitting or too-coarse data. Over-fitting artifacts create spurious local extrema or inflection points in derived property curves that do not correspond to real physical behavior. Composition mismatch between the u and ρ datasets produces a smooth but systematically offset κS surface whose error only becomes apparent when comparing to independent calorimetric data. Near-critical or near-phase-boundary operation causes diverging derivatives and unbounded derived properties. Integration drift in the Davis-Gordon method propagates an initial Cp error cumulatively across the entire (T,P) grid. Failure of the zero-frequency assumption in dispersive fluids leads to systematically high κS values (since the measured u at finite frequency exceeds the static limit).",
+      "reporting_checklist": "Publications using this derivation method should report: (1) source and purity of the sample, confirming the same batch was used for u and ρ; (2) the speed-of-sound measurement technique with stated uncertainty; (3) the density measurement technique with stated uncertainty; (4) the (T,P) ranges and grid spacings of both input datasets; (5) the functional forms used to fit u(T,P) and ρ(T,P) surfaces, including polynomial orders and number of fit parameters; (6) residual statistics (AAD, bias, maximum deviation) for both fits; (7) the specific thermodynamic relations used for each derived property; (8) whether the Davis-Gordon integration was employed and, if so, the reference Cp value and its source; (9) propagated expanded uncertainties (k=2, 95% confidence) for each reported derived property; (10) comparison of at least κS and Cp with independent literature values or calorimetric data as validation. For ThermoML encoding, derived property values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

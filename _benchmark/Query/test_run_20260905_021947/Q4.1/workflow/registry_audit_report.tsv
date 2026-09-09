@@ -1,0 +1,22 @@
+severity	check	subject	detail
+INFO	balance	detailed/chars	sources emit 144,904 / sinks absorb 144,904
+INFO	balance	detailed/ids	sources emit 305 / sinks absorb 305
+FAIL	orphan	detailed/ids:Q/L1#1:search_blocks#1:raw	'L1#1 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/ids:Q/L1#1:search_blocks#2:raw	'L1#1 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/ids:Q/L1#1:sink:hardcoded_cut	'L1#1 · hardcoded compaction cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	detailed/blocks	sources emit 36 / sinks absorb 36
+INFO	balance	detailed/pts	sources emit 954 / sinks absorb 954
+FAIL	orphan	detailed/pts:Q/L1#4:search_blocks#1:hardcoded	'L1#4 · search_blocks · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:Q/L1#4:search_blocks#1:raw	'L1#4 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:Q/L1#4:sink:triage_cut	'L1#4 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	agentic/chars	sources emit 144,904 / sinks absorb 144,904
+INFO	balance	agentic/ids	sources emit 293 / sinks absorb 293
+INFO	balance	agentic/blocks	sources emit 34 / sinks absorb 34
+INFO	balance	agentic/pts	sources emit 934 / sinks absorb 934
+FAIL	orphan	agentic/pts:grp:Q/L1#4|search|hardcoded	'L1#4 · search_blocks · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	agentic/pts:grp:Q/L1#4|search|raw	'L1#4 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	agentic/pts:grp:Q/L1#4|sink|triage_cut	'L1#4 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	pooled/chars	sources emit 144,904 / sinks absorb 144,904
+INFO	balance	pooled/ids	sources emit 141 / sinks absorb 141
+INFO	balance	pooled/blocks	sources emit 27 / sinks absorb 27
+INFO	balance	pooled/pts	sources emit 837 / sinks absorb 837

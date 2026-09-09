@@ -1,0 +1,320 @@
+{
+  "meas_ID": "standard_abbe_refractometry",
+  "identity": {
+    "name": "Standard Abbe refractometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Standard Abbe refractometry",
+    "thermoml_custom_codes": [
+      "ABBE"
+    ],
+    "measurement_family": "Optical / Refractometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 6115,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 1271,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 6115,
+          "papers": 1271
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "critical angle of total internal reflection at prism–sample interface (read as scale position or digital encoder value)",
+          "sample temperature (thermostated circulating-bath temperature at prism block)"
+        ],
+        "derived_observables": [
+          "refractive index at sodium D-line (nD, 589.3 nm)",
+          "molar refraction Rm = [(nD² − 1)/(nD² + 2)] × (M/ρ) (requires density ρ and molar mass M)",
+          "specific refraction r = (nD² − 1)/[(nD² + 2)ρ]",
+          "Abbe number νd = (nD − 1)/(nF − nC) (if compensating prisms allow nF and nC measurement)"
+        ],
+        "target_properties": [
+          "refractive index nD at 589.3 nm",
+          "temperature dependence of refractive index (dnD/dT)",
+          "molar refraction Rm",
+          "excess molar refraction ΔRm (for mixtures)",
+          "refractive index deviation from ideal mixing"
+        ],
+        "phases_measured": [
+          "liquid (most common)",
+          "liquid mixtures and solutions",
+          "transparent solids (with appropriate contact liquid)",
+          "melts"
+        ],
+        "supported_sample_types": [
+          "pure transparent liquids",
+          "binary and multicomponent liquid mixtures",
+          "aqueous and organic solutions",
+          "oils, fuels, and petroleum fractions",
+          "sugar solutions (Brix measurement)",
+          "polymer solutions",
+          "ionic liquids",
+          "transparent melts",
+          "transparent solid specimens (flat polished surface required)"
+        ],
+        "unsupported_sample_types": [
+          "opaque or strongly absorbing liquids",
+          "turbid suspensions or emulsions (no clear critical angle boundary)",
+          "gases",
+          "samples with nD outside 1.300–1.700 range (standard Abbe prism limit)",
+          "samples requiring high-pressure containment",
+          "highly volatile samples that evaporate before measurement completes",
+          "fluorescent samples that obscure the critical angle boundary"
+        ],
+        "typical_output_formats": [
+          "nD value at specified temperature (single number)",
+          "nD vs. temperature curve",
+          "nD vs. composition (mole or mass fraction) at fixed T",
+          "Brix or concentration scale reading"
+        ],
+        "units": {
+          "refractive_index": "dimensionless (nD)",
+          "temperature": "K or °C",
+          "wavelength": "nm",
+          "molar_refraction": "cm³/mol",
+          "specific_refraction": "cm³/g",
+          "Abbe_number": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "wavelength",
+            "typical_range": "589.3 nm (sodium D-line)",
+            "hard_limits": "fixed by sodium lamp or LED/filter source; Amici compensating prisms allow pseudo-white-light measurement equivalent to 589.3 nm",
+            "notes": "some Abbe instruments have compensating prisms that measure at D-line equivalent even with white light; auxiliary filters can access other wavelengths (486.1 nm, 656.3 nm) on some models"
+          },
+          {
+            "parameter": "temperature",
+            "typical_range": "288.15 K to 333.15 K (15 °C to 60 °C)",
+            "hard_limits": "limited by thermostat bath capacity and prism cement stability; most instruments rated 10 °C to 70 °C",
+            "notes": "temperature must be controlled to ±0.01 K for 5th-decimal-place nD accuracy; most ThermoML data at 293.15–318.15 K"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "ambient (~0.1 MPa)",
+            "hard_limits": "standard Abbe refractometers are open to atmosphere; no pressure variation capability",
+            "notes": "all standard Abbe measurements are at ambient pressure"
+          },
+          {
+            "parameter": "refractive_index_range",
+            "typical_range": "1.300 to 1.700",
+            "hard_limits": "set by the refractive index of the measuring prism (typically high-dispersion flint glass, nprism ≈ 1.75)",
+            "notes": "sample nD must be lower than the measuring prism nD for total internal reflection to occur"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "293.15 K to 318.15 K",
+            "effect": "nD decreases with increasing temperature for most liquids; dnD/dT typically −(3 to 5) × 10⁻⁴ K⁻¹"
+          },
+          {
+            "name": "sample_composition",
+            "role": "varied in mixture studies",
+            "typical_values": "full mole fraction range 0 to 1",
+            "effect": "nD varies with composition; deviation from linear mixing indicates non-ideal behavior"
+          },
+          {
+            "name": "wavelength",
+            "role": "usually fixed at 589.3 nm",
+            "typical_values": "589.3 nm (D-line)",
+            "effect": "refractive index is wavelength-dependent (dispersion); Abbe instruments standardize to sodium D-line"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "Abbe refractometer body — precision optical instrument with measuring prism and illuminating prism hinged together",
+          "measuring prism — high-index flint glass (n ≈ 1.75) with polished hypotenuse face contacting the sample",
+          "illuminating prism — ground (roughened) hypotenuse face to provide diffuse illumination of the sample film",
+          "Amici compensating prisms — two counter-rotating direct-vision prisms that eliminate chromatic dispersion, allowing white-light illumination while measuring at the D-line equivalent",
+          "telescope/eyepiece — crosshair reticle for aligning the critical-angle boundary (shadowline) to the crosshair intersection",
+          "scale — graduated in nD units (typically 1.300–1.700) with vernier or digital encoder reading to ±0.0001",
+          "light source — sodium vapor lamp (589.3 nm), or white LED with Amici compensator",
+          "thermostated water jacket — surrounds prism block; connected to external circulating thermostat for temperature control",
+          "digital thermometer or thermocouple — measures prism block temperature to ±0.01 K or better",
+          "circulating thermostat bath — recirculating water bath maintaining temperature stability ±0.01–0.05 K"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (ambient fluctuations < ±2 K to avoid drift in prism temperature)",
+          "draft-free environment near the instrument to prevent evaporation of volatile samples",
+          "stable bench free from vibration (vibrations blur the shadowline)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid drop or thin film (~0.1 mm thick) between the two prism faces",
+            "flat polished surface for solid specimens"
+          ],
+          "size_limits": "approximately 0.1–0.5 mL of liquid; a few drops sufficient",
+          "thickness_limits": "sample film between prisms is typically 0.05–0.2 mm; thicker films reduce light throughput",
+          "surface_requirements": [
+            "solids must have a flat, optically polished face for contact with measuring prism",
+            "no scratches or surface contamination on solid specimens"
+          ],
+          "mounting_requirements": [
+            "liquid samples applied by pipette or dropper onto the measuring prism face",
+            "solid samples placed with flat face in optical contact with measuring prism using a contact liquid (e.g., 1-bromonaphthalene or methylene iodide) of higher nD than the specimen",
+            "prism faces closed gently to spread sample uniformly"
+          ],
+          "preparation_requirements": [
+            "samples must be transparent and homogeneous at 589.3 nm",
+            "liquids should be free of bubbles, suspended particles, and dust",
+            "hygroscopic samples should be handled under dry atmosphere or measured quickly",
+            "sample and instrument should equilibrate to measurement temperature before reading (typically 5–15 min)"
+          ]
+        },
+        "calibration_requirements": [
+          "verify instrument zero and scale using distilled water (nD = 1.33299 at 293.15 K) or a certified glass test piece",
+          "check at multiple points across the scale if high accuracy is required (e.g., toluene nD = 1.4969 at 293.15 K)",
+          "adjust crosshair alignment using the calibration set screw if shadowline does not coincide with expected nD of reference",
+          "temperature calibration of the prism thermostat against a traceable thermometer",
+          "periodic factory or in-house verification with NIST-traceable refractive index standards"
+        ],
+        "reference_materials": [
+          "distilled/deionized water — nD = 1.33299 at 293.15 K (primary calibrant)",
+          "NIST-traceable glass reference standards (e.g., Schott glass pieces with certified nD)",
+          "toluene — nD = 1.4969 at 293.15 K (common secondary liquid reference)",
+          "2,2,4-trimethylpentane (isooctane) — nD = 1.3915 at 293.15 K",
+          "1-bromonaphthalene — nD = 1.6580 at 293.15 K (high-index reference and contact liquid for solids)"
+        ],
+        "consumables": [
+          "lens tissue or lint-free wipes for cleaning prism faces",
+          "cleaning solvents (acetone, ethanol, petroleum ether) appropriate to sample",
+          "contact liquid for solid measurements (1-bromonaphthalene, methylene iodide)",
+          "pipettes or droppers for sample application",
+          "distilled water for calibration check"
+        ],
+        "safety_notes": [
+          "prism faces are precision optical surfaces — never use abrasive materials for cleaning",
+          "some contact liquids (1-bromonaphthalene, methylene iodide) are toxic — use gloves and adequate ventilation",
+          "avoid thermal shock to the prism block when changing thermostat temperature rapidly",
+          "wipe solvents away promptly to prevent attack on prism cement at elevated temperatures"
+        ]
+      },
+      "performance": {
+        "sensitivity": "nD changes of 0.0001 are reliably detected; high-end digital Abbe instruments resolve 0.00001",
+        "detection_limit": "not applicable — minimum sample refractive index is set by optical geometry, not detectability (nD ≥ 1.300)",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement of the sample film between prisms)",
+          "temporal": "not applicable (static equilibrium measurement)",
+          "spectral": "fixed at sodium D-line 589.3 nm; Amici compensator provides ±0 nm effective bandwidth around D-line",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "nD = 1.300 to 1.700 (standard); limited by measuring prism index (n ≈ 1.75)",
+        "accuracy": "±0.0001 to ±0.0002 in nD for standard instruments; ±0.00004 for high-precision digital models (e.g., Atago DR-M4)",
+        "precision": "±0.0001 nD (repeatability for same sample at fixed temperature); ±0.00002 for high-end digital instruments",
+        "throughput": "high — one measurement per 1–2 minutes including sample loading and equilibration; up to 30–60 samples per hour for routine screening",
+        "measurement_speed": "reading acquisition takes ~10 seconds; dominant time is thermal equilibration (1–5 min per sample)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "visual observation of the critical-angle boundary (shadowline) position on a graduated nD scale viewed through the telescope eyepiece; in digital instruments, a CCD line sensor detects the shadowline position electronically",
+        "preprocessing_steps": [
+          "Amici compensator adjustment: rotate compensating prisms until the shadowline boundary is sharp and achromatic (no colored fringe)",
+          "align the sharp boundary to the crosshair intersection by rotating the measurement drum/knob",
+          "read nD from the scale (analog) or digital display",
+          "record prism block temperature simultaneously",
+          "apply temperature correction if measurement temperature differs from reference temperature: nD(Tref) = nD(T) + (dnD/dT)(Tref − T)"
+        ],
+        "analysis_methods": [
+          "direct reading: nD is read from the instrument scale, which is factory-calibrated via Snell's law from the critical angle",
+          "Lorentz-Lorenz equation: Rm = [(nD² − 1)/(nD² + 2)] × (M/ρ) to compute molar refraction from nD, molar mass M, and density ρ",
+          "excess property calculation: ΔnD = nD,mix − Σ(xi × nD,i) or ΔRm = Rm,mix − Σ(xi × Rm,i) for mixture non-ideality",
+          "temperature regression: fit nD(T) to linear or quadratic model to extract dnD/dT",
+          "mixing rule comparison: compare experimental nD vs. Lorentz-Lorenz, Gladstone-Dale, or Arago-Biot mixing rules"
+        ],
+        "model_assumptions": [
+          "Snell's law holds exactly at the prism–sample interface (valid for isotropic, homogeneous, non-absorbing samples)",
+          "sample film is optically homogeneous and isotropic (no gradients, no birefringence)",
+          "Amici compensating prisms accurately reduce the measurement to the sodium D-line wavelength",
+          "sample is in thermal equilibrium with the prism block at the recorded temperature",
+          "no significant absorption at 589.3 nm that would shift or blur the critical angle boundary"
+        ],
+        "fit_parameters": [
+          "refractive index nD (primary measurand, read directly)",
+          "dnD/dT (fitted slope from nD vs. T data)",
+          "coefficients of Cauchy or Sellmeier dispersion equations (if multi-wavelength data obtained)"
+        ],
+        "common_artifacts": [
+          "blurred or diffuse shadowline: caused by sample turbidity, strong absorption, fluorescence, or too-thick sample film",
+          "colored fringe on the shadowline: Amici compensator not properly adjusted",
+          "systematic offset: instrument not calibrated (zero not set to water reference)",
+          "apparent nD drift during reading: sample evaporation (volatile liquids) or incomplete thermal equilibration",
+          "birefringence splitting: anisotropic solid samples show doubled shadowline instead of a single boundary"
+        ],
+        "quality_control_checks": [
+          "verify calibration with distilled water (nD = 1.33299 at 293.15 K) at start of each measurement session",
+          "check reproducibility: consecutive readings on the same sample should agree within ±0.0001",
+          "confirm thermal equilibrium: take readings at 1-minute intervals until nD stabilizes (drift < 0.0001 over 2 min)",
+          "inspect shadowline sharpness: a diffuse boundary indicates sample quality issues or instrument misalignment",
+          "compare replicate preparations: re-load sample and confirm reading to detect air bubbles or contamination"
+        ],
+        "failure_modes": [
+          "sample evaporation between prism faces (volatile solvents), leaving residue and no readable boundary",
+          "air bubble trapped in the sample film, obscuring part of the field of view",
+          "prism surface scratching from improper cleaning, creating permanent stray light",
+          "thermostat failure causing uncontrolled temperature drift",
+          "prism cement degradation at elevated temperatures (>60 °C), causing internal reflection artifacts"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty ±0.0001 to ±0.0002 in nD for standard instruments; ±0.00005 for high-precision digital models",
+        "random_sources": [
+          "operator alignment repeatability (reading the shadowline position to the crosshair)",
+          "temperature fluctuation in the prism block between readings",
+          "sample film thickness variation affecting the sharpness of the shadowline",
+          "digital display resolution or vernier interpolation uncertainty"
+        ],
+        "systematic_sources": [
+          "calibration offset (incorrect zero setting or uncorrected scale nonlinearity)",
+          "temperature measurement error in the prism block thermometer",
+          "Amici compensator alignment error (residual chromatic error in the effective wavelength)",
+          "prism refractive index change with age or temperature (small, typically negligible if thermostated)",
+          "sample impurity altering nD from the true pure-component value"
+        ],
+        "operator_dependence": "low to moderate — visual alignment of the shadowline to the crosshair is the main operator-dependent step; digital instruments with CCD detection largely eliminate this",
+        "model_dependence": "very low — the measurement is based on Snell's law which is exact; derived quantities like molar refraction depend on the Lorentz-Lorenz model and the accuracy of density and molar mass inputs",
+        "dominant_error_sources": [
+          "temperature uncertainty (a ±0.1 K error causes ±(3–5) × 10⁻⁵ error in nD for typical organic liquids)",
+          "calibration accuracy (instrument zero and scale linearity)",
+          "operator shadowline reading precision (for analog instruments)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(nD) at 95% confidence (k=2)",
+          "absolute uncertainty as ±0.0001 or ±0.0002 in nD",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Standard Abbe refractometry is the most widely used laboratory technique for measuring the refractive index of transparent liquids and solids. The instrument exploits the critical angle of total internal reflection at the interface between a high-index glass prism and the sample to determine the refractive index at the sodium D-line wavelength (589.3 nm). With over 6,100 instances in the ThermoML database spanning more than 1,200 publications, it is the dominant optical measurement technique in thermophysical property research. The method is valued for its simplicity, speed (approximately one minute per measurement), small sample volume (~0.1 mL), and good accuracy (±0.0001 nD), making it a standard workhorse in chemistry, petrochemistry, food science, and pharmaceutical laboratories.",
+      "how_it_operates": "A small quantity of liquid sample (a few drops) is placed as a thin film between two prisms: a lower illuminating prism with a ground (roughened) face that provides diffuse light entering the sample from all angles, and an upper measuring prism with a polished face in optical contact with the sample. Light rays striking the measuring-prism–sample interface at angles greater than the critical angle undergo total internal reflection and do not enter the measuring prism, while rays at smaller angles are transmitted. This creates a sharp boundary (shadowline) between a bright field and a dark field when viewed through the telescope. The angular position of this boundary uniquely determines the sample refractive index via Snell's law: nD,sample = nD,prism × sin(θc), where θc is the critical angle. Amici compensating prisms in the optical path cancel chromatic dispersion, allowing white-light illumination while giving a measurement equivalent to monochromatic sodium D-line light. The operator (or a CCD sensor in digital models) aligns the shadowline to a crosshair, and the instrument scale reads nD directly.",
+      "core_theory": "The measurement principle rests on Snell's law of refraction at the planar interface between the measuring prism (known refractive index np) and the sample (unknown refractive index ns). When light traveling from the denser prism reaches the interface at the critical angle θc, Snell's law gives ns = np × sin(θc). At angles of incidence above θc, total internal reflection occurs; below θc, light refracts into the sample. The critical angle manifests as a sharp boundary between transmitted and reflected light fields. The Abbe refractometer's scale is mechanically or electronically linked to the angular position of this boundary and is pre-calibrated to read ns directly. The Amici compensating prisms exploit the fact that two counter-rotated Amici prisms produce zero net deviation for the D-line wavelength while introducing equal and opposite dispersion for other wavelengths, collapsing the colored fringe into a sharp achromatic boundary at the D-line position. Derived quantities such as molar refraction Rm are calculated from the Lorentz-Lorenz relation: Rm = [(nD² − 1)/(nD² + 2)] × (M/ρ), linking the refractive index to molecular polarizability.",
+      "setup": "A standard Abbe refractometer is a bench-top instrument approximately 30 cm tall, consisting of two hinged prism halves mounted on a rigid arm that rotates against a calibrated scale. The lower illuminating prism has a ground hypotenuse surface and accepts light from an external sodium lamp or built-in white LED. The upper measuring prism has a polished hypotenuse and contains the Amici compensating prism assembly accessed by a separate control knob. A telescope with crosshair eyepiece views the critical-angle boundary field through the measuring prism. The prism block is jacketed for water circulation from an external thermostat (e.g., Julabo, Lauda, or PolyScience bath) providing temperature control to ±0.01–0.05 K. A calibrated thermometer or Pt100 sensor embedded in the prism block reports the measurement temperature. Digital models (e.g., Atago DR-A1, Rudolph J357, Bellingham+Stanley RFM series) replace the visual eyepiece with a CCD line sensor and microprocessor, providing automatic shadowline detection and digital nD readout to ±0.00001.",
+      "suitable_for": "Standard Abbe refractometry is ideal for routine refractive index measurement of transparent liquids and solutions at ambient pressure and near-ambient temperatures. It is the method of choice for characterizing pure organic liquids, binary and multicomponent liquid mixtures, aqueous solutions, ionic liquids, edible oils, petroleum fractions, and polymer solutions. In the food industry, it is the standard method for Brix (sugar content) determination. The technique is particularly well-suited for studies of excess thermodynamic properties of mixtures, where nD is measured across a full composition range at multiple temperatures to compute excess molar refraction and compare with mixing rules. Its combination of high throughput, small sample volume, and good accuracy makes it the preferred technique when large numbers of samples must be measured systematically.",
+      "core_limitations": "The fundamental limitation is that the sample must be transparent and non-scattering at visible wavelengths — opaque, turbid, or strongly absorbing samples produce a diffuse or invisible shadowline. The measurable range of nD = 1.300 to 1.700 is set by the measuring prism glass (np ≈ 1.75); samples with nD above the prism index cannot be measured. All measurements are at ambient pressure with no capability for high-pressure or vacuum operation. Temperature range is limited by the thermostat and prism cement stability, typically 10–70 °C; specialized models may extend to 100 °C but conventional units degrade above 60 °C. The technique measures only at the sodium D-line wavelength (or its Amici-compensated equivalent); full dispersion curves require a different instrument (e.g., Pulfrich refractometer or spectroscopic ellipsometer). Birefringent or optically anisotropic solid samples produce split or diffuse boundaries that are difficult to interpret quantitatively.",
+      "sample_preparation": "For liquid samples, no preparation beyond ensuring clarity and homogeneity is normally required. A few drops (0.1–0.5 mL) of room-temperature liquid are applied by pipette or glass rod onto the measuring prism face. The illuminating prism is then closed gently to spread the liquid into a thin, uniform film free of air bubbles. Hygroscopic or moisture-sensitive liquids should be loaded quickly or under a dry glove-bag to avoid water uptake that would shift nD. Volatile samples should be measured immediately after loading to minimize evaporation from the open prism edges; some operators apply a light seal of parafilm around the prism periphery. For solid specimens, a flat, optically polished face must be prepared and placed in optical contact with the measuring prism using a high-index contact liquid (1-bromonaphthalene, nD = 1.658, or methylene iodide, nD = 1.737) that has a refractive index between the sample and the prism. Samples and prisms should equilibrate to the thermostat temperature before measurement, typically requiring 5–15 minutes after loading.",
+      "calibration_and_references": "Calibration is straightforward and should be performed at the start of each measurement session. Distilled or deionized water is the universal primary reference (nD = 1.33299 at 293.15 K, 1.33250 at 298.15 K). A few drops of water are placed on the measuring prism, allowed to equilibrate, and the scale reading is checked against the known value. If a discrepancy exceeds ±0.0002, the instrument zero is adjusted via the calibration set screw (analog) or software offset (digital). For higher accuracy or verification across the scale, certified glass reference standards (e.g., Schott or NIST SRM refractive index glasses) or secondary liquid references such as toluene (nD = 1.4969 at 293.15 K) and 2,2,4-trimethylpentane (nD = 1.3915 at 293.15 K) are used. Temperature calibration should verify that the prism-block thermometer agrees with a traceable reference to within ±0.05 K, since a 0.1 K temperature error translates to approximately (3–5) × 10⁻⁵ error in nD for typical organic liquids.",
+      "data_interpretation": "The refractive index nD is read directly from the instrument scale or digital display — no additional calculation is required for the primary measurand. For mixture studies, nD values are plotted against mole fraction at constant temperature, and deviations from ideal mixing rules (Lorentz-Lorenz, Gladstone-Dale, Arago-Biot) are calculated to quantify non-ideal behavior. Molar refraction Rm is computed via the Lorentz-Lorenz equation using independently measured density and known molar mass. Excess molar refraction ΔRm = Rm,mix − Σ(xi × Rm,i) is fitted to Redlich-Kister polynomials as a function of composition. Temperature-dependent nD data are typically fitted to a linear model nD(T) = a + bT or, over wider ranges, a quadratic nD(T) = a + bT + cT², yielding dnD/dT ≈ b. This derivative is routinely reported and is useful for correcting nD values measured at slightly different temperatures to a common reference temperature.",
+      "common_pitfalls": "The most common error is reading the instrument before thermal equilibrium has been reached — even ±0.2 K deviation causes errors of (0.5–1) × 10⁻⁴ in nD, which exceeds the instrument resolution. Air bubbles trapped between the prism faces scatter light and create a patchy or diffuse boundary; they should be eliminated by gently opening and re-closing the prisms and checking the illumination field. Failure to set the Amici compensator correctly leaves a colored fringe on the shadowline and introduces chromatic error. Using an improperly cleaned prism (residue from a previous sample) contaminates the measurement. For volatile liquids, evaporation from the prism edges during the equilibration period progressively shifts nD toward the value of the enriched less-volatile component. Pressing the prism halves together too forcefully can damage the polished measuring surface, creating stray reflections that permanently degrade shadowline sharpness.",
+      "artifacts_and_failure_modes": "A diffuse or absent shadowline is the most common failure mode and usually indicates sample turbidity, excessive absorption at 589 nm, too-thick sample film, or fluorescence washing out the boundary. A doubled shadowline occurs with birefringent or anisotropic solid samples and indicates that a polarized-light or immersion refractometer may be needed instead. A drifting nD reading during measurement signals either incomplete thermal equilibration or sample evaporation. Prism surface degradation (scratches or chemical attack from corrosive samples such as strong acids, alkalis, or halogenated solvents) produces permanent stray light that reduces contrast and destroys shadowline sharpness — affected prisms must be re-polished or replaced. At temperatures above approximately 60 °C, the cement bonding the Amici compensating prisms or mounting the measuring prism can soften, introducing systematic optical path errors; this is the effective upper temperature limit of most standard instruments.",
+      "reporting_checklist": "Published Abbe refractometry results should report: the nD value to at least four decimal places (five for high-precision digital instruments); the measurement temperature to ±0.01 K including the thermometer type and traceability; the wavelength (589.3 nm sodium D-line or Amici-compensated white light); the instrument manufacturer and model; calibration reference used and observed nD of that reference; combined expanded uncertainty U(nD) at 95% confidence (k=2), typically ±0.0001 to ±0.0002; number of replicate readings averaged; ambient pressure (or statement that measurement is at atmospheric pressure); sample purity and source; whether the sample was degassed or filtered; and for mixtures, the composition variable (mole fraction, mass fraction, or volume fraction) and its uncertainty. For ThermoML encoding, nD values are stored as the primary measurand with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

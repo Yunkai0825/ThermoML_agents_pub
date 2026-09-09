@@ -1,0 +1,291 @@
+{
+  "meas_ID": "by_p_x_extreme",
+  "identity": {
+    "name": "By P(X) extreme",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "By P(X) extreme",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 25,
+      "property_groups": [
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 19,
+      "per_group": {
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 25,
+          "papers": 19
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "total pressure P as a function of liquid-phase mole fraction x at constant temperature (P-x isotherm)",
+          "liquid-phase composition x (mole fraction) at each equilibrium pressure point"
+        ],
+        "derived_observables": [
+          "azeotropic composition (mole fraction at the P-x extremum)",
+          "azeotropic pressure (pressure at the P-x extremum)",
+          "classification of azeotrope type (positive: P-x maximum; negative: P-x minimum)"
+        ],
+        "target_properties": [
+          "azeotropic pressure",
+          "azeotropic composition (mole fraction)",
+          "azeotrope type (maximum-pressure or minimum-pressure)"
+        ],
+        "phases_measured": [
+          "vapor-liquid equilibrium (VLE)",
+          "liquid phase (composition measurement)",
+          "vapor phase (total pressure measurement)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "volatile organic mixtures",
+          "aqueous-organic binary systems",
+          "alcohol-alcohol and alcohol-hydrocarbon systems",
+          "halogenated compound mixtures",
+          "systems expected to exhibit azeotropic behavior"
+        ],
+        "unsupported_sample_types": [
+          "ternary or higher multicomponent mixtures (method is defined for binary P-x curves)",
+          "systems with no measurable vapor pressure at the experimental temperature",
+          "reactive systems where composition changes during measurement",
+          "solid-liquid or solid-vapor equilibria",
+          "systems exhibiting liquid-liquid phase splitting at the measurement temperature without prior deconvolution"
+        ],
+        "typical_output_formats": [
+          "P vs. x isotherm curve with identified extremum point",
+          "azeotropic composition xaz and azeotropic pressure Paz as numerical values",
+          "tabulated P-x data points with interpolation or fitted curve",
+          "graphical plot of P(x) with marked maximum or minimum"
+        ],
+        "units": {
+          "pressure": "kPa or MPa",
+          "composition": "mole fraction (dimensionless, 0 to 1)",
+          "temperature": "K"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 473 K",
+            "hard_limits": "must be below the critical temperature of both components and above the melting point of the mixture; system must remain in VLE regime",
+            "notes": "isothermal operation is essential — the P-x extremum method requires constant-temperature data"
+          },
+          {
+            "parameter": "composition_range",
+            "typical_range": "x = 0 to x = 1 (full binary range)",
+            "hard_limits": "sufficient data points must bracket the extremum region, typically with finer spacing near the expected azeotrope",
+            "notes": "minimum of 10–20 P-x data points recommended, with 5+ points in the extremum region"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "1 kPa to 500 kPa",
+            "hard_limits": "equipment-dependent; static apparatus typically limited to low-to-moderate pressures; high-pressure cells extend to several MPa",
+            "notes": "pressure must be measured with sufficient resolution to resolve the flat extremum region of the P-x curve"
+          },
+          {
+            "parameter": "data_point_density_near_extremum",
+            "typical_range": "Δx = 0.005 to 0.02 near the azeotrope",
+            "hard_limits": "must be fine enough to resolve the curvature of the P-x curve through the extremum",
+            "notes": "coarse spacing may cause the extremum to be missed or poorly located"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "fixed constraint (isothermal condition)",
+            "typical_values": "283 K to 423 K",
+            "effect": "defines the isotherm along which P(x) is measured; azeotropic composition and pressure both shift with temperature"
+          },
+          {
+            "name": "liquid_composition",
+            "role": "independent variable (scanned across full binary range)",
+            "typical_values": "x = 0.0 to x = 1.0",
+            "effect": "P(x) curve shape determines the location and nature of the azeotrope"
+          },
+          {
+            "name": "total_pressure",
+            "role": "measured dependent variable",
+            "typical_values": "system-dependent; order of kPa to hundreds of kPa",
+            "effect": "the extremum in P as a function of x identifies the azeotropic point"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "isothermal VLE apparatus (static or recirculating still) providing equilibrium P-x data — this is the underlying experimental technique",
+          "high-accuracy pressure transducer or manometer for total pressure measurement (resolution ≤ 0.01 kPa)",
+          "thermostat or constant-temperature bath with stability ≤ ±0.01 K for isothermal operation",
+          "composition analysis device — gas chromatograph (GC), refractometer, or densimeter for liquid-phase mole fraction determination",
+          "degassing apparatus — freeze-pump-thaw or ultrasonic/vacuum degassing to remove dissolved gases",
+          "data processing software — numerical fitting or interpolation routines for P(x) curve analysis and extremum location"
+        ],
+        "environmental_requirements": [
+          "isothermal conditions: temperature must be held constant to within ±0.01–0.05 K during the entire P-x measurement series",
+          "absence of air or inert gas leaks that would bias total pressure readings",
+          "thermal equilibration time between composition changes (typically 15–60 min per point)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid samples — no geometric constraint; loaded into equilibrium cell"
+          ],
+          "size_limits": "typically 10–100 mL of prepared binary mixture per composition point, depending on the equilibrium cell volume",
+          "thickness_limits": "not applicable (bulk liquid measurement)",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "high-purity components (≥ 99 mol%) to avoid systematic composition errors",
+            "thorough degassing of each pure component before mixing — dissolved gases bias total pressure",
+            "gravimetric or volumetric preparation of mixtures at known mole fractions",
+            "verification of pure-component vapor pressures against literature values before mixture measurements"
+          ]
+        },
+        "calibration_requirements": [
+          "pressure transducer calibration against a dead-weight gauge or NIST-traceable reference",
+          "thermostat temperature calibration against a certified platinum resistance thermometer",
+          "GC or composition analyzer calibration with gravimetrically prepared standards spanning the full composition range",
+          "verification of apparatus by reproducing pure-component vapor pressures of both components"
+        ],
+        "reference_materials": [
+          "pure-component vapor pressures from Antoine equation or NIST Webbook as consistency checks",
+          "well-characterized azeotropic systems (e.g., ethanol-water, acetone-chloroform) for method validation",
+          "GC calibration standards prepared gravimetrically from high-purity components"
+        ],
+        "consumables": [
+          "high-purity solvents and solutes (≥ 99 mol%)",
+          "GC carrier gas (helium or nitrogen) and column consumables",
+          "vacuum pump oil and O-rings for static equilibrium cells",
+          "septum seals for sample injection (if using static cell with sampling)"
+        ],
+        "safety_notes": [
+          "volatile organic compounds require fume hood and proper ventilation",
+          "flammable solvents demand spark-free equipment and grounding",
+          "pressurized glass cells require safety shields",
+          "cryogenic or elevated-temperature baths require appropriate thermal protection"
+        ]
+      },
+      "performance": {
+        "sensitivity": "ability to detect azeotropes depends on the curvature of the P-x curve; shallow extrema (nearly tangent-pinch systems) require very precise P and x measurements to resolve",
+        "detection_limit": "can identify azeotropes where the pressure difference between the extremum and the nearest pure-component vapor pressure is as small as ~0.05 kPa, provided pressure resolution is adequate",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable (equilibrium method)",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "applicable across the full composition range x = 0 to 1 and pressures from ~0.1 kPa to several MPa depending on the underlying VLE apparatus",
+        "accuracy": "azeotropic composition typically determined to ±0.002–0.01 in mole fraction; azeotropic pressure to ±0.05–0.5 kPa, depending on quality and density of underlying P-x data",
+        "precision": "repeatability of ±0.001–0.005 in mole fraction and ±0.02–0.1 kPa in pressure for well-designed experiments with dense data near the extremum",
+        "throughput": "low — one complete P-x isotherm (15–30 composition points, each requiring equilibration) typically requires 1–3 days of measurement",
+        "measurement_speed": "analysis step (extremum finding) is essentially instantaneous by computation; the underlying VLE data collection dominates the total time"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "tabulated set of (x, P) data pairs at constant T, obtained from the underlying VLE experiment",
+        "preprocessing_steps": [
+          "verification that all P-x points were measured at the same temperature (within ±0.05 K)",
+          "screening for outlier data points using thermodynamic consistency tests (e.g., Barker's method, area test)",
+          "ordering data by increasing mole fraction",
+          "interpolation or smooth curve fitting of P(x) data using polynomial, spline, or Margules/van Laar/Wilson activity coefficient models"
+        ],
+        "analysis_methods": [
+          "polynomial regression: fit P(x) to a polynomial (typically 3rd–5th order Redlich-Kister or power series) and locate the extremum analytically by setting dP/dx = 0",
+          "cubic spline interpolation: fit a natural or clamped cubic spline through P-x data and find the zero of the first derivative numerically",
+          "activity coefficient model fitting: fit Wilson, NRTL, or UNIQUAC parameters to P-x data, then compute the model P(x) curve and locate the extremum from the model",
+          "graphical method: plot P vs. x, visually identify the maximum or minimum, and read off xaz and Paz",
+          "numerical differentiation: compute finite-difference dP/dx from tabulated data and locate the zero crossing"
+        ],
+        "model_assumptions": [
+          "the system is at true thermodynamic equilibrium at each measured (x, P) point",
+          "the P-x curve is smooth and has a single well-defined extremum (no inflection points or multiple extrema in the region of interest)",
+          "the fitting function (polynomial, spline, or activity coefficient model) adequately represents the true P(x) shape, especially near the extremum",
+          "the liquid-phase composition x is accurately known (no systematic bias from sampling or analysis)",
+          "the vapor phase is in equilibrium with the liquid and the total pressure reflects only the binary vapor-liquid system (no dissolved inert gas)"
+        ],
+        "fit_parameters": [
+          "azeotropic composition xaz (mole fraction at dP/dx = 0)",
+          "azeotropic pressure Paz (pressure at the extremum)",
+          "polynomial or Redlich-Kister coefficients describing P(x)",
+          "activity coefficient model parameters (e.g., Wilson Λ12, Λ21; or NRTL τ12, τ21, α12) when using model-based fitting"
+        ],
+        "common_artifacts": [
+          "spurious extremum from noisy data: random scatter in P or x may create a false maximum/minimum in a system that is not truly azeotropic",
+          "flat extremum artifact: near-ideal systems or tangent-pinch behavior produces an extremely shallow P(x) curve, making the extremum location highly uncertain",
+          "polynomial oscillation (Runge phenomenon): high-order polynomial fits may introduce oscillations that create artificial extrema near the edges of the composition range",
+          "dissolved gas bias: residual air or inert gas in the equilibrium cell raises all pressures, systematically shifting Paz upward without significantly affecting xaz",
+          "temperature drift artifact: if the isotherm is not truly isothermal, the P-x data are inconsistent and the apparent extremum is shifted or smeared"
+        ],
+        "quality_control_checks": [
+          "thermodynamic consistency test (area test or point test) on the P-x-y data to verify internal consistency",
+          "verify that pure-component endpoint pressures P(x=0) and P(x=1) agree with literature vapor pressures to within experimental uncertainty",
+          "check that the identified extremum lies within the measured composition range (not extrapolated beyond the data)",
+          "compare results from multiple fitting methods (polynomial, spline, activity coefficient model) — agree within uncertainty for robust determination",
+          "confirm that sufficient data points bracket the extremum (at least 3–5 points on each side)"
+        ],
+        "failure_modes": [
+          "insufficient data density near the extremum — too few points to resolve the curvature, leading to large uncertainty in xaz",
+          "system does not exhibit a true azeotrope — the P(x) curve is monotonic, but noisy data create an apparent extremum",
+          "model mismatch — the chosen fitting function cannot represent the true P(x) shape (e.g., symmetric model for a highly asymmetric system)",
+          "composition analysis error — systematic bias in GC calibration shifts all x values and hence xaz",
+          "incomplete degassing — dissolved air adds a constant pressure offset, corrupting Paz"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: ±0.003–0.01 in azeotropic mole fraction; ±0.1–1% in azeotropic pressure",
+        "random_sources": [
+          "scatter in individual P-x data points from pressure transducer noise",
+          "random error in liquid-phase composition determination (GC peak integration variability)",
+          "temperature fluctuations during equilibration at each composition point",
+          "sampling variability when withdrawing liquid for composition analysis"
+        ],
+        "systematic_sources": [
+          "pressure transducer calibration offset",
+          "GC composition calibration bias",
+          "thermostat temperature offset from true value",
+          "dissolved gas contamination raising total pressure",
+          "adsorption or absorption effects in the equilibrium cell changing effective composition",
+          "choice of fitting function (polynomial order, model type) — model selection introduces a systematic bias in the extremum location"
+        ],
+        "operator_dependence": "moderate — data quality depends on operator skill in degassing, equilibration timing, GC calibration, and selection of appropriate fitting method",
+        "model_dependence": "significant — the extracted azeotropic composition and pressure depend on the mathematical form used to fit P(x); different models (polynomial, spline, Wilson, NRTL) may yield slightly different xaz and Paz values, especially for shallow extrema",
+        "dominant_error_sources": [
+          "composition measurement uncertainty (GC calibration and sampling) — directly limits the resolution of xaz",
+          "data point density near the extremum — sparse data causes large interpolation uncertainty",
+          "fitting model selection — especially critical for flat or asymmetric P(x) curves"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(xaz) and U(Paz) at 95% confidence (k=2)",
+          "standard uncertainty from propagation of P and x measurement uncertainties through the fitting procedure",
+          "range of xaz and Paz values obtained from different fitting methods as a robustness estimate"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "By P(X) extreme is a derived analytical method — not a physical instrument — used to determine azeotropic properties from isothermal vapor-liquid equilibrium (VLE) data. The method locates the composition at which the total pressure P of a binary mixture reaches a maximum or minimum along a constant-temperature P-x curve. At such an extremum, the vapor and liquid compositions are equal (x = y), defining an azeotrope. This approach is rooted in the Gibbs-Konovalov theorem and is one of the most direct and thermodynamically rigorous ways to identify azeotropic behavior. In the ThermoML database, it appears in the VaporPBoilingTAzeotropTandP property group for reporting azeotropic pressure and azeotropic composition.",
+      "how_it_operates": "The method operates on a complete set of isothermal P-x data measured for a binary system using a static or recirculating VLE apparatus. The analyst collects total pressure readings at a series of known liquid-phase compositions spanning the full mole-fraction range from x = 0 to x = 1, all at a single constant temperature. The resulting P(x) data are then fitted to a smooth mathematical function — typically a polynomial, cubic spline, or activity-coefficient-based model (Wilson, NRTL, UNIQUAC). The fitted curve is differentiated with respect to composition, and the azeotropic point is identified as the composition xaz where dP/dx = 0. The corresponding pressure at that point is the azeotropic pressure Paz.",
+      "core_theory": "The theoretical foundation is the Gibbs-Konovalov theorem, which states that at an azeotropic point the total pressure passes through an extremum (maximum or minimum) as a function of liquid composition at constant temperature, and simultaneously the vapor composition equals the liquid composition (y = x). For a positive azeotrope (maximum-boiling-pressure or minimum-boiling-temperature azeotrope), the P-x curve shows a maximum, indicating positive deviations from Raoult's law. For a negative azeotrope (minimum-pressure or maximum-boiling-temperature azeotrope), the P-x curve shows a minimum, indicating negative deviations from Raoult's law. Mathematically, the condition dP/dx = 0 at constant T is equivalent to requiring that the liquid and vapor compositions coincide, which follows from the Gibbs-Duhem equation applied to both phases. The curvature d²P/dx² at the extremum provides information about the sharpness of the azeotrope and the sensitivity of the determination.",
+      "setup": "Since By P(X) extreme is a data analysis method rather than an instrument, the 'setup' consists of two parts: (1) the underlying VLE measurement apparatus, and (2) the computational tools. The experimental apparatus is typically an isothermal static equilibrium cell, where a binary liquid mixture of known composition is loaded, degassed, thermostatted, and allowed to reach vapor-liquid equilibrium. Total pressure is measured with a high-resolution pressure transducer (e.g., Druck or MKS Baratron gauge with 0.01 kPa resolution), and the liquid-phase composition is determined by gas chromatography or, in some designs, is set gravimetrically. Alternatively, a recirculating (Othmer-type or modified Rogalski) still may be used, where both liquid and condensed vapor phases are sampled and analyzed. The computational setup requires software capable of polynomial or spline fitting (e.g., Origin, MATLAB, Python with SciPy) or activity coefficient model regression (e.g., Aspen Plus, ThermoSolver) to process the P-x data and locate the extremum.",
+      "suitable_for": "This method is suitable for any binary system that exhibits azeotropic behavior at the measurement temperature. It is particularly useful for systems where the P-x extremum is well-defined and the curvature is sufficient to locate the extremum precisely. Common applications include alcohol-water systems, alcohol-hydrocarbon systems, ketone-alcohol mixtures, halogenated organic mixtures, and aqueous systems with volatile solutes. The method is most reliable when the underlying P-x data are dense (many composition points) and precise. It is also valuable for confirming the existence of an azeotrope predicted by thermodynamic models or for determining how the azeotropic composition shifts with temperature across multiple isotherms.",
+      "core_limitations": "The method requires high-quality isothermal P-x data spanning the full composition range, which is experimentally expensive and time-consuming to obtain. For systems with a very shallow P(x) extremum — so-called tangent-pinch or near-azeotropic systems — the curvature at the extremum is so small that xaz and Paz become highly sensitive to measurement noise and fitting model choice. The method is strictly defined for binary systems; extension to ternary or higher systems requires analysis of P(x1, x2) surfaces, which is rarely done. It cannot detect azeotropes that exist only at temperatures outside the measured isotherm. If the P-x data are not truly isothermal (temperature drift during measurement), the apparent extremum is shifted. Finally, the method requires accurate composition analysis — any systematic bias in x propagates directly to xaz.",
+      "sample_preparation": "Sample preparation centers on obtaining high-purity components and preparing accurately known binary mixtures. Each pure component should be of analytical grade (≥ 99 mol%), verified by GC analysis, and thoroughly degassed to remove dissolved air or other gases that would bias total pressure readings. Degassing is typically performed by repeated freeze-pump-thaw cycles, prolonged vacuum exposure, or ultrasonic treatment under vacuum. Binary mixtures are prepared gravimetrically using an analytical balance (±0.1 mg) or by precision volumetric methods. When using static cells, the mixture is loaded under vacuum to prevent air contamination. Pure-component vapor pressures should be measured before and after the mixture series to verify system integrity.",
+      "calibration_and_references": "Calibration applies to the underlying VLE measurement apparatus: the pressure transducer is calibrated against a dead-weight tester or NIST-traceable standard; the thermostat temperature is verified with a certified platinum resistance thermometer; and the composition measurement system (GC, refractometer, or densimeter) is calibrated with gravimetrically prepared standards of known mole fraction. As a system-level validation, the pure-component vapor pressures measured at x = 0 and x = 1 are compared against established Antoine equations or NIST Webbook values. For azeotrope validation, results from well-studied reference systems (e.g., ethanol-benzene, acetone-chloroform, ethanol-water) can be compared with literature values.",
+      "data_interpretation": "Data interpretation involves fitting the measured P-x tabulation to a smooth function and locating the extremum. The most common approach is to fit a Redlich-Kister or Margules polynomial to the excess pressure (Pexcess = Pmeasured − PRaoult) and find the extremum of the total pressure curve. Alternatively, activity coefficient models (Wilson, NRTL, UNIQUAC) are regressed to the P-x data, and the model P(x) curve is differentiated analytically. Cubic spline interpolation provides a model-independent approach. The extremum is identified where dP/dx = 0, giving xaz and Paz. The robustness of the result is assessed by comparing xaz from multiple fitting approaches. If results diverge significantly, it may indicate insufficient data density, poor data quality, or a system without a true azeotrope. The second derivative d²P/dx² at the extremum quantifies the sharpness — large |d²P/dx²| implies a well-defined azeotrope with low uncertainty.",
+      "common_pitfalls": "The most common pitfall is insufficient data density near the extremum. If only a few P-x points lie in the vicinity of the azeotrope, the fitted curve may poorly represent the true P(x) shape, and the extracted xaz can shift by 0.01 or more depending on the fitting function. A second major pitfall is inadequate degassing: dissolved air raises all pressure readings uniformly, shifting Paz upward while leaving xaz relatively unaffected, but it can also distort the curvature if gas solubility is composition-dependent. Using an overly flexible fitting function (high-order polynomial) can introduce Runge oscillations that create spurious extrema, while an overly rigid function (two-parameter model for a highly asymmetric system) can mislocate the true extremum. Confirming results with thermodynamic consistency tests (area test, infinite-dilution activity coefficient check) is essential but sometimes neglected.",
+      "artifacts_and_failure_modes": "The primary artifact is a false azeotrope: random scatter in P-x data for a non-azeotropic system can create an apparent extremum, especially with high-order polynomial fits. This is detected by the thermodynamic consistency test and by the magnitude of d²P/dx² — a true azeotrope has measurable curvature. Temperature drift during the measurement series produces a non-isothermal P-x dataset that can shift or create a false extremum. Composition analysis artifacts (e.g., nonlinear GC detector response, co-elution of peaks) introduce systematic x errors that propagate to xaz. In systems with strong composition-dependent gas solubility, residual dissolved gases affect the P-x curve shape non-uniformly, distorting the extremum. Failure occurs when the system simply does not have an azeotrope at the measured temperature — the P(x) curve is monotonic — and forcing an extremum onto such data yields physically meaningless results.",
+      "reporting_checklist": "Published results determined by P(X) extreme should report: (1) the constant temperature T at which the P-x isotherm was measured, with uncertainty; (2) the number of P-x data points and the composition range covered; (3) the composition spacing near the extremum; (4) the fitting method used (polynomial order, spline type, or activity coefficient model and parameters); (5) azeotropic composition xaz with combined expanded uncertainty U(xaz) at 95% confidence; (6) azeotropic pressure Paz with combined expanded uncertainty U(Paz) at 95% confidence; (7) azeotrope type (positive/maximum-pressure or negative/minimum-pressure); (8) pure-component vapor pressures measured in the same apparatus as a consistency check; (9) results of thermodynamic consistency tests on the underlying P-x data; (10) comparison of xaz from multiple fitting approaches if available. For ThermoML encoding, values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

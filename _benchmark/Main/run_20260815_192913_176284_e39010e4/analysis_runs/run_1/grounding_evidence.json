@@ -1,0 +1,564 @@
+{
+  "generated": "2026-08-15T19:38:39",
+  "gate_ok": true,
+  "violations": [],
+  "verified": [
+    {
+      "anchor": "PROPblock_16",
+      "values": [
+        "0.0417",
+        "0.9166",
+        "0.000525",
+        "0.000994",
+        "0.000968",
+        "0.000556"
+      ]
+    },
+    {
+      "anchor": "PROPblock_8",
+      "values": [
+        "0.000525",
+        "303.15",
+        "81.5"
+      ]
+    },
+    {
+      "anchor": "PROPblock_2",
+      "values": [
+        "0.000994",
+        "303.15",
+        "81.5",
+        "0.644996",
+        "0.00211302",
+        "-166.03",
+        "0.948524",
+        "0.000804619",
+        "-176.27",
+        "0.982166",
+        "0.000473597",
+        "-173.91",
+        "0.982353",
+        "0.000471113",
+        "-172.89",
+        "0.984381",
+        "0.000443219",
+        "-170.69",
+        "0.984747",
+        "0.000437997"
+      ]
+    },
+    {
+      "anchor": "PROPblock_8 + PROPblock_2",
+      "values": [
+        "0.000525",
+        "0.000994"
+      ]
+    }
+  ],
+  "partially_grounded": [],
+  "evidence": {
+    "fit_artifacts": [
+      {
+        "fit_id": "FIT_62864f882d46",
+        "heading": "**RK Fit** — GLOBlit_11337 / DOI 10.1021/je800633a / PROPblock_16 @ declared",
+        "blocks": [
+          "PROPblock_16"
+        ],
+        "n_values": 30
+      }
+    ],
+    "cited_blocks": {
+      "PROPblock_16": {
+        "lit_num_id": "GLOBlit_11337",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_e747e21118c7"
+        ],
+        "authoritative": {
+          "doi": "10.1021/je800633a",
+          "n_rows": 12,
+          "columns": [
+            "BLKpoint_id",
+            "mole_fraction_<methanol>",
+            "temperature_k",
+            "pressure_kpa",
+            "viscosity_pa_s"
+          ],
+          "column_ranges": {
+            "mole_fraction_<methanol>": [
+              0.0417,
+              0.9166
+            ],
+            "temperature_k": [
+              303.15,
+              303.15
+            ],
+            "pressure_kpa": [
+              81.5,
+              81.5
+            ],
+            "viscosity_pa_s": [
+              0.000556,
+              0.000968
+            ]
+          }
+        }
+      },
+      "PROPblock_8": {
+        "lit_num_id": "GLOBlit_11337",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_220d55de468a",
+          "INSP_dc12f13faefc"
+        ],
+        "authoritative": {
+          "doi": "10.1021/je800633a",
+          "n_rows": 1,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "pressure_kpa",
+            "viscosity_pa_s"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              303.15,
+              303.15
+            ],
+            "pressure_kpa": [
+              81.5,
+              81.5
+            ],
+            "viscosity_pa_s": [
+              0.000525,
+              0.000525
+            ]
+          }
+        }
+      },
+      "PROPblock_2": {
+        "lit_num_id": "GLOBlit_11337",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_acd6b173b9b5"
+        ],
+        "authoritative": {
+          "doi": "10.1021/je800633a",
+          "n_rows": 1,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "pressure_kpa",
+            "viscosity_pa_s"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              303.15,
+              303.15
+            ],
+            "pressure_kpa": [
+              81.5,
+              81.5
+            ],
+            "viscosity_pa_s": [
+              0.000994,
+              0.000994
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "0.0417",
+        "region": "PROPblock_16",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.9166",
+        "region": "PROPblock_16",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.000525",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "81.5",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.000994",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "81.5",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0417",
+        "region": "PROPblock_16",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.9166",
+        "region": "PROPblock_16",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.000525",
+        "region": "PROPblock_8 + PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.000994",
+        "region": "PROPblock_8 + PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.644996",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.00211302",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "-166.03",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.948524",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.000804619",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "-176.27",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.982166",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.000473597",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "-173.91",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.982353",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.000471113",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "-172.89",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.984381",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.000443219",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "-170.69",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.984747",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.000437997",
+        "region": "PROPblock_2",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.000525",
+        "region": "PROPblock_16",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.000994",
+        "region": "PROPblock_16",
+        "verdict": "fit_artifact",
+        "source": "FIT_62864f882d46"
+      },
+      {
+        "token": "0.000968",
+        "region": "PROPblock_16",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0417",
+        "region": "PROPblock_16",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.000556",
+        "region": "PROPblock_16",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.9166",
+        "region": "PROPblock_16",
+        "verdict": "verified"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1021/je800633a",
+      "lit_num_id": "GLOBlit_11337",
+      "block_number": "PROPblock_16",
+      "BLKsubsys_id": null,
+      "table_mode": "complete",
+      "columns": [
+        "BLKpoint_id",
+        "mole_fraction_<methanol>",
+        "temperature_k",
+        "pressure_kpa",
+        "viscosity_pa_s"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "mole_fraction_<methanol>": "0.0417",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000968"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_2",
+          "mole_fraction_<methanol>": "0.1476",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000906"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_3",
+          "mole_fraction_<methanol>": "0.2214",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000865"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_4",
+          "mole_fraction_<methanol>": "0.2952",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000828"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_5",
+          "mole_fraction_<methanol>": "0.3644",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000793"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_6",
+          "mole_fraction_<methanol>": "0.4488",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000753"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "mole_fraction_<methanol>": "0.529",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000717"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "mole_fraction_<methanol>": "0.5995",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000685"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_9",
+          "mole_fraction_<methanol>": "0.6859",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000648"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_10",
+          "mole_fraction_<methanol>": "0.7442",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000624"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_11",
+          "mole_fraction_<methanol>": "0.832",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000588"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_12",
+          "mole_fraction_<methanol>": "0.9166",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000556"
+        }
+      ],
+      "inspection_id": "INSP_e747e21118c7",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1021/je800633a",
+      "lit_num_id": "GLOBlit_11337",
+      "block_number": "PROPblock_8",
+      "BLKsubsys_id": null,
+      "table_mode": "complete",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "viscosity_pa_s"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000525"
+        }
+      ],
+      "inspection_id": "INSP_220d55de468a",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.fluid.2006.02.023",
+      "lit_num_id": "GLOBlit_369",
+      "block_number": "PROPblock_8",
+      "BLKsubsys_id": null,
+      "table_mode": "complete",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "viscosity_pa_s"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "303.15",
+          "pressure_kpa": "101.325",
+          "viscosity_pa_s": "0.0005041"
+        }
+      ],
+      "inspection_id": "INSP_dc12f13faefc",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1021/je800633a",
+      "lit_num_id": "GLOBlit_11337",
+      "block_number": "PROPblock_2",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "viscosity_pa_s"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "303.15",
+          "pressure_kpa": "81.5",
+          "viscosity_pa_s": "0.000994"
+        }
+      ],
+      "inspection_id": "INSP_acd6b173b9b5",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.fluid.2006.02.023",
+      "lit_num_id": "GLOBlit_369",
+      "block_number": "PROPblock_11",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "viscosity_pa_s"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "303.15",
+          "pressure_kpa": "101.325",
+          "viscosity_pa_s": "0.0009675"
+        }
+      ],
+      "inspection_id": "INSP_f432977fea28",
+      "markdown": ""
+    }
+  ]
+}

@@ -1,0 +1,356 @@
+{
+  "meas_ID": "large_sample_1g_dsc",
+  "identity": {
+    "name": "Large sample (1 g) DSC",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Large sample (1 g) DSC",
+    "thermoml_custom_codes": [
+      "LDSC"
+    ],
+    "measurement_family": "Differential Scanning Calorimetry (DSC/DTA)",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 343,
+      "property_groups": [
+        "HeatCapacityAndDerivedProp",
+        "ExcessPartialApparentEnergyProp"
+      ],
+      "n_papers": 74,
+      "per_group": {
+        "HeatCapacityAndDerivedProp": {
+          "instances": 342,
+          "papers": 74
+        },
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 1,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "differential heat flow between sample and reference (mW)",
+          "sample temperature (K)",
+          "reference temperature (K)",
+          "temperature difference between sample and reference (ΔT)"
+        ],
+        "derived_observables": [
+          "heat capacity at constant pressure (Cp)",
+          "enthalpy of phase transition (ΔH_tr)",
+          "phase transition temperature (onset, peak, endset)",
+          "glass transition temperature (Tg, midpoint and onset)",
+          "degree of crystallinity from melting endotherm"
+        ],
+        "target_properties": [
+          "molar heat capacity at constant pressure (Cp)",
+          "phase transition temperature (Ttr)",
+          "molar enthalpy of fusion (ΔH_fus)",
+          "molar enthalpy of solid-solid transition",
+          "glass transition temperature (Tg)",
+          "specific heat capacity (cp)",
+          "excess molar heat capacity (Cp_E)",
+          "apparent molar heat capacity (Cp_phi)"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous/glassy)",
+          "liquid",
+          "solid-liquid two-phase region",
+          "semi-crystalline polymers",
+          "gels and pastes"
+        ],
+        "supported_sample_types": [
+          "heterogeneous polymers and polymer blends",
+          "foods and agricultural products",
+          "geological and mineralogical samples",
+          "pharmaceutical formulations (granules, tablets, powders)",
+          "cement and construction materials",
+          "biological tissues",
+          "coarse powders and granular mixtures",
+          "waxes and fats",
+          "coal and biomass",
+          "binary and multicomponent mixtures",
+          "ionic liquids and deep eutectic solvents"
+        ],
+        "unsupported_sample_types": [
+          "gases",
+          "volatile liquids without sealed high-pressure cells",
+          "strongly exothermic or explosive samples exceeding cell pressure rating",
+          "samples requiring sub-milligram quantities (technique optimized for large mass)",
+          "highly corrosive materials incompatible with available crucible materials"
+        ],
+        "typical_output_formats": [
+          "heat flow (mW) vs. temperature (K) thermogram",
+          "Cp (J/(mol·K)) vs. temperature curve",
+          "enthalpy (J/g) vs. temperature by integration of heat flow",
+          "first derivative of heat flow (dHF/dT) for transition onset detection"
+        ],
+        "units": {
+          "heat_flow": "mW",
+          "heat_capacity_molar": "J/(mol·K)",
+          "heat_capacity_specific": "J/(g·K)",
+          "temperature": "K",
+          "enthalpy_molar": "kJ/mol",
+          "enthalpy_specific": "J/g",
+          "heating_rate": "K/min",
+          "sample_mass": "g"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 1000 K",
+            "hard_limits": "depends on instrument and crucible material; Setaram C80 covers 250–573 K, BT2.15 covers 300–1250 K with refractory crucibles",
+            "notes": "upper limit frequently set by crucible and gasket material compatibility with sample"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "0.01 K/min to 2 K/min",
+            "hard_limits": "maximum ~5 K/min; limited by large thermal mass of sample and cell assembly",
+            "notes": "very slow rates (0.05–0.5 K/min) are standard to maintain thermal equilibrium through the large sample volume; fast scanning is not possible"
+          },
+          {
+            "parameter": "sample_mass",
+            "typical_range": "0.2 g to 5 g",
+            "hard_limits": "minimum ~0.1 g (below this standard DSC is preferable); maximum ~10 g depending on cell volume",
+            "notes": "nominal 1 g sample; mass selected to fill crucible sufficiently for representative sampling without exceeding cell volume"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (ambient) to 50 MPa for sealed high-pressure cells",
+            "hard_limits": "sealed crucibles can withstand up to ~15 MPa; specialized high-pressure cells (Setaram) to 50 MPa",
+            "notes": "most measurements at ambient pressure; sealed crucibles used for volatile or moisture-containing samples"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "scanned variable",
+            "typical_values": "200 K to 1000 K",
+            "effect": "temperature ramp reveals heat capacity, phase transitions, glass transitions, and decomposition events"
+          },
+          {
+            "name": "heating_rate",
+            "role": "controlled experimental variable",
+            "typical_values": "0.05 K/min to 2 K/min",
+            "effect": "slower rates improve thermal equilibrium and resolution of closely spaced transitions; faster rates reduce measurement time but increase thermal lag"
+          },
+          {
+            "name": "sample_mass",
+            "role": "fixed experimental variable",
+            "typical_values": "0.5 g to 2 g (nominal 1 g)",
+            "effect": "larger mass improves signal-to-noise and sampling representativeness for heterogeneous materials; increases thermal lag"
+          },
+          {
+            "name": "atmosphere",
+            "role": "controlled environment variable",
+            "typical_values": "nitrogen, argon, or air at 20–50 mL/min purge rate",
+            "effect": "inert atmosphere prevents oxidative degradation; air atmosphere allows oxidation studies; purge rate affects baseline stability"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "elevated pressure used for suppressing vaporization or studying pressure-dependent transitions"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "heat-flux calorimetric cell — twin cylindrical cells (sample + reference) surrounded by a thermopile detector array measuring differential heat flow",
+          "large-volume crucibles — stainless steel, Hastelloy, or aluminum crucibles (1–10 mL internal volume) with lids and optional sealing gaskets",
+          "thermopile sensor — multi-junction thermocouple array (typically hundreds of junctions) surrounding each cell for high-sensitivity differential heat flow detection",
+          "programmable furnace — resistive heating element with PID temperature control providing linear ramps and isothermal holds",
+          "temperature sensor — platinum resistance thermometer (PRT) or type S thermocouple for absolute temperature measurement",
+          "reference cell — identical crucible filled with inert reference material (alumina powder) or empty, matching sample thermal mass",
+          "gas flow controller — mass flow controller for purge gas (N2, Ar) at controlled flow rate",
+          "data acquisition system — high-resolution ADC (≥20-bit) and computer software for heat flow, temperature, and time recording",
+          "cooling system — mechanical cooler, liquid nitrogen dewar, or Peltier element for sub-ambient operation"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature (±2 K) to minimize baseline drift",
+          "vibration-free bench or anti-vibration platform to prevent microphonic noise in thermopile signal",
+          "controlled purge gas flow to maintain consistent heat transfer environment",
+          "clean laboratory environment free of drafts impinging on instrument"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "powder, granules, or small pieces filling the crucible uniformly",
+            "cylindrical pellet or disk matching crucible internal diameter",
+            "paste or gel loaded to fill crucible volume without air pockets"
+          ],
+          "size_limits": "0.2 g to 5 g (nominal 1 g); particle size for powders should be < 2 mm to ensure packing uniformity",
+          "thickness_limits": "sample height in crucible typically 5–15 mm; limited by crucible internal height and thermal equilibration time",
+          "surface_requirements": [
+            "good contact between sample and crucible bottom for thermal coupling",
+            "for solids, flat bottom face contacting crucible base; irregular shapes packed with alumina powder to improve thermal coupling"
+          ],
+          "mounting_requirements": [
+            "sample placed directly in crucible; crucible seated on thermopile sensor platform",
+            "reference crucible loaded with inert material of similar thermal mass (alumina powder at comparable mass)",
+            "crucible lids seated firmly; sealed with O-ring or crimped gasket for volatile-containing samples"
+          ],
+          "preparation_requirements": [
+            "known mass weighed to ±0.1 mg on analytical balance",
+            "homogenization by grinding or mixing for heterogeneous samples to improve representativeness",
+            "drying at controlled temperature for moisture-sensitive samples (or measurement performed on as-received material if moisture content is of interest)",
+            "degassing under vacuum for samples containing trapped air that could cause spurious endotherms",
+            "cutting or crushing bulk material to fit crucible dimensions"
+          ]
+        },
+        "calibration_requirements": [
+          "Joule effect (electrical) calibration — internal heater applies known power pulse to determine heat flow sensitivity as function of temperature",
+          "temperature calibration using melting-point standards (indium 429.75 K, tin 505.08 K, lead 600.61 K, zinc 692.68 K) at the planned heating rate",
+          "heat flow calibration using sapphire (α-Al2O3, NIST SRM 720) Cp standard across full temperature range",
+          "baseline correction by running matched empty crucibles (blank run) to capture instrumental asymmetry",
+          "recalibration after changing crucible type, purge gas, or heating rate"
+        ],
+        "reference_materials": [
+          "sapphire (α-Al2O3) — NIST SRM 720 for Cp calibration",
+          "indium — melting point standard (429.75 K, ΔH_fus = 28.6 J/g) for temperature and enthalpy calibration",
+          "tin — melting point standard (505.08 K)",
+          "zinc — melting point standard (692.68 K)",
+          "lead — melting point standard (600.61 K)",
+          "naphthalene — melting point standard (353.4 K) for low-temperature calibration",
+          "alumina powder — inert reference material for matching thermal mass in reference cell"
+        ],
+        "consumables": [
+          "large-volume crucibles (stainless steel, Hastelloy, or aluminum, ~1–10 mL)",
+          "crucible lids and sealing gaskets (PTFE, Viton, or copper O-rings)",
+          "inert reference material (calcined alumina powder)",
+          "purge gas supply (nitrogen or argon, high purity ≥99.999%)",
+          "calibration standard ingots (indium, tin, zinc)"
+        ],
+        "safety_notes": [
+          "high-temperature crucibles and furnaces present burn hazard — use appropriate tongs and protective gloves",
+          "sealed crucibles containing volatile materials may build internal pressure — do not exceed rated pressure limit",
+          "cryogenic cooling requires standard cryogen handling precautions (frostbite, oxygen displacement)",
+          "reactive or flammable samples require inert atmosphere purging before heating"
+        ]
+      },
+      "performance": {
+        "sensitivity": "heat flow sensitivity ~0.1 µW (Setaram C80 class instruments); higher than standard DSC per unit signal due to large thermopile, but lower per unit sample mass",
+        "detection_limit": "minimum detectable enthalpy ~0.01 J for 1 g sample; minimum detectable Cp change ~0.001 J/(g·K)",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "limited by thermal equilibration time of large sample; effective time constant 10–60 s depending on sample conductivity and geometry",
+          "spectral": "not applicable",
+          "energy": "Cp resolution ~0.5–2% of measured value; temperature resolution on transitions ±0.1–0.5 K"
+        },
+        "dynamic_range": "Cp from ~0.1 J/(g·K) to ~5 J/(g·K); heat flow range ±600 mW (instrument dependent); temperature 200–1000 K",
+        "accuracy": "2–5% for absolute Cp after full calibration (dominated by thermal lag and baseline correction); ±0.5 K for transition temperatures at slow heating rates",
+        "precision": "0.5–1.5% repeatability for Cp; ±0.2 K repeatability for transition temperatures",
+        "throughput": "single sample per run; one full temperature scan takes 2–24 hours depending on range and heating rate",
+        "measurement_speed": "slow — heating rates 0.05–2 K/min; a 300 K temperature range at 0.5 K/min requires 10 hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "thermopile voltage (µV) proportional to differential heat flow between sample and reference cells, recorded as a function of time and temperature",
+        "preprocessing_steps": [
+          "baseline subtraction using blank (empty crucible pair) run recorded at identical heating rate",
+          "sensitivity correction — convert thermopile voltage to heat flow (mW) using Joule-effect or sapphire calibration factors as function of temperature",
+          "temperature calibration correction — apply onset-temperature offsets determined from melting-point standards",
+          "smoothing of raw signal (Savitzky-Golay or moving average) to reduce high-frequency noise without distorting peak shape",
+          "mass normalization to obtain specific or molar quantities"
+        ],
+        "analysis_methods": [
+          "ratio method for Cp: Cp_sample = Cp_reference × (HF_sample − HF_blank)/(HF_reference − HF_blank) × (m_reference/m_sample)",
+          "peak integration to determine transition enthalpy: ΔH = ∫(HF − baseline) dT / β, where β is heating rate",
+          "onset temperature determination by tangent intersection method (extrapolated onset per ASTM/ISO standards)",
+          "glass transition analysis: midpoint Tg from half-height of Cp step; onset and endset Tg from tangent constructions",
+          "Kissinger or Ozawa methods for activation energy from heating-rate-dependent peak temperature shifts (if multiple rates measured)"
+        ],
+        "model_assumptions": [
+          "sample is in thermal equilibrium throughout its volume at the slow heating rates used (quasi-static assumption)",
+          "heat flow is proportional to thermopile voltage with a temperature-dependent but time-independent sensitivity factor",
+          "baseline (blank run) accurately represents instrumental asymmetry and is stable between calibration and sample runs",
+          "reference material provides negligible thermal events in the temperature range of interest",
+          "sample mass is constant during measurement (no evaporation or decomposition) unless otherwise accounted for"
+        ],
+        "fit_parameters": [
+          "specific heat capacity Cp (J/(g·K) or J/(mol·K))",
+          "transition onset temperature (K)",
+          "transition peak temperature (K)",
+          "transition enthalpy ΔH (J/g or kJ/mol)",
+          "glass transition temperature Tg (K) — onset, midpoint, and endset",
+          "baseline curvature parameters for integration"
+        ],
+        "common_artifacts": [
+          "thermal lag artifact: apparent shift of transition onset/peak to higher temperature on heating (lower on cooling) due to large sample thermal mass; magnitude increases with heating rate",
+          "baseline curvature: slow drift in heat flow signal caused by asymmetry in sample/reference thermal mass or crucible emissivity changes with temperature",
+          "contact resistance artifact: poor sample-crucible contact produces a broadened, distorted endotherm or exotherm with asymmetric peak shape",
+          "atmosphere-related artifact: moisture desorption or oxidation overlapping with thermal transitions of interest, producing spurious endo/exothermic features",
+          "crucible reaction: sample reacting with crucible material at high temperature, altering thermogram irreversibly"
+        ],
+        "quality_control_checks": [
+          "verify Cp of sapphire reference within ±2% of NIST SRM 720 values across full temperature range",
+          "check that heating and cooling scans of a reversible transition give consistent onset temperatures (difference ≤ 1 K at slow rates)",
+          "run duplicate samples (independently weighed and loaded) to confirm repeatability within stated precision",
+          "inspect blank run baseline for anomalous features (bumps, steps) indicating contamination or instrument malfunction",
+          "confirm that measured Cp values are independent of heating rate within measurement uncertainty (at sufficiently slow rates)"
+        ],
+        "failure_modes": [
+          "crucible seal failure — volatile components escape, producing irreversible endotherm and mass loss; subsequent Cp values are invalid",
+          "sample decomposition at elevated temperature — irreversible exothermic/endothermic signal corrupts heat capacity measurement",
+          "thermopile degradation — gradual loss of sensitivity over instrument lifetime requires recalibration; sudden sensitivity change indicates sensor failure",
+          "reference material contamination — foreign matter in reference crucible introduces spurious peaks in differential signal",
+          "purge gas interruption — air ingress causes oxidation artifacts or baseline instability"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 2–5% for absolute Cp; 0.5–1% for relative Cp differences between compositions; ±0.5 K for transition temperatures",
+        "random_sources": [
+          "thermopile noise and signal fluctuations",
+          "sample heterogeneity within the crucible (dominant for low-homogeneity samples)",
+          "purge gas flow rate fluctuations affecting convective heat transfer",
+          "ambient temperature fluctuations coupling through furnace insulation",
+          "sample loading variability (packing density, contact quality)"
+        ],
+        "systematic_sources": [
+          "baseline (blank run) subtraction error — crucible matching and reproducibility of instrumental asymmetry",
+          "Joule-effect or sapphire calibration factor uncertainty (typically 1–2%)",
+          "temperature calibration offset (±0.2–0.5 K from melting-point standards)",
+          "thermal lag — sample interior temperature lags programmed temperature, shifting apparent transition temperatures and broadening peaks",
+          "sample mass uncertainty (±0.1 mg weighing error on ~1 g sample → negligible, but moisture gain/loss can add ~0.1–1%)",
+          "heat exchange asymmetry between sample and reference sides not fully captured by blank run"
+        ],
+        "operator_dependence": "moderate — sample packing, crucible sealing, and selection of representative sub-sample from heterogeneous bulk require judgment and skill",
+        "model_dependence": "low to moderate — Cp determination relies on proportionality of thermopile voltage to heat flow and the validity of baseline subtraction; transition enthalpy integration depends on baseline construction method",
+        "dominant_error_sources": [
+          "thermal lag at finite heating rate (mitigated by using very slow rates ≤ 0.5 K/min)",
+          "baseline instability and subtraction error over long temperature ranges",
+          "sample heterogeneity — even with large mass, sub-sampling from a heterogeneous bulk can introduce variability"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(Cp) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of Cp",
+          "standard deviation from replicate measurements on independent sample loadings"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Large sample (1 g) DSC is a heat-flux differential scanning calorimetry variant engineered for gram-scale specimens, typically 0.5–5 g compared to the 5–50 mg used in conventional DSC. By accommodating samples roughly two orders of magnitude larger, the technique provides far more representative thermal analysis of heterogeneous materials — polymers with fillers, food products, geological minerals, pharmaceutical granulations, and cementitious materials — where small-sample DSC sub-sampling introduces unacceptable compositional variability. The instruments employ multi-junction thermopile detectors surrounding large cylindrical cells, achieving heat flow sensitivities on the order of 0.1 µW despite the greater thermal mass, and are most commonly associated with the Setaram C80 and BT2.15 Calvet-type calorimeters and TA Instruments configurations with large-volume pans.",
+      "how_it_operates": "The instrument uses the heat-flux (Calvet) principle: twin cylindrical cells — one containing the sample and one holding an inert reference (calcined alumina powder matched to approximate the sample's thermal mass) — are embedded within a shared furnace and each surrounded by a thermopile consisting of hundreds of thermocouple junctions. As the furnace temperature is ramped at a constant, low rate (typically 0.05–2 K/min), any thermal event in the sample (heat capacity difference, phase transition, chemical reaction) generates a differential heat flow between the two cells, which the thermopile converts to a voltage proportional to the instantaneous power difference. This 3D detector geometry captures nearly all heat exchanged by the sample regardless of direction, making the measurement less sensitive to sample shape, contact quality, and crucible positioning than flat-plate DSC designs.",
+      "core_theory": "In heat-flux DSC, the differential heat flow dQ/dt between sample and reference is related to the thermopile voltage V by dQ/dt = V/S(T), where S(T) is the temperature-dependent sensitivity factor determined by calibration. The isobaric heat capacity is obtained from Cp = (dQ/dt)/β, where β = dT/dt is the programmed heating rate, after correction for the blank baseline. For a phase transition, the enthalpy change is ΔH = ∫(V − V_baseline) dT / [β · S(T)]. The large sample mass introduces a significant internal temperature gradient ΔT_int ≈ (dQ/dt) × R_internal, where R_internal is the thermal resistance within the sample. This requires very slow heating to maintain quasi-isothermal conditions and is the fundamental trade-off: larger samples give better statistics but demand proportionally slower scanning to keep ΔT_int below an acceptable threshold (typically < 0.5 K).",
+      "setup": "A Calvet-type large-sample calorimeter (e.g., Setaram C80) consists of a massive metallic calorimetric block housing two vertical cylindrical wells, each surrounded by a thermopile of ~1000 thermocouple junctions wired in series-opposition so that only the differential signal is measured. The sample is loaded into a stainless steel or Hastelloy crucible (1–10 mL internal volume) with a lid that may be sealed with a PTFE or Viton gasket for volatile samples. An identical crucible with alumina powder occupies the reference well. The block temperature is controlled by a PID-regulated resistive furnace capable of linear ramps from sub-ambient (with auxiliary cooling) to 500–1000 K. A high-purity purge gas (N2 or Ar at 20–50 mL/min) flows through the cell space to prevent oxidation and to maintain uniform heat transfer. A platinum resistance thermometer embedded in the block provides the absolute temperature reference. The thermopile voltage is digitized by a high-resolution ADC (≥20-bit) and recorded by instrument software along with temperature and time.",
+      "suitable_for": "Large sample DSC is the method of choice whenever sample heterogeneity would compromise the representativeness of a milligram-scale specimen. Principal application domains include: (1) polymers with particulate fillers, fiber reinforcements, or blended phases where sub-sampling artifacts are problematic; (2) food and agricultural science — melting profiles of fats and waxes, gelatinization of starches, protein denaturation in composite matrices; (3) geological and mineralogical samples — dehydration, decomposition, and phase transformations in rocks, clays, and cements; (4) pharmaceutical formulations — polymorphic transitions and glass transitions of granular drug-excipient mixtures; (5) energetic materials and biomass — decomposition enthalpies of coals and lignocellulosic feedstocks. The technique measures heat capacity, transition temperatures, and transition enthalpies over a broad temperature range (200–1000 K) with sufficient accuracy for engineering and materials-science applications.",
+      "core_limitations": "The dominant limitation is measurement speed. The large thermal mass of gram-scale samples restricts practical heating rates to 0.05–2 K/min to maintain acceptable thermal lag, making a single full-range scan several hours to a full day. This slow throughput also limits statistical replicate studies. Sensitivity per unit mass is lower than conventional DSC because the thermopile resolution (~0.1 µW) is spread over a much larger sample, placing weak transitions near the detection floor. Absolute Cp accuracy (2–5%) is inferior to adiabatic calorimetry or precision small-sample DSC due to thermal lag corrections and baseline subtraction over long runs. The technique cannot match the temperature resolution of power-compensated DSC for sharp first-order transitions, because the internal temperature gradient broadens peaks. Maximum temperature is constrained by crucible and gasket materials (typically ≤ 1000 K for stainless steel, higher for refractory crucibles). Very low thermal conductivity samples (e.g., foams, loose powders) exacerbate internal gradients and may require compaction or mixing with an inert conductor.",
+      "sample_preparation": "Sample preparation focuses on obtaining a representative aliquot from the bulk material. For powders and granules, the bulk should be riffled or cone-and-quartered to minimize segregation, and a ~1 g portion weighed to ±0.1 mg on an analytical balance. The sample is loaded into the crucible ensuring uniform packing without large voids — gentle tamping with a flat-ended rod helps. For solid specimens, pieces are cut or machined to fit the crucible bore, and gaps are filled with calcined alumina powder to improve thermal coupling between sample and crucible wall. Hygroscopic samples should be stored in a desiccator until loading and the crucible sealed immediately. Moisture-containing samples may be dried at a controlled temperature prior to measurement or analyzed as-received if water content is part of the study. The reference crucible is loaded with calcined alumina powder to approximately match the total thermal mass of the sample + crucible.",
+      "calibration_and_references": "Calibration involves four steps. (1) Blank run: matched empty crucibles (lids on, sealed if sample will be sealed) are run at the planned heating rate and gas flow to establish the instrumental baseline, capturing any asymmetry in the twin-cell detector. (2) Joule-effect calibration: the built-in electrical calibration heater delivers a known power step at several temperatures, determining the sensitivity factor S(T) = V/P across the full range. (3) Reference material verification: sapphire (NIST SRM 720) or PTFE Cp standards are measured and compared with certified values — agreement within ±2% confirms a valid calibration. (4) Temperature calibration: melting-point onset of primary standards (indium 429.75 K, tin 505.08 K, zinc 692.68 K) at the planned heating rate defines the temperature scale; onset shifts at different rates quantify the dynamic thermal lag of the instrument. Calibration should be repeated whenever the crucible type, purge gas, heating rate, or sensor is changed.",
+      "data_interpretation": "The raw thermogram (thermopile voltage vs. temperature) is converted to a heat flow curve (mW vs. T) by dividing by the temperature-dependent sensitivity S(T). The blank-run baseline is subtracted to remove instrumental asymmetry. For Cp determination, the ratio method is applied: Cp_sample = Cp_ref × (HF_sample − HF_blank)/(HF_ref − HF_blank) × (m_ref/m_sample), where HF denotes heat flow signals. Phase transition analysis uses the tangent construction: extrapolated onset temperature is defined by the intersection of the pre-transition baseline tangent and the leading-edge tangent of the peak, following ISO 11357 / ASTM E967 conventions. Transition enthalpy is obtained by integrating the area between the peak and a chosen baseline (linear, sigmoidal, or spline), normalized by sample mass and moles. Glass transitions are characterized by the midpoint of the Cp step (half-height method) and/or by onset and endset tangent constructions. All reported values should be corrected for any rate-dependent thermal lag using data from calibration at the same rate.",
+      "common_pitfalls": "The most frequent error is using an excessively high heating rate. At rates above ~1 K/min, the internal temperature gradient in a 1 g sample can exceed 1–2 K, broadening transitions and shifting apparent onset temperatures significantly. Inadequate baseline correction is the second major source of error — a stale blank run recorded at a different rate, gas flow, or with non-matching crucibles introduces a systematic Cp bias that grows over wide temperature ranges. Failure to match the reference thermal mass to the sample causes a sloped baseline that complicates peak integration. Loading heterogeneous samples without proper homogenization defeats the purpose of large-sample analysis, because a single large inclusion can dominate the signal. Air pockets in loosely packed powders act as thermal insulators, creating hot spots and broadened, distorted peaks. Finally, neglecting to seal crucibles when measuring samples with volatile components leads to irreversible endothermic evaporation events masking the transition of interest.",
+      "artifacts_and_failure_modes": "Thermal lag artifacts are the primary concern: transition peak temperatures shift to higher values on heating (lower on cooling) in proportion to heating rate and sample thermal resistance. The broadened peak shape mimics a distribution of transition temperatures and can be mistaken for intrinsic sample heterogeneity. Baseline curvature over long runs (many hours) arises from slow dimensional changes in crucibles, progressive oxidation of metallic components, or purge gas composition drift, and introduces systematic error in Cp plateaus far from the calibration temperatures. Crucible seal failure during heating releases volatiles, producing an irreversible endotherm followed by a permanent shift in Cp (due to mass loss). Contact resistance artifacts occur when solid samples contract away from the crucible wall during cooling or at phase transitions, resulting in apparent Cp drops that are instrumental rather than thermodynamic. Exothermic decomposition events can cause thermal runaway if the sample mass is large and the reaction is vigorous, potentially damaging the sensor. Reference material contamination or sintering at high temperatures changes the reference heat capacity profile, introducing ghost peaks in the differential signal.",
+      "reporting_checklist": "Published large-sample DSC results should include: instrument model and thermopile type; crucible material, volume, and sealing method; sample description (provenance, particle size distribution, homogenization method); sample mass (±0.1 mg); reference material and mass; purge gas type and flow rate; heating and/or cooling rate; temperature range scanned; blank-run subtraction procedure; calibration standards and their certified values; Joule-effect or sapphire calibration details; transition onset, peak, and endset temperatures with the method of determination (tangent construction per ISO 11357); transition enthalpy with integration baseline type; Cp values with temperature increments and combined expanded uncertainty at 95% confidence (k=2); any corrections applied for thermal lag; and number of replicate runs. For ThermoML encoding, Cp and enthalpy values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "generated": "2026-09-05T05:24:10",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_17",
+      "block_number": "PROPblock_17",
+      "lit_id": null,
+      "literals": [
+        "13"
+      ],
+      "detail": "13 (near '…) — 13 data points covering x(propan-2-ol) = 0…') matches no inspected row/stat, database table, or other source of PROPblock_17",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_17\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"mole_fraction_<propan-2-ol>\", \"value\": 13.0})"
+    }
+  ],
+  "verified": [],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_17",
+      "values": [
+        "298.15",
+        "101.0"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_17": {
+        "lit_num_id": "GLOBlit_11042",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_ca3d51c69341"
+        ],
+        "authoritative": {
+          "doi": "10.1021/je700700f",
+          "n_rows": 13,
+          "columns": [
+            "BLKpoint_id",
+            "mole_fraction_<propan-2-ol>",
+            "pressure_kpa",
+            "temperature_k",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "mole_fraction_<propan-2-ol>": [
+              0.0,
+              1.0
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "temperature_k": [
+              298.15,
+              298.15
+            ],
+            "mass_density_kg_m3": [
+              780.7,
+              997.2
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "13",
+        "region": "PROPblock_17",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_17",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_17",
+        "verdict": "verified"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1021/je700700f",
+      "lit_num_id": "GLOBlit_11042",
+      "block_number": "PROPblock_17",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "mole_fraction_<propan-2-ol>",
+        "pressure_kpa",
+        "temperature_k",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_6",
+          "mole_fraction_<propan-2-ol>": "0.3992",
+          "pressure_kpa": "101.0",
+          "temperature_k": "298.15",
+          "mass_density_kg_m3": "857.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "mole_fraction_<propan-2-ol>": "0.4981",
+          "pressure_kpa": "101.0",
+          "temperature_k": "298.15",
+          "mass_density_kg_m3": "838.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "mole_fraction_<propan-2-ol>": "0.5979",
+          "pressure_kpa": "101.0",
+          "temperature_k": "298.15",
+          "mass_density_kg_m3": "823.5"
+        }
+      ],
+      "inspection_id": "INSP_ca3d51c69341",
+      "markdown": ""
+    }
+  ]
+}

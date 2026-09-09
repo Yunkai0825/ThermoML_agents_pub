@@ -1,0 +1,13 @@
+{
+  "answer": "**No excess molar enthalpy (HE) data found for DMSO + water in the ThermoML database.**\n\nA thorough search was conducted for binary mixture blocks containing dimethyl sulfoxide (DMSO, GLOBcomp_31) and water (GLOBcomp_1) with excess molar enthalpy measurements (GLOBprop_17, kJ/mol). The search covered:\n\n- Binary declared systems with and without temperature filters (290–310 K and unrestricted)\n- Both declared and subsystem scopes (`system_scope = \"either\"`)\n- A broader search for any DMSO-containing HE blocks\n\n**Results:**\n- 29 DMSO + water binary blocks exist in the database, but they cover other properties: density (GLOBprop_1), viscosity (GLOBprop_4), speed of sound (GLOBprop_8), boiling temperature (GLOBprop_14), relative permittivity, refractive index, surface tension, and others — but **not** excess molar enthalpy.\n- 20 excess molar enthalpy blocks exist for DMSO, but all involve organic co-solvents (toluene, ethylbenzene, chlorobenzene, bromobenzene, nitrobenzene, ketones, ionic liquids), **none with water**.\n\n**Conclusion:** The ThermoML database does not contain HE data for the DMSO + water binary system near 298.15 K (or at any temperature).",
+  "core_claims": [
+    "The ThermoML database does not contain excess molar enthalpy (HE) data for the DMSO + water binary system at any temperature.",
+    "29 DMSO + water binary blocks exist in the database but cover other properties (density, viscosity, speed of sound, boiling temperature, relative permittivity, refractive index, surface tension), not excess molar enthalpy.",
+    "20 excess molar enthalpy blocks exist for DMSO, but all involve organic co-solvents (toluene, ethylbenzene, chlorobenzene, bromobenzene, nitrobenzene, ketones, ionic liquids), none with water."
+  ],
+  "status": "no_results",
+  "summary": "A thorough search of the ThermoML database for excess molar enthalpy (HE) data of the DMSO (dimethyl sulfoxide) + water binary system found no such data. Twenty-nine DMSO + water binary blocks exist but cover other properties (density, viscosity, speed of sound, boiling temperature, relative permittivity, refractive index, surface tension, etc.) — none include excess molar enthalpy. Twenty HE blocks exist for DMSO, but all involve organic co-solvents (toluene, ethylbenzene, chlorobenzene, bromobenzene, nitrobenzene, ketones, ionic liquids), none with water. The database does not contain HE data for DMSO + water at any temperature, including near 298.15 K.",
+  "core_id_updates": [],
+  "core_blocks_found": [],
+  "data_inspections": []
+}

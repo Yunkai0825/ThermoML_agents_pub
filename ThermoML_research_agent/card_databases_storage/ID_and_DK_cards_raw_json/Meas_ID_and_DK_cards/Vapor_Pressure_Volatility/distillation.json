@@ -1,0 +1,336 @@
+{
+  "meas_ID": "distillation",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Distillation",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Distillation",
+    "thermoml_custom_codes": [
+      "DISTILL"
+    ],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "yes",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 128,
+      "property_groups": [
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 40,
+      "per_group": {
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 128,
+          "papers": 40
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "boiling temperature at controlled pressure",
+          "distillate volume fraction (% distilled)",
+          "distillate mass fraction",
+          "vapor condensation temperature at each cut",
+          "reflux ratio"
+        ],
+        "derived_observables": [
+          "vapor-liquid equilibrium (VLE) tie-line compositions",
+          "boiling curve (T vs. liquid composition x)",
+          "dew curve (T vs. vapor composition y)",
+          "azeotropic composition and temperature",
+          "relative volatility",
+          "distillation curve (T vs. % recovered)"
+        ],
+        "target_properties": [
+          "normal boiling temperature",
+          "boiling temperature at specified pressure",
+          "azeotropic temperature and composition",
+          "vapor-liquid equilibrium data (T-x-y)",
+          "distillation curve / true boiling point (TBP) curve",
+          "relative volatility of binary mixtures"
+        ],
+        "phases_measured": [
+          "liquid (boiling liquid in flask)",
+          "vapor (above boiling liquid)",
+          "vapor-liquid two-phase region"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary liquid mixtures",
+          "multicomponent liquid mixtures",
+          "petroleum fractions and crude oils",
+          "essential oils and natural product extracts",
+          "azeotrope-forming mixtures",
+          "aqueous-organic mixtures"
+        ],
+        "unsupported_sample_types": [
+          "solids (require dissolution first)",
+          "gases at ambient conditions",
+          "thermally labile compounds that decompose below their boiling point",
+          "extremely viscous liquids or tars (poor boiling behavior)",
+          "samples with boiling points above the thermal stability limit of the apparatus (~600 K at ambient pressure)"
+        ],
+        "typical_output_formats": [
+          "T vs. volume % distilled curve (distillation curve)",
+          "T-x-y diagram (vapor-liquid equilibrium)",
+          "boiling point vs. composition table",
+          "azeotropic point (T_az, x_az) at specified pressure",
+          "true boiling point (TBP) curve for petroleum fractions"
+        ],
+        "units": {
+          "temperature": "K or °C",
+          "pressure": "kPa or mmHg",
+          "composition_mole_fraction": "dimensionless (0–1)",
+          "composition_mass_fraction": "dimensionless (0–1)",
+          "volume_percent_distilled": "%",
+          "relative_volatility": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "pressure",
+            "typical_range": "1 kPa to 101.325 kPa",
+            "hard_limits": "limited by vacuum system capability on the low end and apparatus pressure rating on the high end; most distillation is at or below atmospheric pressure",
+            "notes": "reduced pressure distillation is used for high-boiling or thermally sensitive compounds; most ThermoML entries are at atmospheric pressure"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "290 K to 600 K",
+            "hard_limits": "lower limit set by practical boiling of common solvents; upper limit set by thermal decomposition and apparatus materials",
+            "notes": "for petroleum fractions, ASTM D2892 TBP distillation extends to ~750 K equivalent atmospheric boiling point"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "2–5 mL/min distillate collection rate",
+            "hard_limits": "must be slow enough to maintain equilibrium between vapor and liquid phases in the column or flask",
+            "notes": "too-fast heating causes entrainment and flooding; too-slow rates increase thermal losses and prolong exposure to heat"
+          },
+          {
+            "parameter": "reflux_ratio",
+            "typical_range": "5:1 to 100:1 for analytical distillation; total reflux for equilibrium studies",
+            "hard_limits": "higher reflux improves separation but greatly increases time per fraction",
+            "notes": "for simple Engler-type distillation (ASTM D86), no reflux is used; for precise VLE work, high reflux is essential"
+          }
+        ],
+        "variables": [
+          {
+            "name": "pressure",
+            "role": "controlled variable (often fixed)",
+            "typical_values": "101.325 kPa (atmospheric) or reduced pressure 1–50 kPa",
+            "effect": "determines the boiling temperature range; reduced pressure lowers boiling points and prevents thermal decomposition"
+          },
+          {
+            "name": "composition",
+            "role": "primary variable (changes during distillation)",
+            "typical_values": "full range 0–1 mole fraction for binary systems",
+            "effect": "liquid composition in the flask depletes in the more volatile component during distillation, tracing the boiling curve"
+          },
+          {
+            "name": "heating_power",
+            "role": "controlled input variable",
+            "typical_values": "adjusted to maintain steady distillation rate",
+            "effect": "controls rate of vapor generation and distillate collection; must be managed to prevent bumping or flooding"
+          },
+          {
+            "name": "number_of_theoretical_plates",
+            "role": "apparatus characteristic (fixed by column design)",
+            "typical_values": "0 (simple distillation) to 100+ (packed or spinning-band column)",
+            "effect": "determines separation efficiency; more plates give sharper separation of components and more reliable VLE data"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "distillation flask (round-bottom, typically 250–2000 mL) with heating mantle or oil bath",
+          "fractionating column — packed (Vigreux, Hempel, or random packing), spinning-band, or plate column providing theoretical plates",
+          "condenser — water-cooled Liebig, Graham, or coil condenser to liquefy vapor",
+          "thermometer or temperature sensor — calibrated Pt-100 RTD, thermocouple, or precision mercury thermometer positioned at the column head to measure vapor temperature",
+          "fraction collector or graduated receiver to collect distillate cuts",
+          "reflux divider (or reflux head) — allows controlled splitting of condensate between reflux and distillate takeoff",
+          "vacuum system (optional) — vacuum pump with pressure regulator and cold trap for reduced-pressure distillation",
+          "pressure gauge — manometer or electronic pressure transducer for monitoring system pressure",
+          "boiling chips or magnetic stirrer to ensure smooth boiling and prevent bumping",
+          "analytical instrument for composition — gas chromatograph, refractometer, or densitometer for analyzing distillate fractions"
+        ],
+        "environmental_requirements": [
+          "fume hood operation for volatile or toxic organic solvents",
+          "stable ambient temperature to minimize thermal losses from column",
+          "column insulation (vacuum jacket, foil wrap, or heated jacket) to reduce heat loss and maintain equilibrium",
+          "draft-free environment to prevent uneven column cooling"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample loaded directly into distillation flask"
+          ],
+          "size_limits": "typically 50–1000 mL; ASTM D86 specifies 100 mL; TBP methods (D2892) require 1–30 L",
+          "thickness_limits": "not applicable (bulk liquid technique)",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "secure flask in heating mantle with proper support clamps",
+            "all joints must be properly greased or fitted with PTFE sleeves to prevent leaks and ensure vacuum integrity"
+          ],
+          "preparation_requirements": [
+            "sample should be dried over molecular sieves or desiccant if water is not a desired component",
+            "degassing by gentle warming or brief vacuum exposure to remove dissolved gases that cause bumping",
+            "known initial mass or volume for mass-balance calculations",
+            "pre-analysis of initial composition by GC or other method for mixture studies"
+          ]
+        },
+        "calibration_requirements": [
+          "thermometer calibration at multiple fixed points using certified reference materials (water, naphthalene, benzoic acid, indium)",
+          "pressure gauge calibration against a reference manometer or dead-weight tester",
+          "column efficiency determination: measured in theoretical plates using a standard test mixture (e.g., n-heptane/methylcyclohexane or trans/cis-decalin)",
+          "determination of holdup volume in column packing to correct mass balance",
+          "GC or refractometer calibration for composition analysis of distillate fractions"
+        ],
+        "reference_materials": [
+          "n-heptane/methylcyclohexane — standard test mixture for column efficiency (close-boiling pair)",
+          "water — boiling point standard at atmospheric pressure (373.15 K)",
+          "toluene — well-characterized normal boiling point (383.78 K)",
+          "n-decane — boiling point reference for higher temperature range (447.3 K)",
+          "ASTM reference fuel blends for petroleum distillation validation"
+        ],
+        "consumables": [
+          "boiling chips (PTFE or carborundum) or boiling sticks",
+          "vacuum grease (silicone or hydrocarbon-based) for ground glass joints",
+          "PTFE joint sleeves or O-ring adapters",
+          "column packing material (glass beads, metal helices, PTFE saddles, or stainless-steel mesh for spinning-band)",
+          "coolant water supply for condenser",
+          "fraction collection vials (glass, pre-weighed for gravimetric analysis)"
+        ],
+        "safety_notes": [
+          "flammable solvent vapors require fume hood and absence of ignition sources",
+          "superheated liquid can cause bumping — always use boiling chips or stirring",
+          "vacuum distillation glassware must be inspected for cracks to prevent implosion",
+          "never heat a closed system — ensure vent path is always open",
+          "hot oil baths and heating mantles present burn hazards",
+          "toxic fumes from certain distillates require adequate ventilation and personal protective equipment"
+        ]
+      },
+      "performance": {
+        "sensitivity": "can resolve boiling point differences of 0.5–2 K between successive fractions with a well-designed column; simple distillation resolves only ~20 K differences",
+        "detection_limit": "not a trace-analysis technique; requires sufficient sample volume for meaningful fractionation (minimum ~10 mL for micro-distillation)",
+        "resolution": {
+          "spatial": "not applicable (bulk technique)",
+          "temporal": "determined by fraction collection interval; typically one fraction per 1–5 min",
+          "spectral": "not applicable",
+          "energy": "temperature resolution 0.01–0.1 K with Pt-100 RTD at column head"
+        },
+        "dynamic_range": "boiling temperature range from ~250 K (low-boiling solvents under vacuum) to ~600 K (high-boiling compounds); composition from 0 to 100%",
+        "accuracy": "boiling temperature accuracy ±0.1–0.5 K for well-calibrated analytical distillation; ±1–2 K for standard ASTM-type distillation; composition accuracy ±0.005–0.02 mole fraction (dependent on analytical method)",
+        "precision": "repeatability of boiling point ±0.1–0.3 K for analytical distillation; reproducibility of distillation curve within ±1 K and ±1% volume for ASTM D86",
+        "throughput": "one sample per run; a full distillation curve takes 1–8 hours depending on method and sample volume",
+        "measurement_speed": "inherently slow — separation requires time for vapor-liquid equilibrium to establish at each stage; analytical distillation is slower than simple distillation due to high reflux ratios"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "temperature reading at column head (vapor temperature) and volume or mass of collected distillate fractions; composition of each fraction from offline analysis (GC, refractometry, densitometry)",
+        "preprocessing_steps": [
+          "correct thermometer reading for emergent stem exposure if using liquid-in-glass thermometer",
+          "correct observed boiling temperatures to standard pressure (101.325 kPa) using the Sydney Young equation or Clausius-Clapeyron relation if actual pressure deviates",
+          "calculate cumulative volume or mass percent distilled at each recorded temperature",
+          "apply column holdup correction to adjust reported compositions for liquid retained in the column",
+          "convert refractometric or densitometric readings to mole fractions using calibration curves"
+        ],
+        "analysis_methods": [
+          "plot distillation curve: observed boiling temperature vs. cumulative volume % distilled",
+          "construct T-x-y diagram from paired liquid (flask) and vapor (distillate) composition analyses at each temperature",
+          "identify azeotropic point as the minimum or maximum in the T-x-y diagram where x = y",
+          "determine relative volatility α = (y/x) / ((1-y)/(1-x)) from measured compositions",
+          "fit VLE data to activity coefficient models (Margules, Van Laar, Wilson, NRTL, UNIQUAC) for thermodynamic consistency testing",
+          "apply Herington or Van Ness consistency tests to validate VLE data quality"
+        ],
+        "model_assumptions": [
+          "vapor-liquid equilibrium is achieved at each theoretical plate in the column",
+          "the vapor phase behaves ideally or follows a known equation of state (typically ideal gas for low-pressure distillation)",
+          "liquid phase non-ideality is captured by activity coefficient models",
+          "pressure is uniform throughout the column (negligible pressure drop across packing)",
+          "steady-state operation: distillation rate is constant and heat losses are time-invariant"
+        ],
+        "fit_parameters": [
+          "activity coefficient model parameters (e.g., Wilson Λ12, Λ21; NRTL τ12, τ21, α12)",
+          "Antoine equation constants for pure-component vapor pressures",
+          "azeotropic composition and temperature",
+          "relative volatility as function of composition"
+        ],
+        "common_artifacts": [
+          "superheating artifact: liquid temperature momentarily exceeds true boiling point before nucleation, causing erratic temperature readings",
+          "entrainment artifact: liquid droplets carried into the condenser produce distillate fractions with compositions closer to the flask liquid than the true vapor",
+          "flooding artifact: excessive vapor velocity causes liquid backup in the column, destroying separation efficiency",
+          "column heat loss artifact: uninsulated column loses heat to surroundings, causing partial condensation of vapor and artificially enriching reflux, shifting measured compositions",
+          "holdup artifact: liquid retained in column packing delays composition changes and smooths transitions that should be sharp",
+          "pressure fluctuation artifact: variations in atmospheric or vacuum system pressure cause apparent shifts in boiling temperature"
+        ],
+        "quality_control_checks": [
+          "verify thermodynamic consistency of VLE data using area test (Herington) or point test (Van Ness)",
+          "check mass balance: total mass of distillate fractions plus residue should equal initial charge within ±0.5%",
+          "confirm column efficiency by distilling a standard close-boiling test mixture and counting theoretical plates",
+          "compare measured normal boiling point of pure components against literature values",
+          "perform duplicate runs to assess repeatability of distillation curve",
+          "inspect distillation curve for unexpected plateaus or discontinuities indicating decomposition or azeotrope formation"
+        ],
+        "failure_modes": [
+          "bumping: sudden violent boiling due to lack of nucleation sites, causing liquid to surge into column and contaminate distillate",
+          "thermal decomposition: sample degrades at elevated temperatures, changing composition and producing artifacts in the distillation curve",
+          "column flooding: vapor velocity exceeds column capacity, liquid backs up, and separation is lost",
+          "condenser failure: inadequate cooling causes vapor breakthrough and loss of distillate",
+          "vacuum leak: air ingress in reduced-pressure distillation raises effective pressure, shifting boiling temperatures and potentially creating explosion hazard with flammable vapors",
+          "joint seizure: ground glass joints fuse at high temperature, preventing disassembly and sample recovery"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: ±0.2–1.0 K for boiling temperature; ±0.005–0.02 mole fraction for composition; overall VLE data uncertainty depends strongly on column efficiency and analytical method",
+        "random_sources": [
+          "temperature fluctuations from unsteady boiling",
+          "variation in distillate collection rate",
+          "noise in composition analysis (GC peak integration, refractometer reading)",
+          "atmospheric pressure fluctuations during ambient-pressure distillation",
+          "random variation in reflux splitting"
+        ],
+        "systematic_sources": [
+          "thermometer calibration offset",
+          "pressure measurement bias and failure to correct to standard pressure",
+          "insufficient column efficiency (fewer theoretical plates than assumed) leading to incomplete separation",
+          "column holdup not accounted for in mass balance",
+          "entrainment of liquid drops into vapor (systematic composition bias toward flask composition)",
+          "heat losses from inadequately insulated column",
+          "GC or refractometer calibration curve bias in composition determination"
+        ],
+        "operator_dependence": "high — distillation results depend on operator skill in maintaining steady heating rate, managing reflux ratio, collecting fractions at appropriate intervals, and visually monitoring column behavior (flooding, channeling)",
+        "model_dependence": "moderate — VLE interpretation depends on chosen activity coefficient model; boiling point data are model-independent but pressure corrections use Clausius-Clapeyron or Antoine equations",
+        "dominant_error_sources": [
+          "composition analysis uncertainty (GC or refractometry) is typically the largest contributor for VLE data",
+          "insufficient column efficiency producing measured y values between true equilibrium and feed composition",
+          "pressure measurement and correction uncertainty for boiling temperature data"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(T) and U(x) at 95% confidence (k=2)",
+          "standard deviation from replicate distillation runs",
+          "thermodynamic consistency test results (Herington area deviation, Van Ness residuals)"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Distillation is a classical vapor-liquid separation technique in which a liquid mixture is heated to boiling and the resulting vapor is condensed and collected as fractions. In the context of thermodynamic property measurement, analytical distillation is used to determine normal boiling points, construct distillation curves (temperature vs. percent distilled), measure vapor-liquid equilibrium (VLE) tie-line data, and identify azeotropic compositions and temperatures. The technique has been a cornerstone of physical chemistry since the 18th century and remains widely used because of its broad applicability to virtually any liquid mixture at or below atmospheric pressure. In the NIST ThermoML database, distillation data appear primarily in the VaporPBoilingTAzeotropTandP property group, representing boiling temperatures, azeotropic points, and related vapor-pressure data.",
+      "how_it_operates": "A known volume or mass of liquid mixture is charged to a distillation flask fitted with a fractionating column, condenser, and fraction collector. Heat is applied to the flask (via heating mantle, oil bath, or electric heater) to bring the liquid to its boiling point. Vapor enriched in the more volatile component rises through the column, where repeated condensation and re-evaporation on the column packing or plates effect further separation. At the column head, a thermometer records the vapor temperature, and the condensed distillate is collected in successive fractions. Each fraction is analyzed for composition using gas chromatography, refractometry, or densitometry. By correlating the head temperature with the cumulative amount distilled and the fraction compositions, the operator constructs a distillation curve or T-x-y VLE diagram. A reflux divider at the column head controls the proportion of condensate returned to the column versus collected as product, with higher reflux ratios yielding sharper separation and more reliable equilibrium data.",
+      "core_theory": "Distillation exploits the difference in volatility between mixture components. At thermodynamic equilibrium, the vapor phase is enriched in the more volatile component relative to the liquid, as described by Raoult's law for ideal mixtures (p_i = x_i·p_i*) and modified Raoult's law (p_i = x_i·γ_i·p_i*) for non-ideal systems, where γ_i is the activity coefficient. Each theoretical plate in the column achieves one equilibrium stage of enrichment. The relationship between liquid composition x and vapor composition y at a given temperature and pressure defines the VLE tie-line. Azeotropes occur when γ_i values cause the T-x-y curves to exhibit maxima or minima where x = y, meaning no further separation by distillation is possible at that point. The Clausius-Clapeyron equation relates boiling temperature to pressure, allowing correction of measured boiling points to standard conditions: dln(p)/d(1/T) = -ΔH_vap/R.",
+      "setup": "A typical analytical distillation apparatus consists of a round-bottom flask (250–2000 mL capacity) seated in a controlled heating mantle, connected to a fractionating column of known efficiency (measured in theoretical plates). The column may be a Vigreux column (low efficiency, 2–5 plates), a packed column with glass helices or metal saddles (10–30 plates), or a high-efficiency spinning-band column (up to 100+ plates). The column top is fitted with a reflux head incorporating a calibrated thermometer (Pt-100 RTD, ±0.01 K) positioned in the vapor stream. A water-cooled condenser connects to a fraction collector with pre-weighed receiving flasks. For reduced-pressure distillation, a vacuum manifold with a precision pressure regulator, cold trap, and calibrated pressure gauge is added. The column is typically insulated with a vacuum jacket or silvered Dewar to minimize heat loss. Boiling regulators (PTFE chips, magnetic stirrer) are placed in the flask to promote smooth, steady boiling.",
+      "suitable_for": "Distillation is applicable to virtually any liquid or liquid mixture that can be boiled without decomposition. It is particularly well-suited for determining normal boiling points of pure compounds, constructing distillation curves for petroleum fractions and fuel blends (per ASTM D86 and D2892 standards), measuring VLE data for binary and multicomponent systems to support chemical process design, and identifying azeotropes in systems with strong positive or negative deviations from Raoult's law. The technique handles wide composition ranges from dilute to concentrated and works for aqueous-organic, organic-organic, and highly non-ideal mixtures. It also serves as a purification step for preparing samples of known purity for subsequent property measurements by other techniques.",
+      "core_limitations": "Distillation is inherently less precise for equilibrium property measurement than purpose-built VLE apparatus (static cells, ebulliometers, or recirculating stills) because achieving true thermodynamic equilibrium along a column with finite theoretical plates is difficult. Separation resolution depends on column efficiency, which is limited by practical column length and packing quality. The technique cannot separate azeotrope-forming mixtures beyond the azeotropic composition without changing pressure or adding an entrainer. Thermally labile compounds may decompose during the prolonged heating required, biasing both temperature and composition data. Large sample volumes (50–1000+ mL) are required compared to micro-scale static methods. Distillation is slow, with a single complete curve requiring 1–8 hours, and operator skill significantly affects data quality.",
+      "sample_preparation": "The liquid sample should be of known initial mass and composition. For moisture-sensitive studies, the sample is dried over molecular sieves (3Å or 4Å) or distilled from a drying agent (CaH2, Na/benzophenone). The initial composition of a mixture charge is determined by GC or refractometry before loading. The sample is degassed by gentle warming under reduced pressure or by brief sparging with inert gas to remove dissolved air, preventing bumping during distillation. Boiling chips (PTFE or carborundum) are added to the flask to serve as nucleation sites. For reduced-pressure work, the glassware is checked for vacuum integrity and all joints are properly greased with compatible vacuum grease or fitted with PTFE sleeves. The sample volume should fill the flask to 50–70% capacity to allow adequate space for vapor disengagement.",
+      "calibration_and_references": "Calibration encompasses the thermometer, pressure gauge, and column efficiency. The thermometer is calibrated against certified fixed-point standards — the ice point (273.15 K), water boiling point (373.15 K at 101.325 kPa), and additional reference compounds such as naphthalene (353.4 K melting) or benzoic acid (395.52 K melting) as appropriate. Pressure gauges are checked against a mercury manometer or dead-weight tester. Column efficiency is determined by distilling a close-boiling reference mixture — commonly n-heptane/methylcyclohexane (boiling point difference ~2 K) — and calculating the number of theoretical plates from the Fenske equation using the distillate and bottoms compositions. The GC or refractometer used for composition analysis is calibrated with gravimetrically prepared standard mixtures spanning the full composition range. All calibrations are documented and repeated periodically.",
+      "data_interpretation": "For distillation curve determination, the recorded vapor temperature at each cumulative volume (or mass) percent distilled is plotted to produce the standard distillation curve. Temperatures are corrected to standard atmospheric pressure (101.325 kPa) using the Sydney Young equation: ΔT = C·(101.325 - p_obs)·(273.15 + T_obs), where C is a fluid-specific constant. For VLE data, the liquid composition in the flask (x) and the distillate composition (y) are determined analytically for each fraction, and the T-x-y diagram is constructed. Azeotropic points are identified where x = y on the diagram, often confirmed by observing a constant-temperature plateau during distillation. Measured VLE data are tested for thermodynamic consistency using the Herington area test (integral form of the Gibbs-Duhem equation) or the Van Ness point-by-point test. Consistent data are then fitted to activity coefficient models (Wilson, NRTL, UNIQUAC) for interpolation and extrapolation. Relative volatility α is calculated directly from measured x and y pairs.",
+      "common_pitfalls": "The most frequent pitfall is insufficient column efficiency, which yields vapor compositions intermediate between true equilibrium values and the bulk liquid, producing systematically biased VLE data. Operating at too high a distillation rate causes flooding (liquid backup in the column) or entrainment (liquid droplets carried into the condenser), both of which corrupt composition data. Failure to adequately insulate the column creates a cold-wall effect where partial condensation on the column wall acts as an uncontrolled reflux, enriching the vapor beyond true equilibrium. Using an uncorrected thermometer or neglecting to correct for pressure deviations introduces systematic temperature errors. Neglecting column holdup in mass-balance calculations leads to incorrect cumulative-percent-distilled values, distorting the distillation curve shape. Bumping due to superheating can splatter flask contents into the column, contaminating fractions with non-equilibrium liquid.",
+      "artifacts_and_failure_modes": "Superheating artifacts manifest as sudden temperature spikes when a superheated liquid nucleates violently, sending a burst of vapor and possibly liquid into the column. Entrainment artifacts produce distillate fractions whose composition is shifted toward the flask-liquid composition because liquid droplets are mechanically transported rather than evaporated. Flooding is identified by a rapid temperature drop at the column head and visible liquid accumulation in the column, and it renders all data taken during the event unreliable. Column heat loss artifacts cause measured vapor compositions to appear more enriched than the true equilibrium value because the cold column wall acts as a partial condenser. Pressure drift during ambient-pressure distillation (weather-related barometric changes of 1–3 kPa) shifts the entire distillation curve by 0.3–1.0 K if uncorrected. Thermal decomposition produces new chemical species that introduce extra peaks in GC analysis and alter the distillation curve shape, typically depressing the tail-end temperature or producing a persistent residue.",
+      "reporting_checklist": "Published distillation data should report: apparatus type and column efficiency (number of theoretical plates), sample identity and initial charge mass/volume, initial composition for mixtures, operating pressure and method of pressure control/measurement, thermometer type and calibration details, reflux ratio employed, distillate collection method (volume-based or mass-based), pressure correction method and equation used, analytical method for composition (GC conditions, refractometer calibration), column holdup and how it was accounted for, distillation curve or T-x-y data in tabular form, azeotropic point if observed (T_az, x_az, P), uncertainty estimates for temperature (±K) and composition (±mole fraction), thermodynamic consistency test results for VLE data, and any deviations from standard methods (ASTM D86, D2892, or similar). For ThermoML encoding, boiling temperatures and azeotropic data are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

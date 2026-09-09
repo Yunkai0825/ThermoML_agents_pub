@@ -1,0 +1,329 @@
+{
+  "meas_ID": "derived_from_phase_diagram_analysis",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Derived from phase diagram analysis",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Derived from phase diagram analysis",
+    "thermoml_custom_codes": [
+      "PHASDIA"
+    ],
+    "measurement_family": "Visual / Direct Observation",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 246,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium",
+        "PhaseTransition",
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 63,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 171,
+          "papers": 60
+        },
+        "PhaseTransition": {
+          "instances": 71,
+          "papers": 25
+        },
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 4,
+          "papers": 2
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "phase boundary coordinates (T vs. x, P vs. x, or T vs. P)",
+          "eutectic point location (temperature and composition)",
+          "liquidus curve shape and slope (dT/dx)",
+          "solidus curve shape and slope",
+          "miscibility gap boundaries (binodal curve)",
+          "consolute point temperature and composition (UCST or LCST)",
+          "peritectic point temperature and composition",
+          "azeotropic point temperature and composition"
+        ],
+        "derived_observables": [
+          "activity coefficients (γ) from liquidus curve via van't Hoff equation",
+          "enthalpy of fusion (ΔHfus) from liquidus slope analysis",
+          "excess Gibbs energy (GE) from activity coefficient data",
+          "entropy of fusion (ΔSfus = ΔHfus/Tm)",
+          "interaction parameters for solution models (Margules, NRTL, UNIQUAC)",
+          "partial molar quantities at phase boundaries",
+          "cryoscopic constants from initial liquidus slope"
+        ],
+        "target_properties": [
+          "eutectic temperature and composition",
+          "liquidus and solidus temperatures at specified compositions",
+          "consolute (critical solution) temperature and composition",
+          "peritectic temperature and composition",
+          "activity coefficients along the liquidus",
+          "enthalpy of fusion from liquidus depression analysis",
+          "miscibility gap composition limits at specified temperatures",
+          "azeotropic temperature and composition"
+        ],
+        "phases_measured": [
+          "liquid",
+          "solid (crystalline)",
+          "liquid + solid two-phase region",
+          "liquid–liquid two-phase region",
+          "solid–solid two-phase region",
+          "vapor–liquid equilibrium boundary"
+        ],
+        "supported_sample_types": [
+          "binary mixtures (organic–organic, organic–inorganic, metallic alloys)",
+          "ternary and multicomponent systems (with appropriate projections)",
+          "eutectic systems",
+          "systems with solid solution formation",
+          "partially miscible liquid pairs",
+          "polymer–solvent systems exhibiting UCST or LCST",
+          "ionic liquid mixtures",
+          "salt–water and salt–salt systems"
+        ],
+        "unsupported_sample_types": [
+          "pure components without a mixture context (phase diagrams require at least two components)",
+          "systems where phase boundaries have not been experimentally determined or reliably modeled",
+          "gas-phase-only systems without condensed-phase equilibria",
+          "systems with extremely sluggish kinetics where true equilibrium is never attained"
+        ],
+        "typical_output_formats": [
+          "T–x phase diagram with labeled phase regions",
+          "tabulated eutectic temperature and composition",
+          "tabulated liquidus/solidus temperatures vs. composition",
+          "activity coefficient vs. composition at liquidus temperature",
+          "derived ΔHfus value with stated assumptions",
+          "interaction parameters for thermodynamic models"
+        ],
+        "units": {
+          "temperature": "K or °C",
+          "composition": "mole fraction (x), mass fraction (w), or mass percent",
+          "pressure": "kPa or MPa",
+          "activity_coefficient": "dimensionless",
+          "enthalpy_of_fusion": "J/mol or kJ/mol",
+          "excess_gibbs_energy": "J/mol",
+          "entropy_of_fusion": "J/(mol·K)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "composition_range",
+            "typical_range": "x = 0 to 1 (full binary range)",
+            "hard_limits": "limited to the composition region where phase boundary data exist; extrapolation beyond measured points introduces large errors",
+            "notes": "accuracy of derived properties depends strongly on the density of data points along the phase boundary"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "system dependent — from cryogenic eutectics (~150 K) to refractory systems (~3000 K)",
+            "hard_limits": "limited to the range covered by the source phase diagram data",
+            "notes": "derived quantities are only valid within the temperature interval of the underlying measurements"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "usually ambient (0.1 MPa) for solid–liquid and liquid–liquid diagrams; variable for vapor–liquid diagrams",
+            "hard_limits": "must match the pressure at which the phase diagram was constructed",
+            "notes": "pressure dependence is often neglected for condensed-phase equilibria near ambient"
+          },
+          {
+            "parameter": "data_point_density",
+            "typical_range": "5–50 composition points along a phase boundary curve",
+            "hard_limits": "fewer than 3 points on a curve makes reliable interpolation impossible",
+            "notes": "accuracy of graphical readings and curve fits improves with denser data"
+          }
+        ],
+        "variables": [
+          {
+            "name": "composition",
+            "role": "primary independent variable along the phase boundary",
+            "typical_values": "mole fractions from 0 to 1 in increments of 0.05–0.10",
+            "effect": "specifies the point on the phase boundary from which temperature and derived quantities are read"
+          },
+          {
+            "name": "temperature",
+            "role": "dependent variable read from the phase boundary at each composition, or independent variable when reading composition from the diagram",
+            "typical_values": "system dependent",
+            "effect": "liquidus/solidus/binodal temperature defines the phase equilibrium condition"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed; variable for P–x or P–T projections",
+            "typical_values": "0.1 MPa for condensed-phase diagrams",
+            "effect": "shifts phase boundaries; must be specified to fully define the equilibrium state"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "published or experimentally constructed phase diagram (T–x, P–x, or T–P projection)",
+          "graphical digitization software (e.g., WebPlotDigitizer, Engauge Digitizer) for extracting numerical data from published diagram figures",
+          "curve-fitting or interpolation software (polynomial, spline, or thermodynamic model fitting)",
+          "thermodynamic calculation software for activity coefficient derivation (optional: Thermo-Calc, FactSage, CALPHAD tools)",
+          "spreadsheet or scripting environment for van't Hoff or Schröder–van Laar calculations"
+        ],
+        "environmental_requirements": [
+          "not applicable — this is a data analysis method, not a laboratory measurement",
+          "requires access to reliable phase diagram data (original publications, compilations, or databases)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "not applicable — no physical sample is measured"
+          ],
+          "size_limits": "not applicable",
+          "thickness_limits": "not applicable",
+          "surface_requirements": [
+            "not applicable"
+          ],
+          "mounting_requirements": [
+            "not applicable"
+          ],
+          "preparation_requirements": [
+            "source phase diagram must cover the composition and temperature range of interest",
+            "purity of components used in the original phase diagram study must be known",
+            "equilibrium must have been attained in the original measurements (kinetically trapped states invalidate analysis)"
+          ]
+        },
+        "calibration_requirements": [
+          "consistency check: pure-component melting points from the diagram endpoints must agree with accepted reference values",
+          "internal consistency: liquidus curve must approach ideal solution behavior (Raoult's law) in the dilute limit if the system is expected to be nearly ideal",
+          "cross-validation with independently measured thermodynamic data (e.g., calorimetric ΔHfus) when available"
+        ],
+        "reference_materials": [
+          "pure-component melting point and enthalpy of fusion data from NIST, IUPAC, or Landolt-Börnstein compilations",
+          "established phase diagram compilations (ASM International binary alloy phase diagrams, IUPAC-NIST JPCRD compilations)",
+          "reference activity coefficient data from isopiestic or vapor pressure measurements for cross-validation"
+        ],
+        "consumables": [
+          "not applicable — no physical materials consumed"
+        ],
+        "safety_notes": [
+          "not applicable — purely analytical procedure"
+        ]
+      },
+      "performance": {
+        "sensitivity": "limited by the resolution and accuracy of the source phase diagram; graphical digitization typically introduces ±0.5–2 K in temperature and ±0.005–0.02 in mole fraction",
+        "detection_limit": "not applicable in the conventional sense; smallest resolvable feature depends on the data density and quality of the source diagram",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "spans the full composition and temperature range of the source phase diagram",
+        "accuracy": "eutectic temperatures: ±0.5–5 K depending on source data quality; eutectic compositions: ±0.01–0.05 mole fraction; derived ΔHfus: ±5–15% (strongly model-dependent); derived activity coefficients: ±5–20% depending on liquidus slope precision",
+        "precision": "limited by the reproducibility of graphical data extraction; digitization precision typically ±0.3–1 K and ±0.003–0.01 mole fraction",
+        "throughput": "high once the phase diagram is available — extraction of multiple thermodynamic quantities from a single diagram requires minutes to hours of analysis",
+        "measurement_speed": "not applicable — analysis time depends on complexity of the diagram and number of derived quantities sought"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "tabulated phase boundary coordinates (T, x) extracted from published diagrams or original experimental data",
+        "preprocessing_steps": [
+          "digitization of phase diagram figure using graphical extraction tools",
+          "conversion of composition units to mole fraction if reported as mass fraction or percent",
+          "smoothing or interpolation of phase boundary data using polynomial or spline fits",
+          "identification and labeling of invariant points (eutectic, peritectic, azeotrope) from curve intersections",
+          "verification of pure-component endpoint melting points against reference data"
+        ],
+        "analysis_methods": [
+          "Schröder–van Laar equation: ln(x₁) = (ΔHfus/R)(1/Tm − 1/T) for ideal liquidus; deviations yield activity coefficients",
+          "van't Hoff relation: ln(γ₁x₁) = (ΔHfus/R)(1/Tm − 1/T) for non-ideal liquidus analysis",
+          "initial slope method: cryoscopic constant from dT/dx at x→1 gives ΔHfus = R·Tm²/(dT/dx₂)₀",
+          "Redlich-Kister, Margules, or Wilson model fitting to extracted activity coefficients to obtain interaction parameters",
+          "lever rule application for determining phase fractions in two-phase regions",
+          "graphical tangent construction for determining partial molar quantities at specified compositions"
+        ],
+        "model_assumptions": [
+          "thermodynamic equilibrium was achieved in the original phase diagram measurements",
+          "pure solid phases with no solid solubility (for simple eutectic analysis); if solid solutions exist, additional data or models are required",
+          "ΔHfus and ΔCp of fusion are independent of temperature over the liquidus range (often valid for small temperature intervals)",
+          "regular solution or other chosen model captures the composition dependence of activity coefficients",
+          "pressure independence of condensed-phase equilibria near ambient conditions"
+        ],
+        "fit_parameters": [
+          "eutectic temperature (Teut) and composition (xeut)",
+          "activity coefficients γ₁(x) and γ₂(x) along the liquidus",
+          "enthalpy of fusion (ΔHfus) for each component",
+          "interaction parameters (A₁₂, A₂₁ for Margules; Λ₁₂, Λ₂₁ for Wilson; α₁₂, τ₁₂, τ₂₁ for NRTL)",
+          "consolute temperature (Tc) and critical composition (xc) for systems with miscibility gaps"
+        ],
+        "common_artifacts": [
+          "digitization error: systematic bias from imprecise placement of crosshairs on phase boundary curves in published figures",
+          "metastable extensions: reading a metastable liquidus branch below the eutectic as if it were stable equilibrium",
+          "kinetic boundaries mistaken for equilibrium: supercooling or slow nucleation in original data leads to apparent depression of liquidus temperatures",
+          "solid solution neglect: assuming pure-solid eutectic when the system actually forms partial solid solutions, causing overestimation of activity coefficients",
+          "ΔCp neglect artifact: assuming temperature-independent ΔHfus over a wide liquidus range introduces systematic curvature error"
+        ],
+        "quality_control_checks": [
+          "verify that pure-component melting points from the diagram match accepted reference values (±0.5 K)",
+          "check that the Gibbs–Duhem equation is satisfied by the derived activity coefficients (thermodynamic consistency test)",
+          "cross-validate derived ΔHfus against calorimetric measurements where available",
+          "confirm that activity coefficients approach unity (Raoult's law) in the dilute limit of each component",
+          "compare eutectic temperature and composition with values reported in independent studies or databases",
+          "assess internal consistency by deriving the same quantity from both branches of the liquidus"
+        ],
+        "failure_modes": [
+          "source diagram is based on insufficiently equilibrated samples (kinetic, not thermodynamic, boundaries)",
+          "source diagram resolution too low — widely spaced data points prevent accurate reading of eutectic or slope",
+          "incorrect phase identification in the original study (e.g., metastable polymorph confused with stable phase)",
+          "extrapolation of liquidus curve beyond the measured composition range introduces large extrapolation error",
+          "ignoring the temperature dependence of ΔHfus when the liquidus spans more than ~50 K from Tm"
+        ]
+      },
+      "uncertainty": {
+        "level": "derived eutectic temperatures: ±1–5 K; derived compositions: ±0.01–0.05 mole fraction; derived ΔHfus: ±5–15%; derived activity coefficients: ±5–20%",
+        "random_sources": [
+          "scatter in original phase boundary experimental data (thermal analysis, visual observation, or DSC data points)",
+          "digitization jitter when extracting numerical values from published figures",
+          "interpolation noise from curve fitting through scattered data",
+          "graphical reading uncertainty in identifying exact eutectic or consolute points"
+        ],
+        "systematic_sources": [
+          "non-equilibrium conditions in the original phase diagram study (supercooling, incomplete dissolution)",
+          "neglect of solid solubility when it exists",
+          "use of temperature-independent ΔHfus over an extended liquidus range",
+          "incorrect choice of thermodynamic model for activity coefficient extraction",
+          "inconsistent composition scales or unit conversion errors between source and analysis",
+          "bias from low-purity components in the original study"
+        ],
+        "operator_dependence": "moderate to high — judgment is required in selecting data points, choosing model assumptions, identifying phase boundaries, and deciding which features are equilibrium vs. metastable",
+        "model_dependence": "high — derived thermodynamic quantities (activity coefficients, ΔHfus, interaction parameters) depend strongly on the chosen solution model and the assumption of temperature-independent fusion properties",
+        "dominant_error_sources": [
+          "quality and data density of the source phase diagram",
+          "validity of the ideal or regular solution assumption",
+          "assumption of temperature-independent ΔHfus for van't Hoff analysis",
+          "neglect of solid-phase non-ideality"
+        ],
+        "reported_as": [
+          "stated uncertainty on eutectic T and x derived from scatter in source data",
+          "propagated uncertainty on ΔHfus from liquidus slope analysis",
+          "confidence intervals on fitted interaction parameters",
+          "comparison with independent calorimetric or VLE data as a consistency measure"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Phase diagram analysis is a derivation method — not a physical measurement technique — in which thermodynamic properties are extracted from constructed or published phase diagrams of multicomponent systems. By reading phase boundary coordinates (liquidus, solidus, binodal, or vapor–liquid curves) and applying classical thermodynamic relations such as the Schröder–van Laar and van't Hoff equations, one can derive eutectic temperatures and compositions, activity coefficients, enthalpies of fusion, cryoscopic constants, and interaction parameters for solution models. In the ThermoML database it appears primarily under CompositionAtPhaseEquilibrium (171 instances, 60 papers) and PhaseTransition (71 instances, 25 papers), reflecting its role as a bridge between graphical phase equilibrium data and tabulated thermodynamic quantities.",
+      "how_it_operates": "The analyst begins with a complete or partial phase diagram — typically a T–x projection at fixed pressure — obtained from experimental measurements (DSC, visual polythermal method, cooling curves, or other techniques) or from published compilations. Numerical (T, x) data are extracted from the diagram, either from tabulated source data or by digitizing published figures using graphical extraction tools such as WebPlotDigitizer. The phase boundary data are then fitted with smooth functions (polynomials, splines, or thermodynamic model equations) to enable precise interpolation. Invariant points (eutectic, peritectic, azeotropic, consolute) are identified from intersections or extrema of the fitted curves. Derived thermodynamic quantities are computed by applying the appropriate thermodynamic equations to the fitted boundary data, often using spreadsheets or dedicated thermodynamic software.",
+      "core_theory": "The central equation is the Schröder–van Laar relation for solid–liquid equilibrium of component i: ln(γᵢxᵢ) = (ΔHfus,i/R)(1/Tm,i − 1/T), where γᵢ is the activity coefficient, xᵢ the mole fraction on the liquidus, ΔHfus,i the molar enthalpy of fusion, Tm,i the melting temperature of pure i, and T the liquidus temperature. For an ideal solution (γ = 1), this reduces to the Schröder equation: ln(xᵢ) = (ΔHfus,i/R)(1/Tm,i − 1/T), which predicts the ideal liquidus curve. Deviations of the experimental liquidus from the ideal curve yield the activity coefficients γᵢ(x, T). The initial slope of the liquidus at xᵢ → 1 provides the cryoscopic relation: (dT/dx₂)₀ = RTm²/ΔHfus, allowing ΔHfus to be estimated from the slope alone. For systems with miscibility gaps, the critical solution temperature and composition are obtained from the apex of the binodal curve, and the temperature dependence of the miscibility gap width yields information about the excess Gibbs energy and its composition dependence.",
+      "setup": "No physical apparatus is required. The analysis requires: (1) a reliable phase diagram with sufficient data-point density along phase boundaries, sourced from original experimental studies, established compilations (e.g., ASM International alloy phase diagrams, IUPAC–NIST JPCRD compilations), or thermodynamic databases; (2) digitization software if the diagram is available only as a published figure; (3) a computation environment (spreadsheet, Python/MATLAB script, or dedicated CALPHAD tools such as Thermo-Calc or FactSage) for curve fitting and thermodynamic calculations; and (4) reliable pure-component reference data — melting points and enthalpies of fusion from NIST, IUPAC, or Landolt-Börnstein sources — to anchor the van't Hoff analysis and validate the diagram endpoints.",
+      "suitable_for": "This method is suited for binary and multicomponent systems where phase diagrams of adequate quality are available, particularly eutectic systems, systems with solid solution formation, partially miscible liquid pairs exhibiting UCST or LCST, and systems with peritectic or azeotropic features. It is commonly applied to organic–organic mixtures (pharmaceuticals, deep eutectic solvents, cosmetic formulations), metallic alloy systems, salt–water and aqueous two-phase systems, polymer–solvent mixtures, and ionic liquid systems. The approach is especially valuable when direct calorimetric measurements are unavailable and the phase diagram can serve as a proxy source of fusion and mixing thermodynamics.",
+      "core_limitations": "The accuracy of all derived quantities is fundamentally limited by the quality, equilibrium status, and data density of the source phase diagram — a sparsely measured or kinetically biased diagram propagates large errors into every derived quantity. The van't Hoff analysis assumes temperature-independent ΔHfus (i.e., ΔCp,fus ≈ 0), which introduces systematic error when the liquidus spans more than roughly 50 K below the melting point. Simple eutectic analysis assumes pure solid phases; when solid solutions form, neglecting solid-phase non-ideality leads to overestimated activity coefficients. The method is inherently indirect — it derives thermodynamic quantities through model-dependent inversion of phase boundary data rather than measuring them directly — and the choice of solution model (Margules, Wilson, NRTL, UNIQUAC) can significantly affect the extracted parameters.",
+      "sample_preparation": "No physical sample is prepared. However, the quality of the analysis depends entirely on the quality of the original phase diagram data. The analyst must verify that the source study used components of adequate purity (typically ≥99 mol%), that equilibrium was confirmed (e.g., by agreement of heating and cooling runs, or by isothermal equilibration followed by sampling), and that sufficient data points span the composition range of interest. When digitizing published figures, the coordinate axes must be carefully calibrated against labeled tick marks, and the digitized points should be checked against any tabulated data provided in the original publication to quantify digitization error.",
+      "calibration_and_references": "Internal validation substitutes for instrumental calibration. The pure-component melting points read from the diagram endpoints (x = 0 and x = 1) must agree with accepted reference values from NIST or IUPAC to within the stated accuracy of the source study (typically ±0.5 K). Derived ΔHfus values should be compared with calorimetric measurements (DSC or adiabatic calorimetry) when available; agreement within ±5% provides confidence in the liquidus analysis. Activity coefficients derived from the liquidus should satisfy the Gibbs–Duhem consistency test (area test or point test), and the activity coefficients should approach unity in the Raoult's law limit (xᵢ → 1). Cross-validation against vapor–liquid equilibrium data or isopiestic measurements, if available, provides an independent check on the derived solution thermodynamics.",
+      "data_interpretation": "Eutectic temperature and composition are read directly from the intersection of the two liquidus branches (or from the minimum of the liquidus in a simple eutectic). Activity coefficients at each liquidus point are calculated by rearranging the van't Hoff equation: γᵢ = exp[(ΔHfus,i/R)(1/Tm,i − 1/T)] / xᵢ, using reference values of ΔHfus,i and Tm,i for pure component i. The resulting γᵢ vs. xᵢ data are then fitted to a solution model (Margules, Wilson, NRTL, or UNIQUAC) to obtain interaction parameters that reproduce the full liquidus curve. Alternatively, ΔHfus can be treated as the unknown and extracted from the initial slope of the liquidus via the cryoscopic relation. For systems with miscibility gaps, the binodal curve is fitted to a Redlich-Kister or Flory-Huggins model, and the critical solution temperature is located at the apex of the fitted curve where (∂²G/∂x²)T,P = 0.",
+      "common_pitfalls": "The most common pitfall is digitization bias — small systematic offsets in reading phase boundary coordinates from a published figure accumulate and distort derived quantities, particularly liquidus slopes used for ΔHfus estimation. Assuming ideal solution behavior when the system is strongly non-ideal leads to physically meaningless ΔHfus values (often negative or implausibly large). Ignoring solid solubility when the system forms partial solid solutions causes the derived activity coefficients to absorb the solid-phase non-ideality, yielding values that are inconsistent with independent VLE data. Reading metastable extensions of the liquidus below the eutectic (which sometimes appear in rapidly cooled samples) as equilibrium data produces fictitious properties. Using a thermodynamic model that is inappropriate for the system (e.g., a symmetric Margules equation for a highly asymmetric system) forces the data into the wrong functional form and yields misleading interaction parameters.",
+      "artifacts_and_failure_modes": "The dominant artifact is non-equilibrium bias: if the source phase diagram was constructed from cooling-curve or visual-method data without proper equilibration, supercooling depresses the apparent liquidus and the eutectic temperature, leading to overestimated ΔHfus and distorted activity coefficients. Digitization artifacts include axis misalignment (reading coordinates on a skewed or nonlinearly scaled axis), confusing multiple overlapping curves in a complex diagram, and misidentifying a three-phase invariant line as a phase boundary. The analysis fails entirely when the phase diagram contains unrecognized metastable phases, when published data from different sources are inconsistent and have been uncritically averaged, or when the diagram covers too narrow a composition range to constrain the thermodynamic model used for fitting.",
+      "reporting_checklist": "Reports of phase-diagram-derived thermodynamic data should include: source of the phase diagram (original reference, compilation, or database), method by which the original phase boundaries were measured, digitization method and estimated digitization uncertainty, pure-component reference data used (Tm, ΔHfus, source), the thermodynamic model and equations employed (Schröder–van Laar, van't Hoff, model name for activity coefficient fitting), all resulting derived values (eutectic T and x, activity coefficients, ΔHfus, interaction parameters) with stated uncertainties, the assumptions made (ideal vs. non-ideal solid phase, temperature-independent ΔHfus, negligible ΔCp,fus), any consistency checks performed (Gibbs–Duhem, comparison with calorimetric data), and the pressure at which the phase diagram applies. For ThermoML encoding, derived values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

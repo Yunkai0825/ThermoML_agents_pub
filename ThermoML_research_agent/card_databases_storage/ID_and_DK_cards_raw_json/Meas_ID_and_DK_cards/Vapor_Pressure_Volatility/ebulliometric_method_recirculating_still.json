@@ -1,0 +1,349 @@
+{
+  "meas_ID": "ebulliometric_method_recirculating_still",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Ebulliometric method (Recirculating still)",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Ebulliometric method (Recirculating still)",
+    "thermoml_custom_codes": [
+      "EBULLIO"
+    ],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "yes",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 3244,
+      "property_groups": [
+        "VaporPBoilingTAzeotropTandP",
+        "PhaseTransition"
+      ],
+      "n_papers": 707,
+      "per_group": {
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 3230,
+          "papers": 703
+        },
+        "PhaseTransition": {
+          "instances": 14,
+          "papers": 8
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "equilibrium boiling temperature (Tboil) at controlled pressure",
+          "system pressure (P) at controlled boiling temperature",
+          "liquid-phase composition (x) by sampling and analysis (GC, refractometry, densimetry)",
+          "vapor-phase (condensate) composition (y) by sampling and analysis"
+        ],
+        "derived_observables": [
+          "vapor-liquid equilibrium data sets (T, P, x, y)",
+          "vapor pressure of pure components as a function of temperature",
+          "activity coefficients (γ) from VLE data via modified Raoult's law or equation-of-state methods",
+          "excess Gibbs energy (GE) from integrated activity coefficient data",
+          "relative volatility (α) between components",
+          "azeotropic composition and temperature/pressure",
+          "Antoine or Wagner equation parameters from pure-component vapor pressure data",
+          "infinite-dilution activity coefficients (γ∞) by extrapolation"
+        ],
+        "target_properties": [
+          "vapor pressure of pure liquids",
+          "boiling temperature at specified pressure",
+          "vapor-liquid equilibrium phase diagrams (T-x-y, P-x-y)",
+          "azeotropic temperature and composition",
+          "activity coefficients",
+          "excess Gibbs energy of mixing"
+        ],
+        "phases_measured": [
+          "liquid (boiling)",
+          "vapor (condensed back to liquid for analysis)",
+          "vapor-liquid two-phase equilibrium"
+        ],
+        "supported_sample_types": [
+          "pure volatile liquids",
+          "binary liquid mixtures",
+          "ternary and multicomponent liquid mixtures",
+          "solutions of dissolved solids in volatile solvents (dilute regime)",
+          "azeotropic systems",
+          "partially miscible liquid systems (above UCST or below LCST where a single liquid phase exists)"
+        ],
+        "unsupported_sample_types": [
+          "non-volatile liquids (ionic liquids, heavy oils, molten salts) — insufficient vapor generation",
+          "thermally unstable compounds that decompose at or below the boiling point",
+          "highly viscous liquids that impede circulation and bubble nucleation",
+          "reactive systems where components react at boiling temperature",
+          "supercritical fluids (technique requires distinct liquid and vapor phases)",
+          "solid-vapor equilibria"
+        ],
+        "typical_output_formats": [
+          "T-x-y diagram at constant pressure (isobaric VLE)",
+          "P-x-y diagram at constant temperature (isothermal VLE)",
+          "vapor pressure vs. temperature curve (pure component)",
+          "tabulated (T, P, x, y) data with uncertainties",
+          "Antoine or Wagner fit parameters",
+          "activity coefficient vs. composition plot"
+        ],
+        "units": {
+          "temperature": "K",
+          "pressure": "kPa or MPa",
+          "mole_fraction": "dimensionless (0 to 1)",
+          "activity_coefficient": "dimensionless",
+          "excess_gibbs_energy": "J/mol",
+          "relative_volatility": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "pressure",
+            "typical_range": "1 kPa to 200 kPa",
+            "hard_limits": "lower limit set by leak tightness and manostat sensitivity (~0.1 kPa); upper limit by glass apparatus strength (~200 kPa) or stainless-steel design (~5 MPa)",
+            "notes": "most isobaric VLE studies performed at 101.325 kPa (atmospheric) or at reduced pressures for thermally sensitive compounds"
+          },
+          {
+            "parameter": "temperature",
+            "typical_range": "250 K to 500 K",
+            "hard_limits": "lower limit by liquid fluidity and sufficient vapor pressure; upper limit by thermal decomposition, glass softening (~520 K), or sealant degradation",
+            "notes": "stainless-steel stills extend upper range to ~600 K; low-temperature operation requires cryostatic cooling of condenser"
+          },
+          {
+            "parameter": "composition_range",
+            "typical_range": "x = 0 to 1 (full composition range)",
+            "hard_limits": "measurement at extreme dilution (x < 0.005 or x > 0.995) is limited by analytical sensitivity and difficulty achieving true equilibrium circulation",
+            "notes": "typically 15–25 composition points are measured to span the full diagram including any azeotrope"
+          },
+          {
+            "parameter": "liquid_holdup_volume",
+            "typical_range": "80 mL to 250 mL",
+            "hard_limits": "must be large enough to ensure representative sampling and steady circulation but small enough to reach equilibrium in reasonable time",
+            "notes": "Cottrell pump requires a minimum liquid volume to function; larger volumes increase time to equilibrium"
+          }
+        ],
+        "variables": [
+          {
+            "name": "pressure",
+            "role": "controlled variable (isobaric mode) or measured response (isothermal mode)",
+            "typical_values": "5 kPa to 200 kPa; commonly 101.325 kPa",
+            "effect": "sets the boiling temperature for a given composition; lower pressures enable study of higher-boiling or thermally sensitive compounds"
+          },
+          {
+            "name": "temperature",
+            "role": "measured response (isobaric mode) or controlled variable (isothermal mode)",
+            "typical_values": "280 K to 450 K for typical organic systems",
+            "effect": "equilibrium boiling temperature directly reflects the combined vapor pressures of all components at the set pressure"
+          },
+          {
+            "name": "liquid_composition",
+            "role": "prepared or adjusted variable",
+            "typical_values": "x = 0 to 1 in increments of 0.03–0.10 mole fraction",
+            "effect": "determines the equilibrium boiling point and vapor composition; composition is changed by adding aliquots of one component between equilibrium runs"
+          },
+          {
+            "name": "heating_power",
+            "role": "controlled input",
+            "typical_values": "50 W to 200 W",
+            "effect": "must be sufficient to maintain steady boiling and Cottrell pump circulation without violent bumping; too high causes entrainment of liquid droplets into vapor"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "boiling flask (reboiler) — glass or stainless-steel flask with immersion heater supplying energy for continuous boiling",
+          "Cottrell pump — vertical tube where rising vapor bubbles lift boiling liquid upward and spray it onto the equilibrium temperature sensor, ensuring the thermometer reads the true boiling point",
+          "equilibrium thermometer well — platinum resistance thermometer (PRT) or calibrated thermocouple positioned where the Cottrell pump discharges the liquid-vapor mixture",
+          "vapor condenser — reflux condenser (water or cryogen cooled) that condenses the vapor phase for sampling and return",
+          "liquid-phase sampling port — stopcock or septum on the liquid return line to withdraw equilibrium liquid samples",
+          "vapor-phase (condensate) sampling port — stopcock or septum on the condensate return line to withdraw equilibrium vapor samples",
+          "liquid return line — returns condensed vapor and recirculated liquid back to the boiling flask to maintain steady-state circulation",
+          "pressure control system — manostat, ballast volume, and/or precision pressure controller for isobaric operation; vacuum pump and leak-tight connections for sub-atmospheric work",
+          "pressure measurement device — mercury manometer, capacitance diaphragm gauge, or precision pressure transducer (resolution ±0.01 kPa)",
+          "temperature measurement device — Pt-100 or Pt-25 resistance thermometer read by a precision bridge or multimeter (resolution ±0.001 K)",
+          "analytical instruments — gas chromatograph (GC), refractometer, or densimeter for determining liquid and vapor compositions",
+          "magnetic or mechanical stirrer — prevents local superheating and promotes nucleation in the boiling flask",
+          "thermal insulation — vacuum jacket or fiber insulation around the still body to minimize heat losses"
+        ],
+        "environmental_requirements": [
+          "draft-free laboratory environment to avoid condenser temperature fluctuations",
+          "stable electrical supply for heater and temperature measurement electronics",
+          "adequate fume hood or ventilation for handling volatile organic solvents",
+          "cooling water supply (10–15 °C) or chiller for the reflux condenser"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid (no specific geometry requirement)"
+          ],
+          "size_limits": "80–250 mL per run; typically ~100–150 mL of liquid mixture",
+          "thickness_limits": "not applicable (bulk liquid)",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "high-purity liquids (≥99.5 mol% for VLE standards; verified by GC)",
+            "dried over molecular sieves or distilled to remove water for water-sensitive systems",
+            "degassed by repeated freeze-pump-thaw cycles, ultrasonic degassing, or prolonged boiling under vacuum to remove dissolved gases",
+            "composition prepared gravimetrically using an analytical balance (±0.0001 g) for known starting mixtures"
+          ]
+        },
+        "calibration_requirements": [
+          "temperature sensor calibration against ITS-90 fixed points or a certified reference PRT traceable to national standards",
+          "pressure gauge calibration against a deadweight tester or NIST-traceable reference gauge",
+          "verification of still performance by measuring vapor pressure of a well-characterized reference liquid (water, n-hexane, cyclohexane, or benzene) and comparing to literature correlations",
+          "GC calibration with gravimetrically prepared standard mixtures spanning the composition range of interest",
+          "refractometer calibration (if used) with known refractive index standards at the measurement temperature"
+        ],
+        "reference_materials": [
+          "water — vapor pressure reference (Antoine parameters extensively tabulated; IAPWS-95 equation)",
+          "n-hexane — non-polar vapor pressure standard",
+          "cyclohexane — vapor pressure and VLE reference; cyclohexane + benzene is a benchmark VLE system",
+          "benzene — classical VLE reference (note: carcinogen, often replaced by cyclohexane or toluene)",
+          "ethanol + water — well-studied azeotropic VLE system for binary calibration",
+          "cyclohexane + ethanol — benchmark partially miscible VLE system"
+        ],
+        "consumables": [
+          "high-purity solvents and reagents (GC-grade or better)",
+          "molecular sieves (3 Å or 4 Å) for drying",
+          "GC carrier gas (helium or nitrogen, high purity)",
+          "GC column appropriate for the chemical system",
+          "septum seals for sampling ports",
+          "vacuum grease for glass joints",
+          "boiling chips or PTFE boiling stones to promote nucleation"
+        ],
+        "safety_notes": [
+          "volatile organic solvents are flammable — all heating elements must be explosion-proof or the still must be in a ventilated enclosure",
+          "glass apparatus under vacuum is an implosion hazard — use protective shielding",
+          "hot liquids at boiling temperature present burn hazards — insulate exposed surfaces and use protective gloves when sampling",
+          "some common VLE solvents (benzene, chloroform, methanol) are toxic — use in a fume hood with appropriate personal protective equipment",
+          "pressure relief valve or rupture disk required for stills operated above atmospheric pressure"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving vapor pressure differences of ~0.05 kPa and composition differences of ~0.001 mole fraction in optimized setups",
+        "detection_limit": "not applicable in the conventional sense; minimum measurable vapor pressure is limited by system leak rate and manostat precision (~0.1 kPa)",
+        "resolution": {
+          "spatial": "not applicable (bulk equilibrium measurement)",
+          "temporal": "equilibrium attainment time 20–60 min per data point depending on system volatility and still volume",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "pressure: 0.5 kPa to 200 kPa (glass); up to 5 MPa (metal); temperature: 250–500 K (glass), up to 600 K (metal); composition: full range x = 0–1",
+        "accuracy": "temperature: ±0.01 K to ±0.05 K; pressure: ±0.01 kPa to ±0.1 kPa; mole fraction: ±0.001 to ±0.01 depending on analytical method and system ideality",
+        "precision": "temperature: ±0.005 K to ±0.02 K (repeatability); pressure: ±0.005 kPa to ±0.05 kPa; mole fraction: ±0.0005 to ±0.005",
+        "throughput": "one binary VLE isotherm or isobar (15–25 points) per 1–3 days; one pure-component vapor pressure curve per 1–2 days",
+        "measurement_speed": "20–60 minutes per equilibrium point (time to reach steady-state circulation and constant temperature/composition)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "equilibrium boiling temperature from PRT (resistance converted to T via ITS-90 calibration), system pressure from pressure transducer (voltage to pressure), and chromatographic peak areas or refractive index values from phase sampling",
+        "preprocessing_steps": [
+          "convert PRT resistance to temperature using ITS-90 calibration polynomial",
+          "apply pressure transducer calibration to convert raw voltage to pressure (kPa)",
+          "convert GC peak areas to mole fractions using calibration curves from gravimetric standards",
+          "correct refractometer readings for temperature using known dn/dT coefficients (if refractometry is used)",
+          "verify steady-state by confirming temperature is constant within ±0.01 K over ≥10 minutes before recording the data point",
+          "correct measured pressure for head of liquid in the manometer line (hydrostatic head correction)"
+        ],
+        "analysis_methods": [
+          "Antoine or Wagner equation regression to fit pure-component vapor pressure data (ln P vs. 1/T)",
+          "modified Raoult's law: P·yi = xi·γi·Pi_sat to extract activity coefficients from (T, P, x, y) data",
+          "Barker's method: fit GE model (Margules, Van Laar, Wilson, NRTL, UNIQUAC) to P-x data when only total pressure and liquid composition are measured",
+          "thermodynamic consistency testing: area test (Herington), point test (Van Ness), or direct test to validate measured VLE data quality",
+          "Redlich-Kister polynomial fit to excess Gibbs energy vs. composition",
+          "equation-of-state (EOS) methods (Peng-Robinson, SRK) with mixing rules for high-pressure or non-ideal vapor phase corrections",
+          "extrapolation to x→0 and x→1 for infinite-dilution activity coefficients"
+        ],
+        "model_assumptions": [
+          "true thermodynamic equilibrium between liquid and vapor phases is achieved during recirculation (steady-state criterion)",
+          "no entrainment of liquid droplets into the vapor phase (vapor sample represents true equilibrium vapor)",
+          "no partial condensation of vapor before the sampling point (adequate insulation of vapor line)",
+          "the Cottrell pump establishes a uniform boiling point reading representative of the bulk equilibrium temperature",
+          "ideal gas behavior of the vapor phase at low to moderate pressures (<200 kPa); corrections via virial equation or EOS needed at higher pressures",
+          "negligible pressure drop between the boiling zone and the pressure measurement point"
+        ],
+        "fit_parameters": [
+          "Antoine equation constants (A, B, C) or Wagner equation constants for pure vapor pressure",
+          "Wilson, NRTL, or UNIQUAC binary interaction parameters (Λ12, Λ21 or τ12, τ21, α12)",
+          "Margules or Van Laar parameters for simple symmetric/asymmetric systems",
+          "Redlich-Kister polynomial coefficients for GE/RT vs. x"
+        ],
+        "common_artifacts": [
+          "superheating artifact: boiling temperature reads higher than true equilibrium if nucleation is poor — mitigated by boiling chips, stirring, and proper Cottrell pump design",
+          "entrainment artifact: liquid droplets carried into the vapor condenser contaminate the vapor sample, making y appear closer to x than the true equilibrium value",
+          "partial condensation artifact: vapor condensing on cold spots before reaching the condenser or sampling port produces a vapor sample depleted in the less volatile component",
+          "composition drift: slow evaporation of the more volatile component during prolonged measurements gradually shifts the bulk liquid composition from the intended value",
+          "pressure fluctuation artifact: oscillations from the manostat or vacuum pump cause the boiling temperature to oscillate, reducing precision",
+          "dissolved gas artifact: residual dissolved air or inert gas elevates the apparent pressure and depresses the observed boiling point"
+        ],
+        "quality_control_checks": [
+          "thermodynamic consistency test on complete VLE data set (Herington area test, Van Ness point test, or Wisniak L-W test)",
+          "verify pure-component end-point vapor pressures against literature correlations — deviations > 0.5% indicate systematic errors",
+          "check material balance: total moles charged vs. recovered (liquid + condensate) should agree within 1%",
+          "confirm steady state: temperature must be constant within ±0.01 K for ≥10 min before sampling",
+          "replicate measurements at selected compositions to verify repeatability",
+          "compare GC-derived compositions with refractometry or densimetry as an independent cross-check",
+          "verify no azeotrope is missed by measuring sufficient points in regions where x ≈ y"
+        ],
+        "failure_modes": [
+          "Cottrell pump failure: insufficient heating power or liquid level causes the pump to stall, breaking recirculation and preventing equilibrium",
+          "condenser flooding: excessive condensation rate blocks vapor flow and disrupts steady-state operation",
+          "leak in vacuum system: air ingress causes erroneously high pressure readings and suppresses boiling point",
+          "thermal decomposition: prolonged heating at the boiling point degrades thermally sensitive components, producing spurious peaks in GC analysis",
+          "bumping: sudden violent boiling ejects liquid from the flask, contaminating the vapor sample and potentially breaking the apparatus",
+          "GC calibration drift: detector sensitivity changes over a long measurement campaign lead to systematic composition errors"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainties: u(T) = 0.01–0.05 K, u(P) = 0.01–0.1 kPa, u(x) = u(y) = 0.001–0.01 mole fraction",
+        "random_sources": [
+          "temperature sensor noise and readout fluctuations",
+          "pressure transducer noise and manostat regulation oscillations",
+          "GC injection volume variability and detector noise affecting peak area reproducibility",
+          "small temperature oscillations from uneven boiling or irregular Cottrell pump cycling",
+          "sampling variability — slight composition differences between successive withdrawals at the same nominal equilibrium"
+        ],
+        "systematic_sources": [
+          "PRT calibration offset or drift from certified ITS-90 values",
+          "pressure gauge calibration offset (zero drift, span error)",
+          "hydrostatic head correction error (uncertainty in liquid column height and density)",
+          "GC calibration curve bias (nonlinear detector response, standard purity)",
+          "incomplete degassing — residual dissolved gas systematically biases pressure upward",
+          "entrainment of liquid into vapor sample — systematically shifts y toward x",
+          "partial condensation in vapor line — systematically depletes less-volatile component in y",
+          "heat leak through still insulation — systematic depression of measured boiling temperature"
+        ],
+        "operator_dependence": "moderate — operator skill affects degassing thoroughness, heating rate optimization to prevent bumping and entrainment, sampling technique, and judgment of steady-state attainment",
+        "model_dependence": "moderate to high — derived activity coefficients depend on the vapor-phase model (ideal gas vs. virial equation vs. EOS) and the choice of GE model; thermodynamic consistency depends on the test methodology applied",
+        "dominant_error_sources": [
+          "liquid and vapor composition analysis (GC calibration and sampling are typically the largest uncertainty contributors)",
+          "equilibrium verification — whether true steady-state VLE was achieved before sampling",
+          "pressure measurement and control accuracy (especially at sub-atmospheric pressures where relative errors are larger)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k=2) for each measured quantity (T, P, x, y)",
+          "standard uncertainty u(T), u(P), u(x), u(y)",
+          "relative uncertainty for activity coefficients and derived quantities"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The ebulliometric method using a recirculating (vapor-liquid equilibrium) still is a widely used technique for measuring vapor pressures of pure liquids and vapor-liquid equilibrium (VLE) data for mixtures. In a recirculating still, both the liquid and the condensed vapor phases are continuously circulated back to the boiling zone, ensuring intimate contact and approach to true thermodynamic equilibrium. The technique measures the equilibrium boiling temperature at a controlled pressure (isobaric mode) or the equilibrium pressure at a controlled temperature (isothermal mode), along with the compositions of coexisting liquid and vapor phases. With 3,244 measurement instances across 707 papers in the NIST ThermoML database, this is one of the most heavily used VLE measurement methods. Common still designs include those of Othmer, Rogalski-Malanowski, and the modified Fischer (Labodest) apparatus.",
+      "how_it_operates": "The liquid charge is placed in a boiling flask equipped with an immersion heater. When heated, the boiling liquid generates vapor bubbles that rise through a Cottrell pump — a vertical tube where the ascending bubbles entrain liquid and carry it upward to impinge on the equilibrium temperature sensor. This arrangement ensures the thermometer reads the true boiling point of the liquid-vapor mixture rather than a superheated liquid temperature. The vapor continues to an overhead condenser where it is liquefied, collected in a condensate receiver (allowing sampling of the equilibrium vapor composition as a condensed liquid), and then returned to the boiling flask. Simultaneously, the liquid phase drains from the Cottrell pump discharge zone back to the flask through a separate return path, with a sampling port for withdrawing equilibrium liquid samples. Both phases thus recirculate continuously. Equilibrium is judged attained when the boiling temperature remains constant within ±0.01 K for at least 10–20 minutes. Samples of the liquid and condensate are then withdrawn and analyzed (typically by gas chromatography) to determine the mole fractions x and y.",
+      "core_theory": "At vapor-liquid equilibrium, the chemical potential (or fugacity) of each component is equal in both phases. For a mixture of N components at equilibrium temperature T and pressure P, the fundamental relation is: yi·P·φi_V = xi·γi·Pi_sat·φi_sat·exp[Vi_L·(P − Pi_sat)/(RT)], where yi and xi are vapor and liquid mole fractions, γi is the liquid-phase activity coefficient, Pi_sat is the pure-component saturation pressure at T, φi_V and φi_sat are vapor-phase fugacity coefficients, and the exponential is the Poynting correction. At low pressures (< 200 kPa), the vapor phase is approximately ideal (φ ≈ 1, Poynting ≈ 1), reducing to the modified Raoult's law: P·yi = xi·γi·Pi_sat. Pure-component vapor pressures follow the Clausius-Clapeyron relation, commonly parameterized by the Antoine equation: log10(P) = A − B/(T + C). The activity coefficients are correlated by excess Gibbs energy models (Wilson, NRTL, UNIQUAC) whose binary interaction parameters are regressed from the measured (T, P, x, y) data.",
+      "setup": "A typical recirculating VLE still consists of a round-bottom glass boiling flask (100–250 mL) with an internal electric heater (cartridge or coiled wire, 50–200 W). A Cottrell pump tube rises from the flask, terminating at the equilibrium chamber where a precision platinum resistance thermometer (Pt-100 or Pt-25) is positioned in the liquid-vapor discharge stream. Above the equilibrium chamber, vapor passes to a reflux condenser cooled by circulating water or a chiller. The condensate collects in a small receiver fitted with a sampling stopcock or septum. A separate liquid return line with its own sampling port recycles settled liquid back to the flask. The system connects to a pressure control manifold comprising a vacuum pump, large-volume ballast tank, manostat (or electronic pressure controller), and a precision pressure transducer. The entire still body is thermally insulated with vacuum jackets or fiber wrapping. Magnetic stirring or boiling chips in the flask prevent superheating. Common commercial designs include the Fischer (Labodest) apparatus and custom-built Rogalski-Malanowski type stills.",
+      "suitable_for": "This technique is the workhorse method for measuring isobaric T-x-y and isothermal P-x-y VLE data for binary and multicomponent mixtures of volatile organic liquids. It is particularly effective for systems with normal boiling points between 250 K and 500 K and at pressures from about 1 kPa to 200 kPa (glass apparatus). It is well suited for characterizing azeotropic systems, testing thermodynamic models, and generating parameters for process simulation in chemical engineering (distillation column design). It is also used for precise pure-component vapor pressure measurement as a function of temperature. The recirculating design is superior to static methods when composition-dependent data (activity coefficients, excess properties) are needed because both phases are sampled simultaneously at equilibrium.",
+      "core_limitations": "The method cannot be applied to non-volatile liquids that do not generate sufficient vapor at accessible temperatures, nor to thermally unstable compounds that decompose at the boiling point. Highly viscous liquids impede circulation and impair Cottrell pump operation. Glass apparatus limits the working pressure to about 200 kPa and temperature to about 500 K; stainless-steel stills extend these ranges but are more expensive and less common. Measurements at extreme dilution (mole fraction < 0.005) are limited by analytical sensitivity and difficulty maintaining true equilibrium with tiny amounts of minor component. The assumption of equilibrium requires careful verification — inadequate recirculation, entrainment, or partial condensation can produce systematic errors that are not always obvious. A complete isobaric VLE curve for a binary system typically requires 1–3 days of laboratory work per isobar.",
+      "sample_preparation": "Liquids should be of the highest available purity (≥99.5 mol%, verified by GC analysis before use). Water-sensitive systems require drying over activated molecular sieves (3 Å or 4 Å) followed by verification that the water content is below 100 ppm (by Karl Fischer titration). Dissolved gases must be rigorously removed by degassing — the preferred method is repeated freeze-pump-thaw cycling (at least three cycles) or prolonged reflux boiling under vacuum with removal of the first and last distillation fractions. Mixtures of known starting composition are prepared gravimetrically using an analytical balance (±0.0001 g). The initial charge is loaded into the still, and the composition is then changed between runs by adding weighed aliquots of one component. Boiling chips or PTFE nucleation aids are added to the flask to promote smooth boiling.",
+      "calibration_and_references": "Temperature calibration requires comparison of the PRT reading against ITS-90 fixed points or a NIST-traceable reference thermometer over the working range. Pressure transducers are calibrated against a deadweight piston gauge, a mercury manometer traceable to national standards, or a certified reference gauge. The performance of the entire still is validated by measuring the vapor pressure of a well-characterized reference liquid (water per IAPWS-95; n-hexane; cyclohexane) and comparing the results to accepted literature correlations — agreement within 0.05% in P confirms proper operation. For VLE measurements, the GC must be calibrated with gravimetrically prepared standard mixtures spanning the full composition range, with at least 5–7 calibration points per binary pair. A well-established reference VLE system such as cyclohexane + ethanol or n-hexane + ethanol should be measured to verify the complete apparatus performance (temperature, pressure, and composition simultaneously).",
+      "data_interpretation": "For each equilibrium point, the measured quantities are T, P, and the liquid (x) and vapor (y) mole fractions. Pure-component vapor pressure data are fitted to the Antoine or Wagner equation by nonlinear regression. For mixtures, activity coefficients are calculated from the modified Raoult's law: γi = (yi·P)/(xi·Pi_sat), where Pi_sat is the pure-component vapor pressure at the equilibrium T, obtained from the fitted Antoine parameters. At pressures above ~50 kPa, vapor-phase non-ideality corrections (second virial coefficients, Peng-Robinson or SRK EOS) may be applied. The γi values as a function of x are regressed to Wilson, NRTL, or UNIQUAC models to obtain binary interaction parameters. Thermodynamic consistency of the complete data set is evaluated using the Herington area test (integral condition), the Van Ness point test (comparison of measured and calculated pressures), or the Wisniak L-W test. Data failing these tests are flagged as potentially unreliable.",
+      "common_pitfalls": "The most frequent error is premature sampling before true equilibrium is reached — the temperature may appear stable while the liquid and vapor compositions are still evolving due to slow mass transfer. Inadequate degassing produces systematically high pressure readings (by 0.1–1 kPa) and depressed boiling points. Entrainment of liquid droplets into the vapor stream is a pervasive problem, especially at high boil-up rates, and it biases the vapor composition toward the liquid composition, underestimating the separation. Conversely, partial condensation of vapor on cold walls or fittings before the sampling point enriches the sample in less volatile components. Using a heat input that is too high causes violent bumping and possible loss of material; too low a heat input stalls the Cottrell pump and destroys circulation. Inaccurate pressure control, particularly oscillations from a poorly tuned manostat, cause the boiling temperature to fluctuate, degrading precision. Failure to verify the system via a known reference liquid or VLE system means systematic errors may go undetected.",
+      "artifacts_and_failure_modes": "Superheating occurs when nucleation is suppressed, causing the liquid temperature to exceed the true boiling point by up to several tenths of a kelvin — this manifests as erratic temperature readings punctuated by sudden drops when delayed nucleation occurs. Entrainment contamination appears as vapor-phase compositions (y) that are systematically shifted toward the liquid composition (x), reducing the apparent relative volatility; this is detected by abnormally low thermodynamic consistency test scores. Partial condensation produces the opposite bias in y, enriching the condensate sample in the less volatile component. Cottrell pump stalling (from insufficient heat or too-low liquid level) causes the equilibrium thermometer to read a gas-phase temperature rather than the true boiling point, introducing errors of 0.1–1 K. Leaks in the vacuum system cause a slow upward drift in pressure during isothermal runs. Thermal decomposition during long experiments produces new GC peaks and shifting baseline compositions. Condenser flooding, where the condensate return line backs up, can cause the apparatus to oscillate between different flow regimes, producing unstable readings.",
+      "reporting_checklist": "Published results should include: still type and design reference, liquid charge volume, heating method and approximate power, thermometer type and calibration traceability, pressure transducer type and calibration traceability, analytical method for composition (GC column type, detector, calibration procedure), sample purities (verified by GC, refractive index, or density) with supplier information, degassing procedure, criterion for equilibrium attainment (e.g., temperature stable within ±0.01 K for 20 min), number and spacing of composition points measured, tabulated (T, P, x, y) data with combined expanded uncertainties U(T), U(P), U(x), U(y) at 95% confidence, thermodynamic consistency test results (method and score), pure-component vapor pressure data compared to literature, and model parameters fitted (Wilson/NRTL/UNIQUAC). For ThermoML encoding, all uncertainties are reported as nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

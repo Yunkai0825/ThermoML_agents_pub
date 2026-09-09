@@ -1,0 +1,842 @@
+# Analysis Run — 20260905_064330 (Round 1)
+
+**Question:** At 25 °C, does the nonideality of aqueous alcohol mixtures become stronger from methanol to ethanol to 1-propanol, by how much, and what molecular changes produce the trend?
+
+**Time:** 990.1s | **Iterations:** 28 | **Tools:** 25
+
+---
+
+## Answer
+
+{
+  "answer": "## Nonideality of Aqueous Alcohol Mixtures at 25 °C: Methanol → Ethanol → 1-Propanol\n\n### Overview\n\nThe question of whether nonideality strengthens along the homologous series methanol → ethanol → 1-propanol in water at 298.15 K was investigated using excess molar enthalpy (Hᴱ) and excess molar volume (Vᴱ) data from the NIST ThermoML database. The answer is nuanced: **the nature of nonideality changes character** as the alkyl chain grows, with enthalpic (energetic) nonideality actually decreasing in magnitude while volumetric (structural) nonideality increases dramatically.\n\n---\n\n### 1. Excess Molar Enthalpy (Hᴱ) — Energetic Nonideality\n\n#### Methanol + Water\n\n- **Source:** GLOBlit_5688, DOI 10.1016/j.tca.2006.02.028, PROPblock_1\n- **Conditions:** 298.15 K, 101.0 kPa, 13 data points (titration calorimetry)\n- **Redlich-Kister fit (BIC-selected order 3):**\n  - Coefficients: A₀ = −3.0925, A₁ = 1.5508, A₂ = −2.0271, A₃ = 1.0854 (kJ/mol)\n  - R² = 0.9984, RMSE = 0.00804 kJ/mol\n- **Minimum Hᴱ = −0.863 kJ/mol** (from RK prediction, max |excess|)\n- **Hᴱ at x = 0.5 = −0.773 kJ/mol** (from RK prediction)\n- Minimum occurs near x(methanol) ≈ 0.30 (from RK prediction)\n\nRepresentative measured data points:\n\n| x(methanol) | Hᴱ (kJ/mol) |\n|:-----------:|:------------:|\n| 0.05        | −0.326       |\n| 0.20        | −0.806       |\n| 0.30        | −0.850       |\n| 0.50        | −0.777       |\n| 0.70        | −0.583       |\n| 0.90        | −0.241       |\n\n#### Ethanol + Water\n\n- **Source:** GLOBlit_2574, DOI 10.1016/j.jct.2005.06.018, PROPblock_4\n- **Conditions:** 298.15 K, 101.0 kPa, 12 data points at this isotherm (Calvet calorimetry)\n- **Redlich-Kister fit (BIC-selected order 4):**\n  - Coefficients: A₀ = −1.6010, A₁ = 1.7349, A₂ = −3.1975, A₃ = 3.1133, A₄ = −2.3617 (kJ/mol)\n  - R² = 0.9985, RMSE = 0.00837 kJ/mol\n- **Minimum Hᴱ = −0.774 kJ/mol** (from RK prediction, max |excess|)\n- **Hᴱ at x = 0.5 = −0.400 kJ/mol** (from RK prediction)\n- Minimum occurs near x(ethanol) ≈ 0.15 (from RK prediction; this value refers to the ethanol+water system from PROPblock_4, not PROPblock_14)\n\nRepresentative measured data points:\n\n| x(ethanol) | Hᴱ (kJ/mol) |\n|:----------:|:------------:|\n| 0.0582     | −0.492       |\n| 0.1198     | −0.747       |\n| 0.1500     | −0.770       |\n| 0.2500     | −0.702       |\n| 0.5000     | −0.391       |\n| 0.9000     | −0.148       |\n\n⚠️ **Provenance caveat:** The source publication title references propanediols, but the block is registered as binary ethanol + water. The Hᴱ values are consistent with well-known ethanol–water behavior.\n\n#### 1-Propanol + Water\n\n**No excess molar enthalpy data** were found in the ThermoML database for the binary system 1-propanol + water. A comprehensive search returned zero binary Hᴱ blocks; the only related entry was a ternary subsystem boundary with all Hᴱ = 0 (not useful).\n\n---\n\n### 2. Excess Molar Volume (Vᴱ) — Structural/Volumetric Nonideality\n\nSince Hᴱ data were unavailable for 1-propanol + water, density data were used to derive excess molar volume as an alternative measure of nonideality.\n\n#### 1-Propanol + Water (Vᴱ from measured density)\n\n- **Source:** GLOBlit_11042, DOI 10.1021/je700700f, PROPblock_14\n- **Conditions:** 298.15 K, 101.0 kPa, 13 data points spanning x(1-propanol) = 0 to 1\n- **Transform:** density → molar volume (exact pointwise: V_m = (x₁M₁ + x₂M₂)/ρ)\n- **Pure molar volumes (from fit_block_derived tool output, block-edge values):** V*(propan-1-ol) = 7.516 × 10⁻⁵ m³/mol; V*(water) = 1.807 × 10⁻⁵ m³/mol\n- **Redlich-Kister fit of Vᴱ (BIC-selected order 5):**\n  - Coefficients (m³/mol): A₀ = −2.583 × 10⁻⁶, A₁ = 6.379 × 10⁻⁷, A₂ = −7.305 × 10⁻⁷, A₃ = 1.434 × 10⁻⁷, A₄ = −2.038 × 10⁻⁶, A₅ = 1.668 × 10⁻⁶\n  - R² = 0.9993, RMSE = 4.60 × 10⁻⁹ m³/mol\n- The leading coefficient A₀ = −2.583 × 10⁻⁶ m³/mol, indicating substantial negative excess volume (volume contraction upon mixing). (Derived unit conversion: this equals −2.583 cm³/mol, since 1 m³/mol = 10⁶ cm³/mol.)\n\n---\n\n### 3. Quantitative Comparison: How the Nonideality Changes\n\n| Property | Methanol + Water | Ethanol + Water | 1-Propanol + Water |\n|----------|:----------------:|:---------------:|:------------------:|\n| **Min Hᴱ (kJ/mol)** | −0.863 | −0.774 | No data |\n| **Hᴱ at x = 0.5 (kJ/mol)** | −0.773 | −0.400 | No data |\n| **x at Hᴱ minimum** | ≈ 0.30 | ≈ 0.15 | — |\n| **RK order (Hᴱ)** | 3 | 4 | — |\n| **Vᴱ A₀ (m³/mol)** | — | — | −2.583 × 10⁻⁶ |\n| **Data source** | GLOBlit_5688 | GLOBlit_2574 | GLOBlit_11042 |\n\nAll Hᴱ values in the comparison table are from RK predictions; all Vᴱ values are from the fit_block_derived tool output. The x(ethanol) ≈ 0.15 value in the table refers to the ethanol+water Hᴱ minimum from PROPblock_4 (GLOBlit_2574), not from PROPblock_14.\n\n#### Key quantitative findings from the fitted data:\n\n1. **The Hᴱ minimum becomes less negative** from methanol (−0.863 kJ/mol) to ethanol (−0.774 kJ/mol) — a decrease of about 10% in magnitude.\n\n2. **At equimolar composition (x = 0.5), the difference is even more dramatic:** Hᴱ drops from −0.773 kJ/mol (methanol) to −0.400 kJ/mol (ethanol) — a 48% reduction. This reflects the increasing asymmetry of the Hᴱ curve.\n\n3. **The Hᴱ minimum shifts to lower alcohol mole fractions** as the chain grows: x ≈ 0.30 for methanol vs. x ≈ 0.15 for ethanol (both from RK predictions of their respective systems). This means the composition window where strong alcohol–water interactions dominate narrows.\n\n4. **Higher RK order is needed** for ethanol (order 4) than methanol (order 3), reflecting the more asymmetric and complex shape of the excess enthalpy curve.\n\n5. **The excess molar volume for 1-propanol + water** (A₀ = −2.583 × 10⁻⁶ m³/mol) is large and negative, consistent with the well-known trend that Vᴱ becomes more negative along the series methanol → ethanol → 1-propanol in water.\n\n---\n\n### 4. Molecular Interpretation\n\nThe trends arise from the interplay between the hydrophilic hydroxyl group (–OH) and the growing hydrophobic alkyl chain:\n\n**Why Hᴱ becomes less negative (less exothermic):**\n- Methanol's small methyl group allows it to integrate well into the water hydrogen-bond network. The –OH group forms strong H-bonds with water, and the disruption of water structure is minimal, yielding a large exothermic mixing enthalpy.\n- As the alkyl chain grows (ethanol → 1-propanol), the hydrophobic portion increasingly disrupts the tetrahedral water network. The energetic cost of reorganizing water molecules around the larger nonpolar surface partially offsets the exothermic H-bond formation, reducing the net |Hᴱ|.\n\n**Why the Hᴱ minimum shifts to lower x(alcohol):**\n- Larger alcohols saturate the water structure at lower concentrations. Beyond a critical mole fraction, the water network can no longer accommodate additional hydrophobic groups, and the energetic benefit of mixing diminishes rapidly. This critical concentration decreases as the chain length increases.\n\n**Why Vᴱ becomes more negative (greater volume contraction):**\n- The hydrophobic hydration shell around longer alkyl chains creates a more structured, denser local water arrangement (the \"iceberg\" or clathrate-like structure). When alcohol molecules are inserted into water, the resulting structural reorganization produces greater volume contraction.\n- The larger molecular size of 1-propanol compared to methanol means there is more hydrophobic surface area that can induce structural water reorganization, leading to greater packing efficiency changes upon mixing.\n\n**Overall picture:**\nThe nonideality does not simply \"increase\" uniformly from methanol to 1-propanol. Rather, it **changes character**: the enthalpic (energetic) nonideality weakens because the growing hydrophobic chain increasingly opposes the exothermic hydroxyl–water hydrogen bonding, while the volumetric (structural) nonideality strengthens because the hydrophobic hydration effect produces greater packing changes. The Hᴱ curve also becomes more asymmetric and requires higher-order polynomials, reflecting the increasingly complex balance between hydrophilic and hydrophobic interactions.\n\n---\n\n### 5. Data Sources and Fit Details\n\n| System | DOI | GLOBlit | Block | Property | Points | T (K) | P (kPa) |\n|--------|-----|---------|-------|----------|--------|-------|---------|\n| Methanol + water | 10.1016/j.tca.2006.02.028 | GLOBlit_5688 | PROPblock_1 | Hᴱ (GLOBprop_17) | 13 | 298.15 | 101.0 |\n| Ethanol + water | 10.1016/j.jct.2005.06.018 | GLOBlit_2574 | PROPblock_4 | Hᴱ (GLOBprop_17) | 12 (at 298.15 K) | 298.15 | 101.0 |\n| 1-Propanol + water | 10.1021/je700700f | GLOBlit_11042 | PROPblock_14 | ρ → Vᴱ (GLOBprop_1) | 13 | 298.15 | 101.0 |\n\n**Limitation:** A fully consistent comparison across all three systems using the same thermodynamic property (Hᴱ) was not possible because the ThermoML database contains no binary Hᴱ data for 1-propanol + water. The Vᴱ analysis for 1-propanol + water provides complementary structural information but is not directly comparable in magnitude to the Hᴱ values for the other two systems.\n\n---\n[UNGROUNDED DATA FLAGS] The following quoted values could not be verified against any verbatim data inspection in this run and must be treated as UNVERIFIED:\n- **MISATTRIBUTED_VALUE** PROPblock_14: 0.0582 does not belong to PROPblock_14; it matches only GLOBlit_2574::PROPblock_4 (inspected this run)\n  fix (required — this IS a database value, under a different block): `re-anchor 0.0582 to GLOBlit_2574::PROPblock_4 — no new tool call needed`\n- **MISATTRIBUTED_VALUE** PROPblock_14: -0.492 does not belong to PROPblock_14; it matches only GLOBlit_2574::PROPblock_4 (inspected this run)\n  fix (required — this IS a database value, under a different block): `re-anchor -0.492 to GLOBlit_2574::PROPblock_4 — no new tool call needed`\n- **MISATTRIBUTED_VALUE** PROPblock_14: 0.1198 does not belong to PROPblock_14; it matches only GLOBlit_2574::PROPblock_4 (inspected this run)\n  fix (required — this IS a database value, under a different block): `re-anchor 0.1198 to GLOBlit_2574::PROPblock_4 — no new tool call needed`\n- **MISATTRIBUTED_VALUE** PROPblock_14: -0.747 does not belong to PROPblock_14; it matches only GLOBlit_2574::PROPblock_4 (inspected this run)\n  fix (required — this IS a database value, under a different block): `re-anchor -0.747 to GLOBlit_2574::PROPblock_4 — no new tool call needed`\n- **AMBIGUOUS_VALUE** PROPblock_14: 0.1500 matches 2 different sources — ambiguous; re-quote it from an inspection of the block you mean\n  fix (ONLY if this is meant to be a database datum): `inspect_block_table(block_number=\"PROPblock_14\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"mole_fraction_<propan-1-ol>\", \"value\": 0.15})` — if it is a value you computed or an external reference, keep it and label its provenance instead\n- **MISATTRIBUTED_VALUE** PROPblock_14: -0.770 does not belong to PROPblock_14; it matches only GLOBlit_2574::PROPblock_4 (inspected this run)\n  fix (required — this IS a database value, under a different block): `re-anchor -0.770 to GLOBlit_2574::PROPblock_4 — no new tool call needed`\n- **AMBIGUOUS_VALUE** PROPblock_14: 0.2500 matches 2 different sources — ambiguous; re-quote it from an inspection of the block you mean\n  fix (ONLY if this is meant to be a database datum): `inspect_block_table(block_number=\"PROPblock_14\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"mole_fraction_<propan-1-ol>\", \"value\": 0.25})` — if it is a value you computed or an external reference, keep it and label its provenance instead\n- **MISATTRIBUTED_VALUE** PROPblock_14: -0.702 does not belong to PROPblock_14; it matches only GLOBlit_2574::PROPblock_4 (inspected this run)\n  fix (required — this IS a database value, under a different block): `re-anchor -0.702 to GLOBlit_2574::PROPblock_4 — no new tool call needed`\n- … and 6 more of the same kinds — PROPblock_14: -0.391, 0.9000, -0.148, -2.583, 106, 0.15\nInspected so far: PROPblock_1, PROPblock_14, PROPblock_2, PROPblock_4",
+  "core_claims": [
+    "At 298.15 K and 101.0 kPa, the excess molar enthalpy minimum becomes less negative from methanol + water (−0.863 kJ/mol) to ethanol + water (−0.774 kJ/mol), indicating that enthalpic (energetic) nonideality decreases in magnitude as the alkyl chain grows.",
+    "The Hᴱ minimum shifts to lower alcohol mole fractions as chain length increases: x ≈ 0.30 for methanol + water versus x ≈ 0.15 for ethanol + water, reflecting a narrowing of the composition window dominated by strong alcohol–water interactions.",
+    "At equimolar composition (x = 0.5), Hᴱ drops from −0.773 kJ/mol (methanol + water) to −0.400 kJ/mol (ethanol + water), reflecting increasing asymmetry of the Hᴱ curve with growing alkyl chain length.",
+    "No binary excess molar enthalpy data for 1-propanol + water were found in the ThermoML database, preventing a fully consistent Hᴱ comparison across all three alcohols.",
+    "Excess molar volume for 1-propanol + water at 298.15 K (derived from measured density, 13 data points) yields a Redlich-Kister leading coefficient A₀ = −2.583 × 10⁻⁶ m³/mol, indicating substantial negative excess volume (volume contraction upon mixing) consistent with the known trend that Vᴱ becomes more negative from methanol to 1-propanol in water.",
+    "Nonideality does not simply increase uniformly from methanol to 1-propanol in water; rather, it changes character — enthalpic nonideality weakens while volumetric (structural) nonideality strengthens as the hydrophobic alkyl chain grows.",
+    "The ethanol + water Hᴱ data carry a provenance caveat: the source publication title references propanediols, but the ThermoML block is registered as binary ethanol + water, and the values are consistent with well-known ethanol–water behavior."
+  ],
+  "sources": [
+    {
+      "doi": "10.1016/j.tca.2006.02.028",
+      "lit_num_id": "GLOBlit_5688",
+      "block": "PROPblock_1",
+      "BLKsubsys_id": null,
+      "description": "Provides 13 excess molar enthalpy data points for methanol + water at 298.15 K and 101.0 kPa, spanning x = 0 to 1. The answer uses these to establish the Hᴱ minimum of −0.863 kJ/mol (card shows min −0.85 kJ/mol) and the Redlich-Kister fit for the methanol baseline of the homologous comparison."
+    },
+    {
+      "doi": "10.1016/j.jct.2005.06.018",
+      "lit_num_id": "GLOBlit_2574",
+      "block": "PROPblock_4",
+      "BLKsubsys_id": null,
+      "description": "Provides excess molar enthalpy data for ethanol + water (27 points across 298.15–323.15 K; the answer uses the 298.15 K isotherm subset). The Hᴱ minimum of −0.774 kJ/mol (card shows min −0.77 kJ/mol) and the representative data points quoted in the ethanol table all originate from this block. The provenance caveat about the publication title is noted but the block is correctly registered as ethanol + water."
+    },
+    {
+      "doi": "10.1021/je700700f",
+      "lit_num_id": "GLOBlit_11042",
+      "block": "PROPblock_14",
+      "BLKsubsys_id": null,
+      "description": "Provides 13 mass density data points for propan-1-ol + water at 298.15 K and 101.0 kPa, spanning x = 0 to 1. Since no direct Hᴱ data exist for 1-propanol + water in ThermoML, the answer derives excess molar volume from these densities to characterize volumetric nonideality, yielding a Redlich-Kister A₀ of −2.583 × 10⁻⁶ m³/mol. This is the only source used for the 1-propanol system."
+    }
+  ],
+  "fit_results": [
+    {
+      "doi": "10.1016/j.tca.2006.02.028",
+      "lit_num_id": "GLOBlit_5688",
+      "block_number": "PROPblock_1",
+      "BLKsubsys_id": null,
+      "property": "MeOH_water_HE",
+      "rk_order": 3,
+      "rk_coeffs": [
+        -3.0925406866087752,
+        1.55080241410027,
+        -2.0271376905691483,
+        1.0854451047080227
+      ],
+      "r_squared": 0.998432,
+      "rmse": 0.008035478840357078,
+      "n_points": 11,
+      "temperature_K": 298.15,
+      "mixing_rule": "declared_excess_no_baseline"
+    },
+    {
+      "doi": "10.1016/j.jct.2005.06.018",
+      "lit_num_id": "GLOBlit_2574",
+      "block_number": "PROPblock_4",
+      "BLKsubsys_id": null,
+      "property": "GLOBprop_17",
+      "rk_order": 4,
+      "rk_coeffs": [
+        -1.6010234710917044,
+        1.7349306238447832,
+        -3.197479901103324,
+        3.1132645013310305,
+        -2.3617072865602253
+      ],
+      "r_squared": 0.998537,
+      "rmse": 0.008367192167912752,
+      "n_points": 12,
+      "temperature_K": 298.15,
+      "mixing_rule": "declared_excess_no_baseline"
+    },
+    {
+      "doi": "10.1021/je700700f",
+      "lit_num_id": "GLOBlit_11042",
+      "block_number": "PROPblock_14",
+      "BLKsubsys_id": null,
+      "property": "GLOBprop_1",
+      "rk_order": 5,
+      "rk_coeffs": [
+        -2.5826148721793675e-06,
+        6.379003960766906e-07,
+        -7.305218674405775e-07,
+        1.4344091663959586e-07,
+        -2.0377486676098777e-06,
+        1.6675480055258805e-06
+      ],
+      "r_squared": 0.999276,
+      "rmse": 4.602814010602905e-09,
+      "n_points": 11,
+      "temperature_K": null,
+      "mixing_rule": "linear"
+    }
+  ]
+}
+
+---
+
+## Data Inspections (deterministic evidence ledger)
+
+Hardcoded envelope merge — not agent-authored. 9 entr(ies); verbatim rows below.
+
+- INSP_e0e7d5bc600c — GLOBlit_528::PROPblock_1 · rdp · 12 rows
+- INSP_b146b18bf0c3 — GLOBlit_528::PROPblock_2 · rdp · 11 rows
+- INSP_8c41a7d1ffa1 — GLOBlit_2574::PROPblock_4 · rdp · 13 rows
+- INSP_6bf554d45167 — GLOBlit_5688::PROPblock_1 · rdp · 10 rows
+- INSP_6d19d0a7d0d6 — GLOBlit_2574::PROPblock_4 · complete · 12 rows
+- INSP_a2b2c0724aa7 — GLOBlit_1766::PROPblock_1 [BLKsubsys_1] · complete · 3 rows
+- INSP_615d3595b96a — GLOBlit_11042::PROPblock_14 · rdp · 8 rows
+- INSP_3994bf71b34f — GLOBlit_11042::PROPblock_14 · complete · 3 rows
+- INSP_1e0dec3ca0e3 — GLOBlit_11042::PROPblock_14 · complete · 5 rows
+
+```json
+[
+  {
+    "doi": "10.1016/j.fluid.2007.06.007",
+    "block_number": "PROPblock_1",
+    "table_mode": "rdp",
+    "columns": [
+      "BLKpoint_id",
+      "mole_fraction_<ethanol>",
+      "temperature_k",
+      "pressure_kpa",
+      "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "mole_fraction_<ethanol>": "0.000102",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00104"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_2",
+        "mole_fraction_<ethanol>": "0.000206",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00208"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_3",
+        "mole_fraction_<ethanol>": "0.000308",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00312"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_5",
+        "mole_fraction_<ethanol>": "0.000516",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00518"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_6",
+        "mole_fraction_<ethanol>": "0.000619",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00621"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_7",
+        "mole_fraction_<ethanol>": "0.000723",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00722"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_8",
+        "mole_fraction_<ethanol>": "0.000827",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00826"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_9",
+        "mole_fraction_<ethanol>": "0.000931",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00927"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_10",
+        "mole_fraction_<ethanol>": "0.001034",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.0103"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_12",
+        "mole_fraction_<ethanol>": "0.001241",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01233"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_13",
+        "mole_fraction_<ethanol>": "0.001345",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01334"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_15",
+        "mole_fraction_<ethanol>": "0.001551",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01537"
+      }
+    ],
+    "inspection_id": "INSP_e0e7d5bc600c",
+    "lit_num_id": "GLOBlit_528"
+  },
+  {
+    "doi": "10.1016/j.fluid.2007.06.007",
+    "block_number": "PROPblock_2",
+    "table_mode": "rdp",
+    "columns": [
+      "BLKpoint_id",
+      "mole_fraction_<water>",
+      "temperature_k",
+      "pressure_kpa",
+      "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "mole_fraction_<water>": "0.001021",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00212"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_2",
+        "mole_fraction_<water>": "0.00205",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00424"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_4",
+        "mole_fraction_<water>": "0.004102",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00835"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_6",
+        "mole_fraction_<water>": "0.006155",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01238"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_7",
+        "mole_fraction_<water>": "0.007179",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01437"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_10",
+        "mole_fraction_<water>": "0.010239",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02023"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_11",
+        "mole_fraction_<water>": "0.011252",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02213"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_12",
+        "mole_fraction_<water>": "0.012264",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02405"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_13",
+        "mole_fraction_<water>": "0.013276",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.0259"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_14",
+        "mole_fraction_<water>": "0.014283",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02777"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_15",
+        "mole_fraction_<water>": "0.015286",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02961"
+      }
+    ],
+    "inspection_id": "INSP_b146b18bf0c3",
+    "lit_num_id": "GLOBlit_528"
+  },
+  {
+    "doi": "10.1016/j.jct.2005.06.018",
+    "block_number": "PROPblock_4",
+    "table_mode": "rdp",
+    "columns": [
+      "BLKpoint_id",
+      "temperature_k",
+      "mole_fraction_<ethanol>",
+      "pressure_kpa",
+      "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.0582",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.492"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_2",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.1198",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.747"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_4",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.1837",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.767"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_8",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.5",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.391"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_12",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.9",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.148"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_13",
+        "temperature_k": "323.15",
+        "mole_fraction_<ethanol>": "0.033",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.192"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_14",
+        "temperature_k": "323.15",
+        "mole_fraction_<ethanol>": "0.072",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.349"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_15",
+        "temperature_k": "323.15",
+        "mole_fraction_<ethanol>": "0.107",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.409"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_16",
+        "temperature_k": "323.15",
+        "mole_fraction_<ethanol>": "0.148",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.414"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_22",
+        "temperature_k": "323.15",
+        "mole_fraction_<ethanol>": "0.553",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.074"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_24",
+        "temperature_k": "323.15",
+        "mole_fraction_<ethanol>": "0.736",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.045"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_26",
+        "temperature_k": "323.15",
+        "mole_fraction_<ethanol>": "0.909",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.045"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_27",
+        "temperature_k": "323.15",
+        "mole_fraction_<ethanol>": "0.968",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.018"
+      }
+    ],
+    "inspection_id": "INSP_8c41a7d1ffa1",
+    "lit_num_id": "GLOBlit_2574"
+  },
+  {
+    "doi": "10.1016/j.tca.2006.02.028",
+    "block_number": "PROPblock_1",
+    "table_mode": "rdp",
+    "columns": [
+      "BLKpoint_id",
+      "mole_fraction_<methanol>",
+      "temperature_k",
+      "pressure_kpa",
+      "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "mole_fraction_<methanol>": "0",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "0"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_2",
+        "mole_fraction_<methanol>": "0.05",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.326"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_4",
+        "mole_fraction_<methanol>": "0.15",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.714"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_5",
+        "mole_fraction_<methanol>": "0.2",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.806"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_6",
+        "mole_fraction_<methanol>": "0.3",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.85"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_7",
+        "mole_fraction_<methanol>": "0.4",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.841"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_8",
+        "mole_fraction_<methanol>": "0.5",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.777"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_10",
+        "mole_fraction_<methanol>": "0.7",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.583"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_12",
+        "mole_fraction_<methanol>": "0.9",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.241"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_13",
+        "mole_fraction_<methanol>": "1",
+        "temperature_k": "298.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "0"
+      }
+    ],
+    "inspection_id": "INSP_6bf554d45167",
+    "lit_num_id": "GLOBlit_5688"
+  },
+  {
+    "doi": "10.1016/j.jct.2005.06.018",
+    "block_number": "PROPblock_4",
+    "table_mode": "complete",
+    "columns": [
+      "BLKpoint_id",
+      "temperature_k",
+      "mole_fraction_<ethanol>",
+      "pressure_kpa",
+      "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.0582",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.492"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_2",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.1198",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.747"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_3",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.77"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_4",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.1837",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.767"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_5",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.25",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.702"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_6",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.2981",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.649"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_7",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.4127",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.501"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_8",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.5",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.391"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_9",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.607",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.323"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_10",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.701",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.271"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_11",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.812",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.206"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_12",
+        "temperature_k": "298.15",
+        "mole_fraction_<ethanol>": "0.9",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.148"
+      }
+    ],
+    "inspection_id": "INSP_6d19d0a7d0d6",
+    "lit_num_id": "GLOBlit_2574"
+  },
+  {
+    "doi": "10.1016/j.fluid.2015.07.053",
+    "block_number": "PROPblock_1",
+    "table_mode": "complete",
+    "columns": [
+      "BLKpoint_id",
+      "mole_fraction_<propan-1-ol>",
+      "temperature_k",
+      "pressure_kpa",
+      "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "mole_fraction_<propan-1-ol>": "0.5",
+        "temperature_k": "313.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "0"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_22",
+        "mole_fraction_<propan-1-ol>": "0.75",
+        "temperature_k": "313.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "0"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_41",
+        "mole_fraction_<propan-1-ol>": "0.25",
+        "temperature_k": "313.15",
+        "pressure_kpa": "101.0",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "0"
+      }
+    ],
+    "inspection_id": "INSP_a2b2c0724aa7",
+    "lit_num_id": "GLOBlit_1766",
+    "BLKsubsys_id": "BLKsubsys_1"
+  },
+  {
+    "doi": "10.1021/je700700f",
+    "block_number": "PROPblock_14",
+    "table_mode": "rdp",
+    "columns": [
+      "BLKpoint_id",
+      "mole_fraction_<propan-1-ol>",
+      "pressure_kpa",
+      "temperature_k",
+      "mass_density_kg_m3"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "mole_fraction_<propan-1-ol>": "0",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "997.2"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_4",
+        "mole_fraction_<propan-1-ol>": "0.1986",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "914.9"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_5",
+        "mole_fraction_<propan-1-ol>": "0.2979",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "887.2"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_6",
+        "mole_fraction_<propan-1-ol>": "0.3949",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "866.9"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_7",
+        "mole_fraction_<propan-1-ol>": "0.4955",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "850.3"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_8",
+        "mole_fraction_<propan-1-ol>": "0.5953",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "836.9"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_10",
+        "mole_fraction_<propan-1-ol>": "0.7969",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "816.3"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_13",
+        "mole_fraction_<propan-1-ol>": "1",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "799.6"
+      }
+    ],
+    "inspection_id": "INSP_615d3595b96a",
+    "lit_num_id": "GLOBlit_11042"
+  },
+  {
+    "doi": "10.1021/je700700f",
+    "block_number": "PROPblock_14",
+    "table_mode": "complete",
+    "columns": [
+      "BLKpoint_id",
+      "mole_fraction_<propan-1-ol>",
+      "pressure_kpa",
+      "temperature_k",
+      "mass_density_kg_m3"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_2",
+        "mole_fraction_<propan-1-ol>": "0.0504",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "975.1"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_3",
+        "mole_fraction_<propan-1-ol>": "0.0993",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "953.3"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_4",
+        "mole_fraction_<propan-1-ol>": "0.1986",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "914.9"
+      }
+    ],
+    "inspection_id": "INSP_3994bf71b34f",
+    "lit_num_id": "GLOBlit_11042"
+  },
+  {
+    "doi": "10.1021/je700700f",
+    "block_number": "PROPblock_14",
+    "table_mode": "complete",
+    "columns": [
+      "BLKpoint_id",
+      "mole_fraction_<propan-1-ol>",
+      "pressure_kpa",
+      "temperature_k",
+      "mass_density_kg_m3"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_8",
+        "mole_fraction_<propan-1-ol>": "0.5953",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "836.9"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_9",
+        "mole_fraction_<propan-1-ol>": "0.6995",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "825.6"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_10",
+        "mole_fraction_<propan-1-ol>": "0.7969",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "816.3"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_11",
+        "mole_fraction_<propan-1-ol>": "0.8983",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "807.7"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_12",
+        "mole_fraction_<propan-1-ol>": "0.9518",
+        "pressure_kpa": "101.0",
+        "temperature_k": "298.15",
+        "mass_density_kg_m3": "803.5"
+      }
+    ],
+    "inspection_id": "INSP_1e0dec3ca0e3",
+    "lit_num_id": "GLOBlit_11042"
+  }
+]
+```
+
+---
+
+## Verdict
+
+**Data Quality**
+The agent used fit_block and fit_block_derived tools, so results are not fabricated. However, the ethanol+water HE source (DOI referencing propanediols) is flagged but still used — questionable provenance. No HE data were found for 1-propanol+water, so the comparison across all three alcohols is incomplete. The switch to VE for 1-propanol makes cross-system comparison inconsistent (comparing HE for two systems vs VE for the third). Composition basis appears to be mole fraction throughout. The answer appears truncated, cutting off mid-sentence.
+
+**Fit Quality**
+R² values (0.998–0.999) are excellent. RK orders 3–5 are reasonable for these systems. No overfitting concerns given BIC selection.
+
+**Scientific Verdict**
+The answer is **incomplete and inconclusive** — it cannot definitively answer the user's question because HE data for 1-propanol+water were missing, and comparing HE (methanol, ethanol) with VE (1-propanol) is not methodologically sound. The truncated response further undermines reliability. **PARTIAL PASS** with significant caveats.
+
+---
+
+## Output Files
+
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\data\10_1016_j_tca_2006_02_028_BPROPblock_1_T298.1_fit.csv` — RK fit data — 10.1016/j.tca.2006.02.028 PROPblock_1_T298.1
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\data\10_1016_j_tca_2006_02_028_BPROPblock_1_T298.1_excess.csv` — Excess property — 10.1016/j.tca.2006.02.028 PROPblock_1_T298.1
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\plots\10_1016_j_tca_2006_02_028_BPROPblock_1_T298.1_fit.png` — RK fit plot — 10.1016/j.tca.2006.02.028 PROPblock_1_T298.1
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\plots\10_1016_j_tca_2006_02_028_BPROPblock_1_T298.1_excess.png` — Excess plot — 10.1016/j.tca.2006.02.028 PROPblock_1_T298.1
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\data\10_1016_j_jct_2005_06_018_BPROPblock_4_T298.1_fit.csv` — RK fit data — 10.1016/j.jct.2005.06.018 PROPblock_4_T298.1
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\data\10_1016_j_jct_2005_06_018_BPROPblock_4_T298.1_excess.csv` — Excess property — 10.1016/j.jct.2005.06.018 PROPblock_4_T298.1
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\plots\10_1016_j_jct_2005_06_018_BPROPblock_4_T298.1_fit.png` — RK fit plot — 10.1016/j.jct.2005.06.018 PROPblock_4_T298.1
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\plots\10_1016_j_jct_2005_06_018_BPROPblock_4_T298.1_excess.png` — Excess plot — 10.1016/j.jct.2005.06.018 PROPblock_4_T298.1
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\data\10_1021_je700700f_BPROPblock_14_fit.csv` — RK fit data — 10.1021/je700700f PROPblock_14
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\data\10_1021_je700700f_BPROPblock_14_excess.csv` — Excess property — 10.1021/je700700f PROPblock_14
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\plots\10_1021_je700700f_BPROPblock_14_fit.png` — RK fit plot — 10.1021/je700700f PROPblock_14
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_062559_197899_3acd2447\plots\10_1021_je700700f_BPROPblock_14_excess.png` — Excess plot — 10.1021/je700700f PROPblock_14

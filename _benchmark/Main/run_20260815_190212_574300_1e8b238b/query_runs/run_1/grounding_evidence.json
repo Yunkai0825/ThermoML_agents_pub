@@ -1,0 +1,357 @@
+{
+  "generated": "2026-08-15T19:06:52",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_2",
+      "lit_id": "GLOBlit_220",
+      "literals": [
+        "810"
+      ],
+      "detail": "810 exists in PROPblock_2's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_220::PROPblock_2\", nearest={\"column\": \"pressure_kpa\", \"value\": 810.0})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_2",
+      "lit_id": "GLOBlit_220",
+      "literals": [
+        "348.15"
+      ],
+      "detail": "348.15 exists in PROPblock_2's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_220::PROPblock_2\", nearest={\"column\": \"temperature_k\", \"value\": 348.15})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_2",
+      "lit_id": "GLOBlit_220",
+      "literals": [
+        "0.003"
+      ],
+      "detail": "0.003 exists in PROPblock_2's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_220::PROPblock_2\", nearest={\"column\": \"mole_fraction_<ethanol>\", \"value\": 0.003})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_2",
+      "lit_id": null,
+      "literals": [
+        "0.500"
+      ],
+      "detail": "0.500 (near '…0.003 to 1. - **No data point exists at exactly x_ethanol = …') matches no inspected row/stat, database table, or other source of PROPblock_2",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_2\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.5})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_2",
+      "lit_id": "GLOBlit_220",
+      "literals": [
+        "0.5501"
+      ],
+      "detail": "0.5501 exists in PROPblock_2's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_220::PROPblock_2\", nearest={\"column\": \"mole_fraction_<ethanol>\", \"value\": 0.5501})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_2",
+      "lit_id": "GLOBlit_220",
+      "literals": [
+        "997"
+      ],
+      "detail": "997 exists in PROPblock_2's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_220::PROPblock_2\", nearest={\"column\": \"pressure_kpa\", \"value\": 997.0})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_2",
+      "lit_id": "GLOBlit_220",
+      "literals": [
+        "785"
+      ],
+      "detail": "785 exists in PROPblock_2's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_220::PROPblock_2\", nearest={\"column\": \"pressure_kpa\", \"value\": 785.0})"
+    }
+  ],
+  "verified": [],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_2",
+      "values": [
+        "298.15",
+        "100",
+        "40000",
+        "0.498",
+        "859.3",
+        "865.4",
+        "20",
+        "871.3",
+        "30",
+        "876.8",
+        "40",
+        "882.0"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_2": {
+        "lit_num_id": "GLOBlit_220",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_31ca7f6dfc0e"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2004.11.019",
+          "n_rows": 810,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "pressure_kpa",
+            "mole_fraction_<ethanol>",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              298.15,
+              348.15
+            ],
+            "pressure_kpa": [
+              100.0,
+              40000.0
+            ],
+            "mole_fraction_<ethanol>": [
+              0.003,
+              1.0
+            ],
+            "mass_density_kg_m3": [
+              739.4,
+              1012.7
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "810",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_2"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "348.15",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_2"
+      },
+      {
+        "token": "100",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "40000",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.003",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_2"
+      },
+      {
+        "token": "0.500",
+        "region": "PROPblock_2",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.498",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.5501",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_2"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.498",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "100",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "859.3",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "865.4",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "20",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "871.3",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "30",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "876.8",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "40",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "882.0",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "100",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.498",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "859.3",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "997",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_2"
+      },
+      {
+        "token": "785",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_2"
+      },
+      {
+        "token": "859.3",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "882.0",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "100",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "40",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "lit_num_id": "GLOBlit_220",
+      "block_number": "PROPblock_2",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "mole_fraction_<ethanol>",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_44",
+          "temperature_k": "298.15",
+          "pressure_kpa": "100",
+          "mole_fraction_<ethanol>": "0.498",
+          "mass_density_kg_m3": "859.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_98",
+          "temperature_k": "298.15",
+          "pressure_kpa": "10000",
+          "mole_fraction_<ethanol>": "0.498",
+          "mass_density_kg_m3": "865.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_152",
+          "temperature_k": "298.15",
+          "pressure_kpa": "20000",
+          "mole_fraction_<ethanol>": "0.498",
+          "mass_density_kg_m3": "871.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_206",
+          "temperature_k": "298.15",
+          "pressure_kpa": "30000",
+          "mole_fraction_<ethanol>": "0.498",
+          "mass_density_kg_m3": "876.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_260",
+          "temperature_k": "298.15",
+          "pressure_kpa": "40000",
+          "mole_fraction_<ethanol>": "0.498",
+          "mass_density_kg_m3": "882"
+        }
+      ],
+      "inspection_id": "INSP_31ca7f6dfc0e",
+      "markdown": ""
+    }
+  ]
+}

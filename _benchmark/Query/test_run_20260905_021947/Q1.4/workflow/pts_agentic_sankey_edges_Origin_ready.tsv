@@ -1,0 +1,16 @@
+Source	Target	Value	source_full	target_full	flow_type	ids	provenance	edge_order	appearance_order	appearance_key
+Q · WM_RENDER	Q · agent context (dedup merge)	141	grp:Q|support|WM_RENDER	Q:context	memory	GLOBlit_1540::PROPblock_13		1	1	grp:Q|support|WM_RENDER
+L1#1 · resolve_compound_ids · raw results (+2 merged)	L1#1 · resolve_compound_ids · hardcoded compact (+2 merged)	141	grp:Q/L1#1|search|raw	grp:Q/L1#1|search|hardcoded	retained	GLOBlit_1540::PROPblock_13	run_history.md::Step 5 [Q - L1_1 · c3]	2	2	Q:context
+L1#1 · resolve_compound_ids · hardcoded compact (+2 merged)	L1#1 · resolve_compound_ids · agentic kept (+2 merged)	141	grp:Q/L1#1|search|hardcoded	grp:Q/L1#1|search|agentic	retained	GLOBlit_1540::PROPblock_13	run_history.md::Step 5 [Q - L1_1 · c3]	3	3	grp:Q/L1#1|search|raw
+L1#1 · resolve_compound_ids · agentic kept (+2 merged)	L1#1 · agent context (dedup merge)	141	grp:Q/L1#1|search|agentic	Q/L1#1:context	context	GLOBlit_1540::PROPblock_13	run_history.md::Step 5 [Q - L1_1 · c3]	4	4	grp:Q/L1#1|search|hardcoded
+L1#1 · inspect_block_table · raw results (4×)	L1#1 · agent context (dedup merge)	141	grp:Q/L1#1|inspection|raw	Q/L1#1:context	metadata	GLOBlit_1540::PROPblock_13	run_history.md::Step 6 [Q - L1_1 · c4]	5	5	grp:Q/L1#1|search|agentic
+L1#1 · agent context (dedup merge)	L1#1 · answer	141	Q/L1#1:context	Q/L1#1:answer	synthesis	GLOBlit_1540::PROPblock_13		6	6	Q/L1#1:context
+L1#1 · answer	L1#1 · result envelope to Q (deliverable)	141	Q/L1#1:answer	Q/L1#1:deliverable	relay	GLOBlit_1540::PROPblock_13		7	7	grp:Q/L1#1|inspection|raw
+L1#1 · inspection ledger (data_inspections)	L1#1 · envelope · inspection ledger (data_inspections)	141	grp:Q/L1#1|support|LEDGER	grp:Q/L1#1|env|ledger	metadata	GLOBlit_1540::PROPblock_13		8	8	Q/L1#1:answer
+L1#1 · envelope · inspection ledger (data_inspections)	L1#1 · result envelope to Q (deliverable)	141	grp:Q/L1#1|env|ledger	Q/L1#1:deliverable	relay	GLOBlit_1540::PROPblock_13		9	9	Q/L1#1:deliverable
+L1#1 · result envelope to Q (deliverable)	L1#1 · duplicate canonical copies (deduplicated)	141	Q/L1#1:deliverable	grp:Q/L1#1|sink|duplicate_canonical	deduplicated	GLOBlit_1540::PROPblock_13		10	10	grp:Q/L1#1|support|LEDGER
+L1#1 · agent context (dedup merge)	L1#1 · re-confirmed known IDs (dedup)	141	Q/L1#1:context	grp:Q/L1#1|sink|dedup_exit	deduplicated	GLOBlit_1540::PROPblock_13		11	11	grp:Q/L1#1|env|ledger
+L1#1 · result envelope to Q (deliverable)	Q · agent context (dedup merge)	141	Q/L1#1:deliverable	Q:context	relay	GLOBlit_1540::PROPblock_13	run_history.md::Step 1 [Q · c9]	12	12	grp:Q/L1#1|sink|duplicate_canonical
+Q · agent context (dedup merge)	Q · re-confirmed known IDs (dedup)	141	Q:context	grp:Q|sink|dedup_exit	deduplicated	GLOBlit_1540::PROPblock_13		13	13	grp:Q/L1#1|sink|dedup_exit
+Q · agent context (dedup merge)	Q · memory carry not cited (WM render / transient)	141	Q:context	grp:Q|sink|memory_uncited	removed	GLOBlit_1540::PROPblock_13		14	14	grp:Q|sink|dedup_exit
+									15	grp:Q|sink|memory_uncited

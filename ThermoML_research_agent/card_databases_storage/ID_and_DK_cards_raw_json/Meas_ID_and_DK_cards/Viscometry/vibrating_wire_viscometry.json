@@ -1,0 +1,326 @@
+{
+  "meas_ID": "vibrating_wire_viscometry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Vibrating wire viscometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Vibrating wire viscometry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Viscometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 141,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 60,
+      "per_group": {
+        "TransportProp": {
+          "instances": 141,
+          "papers": 60
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "complex voltage across the vibrating wire as a function of frequency (V(f))",
+          "resonance frequency f₀ (frequency of maximum signal amplitude)",
+          "resonance half-width Δf (half-width at half-height of the resonance curve)",
+          "temperature of the fluid (T)",
+          "pressure of the fluid (P)"
+        ],
+        "derived_observables": [
+          "dynamic viscosity η (from resonance bandwidth and density)",
+          "kinematic viscosity ν = η/ρ (when fluid density is independently known)",
+          "fluid density ρ (from resonance frequency shift, in dual-purpose vibrating wire sensors)"
+        ],
+        "target_properties": [
+          "dynamic viscosity η",
+          "kinematic viscosity ν",
+          "viscosity as a function of temperature at constant pressure η(T) isobars",
+          "viscosity as a function of pressure at constant temperature η(P) isotherms"
+        ],
+        "phases_measured": [
+          "liquid (Newtonian)",
+          "compressed liquid (high pressure)",
+          "supercritical fluid",
+          "liquid mixtures"
+        ],
+        "supported_sample_types": [
+          "pure Newtonian liquids",
+          "binary and multicomponent liquid mixtures",
+          "compressed liquids up to 200+ MPa",
+          "supercritical fluids",
+          "refrigerants and working fluids",
+          "ionic liquids",
+          "hydrocarbon fuels and lubricants",
+          "cryogenic liquids (e.g., LNG components)"
+        ],
+        "unsupported_sample_types": [
+          "gases at low pressure (insufficient damping for reliable measurement)",
+          "highly viscoelastic or non-Newtonian fluids (working equation assumes Newtonian behavior)",
+          "suspensions or slurries containing solid particles (risk of wire fouling and non-Newtonian effects)",
+          "corrosive fluids that attack tungsten or sensor materials",
+          "extremely high-viscosity fluids (>100 mPa·s) where wire overdamping suppresses resonance"
+        ],
+        "typical_output_formats": [
+          "η vs. T isobars at fixed pressures",
+          "η vs. P isotherms at fixed temperatures",
+          "η vs. composition at fixed T and P",
+          "complex resonance curve V(f) (amplitude and phase)",
+          "tabulated η with combined expanded uncertainty"
+        ],
+        "units": {
+          "dynamic_viscosity": "mPa·s (= cP)",
+          "kinematic_viscosity": "mm²/s (= cSt)",
+          "temperature": "K",
+          "pressure": "MPa",
+          "frequency": "Hz",
+          "resonance_half_width": "Hz",
+          "density": "kg/m³",
+          "voltage": "µV"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "213 K to 473 K",
+            "hard_limits": "lower bound set by fluid freezing or wire embrittlement; upper bound by magnet demagnetization (NdFeB ~473 K) or wire creep",
+            "notes": "cryogenic operation to ~80 K possible with SmCo magnets and specialized cells"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 200 MPa",
+            "hard_limits": "limited by pressure vessel rating and feedthrough seals; some designs rated to 400 MPa",
+            "notes": "vibrating wire is inherently compatible with high pressure because only electrical feedthroughs are required"
+          },
+          {
+            "parameter": "viscosity_range",
+            "typical_range": "0.01 mPa·s to 100 mPa·s",
+            "hard_limits": "below ~0.005 mPa·s damping is too small relative to vacuum bandwidth; above ~100-200 mPa·s resonance is overdamped",
+            "notes": "optimum sensitivity in the 0.1–30 mPa·s range; upper limit can be extended by using thinner wire or lower tension"
+          },
+          {
+            "parameter": "wire_diameter",
+            "typical_range": "50 µm to 200 µm",
+            "hard_limits": "below ~25 µm wire becomes too fragile; above ~300 µm sensitivity to viscosity is reduced due to high mechanical Q",
+            "notes": "thinner wires give higher sensitivity but lower signal amplitude; 100–150 µm tungsten is most common"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "213 K to 473 K",
+            "effect": "viscosity is strongly temperature-dependent; measurement temperature controlled by thermostat"
+          },
+          {
+            "name": "pressure",
+            "role": "primary scanned variable (isothermal runs)",
+            "typical_values": "0.1 MPa to 200 MPa",
+            "effect": "viscosity increases with pressure; high-pressure cell hydraulically pressurized"
+          },
+          {
+            "name": "driving_current_amplitude",
+            "role": "controlled input variable",
+            "typical_values": "1 mA to 20 mA rms",
+            "effect": "sets wire displacement amplitude; must be low enough to remain in linear regime and avoid fluid heating"
+          },
+          {
+            "name": "magnetic_flux_density",
+            "role": "fixed instrument parameter",
+            "typical_values": "0.1 T to 0.5 T",
+            "effect": "Lorentz force is proportional to B; stronger magnets increase signal-to-noise ratio"
+          },
+          {
+            "name": "wire_tension",
+            "role": "set during assembly (determines f₀ in vacuum)",
+            "typical_values": "adjusted to set vacuum resonance frequency at 1–3 kHz",
+            "effect": "higher tension raises resonance frequency; tension must be stable over temperature/pressure range"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "vibrating wire sensor — thin tungsten wire (50–200 µm diameter, 40–60 mm long) clamped between two fixed end supports under tension",
+          "permanent magnets — NdFeB or SmCo magnets providing transverse magnetic field (0.1–0.5 T) perpendicular to wire axis",
+          "high-pressure cell — stainless steel or Hastelloy vessel with electrical feedthroughs rated to operating pressure",
+          "signal generator / function generator — supplies sinusoidal driving current swept through resonance frequency range",
+          "lock-in amplifier — measures complex voltage (in-phase and quadrature) across the wire at each frequency step",
+          "precision temperature controller — thermostat (liquid bath or PRT-controlled oven) with ≤±5 mK stability",
+          "pressure transducer — calibrated sensor (e.g., Paroscientific or Keller) for measuring cell pressure to ±0.01 MPa",
+          "pressure generation system — hand pump or syringe pump (ISCO) for pressurizing the sample fluid",
+          "data acquisition and control computer — automated frequency sweep, data logging, and resonance curve fitting"
+        ],
+        "environmental_requirements": [
+          "thermostat stability of ±5 mK or better during resonance frequency sweep",
+          "vibration isolation (optical table or rubber mounts) to minimize mechanical noise that broadens resonance",
+          "electromagnetic shielding or twisted-pair wiring to reduce pickup in microvolt-level wire signals",
+          "temperature-controlled room or enclosure to minimize drift in magnet strength and wire tension"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "bulk liquid — wire is fully immersed in the fluid filling the pressure cell"
+          ],
+          "size_limits": "cell volume typically 5–50 mL; requires enough fluid to fully immerse the wire with no meniscus effects",
+          "thickness_limits": "not applicable (bulk fluid measurement); cell inner diameter must be at least 10× wire diameter to avoid wall proximity effects",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "fluid must fully wet and surround the wire without trapped gas bubbles",
+            "wire must be centered in the cell bore away from walls to satisfy infinite-fluid boundary condition"
+          ],
+          "preparation_requirements": [
+            "degassing of sample fluid to prevent bubble formation on wire during pressurization or temperature changes",
+            "drying of hygroscopic samples to known water content",
+            "filtration to remove particulates that could adhere to wire and alter its effective diameter"
+          ]
+        },
+        "calibration_requirements": [
+          "vacuum or low-pressure gas resonance measurement to determine wire radius R, internal damping Δ₀, and vacuum resonance frequency f₀,vac",
+          "measurement in a reference fluid of well-known viscosity and density (e.g., toluene, methylbenzene, or n-dodecane) to verify/refine wire radius",
+          "temperature calibration of the PRT or thermocouple against ITS-90 fixed points or a calibrated standard",
+          "pressure transducer calibration against a dead-weight gauge or traceable standard"
+        ],
+        "reference_materials": [
+          "toluene (methylbenzene) — NIST certified viscosity and density; most widely used VW calibrant",
+          "water — IAPWS standard reference data for viscosity and density",
+          "n-dodecane — well-characterized hydrocarbon reference",
+          "2,2,4-trimethylpentane (isooctane) — low-viscosity reference fluid",
+          "diisodecyl phthalate (DIDP) — moderate-viscosity certified reference material (NIST SRM)"
+        ],
+        "consumables": [
+          "tungsten wire (99.95% purity, annealed or stress-relieved)",
+          "replacement wire clamp assemblies",
+          "O-rings and high-pressure seals for cell feedthroughs",
+          "reference fluids for calibration verification"
+        ],
+        "safety_notes": [
+          "high-pressure systems require rated containment vessels, pressure relief valves, and barricading during pressurization",
+          "flammable fluids (hydrocarbons, refrigerants) require appropriate ventilation and ignition source control",
+          "NdFeB magnets are extremely strong — pinch hazard and interference with electronic equipment"
+        ]
+      },
+      "performance": {
+        "sensitivity": "resonance half-width changes by ~0.1 Hz per 0.01 mPa·s change in viscosity (wire-dependent); sufficient to resolve viscosity changes of 0.01 mPa·s in low-viscosity fluids",
+        "detection_limit": "minimum measurable viscosity ~0.005 mPa·s (limited by intrinsic wire damping Δ₀); practical lower limit ~0.01 mPa·s",
+        "resolution": {
+          "spatial": "not applicable (bulk fluid measurement)",
+          "temporal": "single resonance sweep takes 2–10 minutes depending on frequency step size and lock-in time constant",
+          "spectral": "frequency resolution of swept measurement typically 0.001–0.01 Hz",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "viscosity from ~0.01 mPa·s (gases at high density) to ~100 mPa·s (heavy oils at moderate conditions); 4 decades",
+        "accuracy": "0.5–2% for dynamic viscosity after full calibration; best results (~0.5%) achieved with well-characterized wire geometry and reference fluid validation",
+        "precision": "0.1–0.5% (repeatability of η at fixed T and P from replicate resonance sweeps)",
+        "throughput": "single p,T state point per 5–15 minutes; a full isotherm (10 pressures) takes 1–3 hours",
+        "measurement_speed": "resonance frequency sweep acquisition: 2–10 minutes per state point; overall limited by thermal and pressure equilibration times"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "complex voltage V(f) = V_in-phase(f) + iV_quadrature(f) measured across the vibrating wire as a function of driving frequency f near resonance, acquired by lock-in amplifier",
+        "preprocessing_steps": [
+          "subtraction of electrical background (crosstalk and capacitive coupling) by fitting a complex linear or quadratic baseline outside the resonance peak",
+          "identification of resonance frequency f₀ and half-width Δf from the background-corrected complex resonance curve",
+          "verification that the resonance is symmetric and Lorentzian (no mode splitting or spurious peaks)"
+        ],
+        "analysis_methods": [
+          "complex resonance curve fitting: fit the background-corrected V(f) to the theoretical forced-oscillation response of a wire in fluid, yielding f₀ and Δf as fit parameters",
+          "hydrodynamic model inversion: from (f₀, Δf) and known wire properties (R, ρ_wire, Δ₀), solve the Navier-Stokes-based working equation for η and ρ of the fluid",
+          "iterative solution: the working equation couples η and ρ through the complex frequency-dependent force on the cylinder; when density is known independently, η is obtained directly",
+          "alternatively, simultaneous determination of η and ρ from the measured f₀ shift and bandwidth broadening if density is not independently available"
+        ],
+        "model_assumptions": [
+          "fluid is Newtonian (viscosity independent of shear rate at the small oscillatory amplitudes used)",
+          "wire oscillates as an idealized thin infinite cylinder in an unbounded incompressible fluid (no wall or end effects)",
+          "wire cross-section is perfectly circular with uniform radius R along its length",
+          "wire displacement amplitude is small enough that the fluid response is governed by the linearized Navier-Stokes equation",
+          "steady-state oscillation has been achieved (transients from frequency stepping have decayed)",
+          "fluid properties (η, ρ) are uniform and constant over the measurement volume around the wire"
+        ],
+        "fit_parameters": [
+          "resonance frequency in fluid f₀ (shift from vacuum value encodes fluid density)",
+          "resonance half-width in fluid Δf (broadening from vacuum value Δ₀ encodes fluid viscosity)",
+          "amplitude scaling factor A (overall signal strength, instrument-dependent)",
+          "complex background coefficients (a₀ + a₁f for electrical crosstalk subtraction)"
+        ],
+        "common_artifacts": [
+          "electrical crosstalk: direct capacitive or inductive coupling between drive and sense circuits produces a frequency-dependent background that must be subtracted before curve fitting",
+          "mode splitting: if wire tension is non-uniform or the wire has slight curvature, the fundamental mode can split into two closely-spaced peaks yielding erroneous Δf",
+          "clamping losses: imperfect wire clamping at the supports introduces additional damping beyond the fluid contribution, biasing η high",
+          "wall proximity effect: if the cell bore is too narrow relative to wire diameter, the effective hydrodynamic added mass and damping are modified from the infinite-fluid model",
+          "bubble adherence: gas bubbles attached to the wire surface alter its effective cross-section and damping, causing irreproducible η values"
+        ],
+        "quality_control_checks": [
+          "verify linearity: measure at multiple drive current amplitudes and confirm that extracted η is independent of oscillation amplitude",
+          "reproduce reference fluid viscosity (e.g., toluene) within ±0.5% of accepted values at each T,P",
+          "check resonance symmetry: inspect residuals of complex curve fit for systematic deviations indicating mode impurity or background subtraction error",
+          "compare f₀ in vacuum before and after fluid measurements to verify wire integrity (no permanent deformation or mass accretion)",
+          "measure at approaching the same state point from different T,P paths to verify thermodynamic consistency (no hysteresis)"
+        ],
+        "failure_modes": [
+          "wire breakage due to overpressurization, corrosion, or fatigue from repeated thermal cycling",
+          "loss of wire tension from creep at elevated temperatures, causing drift in f₀ and Δf",
+          "magnet demagnetization at temperatures above Curie point (NdFeB: ~473 K), resulting in signal loss",
+          "fluid decomposition at high temperatures producing deposits on the wire that alter its radius and damping",
+          "pressure seal failure leading to fluid leakage and loss of controlled conditions"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for dynamic viscosity; best practice ≤1% for well-calibrated instruments with reference fluid verification",
+        "random_sources": [
+          "lock-in amplifier voltage noise (Johnson noise and amplifier input noise)",
+          "thermostat temperature fluctuations during resonance sweep",
+          "pressure fluctuations from pump pulsation or valve drift",
+          "mechanical vibrations transmitting to the wire and broadening the resonance",
+          "digitization noise and frequency step discretization in fitted f₀ and Δf"
+        ],
+        "systematic_sources": [
+          "wire radius uncertainty (contributes ~2× to η uncertainty due to R² dependence)",
+          "wire density uncertainty (typically small, ~0.1%, for high-purity tungsten)",
+          "internal damping Δ₀ determination error (significant when fluid damping is small, i.e., low-viscosity fluids)",
+          "temperature measurement offset (propagates through sharp dη/dT dependence)",
+          "pressure measurement offset",
+          "electrical background subtraction residuals",
+          "deviation from ideal circular cross-section of wire",
+          "wall proximity correction (if cell bore/wire diameter ratio < 20)"
+        ],
+        "operator_dependence": "low — once the wire sensor is assembled and calibrated, measurements are largely automated; primary operator-dependent step is wire installation and tensioning",
+        "model_dependence": "moderate — accuracy depends on validity of infinite-cylinder Navier-Stokes model and Newtonian fluid assumption; non-Newtonian behavior, end effects, or wire ovality introduce model error",
+        "dominant_error_sources": [
+          "wire radius R (most critical parameter; a 0.5% error in R propagates to ~1% error in η)",
+          "internal (vacuum) damping Δ₀ subtraction (dominant for low-viscosity fluids where Δf − Δ₀ is small)",
+          "temperature measurement uncertainty (especially for fluids with steep viscosity-temperature dependence)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(η) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of η",
+          "standard deviation from replicate measurements at each state point"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Vibrating wire viscometry is a primary or quasi-primary technique for measuring the dynamic viscosity of fluids based on the hydrodynamic damping of a thin metallic wire oscillating transversely at its fundamental resonance frequency while immersed in the fluid under study. A tungsten wire (typically 50–200 µm diameter, 40–60 mm long) is clamped under tension inside a pressure vessel and placed in a permanent magnetic field. When an alternating current passes through the wire, the Lorentz force drives transverse oscillations whose resonance characteristics — specifically the resonance half-width Δf — are directly related to the viscosity and density of the surrounding fluid through the exact analytical solution of the Navier-Stokes equation for oscillatory flow around an infinite cylinder. The technique is valued for its firm theoretical foundation, compatibility with high pressures (routinely 200+ MPa), absence of moving seals, small sample volume, and demonstrated accuracy of 0.5–2%.",
+      "how_it_operates": "A sinusoidal current at frequency f is passed through a thin tungsten wire mounted perpendicular to a static magnetic field B. The resulting Lorentz force F = BIL (where I is current and L is wire length) drives the wire into transverse oscillation. As the wire moves through the magnetic field, a back-EMF is induced proportional to the wire velocity, superimposed on the resistive voltage drop. A lock-in amplifier measures the complex voltage across the wire as the drive frequency is swept through the fundamental mechanical resonance near f₀ (~1–3 kHz). Immersion in fluid increases the effective mass of the wire (lowering f₀ from its vacuum value) and introduces viscous damping (broadening the resonance half-width Δf beyond the vacuum internal damping Δ₀). The fluid viscosity η is extracted from the excess bandwidth Δf − Δ₀ through the hydrodynamic working equation, while density ρ can simultaneously be obtained from the frequency shift f₀,vac − f₀,fluid.",
+      "core_theory": "The working equation is derived from the exact solution of the linearized Navier-Stokes equation for the oscillatory flow field around an infinitely long circular cylinder oscillating transversely in an unbounded incompressible Newtonian fluid (Stokes' second problem generalized to cylindrical geometry). The complex hydrodynamic impedance per unit length of wire is expressed in terms of the Bessel-function ratio k = −1 + 2K₁(s)/(sK₀(s)), where s = i^(3/2) × R√(2πfρ/η) is the dimensionless complex frequency parameter involving the wire radius R, fluid density ρ, viscosity η, and oscillation frequency f. The real part of k represents the added mass (virtual mass of entrained fluid), and the imaginary part gives the viscous damping. In practice, the measured resonance frequency f₀ and half-width Δf are related to η and ρ through the coupled equations: f₀ = f₀,vac(1 + ρk'/ρ_wire)^(−1/2) and Δf = Δ₀ + f₀ρk''/(ρ_wire + ρk'), where k' and k'' are the real and imaginary parts of the Bessel-function expression. These equations are solved iteratively — if density is known from an independent source, the system reduces to a single equation in η.",
+      "setup": "A typical vibrating wire viscometer consists of a straight tungsten wire (99.95% purity, 50–200 µm diameter, annealed to relieve residual stress) clamped at both ends between electrically insulating supports inside a cylindrical high-pressure cell machined from 316 stainless steel or Hastelloy C-276. Two NdFeB permanent magnets (or SmCo for high-temperature use) are positioned outside or inside the cell to provide a uniform transverse magnetic field of 0.1–0.5 T across the wire. Electrical connections are made through high-pressure feedthroughs (cone-and-thread or Conax type). The cell is immersed in a thermostatic bath (silicone oil or ethylene glycol/water) controlled to ±5 mK by a PID-regulated circulator, with temperature measured by a calibrated platinum resistance thermometer (PRT) adjacent to the wire. Pressure is applied via a hand pump or ISCO syringe pump through a capillary line and monitored by a calibrated pressure transducer. A function generator supplies the sweep signal through a precision resistor to convert voltage to current drive, and a lock-in amplifier (e.g., Stanford Research SR830) acquires the complex voltage across the wire at each frequency step. Data acquisition and resonance curve fitting are automated by computer.",
+      "suitable_for": "Vibrating wire viscometry is ideally suited for precise viscosity measurements of Newtonian liquids across wide ranges of temperature and pressure, especially at elevated pressures where competing techniques (capillary, falling body) face sealing or convection difficulties. It excels for volatile liquids and refrigerants (no moving seals or flow required), cryogenic fluids (compact sensor, small sample volume), and measurements on expensive or scarce fluids (cell volumes of 5–50 mL). The technique has been extensively employed for hydrocarbons, alcohols, ionic liquids, refrigerant gases and liquids, dissolved-gas systems, lubricants, and reference fluids for viscosity standard development. Its firm theoretical basis makes it suitable as a primary method for generating reference-quality viscosity data without reliance on calibration fluids, although reference fluid validation is standard practice.",
+      "core_limitations": "The technique is restricted to Newtonian fluids because the working equation assumes that viscosity is independent of shear rate; application to viscoelastic or shear-thinning fluids yields an apparent viscosity of uncertain physical meaning. The upper viscosity limit is approximately 100–200 mPa·s, beyond which the resonance becomes overdamped and the resonance peak is too broad for precise fitting. Very low viscosity fluids (below ~0.01 mPa·s) are challenging because the excess damping Δf − Δ₀ becomes comparable to the internal wire damping Δ₀, amplifying the subtraction uncertainty. The temperature ceiling is limited by magnet demagnetization (~473 K for NdFeB, ~573 K for SmCo) and wire creep. The wire radius R must be known to high accuracy (~0.1–0.2%) because viscosity scales approximately as R², making the wire characterization the single most demanding calibration step. Fluids that corrode tungsten (strong acids, oxidizing media) or deposit films on the wire (polymerizing or fouling fluids) cannot be measured reliably.",
+      "sample_preparation": "The sample fluid must be degassed thoroughly before loading into the vibrating wire cell to prevent bubble formation on the wire surface during temperature or pressure changes, which would alter the effective wire cross-section and damping characteristics. For hygroscopic fluids (e.g., ionic liquids), water content should be determined by Karl Fischer titration and reported, since even trace water can measurably change viscosity. Filtration through a 0.5 µm membrane is recommended to remove particulates that could adhere to the wire. The fluid is loaded into the pressure cell under vacuum or by flushing with the sample to displace residual air. For volatile or air-sensitive samples, loading is performed via a closed manifold with inert gas blanketing. The sample purity should be verified by gas chromatography or other appropriate analysis and reported alongside the viscosity measurements.",
+      "calibration_and_references": "Calibration of a vibrating wire viscometer involves three stages. First, the wire is characterized in vacuum (or low-pressure helium) by measuring the resonance frequency f₀,vac and internal damping half-width Δ₀ — these define the wire's mechanical properties and, combined with the known wire density, allow the wire radius R to be determined if a reference fluid measurement is subsequently performed. Second, measurements in a reference fluid of well-known viscosity and density (most commonly toluene, with NIST-traceable property correlations) are used to refine the effective wire radius R through a least-squares fit of the working equation to the measured resonance curves at several temperatures and pressures. This reference calibration corrects for any departure of the wire cross-section from perfect circularity and for minor end effects. Third, the temperature sensor (PRT) is calibrated against ITS-90 fixed points and the pressure transducer against a dead-weight gauge. Periodic verification against a second reference fluid (e.g., water or n-dodecane) is performed to confirm long-term stability. Some practitioners operate in a fully first-principles mode by measuring the wire radius independently using laser diffraction or SEM, bypassing the reference fluid calibration step, but this approach typically yields slightly higher uncertainty.",
+      "data_interpretation": "At each thermodynamic state point (T, P), the raw data consist of a complex voltage spectrum V(f) sweeping through the wire's fundamental resonance. A complex linear background (representing electrical crosstalk from capacitive coupling and Ohmic resistance) is first subtracted by fitting the off-resonance wings of the spectrum. The background-corrected resonance curve is then fitted to the theoretical forced-oscillation response of a damped harmonic oscillator in a viscous medium, yielding the resonance frequency f₀ and half-width Δf along with their statistical uncertainties. These two quantities, together with the pre-determined wire parameters (radius R, density ρ_wire, vacuum half-width Δ₀, vacuum frequency f₀,vac), are substituted into the hydrodynamic working equations. When the fluid density ρ is known from independent measurements or an equation of state, the working equation is solved iteratively for η alone. When both η and ρ are to be determined simultaneously, the coupled pair of equations is solved by Newton-Raphson iteration. Residuals of the resonance curve fit are inspected for systematic structure indicative of mode impurity, background subtraction error, or non-Newtonian behavior.",
+      "common_pitfalls": "The most critical pitfall is incorrect determination of the wire radius R — since viscosity scales approximately as R², even a 0.5% error in R produces ~1% error in η. Operators must avoid using nominal manufacturer-stated wire diameters without independent verification. Inadequate background subtraction of electrical crosstalk is another frequent source of error: if the complex baseline is poorly characterized, the fitted half-width Δf (and hence η) is biased. Operating at drive current amplitudes that are too high causes non-linear wire motion and localized fluid heating, both of which broaden the resonance and lead to systematically high η values; linearity should be verified at each new state point by varying drive amplitude. Gas bubbles adhering to the wire surface from incomplete degassing are insidious because they shift both f₀ and Δf unpredictably and may appear or disappear during temperature/pressure cycling. Finally, using a pressure cell with too small a bore relative to the wire diameter introduces wall proximity corrections that are often neglected — a bore-to-wire-diameter ratio of at least 20:1 is recommended to keep this correction below 0.1%.",
+      "artifacts_and_failure_modes": "Electrical crosstalk produces a sloped baseline under the resonance curve that, if improperly subtracted, distorts the fitted f₀ and Δf. Mode splitting occurs when wire tension is non-uniform or the wire is slightly curved, producing two overlapping resonance peaks that the single-Lorentzian model cannot describe correctly — this is diagnosed by inspecting the imaginary part of the complex resonance for asymmetry. Clamping losses arise when energy leaks from the wire into the support structure, adding extra damping beyond the fluid contribution and biasing η systematically high; this is minimized by proper clamp design and detected by comparing Δ₀ in vacuum with the theoretical value for the chosen wire material. Wire creep at elevated temperatures gradually reduces tension, causing f₀ to drift downward over time and introducing a systematic time-dependent error in both η and ρ — this is monitored by periodically remeasuring the vacuum resonance. The most catastrophic failure mode is wire breakage, caused by crystallographic fatigue from repeated thermal cycling, hydrogen embrittlement in hydrogen-containing fluids, or corrosion. Magnet demagnetization from overheating reduces the signal-to-noise ratio progressively and may render the sensor inoperable.",
+      "reporting_checklist": "Published vibrating wire viscometry results should include: wire material, diameter (and method of determination), and length; magnet type and approximate flux density; cell material and maximum rated pressure; temperature measurement method and calibration traceability (ITS-90); pressure measurement method and calibration traceability; reference fluid(s) used for wire radius calibration and the accepted viscosity/density correlations employed; vacuum resonance frequency f₀,vac and internal damping half-width Δ₀; sample source, purity, and water content (for hygroscopic samples); degassing procedure; bore-to-wire diameter ratio; driving current amplitude and verification of linearity; source of fluid density used in the working equation; number of replicate measurements at each state point; combined expanded uncertainty U(η) at 95% confidence (k = 2) with a breakdown of the dominant uncertainty contributions (wire radius, temperature, pressure, density input, internal damping subtraction); and any comparison with reference data or other techniques. ThermoML entries encode viscosity uncertainties as nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

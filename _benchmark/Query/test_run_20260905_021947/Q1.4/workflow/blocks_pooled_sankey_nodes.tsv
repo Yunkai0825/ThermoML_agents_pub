@@ -1,0 +1,12 @@
+key	label	kind	role	is_source	is_sink	value	n_ids	ids	blocks	order	provenance	args	meta
+grp:Q|context	Q · agent context (dedup merge)	merge	context	0	0	2	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	1			
+grp:support|memory	memory carry (WM render · transient)	hardmeta	support	1	0	1	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	2	working_memory.md::Q		
+grp:L1|context	L1 · agent context (dedup merge)	merge	context	0	0	2	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	3			
+grp:Q|L1|search|raw	L1#1 · resolve_compound_ids · raw results (+2 merged)	raw	raw	1	0	1	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	10	run_history.md::Step 2 [Q - L1_1 · c1] | run_history.md::Step 3 [Q - L1_1 · c2] | run_history.md::Step 5 [Q - L1_1 · c3]		
+grp:Q|L1|search|hardcoded	L1#1 · resolve_compound_ids · hardcoded compact (+2 merged)	hardcoded	hardcoded	0	0	1	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	11	run_history.md::Step 2 [Q - L1_1 · c1] | run_history.md::Step 3 [Q - L1_1 · c2] | run_history.md::Step 5 [Q - L1_1 · c3]		
+grp:Q|L1|search|agentic	L1#1 · resolve_compound_ids · agentic kept (+2 merged)	agentic	agentic	0	0	1	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	12	run_history.md::Step 2 [Q - L1_1 · c1] | run_history.md::Step 3 [Q - L1_1 · c2] | run_history.md::Step 5 [Q - L1_1 · c3]		
+grp:L1|answer	L1 · answer	answer	answer	0	0	1	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	29	run_history.md::Step 1 [Q · c9]		
+grp:L1|deliverable	L1 · result envelope (deliverable)	envelope	deliverable	0	0	1	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	30	run_history.md::Step 1 [Q · c9]		
+grp:inspection	deterministic DB evidence (inspection tools + ledger + DB hydration · deduped) (5×)	validation	support	1	0	1	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	33	run_history.md::Step 6 [Q - L1_1 · c4] | run_history.md::Step 8 [Q - L1_1 · c6] | run_history.md::Step 9 [Q - L1_1 · c7] | run_history.md::Step 10 [Q - L1_1 · c8] | run_history.md::Step 1 [Q · c9]		
+grp:sink|dedup	re-confirmed known IDs (dedup) (2×)	removed	sink	0	1	2	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	40			
+grp:sink|memory	retained only in memory (WM archive · uncited memory carry · uncited ledger) (3×)	removed	sink	0	1	1	1	GLOBlit_1540::PROPblock_13	GLOBlit_1540::PROPblock_13	46			

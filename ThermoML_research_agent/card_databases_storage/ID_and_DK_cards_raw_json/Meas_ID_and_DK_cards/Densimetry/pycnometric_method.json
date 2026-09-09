@@ -1,0 +1,318 @@
+{
+  "meas_ID": "pycnometric_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Pycnometric method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Pycnometric method",
+    "thermoml_custom_codes": [
+      "PYCNOM"
+    ],
+    "measurement_family": "Densimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 2664,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 610,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 2664,
+          "papers": 610
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "mass of empty pycnometer (m_pyc)",
+          "mass of pycnometer filled with reference liquid (m_ref)",
+          "mass of pycnometer filled with sample liquid (m_sample)",
+          "temperature of thermostated bath (T)",
+          "ambient atmospheric pressure (p)"
+        ],
+        "derived_observables": [
+          "density of sample liquid (ρ_sample)",
+          "specific volume (v = 1/ρ)",
+          "excess molar volume (V^E) for mixtures",
+          "apparent molar volume (V_φ) for solutions",
+          "relative density (d = ρ_sample/ρ_ref)"
+        ],
+        "target_properties": [
+          "density (ρ) of liquids and liquid mixtures",
+          "specific volume",
+          "excess molar volume of binary and multicomponent mixtures",
+          "apparent molar volume of solutes",
+          "partial molar volume",
+          "thermal expansion coefficient (from ρ(T) data)",
+          "relative density"
+        ],
+        "phases_measured": [
+          "liquid",
+          "liquid mixtures and solutions"
+        ],
+        "supported_sample_types": [
+          "pure liquids (organic and inorganic)",
+          "binary and multicomponent liquid mixtures",
+          "aqueous and nonaqueous solutions",
+          "electrolyte solutions",
+          "ionic liquids",
+          "viscous liquids (with extended filling time)",
+          "liquid metals and molten salts (with specialized high-temperature pycnometers)"
+        ],
+        "unsupported_sample_types": [
+          "gases",
+          "highly volatile liquids (significant evaporation during handling)",
+          "samples at elevated pressures (pycnometers operate at ambient pressure only)",
+          "supercritical fluids",
+          "solids (require gas-displacement pycnometry, a different technique)",
+          "extremely corrosive liquids (attack glass pycnometer)"
+        ],
+        "typical_output_formats": [
+          "ρ vs. T at ambient pressure",
+          "ρ vs. composition (x or w) at fixed T",
+          "V^E vs. composition curve for binary mixtures",
+          "tabulated ρ(T, x) data"
+        ],
+        "units": {
+          "density": "kg/m³ or g/cm³",
+          "specific_volume": "m³/kg or cm³/g",
+          "molar_volume": "cm³/mol",
+          "excess_molar_volume": "cm³/mol",
+          "temperature": "K",
+          "mass": "g or mg",
+          "volume": "mL or cm³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 373 K",
+            "hard_limits": "limited by glass softening (~773 K for borosilicate); lower limit set by sample freezing point; specialized metal pycnometers extend to higher T",
+            "notes": "each temperature point requires full thermal equilibration and separate filling; most literature data at 288–323 K"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "ambient atmospheric (~0.1 MPa)",
+            "hard_limits": "standard glass pycnometers operate at ambient pressure only; not designed for pressurized operation",
+            "notes": "pressure variation affects density through compressibility but is not a controlled variable in pycnometry"
+          },
+          {
+            "parameter": "pycnometer_volume",
+            "typical_range": "1 mL to 100 mL (most common: 10–50 mL)",
+            "hard_limits": "minimum ~0.5 mL (micro-pycnometers); maximum ~250 mL",
+            "notes": "larger volumes improve mass resolution for a given balance precision but require more sample; smaller volumes suited for expensive or scarce liquids"
+          },
+          {
+            "parameter": "sample_viscosity",
+            "typical_range": "< 100 mPa·s (easy filling)",
+            "hard_limits": "highly viscous liquids (> 1000 mPa·s) are difficult to fill without trapped air bubbles",
+            "notes": "viscous samples may require gentle warming during filling or extended degassing under vacuum"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary experimental variable",
+            "typical_values": "288 K to 328 K in 5 K or 10 K increments",
+            "effect": "density decreases approximately linearly with temperature for most liquids; thermal expansion coefficient can be derived from the slope"
+          },
+          {
+            "name": "composition",
+            "role": "primary variable for mixture studies",
+            "typical_values": "full mole-fraction range 0 to 1 in increments of 0.05–0.1",
+            "effect": "density varies with composition; excess molar volume reveals non-ideal mixing behavior"
+          },
+          {
+            "name": "pressure",
+            "role": "fixed at ambient (not varied)",
+            "typical_values": "~0.1 MPa",
+            "effect": "not controlled; atmospheric pressure fluctuations introduce a negligible density uncertainty (~10⁻⁴ kg/m³)"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "glass pycnometer — calibrated-volume vessel (Sprengel-Ostwald, Gay-Lussac, Weld, or Hubbard type) with capillary stopper or overflow arm to define exact fill volume",
+          "analytical balance — readability 0.01 mg (0.00001 g) or better; capacity ≥ 200 g",
+          "thermostated water bath — stability ±0.01 K or better; temperature range covering measurement conditions",
+          "precision thermometer — calibrated platinum resistance thermometer or calibrated digital thermometer (±0.01 K)",
+          "capillary stopper or ground-glass cap — defines the fill level and eliminates excess liquid to fix the volume precisely",
+          "syringe or pipette — for sample introduction without air bubbles",
+          "drying oven or vacuum desiccator — for cleaning and drying the pycnometer between measurements"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (±1 K ambient temperature stability)",
+          "vibration-free bench for analytical balance",
+          "low humidity environment to minimize condensation on pycnometer exterior",
+          "draft shield on balance to prevent air current effects on mass readings"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid or low-viscosity fluid (self-filling)"
+          ],
+          "size_limits": "sample volume must fill the pycnometer: typically 1–100 mL depending on vessel size",
+          "thickness_limits": "not applicable (bulk liquid measurement)",
+          "surface_requirements": [
+            "liquid must wet the pycnometer walls (good wettability) to avoid meniscus errors",
+            "sample must be free of suspended particles or immiscible droplets"
+          ],
+          "mounting_requirements": [
+            "pycnometer seated in thermostated bath with liquid level above the fill mark",
+            "capillary stopper properly seated to eliminate air bubbles and define volume"
+          ],
+          "preparation_requirements": [
+            "sample degassed by gentle warming, ultrasonication, or vacuum to remove dissolved air",
+            "sample filtered if particulates are present",
+            "mixtures prepared gravimetrically with known mole fractions (±0.0001)",
+            "hygroscopic samples handled under dry atmosphere"
+          ]
+        },
+        "calibration_requirements": [
+          "determination of pycnometer volume using a reference liquid of known density (typically freshly degassed, distilled water) at each measurement temperature",
+          "V_pyc(T) = (m_water − m_empty) / ρ_water(T), using IAPWS-95 density values for water",
+          "repeat calibration to verify reproducibility (at least 3 independent fillings)",
+          "recalibrate whenever pycnometer is chipped, scratched, or capillary is re-ground",
+          "verify balance calibration with certified mass standards before each measurement session"
+        ],
+        "reference_materials": [
+          "distilled, degassed water — primary calibration liquid; ρ from IAPWS-95 (e.g., 997.047 kg/m³ at 298.15 K)",
+          "mercury — historical calibration liquid for small-volume pycnometers (now largely replaced due to toxicity)",
+          "toluene — secondary check standard (ρ = 862.3 kg/m³ at 298.15 K)",
+          "n-heptane — secondary check standard (ρ = 679.5 kg/m³ at 298.15 K)",
+          "NIST Standard Reference Materials for density (e.g., SRM 211d toluene)"
+        ],
+        "consumables": [
+          "cleaning solvents (acetone, ethanol, chromic acid solution for stubborn residues)",
+          "lint-free wipes for drying pycnometer exterior",
+          "desiccant (silica gel, CaCl₂) for drying pycnometer",
+          "inert gas (nitrogen) for purging between samples"
+        ],
+        "safety_notes": [
+          "glass pycnometers are fragile — handle with care to avoid breakage and cuts",
+          "volatile organic solvents used for cleaning require fume hood ventilation",
+          "mercury pycnometers (historical) require mercury-specific handling and disposal protocols",
+          "hot samples or high-temperature baths pose burn risk — use thermal gloves"
+        ]
+      },
+      "performance": {
+        "sensitivity": "mass sensitivity limited by analytical balance readability; a 0.01 mg balance with a 25 mL pycnometer yields a density resolution of ~0.0004 kg/m³",
+        "detection_limit": "not applicable — technique measures absolute density, not trace quantities; minimum useful sample volume ~0.5 mL with micro-pycnometers",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement)",
+          "temporal": "not applicable (static equilibrium measurement)",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "density from ~600 kg/m³ (light hydrocarbons) to ~13,500 kg/m³ (mercury); practical range for glass pycnometers: 600–3000 kg/m³",
+        "accuracy": "0.01–0.1 kg/m³ (0.001–0.01% relative) for well-calibrated glass pycnometers with 0.01 mg balance; best results approach ±0.005 kg/m³",
+        "precision": "0.005–0.05 kg/m³ (repeatability from triplicate fillings); relative precision 0.001–0.005%",
+        "throughput": "low — one temperature point per filling cycle; a single density measurement (fill, equilibrate, weigh) takes 30–60 min; a T-series of 5 points requires several hours",
+        "measurement_speed": "30–60 min per data point including equilibration; equilibration in thermostated bath typically 20–30 min"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "mass readings from analytical balance: m_empty (empty dry pycnometer), m_ref (pycnometer filled with reference liquid), m_sample (pycnometer filled with sample liquid)",
+        "preprocessing_steps": [
+          "buoyancy correction: correct all mass readings for air buoyancy using ρ_air, ρ_weights, and estimated sample density",
+          "temperature equilibration verification: confirm bath temperature stable to ±0.01 K before recording mass",
+          "volume calibration: compute V_pyc(T) = (m_ref − m_empty) / ρ_ref(T) at each temperature",
+          "evaporation check: verify no mass loss of volatile components during weighing"
+        ],
+        "analysis_methods": [
+          "direct density calculation: ρ_sample(T) = (m_sample − m_empty) / V_pyc(T)",
+          "relative density method: d = (m_sample − m_empty) / (m_ref − m_empty), then ρ_sample = d × ρ_ref(T)",
+          "excess molar volume: V^E = V_mix − Σ(x_i × V_i*), where V_mix = (Σ x_i M_i) / ρ_mix",
+          "Redlich-Kister polynomial fitting of V^E(x) data for mixture thermodynamics",
+          "polynomial regression of ρ(T) to extract thermal expansion coefficient: α = −(1/ρ)(∂ρ/∂T)_p"
+        ],
+        "model_assumptions": [
+          "pycnometer volume is accurately calibrated and stable between calibration and measurement (no glass relaxation or adsorption effects)",
+          "complete filling of pycnometer with no trapped air bubbles or vapor pockets",
+          "thermal equilibrium between sample, pycnometer, and thermostated bath is fully achieved",
+          "sample does not react with or dissolve the pycnometer glass",
+          "atmospheric pressure is constant during the measurement sequence (or corrected for)"
+        ],
+        "fit_parameters": [
+          "pycnometer volume V_pyc(T) from calibration",
+          "polynomial coefficients for ρ(T) correlation (typically quadratic: ρ = a + bT + cT²)",
+          "Redlich-Kister coefficients A_i for V^E(x) fitting"
+        ],
+        "common_artifacts": [
+          "trapped air bubble: reduces apparent mass of filled pycnometer, yielding a falsely low density",
+          "incomplete drying: residual solvent from cleaning adds extra mass to the empty pycnometer, biasing all densities",
+          "evaporation of volatile component: mass decreases during weighing, producing a falsely low density; mixture composition also shifts",
+          "thermal disequilibrium: premature weighing before full equilibration causes systematic density error proportional to ΔT",
+          "meniscus variability: inconsistent liquid level at the capillary tip between calibration and measurement introduces a small volume error"
+        ],
+        "quality_control_checks": [
+          "triplicate filling: repeat each measurement at least 3 times and verify standard deviation < 0.05 kg/m³",
+          "water check: measure density of pure water at a reference temperature (e.g., 298.15 K) and compare with IAPWS-95 value (997.047 kg/m³); deviation should be < 0.05 kg/m³",
+          "internal consistency: verify that ρ(T) is a smooth, monotonically decreasing function for normal liquids",
+          "mass constancy: confirm that mass reading is stable (drift < 0.02 mg over 2 min) before recording",
+          "cross-check with literature: compare measured density of at least one pure component with reliable literature values"
+        ],
+        "failure_modes": [
+          "cracked or chipped pycnometer: changes calibrated volume irreversibly; detected by failed water calibration check",
+          "contaminated pycnometer walls: residual film alters wettability and effective volume; requires thorough cleaning with chromic acid solution",
+          "stopper malseating: ground-glass stopper not fully seated traps a variable air volume; density shows poor reproducibility",
+          "sample decomposition or phase separation during equilibration: produces drifting mass readings and inconsistent results",
+          "balance malfunction or drift: detected by check-weighing a certified standard mass before and after the measurement series"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.1 kg/m³ (0.001–0.01% relative); best practice achieves u(ρ) ≈ 0.005 kg/m³",
+        "random_sources": [
+          "balance readability and repeatability (typically ±0.01–0.05 mg)",
+          "temperature fluctuations of thermostated bath (±0.01–0.05 K → ~0.01–0.05 kg/m³ via thermal expansion)",
+          "variability in capillary fill level between replicate fillings",
+          "residual air microbubbles varying between fillings"
+        ],
+        "systematic_sources": [
+          "uncertainty in reference liquid density (water: ±0.001 kg/m³ from IAPWS-95)",
+          "air buoyancy correction uncertainty (depends on knowledge of ρ_air, humidity, barometric pressure)",
+          "temperature measurement accuracy of the bath thermometer",
+          "incomplete degassing of sample or reference liquid",
+          "glass adsorption or desorption of moisture affecting empty pycnometer mass",
+          "long-term drift in pycnometer volume due to glass relaxation or surface etching"
+        ],
+        "operator_dependence": "moderate to high — filling technique, bubble elimination, drying thoroughness, stopper seating, and timing of weighing relative to equilibration all depend on operator skill and experience",
+        "model_dependence": "low — the calculation ρ = m/V is direct and model-free; the only model input is the reference liquid density equation, which is extremely well-characterized for water (IAPWS-95)",
+        "dominant_error_sources": [
+          "temperature uncertainty (a 0.01 K error in bath temperature causes ~0.01 kg/m³ density error for typical organic liquids)",
+          "trapped air bubbles (the single largest source of gross error if filling technique is poor)",
+          "air buoyancy correction (can contribute ~0.01 kg/m³ if not applied, ~0.001 kg/m³ residual after correction)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ρ) at 95% confidence (k=2)",
+          "standard deviation from replicate measurements",
+          "relative uncertainty as percentage of ρ"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The pycnometric method is one of the oldest and most reliable techniques for measuring the density of liquids. A pycnometer is a calibrated-volume glass vessel — typically a flask with a precision-ground capillary stopper or capillary overflow arm — that defines a highly reproducible internal volume. The liquid sample fills this known volume, and the filled pycnometer is weighed on an analytical balance. Since density is simply mass divided by volume (ρ = m/V), the technique is conceptually straightforward, yet it routinely achieves accuracies of 0.01–0.1 kg/m³ (0.001–0.01%). Classic pycnometer designs include the Gay-Lussac (flask with perforated stopper), Sprengel-Ostwald (U-tube capillary design), Weld (with thermometer well), and Hubbard (wide-mouth) types. With 2,664 instances across 610 papers in the ThermoML database, pycnometry remains one of the most widely used density measurement methods in thermophysical chemistry.",
+      "how_it_operates": "The measurement proceeds in three weighing steps. First, the clean, dry pycnometer is weighed empty to obtain m_empty. Second, the pycnometer is completely filled with a reference liquid of precisely known density — almost universally degassed, distilled water — and thermostatted in a controlled bath at the target temperature T until equilibrium is reached (typically 20–30 min), then the excess liquid expelled through the capillary is wiped away and the filled pycnometer is weighed to obtain m_ref. This calibration step establishes the pycnometer volume: V_pyc(T) = (m_ref − m_empty) / ρ_water(T). Third, the procedure is repeated with the sample liquid to obtain m_sample, and the sample density is calculated as ρ_sample = (m_sample − m_empty) / V_pyc(T). For the highest accuracy, all masses are corrected for air buoyancy. The process is repeated at each desired temperature, with a fresh calibration when necessary.",
+      "core_theory": "The theoretical basis of pycnometry is the definition of density: ρ = m/V. The pycnometer provides a fixed, calibrated volume V_pyc(T) so that the only measurement needed is a mass difference. The calibration volume is determined from a reference liquid whose density ρ_ref(T) is known with high accuracy. For water, the IAPWS-95 formulation provides ρ_water(T, p) with an uncertainty of ±0.001 kg/m³. The working equation is ρ_sample(T) = ρ_ref(T) × (m_sample − m_empty) / (m_ref − m_empty), which has the advantage that constant systematic errors in mass (e.g., a fixed offset) cancel in the ratio. Air buoyancy corrections account for the displaced air volume: m_true = m_apparent × [1 + (1/ρ_air)(1/ρ_sample − 1/ρ_weights)], where ρ_air ≈ 1.2 kg/m³ and ρ_weights ≈ 8000 kg/m³. For mixtures, the excess molar volume is computed as V^E = (Σ x_i M_i)/ρ_mix − Σ x_i(M_i/ρ_i*), where ρ_i* are the pure component densities.",
+      "setup": "A standard pycnometric setup consists of a high-quality glass pycnometer (10–50 mL capacity is most common) with a ground-glass capillary stopper or capillary side-arm that defines the fill volume with high reproducibility. The pycnometer is immersed in a thermostated circulating water bath with temperature stability of ±0.01 K or better, controlled by a precision PID controller and monitored with a calibrated platinum resistance thermometer. An analytical balance with 0.01 mg readability and at least 200 g capacity serves as the mass measurement device, housed in a vibration-free, draft-shielded enclosure. Ancillary equipment includes a vacuum desiccator for drying, syringes for bubble-free filling, lint-free wipes, and cleaning solvents. For mixture studies, an additional analytical balance is used for gravimetric preparation of mixtures to ±0.0001 mole fraction.",
+      "suitable_for": "Pycnometry is ideally suited for measuring the density of stable, non-volatile liquids at ambient pressure across a moderate temperature range (typically 273–373 K). It is the method of choice for high-accuracy density measurements of pure organic liquids, aqueous and nonaqueous solutions, electrolyte solutions, and liquid mixtures where excess molar volumes are of interest. The technique is particularly valued for its simplicity, low cost, and independence from complex calibration models — the physics is direct (mass/volume). It is widely used in academic laboratories for characterizing new compounds, validating equation-of-state models, and generating reference-quality density data. Ionic liquids, deep eutectic solvents, and pharmaceutical solutions are frequently studied by pycnometry.",
+      "core_limitations": "The principal limitation of pycnometry is its restriction to ambient pressure — the glass vessel cannot sustain elevated pressures, so high-pressure density data require vibrating-tube densimeters or bellows-type pycnometers. The technique is inherently slow: each temperature point requires complete emptying, cleaning, refilling, and re-equilibrating the pycnometer, making temperature scans time-consuming compared to continuous-scanning densimeters. Volatile samples pose a significant challenge because evaporation during filling, equilibration, or weighing shifts both the mass and (for mixtures) the composition. Highly viscous liquids (> ~500 mPa·s) are difficult to fill without trapped air bubbles. The method is generally limited to liquids; solid density measurement requires gas-displacement pycnometry, which is a fundamentally different technique. Accuracy degrades for very small pycnometer volumes (< 1 mL) because the relative mass uncertainty increases.",
+      "sample_preparation": "Liquid samples must be degassed before use to prevent air bubble formation inside the pycnometer. Degassing is accomplished by gentle warming under reduced pressure, ultrasonication for 15–30 min, or helium sparging. For mixture studies, binary and multicomponent samples are prepared gravimetrically using an analytical balance with 0.01 mg resolution, with compositions recorded as mole fractions to ±0.0001. Samples should be filtered through 0.45 µm membrane filters if particulate contamination is suspected. Hygroscopic liquids must be handled under dry nitrogen atmosphere, and water-sensitive samples should be prepared in a glove box. The pycnometer itself must be scrupulously cleaned between samples — typically rinsed multiple times with acetone and the next sample, then dried in a vacuum desiccator at 60–80 °C. Traces of previous samples will contaminate subsequent measurements.",
+      "calibration_and_references": "Pycnometer calibration is performed by determining V_pyc(T) at each measurement temperature using freshly degassed, distilled (or Milli-Q grade) water as the reference liquid. The density of water is obtained from the IAPWS-95 equation of state, which provides values with an uncertainty of ±0.001 kg/m³. The calibration is repeated in triplicate to assess reproducibility; the standard deviation of V_pyc should be less than 0.001 mL for a 25 mL pycnometer. Secondary validation uses a pure liquid of well-known density — toluene (NIST SRM 211d, ρ₂₉₈ = 862.3 kg/m³) or n-heptane (ρ₂₉₈ = 679.5 kg/m³) — to confirm that the measured density agrees with literature to within the stated uncertainty. The analytical balance is verified with NIST-traceable Class E2 mass standards before each session. Recalibration is mandatory whenever the pycnometer is damaged, the stopper is re-ground, or after extended storage.",
+      "data_interpretation": "The primary data product is the density ρ_sample(T) at each measured temperature, computed from the ratio of net sample mass to calibrated volume. For mixture studies, density is measured across the full composition range and excess molar volumes V^E are calculated. V^E(x) data are typically fitted to a Redlich-Kister polynomial: V^E = x₁x₂ Σ A_i(x₁ − x₂)^i, and the polynomial coefficients along with the standard deviation of the fit are reported. Temperature-dependent density data ρ(T) are fitted to a second-order polynomial ρ = a + bT + cT², from which the isobaric thermal expansion coefficient α_p = −(1/ρ)(dρ/dT)_p is derived. Apparent molar volumes V_φ for solutions are calculated as V_φ = (M₂/ρ) − (ρ − ρ₁*)/(m·ρ·ρ₁*), where m is the molality and ρ₁* is the solvent density. All derived quantities propagate the density uncertainty through standard error propagation formulas.",
+      "common_pitfalls": "The most frequent source of gross error is trapped air bubbles inside the pycnometer, which reduce the apparent mass of liquid and yield a falsely low density. Bubbles form when the sample is inadequately degassed or when viscous liquid is filled too quickly. Incomplete drying of the pycnometer between the calibration (water) and sample runs contaminates the sample and shifts its density. For volatile liquids, evaporation during the time between removing the pycnometer from the bath and completing the weighing introduces a negative mass bias; this can be mitigated by using a pycnometer with a ground cap over the capillary tip. Failure to correct for air buoyancy introduces a systematic error of approximately 1.0 × (1/ρ_sample − 1/ρ_water) kg/m³, which can reach 0.1 kg/m³ for low-density organics. Inconsistent seating of the stopper between calibration and measurement runs changes the effective volume by a few microliters, directly biasing the density.",
+      "artifacts_and_failure_modes": "Trapped air bubbles are the dominant artifact, recognizable by anomalously low density values and poor reproducibility between fillings. Evaporation artifacts manifest as a time-dependent decrease in apparent mass during weighing and can be identified by monitoring mass stability over several minutes. Meniscus irreproducibility at the capillary top appears as a random scatter in V_pyc or ρ_sample that exceeds the expected balance-limited precision; it is minimized by using pycnometers with fine capillary tips (< 1 mm bore) and consistent wiping technique. Thermal disequilibrium produces a systematic density error whose sign depends on whether the sample is warmer or cooler than the target temperature — identified by comparing rapid and extended equilibration runs. Contamination of the pycnometer walls (e.g., by adsorbed surfactants or polymers) changes the effective volume and wettability; a failed water calibration check is the diagnostic indicator, and the remedy is aggressive cleaning with chromic acid solution followed by copious rinsing.",
+      "reporting_checklist": "Published pycnometric density data should include: pycnometer type and nominal volume, manufacturer if commercial, method of volume calibration (reference liquid and density source, e.g., IAPWS-95), analytical balance model and readability, thermostated bath stability, thermometer type and calibration traceability, whether air buoyancy corrections were applied, sample purity and purification method, degassing procedure, number of replicate fillings per data point, combined expanded uncertainty U(ρ) at the 95% confidence level (k=2) with an uncertainty budget identifying the dominant contributions, and for mixtures: method of composition preparation (gravimetric), balance used, and mole fraction uncertainty. Density values in ThermoML are encoded with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

@@ -1,0 +1,660 @@
+{
+  "generated": "2026-09-05T02:24:07",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_18",
+      "block_number": "PROPblock_18",
+      "lit_id": "GLOBlit_7481",
+      "literals": [
+        "0.5000"
+      ],
+      "detail": "0.5000 exists in PROPblock_18's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_7481::PROPblock_18\", nearest={\"column\": \"mole_fraction_<dimethylformamide>\", \"value\": 0.5})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_6",
+      "block_number": "PROPblock_6",
+      "lit_id": null,
+      "literals": [
+        "0.64"
+      ],
+      "detail": "0.64 (near '…lar mixture (x = 0.5) corresponds to approximately w(DMF) ≈ …') matches no inspected row/stat, database table, or other source of PROPblock_6",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_6\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.64})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_6",
+      "block_number": "PROPblock_6",
+      "lit_id": null,
+      "literals": [
+        "73.09"
+      ],
+      "detail": "73.09 (near '…proximately w(DMF) ≈ 0.64 based on the molar masses of DMF (…') matches no inspected row/stat, database table, or other source of PROPblock_6",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_6\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 73.09})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_6",
+      "block_number": "PROPblock_6",
+      "lit_id": null,
+      "literals": [
+        "41.05"
+      ],
+      "detail": "41.05 (near '…on the molar masses of DMF (73.09 g/mol) and acetonitrile (4…') matches no inspected row/stat, database table, or other source of PROPblock_6",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_6\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 41.05})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_6",
+      "block_number": "PROPblock_6",
+      "lit_id": null,
+      "literals": [
+        "0.64"
+      ],
+      "detail": "0.64 (near '…g/mol) and acetonitrile (41.05 g/mol). No exact row at w ≈ 0…') matches no inspected row/stat, database table, or other source of PROPblock_6",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_6\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.64})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_6",
+      "block_number": "PROPblock_6",
+      "lit_id": "GLOBlit_4124",
+      "literals": [
+        "0.00034"
+      ],
+      "detail": "0.00034 exists in PROPblock_6's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_4124::PROPblock_6\", nearest={\"column\": \"mass_fraction_<dimethylformamide>\", \"value\": 0.00034})"
+    }
+  ],
+  "verified": [
+    {
+      "anchor": "PROPblock_18 + PROPblock_6",
+      "values": [
+        "0.5029",
+        "0.00061",
+        "0.61",
+        "0.50",
+        "0.75",
+        "0.0005214",
+        "0.0006465",
+        "0.521",
+        "0.647"
+      ]
+    }
+  ],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_18",
+      "values": [
+        "100.0",
+        "0.5029",
+        "298.15",
+        "0.3932",
+        "0.00054",
+        "0.54",
+        "0.00061",
+        "0.61",
+        "0.6002",
+        "0.00065",
+        "0.65",
+        "0.6931",
+        "0.00069",
+        "0.69"
+      ]
+    },
+    {
+      "anchor": "PROPblock_6",
+      "values": [
+        "101.0",
+        "0.5",
+        "298.15",
+        "0.25",
+        "0.0003959",
+        "0.396",
+        "0.50",
+        "0.0005214",
+        "0.521",
+        "0.75",
+        "0.0006465",
+        "0.647",
+        "1.00",
+        "0.0007986",
+        "0.799",
+        "0.00080"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_18": {
+        "lit_num_id": "GLOBlit_7481",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_421661c26d77"
+        ],
+        "authoritative": {
+          "doi": "10.1021/acs.jced.8b00176",
+          "n_rows": 66,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "mole_fraction_<dimethylformamide>",
+            "pressure_kpa",
+            "viscosity_pa_s"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              298.15,
+              323.15
+            ],
+            "mole_fraction_<dimethylformamide>": [
+              0.0,
+              1.0
+            ],
+            "pressure_kpa": [
+              100.0,
+              100.0
+            ],
+            "viscosity_pa_s": [
+              0.00028,
+              0.00081
+            ]
+          }
+        }
+      },
+      "PROPblock_6": {
+        "lit_num_id": "GLOBlit_4124",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_116c1d101a97"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.jct.2014.02.019",
+          "n_rows": 20,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "mass_fraction_<dimethylformamide>",
+            "pressure_kpa",
+            "viscosity_pa_s"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              298.15,
+              313.15
+            ],
+            "mass_fraction_<dimethylformamide>": [
+              0.0,
+              1.0
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "viscosity_pa_s": [
+              0.0002929,
+              0.0007986
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "100.0",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.5000",
+        "region": "PROPblock_18",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_18"
+      },
+      {
+        "token": "0.5029",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.3932",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "100.0",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.00054",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.54",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.5029",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "100.0",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.00061",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.61",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.6002",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "100.0",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.00065",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.65",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.6931",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "100.0",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.00069",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.69",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.00061",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.61",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.5029",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "100.0",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.5",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.64",
+        "region": "PROPblock_6",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "73.09",
+        "region": "PROPblock_6",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "41.05",
+        "region": "PROPblock_6",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.64",
+        "region": "PROPblock_6",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.25",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0003959",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.396",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.50",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0005214",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.521",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.75",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0006465",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.647",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "1.00",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0007986",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.799",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.50",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.75",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.5029",
+        "region": "PROPblock_18 + PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.00061",
+        "region": "PROPblock_18 + PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.61",
+        "region": "PROPblock_18 + PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.50",
+        "region": "PROPblock_18 + PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.75",
+        "region": "PROPblock_18 + PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0005214",
+        "region": "PROPblock_18 + PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0006465",
+        "region": "PROPblock_18 + PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.521",
+        "region": "PROPblock_18 + PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.647",
+        "region": "PROPblock_18 + PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.00080",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.00034",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_6"
+      },
+      {
+        "token": "0.00061",
+        "region": "PROPblock_18",
+        "verdict": "verified"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1021/acs.jced.8b00176",
+      "lit_num_id": "GLOBlit_7481",
+      "block_number": "PROPblock_18",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<dimethylformamide>",
+        "pressure_kpa",
+        "viscosity_pa_s"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_5",
+          "temperature_k": "298.15",
+          "mole_fraction_<dimethylformamide>": "0.3932",
+          "pressure_kpa": "100.0",
+          "viscosity_pa_s": "0.00054"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_6",
+          "temperature_k": "298.15",
+          "mole_fraction_<dimethylformamide>": "0.5029",
+          "pressure_kpa": "100.0",
+          "viscosity_pa_s": "0.00061"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "temperature_k": "298.15",
+          "mole_fraction_<dimethylformamide>": "0.6002",
+          "pressure_kpa": "100.0",
+          "viscosity_pa_s": "0.00065"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "temperature_k": "298.15",
+          "mole_fraction_<dimethylformamide>": "0.6931",
+          "pressure_kpa": "100.0",
+          "viscosity_pa_s": "0.00069"
+        }
+      ],
+      "inspection_id": "INSP_421661c26d77",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.jct.2014.02.019",
+      "lit_num_id": "GLOBlit_4124",
+      "block_number": "PROPblock_6",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mass_fraction_<dimethylformamide>",
+        "pressure_kpa",
+        "viscosity_pa_s"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_5",
+          "temperature_k": "298.15",
+          "mass_fraction_<dimethylformamide>": "0.25",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.0003959"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_9",
+          "temperature_k": "298.15",
+          "mass_fraction_<dimethylformamide>": "0.5",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.0005214"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_13",
+          "temperature_k": "298.15",
+          "mass_fraction_<dimethylformamide>": "0.75",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.0006465"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_17",
+          "temperature_k": "298.15",
+          "mass_fraction_<dimethylformamide>": "1",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.0007986"
+        }
+      ],
+      "inspection_id": "INSP_116c1d101a97",
+      "markdown": ""
+    }
+  ]
+}

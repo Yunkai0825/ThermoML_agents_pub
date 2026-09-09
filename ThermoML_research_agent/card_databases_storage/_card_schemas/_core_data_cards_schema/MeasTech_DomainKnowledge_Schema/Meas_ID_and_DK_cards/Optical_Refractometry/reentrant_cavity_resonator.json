@@ -1,0 +1,328 @@
+{
+  "meas_ID": "reentrant_cavity_resonator",
+  "identity": {
+    "name": "Reentrant cavity resonator",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Reentrant cavity resonator",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Optical / Refractometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 14,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 6,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 14,
+          "papers": 6
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "resonant frequency of cavity (f₀)",
+          "quality factor Q (ratio of resonant frequency to 3 dB bandwidth)",
+          "resonance bandwidth (Δf, full width at half maximum of power curve)",
+          "complex transmission coefficient S₂₁(f) or reflection coefficient S₁₁(f)"
+        ],
+        "derived_observables": [
+          "relative permittivity (dielectric constant) εᵣ",
+          "dielectric loss tangent tan δ",
+          "total polarization and molar polarization",
+          "dipole moment μ (via Debye or Onsager equation)",
+          "Clausius–Mossotti function (εᵣ−1)/(εᵣ+2)"
+        ],
+        "target_properties": [
+          "relative permittivity εᵣ (dielectric constant)",
+          "dielectric loss tangent tan δ",
+          "molar polarization Pₘ",
+          "dipole moment μ",
+          "density (when combined with Clausius–Mossotti analysis)"
+        ],
+        "phases_measured": [
+          "gas (including near-critical and supercritical)",
+          "liquid",
+          "supercritical fluid",
+          "two-phase vapor–liquid (dew/bubble point detection)"
+        ],
+        "supported_sample_types": [
+          "pure gases",
+          "pure liquids",
+          "gas mixtures",
+          "liquid mixtures",
+          "supercritical fluids",
+          "refrigerants and working fluids",
+          "nonpolar and weakly polar fluids",
+          "moderately polar fluids"
+        ],
+        "unsupported_sample_types": [
+          "solids (cannot fill cavity gap uniformly)",
+          "highly conducting liquids (screen the microwave field)",
+          "strongly corrosive fluids that attack the metallic cavity",
+          "very high-loss materials (tan δ > 0.1) that overdamp the resonance",
+          "suspensions or slurries with particles that settle in the gap"
+        ],
+        "typical_output_formats": [
+          "εᵣ vs. T at constant pressure",
+          "εᵣ vs. P at constant temperature",
+          "εᵣ vs. density (ρ) isotherms",
+          "tan δ vs. T or P",
+          "resonant frequency and Q-factor vs. T or P",
+          "(εᵣ−1)/(εᵣ+2) vs. density (Clausius–Mossotti plot)"
+        ],
+        "units": {
+          "relative_permittivity": "dimensionless",
+          "loss_tangent": "dimensionless",
+          "resonant_frequency": "MHz or GHz",
+          "quality_factor": "dimensionless",
+          "temperature": "K",
+          "pressure": "MPa",
+          "molar_polarization": "cm³/mol",
+          "dipole_moment": "D (debye)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "operating_frequency",
+            "typical_range": "100 MHz to 1 GHz",
+            "hard_limits": "determined by cavity geometry; reentrant gap sets the lower bound, outer diameter sets the upper bound",
+            "notes": "most NIST-type reentrant cavities operate at 200–600 MHz; lower frequencies favor higher Q for low-loss fluids"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 500 K",
+            "hard_limits": "limited by O-ring seals (~200 to ~500 K); metal-sealed variants extend to 77 K or up to 700 K",
+            "notes": "cryogenic and high-temperature versions exist for specialized applications"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "vacuum to 35 MPa",
+            "hard_limits": "limited by vessel wall thickness and seal integrity; specialized cells reach 100 MPa",
+            "notes": "most published work covers 0–35 MPa; subcritical and supercritical conditions accessible"
+          },
+          {
+            "parameter": "quality_factor_Q",
+            "typical_range": "1000 to 10000 (empty cavity)",
+            "hard_limits": "Q > 500 needed for reliable measurements; Q < 100 indicates excessive loss or cavity degradation",
+            "notes": "Q decreases when cavity is filled with lossy fluid; gold or silver plating maximizes empty-cavity Q"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "200 K to 500 K",
+            "effect": "permittivity is temperature-dependent; temperature stability directly sets measurement precision"
+          },
+          {
+            "name": "pressure",
+            "role": "primary controlled variable",
+            "typical_values": "0.01 MPa to 35 MPa",
+            "effect": "pressure changes fluid density and hence εᵣ; used to map permittivity along isotherms"
+          },
+          {
+            "name": "frequency",
+            "role": "fixed by cavity geometry (not independently scanned)",
+            "typical_values": "200 MHz to 600 MHz",
+            "effect": "operating frequency is set by cavity dimensions; multi-mode excitation can provide limited frequency information"
+          },
+          {
+            "name": "fluid_composition",
+            "role": "sample variable",
+            "typical_values": "mole fractions 0 to 1 for binary mixtures",
+            "effect": "composition changes the effective permittivity; mixing rules relate εᵣ(x) to pure-component values"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "reentrant cavity body — precision-machined cylindrical metallic enclosure (typically copper, Inconel, or stainless steel) with a central post forming a narrow annular gap",
+          "coupling probes — two small antenna loops or capacitive probes inserted through the cavity wall for excitation and detection of the resonant mode",
+          "vector network analyzer (VNA) — measures complex S-parameters (S₂₁ or S₁₁) as a function of frequency to determine resonant frequency and Q-factor",
+          "thermostat — high-stability temperature bath (oil or air) or thermostated pressure vessel enclosing the cavity, stability ±1 mK or better",
+          "pressure generation system — syringe pump, piston-cylinder intensifier, or gas handling manifold with precision pressure transducers",
+          "pressure transducer — calibrated quartz-crystal or strain-gauge transducer (accuracy ±0.01% of full scale)",
+          "temperature sensors — platinum resistance thermometers (PRT, SPRT) or calibrated thermistors mounted on or within the cavity body",
+          "vacuum system — rotary and turbo pumps for evacuation of the cavity between fills",
+          "data acquisition and control computer — automated frequency sweeping, temperature/pressure logging, and resonance fitting software"
+        ],
+        "environmental_requirements": [
+          "temperature stability of thermostat: ±1 mK or better during each measurement point",
+          "pressure stability: ±0.1 kPa or better for gas-phase work; ±1 kPa for liquid-phase",
+          "vibration isolation not critical (microwave measurement is insensitive to mechanical vibration)",
+          "electromagnetic shielding of VNA cables to minimize stray coupling and ground loops",
+          "clean fluid handling lines to prevent contamination of sample and cavity surfaces"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid sample fills the entire cavity interior uniformly"
+          ],
+          "size_limits": "cavity volume typically 10–100 cm³; sample volume must be sufficient to flush and fill the cavity (typically 50–500 cm³ total including lines)",
+          "thickness_limits": "not applicable — fluid fills the cavity volume",
+          "surface_requirements": [
+            "internal cavity surfaces must be clean, smooth, and free of adsorbed films or oxide layers",
+            "gold or silver plating of cavity interior maximizes Q-factor and chemical inertness"
+          ],
+          "mounting_requirements": [
+            "cavity must be leak-tight at maximum operating pressure (helium leak rate < 10⁻⁸ Pa·L/s)",
+            "fluid inlet and outlet ports positioned to allow complete filling and flushing without trapped gas"
+          ],
+          "preparation_requirements": [
+            "sample fluid must be of known high purity (typically ≥99.9%)",
+            "degassing of liquid samples to remove dissolved air",
+            "drying over molecular sieves for moisture-sensitive fluids",
+            "filtration to remove particulates that could lodge in the reentrant gap"
+          ]
+        },
+        "calibration_requirements": [
+          "evacuated-cavity measurement: determine resonant frequency f_vac and Q_vac of the empty (vacuum) cavity at each temperature to establish the reference state",
+          "thermal expansion correction: model or measure the dimensional change of the cavity with temperature to account for shifts in f_vac(T)",
+          "reference fluid measurement: use a fluid of well-known εᵣ (e.g., helium, nitrogen, or argon) to verify the geometric calibration constant",
+          "pressure transducer calibration against a primary standard (dead-weight tester or NIST-traceable reference)",
+          "temperature sensor calibration on ITS-90 using fixed points or comparison with an SPRT"
+        ],
+        "reference_materials": [
+          "helium — εᵣ ≈ 1.000065 at STP; precisely known from ab initio calculations; used as primary dielectric reference",
+          "nitrogen — well-characterized εᵣ(T,P) from NIST; secondary reference gas",
+          "argon — well-characterized εᵣ(T,P); useful cross-check reference gas",
+          "carbon dioxide — moderate εᵣ reference with well-known equation of state"
+        ],
+        "consumables": [
+          "O-ring seals (Viton, Kalrez, or PTFE) appropriate for temperature and chemical compatibility",
+          "high-purity reference gases (helium ≥99.999%, nitrogen ≥99.999%)",
+          "VNA calibration standards (open, short, load, through) for coaxial cable calibration",
+          "polishing compounds for cavity interior surface maintenance"
+        ],
+        "safety_notes": [
+          "high-pressure vessel: observe pressure vessel safety codes and use appropriate burst-disc or relief-valve protection",
+          "cryogenic operation requires standard cryogen handling precautions",
+          "some fluids (refrigerants, hydrocarbons) may be flammable or asphyxiating — ensure ventilation and leak detection",
+          "microwave power levels used are very low (< 1 mW) and pose no radiation hazard"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving changes in εᵣ of ~1 × 10⁻⁶ (parts per million level) due to extremely high Q-factor and precise frequency measurement",
+        "detection_limit": "meaningful for fluids with εᵣ ≥ 1.0001 (essentially any gas at moderate pressure); not limited by signal level but by mechanical stability of the cavity",
+        "resolution": {
+          "spatial": "not applicable (bulk fluid measurement of the entire cavity volume)",
+          "temporal": "each resonance scan takes 1–10 s depending on VNA sweep parameters; effective time resolution ~10 s per data point including equilibration",
+          "spectral": "single resonant frequency (or a few discrete modes); not a broadband spectral technique",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "εᵣ from ~1.0001 (dilute gas) to ~80 (water) in principle, though Q-factor degrades for high-loss fluids with εᵣ > 30",
+        "accuracy": "0.01–0.05% in εᵣ for low-to-moderate loss fluids; 0.1–0.3% for higher-loss liquids where Q is reduced",
+        "precision": "0.001–0.01% (repeatability of εᵣ at fixed T and P), limited by temperature and pressure stability",
+        "throughput": "single fluid at a time; full isotherm (10–20 pressure points) takes 2–8 hours including equilibration",
+        "measurement_speed": "individual measurement point: 1–10 s for resonance acquisition; equilibration at each T,P state dominates total time"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "complex S₂₁(f) or S₁₁(f) spectrum from the VNA, showing a Lorentzian resonance peak characterized by center frequency f₀ and half-power bandwidth Δf",
+        "preprocessing_steps": [
+          "VNA error correction using open-short-load-through (OSLT) calibration of coaxial cables and connectors",
+          "fitting the complex resonance curve to a Lorentzian (or rational polynomial) model to extract f₀ and Q = f₀/Δf",
+          "correction for coupling losses: separate loaded Q (Q_L) into unloaded Q (Q₀) and coupling Q (Q_c)",
+          "subtraction of cable/connector phase delay and amplitude slope from the raw S-parameter trace"
+        ],
+        "analysis_methods": [
+          "exact electromagnetic perturbation theory: εᵣ = (f_vac/f_filled)² × g(geometry), where g accounts for the field distribution in the reentrant gap",
+          "lumped-circuit model: the reentrant cavity is modeled as an LC circuit where the gap capacitance C = ε₀ εᵣ A/d determines the resonant frequency f₀ = 1/(2π√(LC))",
+          "quality factor analysis: tan δ = 1/Q_fluid − 1/Q_vac (after correcting for wall losses), giving the dielectric loss of the fluid",
+          "Clausius–Mossotti analysis: (εᵣ−1)/(εᵣ+2) = Aₑ ρ, where Aₑ is the molar polarizability and ρ is molar density, used to derive dipole moments and polarizabilities",
+          "equation-of-state coupling: density ρ(T,P) from an independent EOS is combined with εᵣ(T,P) to construct Clausius–Mossotti or Kirkwood plots"
+        ],
+        "model_assumptions": [
+          "the electromagnetic field is confined to the TM₀₁₀-like reentrant mode with known field distribution",
+          "the fluid is homogeneous and isotropic throughout the cavity volume",
+          "the cavity dimensions (and hence f_vac) change with temperature only through well-characterized thermal expansion",
+          "the skin depth in the cavity walls is much smaller than the wall thickness (good conductor approximation)",
+          "the fluid has negligible magnetic permeability (μᵣ = 1)"
+        ],
+        "fit_parameters": [
+          "resonant frequency f₀ (from Lorentzian fit to S₂₁ or S₁₁ spectrum)",
+          "unloaded quality factor Q₀ (corrected for coupling losses)",
+          "coupling coefficients β₁, β₂ for the two coupling probes",
+          "geometric calibration constant relating (f_vac/f_filled)² to εᵣ"
+        ],
+        "common_artifacts": [
+          "mode crossing: higher-order cavity modes may approach the fundamental frequency at certain fill conditions, distorting the resonance shape",
+          "adsorption on cavity walls: polar fluids can form thin adsorbed films on metal surfaces, shifting f₀ and mimicking a change in εᵣ",
+          "incomplete filling: trapped gas bubbles in liquid samples produce anomalously low εᵣ readings",
+          "thermal expansion drift: inadequate correction for cavity dimensional change with temperature causes systematic εᵣ error at temperature extremes",
+          "coupling probe perturbation: insertion depth changes with thermal cycling can shift the apparent resonant frequency"
+        ],
+        "quality_control_checks": [
+          "verify evacuated-cavity resonant frequency f_vac is stable and reproducible before and after each fluid measurement",
+          "measure a reference gas (helium or nitrogen) at known T,P and compare εᵣ to literature/ab initio values within stated uncertainty",
+          "check linearity: confirm that measured εᵣ is independent of VNA excitation power over at least two decades",
+          "inspect residuals of the Lorentzian fit — asymmetry or poor fit indicates mode coupling or spurious resonances",
+          "compare ascending and descending pressure sweeps to verify equilibration and absence of hysteresis"
+        ],
+        "failure_modes": [
+          "seal failure: O-ring blow-out or leak at high pressure causes sample loss and possible cavity contamination",
+          "surface degradation: corrosion or tarnishing of cavity interior surfaces reduces Q-factor and introduces systematic frequency shifts",
+          "VNA malfunction or cable damage: produces erratic or noisy resonance spectra",
+          "blocked fluid port: incomplete filling or draining of the cavity leading to two-phase artifacts",
+          "condensation in gas-phase measurements: inadvertent liquid formation in the cavity when operating near the dew point"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.05% for εᵣ of low-loss fluids; 0.1–0.3% for higher-loss liquids",
+        "random_sources": [
+          "VNA frequency measurement noise (typically negligible, < 1 part in 10⁸)",
+          "temperature fluctuations of the thermostat",
+          "pressure fluctuations and transducer noise",
+          "short-term drift in coupling probe geometry",
+          "Lorentzian fitting residuals from finite signal-to-noise ratio"
+        ],
+        "systematic_sources": [
+          "thermal expansion correction of cavity dimensions (dominant at extreme temperatures)",
+          "geometric calibration constant uncertainty (from machining tolerances and reference fluid measurement)",
+          "residual wall losses not accounted for in the Q-factor analysis",
+          "sample purity and dissolved gas content",
+          "pressure transducer calibration offset",
+          "temperature sensor calibration offset (ITS-90 realization uncertainty)",
+          "adsorbed films on cavity walls changing effective gap capacitance"
+        ],
+        "operator_dependence": "low — measurement is highly automated; main operator-dependent steps are sample purification, cavity assembly/cleaning, and coupling probe alignment",
+        "model_dependence": "low to moderate — the lumped-circuit or perturbation model is well-validated for reentrant cavities; small corrections for fringing fields and higher-order modes may be needed for highest accuracy",
+        "dominant_error_sources": [
+          "thermal expansion correction of the cavity at temperatures far from the calibration temperature",
+          "sample purity (impurities directly shift εᵣ)",
+          "geometric calibration constant (systematic bias if reference fluid data are inaccurate)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(εᵣ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of εᵣ",
+          "standard deviation from repeated measurements at each state point"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The reentrant cavity resonator is a microwave resonance technique for precise determination of the relative permittivity (dielectric constant) εᵣ of gases and liquids. The method exploits a specially shaped metallic cavity in which a central post nearly touches the opposing end wall, creating a narrow annular gap where the electric field is strongly concentrated. When a fluid fills this gap, the resonant frequency shifts in proportion to εᵣ, enabling permittivity measurement with uncertainties as low as 0.01%. Developed and refined extensively at NIST by Goodwin, Moldover, and co-workers, the technique is particularly valued for high-accuracy dielectric measurements over wide temperature and pressure ranges, including supercritical conditions.",
+      "how_it_operates": "A vector network analyzer (VNA) sweeps a microwave signal through a narrow frequency band around the cavity resonance, exciting the electromagnetic mode via a small coupling probe. The transmitted or reflected signal traces out a Lorentzian resonance peak whose center frequency f₀ depends on the capacitance of the reentrant gap — and hence on the permittivity of the fluid filling it. A second coupling probe detects the response. The VNA measures the complex scattering parameter S₂₁(f), from which both f₀ and the quality factor Q = f₀/Δf are extracted by curve fitting. The ratio (f_vac/f_filled)² gives εᵣ directly through the known electromagnetic field geometry of the cavity, while the change in Q yields the dielectric loss tangent tan δ.",
+      "core_theory": "The reentrant cavity can be modeled as a lumped LC resonant circuit. The narrow gap between the central post and the end wall acts as a parallel-plate capacitor with capacitance C = ε₀ εᵣ A/d, where A is the effective plate area and d the gap width. The volume surrounding the post acts as a single-turn inductor with inductance L determined by the cavity geometry. The resonant frequency is f₀ = 1/(2π√(LC)), so filling the gap with a dielectric fluid of permittivity εᵣ shifts the frequency from f_vac to f_filled = f_vac/√εᵣ. In practice, the field is not perfectly confined to the gap, and an exact or semi-analytical electromagnetic analysis provides a geometric correction factor g such that εᵣ = g × (f_vac/f_filled)². The dielectric loss is obtained from the broadening of the resonance: tan δ = (1/Q_filled − 1/Q_empty) × (a geometric factor), after subtracting resistive wall losses.",
+      "setup": "A typical reentrant cavity resonator system consists of a precision-machined metallic cavity body (copper alloy, Inconel, or stainless steel, depending on the chemical environment and pressure rating), typically 30–80 mm in diameter with a central post leaving a gap of 0.5–2 mm. The interior surface is often gold- or silver-plated to maximize the quality factor. Two small coupling probes (loop or capacitive) are inserted through the cavity wall to provide weak coupling to the resonant mode. The cavity is housed inside a thermostated pressure vessel connected to a high-stability temperature bath (±1 mK). A syringe pump or gas manifold delivers the sample fluid at controlled pressures measured by a calibrated quartz-crystal transducer. A vacuum system allows full evacuation between experiments. The VNA, temperature sensors (SPRTs), and pressure transducers are interfaced to a computer for automated data acquisition.",
+      "suitable_for": "Reentrant cavity resonators are ideally suited for measuring the dielectric constant of gases (including dilute gases, dense gases, and supercritical fluids) and low-to-moderate-loss liquids over wide temperature and pressure ranges. The technique excels for calibration-grade permittivity data on reference fluids, characterization of refrigerants and natural gas components, determination of molar polarizabilities and dipole moments from εᵣ(ρ,T) data via Clausius–Mossotti analysis, and detection of dew and bubble points from discontinuities in εᵣ during isothermal pressure scans. It is particularly powerful for nonpolar and weakly polar fluids where the high Q-factor permits part-per-million resolution in εᵣ.",
+      "core_limitations": "The reentrant cavity resonator operates at a single discrete frequency (or a few harmonic modes), so it cannot map the frequency dependence of εᵣ across a broad dielectric spectrum. Highly lossy fluids (tan δ > 0.1, such as water or strong electrolyte solutions) severely reduce the Q-factor, degrading precision and potentially making the resonance undetectable. The cavity must be completely and uniformly filled with the fluid — any trapped gas bubbles, incomplete filling, or two-phase conditions (unless intentionally studied) produce erroneous results. The apparatus is bulky and expensive, with a precision-machined cavity, pressure vessel, and high-stability thermostat required; it is not portable or suitable for field measurements. Maximum operating pressure and temperature are limited by the mechanical design and seal materials.",
+      "sample_preparation": "Sample fluids must be of high purity (typically ≥99.9 mol%), as impurities directly shift the measured permittivity. Liquid samples should be degassed by vacuum distillation, freeze–pump–thaw cycles, or helium sparging to remove dissolved gases that could nucleate bubbles in the cavity at reduced pressures. Gas samples are used directly from high-purity cylinders or after purification through desiccant and molecular sieve traps. The cavity interior must be thoroughly flushed with the sample fluid (typically three or more cavity volumes) before measurements to displace the previous sample and ensure uniform composition. For moisture-sensitive fluids, all handling is performed under dry inert atmosphere.",
+      "calibration_and_references": "Calibration requires two essential measurements: (1) the evacuated-cavity resonant frequency f_vac(T) and quality factor Q_vac(T), which define the reference state and embed all information about cavity geometry and wall losses; and (2) a reference-fluid measurement to determine or verify the geometric calibration constant g. Helium is the preferred primary reference because its permittivity is known to better than 1 ppm from ab initio quantum-mechanical calculations combined with highly accurate density equations of state. Nitrogen and argon serve as secondary cross-check references. Temperature sensors are calibrated on ITS-90 using fixed-point cells or comparison with an SPRT traceable to NIST. Pressure transducers are calibrated against a dead-weight piston gauge. The evacuated-cavity measurement must be repeated whenever the cavity is reassembled or the temperature range changes significantly, because thermal expansion alters the gap dimensions and hence f_vac.",
+      "data_interpretation": "The primary analysis extracts εᵣ from the measured frequency shift: εᵣ = g × (f_vac/f_filled)², where g is the geometric calibration constant determined from electromagnetic modeling and reference fluid measurements. The dielectric loss tangent is obtained from the quality factors: tan δ = (1/Q_filled − 1/Q_vac) × (geometric factor), after correcting for residual wall losses. For gases and moderate-density fluids, the Clausius–Mossotti relation (εᵣ−1)/(εᵣ+2) = Aₑρ/3 is used to derive the molar polarizability Aₑ and, through its temperature dependence, the dipole moment μ via the Debye equation. Density ρ(T,P) is typically obtained from an independent equation of state. Deviations from the linear Clausius–Mossotti plot at high densities reveal higher-order dielectric virial coefficients, providing insight into intermolecular interactions.",
+      "common_pitfalls": "The most common pitfall is inadequate thermal expansion correction: because εᵣ is derived from a frequency ratio, even small errors in f_vac(T) due to unmodeled cavity dimensional changes propagate directly into εᵣ. Incomplete filling of the cavity with liquid (trapped gas in the reentrant gap or inlet lines) produces anomalously low εᵣ values that may not be immediately obvious. Operating too close to the fluid's dew or bubble curve without realizing it causes sudden εᵣ jumps from phase transitions. Using a sample of insufficient purity is a frequent source of systematic bias, especially for nonpolar gases where the true εᵣ is very close to unity and a small polar impurity shifts the measured value measurably. Neglecting coupling probe corrections in the Q-factor analysis leads to systematic error in tan δ.",
+      "artifacts_and_failure_modes": "Mode crossing artifacts occur when a higher-order parasitic mode approaches the fundamental reentrant mode frequency at certain fill conditions, producing an asymmetric or split resonance peak. Adsorption artifacts arise when polar molecules form thin films on the cavity walls, shifting f₀ persistently even after the fluid is nominally removed — this is especially problematic after measuring water or alcohols. Thermal hysteresis in the cavity dimensions (from stress relaxation in the machined metal) produces different f_vac values on heating and cooling cycles. Seal failure under high pressure results in sample leakage, loss of pressure control, and potential contamination of the thermostat fluid. Surface degradation from corrosive samples (e.g., HF-containing refrigerants) progressively reduces Q and shifts calibration.",
+      "reporting_checklist": "Published reentrant cavity resonator results should report: cavity material, dimensions, and gap width; operating resonant frequency and typical Q-factor (empty and filled); fluid sample identity, source, and stated purity; temperature range and stability achieved; pressure range and measurement uncertainty; method of thermal expansion correction; reference fluid used for geometric calibration; resonance fitting method and residual quality; combined expanded uncertainty U(εᵣ) with confidence level (k=2, 95%); whether tan δ was determined and its uncertainty; density source (equation of state reference) if Clausius–Mossotti analysis is performed; and any corrections applied for coupling, wall losses, or fringing fields. For ThermoML encoding, εᵣ values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

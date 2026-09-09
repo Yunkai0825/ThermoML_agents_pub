@@ -1,0 +1,338 @@
+{
+  "meas_ID": "oscillating_disk_viscometry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Oscillating disk viscometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Oscillating disk viscometry",
+    "thermoml_custom_codes": [
+      "OSDISK"
+    ],
+    "measurement_family": "Viscometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 43,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 18,
+      "per_group": {
+        "TransportProp": {
+          "instances": 43,
+          "papers": 18
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "oscillation period T of the torsionally oscillating disk",
+          "logarithmic decrement Δ (rate of amplitude decay per cycle)",
+          "oscillation amplitude as a function of time (angular displacement envelope)",
+          "temperature of the fluid",
+          "pressure of the fluid"
+        ],
+        "derived_observables": [
+          "dynamic (absolute) viscosity η",
+          "kinematic viscosity ν (when fluid density is independently known)",
+          "viscosity–temperature coefficients from multi-temperature runs"
+        ],
+        "target_properties": [
+          "dynamic viscosity η (Pa·s)",
+          "kinematic viscosity ν (m²/s)",
+          "viscosity of gases as a function of temperature",
+          "viscosity of gases as a function of pressure",
+          "viscosity of low-viscosity liquids"
+        ],
+        "phases_measured": [
+          "gas",
+          "vapor",
+          "supercritical fluid",
+          "low-viscosity liquid"
+        ],
+        "supported_sample_types": [
+          "pure gases (noble gases, diatomic gases, refrigerant vapors)",
+          "gas mixtures (binary and multicomponent)",
+          "vapors of volatile compounds",
+          "supercritical fluids",
+          "low-viscosity liquids (light hydrocarbons, cryogenic liquids)"
+        ],
+        "unsupported_sample_types": [
+          "high-viscosity liquids (>~50 mPa·s — overdamping prevents measurable oscillation)",
+          "suspensions or slurries (particles disturb the boundary layer)",
+          "viscoelastic fluids (elastic component invalidates Newtonian working equation)",
+          "corrosive gases that attack the disk or suspension wire"
+        ],
+        "typical_output_formats": [
+          "η vs. T at fixed P",
+          "η vs. P at fixed T",
+          "tabulated η(T,P) data sets",
+          "logarithmic decrement vs. time trace (raw observable)"
+        ],
+        "units": {
+          "dynamic_viscosity": "Pa·s or µPa·s (gases)",
+          "kinematic_viscosity": "m²/s or mm²/s",
+          "temperature": "K",
+          "pressure": "MPa or kPa",
+          "oscillation_period": "s",
+          "logarithmic_decrement": "dimensionless",
+          "density": "kg/m³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "200 K to 700 K for gas measurements; wider with specialized vessels",
+            "hard_limits": "limited by vessel seal integrity at high T and by cryostat capability at low T",
+            "notes": "most literature data for gases span 290–600 K; some cryogenic studies extend to ~80 K"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.01 MPa to 30 MPa",
+            "hard_limits": "upper limit set by vessel pressure rating; lower limit by signal-to-noise (very low density means weak damping)",
+            "notes": "low-pressure gas measurements require long decay observation to resolve small decrements"
+          },
+          {
+            "parameter": "oscillation_amplitude",
+            "typical_range": "initial angular displacement 1° to 5° (small-angle regime)",
+            "hard_limits": "must remain in the linear (Newtonian, laminar boundary layer) regime; large amplitudes cause turbulent edge effects",
+            "notes": "amplitude decays exponentially; measurement typically spans 50–200 successive half-periods"
+          },
+          {
+            "parameter": "disk_radius",
+            "typical_range": "25 mm to 75 mm",
+            "hard_limits": "disk must fit inside vessel with sufficient clearance (vessel-to-disk gap > 10× boundary layer thickness)",
+            "notes": "larger disks give stronger damping signal but require larger vessels"
+          },
+          {
+            "parameter": "fluid_density",
+            "typical_range": "0.01 kg/m³ (dilute gas) to ~800 kg/m³ (light liquid)",
+            "hard_limits": "very low density reduces the decrement below detectable limits; very high viscosity overdamps oscillation",
+            "notes": "density must be known independently to extract η from the working equation"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "200 K to 700 K",
+            "effect": "gas viscosity increases with temperature (approximately as T^0.6–0.8); dominates the viscosity dependence for dilute gases"
+          },
+          {
+            "name": "pressure",
+            "role": "secondary scanned variable",
+            "typical_values": "0.1 MPa to 30 MPa",
+            "effect": "for dilute gases, viscosity is nearly pressure-independent; at elevated pressures, density effects and intermolecular interactions cause measurable pressure dependence"
+          },
+          {
+            "name": "oscillation_period",
+            "role": "measured observable determined by moment of inertia and torsion constant",
+            "typical_values": "10 s to 30 s (depending on wire stiffness and disk inertia)",
+            "effect": "enters the working equation directly; longer periods increase sensitivity to small decrements but require longer observation times"
+          },
+          {
+            "name": "logarithmic_decrement",
+            "role": "primary measured observable",
+            "typical_values": "0.001 to 0.05 for gases; up to 0.5 for liquids",
+            "effect": "directly proportional to (ηρ)^(1/2); larger decrements improve signal-to-noise but must remain in the linear regime"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "flat circular disk (quartz, stainless steel, or aluminum) of precisely known radius and mass — the oscillating body",
+          "torsion wire or fiber (tungsten, platinum, or quartz) suspending the disk — provides the restoring torque",
+          "angular displacement detector — optical lever (mirror + laser/lamp + position-sensitive photodetector) or capacitive pickup plates",
+          "vacuum-tight, pressure-rated vessel enclosing the disk and fluid",
+          "temperature-controlled enclosure — thermostatted bath, furnace, or cryostat surrounding the vessel",
+          "temperature sensor — platinum resistance thermometer (PRT) or calibrated thermocouple positioned in the fluid near the disk",
+          "pressure gauge — precision pressure transducer (capacitance manometer or strain gauge) for gas pressure measurement",
+          "gas/vacuum manifold — for evacuating the vessel, introducing sample gas, and controlling pressure",
+          "data acquisition system — timer/counter or high-resolution digitizer recording angular displacement vs. time",
+          "vibration isolation — spring-mounted platform or pneumatic mounts to decouple floor vibrations from the suspension"
+        ],
+        "environmental_requirements": [
+          "vibration isolation essential — floor vibrations modulate torsion oscillation and corrupt decrement measurement",
+          "temperature stability ±0.01 K or better during a single decay measurement (minutes)",
+          "pressure stability for gas measurements — leak-tight vessel with certified pressure containment",
+          "draft-free environment or enclosed apparatus to minimize convective perturbation of thermostat"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid sample fills the vessel around the disk — no specific geometry required for the sample itself"
+          ],
+          "size_limits": "sufficient fluid volume to fill vessel (typically 0.5–2 L); for gases, controlled by pressure and vessel volume",
+          "thickness_limits": "not applicable — fluid surrounds the disk; only boundary layer thickness matters (~1–5 mm in gases)",
+          "surface_requirements": [
+            "disk surface must be flat, smooth, and free of scratches or deposits that alter effective radius",
+            "disk edges must be sharp and well-defined (edge corrections depend on geometry)"
+          ],
+          "mounting_requirements": [
+            "disk must hang level and centered in the vessel on the torsion wire",
+            "wire attachment to disk must be rigid and axially symmetric",
+            "minimum clearance between disk and vessel walls to avoid wall proximity corrections becoming dominant"
+          ],
+          "preparation_requirements": [
+            "gas samples must be of known high purity (≥99.9%) — impurities directly alter viscosity",
+            "vessel must be evacuated and leak-tested before filling",
+            "degassing of low-viscosity liquid samples to prevent bubble formation on the disk surface",
+            "drying of hygroscopic gases to remove water vapor contamination"
+          ]
+        },
+        "calibration_requirements": [
+          "measurement of oscillation period and decrement in vacuum (intrinsic damping of wire + residual gas) to establish the zero-fluid baseline Δ₀",
+          "precise determination of disk radius, thickness, and mass for the working equation",
+          "measurement of moment of inertia of the disk-wire system (from period in vacuum and known torsion constant, or by adding known inertia)",
+          "verification against a reference gas (e.g., nitrogen, argon, or helium) with well-established viscosity values",
+          "temperature sensor calibration against ITS-90 fixed points or certified reference thermometer",
+          "pressure transducer calibration against a reference standard (dead-weight tester or calibrated manometer)"
+        ],
+        "reference_materials": [
+          "nitrogen (N₂) — NIST reference viscosity data available over wide T and P ranges",
+          "argon (Ar) — primary reference gas for viscosity; viscosity known to ±0.1% from ab initio calculations and precision measurements",
+          "helium (He) — lightest noble gas; viscosity calculable from first principles to high accuracy",
+          "krypton (Kr) and xenon (Xe) — heavier noble gases used as secondary references",
+          "SF₆ — used as a check for polyatomic gas corrections"
+        ],
+        "consumables": [
+          "torsion wires (eventually fatigue and must be replaced)",
+          "high-purity sample gases",
+          "vacuum pump oil and seals for the gas handling system",
+          "replacement mirrors or optical components for the angular detector"
+        ],
+        "safety_notes": [
+          "pressurized gas vessels must conform to pressure vessel safety codes and be hydrostatically tested",
+          "toxic or flammable gases require fume-hood operation, gas detectors, and proper ventilation",
+          "high-temperature operation requires burn protection and insulated vessel design",
+          "cryogenic operation requires appropriate PPE and proper venting of boil-off gases"
+        ]
+      },
+      "performance": {
+        "sensitivity": "logarithmic decrement resolvable to ~1×10⁻⁵ with optical lever detection, enabling viscosity measurements of dilute gases at pressures as low as ~10 kPa",
+        "detection_limit": "minimum measurable viscosity ~1 µPa·s (limited by residual damping of the suspension in vacuum); practical lower limit for gases ~5 µPa·s",
+        "resolution": {
+          "spatial": "not applicable (bulk fluid measurement)",
+          "temporal": "single measurement requires observation of 50–200 oscillation half-periods (typically 5–30 min per data point)",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "viscosity range ~5 µPa·s (dilute helium) to ~50 mPa·s (light liquids); approximately four decades",
+        "accuracy": "0.1–0.5% for gas viscosity with fully characterized disk geometry and working equation corrections; 0.5–1% for liquids",
+        "precision": "0.02–0.1% repeatability for gas measurements under stable conditions (same T, P, and disk alignment)",
+        "throughput": "single sample at a time; one (T, P) data point takes 5–30 min including equilibration and decay observation",
+        "measurement_speed": "limited by thermal equilibration time and the number of oscillation cycles needed; faster for higher-viscosity fluids (stronger damping decays quicker)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "angular displacement of the disk as a function of time θ(t), recorded as a decaying sinusoid via optical lever deflection (photodetector voltage) or capacitive pickup signal",
+        "preprocessing_steps": [
+          "extraction of successive oscillation half-period amplitudes from the θ(t) time series",
+          "computation of logarithmic decrement Δ = ln(θₙ/θₙ₊₁) from consecutive amplitude ratios",
+          "subtraction of residual (vacuum) decrement Δ₀ to obtain the fluid-induced decrement Δ_fluid = Δ − Δ₀",
+          "measurement of oscillation period T from zero-crossing times",
+          "correction for period shift due to fluid inertia loading (fluid entrainment)"
+        ],
+        "analysis_methods": [
+          "Newell working equation: relates η to Δ_fluid, T, disk radius R, disk moment of inertia I, and fluid density ρ via the boundary-layer solution for an oscillating disk in a Newtonian fluid",
+          "edge correction: accounts for finite disk thickness using Kestin-Leidenfrost edge-effect terms",
+          "finite vessel correction: corrects for proximity of vessel walls using image-source or boundary-element methods",
+          "surface roughness correction: adjusts for non-ideal disk surface (usually negligible for polished disks)",
+          "buoyancy and fluid inertia corrections for the period shift",
+          "iterative solution: the working equation is implicit in η (appears in both decrement and boundary layer thickness), solved iteratively to self-consistency"
+        ],
+        "model_assumptions": [
+          "fluid is Newtonian — shear stress is linearly proportional to shear rate",
+          "laminar, oscillatory boundary layer develops on the disk surface (no turbulence)",
+          "disk oscillation amplitude is small enough that the flow remains in the Stokes (linear) regime",
+          "fluid is incompressible over the boundary layer thickness (valid for liquids and gases at moderate pressures)",
+          "vessel walls are sufficiently far from the disk that wall effects are either negligible or correctable",
+          "temperature and pressure are uniform throughout the fluid during measurement"
+        ],
+        "fit_parameters": [
+          "dynamic viscosity η (primary result)",
+          "residual decrement Δ₀ (from vacuum run, subtracted)",
+          "disk geometric parameters R, d, I (measured independently, treated as known constants with uncertainties)",
+          "fluid density ρ (measured or calculated from equation of state, treated as input)"
+        ],
+        "common_artifacts": [
+          "non-exponential decay at large initial amplitudes due to onset of turbulence at disk edge — identified by amplitude-dependent decrement",
+          "wall-proximity artifact: if vessel-to-disk gap is too small, enhanced damping from wall effects biases η high",
+          "wire creep or anelastic relaxation: torsion wire internal friction varies with amplitude history, causing drift in Δ₀",
+          "convection artifact: thermal gradients in the vessel drive slow convective currents that add systematic damping",
+          "adsorbed gas layers on the disk surface at low pressures alter the effective disk mass and surface friction"
+        ],
+        "quality_control_checks": [
+          "verify amplitude-independence of the decrement (measure Δ over a range of starting amplitudes to confirm linearity)",
+          "confirm that the period is constant (no amplitude dependence), indicating linear restoring torque",
+          "repeat vacuum runs before and after fluid measurements to check Δ₀ stability",
+          "measure a reference gas (Ar or N₂) and compare with accepted literature values within stated uncertainty",
+          "check self-consistency: compare η obtained at different pressures for a dilute gas (should be pressure-independent in the low-density limit)",
+          "inspect residuals of the iterative working-equation solution for convergence"
+        ],
+        "failure_modes": [
+          "torsion wire break — catastrophic loss of suspension; disk falls to vessel bottom",
+          "wire fatigue — gradual increase in Δ₀ over time, making fluid decrement extraction unreliable",
+          "vessel leak — uncontrolled pressure change during measurement, corrupting η(P) data",
+          "loss of optical lever alignment — laser spot drifts off photodetector, producing clipped or distorted θ(t)",
+          "fluid condensation on disk surface at temperatures near the dew point — sudden increase in damping and effective disk mass",
+          "disk contamination or corrosion — altered surface properties change edge and surface corrections"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5% for gas viscosity; 0.5–2% for low-viscosity liquids",
+        "random_sources": [
+          "noise in the angular displacement detector (optical lever or capacitive pickup)",
+          "temperature fluctuations during decay observation",
+          "pressure fluctuations during measurement",
+          "mechanical vibrations transmitted through the mounting",
+          "timing resolution of the period measurement"
+        ],
+        "systematic_sources": [
+          "uncertainty in disk radius R — enters the working equation as R² or higher powers",
+          "uncertainty in disk moment of inertia I",
+          "residual decrement Δ₀ uncertainty from vacuum measurement",
+          "fluid density ρ uncertainty (propagates directly into η)",
+          "edge correction model uncertainty for finite disk thickness",
+          "vessel wall correction uncertainty",
+          "temperature measurement uncertainty (viscosity changes ~0.3%/K for typical gases)",
+          "pressure measurement uncertainty"
+        ],
+        "operator_dependence": "low — once the apparatus is set up and aligned, measurements are largely automated; disk leveling and wire mounting require initial skill",
+        "model_dependence": "moderate — accuracy depends on the completeness of edge, wall, and surface corrections in the working equation; the Newell theory is well-established but higher-order corrections vary among implementations",
+        "dominant_error_sources": [
+          "disk radius measurement (geometric uncertainty dominates the uncertainty budget at the 0.1% level)",
+          "fluid density uncertainty (especially at elevated pressures where equation-of-state accuracy limits η accuracy)",
+          "edge correction model truncation (finite disk thickness correction contributes ~0.1–0.3%)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(η) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of η",
+          "component-by-component uncertainty budget in published metrological studies"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Oscillating disk viscometry is an absolute method for determining the dynamic viscosity of fluids — particularly gases and low-viscosity liquids — by observing the damping of a thin disk that oscillates torsionally on a suspension wire within the fluid. Developed from the classical torsion-pendulum concept and refined by Newell, Kestin, and others in the mid-20th century, it became the method of choice for high-accuracy gas viscosity measurements. Because the working equation is derived from first-principles fluid mechanics (the oscillatory Stokes boundary layer on a flat plate), the technique is absolute: viscosity can be determined from measured geometric quantities and observables without requiring a calibration fluid, although reference gas verification is standard practice.",
+      "how_it_operates": "A flat, circular disk of precisely known dimensions is suspended horizontally on a thin torsion wire inside a sealed, thermostatted vessel containing the fluid under study. The disk is given a small initial angular displacement (typically 1°–5°) and released. It executes torsional oscillations whose amplitude decays exponentially due to viscous friction from the oscillatory boundary layer that develops on both faces and the edge of the disk. An optical lever (mirror on the wire reflecting a laser beam onto a position-sensitive photodetector) or a capacitive pickup system records the angular displacement as a function of time. From this decaying sinusoidal signal, the oscillation period T and the logarithmic decrement Δ (the natural log of the ratio of successive amplitudes) are extracted. The fluid-induced decrement Δ_fluid = Δ − Δ₀ (where Δ₀ is the residual decrement measured in vacuum) is then related to the viscosity through the working equation.",
+      "core_theory": "The theoretical foundation rests on the solution to the Navier-Stokes equations for the oscillatory flow induced by an infinite flat plate executing sinusoidal angular oscillations in a viscous fluid. The boundary layer thickness is δ = √(2ν/ω), where ν = η/ρ is the kinematic viscosity and ω = 2π/T is the angular frequency. For a finite disk of radius R with moment of inertia I, the Newell working equation gives: Δ_fluid = πρR⁴/(2I) × (πη/(ρωT))^(1/2) × [1 + edge and wall corrections]. This equation is implicit in η because η appears both in the decrement expression and inside the boundary layer thickness; it is solved iteratively. The edge correction (Kestin-Leidenfrost) accounts for the additional torque on the rim of a disk of finite thickness d, adding terms proportional to d/R and (d/R)². Vessel wall corrections account for the confinement of the boundary layer when the gap between disk and wall is not much larger than δ.",
+      "setup": "A typical oscillating disk viscometer comprises a precision-machined flat disk (25–75 mm radius, 0.5–3 mm thick, made of quartz, stainless steel, or aluminum) suspended by a fine torsion wire (tungsten, platinum, or fused quartz, 50–200 µm diameter) inside a cylindrical or spherical pressure vessel. The vessel is immersed in a thermostatted liquid bath or enclosed in a temperature-controlled furnace/cryostat to achieve temperature stability of ±0.01 K or better. A small mirror cemented to the wire near the disk reflects a laser beam onto a distant position-sensitive photodetector, converting angular displacement to a voltage signal with sub-microradian resolution. The vessel connects to a gas-handling manifold equipped with a vacuum pump (to measure Δ₀), a sample gas supply with a precision pressure regulator, and a calibrated pressure transducer. A platinum resistance thermometer, positioned in the fluid close to the disk, provides accurate temperature readings traceable to ITS-90.",
+      "suitable_for": "Oscillating disk viscometry is the premier technique for high-accuracy measurement of gas viscosity. It has been used to establish reference viscosity values for noble gases (Ar, He, Ne, Kr, Xe), diatomic gases (N₂, O₂, H₂), and technically important gases (CO₂, CH₄, refrigerants, steam). It is also effective for measuring the viscosity of gas mixtures and vapors as a function of temperature and pressure. The technique extends to low-viscosity liquids (light hydrocarbons, cryogenic liquids, liquid metals near their boiling points) though it is less commonly used for liquids than for gases. Its absolute character and high precision (0.1–0.5%) make it the method of choice when establishing new reference data or validating intermolecular potential models through comparison of experimental and calculated transport properties.",
+      "core_limitations": "The technique is restricted to Newtonian fluids — viscoelastic effects invalidate the working equation. High-viscosity fluids (roughly >50 mPa·s) overdamp the oscillation so severely that too few cycles are available for reliable decrement extraction. The measurement is relatively slow (5–30 min per data point) because thermal equilibration and a sufficient number of oscillation cycles are needed, limiting throughput for large parametric studies. At very low gas pressures, the fluid-induced decrement becomes comparable to the residual wire damping, reducing signal-to-noise and increasing relative uncertainty. The technique requires precise knowledge of the disk geometry (radius to ±0.001 mm), and edge and wall corrections must be carefully evaluated — these corrections can reach 1–3% and their truncation or inaccuracy propagates directly into the result. Fluid density must be known independently, introducing a secondary uncertainty source, particularly at elevated pressures.",
+      "sample_preparation": "For gas measurements, the critical preparation step is ensuring high sample purity. Gases should be certified to ≥99.9% purity (≥99.99% for reference-grade work), since impurities — especially heavier molecules in a lighter carrier or polar contaminants like water vapor — directly alter viscosity. The gas handling manifold and vessel are evacuated to <1 Pa and leak-tested (helium leak rate <10⁻⁸ Pa·L/s) before sample gas introduction. For liquid measurements, the sample is degassed under vacuum to prevent bubble nucleation on the disk surface, which would perturb the boundary layer and increase apparent damping. The disk and vessel interior are cleaned with solvents and dried to remove dust, oil films, or adsorbed species that could alter the surface condition or contaminate the sample.",
+      "calibration_and_references": "Although the method is absolute, practical calibration involves several essential steps. First, multiple vacuum runs (pressure <0.1 Pa) establish the residual decrement Δ₀ and the vacuum period T₀, characterizing the intrinsic wire damping and the torsion constant. Second, the disk radius R, thickness d, and mass m are measured with precision instruments (coordinate measuring machine or micrometer for geometry, analytical balance for mass). Third, a reference gas measurement — typically argon or nitrogen at standard conditions — validates the complete measurement chain, including the working equation implementation and all corrections, by comparison with accepted literature viscosity values. Temperature sensors are calibrated against ITS-90 fixed points, and pressure transducers are checked against a dead-weight tester or transfer standard. These calibration steps are repeated periodically and after any change to the disk or wire.",
+      "data_interpretation": "The primary data analysis proceeds as follows: (1) the raw θ(t) time series is processed to extract peak amplitudes of successive half-oscillations; (2) the logarithmic decrement Δ is computed as the slope of ln(amplitude) vs. half-period number — a linear fit confirms exponential decay and the Newtonian assumption; (3) the vacuum decrement Δ₀ is subtracted; (4) the fluid-induced decrement and measured period are entered into the Newell working equation along with the known disk geometry, moment of inertia, and fluid density; (5) because η appears implicitly, the equation is solved iteratively starting from an initial estimate until successive iterations converge to within 0.001%; (6) edge corrections (Kestin-Leidenfrost terms) and wall corrections are applied within each iteration. A departure from linearity in the ln(amplitude) plot signals either turbulence onset (at large amplitudes), contamination, or non-Newtonian behavior and warrants investigation.",
+      "common_pitfalls": "The most critical pitfall is using initial oscillation amplitudes that are too large, causing the boundary layer at the disk edge to become turbulent and producing an amplitude-dependent decrement that biases the viscosity systematically high. This is diagnosed by plotting Δ vs. starting amplitude — it should be constant in the valid regime. A second common pitfall is neglecting or incorrectly applying the edge correction for finite disk thickness; for a typical disk with d/R ≈ 0.02–0.05, the edge correction contributes 1–3% to η, and its omission produces a corresponding systematic error. Inadequate temperature equilibration before starting the decay leads to a drifting period and non-exponential decay. Using an imprecise disk radius measurement (even 10 µm error on a 50 mm radius) directly translates to ~0.04% error in η per micrometer because of the R⁴ dependence. Finally, failing to check and subtract the vacuum decrement before and after a series of measurements can mask wire fatigue or creep.",
+      "artifacts_and_failure_modes": "Non-exponential decay is the hallmark artifact and arises from several sources: turbulence at large amplitudes (increasing Δ with amplitude), convective currents from temperature gradients (adding a quasi-steady extra damping), or amplitude-dependent wire anelasticity (hysteretic internal friction in the torsion wire). Wall-proximity artifacts appear when the vessel diameter is insufficient, producing an anomalously high decrement; a ratio of vessel radius to disk radius of at least 5:1 is recommended, or rigorous wall corrections must be applied. At very low pressures, adsorbed gas monolayers on the disk surface can contribute a surface-drag term not accounted for in the bulk working equation, causing an apparent viscosity offset. Fluid condensation on the disk near the dew point produces a sudden, irreversible increase in damping. Torsion wire fatigue (micro-crack propagation) manifests as a slowly increasing Δ₀ over weeks to months, eventually leading to wire fracture.",
+      "reporting_checklist": "Published oscillating disk viscometry results should include: disk material, radius R (with uncertainty), thickness d, and mass; torsion wire material and diameter; oscillation period in vacuum T₀ and residual logarithmic decrement Δ₀; vessel geometry and disk-to-wall clearance ratios; applied edge, wall, and surface corrections with their magnitudes; sample identity, purity, and source; temperature (with calibration method and uncertainty), pressure (with transducer type and uncertainty), and fluid density (with source — measured or equation of state); number of oscillation cycles analyzed per data point; starting amplitude range used; comparison with reference gas measurements and any deviations; combined expanded uncertainty U(η) at 95% confidence (k=2) with an uncertainty budget identifying the dominant components. For ThermoML encoding, viscosity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

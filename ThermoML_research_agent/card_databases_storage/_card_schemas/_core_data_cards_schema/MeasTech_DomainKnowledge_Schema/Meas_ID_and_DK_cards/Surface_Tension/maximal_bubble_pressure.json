@@ -1,0 +1,346 @@
+{
+  "meas_ID": "maximal_bubble_pressure",
+  "identity": {
+    "name": "Maximal bubble pressure",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Maximal bubble pressure",
+    "thermoml_custom_codes": [
+      "BUBBLEP"
+    ],
+    "measurement_family": "Surface Tension",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 286,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 71,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 286,
+          "papers": 71
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "maximum pressure difference across the gas–liquid interface during bubble formation (ΔP_max)",
+          "gas flow rate through the capillary (Q)",
+          "bubble formation frequency (f_bubble)",
+          "hydrostatic pressure correction at capillary tip depth (ρ·g·h)"
+        ],
+        "derived_observables": [
+          "surface tension γ = ΔP_max·r/2 (Young–Laplace, hemispherical bubble at capillary radius r)",
+          "dynamic surface tension γ(t) as a function of surface age (bubble lifetime)",
+          "effective surface age from bubble rate and dead-time correction"
+        ],
+        "target_properties": [
+          "static (equilibrium) surface tension",
+          "dynamic surface tension as a function of surface age",
+          "critical micelle concentration (from γ vs. concentration inflection)",
+          "adsorption kinetics parameters (from dynamic surface tension curve fitting)"
+        ],
+        "phases_measured": [
+          "liquid–gas interface (air or inert gas against liquid)",
+          "liquid solutions (aqueous and non-aqueous)",
+          "surfactant solutions"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "aqueous and non-aqueous solutions",
+          "surfactant solutions",
+          "polymer solutions",
+          "high-viscosity liquids",
+          "molten salts and ionic liquids",
+          "biological fluids"
+        ],
+        "unsupported_sample_types": [
+          "immiscible liquid–liquid interfaces (technique measures liquid–gas only)",
+          "highly volatile liquids that evaporate faster than measurement timescale",
+          "viscoelastic gels or solids (no bubble formation possible)",
+          "samples that react with the probe gas",
+          "extremely low surface tension fluids where ΔP_max approaches pressure transducer noise floor"
+        ],
+        "typical_output_formats": [
+          "γ vs. temperature curve at equilibrium",
+          "γ vs. surface age (dynamic surface tension profile)",
+          "γ vs. concentration at fixed temperature",
+          "ΔP_max vs. time trace for a single bubble cycle",
+          "bubble frequency vs. gas flow rate calibration"
+        ],
+        "units": {
+          "surface_tension": "mN/m (= dyn/cm)",
+          "pressure": "Pa or mbar",
+          "temperature": "K",
+          "capillary_radius": "mm or µm",
+          "flow_rate": "mL/min or µL/s",
+          "surface_age": "ms or s",
+          "depth": "mm"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "capillary_inner_radius",
+            "typical_range": "0.05 mm to 0.5 mm",
+            "hard_limits": "radius must be small enough that gravitational distortion of the bubble is negligible (Bond number Bo = ρgr²/γ << 1); too small risks clogging",
+            "notes": "radii of 0.1–0.2 mm are most common; larger radii require gravitational corrections"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 373 K (aqueous); up to 600 K for molten salts",
+            "hard_limits": "limited by thermostat capability, liquid boiling point, and capillary material stability",
+            "notes": "standard instruments cover 288–353 K; specialized setups extend range"
+          },
+          {
+            "parameter": "gas_flow_rate",
+            "typical_range": "0.01 mL/min to 10 mL/min",
+            "hard_limits": "flow rate must produce well-defined individual bubbles; too high causes continuous jet formation (Weber number criterion)",
+            "notes": "for equilibrium surface tension, use slowest feasible bubble rate; for dynamic measurements, rate is systematically varied"
+          },
+          {
+            "parameter": "capillary_immersion_depth",
+            "typical_range": "1 mm to 20 mm below liquid surface",
+            "hard_limits": "must be deep enough for complete wetting of capillary tip but shallow enough that hydrostatic correction is small relative to ΔP_max",
+            "notes": "typical depth 5–10 mm; hydrostatic correction ρ·g·h is subtracted from measured pressure"
+          },
+          {
+            "parameter": "pressure_transducer_range",
+            "typical_range": "0 to 5000 Pa differential",
+            "hard_limits": "must resolve ΔP_max to better than 0.1% for target accuracy; overpressure protection required",
+            "notes": "high-resolution differential pressure sensors (0.01 Pa resolution) preferred"
+          }
+        ],
+        "variables": [
+          {
+            "name": "gas_flow_rate",
+            "role": "primary experimental variable (for dynamic measurements)",
+            "typical_values": "0.01 to 10 mL/min",
+            "effect": "determines bubble lifetime and effective surface age; lower rates approach equilibrium surface tension; higher rates probe dynamic adsorption"
+          },
+          {
+            "name": "temperature",
+            "role": "scanned or fixed variable",
+            "typical_values": "288 K to 353 K",
+            "effect": "surface tension decreases approximately linearly with temperature for most liquids (Eötvös rule); temperature controls adsorption kinetics in surfactant solutions"
+          },
+          {
+            "name": "capillary_radius",
+            "role": "fixed instrument parameter (set by capillary selection)",
+            "typical_values": "0.1 to 0.2 mm",
+            "effect": "determines the pressure scale via Young–Laplace equation; smaller radius gives larger ΔP_max and better signal-to-noise but limits dynamic range"
+          },
+          {
+            "name": "pressure",
+            "role": "ambient atmospheric pressure (measured for correction)",
+            "typical_values": "~101.325 kPa",
+            "effect": "atmospheric pressure fluctuations affect absolute pressure reading; differential measurement eliminates this"
+          },
+          {
+            "name": "solution_concentration",
+            "role": "compositional variable",
+            "typical_values": "0 to 100 mol% or 0 to critical micelle concentration",
+            "effect": "surface tension varies with composition; surfactant adsorption kinetics depend strongly on bulk concentration"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision capillary tube — glass, stainless steel, or PTFE, with calibrated inner radius (0.05–0.5 mm); tip must be ground flat and perpendicular to axis",
+          "differential pressure transducer — high-resolution sensor (0.01 Pa) measuring pressure difference between gas supply line and atmosphere above liquid",
+          "gas supply system — clean, dry air or inert gas (N₂, Ar) with precision flow controller or syringe pump for controlled bubble rate",
+          "thermostated measurement cell — jacketed glass vessel with circulating thermostat for temperature control (±0.01 K stability)",
+          "temperature sensor — Pt100 RTD or calibrated thermocouple immersed near capillary tip",
+          "data acquisition system — high-speed digitizer (≥100 Hz sampling) and computer for recording pressure–time traces",
+          "depth positioning mechanism — micrometer stage or vernier for precise control of capillary immersion depth",
+          "optical observation system (optional) — camera or microscope for visual monitoring of bubble formation"
+        ],
+        "environmental_requirements": [
+          "vibration-free surface to prevent premature bubble detachment or pressure signal noise",
+          "draft-free enclosure to maintain stable liquid surface",
+          "temperature-controlled room or enclosure to minimize thermal gradients",
+          "clean-room conditions or laminar flow hood for high-accuracy work (dust particles alter wetting)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample in open or sealed vessel",
+            "sufficient liquid depth to immerse capillary tip (typically >10 mm)"
+          ],
+          "size_limits": "minimum sample volume 2–10 mL depending on cell design; micro-cells available for volumes as low as 0.5 mL",
+          "thickness_limits": "not applicable (bulk liquid measurement)",
+          "surface_requirements": [
+            "liquid surface must be free of dust, films, or surface-active contaminants",
+            "no foam or froth layer that would interfere with pressure equilibration above liquid"
+          ],
+          "mounting_requirements": [
+            "capillary tip must be fully immersed and oriented vertically",
+            "capillary must not touch vessel walls (edge effects)",
+            "liquid level must remain constant during measurement (no significant evaporation)"
+          ],
+          "preparation_requirements": [
+            "filter liquids through 0.2 µm membrane to remove particulates",
+            "degas samples if dissolved gas content could affect bubble formation",
+            "dry hygroscopic liquids or record water content",
+            "equilibrate sample to measurement temperature before starting",
+            "verify liquid purity by measuring surface tension of reference solvent first"
+          ]
+        },
+        "calibration_requirements": [
+          "capillary radius calibration using a reference liquid of known surface tension (e.g., ultrapure water at 25 °C, γ = 71.97 mN/m)",
+          "pressure transducer zeroing and linearity check against a water column manometer or calibrated reference",
+          "temperature sensor calibration against a certified Pt100 or ice point",
+          "hydrostatic depth correction calibration by measuring at multiple immersion depths",
+          "dead-volume correction for dynamic measurements (gas compressibility in tubing between flow controller and capillary)"
+        ],
+        "reference_materials": [
+          "ultrapure water (γ = 71.97 mN/m at 25 °C, IAPWS recommended value)",
+          "n-hexane (γ = 17.89 mN/m at 25 °C)",
+          "n-decane (γ = 23.37 mN/m at 25 °C)",
+          "toluene (γ = 27.93 mN/m at 25 °C)",
+          "ethanol (γ = 21.97 mN/m at 25 °C)"
+        ],
+        "consumables": [
+          "precision capillary tubes (replaceable; fragile glass capillaries may chip)",
+          "cleaning solvents — chromic acid or piranha solution for glassware, followed by ultrapure water rinse",
+          "high-purity probe gas (N₂ or Ar, 99.999%)",
+          "PTFE tubing and fittings for gas connections (low dead volume)",
+          "thermostat fluid (water or silicone oil)"
+        ],
+        "safety_notes": [
+          "pressurized gas lines require proper regulators and relief valves",
+          "chromic acid and piranha solution are highly corrosive — use appropriate PPE and fume hood",
+          "hot thermostat fluids (>80 °C) present burn hazards",
+          "glass capillaries can shatter — use eye protection during handling and installation"
+        ]
+      },
+      "performance": {
+        "sensitivity": "pressure resolution of 0.01 Pa corresponds to surface tension sensitivity of ~0.001 mN/m for a 0.1 mm radius capillary",
+        "detection_limit": "surface tension as low as ~1 mN/m (limited by pressure transducer floor and capillary radius selection)",
+        "resolution": {
+          "spatial": "not applicable (point measurement at capillary tip)",
+          "temporal": "surface age resolution 1–1000 ms in dynamic mode; limited by bubble frequency and dead-time correction",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "surface tension from ~1 mN/m to ~500 mN/m (molten metals); standard instruments optimized for 15–75 mN/m range",
+        "accuracy": "0.1–0.5 mN/m for equilibrium surface tension (0.1–0.7% relative for water); 1–3% for dynamic surface tension at short surface ages",
+        "precision": "0.05–0.2 mN/m (repeatability from replicate bubble cycles at steady state)",
+        "throughput": "one sample at a time; equilibrium measurement completes in 5–15 minutes per temperature point; dynamic scan over bubble rates takes 30–60 minutes",
+        "measurement_speed": "individual bubble cycle: 0.01–10 s depending on flow rate; equilibrium reached after 10–50 bubble cycles; full temperature sweep takes 1–4 hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "pressure–time trace from differential pressure transducer showing periodic maxima corresponding to the instant each bubble reaches hemispherical shape at the capillary tip",
+        "preprocessing_steps": [
+          "identification of ΔP_max peaks in the pressure–time trace (peak detection algorithm)",
+          "subtraction of hydrostatic pressure correction: ΔP_corrected = ΔP_max − ρ·g·h",
+          "averaging ΔP_max over multiple consecutive bubble cycles (typically 10–50 cycles) for statistical reliability",
+          "dead-time correction for dynamic measurements: effective surface age = bubble period − dead time",
+          "temperature drift correction if thermostat stability is insufficient during measurement"
+        ],
+        "analysis_methods": [
+          "Young–Laplace equation: γ = ΔP_corrected · r / 2 for hemispherical bubble at a capillary of radius r",
+          "Sugden correction: accounts for deviation from perfect hemisphere when capillary radius is not negligible relative to bubble size",
+          "dynamic surface tension analysis: γ(t_eff) plotted against effective surface age t_eff to characterize adsorption kinetics",
+          "Ward–Tordai equation fitting: extract diffusion coefficient and adsorption isotherm parameters from γ(t) curves",
+          "Szyszkowski–Langmuir equation fitting: model equilibrium γ vs. concentration data for surfactant solutions"
+        ],
+        "model_assumptions": [
+          "bubble at maximum pressure is hemispherical with radius equal to capillary inner radius (Laplace equation applies)",
+          "gas behaves ideally at the low pressures involved",
+          "liquid is incompressible and Newtonian",
+          "capillary tip is perfectly circular, flat, and uniformly wetted by the liquid",
+          "surface tension is uniform over the bubble surface (no Marangoni effects during measurement)",
+          "for dynamic measurements: fresh surface is created at each bubble and surface age is determined by bubble lifetime"
+        ],
+        "fit_parameters": [
+          "equilibrium surface tension γ_eq",
+          "effective capillary radius r_eff (from calibration)",
+          "hydrostatic correction ρ·g·h",
+          "dead time t_dead (for dynamic measurements)",
+          "diffusion coefficient D and maximum surface excess Γ_max (from Ward–Tordai fitting)",
+          "Szyszkowski parameters (adsorption constant K, maximum surface pressure) for surfactant isotherms"
+        ],
+        "common_artifacts": [
+          "wetting artifact: if liquid does not fully wet capillary, effective radius differs from geometric radius, causing systematic error in γ",
+          "non-hemispherical bubble: at very low flow rates or large capillary radii, gravity distorts bubble shape, invalidating simple Laplace equation",
+          "gas compressibility artifact: dead volume of gas between flow controller and capillary tip introduces a delay and smoothing of the pressure peak",
+          "evaporation artifact: volatile liquids lose mass and change concentration during extended measurements, shifting γ",
+          "contamination artifact: trace surface-active impurities adsorb at the interface and lower measured γ relative to the pure liquid value",
+          "capillary aging: chemical attack or deposit buildup on capillary tip changes effective radius over time"
+        ],
+        "quality_control_checks": [
+          "measure ultrapure water at 25 °C and verify γ = 71.97 ± 0.3 mN/m before each measurement session",
+          "confirm reproducibility: standard deviation of ΔP_max over 20+ consecutive bubbles should be < 0.2%",
+          "check for flow-rate independence: equilibrium γ should be constant below a threshold bubble rate",
+          "verify hydrostatic correction by measuring at two or more capillary depths and comparing corrected γ values",
+          "inspect pressure–time trace visually for irregular bubble shapes (double peaks, asymmetric profiles)",
+          "compare results with literature values for well-characterized reference liquids"
+        ],
+        "failure_modes": [
+          "capillary clogging by particulates or precipitates (irregular or absent bubbles)",
+          "liquid creeping up inside the capillary (changes effective radius and introduces capillary-rise corrections)",
+          "pressure transducer drift or zero offset (systematic bias in all γ values)",
+          "thermostat failure causing uncontrolled temperature change during measurement",
+          "gas supply interruption or flow controller malfunction (abrupt change in bubble rate)",
+          "foam buildup on liquid surface interfering with pressure reference"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5 mN/m (0.1–0.7% relative) for equilibrium surface tension; 1–5% for dynamic surface tension at surface ages < 10 ms",
+        "random_sources": [
+          "pressure transducer electronic noise",
+          "bubble-to-bubble variation in ΔP_max from stochastic bubble detachment",
+          "temperature fluctuations from thermostat instability",
+          "vibration-induced perturbation of bubble formation",
+          "flow rate fluctuations from gas supply controller"
+        ],
+        "systematic_sources": [
+          "capillary radius calibration uncertainty (dominant source; γ scales linearly with r)",
+          "hydrostatic depth measurement uncertainty",
+          "pressure transducer calibration offset and nonlinearity",
+          "temperature measurement bias affecting reference γ used for radius calibration",
+          "non-hemispherical bubble shape (Sugden correction residual)",
+          "surface contamination lowering γ below true value",
+          "dead-volume gas compressibility (for dynamic measurements)"
+        ],
+        "operator_dependence": "low to moderate — capillary installation (verticality, depth), sample cleanliness, and cleaning protocol execution depend on operator care; automated instruments reduce dependence",
+        "model_dependence": "low for equilibrium measurements with small capillaries (simple Laplace equation is accurate); moderate for dynamic measurements requiring dead-time and gas compressibility corrections; high if bubble deviates significantly from hemispherical shape",
+        "dominant_error_sources": [
+          "capillary radius uncertainty (0.1% error in r produces 0.1% error in γ)",
+          "surface contamination from impurities or insufficient cleaning",
+          "hydrostatic correction uncertainty for deep capillary immersion"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(γ) at 95% confidence (k=2)",
+          "standard deviation from replicate bubble cycle measurements",
+          "relative uncertainty as percentage of γ"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Maximal bubble pressure (MBP) is a classical tensiometric technique that determines the surface tension of a liquid by measuring the maximum gas pressure required to form a bubble at the tip of a capillary tube immersed in the liquid. As gas is slowly forced through the capillary, a bubble grows at the tip and the pressure increases until the bubble reaches a hemispherical shape with radius equal to the capillary inner radius — at this point the Laplace pressure is maximal. Beyond this critical geometry the bubble expands rapidly and detaches. The technique is valued for its simplicity, robustness, and adaptability: at slow bubble rates it yields equilibrium surface tension with accuracy of 0.1–0.5 mN/m, while at high bubble rates it uniquely probes dynamic surface tension on millisecond timescales, making it one of the most versatile methods for surface tension characterization of pure liquids, mixtures, and surfactant solutions.",
+      "how_it_operates": "A fine capillary tube of known inner radius r is immersed vertically to a controlled depth h in the liquid under study. Clean, dry gas (air, N₂, or Ar) is supplied at a controlled and gradually increasing pressure through the capillary. As gas enters the liquid, a bubble begins to form at the capillary tip. The radius of curvature of the bubble–liquid interface starts large (nearly flat meniscus), decreases as the bubble inflates, reaches a minimum equal to the capillary radius when the bubble is a perfect hemisphere, and then increases again as the bubble becomes super-hemispherical. Since the Laplace pressure ΔP = 2γ/R is inversely proportional to the radius of curvature R, the pressure passes through a maximum at the hemispherical state. A high-resolution differential pressure transducer records the pressure–time trace, and the peak value ΔP_max is extracted, corrected for hydrostatic head (ρ·g·h), and converted to surface tension via γ = ΔP_corrected · r / 2. For dynamic measurements, the gas flow rate is increased systematically, producing bubbles at higher frequencies; each bubble lifetime defines an effective surface age, yielding a dynamic surface tension profile γ(t).",
+      "core_theory": "The method is grounded in the Young–Laplace equation, which relates the pressure difference across a curved fluid interface to the surface tension and the principal radii of curvature: ΔP = γ(1/R₁ + 1/R₂). For a spherical bubble of radius R at the tip of a capillary, this simplifies to ΔP = 2γ/R. As the bubble grows from a flat meniscus (R → ∞, ΔP → 0) through the hemispherical state (R = r, ΔP_max = 2γ/r) and beyond, the pressure–curvature relationship dictates a single maximum. The equilibrium surface tension is therefore γ = ΔP_max · r / 2. When the capillary radius is not negligibly small compared to the capillary length a = √(2γ/(ρg)), gravitational distortion of the bubble shape becomes significant, and the Sugden correction or numerical solutions of the full Young–Laplace equation must be applied. For dynamic surface tension studies, the effective surface age t_eff equals the bubble lifetime minus a dead time during which the bubble collapses and the new interface is not yet expanding; this dead time is calibrated using reference liquids or modeled from system gas compressibility.",
+      "setup": "A typical MBP instrument consists of a precision glass or stainless-steel capillary (inner radius 0.05–0.5 mm, ground flat and perpendicular at the tip) mounted on a vertical micrometer stage for precise depth control. The capillary connects via low-dead-volume PTFE tubing to a gas supply equipped with a precision pressure controller or syringe pump. A high-resolution differential pressure transducer (range 0–5000 Pa, resolution 0.01 Pa) measures the pressure difference between the gas line and the atmosphere above the liquid. The liquid is held in a thermostated glass cell — typically a double-walled vessel connected to a circulating thermostat maintaining temperature stability to ±0.01 K, with a calibrated Pt100 RTD or thermocouple positioned near the capillary tip. A data acquisition system sampling at ≥100 Hz records the pressure–time profile, and software identifies ΔP_max peaks, applies corrections, and computes γ. An optional camera or microscope allows visual observation of bubble formation for diagnostic purposes.",
+      "suitable_for": "Maximal bubble pressure is well suited for measuring the surface tension of pure liquids, binary and multicomponent mixtures, aqueous and non-aqueous solutions, and surfactant systems over temperature ranges from near-freezing to several hundred degrees Celsius. It is particularly advantageous for high-viscosity liquids (ionic liquids, polymer solutions, molten salts) because the measurement does not require the liquid to flow or form a detaching drop. The small sample volumes required (as little as 0.5 mL in micro-cells) make it attractive for expensive or scarce materials. Uniquely among surface tension techniques, MBP provides access to dynamic surface tension on millisecond-to-second timescales by varying the bubble rate, enabling studies of surfactant adsorption kinetics, diffusion-controlled adsorption, and mixed adsorption at fluid interfaces. It is routinely used in quality control of industrial surfactant formulations and in research on interfacial phenomena.",
+      "core_limitations": "The technique measures only the liquid–gas surface tension; it is not applicable to liquid–liquid interfacial tension. Accuracy depends critically on precise knowledge of the capillary inner radius, which must be calibrated against a reference liquid — any uncertainty in r translates directly and linearly into uncertainty in γ. For very low surface tension liquids (γ < 10 mN/m), the pressure signal becomes small relative to transducer noise, reducing precision. At high bubble rates required for short surface ages, corrections for gas compressibility in the dead volume between the flow controller and capillary become significant and introduce additional uncertainty. The simple hemispherical model breaks down for large capillaries where gravitational distortion is non-negligible (Bond number Bo = ρgr²/γ approaching or exceeding 0.01), requiring more complex analysis. Surface-active contaminants in the liquid or on the capillary can severely bias results, demanding rigorous cleaning protocols.",
+      "sample_preparation": "Liquids should be of known purity, filtered through a 0.2 µm membrane to remove particulates that could clog the capillary or nucleate spurious bubbles. Aqueous solutions are prepared with ultrapure water (resistivity ≥ 18.2 MΩ·cm). Hygroscopic or moisture-sensitive liquids should be dried and their water content verified (e.g., by Karl Fischer titration). Dissolved gases should be removed by gentle degassing under reduced pressure or by sonication if dissolved gas affects bubble formation behavior. The sample is equilibrated to the measurement temperature in the thermostated cell for at least 15 minutes before measurement. The capillary and measurement cell must be scrupulously cleaned — glass components are typically soaked in chromic acid or piranha solution, rinsed copiously with ultrapure water, and dried with filtered gas. Cleanliness is verified by confirming that ultrapure water gives γ = 71.97 ± 0.3 mN/m at 25 °C.",
+      "calibration_and_references": "The effective capillary radius is the single most important calibration parameter. It is determined by measuring ΔP_max for a reference liquid of accurately known surface tension — ultrapure water at 25 °C (γ = 71.97 mN/m, IAPWS recommended) is the standard choice — and back-calculating r_eff = 2γ_ref / ΔP_max,ref. This calibration absorbs any deviation of the capillary cross-section from a perfect circle and any residual wetting effects. The pressure transducer is zeroed and checked for linearity using a precision water-column manometer or a dead-weight tester. Temperature calibration uses the Pt100 against a certified reference at the ice point and at least one additional fixed point. For dynamic measurements, the dead-time correction is calibrated by measuring a non-adsorbing reference (ultrapure water) over a range of bubble rates — any apparent rate-dependence of γ for water is attributed to dead-time effects and used to parameterize the correction. Secondary reference liquids (n-hexane, toluene, ethanol, n-decane) span the γ range of interest and serve as validation checks.",
+      "data_interpretation": "From the raw pressure–time trace, a peak-detection algorithm identifies each ΔP_max value, which is corrected for the hydrostatic head at the capillary depth: ΔP_corrected = ΔP_max − ρ·g·h, where ρ is the liquid density, g is gravitational acceleration, and h is the immersion depth. The equilibrium surface tension is computed as γ = ΔP_corrected · r_eff / 2. For precision work, the Sugden correction factor is applied to account for non-hemispherical bubble geometry. Statistical analysis of 20–50 consecutive bubble cycles yields the mean γ and its standard deviation. For dynamic surface tension, each bubble is assigned an effective surface age t_eff = t_bubble − t_dead, where t_bubble is the bubble period (inverse of bubble frequency) and t_dead is the calibrated dead time. Plotting γ vs. t_eff reveals adsorption kinetics: diffusion-controlled surfactant adsorption produces a characteristic γ(t) curve that can be fitted with the Ward–Tordai diffusion equation to extract the diffusion coefficient and adsorption isotherm parameters.",
+      "common_pitfalls": "The most critical pitfall is surface contamination — trace quantities of surface-active impurities (from glassware, ambient dust, or sample degradation) adsorb at the bubble surface and lower the measured γ, sometimes by several mN/m. Insufficient cleaning of the capillary and cell is the primary cause of irreproducible or systematically low results. A second common error is incorrect capillary immersion depth: if the depth h is measured inaccurately, the hydrostatic correction is wrong, introducing a systematic offset proportional to ρ·g·Δh (≈0.1 mN/m per mm of depth error for water). Using the equilibrium formula at high bubble rates without applying dead-time and gas compressibility corrections leads to overestimation of dynamic surface tension at short surface ages. Operating with a damaged or non-circular capillary tip changes the effective radius from the calibrated value, invalidating all subsequent measurements until recalibration.",
+      "artifacts_and_failure_modes": "Wetting artifacts occur when the liquid does not fully wet the outer rim of the capillary tip; the effective radius then differs from the inner radius, producing systematic error in γ. In severe cases, liquid may creep inside the capillary between bubbles, altering the gas–liquid contact geometry unpredictably. Gas compressibility artifacts become important at high bubble rates: the dead volume of gas in the tubing acts as a pneumatic capacitor that damps and delays the pressure signal, causing the recorded ΔP_max to underestimate the true maximum. If particulates partially clog the capillary, bubble formation becomes irregular — double peaks or erratic pressure traces appear. Evaporation of volatile components from open cells changes sample composition over time, producing a drift in γ. At very low bubble rates, thermal convection in the liquid can disrupt the stagnant layer around the capillary, introducing scatter. Pressure transducer zero drift over long measurement campaigns adds a slow systematic bias to all readings.",
+      "reporting_checklist": "Published MBP surface tension data should report: capillary material and inner radius (with calibration method and reference liquid used), gas type and purity, measurement cell volume and configuration, immersion depth and hydrostatic correction applied, thermostat type and temperature stability, number of bubble cycles averaged, equilibrium criterion (flow-rate independence demonstrated), any Sugden or gravitational corrections applied, cleaning protocol for capillary and cell, reference liquid verification result (e.g., water at 25 °C), combined expanded uncertainty U(γ) with confidence level (k=2), and for dynamic measurements additionally: bubble rate range, dead-time correction method and value, dead-volume estimate, and effective surface age range. For ThermoML encoding, surface tension values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

@@ -1,0 +1,327 @@
+{
+  "meas_ID": "drop_volume",
+  "identity": {
+    "name": "Drop volume",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Drop volume",
+    "thermoml_custom_codes": [
+      "DROPV"
+    ],
+    "measurement_family": "Surface Tension",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 311,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 52,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 311,
+          "papers": 52
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "volume of liquid drop at detachment from tip (V_drop)",
+          "number of drops formed from a known dispensed volume",
+          "drop formation time (t_drop)"
+        ],
+        "derived_observables": [
+          "surface tension (γ) from single-fluid drop in air or vapor",
+          "interfacial tension (γ_12) from drop formed in an immiscible second liquid",
+          "dynamic surface tension as a function of drop formation rate"
+        ],
+        "target_properties": [
+          "surface tension (γ)",
+          "interfacial tension (γ_12)",
+          "dynamic surface tension at controlled formation rates",
+          "critical micelle concentration (CMC) via γ vs. concentration curves"
+        ],
+        "phases_measured": [
+          "liquid–vapor interface",
+          "liquid–liquid interface (immiscible pair)"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "surfactant solutions",
+          "polymer solutions (low to moderate viscosity)",
+          "electrolyte solutions",
+          "organic solvents",
+          "molten salts (with high-temperature tips)",
+          "immiscible liquid pairs (interfacial tension mode)"
+        ],
+        "unsupported_sample_types": [
+          "highly viscous liquids (>500 mPa·s) — drops may not detach cleanly",
+          "volatile liquids with very high vapor pressure (rapid evaporation distorts drop)",
+          "viscoelastic fluids forming filaments instead of discrete drops",
+          "molten metals (require specialized wetting-resistant tips)",
+          "supercritical fluids"
+        ],
+        "typical_output_formats": [
+          "γ vs. temperature curve",
+          "γ vs. composition (mole fraction) at fixed T",
+          "γ vs. surfactant concentration (surface tension isotherm)",
+          "dynamic γ vs. drop formation time",
+          "interfacial tension γ_12 vs. T or composition"
+        ],
+        "units": {
+          "surface_tension": "mN/m (= dyn/cm)",
+          "interfacial_tension": "mN/m",
+          "drop_volume": "µL or mm³",
+          "temperature": "K",
+          "density_difference": "kg/m³",
+          "tip_radius": "mm",
+          "drop_formation_time": "s"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "278 K to 373 K",
+            "hard_limits": "limited by thermostatting capability and liquid volatility/decomposition; specialized setups extend to 473 K or higher for molten salts",
+            "notes": "must be controlled to ±0.01–0.05 K for precise surface tension work"
+          },
+          {
+            "parameter": "drop_formation_rate",
+            "typical_range": "1 drop per 20–120 s for quasi-static equilibrium measurements",
+            "hard_limits": "too fast (<5 s) gives non-equilibrium dynamic surface tension; too slow causes evaporation errors",
+            "notes": "automated instruments control syringe speed precisely; for dynamic studies the rate is systematically varied"
+          },
+          {
+            "parameter": "tip_radius",
+            "typical_range": "0.5 mm to 3.0 mm outer radius",
+            "hard_limits": "must be large enough for drops to form reproducibly and small enough that drops detach by gravity before becoming too large",
+            "notes": "standard tips are precision-ground stainless steel or PTFE; tip radius must be measured or certified to ±0.001 mm"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "ambient (0.1 MPa)",
+            "hard_limits": "standard instruments operate at atmospheric pressure; pressurized cells exist but are uncommon",
+            "notes": "for interfacial tension measurements the outer phase is a second liquid rather than air"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary thermodynamic variable",
+            "typical_values": "278 K to 373 K",
+            "effect": "surface tension generally decreases linearly with increasing temperature; approaches zero at the critical temperature"
+          },
+          {
+            "name": "composition",
+            "role": "primary thermodynamic variable for mixtures",
+            "typical_values": "full mole fraction range 0–1",
+            "effect": "surface tension of mixtures varies nonlinearly with composition; surface-active components preferentially adsorb at the interface"
+          },
+          {
+            "name": "drop_formation_time",
+            "role": "controlled experimental variable",
+            "typical_values": "10 s to 300 s per drop",
+            "effect": "shorter formation times yield higher apparent surface tension for surfactant solutions due to incomplete adsorption equilibrium"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa",
+            "effect": "negligible effect on surface tension at moderate pressures; relevant only near critical conditions"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision syringe or motorized piston pump — delivers liquid at a controlled, constant flow rate through the tip",
+          "capillary tip (nozzle) — precision-ground stainless steel or PTFE tube with certified outer radius; defines the drop formation geometry",
+          "thermostatted measurement cell — jacketed glass or metal cell connected to a circulating bath for temperature control",
+          "temperature sensor — Pt100 RTD or thermocouple positioned near the tip for accurate temperature reading",
+          "optical or electronic drop detector — photoelectric sensor, CCD camera, or conductivity probe to detect the exact moment of drop detachment",
+          "syringe drive controller — stepper motor or precision screw mechanism to set and maintain constant volumetric flow rate",
+          "data acquisition and control system — computer interface to record drop volumes, counts, timing, and temperature",
+          "vibration-damped support — stable platform to avoid premature drop detachment from mechanical disturbance"
+        ],
+        "environmental_requirements": [
+          "freedom from vibrations — mechanical disturbances cause premature or delayed drop detachment",
+          "constant temperature environment or thermostatted cell (±0.01–0.05 K stability)",
+          "draft-free enclosure to prevent evaporation and convective disturbance of the forming drop",
+          "clean atmosphere or saturated vapor environment above the liquid to minimize evaporation"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample — no geometric constraints on the bulk sample"
+          ],
+          "size_limits": "1–50 mL per measurement series; minimum ~0.5 mL for a single determination (enough for 5–10 drops)",
+          "thickness_limits": "",
+          "surface_requirements": [
+            "tip must be scrupulously clean and free of contamination — traces of grease or surfactant on the tip drastically alter drop size",
+            "liquid must wet the outer rim of the tip uniformly for reproducible drop formation"
+          ],
+          "mounting_requirements": [
+            "tip mounted vertically with the opening facing downward",
+            "syringe and tubing connections must be leak-free and bubble-free",
+            "for interfacial tension measurements the tip is submerged in the denser immiscible liquid"
+          ],
+          "preparation_requirements": [
+            "sample must be thoroughly degassed to prevent bubble formation at the tip",
+            "density of sample (and outer phase for interfacial measurements) must be known at measurement temperature to ±0.1 kg/m³",
+            "for surfactant solutions, concentration must be accurately prepared and confirmed",
+            "highly volatile samples require a saturated vapor atmosphere in the cell"
+          ]
+        },
+        "calibration_requirements": [
+          "tip radius calibration — measure outer radius with a traveling microscope or calibrated optical system to ±0.001 mm",
+          "syringe volume calibration — verify dispensed volume by gravimetric method using pure water at known temperature",
+          "temperature calibration — verify sensor against a certified reference thermometer",
+          "validation with reference liquids of known surface tension (water, n-hexane, toluene) to confirm the full measurement chain including Harkins-Brown correction factors"
+        ],
+        "reference_materials": [
+          "ultrapure water — γ = 71.97 mN/m at 25 °C; primary reference for absolute calibration",
+          "n-hexane — γ ≈ 17.89 mN/m at 25 °C; low surface tension reference",
+          "toluene — γ ≈ 27.93 mN/m at 25 °C; intermediate reference",
+          "n-decane — γ ≈ 23.37 mN/m at 25 °C",
+          "benzene — γ ≈ 28.22 mN/m at 25 °C (historical reference)"
+        ],
+        "consumables": [
+          "precision capillary tips (replaceable, various radii)",
+          "cleaning solvents (chromic acid, acetone, ethanol) for tip decontamination",
+          "ultrapure water for rinsing and calibration",
+          "syringes or syringe cartridges",
+          "thermostatting fluid for jacketed cell"
+        ],
+        "safety_notes": [
+          "glass components under thermal cycling — handle with care to prevent breakage",
+          "flammable organic solvents require appropriate ventilation and ignition source exclusion",
+          "chromic acid cleaning solution is a strong oxidizer — use with gloves, goggles, and proper disposal",
+          "hot thermostatting fluid at elevated temperatures — burn hazard"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving surface tension differences of ~0.05 mN/m between samples under optimized conditions",
+        "detection_limit": "applicable to liquids with surface tension from ~10 mN/m (low-tension organics) to ~75 mN/m (water); lower limit set by inability to form stable drops",
+        "resolution": {
+          "spatial": "not applicable (bulk interfacial measurement)",
+          "temporal": "drop formation time typically 10–300 s; dynamic surface tension accessible by varying formation rate",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "surface tension from ~10 mN/m to ~75 mN/m; interfacial tension from ~0.5 mN/m to ~50 mN/m",
+        "accuracy": "0.1–1% in surface tension after application of Harkins-Brown correction factor and proper calibration",
+        "precision": "0.05–0.3% (repeatability from replicate drop volume determinations at fixed conditions)",
+        "throughput": "5–20 measurements per hour depending on drop formation rate; fully automated instruments increase throughput",
+        "measurement_speed": "single determination requires 3–10 drops, taking 1–20 minutes depending on formation rate; equilibrium measurements are slower than dynamic"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "dispensed liquid volume per drop (from calibrated syringe displacement) or counted number of drops from a fixed dispensed volume; drop detachment detected optically or electrically",
+        "preprocessing_steps": [
+          "record total dispensed volume and number of drops to compute mean drop volume V_drop",
+          "discard first 1–3 drops to ensure tip wetting and steady-state formation",
+          "apply temperature correction to syringe calibration if ambient temperature differs from calibration temperature",
+          "measure or look up density of the liquid (and outer phase) at measurement temperature"
+        ],
+        "analysis_methods": [
+          "Tate's law (idealized): γ_ideal = V_drop × Δρ × g / (2πr) where r = tip outer radius, Δρ = density difference, g = gravitational acceleration",
+          "Harkins-Brown correction: γ = γ_ideal × (1/F) where F = f(r/V_drop^(1/3)) is a tabulated correction factor accounting for the residual liquid left on the tip after detachment",
+          "polynomial or interpolation lookup of F from published Harkins-Brown tables or modern parametric fits",
+          "for dynamic surface tension: plot γ vs. drop formation time t_drop or vs. 1/t_drop and extrapolate to equilibrium",
+          "for CMC determination: plot γ vs. log(concentration) and identify the breakpoint"
+        ],
+        "model_assumptions": [
+          "drop detaches when gravitational force on the pendant drop equals the restraining surface tension force at the tip perimeter (Tate's law balance)",
+          "drop is axially symmetric about the vertical axis of the tip",
+          "liquid wets the outer edge of the tip completely and uniformly — drop detaches from the outer circumference",
+          "Harkins-Brown correction factor accounts for the non-ideal fraction of liquid remaining on the tip after detachment",
+          "density difference Δρ between liquid and surrounding medium is accurately known",
+          "drop formation is slow enough to maintain mechanical and adsorption equilibrium (quasi-static assumption for equilibrium measurements)"
+        ],
+        "fit_parameters": [
+          "surface tension γ (primary output)",
+          "Harkins-Brown correction factor F (looked up or interpolated, not fitted)",
+          "effective tip radius r (calibrated, not fitted)",
+          "density difference Δρ (measured independently)"
+        ],
+        "common_artifacts": [
+          "tip contamination artifact: adsorbed surfactant or organic residue on the tip alters wetting and effective radius, producing systematically low or erratic γ values",
+          "incomplete wetting artifact: if liquid does not wet the full outer circumference of the tip, effective detachment radius is less than the geometric radius, giving erroneously high γ",
+          "vibration-induced premature detachment: mechanical disturbances cause drops to detach before reaching full equilibrium volume, yielding low apparent γ",
+          "evaporation artifact: loss of volatile sample during slow drop formation reduces drop volume and alters composition at the drop surface",
+          "bubble entrainment: air bubbles trapped in the syringe or tubing cause irregular dispensing and erratic drop volumes",
+          "dynamic adsorption artifact: for surfactant solutions, fast drop formation gives higher apparent γ because surfactant molecules have insufficient time to populate the expanding interface"
+        ],
+        "quality_control_checks": [
+          "verify drop volume reproducibility: coefficient of variation for replicate drops should be <0.5%",
+          "measure surface tension of ultrapure water at 25 °C and confirm agreement with 71.97 ± 0.1 mN/m",
+          "check at least two reference liquids spanning the expected γ range",
+          "vary drop formation rate and confirm that equilibrium γ is independent of rate (for non-surfactant systems)",
+          "inspect tip under magnification for damage, contamination, or burrs after cleaning",
+          "verify density values against reference data or independent measurement"
+        ],
+        "failure_modes": [
+          "tip damage or deformation — nicks or burrs on the tip edge cause irregular drop shapes and irreproducible detachment",
+          "syringe seal failure — leaking piston seal leads to uncontrolled dispensing rate and wrong drop volumes",
+          "air bubble in syringe barrel — causes erratic dispensing; manifests as occasional outlier drop volumes",
+          "clogging of tip by precipitate or particulates — drops fail to form or detach irregularly",
+          "thermal equilibration failure — insufficient time for sample and tip to reach bath temperature produces systematic drift in γ",
+          "loss of optical detector alignment — automated instruments miss drop detachment events and miscount drops"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–1% for equilibrium surface tension of pure liquids and simple mixtures",
+        "random_sources": [
+          "drop-to-drop volume variation from hydrodynamic fluctuations during necking and detachment",
+          "temperature fluctuations within the measurement cell",
+          "syringe dispensing rate variations (stepper motor resolution)",
+          "optical detector timing jitter in sensing drop detachment",
+          "balance or volume readout noise"
+        ],
+        "systematic_sources": [
+          "tip radius calibration uncertainty (propagates directly into γ)",
+          "Harkins-Brown correction factor interpolation uncertainty (~0.1–0.3%)",
+          "density measurement uncertainty for the liquid and surrounding medium",
+          "incomplete tip wetting — effective detachment radius differs from geometric radius",
+          "syringe volume calibration error",
+          "residual tip contamination after cleaning",
+          "temperature sensor calibration offset"
+        ],
+        "operator_dependence": "low to moderate — automated instruments minimize operator effects; manual stalagmometers require careful technique for drop counting and tip cleaning",
+        "model_dependence": "moderate — accuracy depends critically on the Harkins-Brown correction factor; alternative correction schemes (Lee-Chan-Pogaku, Lando-Oakley) exist and can give slightly different values at extreme r/V^(1/3) ratios",
+        "dominant_error_sources": [
+          "tip radius calibration (largest single contributor to systematic uncertainty)",
+          "Harkins-Brown correction factor accuracy",
+          "density difference uncertainty (especially for interfacial tension where Δρ can be small)",
+          "tip contamination or incomplete wetting"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(γ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of γ",
+          "standard deviation from replicate drop measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Drop volume (also known as the stalagmometric method or drop weight method) is a classical technique for measuring surface tension and interfacial tension of liquids. A liquid is slowly dispensed through a precision capillary tip oriented vertically downward, and individual drops detach when the gravitational force on the growing pendant drop overcomes the restraining surface tension force acting along the tip circumference. By measuring the volume (or weight) of the detached drop and knowing the tip radius and liquid density, the surface tension is calculated through Tate's law with empirical Harkins-Brown correction factors. With 311 measurement instances across 52 papers in the NIST ThermoML database, it is one of the most widely used methods for surface tension determination, valued for its simplicity, modest sample requirements, and reliable accuracy of 0.1–1%.",
+      "how_it_operates": "Liquid is delivered at a controlled, slow rate from a precision syringe or motorized piston pump through a vertically oriented capillary tip of accurately known outer radius r. As liquid accumulates at the tip, a pendant drop grows under the combined influence of surface tension (pulling the drop against the tip perimeter) and gravity (pulling the drop downward). At a critical volume, the gravitational force exceeds the maximum surface tension force, and the drop detaches. An optical sensor, CCD camera, or conductivity probe detects the moment of detachment. The dispensed volume is divided by the number of detached drops to obtain the mean drop volume V_drop. In the classical stalagmometer variant, a fixed volume of liquid is allowed to drip and the total number of drops is counted. Modern automated instruments (e.g., Krüss DVT series) use motorized syringes with electronic drop detection to achieve high precision and throughput.",
+      "core_theory": "The fundamental principle is Tate's law: at the moment of detachment, the weight of the falling drop equals the maximum vertical component of the surface tension force around the tip circumference, i.e., V_drop × Δρ × g = 2πrγ_ideal, where Δρ is the density difference between the drop liquid and the surrounding medium, g is gravitational acceleration, and r is the tip outer radius. Because detachment is not ideal — a residual volume of liquid remains hanging on the tip after the drop pinches off — a dimensionless correction factor F is required. Harkins and Brown (1919) tabulated F as a function of the dimensionless ratio r/V_drop^(1/3), yielding the corrected equation γ = V_drop × Δρ × g / (2πrF). The correction factor F typically ranges from 0.5 to 0.7 and has been refined by subsequent workers (Wilkinson, Lando-Oakley, Lee-Chan-Pogaku). For interfacial tension between two immiscible liquids, the same equation applies with Δρ being the density difference between the two liquid phases.",
+      "setup": "A typical drop volume tensiometer consists of a precision glass or stainless-steel syringe (1–10 mL capacity) fitted with interchangeable capillary tips of known outer radius (commonly 0.5–3.0 mm). The syringe is driven by a stepper-motor-controlled plunger that delivers liquid at a programmable constant flow rate. The tip protrudes downward into a thermostatted measurement chamber — a jacketed glass cell connected to a circulating bath maintaining temperature to ±0.01–0.05 K. A photoelectric or CCD-based drop detector positioned just below the tip registers each detachment event. The entire assembly is mounted on a vibration-damped platform and enclosed in a draft shield. For interfacial tension measurements, the tip is submerged in a cuvette filled with the second immiscible liquid, and drops of the denser phase rise (or lighter phase sinks) depending on the configuration. A computer controls syringe speed, records drop count and timing, and computes surface tension in real time.",
+      "suitable_for": "Drop volume tensiometry is well suited for measuring the surface tension of pure liquids and liquid mixtures over a wide temperature range, and is particularly effective for surfactant solutions where dynamic surface tension information is desired by varying the drop formation rate. It handles aqueous and organic solutions, electrolyte solutions, and dilute polymer solutions with ease. The method is one of the few that can straightforwardly measure interfacial tension between two immiscible liquids by forming drops of one phase within the other. It is a standard method in quality control of surfactants, detergents, and emulsifiers, and is widely used in academic research for generating surface tension versus composition or temperature data sets for thermodynamic modeling. The low sample volume requirement (a few milliliters) makes it attractive when sample availability is limited.",
+      "core_limitations": "The method requires accurate knowledge of the liquid density (and density difference for interfacial tension) at the measurement temperature, introducing a secondary measurement dependency. Highly viscous liquids (above ~500 mPa·s) form drops that do not detach cleanly due to viscous necking and filament formation, leading to poor reproducibility. Very low surface tension systems (below ~10 mN/m) produce drops so large they may exceed the tip capacity or become distorted by convection. The Harkins-Brown correction factor introduces model-dependent uncertainty, particularly at extreme values of r/V_drop^(1/3) outside the well-characterized tabulation range. Volatile liquids require a saturated vapor environment above the liquid to prevent evaporation from the growing drop surface. The method is slower than ring or plate tensiometry for routine equilibrium measurements because each data point requires formation and detachment of multiple drops.",
+      "sample_preparation": "Liquid samples should be filtered through a 0.2 µm membrane filter to remove particulates that could clog the tip or serve as heterogeneous nucleation sites for bubbles. For surface-tension-sensitive work, glassware must be cleaned with chromic acid or piranha solution and rinsed copiously with ultrapure water. The sample should be thoroughly degassed by gentle vacuum or ultrasonication to prevent bubble formation at the tip. The density of the sample must be measured independently at the exact measurement temperature, typically using a vibrating-tube densimeter (e.g., Anton Paar DMA series) to ±0.01–0.1 kg/m³. For surfactant solutions, concentration should be prepared gravimetrically and verified. Volatile samples are loaded under an atmosphere saturated with the sample vapor to minimize evaporation losses during the slow drop formation process.",
+      "calibration_and_references": "Calibration is performed in three stages: (1) the tip outer radius is measured with a traveling microscope or calibrated optical microscopy system to ±0.001 mm, or alternatively calibrated using a reference liquid of known surface tension; (2) the syringe dispensing volume is verified gravimetrically by dispensing a known number of drops of ultrapure water, weighing the collected liquid, and computing volume from the known density; (3) the full measurement chain is validated by measuring the surface tension of ultrapure water (γ = 71.97 mN/m at 25 °C, IAPWS recommended value) and at least one organic reference such as n-hexane (17.89 mN/m at 25 °C) or toluene (27.93 mN/m at 25 °C). Agreement within 0.1–0.3 mN/m with literature values confirms correct operation. Temperature sensors are calibrated against certified reference thermometers traceable to ITS-90.",
+      "data_interpretation": "For each measurement, the mean drop volume V_drop is computed from the total dispensed volume divided by the counted number of drops (typically 5–20 drops, discarding the first few). The idealized surface tension is calculated from Tate's law: γ_ideal = V_drop × Δρ × g / (2πr). The dimensionless ratio r/V_drop^(1/3) is then computed and used to look up or interpolate the Harkins-Brown correction factor F from published tables or polynomial fits. The corrected surface tension is γ = γ_ideal / F. For dynamic surface tension studies, measurements are repeated at multiple drop formation rates and γ is plotted against drop formation time t_drop; the equilibrium surface tension is obtained by extrapolation to infinite formation time. For interfacial tension, the same procedure applies with Δρ being the difference in densities of the two liquid phases. Uncertainty is propagated from the uncertainties in V_drop, r, Δρ, and the correction factor F.",
+      "common_pitfalls": "The most common pitfall is tip contamination — even trace amounts of surface-active material adsorbed on the tip from previous measurements or from the laboratory atmosphere can alter the effective wetting perimeter and produce systematically biased results. Inadequate tip cleaning between samples is a frequent source of scatter. Using a drop formation rate that is too fast for surfactant-containing systems gives non-equilibrium dynamic surface tension values that are higher than the true equilibrium value, which may be mistakenly reported as the equilibrium surface tension. Failing to discard the initial drops (which flush the tip and establish steady wetting) adds scatter. Using an inaccurate density value introduces a directly proportional error in the calculated surface tension. Operating with a damaged or burred tip causes irregular drop shapes and unpredictable detachment, but the damage may not be visible to the naked eye — periodic inspection under magnification is essential.",
+      "artifacts_and_failure_modes": "Vibration-induced premature detachment is the most disruptive artifact: building vibrations, nearby equipment, or even air currents can cause drops to fall before reaching their equilibrium volume, yielding systematically low surface tension values. Evaporation artifacts affect volatile liquids when the atmosphere above the drop is not saturated, leading to cooling of the drop surface and concentration changes that alter γ. Bubble entrainment in the syringe barrel or tubing leads to irregular dispensing volumes, manifesting as intermittent outlier drop counts. Incomplete wetting of the tip — due to hydrophobic contamination or use of a non-wetting liquid — causes the effective detachment radius to be smaller than the geometric tip radius, producing erroneously high γ values. For surfactant solutions, a slow adsorption artifact produces γ values that depend on drop formation rate even at rates intended to be quasi-static; this is a real physical effect but is an artifact if equilibrium values are the target. Temperature gradients between the syringe barrel and the measurement cell cause the dispensed liquid to undergo thermal contraction or expansion after leaving the syringe, introducing a small volume error.",
+      "reporting_checklist": "Published drop volume surface tension results should report: tip outer radius and its calibration method, syringe type and volume calibration procedure, drop formation rate or time per drop, number of drops averaged per data point, Harkins-Brown correction factor source (table edition or analytical fit used), liquid density and its source/measurement method, temperature and its measurement uncertainty, whether the measurement is equilibrium or dynamic surface tension, identity and purity of the sample, cleaning protocol for the tip and glassware, reference liquid validation result (e.g., water γ at 25 °C), combined expanded uncertainty U(γ) with confidence level and coverage factor, and for ThermoML encoding, values are reported with nCombExpandUncertValue at the 95% confidence level (k = 2)."
+    }
+  }
+}

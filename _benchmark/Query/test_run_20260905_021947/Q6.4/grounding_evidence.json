@@ -1,0 +1,606 @@
+{
+  "generated": "2026-09-05T06:05:48",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_1",
+      "lit_id": null,
+      "literals": [
+        "25"
+      ],
+      "detail": "25 (near '…### Recommended value for your calculation  > **ρ(DMSO, 25 °…') matches no inspected row/stat, database table, or other source of PROPblock_1",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"pressure_kpa\", \"value\": 25.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_1",
+      "lit_id": null,
+      "literals": [
+        "25"
+      ],
+      "detail": "25 (near '…exact pressure conditions.  ### Temperature dependence near …') matches no inspected row/stat, database table, or other source of PROPblock_1",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"pressure_kpa\", \"value\": 25.0})"
+    },
+    {
+      "kind": "MISATTRIBUTED_VALUE",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_4",
+      "lit_id": "GLOBlit_86",
+      "literals": [
+        "293.15"
+      ],
+      "detail": "293.15 does not belong to PROPblock_1; it matches only GLOBlit_86::PROPblock_4 (inspected this run)",
+      "suggested_call": "re-anchor 293.15 to GLOBlit_86::PROPblock_4 — no new tool call needed"
+    },
+    {
+      "kind": "AMBIGUOUS_VALUE",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_1",
+      "lit_id": null,
+      "literals": [
+        "101.0"
+      ],
+      "detail": "101.0 matches 2 different sources — ambiguous; re-quote it from an inspection of the block you mean",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"pressure_kpa\", \"value\": 101.0})"
+    },
+    {
+      "kind": "MISATTRIBUTED_VALUE",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_4",
+      "lit_id": "GLOBlit_86",
+      "literals": [
+        "1100.306"
+      ],
+      "detail": "1100.306 does not belong to PROPblock_1; it matches only GLOBlit_86::PROPblock_4 (inspected this run)",
+      "suggested_call": "re-anchor 1100.306 to GLOBlit_86::PROPblock_4 — no new tool call needed"
+    },
+    {
+      "kind": "AMBIGUOUS_VALUE",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_1",
+      "lit_id": null,
+      "literals": [
+        "101.0"
+      ],
+      "detail": "101.0 matches 2 different sources — ambiguous; re-quote it from an inspection of the block you mean",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"pressure_kpa\", \"value\": 101.0})"
+    },
+    {
+      "kind": "MISATTRIBUTED_VALUE",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_4",
+      "lit_id": "GLOBlit_86",
+      "literals": [
+        "303.15"
+      ],
+      "detail": "303.15 does not belong to PROPblock_1; it matches only GLOBlit_86::PROPblock_4 (inspected this run)",
+      "suggested_call": "re-anchor 303.15 to GLOBlit_86::PROPblock_4 — no new tool call needed"
+    },
+    {
+      "kind": "AMBIGUOUS_VALUE",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_1",
+      "lit_id": null,
+      "literals": [
+        "101.0"
+      ],
+      "detail": "101.0 matches 2 different sources — ambiguous; re-quote it from an inspection of the block you mean",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"pressure_kpa\", \"value\": 101.0})"
+    },
+    {
+      "kind": "MISATTRIBUTED_VALUE",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_4",
+      "lit_id": "GLOBlit_86",
+      "literals": [
+        "1090.253"
+      ],
+      "detail": "1090.253 does not belong to PROPblock_1; it matches only GLOBlit_86::PROPblock_4 (inspected this run)",
+      "suggested_call": "re-anchor 1090.253 to GLOBlit_86::PROPblock_4 — no new tool call needed"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_1",
+      "lit_id": null,
+      "literals": [
+        "78.13"
+      ],
+      "detail": "78.13 (near '…ent temperature.  ### Chemistry note  DMSO (CH₃–SO–CH₃, M = …') matches no inspected row/stat, database table, or other source of PROPblock_1",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"pressure_kpa\", \"value\": 78.13})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_1",
+      "lit_id": null,
+      "literals": [
+        "25"
+      ],
+      "detail": "25 (near '…DMSO (CH₃–SO–CH₃, M = 78.13 g/mol) is denser than water at 2…') matches no inspected row/stat, database table, or other source of PROPblock_1",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"pressure_kpa\", \"value\": 25.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_1",
+      "block_number": "PROPblock_1",
+      "lit_id": null,
+      "literals": [
+        "3.96"
+      ],
+      "detail": "3.96 (near '…h molecular mass and strong dipole–dipole interactions (μ ≈ …') matches no inspected row/stat, database table, or other source of PROPblock_1",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"pressure_kpa\", \"value\": 3.96})"
+    }
+  ],
+  "verified": [
+    {
+      "anchor": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+      "values": [
+        "298.15",
+        "101.325",
+        "1095.271",
+        "101.0",
+        "1095.278",
+        "1095.27",
+        "1095.37",
+        "85.9",
+        "1095.29"
+      ]
+    }
+  ],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_1",
+      "values": [
+        "1095.3",
+        "1.0953",
+        "1095.27",
+        "1095.37",
+        "0.1",
+        "298.15",
+        "1095.278"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_7": {
+        "lit_num_id": "GLOBlit_57",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_4af5341b9c11"
+        ],
+        "authoritative": {
+          "doi": "10.1007/s10765-008-0395-z",
+          "n_rows": 1,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              298.15,
+              298.15
+            ],
+            "pressure_kpa": [
+              101.325,
+              101.325
+            ],
+            "mass_density_kg_m3": [
+              1095.271,
+              1095.271
+            ]
+          }
+        }
+      },
+      "PROPblock_4": {
+        "lit_num_id": "GLOBlit_86",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_66cf20e92a90"
+        ],
+        "authoritative": {
+          "doi": "10.1007/s10765-009-0648-5",
+          "n_rows": 5,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              288.15,
+              308.15
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "mass_density_kg_m3": [
+              1085.231,
+              1105.336
+            ]
+          }
+        }
+      },
+      "PROPblock_3": {
+        "lit_num_id": "GLOBlit_779",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_ae4f04a9ca18",
+          "INSP_7d4176a6acb2"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2010.01.002",
+          "n_rows": 4,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              298.15,
+              328.15
+            ],
+            "pressure_kpa": [
+              101.325,
+              101.325
+            ],
+            "mass_density_kg_m3": [
+              1065.16,
+              1095.27
+            ]
+          }
+        }
+      },
+      "PROPblock_1": {
+        "lit_num_id": "GLOBlit_1246",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_c120fd362f0c"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2013.05.001",
+          "n_rows": 1,
+          "columns": [
+            "BLKpoint_id",
+            "pressure_kpa",
+            "temperature_k",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "pressure_kpa": [
+              85.9,
+              85.9
+            ],
+            "temperature_k": [
+              298.15,
+              298.15
+            ],
+            "mass_density_kg_m3": [
+              1095.29,
+              1095.29
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "298.15",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.325",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "1095.271",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "1095.278",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.325",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "1095.27",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "1095.37",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "85.9",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "1095.29",
+        "region": "PROPblock_7 + PROPblock_4 + PROPblock_3 + PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "25",
+        "region": "PROPblock_1",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "1095.3",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "1.0953",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "1095.27",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "1095.37",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.1",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "25",
+        "region": "PROPblock_1",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_1",
+        "verdict": "misattributed",
+        "source": "PROPblock_4"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_1",
+        "verdict": "ambiguous",
+        "source_count": 2
+      },
+      {
+        "token": "1100.306",
+        "region": "PROPblock_1",
+        "verdict": "misattributed",
+        "source": "PROPblock_4"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_1",
+        "verdict": "ambiguous",
+        "source_count": 2
+      },
+      {
+        "token": "1095.278",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_1",
+        "verdict": "misattributed",
+        "source": "PROPblock_4"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_1",
+        "verdict": "ambiguous",
+        "source_count": 2
+      },
+      {
+        "token": "1090.253",
+        "region": "PROPblock_1",
+        "verdict": "misattributed",
+        "source": "PROPblock_4"
+      },
+      {
+        "token": "78.13",
+        "region": "PROPblock_1",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "25",
+        "region": "PROPblock_1",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "3.96",
+        "region": "PROPblock_1",
+        "verdict": "ungrounded"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1007/s10765-009-0648-5",
+      "lit_num_id": "GLOBlit_86",
+      "block_number": "PROPblock_4",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_2",
+          "temperature_k": "293.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "1100.306"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_3",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "1095.278"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_4",
+          "temperature_k": "303.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "1090.253"
+        }
+      ],
+      "inspection_id": "INSP_66cf20e92a90",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1007/s10765-008-0395-z",
+      "lit_num_id": "GLOBlit_57",
+      "block_number": "PROPblock_7",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.325",
+          "mass_density_kg_m3": "1095.271"
+        }
+      ],
+      "inspection_id": "INSP_4af5341b9c11",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.fluid.2010.01.002",
+      "lit_num_id": "GLOBlit_779",
+      "block_number": "PROPblock_3",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.325",
+          "mass_density_kg_m3": "1095.27"
+        }
+      ],
+      "inspection_id": "INSP_ae4f04a9ca18",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.fluid.2011.02.010",
+      "lit_num_id": "GLOBlit_938",
+      "block_number": "PROPblock_3",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "1095.37"
+        }
+      ],
+      "inspection_id": "INSP_7d4176a6acb2",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.fluid.2013.05.001",
+      "lit_num_id": "GLOBlit_1246",
+      "block_number": "PROPblock_1",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "pressure_kpa",
+        "temperature_k",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "pressure_kpa": "85.9",
+          "temperature_k": "298.15",
+          "mass_density_kg_m3": "1095.29"
+        }
+      ],
+      "inspection_id": "INSP_c120fd362f0c",
+      "markdown": ""
+    }
+  ]
+}

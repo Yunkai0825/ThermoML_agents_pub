@@ -1,0 +1,383 @@
+{
+  "meas_ID": "gas_chromatography",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Gas chromatography",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Gas chromatography",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Chromatography / Separation",
+    "modality": {
+      "contact": "yes",
+      "destructive": "partially",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 185,
+      "property_groups": [
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 30,
+      "per_group": {
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 185,
+          "papers": 30
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "retention time (tR) of injected solute",
+          "dead time / hold-up time (tM) of non-retained marker gas",
+          "detector signal intensity vs. time (chromatogram peak area and shape)",
+          "column inlet and outlet pressures (Pi, Po)",
+          "column temperature (T)"
+        ],
+        "derived_observables": [
+          "adjusted retention time (t'R = tR − tM)",
+          "net retention volume (VN) corrected for pressure drop and dead volume",
+          "specific retention volume (Vg) normalized to stationary phase mass",
+          "activity coefficient at infinite dilution (γ∞)",
+          "Henry's law constant (KH)",
+          "gas-liquid partition coefficient (KL)",
+          "vapor pressure of low-volatility solute (P° from γ∞ data)",
+          "Flory-Huggins interaction parameter (χ∞)",
+          "partial molar excess enthalpy at infinite dilution (HE,∞ from van't Hoff analysis of γ∞ vs. T)",
+          "partial molar excess entropy at infinite dilution (SE,∞)"
+        ],
+        "target_properties": [
+          "activity coefficient at infinite dilution (γ∞)",
+          "Henry's law constant",
+          "gas-liquid partition coefficient",
+          "vapor pressure of low-volatility solutes",
+          "partial molar excess Gibbs energy at infinite dilution (GE,∞)",
+          "partial molar excess enthalpy at infinite dilution (HE,∞)",
+          "partial molar excess entropy at infinite dilution (SE,∞)",
+          "Flory-Huggins interaction parameter (χ∞)",
+          "composition of vapor-liquid or liquid-liquid equilibrium phases (when GC used as analytical detector)"
+        ],
+        "phases_measured": [
+          "gas-liquid equilibrium (solute partitioning between carrier gas and liquid stationary phase)",
+          "vapor-liquid equilibrium (when GC used as analytical method for VLE sampling)",
+          "liquid-liquid equilibrium (when GC used as analytical method for LLE sampling)"
+        ],
+        "supported_sample_types": [
+          "volatile and semi-volatile organic solutes",
+          "non-electrolyte binary and multicomponent mixtures",
+          "ionic liquids as stationary phases (for γ∞ studies)",
+          "polymer solutions (inverse GC for polymer-solvent interactions)",
+          "aqueous and organic solvent systems",
+          "hydrocarbon mixtures",
+          "polar and nonpolar solute-solvent pairs"
+        ],
+        "unsupported_sample_types": [
+          "non-volatile solutes that cannot be vaporized at column temperatures (MW > ~1000 Da without derivatization)",
+          "thermally labile compounds that decompose in the injector or column",
+          "permanently ionic or highly charged species (unless derivatized)",
+          "solids without sufficient vapor pressure at operating temperatures",
+          "extremely reactive species that attack column materials"
+        ],
+        "typical_output_formats": [
+          "chromatogram: detector signal vs. time curve with resolved solute peaks",
+          "γ∞ vs. temperature table or plot",
+          "ln(γ∞) vs. 1/T plot (van't Hoff analysis for HE,∞)",
+          "VLE/LLE composition tables (mole fractions from peak area analysis)",
+          "Henry's law constant vs. temperature",
+          "retention diagram: ln(VN) vs. 1/T"
+        ],
+        "units": {
+          "retention_time": "min or s",
+          "retention_volume": "cm³ or mL",
+          "specific_retention_volume": "cm³/g",
+          "activity_coefficient": "dimensionless",
+          "henry_law_constant": "Pa or kPa or MPa",
+          "partition_coefficient": "dimensionless",
+          "temperature": "K",
+          "pressure": "kPa or MPa",
+          "vapor_pressure": "Pa or kPa",
+          "excess_enthalpy": "J/mol or kJ/mol",
+          "excess_gibbs_energy": "J/mol or kJ/mol",
+          "mole_fraction": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "column_temperature",
+            "typical_range": "293 K to 573 K",
+            "hard_limits": "limited below by solute volatility and above by stationary phase thermal stability; polysiloxane phases stable to ~623 K, ionic liquid phases to ~523 K",
+            "notes": "isothermal operation required for thermodynamic measurements; temperature must be known to ±0.1 K for accurate γ∞"
+          },
+          {
+            "parameter": "carrier_gas_flow_rate",
+            "typical_range": "10 to 60 mL/min (packed columns); 0.5 to 5 mL/min (capillary columns)",
+            "hard_limits": "must be low enough to approach equilibrium between gas and liquid phases; too high causes non-equilibrium broadening",
+            "notes": "flow rate measured at column outlet with soap-bubble flow meter or electronic flow meter; corrected to column temperature"
+          },
+          {
+            "parameter": "inlet_pressure",
+            "typical_range": "100 to 400 kPa (absolute)",
+            "hard_limits": "determines pressure drop across column; James-Martin correction factor j required for compressible carrier gas",
+            "notes": "pressure drop ratio Pi/Po typically 1.2–3.0 for packed columns"
+          },
+          {
+            "parameter": "solute_injection_volume",
+            "typical_range": "0.01 to 1.0 µL (liquid); headspace injection also used",
+            "hard_limits": "must be small enough to remain in infinite dilution regime on the column; overloading causes asymmetric peaks and incorrect VN",
+            "notes": "injection of 0.01–0.2 µL typical for γ∞ measurements; linearity check by varying injection amount required"
+          },
+          {
+            "parameter": "stationary_phase_loading",
+            "typical_range": "5–30% w/w on support (packed columns); 0.1–5.0 µm film thickness (capillary columns)",
+            "hard_limits": "must provide enough liquid phase for equilibrium partitioning; too thin films give adsorption artifacts on support surface",
+            "notes": "for γ∞ measurements, multiple loadings are tested to extrapolate to bulk liquid behavior and exclude adsorption contributions"
+          }
+        ],
+        "variables": [
+          {
+            "name": "column_temperature",
+            "role": "primary controlled variable",
+            "typical_values": "298 K to 523 K in 10–20 K steps",
+            "effect": "determines activity coefficient magnitude and controls solute volatility; γ∞ depends exponentially on temperature through excess Gibbs energy"
+          },
+          {
+            "name": "carrier_gas_type",
+            "role": "fixed experimental parameter",
+            "typical_values": "helium, nitrogen, or hydrogen",
+            "effect": "affects flow characteristics and pressure drop correction; ideally inert and non-interacting with solute and stationary phase; He preferred for FID detection"
+          },
+          {
+            "name": "carrier_gas_flow_rate",
+            "role": "controlled variable for equilibrium verification",
+            "typical_values": "15–40 mL/min (packed); 1–3 mL/min (capillary)",
+            "effect": "varied to confirm that VN is independent of flow rate (equilibrium condition achieved)"
+          },
+          {
+            "name": "stationary_phase_mass",
+            "role": "precisely known parameter",
+            "typical_values": "0.5 to 5 g (packed columns); nanograms to micrograms per cm (capillary films)",
+            "effect": "VN is normalized to stationary phase mass; uncertainty in mass directly propagates to γ∞ uncertainty"
+          },
+          {
+            "name": "solute_amount_injected",
+            "role": "variable for infinite-dilution verification",
+            "typical_values": "0.01–1.0 µL of pure liquid solute",
+            "effect": "varied to confirm γ∞ is independent of injection size (true infinite dilution); peak symmetry used as indicator"
+          },
+          {
+            "name": "pressure",
+            "role": "measured and corrected for",
+            "typical_values": "atmospheric outlet pressure; inlet pressure 100–400 kPa",
+            "effect": "James-Martin compressibility correction factor j accounts for pressure gradient along column; second virial coefficient corrections for gas-phase nonideality"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "gas chromatograph with precision temperature-controlled oven (±0.1 K stability for isothermal operation)",
+          "chromatographic column: packed column (2–4 mm ID, 0.5–3 m length) or capillary column (0.25–0.53 mm ID, 15–60 m length)",
+          "stationary phase: liquid-coated solid support (packed) or bonded/coated wall film (capillary); phase selected for target solute-solvent system",
+          "injection port (split/splitless or on-column injector) with temperature control",
+          "detector: flame ionization detector (FID, most common), thermal conductivity detector (TCD), or mass spectrometer (MS)",
+          "carrier gas supply with precision pressure and flow regulation",
+          "soap-bubble flow meter or electronic flow meter for outlet flow measurement",
+          "precision pressure gauges at column inlet and outlet",
+          "microsyringe (0.5–10 µL) for solute injection",
+          "data acquisition system for peak recording and integration"
+        ],
+        "environmental_requirements": [
+          "column oven temperature stability ±0.1 K for isothermal thermodynamic measurements",
+          "stable laboratory temperature for flow meter readings (or correction to column temperature)",
+          "carrier gas of high purity (≥99.999%) to minimize baseline noise and unwanted reactions",
+          "adequate ventilation for FID hydrogen flame operation"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid solute injected via microsyringe (no geometric constraints on sample)",
+            "solvent/stationary phase coated on column support or wall"
+          ],
+          "size_limits": "0.01–1.0 µL injection volume for γ∞ measurements; stationary phase loading 0.5–5 g for packed columns",
+          "thickness_limits": "stationary phase film thickness 0.1–5.0 µm for capillary columns; 5–30% loading for packed columns",
+          "surface_requirements": [
+            "solid support must be silanized or deactivated to minimize adsorption effects",
+            "capillary column wall must be deactivated before coating"
+          ],
+          "mounting_requirements": [
+            "column properly installed in oven with leak-free connections at injector and detector",
+            "column conditioning at elevated temperature under carrier gas flow before measurements"
+          ],
+          "preparation_requirements": [
+            "stationary phase mass determined gravimetrically with ±0.1 mg precision (packed columns)",
+            "column conditioning: heating to 20–30 K above maximum operating temperature under carrier gas for several hours to remove volatiles",
+            "solute purity verified (≥99% by GC analysis or other method)",
+            "carrier gas dried and deoxygenated through inline traps"
+          ]
+        },
+        "calibration_requirements": [
+          "dead time (tM) determination using non-retained marker (methane, air, or butane at appropriate temperature)",
+          "flow rate calibration at column outlet temperature (soap-bubble meter or electronic flow meter)",
+          "pressure gauge calibration for inlet pressure measurement",
+          "temperature calibration of oven using certified thermometer or melting point standards",
+          "verification of infinite dilution by injecting varying solute amounts and confirming constant VN",
+          "verification of equilibrium by varying carrier gas flow rate and confirming constant VN",
+          "for analytical GC in VLE/LLE: detector response factor calibration using gravimetrically prepared standard mixtures"
+        ],
+        "reference_materials": [
+          "n-hexane in squalane or hexadecane — well-established γ∞ reference system for verifying GC methodology",
+          "n-alkane homologous series — for retention index calibration and column characterization",
+          "methane or air — standard markers for dead time determination",
+          "gravimetrically prepared standard mixtures — for FID/TCD response factor calibration in analytical applications"
+        ],
+        "consumables": [
+          "chromatographic columns (packed or capillary) with appropriate stationary phase",
+          "solid support material (Chromosorb W, P, or equivalent) for packed columns",
+          "carrier gas (helium, nitrogen, or hydrogen) — high purity (≥99.999%)",
+          "hydrogen and air for FID flame",
+          "microsyringes for solute injection",
+          "septa for injection port",
+          "inline gas purification traps (moisture and oxygen removal)",
+          "silanizing reagents (DMCS, HMDS) for support deactivation"
+        ],
+        "safety_notes": [
+          "hydrogen carrier gas or FID fuel: flammable/explosive — proper gas handling, leak detection, and ventilation required",
+          "heated injection ports and ovens: burn hazard; surfaces may exceed 573 K",
+          "volatile and toxic solutes: use in well-ventilated laboratory or fume hood",
+          "compressed gas cylinders: standard high-pressure gas handling procedures"
+        ]
+      },
+      "performance": {
+        "sensitivity": "FID detects nanogram quantities of organic solutes; TCD detects microgram quantities; headspace GC extends to ppb-level volatile analysis",
+        "detection_limit": "FID: ~10 pg/s for carbon-containing compounds; TCD: ~1 ng/s; sufficient for infinite dilution measurements with standard injection volumes",
+        "resolution": {
+          "spatial": "not applicable (bulk partitioning measurement)",
+          "temporal": "peak widths typically 1–30 s depending on column efficiency; retention times measured to ±0.01 min",
+          "spectral": "not applicable (unless coupled with MS for identification)",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "γ∞ measurable from ~0.1 to ~1000 (3–4 orders of magnitude); analytical composition from ~0.01 to 99.99 mol%",
+        "accuracy": "γ∞ measurements: 3–5% for well-established systems with packed columns, 5–10% for capillary columns or less characterized systems; analytical composition: 0.1–1.0 mol% depending on calibration quality",
+        "precision": "1–3% relative standard deviation for γ∞ from repeated injections at the same temperature; 0.1–0.5% for retention time repeatability",
+        "throughput": "multiple solutes can be measured on the same column in a single injection (if resolved); several temperatures per day per column",
+        "measurement_speed": "single chromatographic run: 2–60 min depending on solute volatility and column length; complete γ∞ vs. T dataset: 1–3 days per solute-solvent system"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "detector electrical signal (FID ion current or TCD voltage imbalance) recorded as a function of time, producing a chromatogram with solute peaks",
+        "preprocessing_steps": [
+          "baseline correction and peak detection on the chromatogram",
+          "retention time (tR) determination from peak maximum or first moment",
+          "dead time (tM) measurement from non-retained marker injection",
+          "calculation of adjusted retention time: t'R = tR − tM",
+          "outlet flow rate measurement and correction to column temperature: U₀(T) = U₀(Troom) × T/Troom",
+          "James-Martin compressibility correction factor: j = 3/2 × [(Pi/Po)² − 1]/[(Pi/Po)³ − 1]",
+          "net retention volume calculation: VN = j × U₀(T) × t'R",
+          "specific retention volume: Vg = VN / m_s (m_s = mass of stationary phase)"
+        ],
+        "analysis_methods": [
+          "Everett-Cruickshank equation for γ∞: ln(γ∞) = ln(RT/(VN·P°₂·M₁)) − P°₂(B₁₁ − V₁ˡ)/(RT) + j·(2B₁₂ − V₁∞)·Po/(RT)",
+          "simplified γ∞ calculation (low pressure): γ∞ = RT/(VN·P°₂·M₁) where M₁ is molar mass of stationary phase solvent, P°₂ is solute vapor pressure",
+          "van't Hoff analysis: plot ln(γ∞) vs. 1/T to obtain HE,∞ from slope and SE,∞ from intercept",
+          "Henry's law constant: KH = γ∞·P°₂ or from retention volume directly",
+          "gas-liquid partition coefficient: KL = VN·ρ₁/m_s where ρ₁ is stationary phase density",
+          "for analytical VLE/LLE: peak area ratio with response factors to determine phase compositions"
+        ],
+        "model_assumptions": [
+          "solute is at infinite dilution in the stationary phase — no solute-solute interactions (verified by injection amount independence)",
+          "equilibrium between gas and liquid phases is achieved at each point along the column (verified by flow rate independence of VN)",
+          "carrier gas is ideal or corrected for nonideality using second virial coefficients (B₁₁, B₁₂)",
+          "stationary phase is a bulk liquid — no significant contribution from interfacial adsorption (verified by multiple loading or film thickness tests)",
+          "Antoine or Wagner equation adequately represents solute vapor pressure P°₂ at column temperature",
+          "no chemical interaction between solute and carrier gas",
+          "column temperature is uniform (no axial or radial gradients)"
+        ],
+        "fit_parameters": [
+          "activity coefficient at infinite dilution (γ∞)",
+          "partial molar excess enthalpy at infinite dilution (HE,∞) from van't Hoff slope",
+          "partial molar excess entropy at infinite dilution (SE,∞) from van't Hoff intercept",
+          "second virial coefficients B₁₁ (pure solute) and B₁₂ (solute-carrier gas cross coefficient) for gas-phase nonideality corrections",
+          "solute vapor pressure P°₂ at column temperature (from literature correlation)"
+        ],
+        "common_artifacts": [
+          "adsorption on solid support surface: causes asymmetric (tailing) peaks and VN dependent on loading — especially problematic for polar solutes on inadequately deactivated supports",
+          "non-equilibrium artifact: VN depends on flow rate when column is too short or flow rate too high, leading to systematic error in γ∞",
+          "column overloading: injection of too much solute violates infinite dilution assumption, producing concentration-dependent apparent γ∞",
+          "stationary phase bleeding: loss of liquid phase at elevated temperatures changes effective phase ratio and corrupts VN",
+          "mixed retention mechanism: both partitioning and adsorption contribute to retention, especially with thin films or low-loaded packed columns",
+          "dead volume errors: incorrect tM from poorly chosen marker or extra-column dead volumes introduce systematic bias in VN"
+        ],
+        "quality_control_checks": [
+          "verify infinite dilution: γ∞ independent of injected solute amount over a 10-fold range",
+          "verify equilibrium: VN independent of carrier gas flow rate over a 2-fold range",
+          "verify absence of adsorption: VN independent of stationary phase loading (test at 2–3 different loadings)",
+          "peak symmetry check: symmetric Gaussian peaks indicate absence of overloading and adsorption",
+          "reproduce literature γ∞ for a reference system (e.g., n-hexane in hexadecane or squalane)",
+          "van't Hoff linearity: ln(γ∞) vs. 1/T should be linear over the measured temperature range",
+          "mass balance verification for analytical GC: sum of all peak areas accounts for total injected sample"
+        ],
+        "failure_modes": [
+          "stationary phase degradation or loss (bleeding) at temperatures exceeding recommended maximum — causes drifting baseline and changing VN",
+          "septum leak allowing air ingress — oxidizes stationary phase and produces ghost peaks",
+          "detector contamination or flame-out (FID) — loss of signal or abnormal baseline",
+          "column blockage from involatile residue accumulation — increasing back pressure and peak broadening",
+          "carrier gas contamination (moisture, oxygen) — damages stationary phase and produces artifacts",
+          "injector discrimination: high-boiling solutes partially condense in injection port and do not fully transfer to column"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 3–10% for γ∞; 5–15% for HE,∞ from van't Hoff analysis; 0.1–1.0 mol% for analytical composition",
+        "random_sources": [
+          "retention time measurement variability (±0.01–0.05 min)",
+          "flow rate measurement fluctuations",
+          "injection volume irreproducibility (syringe precision)",
+          "column temperature fluctuations (±0.1 K)",
+          "detector noise affecting peak integration",
+          "atmospheric pressure variations affecting outlet pressure"
+        ],
+        "systematic_sources": [
+          "solute vapor pressure P°₂ uncertainty (often the dominant source for γ∞, especially for low-volatility solutes)",
+          "second virial coefficient (B₁₁, B₁₂) uncertainties in gas-phase nonideality corrections",
+          "stationary phase mass determination uncertainty (especially for capillary columns)",
+          "dead time (tM) determination error from imperfect marker choice",
+          "interfacial adsorption contribution not fully eliminated",
+          "James-Martin pressure correction uncertainty from pressure gauge accuracy",
+          "extra-column dead volume not accounted for",
+          "stationary phase density uncertainty at column temperature",
+          "FID response factor calibration uncertainty (for analytical applications)"
+        ],
+        "operator_dependence": "moderate — injection technique (speed, depth, volume reproducibility), column installation quality, and flow rate measurement practice affect results; experienced operators achieve better precision",
+        "model_dependence": "significant — γ∞ calculation requires accurate solute vapor pressure P°₂ and gas-phase nonideality corrections (virial coefficients); choice of vapor pressure correlation and virial coefficient estimation method directly propagates to γ∞; for low-volatility solutes, P°₂ uncertainty can dominate total uncertainty",
+        "dominant_error_sources": [
+          "solute vapor pressure (P°₂) uncertainty — often 2–5% for common solutes, can be >10% for low-volatility compounds",
+          "stationary phase mass uncertainty — especially for capillary columns where direct weighing is not possible",
+          "gas-phase nonideality corrections — second virial coefficients estimated from correlations carry 5–20% uncertainty",
+          "adsorption contribution — can introduce systematic bias of 1–10% if not properly accounted for"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(γ∞) at 95% confidence (k=2)",
+          "relative standard deviation from repeated injections",
+          "uncertainty propagated through Everett-Cruickshank equation from component uncertainties",
+          "standard uncertainty of composition (mole fraction) for analytical GC"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Gas chromatography (GC) is deployed in the ThermoML database primarily as a thermodynamic measurement tool for determining activity coefficients at infinite dilution (γ∞), Henry's law constants, gas-liquid partition coefficients, and vapor pressures of low-volatility substances, in addition to its widespread use as an analytical detector for composition determination in VLE and LLE studies. With 960 instances across ThermoML, it is one of the most frequently cited techniques. The method exploits the equilibrium partitioning of a volatile solute between a flowing carrier gas and a non-volatile liquid stationary phase to extract thermodynamic solution properties. Both packed and capillary columns are used, and the technique is especially valued for its ability to measure γ∞ for systems that are difficult to study by static methods — such as solutes in ionic liquids, polymer solutions (inverse GC), or high-boiling solvents.",
+      "how_it_operates": "A minute amount of volatile solute (0.01–1.0 µL) is injected into a stream of inert carrier gas (He, N₂, or H₂) flowing through a column containing a non-volatile liquid stationary phase maintained at a precisely controlled isothermal temperature. As the solute vapor is swept through the column, it repeatedly partitions between the mobile gas phase and the liquid phase coating the column packing or wall. The solute elutes from the column after a retention time tR that depends on the strength of the solute-solvent interaction. A non-retained marker gas (methane, air) establishes the dead time tM. The adjusted retention time (tR − tM), corrected for carrier gas compressibility and temperature, yields the net retention volume VN, which is directly related to the activity coefficient at infinite dilution through the fundamental GC-thermodynamics equation.",
+      "core_theory": "The fundamental equation relating GC retention to thermodynamic properties is the Everett-Cruickshank relationship: γ∞ = (RT)/(VN · P°₂ · M₁), where R is the gas constant, T is the column temperature, VN is the net retention volume per gram of stationary phase, P°₂ is the saturated vapor pressure of the pure solute at T, and M₁ is the molar mass of the stationary phase solvent. Gas-phase nonideality corrections involve the second virial coefficients: the full expression includes terms −P°₂(B₁₁ − V₁ˡ)/(RT) for pure solute vapor imperfection and (2B₁₂ − V₁∞)·j·Po/(RT) for solute-carrier gas cross interactions, where B₁₁ is the solute second virial coefficient, B₁₂ is the solute-carrier gas cross virial coefficient, V₁ˡ is the solute molar volume, V₁∞ is the solute partial molar volume at infinite dilution, and j is the James-Martin compressibility correction factor. The partition coefficient KL = VN·ρ₁/m_s and Henry's law constant KH = γ∞·P°₂ follow directly. Temperature dependence of γ∞ through van't Hoff analysis yields partial molar excess enthalpy: d(ln γ∞)/d(1/T) = HE,∞/R.",
+      "setup": "A standard GC instrument configured for thermodynamic measurements comprises a precision-controlled isothermal oven (±0.1 K), a column (packed: 2–4 mm ID × 0.5–3 m; or capillary: 0.25–0.53 mm ID × 15–60 m), a split/splitless or on-column injector, and a detector (FID for most organic solutes, TCD for universal detection). The stationary phase is a non-volatile liquid of known identity coated on an inert, silanized solid support (packed columns) or directly on the deactivated column wall (capillary). Carrier gas is supplied at controlled pressure through a precision regulator, and its flow rate is measured at the column outlet using a soap-bubble flow meter or electronic mass flow meter. Precision pressure gauges monitor inlet and outlet pressures for the James-Martin compressibility correction. For γ∞ measurements, the column is packed in-house from weighed amounts of support and stationary phase so that m_s is precisely known.",
+      "suitable_for": "GC is especially powerful for measuring activity coefficients at infinite dilution in non-volatile or thermally stable solvents, including ionic liquids, deep eutectic solvents, and high-boiling organic solvents. It is the method of choice for γ∞ of volatile organic compounds (VOCs) in involatile media — a regime where static VLE methods fail because the solvent has negligible vapor pressure. Inverse GC extends the approach to polymer-solvent interactions. As an analytical technique, GC is ubiquitous for determining phase compositions in VLE and LLE studies, where equilibrium samples are withdrawn and their compositions quantified via peak area analysis. The technique covers a wide temperature range (ambient to ~573 K) and provides data rapidly compared to static or ebulliometric methods.",
+      "core_limitations": "Accuracy of γ∞ depends critically on the accuracy of the pure solute vapor pressure P°₂, which is often poorly known for low-volatility compounds and can dominate the uncertainty budget. The method requires that the stationary phase be non-volatile at the operating temperature — any bleeding limits the maximum usable temperature and introduces systematic error. Measurements are restricted to the infinite dilution composition regime; finite-concentration activity coefficients require specialized techniques (finite-concentration GC or elution on a plateau). Only one composition point (γ∞) is obtained per measurement, not the full γ(x) curve. For capillary columns, determining the exact mass of stationary phase is difficult, limiting accuracy compared to packed columns. The technique inherently assumes equilibrium partitioning, which must be experimentally verified.",
+      "sample_preparation": "For γ∞ measurements, the stationary phase (solvent) is coated onto a silanized solid support by dissolving it in a volatile solvent, mixing with the support, and slowly evaporating under rotation (rotary evaporator). The coated support is weighed before and after to determine m_s precisely. It is then dry-packed into a stainless steel or glass column with silanized glass wool plugs. The column is conditioned at elevated temperature under carrier gas flow for 6–12 hours to remove residual coating solvent and stabilize the stationary phase. Solutes must be of high purity (≥99%) and are injected as neat liquids via microsyringe. For capillary column work, commercial pre-coated columns are used and the film parameters are taken from the manufacturer. For analytical GC, samples withdrawn from equilibrium cells are injected directly or after dilution.",
+      "calibration_and_references": "Dead time (tM) calibration uses injection of a non-retained substance — methane is preferred at temperatures above its condensation point; air or argon can serve as alternatives. Flow rate is measured at the column outlet at ambient conditions and corrected to column temperature. Pressure gauges are calibrated against certified pressure standards. The methodology is validated by measuring γ∞ for well-characterized reference systems, most commonly n-hexane in hexadecane or squalane, and comparing to NIST or DECHEMA recommended values. Temperature is verified using certified thermometers or by checking the oven setpoint against melting-point standards. For analytical GC, detector response factors are determined using gravimetrically prepared standard mixtures spanning the expected composition range, applying either internal or external standard methods.",
+      "data_interpretation": "From the chromatogram, the solute retention time tR is determined (peak maximum or first statistical moment for asymmetric peaks). The net retention volume VN is computed as VN = j · U₀(T) · (tR − tM), where j is the James-Martin correction for carrier gas compressibility across the column, and U₀(T) is the carrier gas volumetric flow rate corrected to column temperature. The activity coefficient at infinite dilution follows from γ∞ = RT/(VN·P°₂·M₁), with optional gas-phase nonideality corrections via the Everett-Cruickshank equation. Repeating at multiple temperatures and plotting ln(γ∞) vs. 1/T yields HE,∞ from the slope and SE,∞ from the intercept. For analytical composition analysis, peak areas are converted to mole fractions using calibrated response factors, either via an internal standard method (known amount of a non-interfering reference compound added to each sample) or an external standard curve.",
+      "common_pitfalls": "The most critical pitfall is using inaccurate solute vapor pressure data — even small errors in P°₂ translate directly into proportional errors in γ∞. Failing to verify infinite dilution conditions (by varying injection amount) can lead to concentration-dependent apparent γ∞ values. Operating at carrier gas flow rates where equilibrium is not established produces flow-rate-dependent VN and incorrect thermodynamic data. Adsorption of polar solutes on the support surface or at the gas-liquid interface — rather than true bulk dissolution — inflates apparent VN and underestimates γ∞; this is diagnosed by measuring at multiple phase loadings. Using an inappropriate dead time marker (one that is slightly retained or one that is excluded from pore volume) introduces systematic bias in all derived quantities. Neglecting gas-phase nonideality corrections at pressures above 200 kPa can introduce 2–5% systematic error.",
+      "artifacts_and_failure_modes": "Support adsorption artifacts manifest as asymmetric peak tailing and VN that decreases with increasing stationary phase loading, eventually reaching a plateau representing the true bulk partitioning contribution. Stationary phase bleeding at excessive temperatures causes rising baselines and progressive reduction in VN as the effective phase ratio changes. Ghost peaks from septum bleed, residual solvent in the stationary phase, or previous injections contaminate the chromatogram. Mixed retention mechanisms (partitioning plus adsorption) are especially problematic for thin-film capillary columns and low-loaded packed columns when measuring polar solutes. Dead volume artifacts from poor column connections or large-volume fittings broaden peaks and shift apparent retention times. Detector nonlinearity at very high or very low signal levels distorts peak areas in analytical applications.",
+      "reporting_checklist": "Publications using GC for thermodynamic measurements should report: column type (packed/capillary), dimensions, and stationary phase identity; stationary phase mass m_s and method of determination; solid support type and deactivation treatment; carrier gas type, flow rate, and measurement method; inlet and outlet pressures; column temperature and stability; dead time marker and tM value; injection volume and verification of infinite dilution; verification of equilibrium (flow rate independence); solute vapor pressure source and values used; virial coefficient source and values (B₁₁, B₁₂); full equation used for γ∞ calculation (with or without gas-phase corrections); number of replicate injections and standard deviation; combined expanded uncertainty at 95% confidence level. For ThermoML encoding, γ∞ and related properties are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

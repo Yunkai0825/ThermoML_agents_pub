@@ -1,0 +1,6039 @@
+# Tool History — analysis-agent
+
+**Nest:** A
+**Session:** 3625a2fc
+**Detailed log:** run_history_detailed.md — Argo events + verbatim agent outputs (join: session id; step tag `cN` ↔ event-row `cN`)
+**Prompt:** I need a Redlich–Kister density correlation for liquid ethanol + water at 350 K. Can the available measurements support that temperature directly? If not, what is the nearest defensible temperature and why should the 350 K prediction be withheld?
+**Started:** 2026-09-05 06:43:53  |  **Elapsed:** 857.3s  |  **Tool calls:** 29  |  **Nested sections:** 4
+
+---
+
+### Step 1 [A · c5]: `query_thermoml`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "purpose": "Find density (mass density, GLOBprop_1) data blocks for binary mixtures of ethanol and water, especially at or near 350 K. Need mixture composition-dependent density data.",
+  "instruction": "Search for blocks containing both ethanol and water as components with mass density (GLOBprop_1) as the measured property. Look for mixture data (not pure component) with temperature coverage near 350 K. Return DOIs, block numbers, temperature ranges, and number of data points."
+}
+```
+</details>
+
+- **Result:** 49,549 chars  |  **Time:** 153.4s  |  **Started:** 06:44:01 (t+7.4s)
+- **Nested:** ↳ 4 tool calls in section 'L1_1' below
+
+<details><summary>Result</summary>
+
+```
+[TOOL_RESULT_SIZE_WARNING: query_thermoml returned 49,303 characters after result processing; the target is 24,000. The full result follows — prefer narrower requests, and rely on your working memory for recall instead of re-running this call.]
+
+<subagent_answer>
+{
+  "answer": "**Binary ethanol\u2013water mass density data in the ThermoML database:**\n\nThe search for binary ethanol (GLOBcomp_2) + water (GLOBcomp_1) mass density (GLOBprop_1) blocks found the following confirmed result:\n\n### Confirmed ethanol\u2013water block\n\n**GLOBlit_1483 :: PROPblock_1**  \n- **DOI:** 10.1016/j.fluid.2014.05.032  \n- **System:** binary ethanol + water  \n- **Data points:** 140  \n- **Temperature range:** 292.95\u2013448.15 K (includes isotherms at 348.15 K, near the user-requested target of ~350 K)  \n- **Pressure range:** 2450\u201340140 kPa (high-pressure data)  \n- **Ethanol mole fraction range:** 0.0163\u20130.0946 (dilute ethanol region only)  \n\nRepresentative data at 348.15 K (nearest isotherm to the requested ~350 K target):\n\n| Ethanol x | P (kPa) | \u03c1 (kg/m\u00b3) |\n|-----------|---------|-----------|\n| 0.0163 | 39600 | 982.3 |\n| 0.0163 | 20750 | 974.7 |\n| 0.0163 | 10980 | 970.6 |\n| 0.0163 | 3220 | 967.1 |\n| 0.0343 | 39860 | 974.7 |\n| 0.0343 | 30850 | 971.3 |\n| 0.0343 | 21160 | 967.5 |\n| 0.0343 | 11590 | 963.5 |\n| 0.073 | 39600 | 958.9 |\n| 0.073 | 20870 | 950.8 |\n| 0.073 | 11060 | 946.6 |\n| 0.073 | 3330 | 943.0 |\n| 0.0946 | 37790 | 948.7 |\n| 0.0946 | 29730 | 945.4 |\n| 0.0946 | 20870 | 941.6 |\n| 0.0946 | 11390 | 937.4 |\n| 0.0946 | 2730 | 933.7 |\n\n**Note:** This dataset covers only dilute ethanol compositions (up to ~9.5 mol%) at elevated pressures (2.5\u201340 MPa). It does not provide atmospheric-pressure or full-composition-range density data.\n\n### Other blocks from the initial search\n\n- **GLOBlit_1742 :: PROPblock_1** \u2014 Upon inspection, this block is actually **methanol + water** (not ethanol + water) and is therefore not relevant to this query.  \n- **GLOBlit_220** and **GLOBlit_2432** were also returned by the initial search as potential ethanol\u2013water density blocks, but these were not inspected in this run, so their exact composition/temperature coverage and data point counts cannot be confirmed here.\n\n**Chemistry note:** The inspected data show the expected trend: at 348.15 K, density decreases with increasing ethanol mole fraction (from ~982 kg/m\u00b3 at x = 0.0163 to ~949 kg/m\u00b3 at x = 0.0946 at comparable pressures), and increases with pressure at each composition, consistent with the lower density of ethanol relative to water and normal liquid compressibility behavior.\n\n---\n[UNGROUNDED DATA FLAGS] The following quoted values could not be verified against any verbatim data inspection in this run and must be treated as UNVERIFIED:\n- **UNGROUNDED_LITERAL** GLOBlit_1483::PROPblock_1: 350 (near '\u2026s isotherms at 348.15 K, near the user-requested target of ~\u2026') matches no inspected row/stat, database table, or other source of GLOBlit_1483::PROPblock_1\n  fix (ONLY if this is meant to be a database datum): `inspect_block_table(block_number=\"GLOBlit_1483::PROPblock_1\", nearest={\"column\": \"temperature_k\", \"value\": 350.0})` \u2014 if it is a value you computed or an external reference, keep it and label its provenance instead\n- **UNGROUNDED_LITERAL** GLOBlit_1483::PROPblock_1: 350 (near '\u2026tative data at 348.15 K (nearest isotherm to the requested ~\u2026') matches no inspected row/stat, database table, or other source of GLOBlit_1483::PROPblock_1\n  fix (ONLY if this is meant to be a database datum): `inspect_block_table(block_number=\"GLOBlit_1483::PROPblock_1\", nearest={\"column\": \"temperature_k\", \"value\": 350.0})` \u2014 if it is a value you computed or an external reference, keep it and label its provenance instead\nInspected so far: PROPblock_1",
+  "core_claims": [
+    "The ThermoML database contains a confirmed binary ethanol\u2013water mass density block (GLOBlit_1483 :: PROPblock_1, DOI 10.1016/j.fluid.2014.05.032) with 140 data points spanning 292.95\u2013448.15 K, 2450\u201340140 kPa, and ethanol mole fractions of 0.0163\u20130.0946 (dilute ethanol region only).",
+    "At 348.15 K, the data show density decreasing with increasing ethanol mole fraction (from ~982 kg/m\u00b3 at x = 0.0163 to ~949 kg/m\u00b3 at x = 0.0946 at comparable pressures) and increasing with pressure at each composition, consistent with the lower density of ethanol relative to water and normal liquid compressibility.",
+    "This dataset covers only dilute ethanol compositions (up to ~9.5 mol%) at elevated pressures (2.5\u201340 MPa) and does not provide atmospheric-pressure or full-composition-range density data.",
+    "Two additional blocks (GLOBlit_220 and GLOBlit_2432) were returned by the initial search as potential ethanol\u2013water density blocks but were not inspected, so their coverage cannot be confirmed."
+  ],
+  "status": "partial",
+  "summary": "In the ThermoML database, one confirmed block of binary ethanol + water mass density data was identified: GLOBlit_1483 :: PROPblock_1 (DOI 10.1016/j.fluid.2014.05.032), containing 140 data points spanning 292.95\u2013448.15 K, 2450\u201340140 kPa, and ethanol mole fractions 0.0163\u20130.0946 (dilute ethanol region only). Representative values at the 348.15 K isotherm show density decreasing with increasing ethanol mole fraction (e.g., ~982.3 kg/m\u00b3 at x=0.0163 and 39600 kPa down to ~933.7 kg/m\u00b3 at x=0.0946 and 2730 kPa) and increasing with pressure at each composition. This dataset covers only elevated pressures (2.5\u201340 MPa) and dilute ethanol compositions; it does not provide atmospheric-pressure or full-composition-range data. An initially returned block GLOBlit_1742 :: PROPblock_1 was confirmed upon inspection to be methanol + water, not ethanol + water. Two other blocks (GLOBlit_220 and GLOBlit_2432) were returned by the initial search but were not inspected, so their coverage cannot be confirmed.",
+  "core_id_updates": [],
+  "core_blocks_found": [
+    {
+      "lit_num_id": "GLOBlit_1483",
+      "block_number": "PROPblock_1",
+      "BLKsubsys_id": null,
+      "system_type": "binary",
+      "comp_num_ids": [
+        "GLOBcomp_2",
+        "GLOBcomp_1"
+      ],
+      "prop_num_ids": [
+        "GLOBprop_1"
+      ],
+      "description": "Mass density measurements for binary ethanol + water mixtures at 292.95\u2013448.15 K and 2450\u201340140 kPa, covering ethanol mole fractions 0.0163\u20130.0946; 140 data points.",
+      "doi": "10.1016/j.fluid.2014.05.032",
+      "lit_id": "2014-abd-akh-0",
+      "block_type": "PureOrMixtureData",
+      "blocktype_num_id": "GLOBblocktype_1",
+      "n_datapoints": 140,
+      "n_components": 2,
+      "compounds": [
+        {
+          "org_num": "DOIcomp_1",
+          "comp_num_id": "GLOBcomp_2",
+          "name": "ethanol",
+          "formula": "C2H6O",
+          "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+          "SMILES": "CCO",
+          "sample_num": "DOIcompSample_1_1"
+        },
+        {
+          "org_num": "DOIcomp_2",
+          "comp_num_id": "GLOBcomp_1",
+          "name": "water",
+          "formula": "H2O",
+          "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+          "SMILES": "O",
+          "sample_num": "DOIcompSample_2_1"
+        }
+      ],
+      "solvents": [],
+      "constraints": [],
+      "variables": [
+        {
+          "BLKvar_id": "BLKvar_1",
+          "var_num_id": "GLOBvar_3",
+          "var_id": "pressure_kpa",
+          "name": "Pressure, kPa",
+          "type": "ePressure",
+          "component_org_num": null,
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "range": {
+            "BLKvar_id": "BLKvar_1",
+            "name": "Pressure, kPa",
+            "min": 2450.0,
+            "max": 40140.0,
+            "n_unique": 112
+          },
+          "range_min": 2450.0,
+          "range_max": 40140.0
+        },
+        {
+          "BLKvar_id": "BLKvar_2",
+          "var_num_id": "GLOBvar_1",
+          "var_id": "temperature_k",
+          "name": "Temperature, K",
+          "type": "eTemperature",
+          "component_org_num": null,
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "range": {
+            "BLKvar_id": "BLKvar_2",
+            "name": "Temperature, K",
+            "min": 292.95,
+            "max": 448.15,
+            "n_unique": 11
+          },
+          "range_min": 292.95,
+          "range_max": 448.15
+        },
+        {
+          "BLKvar_id": "BLKvar_3",
+          "var_num_id": "GLOBvar_2",
+          "var_id": "mole_fraction_DOIcomp_1",
+          "name": "Mole fraction",
+          "type": "eComponentComposition",
+          "component_org_num": "DOIcomp_1",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "range": {
+            "BLKvar_id": "BLKvar_3",
+            "name": "Mole fraction",
+            "min": 0.0163,
+            "max": 0.0946,
+            "n_unique": 4
+          },
+          "range_min": 0.0163,
+          "range_max": 0.0946
+        }
+      ],
+      "properties": [
+        {
+          "BLKprop_id": "BLKprop_1",
+          "prop_num_id": "GLOBprop_1",
+          "prop_ID": "mass_density_kg_m3",
+          "name": "Mass density, kg/m3",
+          "group": "VolumetricProp",
+          "component_org_num": null,
+          "meas_num_id": "GLOBmeas_66",
+          "meas_ID": "constant_volume_piezometry",
+          "method_standard": "Constant-volume piezometry",
+          "method_custom": null,
+          "range": {
+            "BLKprop_id": "BLKprop_1",
+            "name": "Mass density, kg/m3",
+            "min": 831.7,
+            "max": 1006.1,
+            "mean": 934.762857,
+            "std": 42.356353,
+            "n": 140
+          },
+          "uncertainty": {
+            "evaluation_method": "Propagation of evaluated standard uncertainties",
+            "confidence_level": 95,
+            "evaluator": "Data file compiler",
+            "assessment_num": "BLKpropAssessment_1_1"
+          },
+          "range_min": 831.7,
+          "range_max": 1006.1
+        }
+      ],
+      "phases": [
+        {
+          "owner_id": "BLKprop_1",
+          "role": "property_phase",
+          "phase": "Liquid",
+          "phase_num_id": "GLOBphase_1",
+          "phase_id": "liquid"
+        },
+        {
+          "owner_id": "BLKvar_1",
+          "role": "phase",
+          "phase": "Liquid",
+          "phase_num_id": "GLOBphase_1",
+          "phase_id": "liquid"
+        },
+        {
+          "owner_id": "BLKvar_2",
+          "role": "phase",
+          "phase": "Liquid",
+          "phase_num_id": "GLOBphase_1",
+          "phase_id": "liquid"
+        },
+        {
+          "owner_id": "BLKvar_3",
+          "role": "phase",
+          "phase": "Liquid",
+          "phase_num_id": "GLOBphase_1",
+          "phase_id": "liquid"
+        }
+      ],
+      "reaction_type": null,
+      "participants": [],
+      "notes": null,
+      "declared_system_type": "binary",
+      "declared_n_components": 2,
+      "declared_compounds": [
+        {
+          "org_num": "DOIcomp_1",
+          "comp_num_id": "GLOBcomp_2",
+          "name": "ethanol",
+          "formula": "C2H6O",
+          "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+          "SMILES": "CCO",
+          "sample_num": "DOIcompSample_1_1"
+        },
+        {
+          "org_num": "DOIcomp_2",
+          "comp_num_id": "GLOBcomp_1",
+          "name": "water",
+          "formula": "H2O",
+          "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+          "SMILES": "O",
+          "sample_num": "DOIcompSample_2_1"
+        }
+      ],
+      "parent_n_datapoints": 140,
+      "subsystem_scope": null,
+      "subsystem_point_runs": [],
+      "subsystem_path_class": null,
+      "subsystem_evidence_quality": null,
+      "subsystem_condition_ranges": []
+    }
+  ],
+  "data_inspections": [
+    {
+      "doi": "10.1016/j.fluid.2015.07.012",
+      "block_number": "PROPblock_1",
+      "table_mode": "rdp",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "mole_fraction_<methanol>",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "350.7",
+          "pressure_kpa": "10000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "945.55"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_4",
+          "temperature_k": "350.7",
+          "pressure_kpa": "10000",
+          "mole_fraction_<methanol>": "0.4",
+          "mass_density_kg_m3": "865.13"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_6",
+          "temperature_k": "350.7",
+          "pressure_kpa": "10000",
+          "mole_fraction_<methanol>": "0.8",
+          "mass_density_kg_m3": "780.91"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "temperature_k": "350.7",
+          "pressure_kpa": "20000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "949.82"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_10",
+          "temperature_k": "350.7",
+          "pressure_kpa": "20000",
+          "mole_fraction_<methanol>": "0.4",
+          "mass_density_kg_m3": "870.55"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_12",
+          "temperature_k": "350.7",
+          "pressure_kpa": "20000",
+          "mole_fraction_<methanol>": "0.8",
+          "mass_density_kg_m3": "789.25"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_13",
+          "temperature_k": "350.7",
+          "pressure_kpa": "30000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "954.11"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_16",
+          "temperature_k": "350.7",
+          "pressure_kpa": "30000",
+          "mole_fraction_<methanol>": "0.4",
+          "mass_density_kg_m3": "876.99"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_18",
+          "temperature_k": "350.7",
+          "pressure_kpa": "30000",
+          "mole_fraction_<methanol>": "0.8",
+          "mass_density_kg_m3": "797.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_19",
+          "temperature_k": "350.7",
+          "pressure_kpa": "40000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "958.39"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_22",
+          "temperature_k": "350.7",
+          "pressure_kpa": "40000",
+          "mole_fraction_<methanol>": "0.4",
+          "mass_density_kg_m3": "882.71"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_24",
+          "temperature_k": "350.7",
+          "pressure_kpa": "40000",
+          "mole_fraction_<methanol>": "0.8",
+          "mass_density_kg_m3": "805.96"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_25",
+          "temperature_k": "373.2",
+          "pressure_kpa": "10000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "928.71"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_29",
+          "temperature_k": "373.2",
+          "pressure_kpa": "10000",
+          "mole_fraction_<methanol>": "0.6",
+          "mass_density_kg_m3": "799.33"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_31",
+          "temperature_k": "373.2",
+          "pressure_kpa": "10000",
+          "mole_fraction_<methanol>": "1",
+          "mass_density_kg_m3": "725.29"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_32",
+          "temperature_k": "373.2",
+          "pressure_kpa": "20000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "932.78"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_36",
+          "temperature_k": "373.2",
+          "pressure_kpa": "20000",
+          "mole_fraction_<methanol>": "0.6",
+          "mass_density_kg_m3": "807.98"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_38",
+          "temperature_k": "373.2",
+          "pressure_kpa": "20000",
+          "mole_fraction_<methanol>": "1",
+          "mass_density_kg_m3": "737.85"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_39",
+          "temperature_k": "373.2",
+          "pressure_kpa": "30000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "939.53"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_42",
+          "temperature_k": "373.2",
+          "pressure_kpa": "30000",
+          "mole_fraction_<methanol>": "0.4",
+          "mass_density_kg_m3": "858.91"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_45",
+          "temperature_k": "373.2",
+          "pressure_kpa": "30000",
+          "mole_fraction_<methanol>": "1",
+          "mass_density_kg_m3": "748.83"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_46",
+          "temperature_k": "373.2",
+          "pressure_kpa": "40000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "943.52"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_50",
+          "temperature_k": "373.2",
+          "pressure_kpa": "40000",
+          "mole_fraction_<methanol>": "0.6",
+          "mass_density_kg_m3": "823.64"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_52",
+          "temperature_k": "373.2",
+          "pressure_kpa": "40000",
+          "mole_fraction_<methanol>": "1",
+          "mass_density_kg_m3": "758.66"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_53",
+          "temperature_k": "476.2",
+          "pressure_kpa": "10000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "822.65"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_56",
+          "temperature_k": "476.2",
+          "pressure_kpa": "10000",
+          "mole_fraction_<methanol>": "0.4",
+          "mass_density_kg_m3": "714.67"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_59",
+          "temperature_k": "476.2",
+          "pressure_kpa": "10000",
+          "mole_fraction_<methanol>": "1",
+          "mass_density_kg_m3": "576.84"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_60",
+          "temperature_k": "476.2",
+          "pressure_kpa": "20000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "831.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_63",
+          "temperature_k": "476.2",
+          "pressure_kpa": "20000",
+          "mole_fraction_<methanol>": "0.4",
+          "mass_density_kg_m3": "730.97"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_66",
+          "temperature_k": "476.2",
+          "pressure_kpa": "20000",
+          "mole_fraction_<methanol>": "1",
+          "mass_density_kg_m3": "612.56"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_67",
+          "temperature_k": "476.2",
+          "pressure_kpa": "30000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "838.61"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_70",
+          "temperature_k": "476.2",
+          "pressure_kpa": "30000",
+          "mole_fraction_<methanol>": "0.4",
+          "mass_density_kg_m3": "744.11"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_73",
+          "temperature_k": "476.2",
+          "pressure_kpa": "30000",
+          "mole_fraction_<methanol>": "1",
+          "mass_density_kg_m3": "636.82"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_74",
+          "temperature_k": "476.2",
+          "pressure_kpa": "40000",
+          "mole_fraction_<methanol>": "0.1",
+          "mass_density_kg_m3": "845.82"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_77",
+          "temperature_k": "476.2",
+          "pressure_kpa": "40000",
+          "mole_fraction_<methanol>": "0.4",
+          "mass_density_kg_m3": "754.89"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_80",
+          "temperature_k": "476.2",
+          "pressure_kpa": "40000",
+          "mole_fraction_<methanol>": "1",
+          "mass_density_kg_m3": "655.67"
+        }
+      ],
+      "inspection_id": "INSP_da246e84fdf8",
+      "lit_num_id": "GLOBlit_1742"
+    },
+    {
+      "doi": "10.1016/j.fluid.2014.05.032",
+      "block_number": "PROPblock_1",
+      "table_mode": "rdp",
+      "columns": [
+        "BLKpoint_id",
+        "pressure_kpa",
+        "temperature_k",
+        "mole_fraction_<ethanol>",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "pressure_kpa": "39170",
+          "temperature_k": "297.05",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "1006.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_2",
+          "pressure_kpa": "30810",
+          "temperature_k": "297.05",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "1003.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_3",
+          "pressure_kpa": "21070",
+          "temperature_k": "297.05",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "997.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_4",
+          "pressure_kpa": "11280",
+          "temperature_k": "297.05",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "993.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_5",
+          "pressure_kpa": "2490",
+          "temperature_k": "297.05",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "990.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_6",
+          "pressure_kpa": "38480",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "995.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "pressure_kpa": "30890",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "992.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "pressure_kpa": "21080",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "988.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_9",
+          "pressure_kpa": "11390",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "984.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_10",
+          "pressure_kpa": "2570",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "980.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_11",
+          "pressure_kpa": "39910",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "982.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_12",
+          "pressure_kpa": "29500",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "978.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_13",
+          "pressure_kpa": "20750",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "974.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_14",
+          "pressure_kpa": "10980",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "970.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_15",
+          "pressure_kpa": "3220",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "967.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_16",
+          "pressure_kpa": "35700",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "964.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_17",
+          "pressure_kpa": "30600",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "962.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_18",
+          "pressure_kpa": "21160",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "958.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_19",
+          "pressure_kpa": "11320",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "953.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_20",
+          "pressure_kpa": "3370",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "950.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_21",
+          "pressure_kpa": "39890",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "948"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_22",
+          "pressure_kpa": "30790",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "943.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_23",
+          "pressure_kpa": "21360",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "939.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_24",
+          "pressure_kpa": "11630",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "934.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_25",
+          "pressure_kpa": "3710",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "930.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_26",
+          "pressure_kpa": "39560",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "927.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_27",
+          "pressure_kpa": "30570",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "922.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_28",
+          "pressure_kpa": "20970",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "917"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_29",
+          "pressure_kpa": "10170",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "911"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_30",
+          "pressure_kpa": "2680",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "906.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_31",
+          "pressure_kpa": "38340",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "903.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_32",
+          "pressure_kpa": "31050",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "899.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_33",
+          "pressure_kpa": "21530",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "893.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_34",
+          "pressure_kpa": "11920",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "887.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_35",
+          "pressure_kpa": "3960",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0163",
+          "mass_density_kg_m3": "882.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_36",
+          "pressure_kpa": "39230",
+          "temperature_k": "292.95",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "988"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_37",
+          "pressure_kpa": "30930",
+          "temperature_k": "292.95",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "985"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_38",
+          "pressure_kpa": "21120",
+          "temperature_k": "292.95",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "981.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_39",
+          "pressure_kpa": "11320",
+          "temperature_k": "292.95",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "977.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_40",
+          "pressure_kpa": "2450",
+          "temperature_k": "292.95",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "974.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_41",
+          "pressure_kpa": "38600",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "973.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_42",
+          "pressure_kpa": "30360",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "970.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_43",
+          "pressure_kpa": "20790",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "966.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_44",
+          "pressure_kpa": "10940",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "962.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_45",
+          "pressure_kpa": "2610",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "959.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_46",
+          "pressure_kpa": "39600",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "958.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_48",
+          "pressure_kpa": "20870",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "950.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_49",
+          "pressure_kpa": "11060",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "946.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_50",
+          "pressure_kpa": "3330",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "943"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_51",
+          "pressure_kpa": "37230",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "939.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_52",
+          "pressure_kpa": "30670",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "937"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_53",
+          "pressure_kpa": "21080",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "932.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_54",
+          "pressure_kpa": "11320",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "927.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_55",
+          "pressure_kpa": "3510",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "923.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_56",
+          "pressure_kpa": "39500",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "920.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_57",
+          "pressure_kpa": "30790",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "916.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_58",
+          "pressure_kpa": "21160",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "911.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_59",
+          "pressure_kpa": "11510",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "906.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_60",
+          "pressure_kpa": "3710",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "901.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_61",
+          "pressure_kpa": "40110",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "898.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_62",
+          "pressure_kpa": "30490",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "893"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_63",
+          "pressure_kpa": "20110",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "887.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_64",
+          "pressure_kpa": "10710",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "881.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_65",
+          "pressure_kpa": "2760",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "875.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_66",
+          "pressure_kpa": "37210",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "873"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_67",
+          "pressure_kpa": "31170",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "869.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_68",
+          "pressure_kpa": "21690",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "862.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_69",
+          "pressure_kpa": "12160",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "855.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_70",
+          "pressure_kpa": "4000",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.073",
+          "mass_density_kg_m3": "849.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_71",
+          "pressure_kpa": "40030",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "979.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_72",
+          "pressure_kpa": "29980",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "976.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_73",
+          "pressure_kpa": "20060",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "972.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_74",
+          "pressure_kpa": "10120",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "968.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_75",
+          "pressure_kpa": "2560",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "965.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_76",
+          "pressure_kpa": "39810",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "966.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_77",
+          "pressure_kpa": "32400",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "963.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_78",
+          "pressure_kpa": "20710",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "958.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_79",
+          "pressure_kpa": "11140",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "954.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_80",
+          "pressure_kpa": "2730",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "951.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_81",
+          "pressure_kpa": "37790",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "948.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_82",
+          "pressure_kpa": "29730",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "945.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_83",
+          "pressure_kpa": "20870",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "941.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_84",
+          "pressure_kpa": "11390",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "937.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_85",
+          "pressure_kpa": "2730",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "933.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_86",
+          "pressure_kpa": "39410",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "927.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_87",
+          "pressure_kpa": "30850",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "922.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_88",
+          "pressure_kpa": "21200",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "917.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_90",
+          "pressure_kpa": "3330",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "908.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_91",
+          "pressure_kpa": "39610",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "905.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_92",
+          "pressure_kpa": "30850",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "901.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_93",
+          "pressure_kpa": "21200",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "896"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_94",
+          "pressure_kpa": "11430",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "890.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_95",
+          "pressure_kpa": "3510",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "885.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_96",
+          "pressure_kpa": "39860",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "882.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_97",
+          "pressure_kpa": "30100",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "875.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_98",
+          "pressure_kpa": "20200",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "869.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_99",
+          "pressure_kpa": "10050",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "863.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_100",
+          "pressure_kpa": "2750",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "860.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_101",
+          "pressure_kpa": "40140",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "858.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_102",
+          "pressure_kpa": "30990",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "852.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_103",
+          "pressure_kpa": "21690",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "845.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_104",
+          "pressure_kpa": "11550",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "837.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_105",
+          "pressure_kpa": "3860",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0946",
+          "mass_density_kg_m3": "831.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_106",
+          "pressure_kpa": "39150",
+          "temperature_k": "298.35",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "998.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_107",
+          "pressure_kpa": "31040",
+          "temperature_k": "298.35",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "995.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_108",
+          "pressure_kpa": "21300",
+          "temperature_k": "298.35",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "991.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_110",
+          "pressure_kpa": "2590",
+          "temperature_k": "298.35",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "984.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_112",
+          "pressure_kpa": "30930",
+          "temperature_k": "323.65",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "985.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_113",
+          "pressure_kpa": "21200",
+          "temperature_k": "323.65",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "981.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_114",
+          "pressure_kpa": "11320",
+          "temperature_k": "323.65",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "977.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_115",
+          "pressure_kpa": "2610",
+          "temperature_k": "323.65",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "973.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_116",
+          "pressure_kpa": "39860",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "974.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_117",
+          "pressure_kpa": "30850",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "971.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_118",
+          "pressure_kpa": "21160",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "967.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_119",
+          "pressure_kpa": "11590",
+          "temperature_k": "348.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "963.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_121",
+          "pressure_kpa": "39000",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "957.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_122",
+          "pressure_kpa": "30520",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "954.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_123",
+          "pressure_kpa": "21120",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "950.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_124",
+          "pressure_kpa": "11470",
+          "temperature_k": "373.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "945.9"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_126",
+          "pressure_kpa": "37300",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "938.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_127",
+          "pressure_kpa": "30930",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "935.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_128",
+          "pressure_kpa": "21530",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "930.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_129",
+          "pressure_kpa": "11730",
+          "temperature_k": "398.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "925.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_131",
+          "pressure_kpa": "39680",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "918.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_132",
+          "pressure_kpa": "30640",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "913.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_133",
+          "pressure_kpa": "21070",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "908.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_135",
+          "pressure_kpa": "2680",
+          "temperature_k": "423.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "897.3"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_136",
+          "pressure_kpa": "40060",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "894.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_137",
+          "pressure_kpa": "31010",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "889.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_138",
+          "pressure_kpa": "22180",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "884.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_140",
+          "pressure_kpa": "4080",
+          "temperature_k": "448.15",
+          "mole_fraction_<ethanol>": "0.0343",
+          "mass_density_kg_m3": "872.1"
+        }
+      ],
+      "inspection_id": "INSP_51f9b5335a8a",
+      "lit_num_id": "GLOBlit_1483"
+    }
+  ]
+}
+</subagent_answer>
+```
+</details>
+
+---
+
+### Step 2 [A · c6]: `inspect_block` 🔒 VALIDATION BLOCKED
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "doi": "10.1016/j.fluid.2014.05.032",
+  "block_number": "PROPblock_1",
+  "purpose": "Verify structure of GLOBlit_1483 block already known"
+}
+```
+</details>
+
+- **Result:** 295 chars  |  **Time:** 0.0s  |  **Started:** 06:46:47 (t+174.0s)
+- **Status:** blocked
+
+<details><summary>Validation detail</summary>
+
+```
+**✗ inspect_block** — tool syntax or arguments need correction:
+TOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to inspect_block: missing a required argument: 'tasks'
+
+_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._
+```
+</details>
+
+---
+
+### Step 3 [A · c7]: `query_thermoml_parallel` ❌ ERROR
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "queries": [
+    {
+      "label": "broad_search",
+      "purpose": "Find binary ethanol + water mass density (GLOBprop_1) blocks that cover a wide composition range (ideally 0 to 1 mole fraction ethanol) at temperatures near 298-353 K and near-atmospheric pressure (around 101 kPa). Ethanol is GLOBcomp_2, water is GLOBcomp_1. Exclude blocks that only cover dilute compositions. Return DOIs, lit_num_ids, block numbers, temperature ranges, pressure ranges, composition ranges, and data point counts.",
+      "instruction": "Search for binary mixture density blocks containing both ethanol (GLOBcomp_2) and water (GLOBcomp_1) with property GLOBprop_1 (mass density). Focus on blocks with wide ethanol mole fraction coverage (spanning at least 0 to 0.5 or wider) at temperatures between 290 and 360 K. Prefer atmospheric or near-atmospheric pressure data. Return all matching lit_num_ids, DOIs, block numbers with their temperature, pressure, and composition ranges.",
+      "id_catalog": [
+        {
+          "id": "GLOBcomp_2",
+          "label": "ethanol"
+        },
+        {
+          "id": "GLOBcomp_1",
+          "label": "water"
+        },
+        {
+          "id": "GLOBprop_1",
+          "label": "mass density"
+        }
+      ],
+      "context": "The user needs a full-composition-range density correlation for ethanol+water near 350 K. GLOBlit_1483 only covers dilute ethanol at high pressure and is insufficient."
+    },
+    {
+      "label": "inspect_220",
+      "purpose": "Inspect block GLOBlit_220 PROPblock_1 to determine if it contains ethanol + water density data, and if so, what temperature, pressure, and composition ranges it covers.",
+      "instruction": "Inspect block PROPblock_1 from GLOBlit_220. Report the compounds present, property measured, temperature range, pressure range, composition range, and number of data points. Determine if this is binary ethanol + water mass density data.",
+      "id_catalog": [
+        {
+          "id": "GLOBlit_220",
+          "label": "literature source 220"
+        }
+      ],
+      "context": "This block was returned in a prior search for ethanol+water density but was never inspected."
+    },
+    {
+      "label": "inspect_2432",
+      "purpose": "Inspect block GLOBlit_2432 PROPblock_1 to determine if it contains ethanol + water density data, and if so, what temperature, pressure, and composition ranges it covers.",
+      "instruction": "Inspect block PROPblock_1 from GLOBlit_2432. Report the compounds present, property measured, temperature range, pressure range, composition range, and number of data points. Determine if this is binary ethanol + water mass density data.",
+      "id_catalog": [
+        {
+          "id": "GLOBlit_2432",
+          "label": "literature source 2432"
+        }
+      ],
+      "context": "This block was returned in a prior search for ethanol+water density but was never inspected."
+    }
+  ]
+}
+```
+</details>
+
+- **Result:** 210 chars  |  **Time:** 0.0s  |  **Started:** 06:47:08 (t+194.9s)
+- **Error:** `{
+  "error": "queries[0].id_catalog[0] must contain exactly ['global_id', 'name', 'registry_id', 'type']; received ['id', 'label']",
+  "error_code": "TOOL_EXECUTION_ERROR",
+  "tool": "query_thermoml_parallel"
+}`
+
+---
+
+### Step 4 [A · c8]: `query_thermoml_parallel` ❌ ERROR
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "queries": [
+    {
+      "label": "broad_search",
+      "purpose": "Find binary ethanol + water mass density blocks at atmospheric pressure (~101 kPa) covering a wide composition range (ideally x_ethanol from 0 to 1) near 298-353 K",
+      "instruction": "Search for binary mixture blocks containing ethanol (GLOBcomp_2, CAS 64-17-5) and water (GLOBcomp_1, CAS 7732-18-5) with mass density (GLOBprop_1) measurements. I need blocks at atmospheric pressure (around 101 kPa or ambient) that cover a wide range of ethanol mole fractions (ideally 0 to 1) at temperatures near 298-353 K. The previously found block GLOBlit_1483 only covers dilute ethanol at high pressure. Please search broadly and return all candidate blocks with their temperature, pressure, and composition ranges. Also inspect GLOBlit_220 and GLOBlit_2432 which were previously returned but not inspected.",
+      "id_catalog": [
+        {
+          "global_id": "GLOBcomp_2",
+          "name": "ethanol",
+          "registry_id": "64-17-5",
+          "type": "compound"
+        },
+        {
+          "global_id": "GLOBcomp_1",
+          "name": "water",
+          "registry_id": "7732-18-5",
+          "type": "compound"
+        },
+        {
+          "global_id": "GLOBprop_1",
+          "name": "mass density",
+          "registry_id": "",
+          "type": "property"
+        },
+        {
+          "global_id": "GLOBlit_220",
+          "name": "",
+          "registry_id": "",
+          "type": "literature"
+        },
+        {
+          "global_id": "GLOBlit_2432",
+          "name": "",
+          "registry_id": "",
+          "type": "literature"
+        }
+      ],
+      "context": "Previously found GLOBlit_1483::PROPblock_1 has only 4 dilute ethanol compositions (x=0.016-0.095) at 2.5-40 MPa. This is unsuitable for a full-range Redlich-Kister fit. Need atmospheric-pressure data spanning x=0 to 1."
+    }
+  ]
+}
+```
+</details>
+
+- **Result:** 253 chars  |  **Time:** 0.0s  |  **Started:** 06:47:22 (t+208.8s)
+- **Error:** `{
+  "error": "queries[0].id_catalog[0].type is invalid: 'compound'; valid types: ['blocktype', 'comp', 'constr', 'lit', 'meas', 'phase', 'prop', 'rxntype', 'solvent', 'var']",
+  "error_code": "TOOL_EXECUTION_ERROR",
+  "tool": "query_thermoml_parallel"
+}`
+
+---
+
+### Step 5 [A · c19]: `query_thermoml_parallel`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "queries": [
+    {
+      "label": "broad_search",
+      "purpose": "Find binary ethanol + water mass density blocks at atmospheric pressure (~101 kPa) covering a wide composition range (ideally 0 to 1 mole fraction ethanol) near 298-353 K",
+      "instruction": "Search for binary ethanol + water mass density (GLOBprop_1) blocks. I need data at atmospheric or near-atmospheric pressure (around 101 kPa) covering a WIDE composition range (not just dilute). The temperature should be near 298-353 K. Return all matching blocks with their DOIs, block numbers, temperature ranges, pressure ranges, composition ranges, and data point counts. Also check blocks GLOBlit_220 and GLOBlit_2432 which were previously identified as potential ethanol+water density blocks.",
+      "id_catalog": [
+        {
+          "global_id": "GLOBcomp_2",
+          "name": "ethanol",
+          "registry_id": "64-17-5",
+          "type": "comp"
+        },
+        {
+          "global_id": "GLOBcomp_1",
+          "name": "water",
+          "registry_id": "7732-18-5",
+          "type": "comp"
+        },
+        {
+          "global_id": "GLOBprop_1",
+          "name": "Mass density",
+          "registry_id": "",
+          "type": "prop"
+        }
+      ],
+      "context": "GLOBlit_1483 PROPblock_1 was already inspected - it has only 4 dilute ethanol compositions (x=0.0163-0.0946) at high pressures (2.5-40 MPa). This is unsuitable for a full-range RK fit. I need blocks with wider composition coverage at atmospheric pressure."
+    },
+    {
+      "label": "inspect_220",
+      "purpose": "Inspect GLOBlit_220 PROPblock_1 to check if it contains ethanol+water density data",
+      "instruction": "Inspect block GLOBlit_220 PROPblock_1. Tell me: what compounds are in this block? What property is measured? What are the temperature, pressure, and composition ranges? How many data points? Is this ethanol + water mass density data?",
+      "id_catalog": [
+        {
+          "global_id": "GLOBlit_220",
+          "name": "",
+          "registry_id": "",
+          "type": "lit"
+        }
+      ],
+      "context": "This block was returned in an earlier search for ethanol+water density but was never inspected."
+    },
+    {
+      "label": "inspect_2432",
+      "purpose": "Inspect GLOBlit_2432 PROPblock_1 to check if it contains ethanol+water density data",
+      "instruction": "Inspect block GLOBlit_2432 PROPblock_1. Tell me: what compounds are in this block? What property is measured? What are the temperature, pressure, and composition ranges? How many data points? Is this ethanol + water mass density data?",
+      "id_catalog": [
+        {
+          "global_id": "GLOBlit_2432",
+          "name": "",
+          "registry_id": "",
+          "type": "lit"
+        }
+      ],
+      "context": "This block was returned in an earlier search for ethanol+water density but was never inspected."
+    }
+  ]
+}
+```
+</details>
+
+- **Result:** 104,084 chars  |  **Time:** 297.4s  |  **Started:** 06:47:37 (t+223.6s)
+- **Nested:** ↳ 6 tool calls in section 'L1_2' below
+- **Nested:** ↳ 2 tool calls in section 'L1_3' below
+- **Nested:** ↳ 2 tool calls in section 'L1_4' below
+
+<details><summary>Result</summary>
+
+```
+[TOOL_RESULT_SIZE_WARNING: query_thermoml_parallel returned 103,828 characters after result processing; the target is 24,000. The full result follows — prefer narrower requests, and rely on your working memory for recall instead of re-running this call.]
+
+<subagent_answer>
+{
+  "n_queries": 3,
+  "results": [
+    {
+      "label": "broad_search",
+      "result": {
+        "answer": "## Binary Ethanol + Water Mass Density Blocks at Atmospheric Pressure\n\n### Best Candidate: GLOBlit_220 :: PROPblock_2\n**DOI:** 10.1016/j.fluid.2004.11.019\n\nThis block is the strongest match for wide-composition, multi-temperature density data at atmospheric pressure:\n\n- **Total points:** 810 (162 at atmospheric pressure, P = 100 kPa)\n- **Temperatures:** 298.15, 323.15, and 348.15 K (three isotherms)\n- **Composition range:** x(ethanol) = 0.003\u20131.0 (full range)\n- **Density range (at 100 kPa):** 739.4\u2013995.3 kg/m\u00b3\n\nRepresentative atmospheric-pressure data (from inspection):\n\n| T (K) | x(ethanol) | \u03c1 (kg/m\u00b3) |\n|--------|-----------|-----------|\n| 298.15 | 0.003 | 995.3 |\n| 298.15 | 0.2502 | 918.5 |\n| 298.15 | 0.4501 | 868.8 |\n| 298.15 | 0.6967 | 825.2 |\n| 298.15 | 1.0 | 785.7 |\n| 323.15 | 0.003 | 986.5 |\n| 323.15 | 0.2269 | 905.2 |\n| 323.15 | 0.4501 | 846.7 |\n| 323.15 | 0.6967 | 802.8 |\n| 323.15 | 1.0 | 763.7 |\n| 348.15 | 0.003 | 973.1 |\n| 348.15 | 0.1903 | 895.8 |\n| 348.15 | 0.4034 | 833.4 |\n| 348.15 | 0.6489 | 785.6 |\n| 348.15 | 1.0 | 739.4 |\n\nEach isotherm has approximately 54 composition points (derived by dividing 162 atmospheric points by 3 isotherms \u2014 not a database value), providing dense composition coverage ideal for Redlich-Kister fitting.\n\n### Other Inspected Candidates\n\n**GLOBlit_5201 :: PROPblock_19** (DOI: 10.1016/j.jct.2018.02.022)\n- **Points:** 244, all at P = 92.3 kPa (near-atmospheric)\n- **Temperature:** 293.15\u2013308.15 K (4 isotherms)\n- **Composition:** x(ethanol) = 0\u20131 (full range)\n- **Density:** 776.592\u2013998.429 kg/m\u00b3\n- Excellent composition coverage but temperature range is narrower and lower than GLOBlit_220.\n\n**GLOBlit_2825 :: PROPblock_12** (DOI: 10.1016/j.jct.2007.05.004)\n- **Points:** 37, all at P = 101.0 kPa\n- **Temperature:** 293.15\u2013303.15 K (3 isotherms)\n- **Composition:** x(water) = 0\u20131 (full range)\n- **Density:** 781.15\u2013998.2 kg/m\u00b3\n- Full composition range at atmospheric pressure, but fewer points and lower temperatures.\n\n### Additional Candidates (Not Inspected)\n\nThe following blocks were identified by the search discovery tool but have not been individually inspected in this run. No specific data values are quoted for them:\n\n- **GLOBlit_9006 :: PROPblock_1** (DOI: 10.1021/je060335h) \u2014 search-reported as having full composition range at lower temperatures.\n- **GLOBlit_10866 :: PROPblock_7** (DOI: 10.1021/je700300y) \u2014 search-reported as having wide composition range.\n- **GLOBlit_10699 :: PROPblock_6** (DOI: 10.1021/je600565m) \u2014 search-reported as having moderate composition range.\n- **GLOBlit_11136 :: PROPblock_9** (DOI: 10.1021/je800150h) \u2014 search-reported as having partial composition range.\n- **GLOBlit_5473 :: PROPblock_21** (DOI: 10.1016/j.jct.2019.02.027) \u2014 search-reported as having full composition range with very few points.\n\n### Regarding GLOBlit_2432\n**DOI:** 10.1016/j.jct.2004.07.019, PROPblock_2 \u2014 Per search discovery results (not individually inspected), this block operates at elevated pressures, not atmospheric. **Not suitable** for atmospheric-pressure fitting.\n\n### Key Finding\n**No block in the database was found to cover the requested upper temperature of 353 K (instruction target, not a database value) at atmospheric pressure** for this binary system. The closest inspected data is GLOBlit_220 at 348.15 K. Per search discovery results (not inspected), GLOBlit_1742 (PROPblock_3) reaches higher temperatures but only at elevated pressures.\n\n**Recommendation:** GLOBlit_220 :: PROPblock_2 is the best single source \u2014 it provides dense composition coverage at 100 kPa across 298.15, 323.15, and 348.15 K, with x(ethanol) = 0.003\u20131.0. GLOBlit_5201 :: PROPblock_19 (244 pts, x = 0\u20131, T = 293.15\u2013308.15 K, P = 92.3 kPa) could supplement with additional near-ambient data.\n\n---\n[UNGROUNDED DATA FLAGS] The following quoted values could not be verified against any verbatim data inspection in this run and must be treated as UNVERIFIED:\n- **UNGROUNDED_LITERAL** GLOBlit_220::PROPblock_2: 54 (near '\u2026Each isotherm has approximately 54 composition points (deriv\u2026') matches no inspected row/stat, database table, or other source of GLOBlit_220::PROPblock_2\n  fix (ONLY if this is meant to be a database datum): `inspect_block_table(block_number=\"GLOBlit_220::PROPblock_2\", nearest={\"column\": \"temperature_k\", \"value\": 54.0})` \u2014 if it is a value you computed or an external reference, keep it and label its provenance instead\n- **UNGROUNDED_LITERAL** PROPblock_2: 353 (near '\u2026abase was found to cover the requested upper temperature of \u2026') matches no inspected row/stat, database table, or other source of PROPblock_2\n  fix (ONLY if this is meant to be a database datum): `inspect_block_table(block_number=\"PROPblock_2\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 353.0})` \u2014 if it is a value you computed or an external reference, keep it and label its provenance instead\nInspected so far: PROPblock_12, PROPblock_19, PROPblock_2",
+        "core_claims": [
+          "GLOBlit_220 :: PROPblock_2 (DOI: 10.1016/j.fluid.2004.11.019) is identified as the best single source for binary ethanol + water mass density data at atmospheric pressure, providing 162 points at P = 100 kPa across three isotherms (298.15, 323.15, and 348.15 K) with x(ethanol) = 0.003\u20131.0 and densities ranging from 739.4\u2013995.3 kg/m\u00b3.",
+          "At each isotherm in GLOBlit_220 :: PROPblock_2, density decreases monotonically with increasing ethanol mole fraction at 100 kPa, and density decreases with increasing temperature at fixed composition.",
+          "GLOBlit_5201 :: PROPblock_19 (DOI: 10.1016/j.jct.2018.02.022) provides a supplementary 244-point dataset at P = 92.3 kPa over T = 293.15\u2013308.15 K with x(ethanol) = 0\u20131 and densities of 776.592\u2013998.429 kg/m\u00b3, but covers a narrower and lower temperature range than GLOBlit_220.",
+          "No block in the database was found to cover 353 K at atmospheric pressure for this binary system; the closest inspected atmospheric-pressure data reaches 348.15 K (GLOBlit_220). The value 353 K is identified as an instruction target, not a database value.",
+          "The stated count of approximately 54 composition points per isotherm in GLOBlit_220 :: PROPblock_2 is derived by dividing 162 atmospheric points by 3 isotherms and is flagged as UNVERIFIED against the database."
+        ],
+        "status": "success",
+        "summary": "For binary ethanol + water mass density at atmospheric pressure, the best ThermoML source identified is GLOBlit_220 :: PROPblock_2 (DOI: 10.1016/j.fluid.2004.11.019), providing 162 atmospheric-pressure points (P = 100 kPa) across three isotherms (298.15, 323.15, and 348.15 K) with x(ethanol) = 0.003\u20131.0 and densities from 739.4 to 995.3 kg/m\u00b3. A supplementary source is GLOBlit_5201 :: PROPblock_19 (DOI: 10.1016/j.jct.2018.02.022) with 244 points at P = 92.3 kPa, four isotherms from 293.15 to 308.15 K, x(ethanol) = 0\u20131, and densities 776.592\u2013998.429 kg/m\u00b3. GLOBlit_2825 :: PROPblock_12 (DOI: 10.1016/j.jct.2007.05.004) offers 37 points at 101.0 kPa, 293.15\u2013303.15 K, x(water) = 0\u20131, densities 781.15\u2013998.2 kg/m\u00b3. No inspected block reaches the upper target temperature of 353 K at atmospheric pressure; the highest verified atmospheric-pressure isotherm is 348.15 K in GLOBlit_220.",
+        "core_id_updates": [],
+        "core_blocks_found": [
+          {
+            "lit_num_id": "GLOBlit_220",
+            "block_number": "PROPblock_2",
+            "BLKsubsys_id": null,
+            "system_type": "binary",
+            "comp_num_ids": [
+              "GLOBcomp_2",
+              "GLOBcomp_1"
+            ],
+            "prop_num_ids": [
+              "GLOBprop_1"
+            ],
+            "description": "Mass density of binary ethanol + water at 100 kPa across 298.15\u2013348.15 K, x(ethanol) = 0.003\u20131.0, 162 atmospheric-pressure points from 810 total.",
+            "doi": "10.1016/j.fluid.2004.11.019",
+            "lit_id": "2005-pec-dol-0",
+            "block_type": "PureOrMixtureData",
+            "blocktype_num_id": "GLOBblocktype_1",
+            "n_datapoints": 810,
+            "n_components": 2,
+            "compounds": [
+              {
+                "org_num": "DOIcomp_2",
+                "comp_num_id": "GLOBcomp_2",
+                "name": "ethanol",
+                "formula": "C2H6O",
+                "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+                "SMILES": "CCO",
+                "sample_num": "DOIcompSample_2_1"
+              },
+              {
+                "org_num": "DOIcomp_1",
+                "comp_num_id": "GLOBcomp_1",
+                "name": "water",
+                "formula": "H2O",
+                "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+                "SMILES": "O",
+                "sample_num": "DOIcompSample_1_1"
+              }
+            ],
+            "solvents": [],
+            "constraints": [],
+            "variables": [
+              {
+                "BLKvar_id": "BLKvar_1",
+                "var_num_id": "GLOBvar_1",
+                "var_id": "temperature_k",
+                "name": "Temperature, K",
+                "type": "eTemperature",
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_1",
+                  "name": "Temperature, K",
+                  "min": 298.15,
+                  "max": 348.15,
+                  "n_unique": 3
+                },
+                "range_min": 298.15,
+                "range_max": 348.15
+              },
+              {
+                "BLKvar_id": "BLKvar_2",
+                "var_num_id": "GLOBvar_3",
+                "var_id": "pressure_kpa",
+                "name": "Pressure, kPa",
+                "type": "ePressure",
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_2",
+                  "name": "Pressure, kPa",
+                  "min": 100.0,
+                  "max": 40000.0,
+                  "n_unique": 5
+                },
+                "range_min": 100.0,
+                "range_max": 40000.0
+              },
+              {
+                "BLKvar_id": "BLKvar_3",
+                "var_num_id": "GLOBvar_2",
+                "var_id": "mole_fraction_DOIcomp_2",
+                "name": "Mole fraction",
+                "type": "eComponentComposition",
+                "component_org_num": "DOIcomp_2",
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_3",
+                  "name": "Mole fraction",
+                  "min": 0.003,
+                  "max": 1.0,
+                  "n_unique": 54
+                },
+                "range_min": 0.003,
+                "range_max": 1.0
+              }
+            ],
+            "properties": [
+              {
+                "BLKprop_id": "BLKprop_1",
+                "prop_num_id": "GLOBprop_1",
+                "prop_ID": "mass_density_kg_m3",
+                "name": "Mass density, kg/m3",
+                "group": "VolumetricProp",
+                "component_org_num": null,
+                "meas_num_id": "GLOBmeas_138",
+                "meas_ID": "vibtub_ufactor_2",
+                "method_standard": null,
+                "method_custom": "VIBTUB:UFactor:2",
+                "range": {
+                  "BLKprop_id": "BLKprop_1",
+                  "name": "Mass density, kg/m3",
+                  "min": 739.4,
+                  "max": 1012.7,
+                  "mean": 923.644444,
+                  "std": 66.683257,
+                  "n": 810
+                },
+                "uncertainty": {
+                  "evaluation_method": "Propagation of evaluated standard uncertainties",
+                  "confidence_level": 95,
+                  "evaluator": "Data file compiler",
+                  "assessment_num": "BLKpropAssessment_1_1"
+                },
+                "range_min": 739.4,
+                "range_max": 1012.7
+              }
+            ],
+            "phases": [
+              {
+                "owner_id": "BLKprop_1",
+                "role": "property_phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_1",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_2",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_3",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              }
+            ],
+            "reaction_type": null,
+            "participants": [],
+            "notes": null,
+            "declared_system_type": "binary",
+            "declared_n_components": 2,
+            "declared_compounds": [
+              {
+                "org_num": "DOIcomp_2",
+                "comp_num_id": "GLOBcomp_2",
+                "name": "ethanol",
+                "formula": "C2H6O",
+                "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+                "SMILES": "CCO",
+                "sample_num": "DOIcompSample_2_1"
+              },
+              {
+                "org_num": "DOIcomp_1",
+                "comp_num_id": "GLOBcomp_1",
+                "name": "water",
+                "formula": "H2O",
+                "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+                "SMILES": "O",
+                "sample_num": "DOIcompSample_1_1"
+              }
+            ],
+            "parent_n_datapoints": 810,
+            "subsystem_scope": null,
+            "subsystem_point_runs": [],
+            "subsystem_path_class": null,
+            "subsystem_evidence_quality": null,
+            "subsystem_condition_ranges": []
+          },
+          {
+            "lit_num_id": "GLOBlit_5201",
+            "block_number": "PROPblock_19",
+            "BLKsubsys_id": null,
+            "system_type": "binary",
+            "comp_num_ids": [
+              "GLOBcomp_2",
+              "GLOBcomp_1"
+            ],
+            "prop_num_ids": [
+              "GLOBprop_1"
+            ],
+            "description": "Mass density of binary ethanol + water at 92.3 kPa across 293.15\u2013308.15 K, x(ethanol) = 0\u20131, 244 points.",
+            "doi": "10.1016/j.jct.2018.02.022",
+            "lit_id": "2018-hog-tor-0",
+            "block_type": "PureOrMixtureData",
+            "blocktype_num_id": "GLOBblocktype_1",
+            "n_datapoints": 244,
+            "n_components": 2,
+            "compounds": [
+              {
+                "org_num": "DOIcomp_1",
+                "comp_num_id": "GLOBcomp_2",
+                "name": "ethanol",
+                "formula": "C2H6O",
+                "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+                "SMILES": "CCO",
+                "sample_num": "DOIcompSample_1_1"
+              },
+              {
+                "org_num": "DOIcomp_6",
+                "comp_num_id": "GLOBcomp_1",
+                "name": "water",
+                "formula": "H2O",
+                "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+                "SMILES": "O",
+                "sample_num": "DOIcompSample_6_1"
+              }
+            ],
+            "solvents": [],
+            "constraints": [
+              {
+                "BLKconstr_id": "BLKconstr_1",
+                "constr_num_id": "GLOBconstr_1",
+                "constr_id": "pressure_kpa",
+                "name": "Pressure, kPa",
+                "type": "ePressure",
+                "value": 92.3,
+                "digits": 3,
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                }
+              }
+            ],
+            "variables": [
+              {
+                "BLKvar_id": "BLKvar_1",
+                "var_num_id": "GLOBvar_1",
+                "var_id": "temperature_k",
+                "name": "Temperature, K",
+                "type": "eTemperature",
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_1",
+                  "name": "Temperature, K",
+                  "min": 293.15,
+                  "max": 308.15,
+                  "n_unique": 4
+                },
+                "range_min": 293.15,
+                "range_max": 308.15
+              },
+              {
+                "BLKvar_id": "BLKvar_2",
+                "var_num_id": "GLOBvar_2",
+                "var_id": "mole_fraction_DOIcomp_1",
+                "name": "Mole fraction",
+                "type": "eComponentComposition",
+                "component_org_num": "DOIcomp_1",
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_2",
+                  "name": "Mole fraction",
+                  "min": 0.0,
+                  "max": 1.0,
+                  "n_unique": 59
+                },
+                "range_min": 0.0,
+                "range_max": 1.0
+              }
+            ],
+            "properties": [
+              {
+                "BLKprop_id": "BLKprop_1",
+                "prop_num_id": "GLOBprop_1",
+                "prop_ID": "mass_density_kg_m3",
+                "name": "Mass density, kg/m3",
+                "group": "VolumetricProp",
+                "component_org_num": null,
+                "meas_num_id": "GLOBmeas_2",
+                "meas_ID": "vibrating_tube_method",
+                "method_standard": "Vibrating tube method",
+                "method_custom": null,
+                "range": {
+                  "BLKprop_id": "BLKprop_1",
+                  "name": "Mass density, kg/m3",
+                  "min": 776.592,
+                  "max": 998.429,
+                  "mean": 881.16518,
+                  "std": 74.568443,
+                  "n": 244
+                },
+                "uncertainty": {
+                  "evaluation_method": "Propagation of evaluated standard uncertainties",
+                  "confidence_level": 95,
+                  "evaluator": "Data file compiler",
+                  "assessment_num": "BLKpropAssessment_1_1"
+                },
+                "range_min": 776.592,
+                "range_max": 998.429
+              }
+            ],
+            "phases": [
+              {
+                "owner_id": "BLKprop_1",
+                "role": "property_phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_1",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_2",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKconstr_1",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              }
+            ],
+            "reaction_type": null,
+            "participants": [],
+            "notes": null,
+            "declared_system_type": "binary",
+            "declared_n_components": 2,
+            "declared_compounds": [
+              {
+                "org_num": "DOIcomp_1",
+                "comp_num_id": "GLOBcomp_2",
+                "name": "ethanol",
+                "formula": "C2H6O",
+                "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+                "SMILES": "CCO",
+                "sample_num": "DOIcompSample_1_1"
+              },
+              {
+                "org_num": "DOIcomp_6",
+                "comp_num_id": "GLOBcomp_1",
+                "name": "water",
+                "formula": "H2O",
+                "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+                "SMILES": "O",
+                "sample_num": "DOIcompSample_6_1"
+              }
+            ],
+            "parent_n_datapoints": 244,
+            "subsystem_scope": null,
+            "subsystem_point_runs": [],
+            "subsystem_path_class": null,
+            "subsystem_evidence_quality": null,
+            "subsystem_condition_ranges": []
+          },
+          {
+            "lit_num_id": "GLOBlit_2825",
+            "block_number": "PROPblock_12",
+            "BLKsubsys_id": null,
+            "system_type": "binary",
+            "comp_num_ids": [
+              "GLOBcomp_2",
+              "GLOBcomp_1"
+            ],
+            "prop_num_ids": [
+              "GLOBprop_1"
+            ],
+            "description": "Mass density of binary ethanol + water at 101.0 kPa across 293.15\u2013303.15 K, x(water) = 0\u20131, 37 points.",
+            "doi": "10.1016/j.jct.2007.05.004",
+            "lit_id": "2007-gon-cal-1",
+            "block_type": "PureOrMixtureData",
+            "blocktype_num_id": "GLOBblocktype_1",
+            "n_datapoints": 37,
+            "n_components": 2,
+            "compounds": [
+              {
+                "org_num": "DOIcomp_3",
+                "comp_num_id": "GLOBcomp_2",
+                "name": "ethanol",
+                "formula": "C2H6O",
+                "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+                "SMILES": "CCO",
+                "sample_num": "DOIcompSample_3_1"
+              },
+              {
+                "org_num": "DOIcomp_1",
+                "comp_num_id": "GLOBcomp_1",
+                "name": "water",
+                "formula": "H2O",
+                "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+                "SMILES": "O",
+                "sample_num": "DOIcompSample_1_1"
+              }
+            ],
+            "solvents": [],
+            "constraints": [
+              {
+                "BLKconstr_id": "BLKconstr_1",
+                "constr_num_id": "GLOBconstr_1",
+                "constr_id": "pressure_kpa",
+                "name": "Pressure, kPa",
+                "type": "ePressure",
+                "value": 101.0,
+                "digits": 3,
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                }
+              }
+            ],
+            "variables": [
+              {
+                "BLKvar_id": "BLKvar_1",
+                "var_num_id": "GLOBvar_1",
+                "var_id": "temperature_k",
+                "name": "Temperature, K",
+                "type": "eTemperature",
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_1",
+                  "name": "Temperature, K",
+                  "min": 293.15,
+                  "max": 303.15,
+                  "n_unique": 3
+                },
+                "range_min": 293.15,
+                "range_max": 303.15
+              },
+              {
+                "BLKvar_id": "BLKvar_2",
+                "var_num_id": "GLOBvar_2",
+                "var_id": "mole_fraction_DOIcomp_1",
+                "name": "Mole fraction",
+                "type": "eComponentComposition",
+                "component_org_num": "DOIcomp_1",
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_2",
+                  "name": "Mole fraction",
+                  "min": 0.0,
+                  "max": 1.0,
+                  "n_unique": 13
+                },
+                "range_min": 0.0,
+                "range_max": 1.0
+              }
+            ],
+            "properties": [
+              {
+                "BLKprop_id": "BLKprop_1",
+                "prop_num_id": "GLOBprop_1",
+                "prop_ID": "mass_density_kg_m3",
+                "name": "Mass density, kg/m3",
+                "group": "VolumetricProp",
+                "component_org_num": null,
+                "meas_num_id": "GLOBmeas_134",
+                "meas_ID": "vibtub_ufactor_4",
+                "method_standard": null,
+                "method_custom": "VIBTUB:UFactor:4",
+                "range": {
+                  "BLKprop_id": "BLKprop_1",
+                  "name": "Mass density, kg/m3",
+                  "min": 781.15,
+                  "max": 998.2,
+                  "mean": 875.231351,
+                  "std": 74.42608,
+                  "n": 37
+                },
+                "uncertainty": {
+                  "evaluation_method": "Propagation of evaluated standard uncertainties",
+                  "confidence_level": 95,
+                  "evaluator": "Data file compiler",
+                  "assessment_num": "BLKpropAssessment_1_1"
+                },
+                "range_min": 781.15,
+                "range_max": 998.2
+              }
+            ],
+            "phases": [
+              {
+                "owner_id": "BLKprop_1",
+                "role": "property_phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_1",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_2",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKconstr_1",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              }
+            ],
+            "reaction_type": null,
+            "participants": [],
+            "notes": null,
+            "declared_system_type": "binary",
+            "declared_n_components": 2,
+            "declared_compounds": [
+              {
+                "org_num": "DOIcomp_3",
+                "comp_num_id": "GLOBcomp_2",
+                "name": "ethanol",
+                "formula": "C2H6O",
+                "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+                "SMILES": "CCO",
+                "sample_num": "DOIcompSample_3_1"
+              },
+              {
+                "org_num": "DOIcomp_1",
+                "comp_num_id": "GLOBcomp_1",
+                "name": "water",
+                "formula": "H2O",
+                "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+                "SMILES": "O",
+                "sample_num": "DOIcompSample_1_1"
+              }
+            ],
+            "parent_n_datapoints": 37,
+            "subsystem_scope": null,
+            "subsystem_point_runs": [],
+            "subsystem_path_class": null,
+            "subsystem_evidence_quality": null,
+            "subsystem_condition_ranges": []
+          }
+        ],
+        "data_inspections": [
+          {
+            "doi": "10.1016/j.fluid.2004.11.019",
+            "block_number": "PROPblock_2",
+            "table_mode": "rdp",
+            "columns": [
+              "BLKpoint_id",
+              "temperature_k",
+              "pressure_kpa",
+              "mole_fraction_<ethanol>",
+              "mass_density_kg_m3"
+            ],
+            "rows_shown": [
+              {
+                "BLKpoint_id": "BLKpoint_1",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "995.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_43",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "868.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_48",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "825.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_54",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "785.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_55",
+                "temperature_k": "298.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "999.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_97",
+                "temperature_k": "298.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "874.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_102",
+                "temperature_k": "298.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "832.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_108",
+                "temperature_k": "298.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "794"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_109",
+                "temperature_k": "298.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "1004.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_151",
+                "temperature_k": "298.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "880.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_156",
+                "temperature_k": "298.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "839"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_162",
+                "temperature_k": "298.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "801.9"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_163",
+                "temperature_k": "298.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "1008.5"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_199",
+                "temperature_k": "298.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.2269",
+                "mass_density_kg_m3": "938.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_205",
+                "temperature_k": "298.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "885.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_210",
+                "temperature_k": "298.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "845.1"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_216",
+                "temperature_k": "298.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "808.9"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_217",
+                "temperature_k": "298.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "1012.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_253",
+                "temperature_k": "298.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.2269",
+                "mass_density_kg_m3": "942.9"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_259",
+                "temperature_k": "298.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "890.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_264",
+                "temperature_k": "298.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "851"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_270",
+                "temperature_k": "298.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "815.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_271",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "986.5"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_307",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.2269",
+                "mass_density_kg_m3": "905.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_313",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "846.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_318",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "802.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_324",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "763.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_325",
+                "temperature_k": "323.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "990.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_361",
+                "temperature_k": "323.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.2269",
+                "mass_density_kg_m3": "910.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_367",
+                "temperature_k": "323.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "853.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_372",
+                "temperature_k": "323.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "810.9"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_378",
+                "temperature_k": "323.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "773.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_379",
+                "temperature_k": "323.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "994.9"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_415",
+                "temperature_k": "323.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.2269",
+                "mass_density_kg_m3": "915.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_421",
+                "temperature_k": "323.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "859.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_426",
+                "temperature_k": "323.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "818.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_432",
+                "temperature_k": "323.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "782.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_433",
+                "temperature_k": "323.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "999"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_469",
+                "temperature_k": "323.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.2269",
+                "mass_density_kg_m3": "920.1"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_475",
+                "temperature_k": "323.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "865.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_480",
+                "temperature_k": "323.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "825.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_486",
+                "temperature_k": "323.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "790.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_487",
+                "temperature_k": "323.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "1003.1"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_523",
+                "temperature_k": "323.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.2269",
+                "mass_density_kg_m3": "924.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_529",
+                "temperature_k": "323.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "871.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_534",
+                "temperature_k": "323.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "831.9"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_540",
+                "temperature_k": "323.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "797.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_541",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "973.1"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_575",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.1903",
+                "mass_density_kg_m3": "895.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_582",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.4034",
+                "mass_density_kg_m3": "833.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_587",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.6489",
+                "mass_density_kg_m3": "785.6"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_594",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "739.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_595",
+                "temperature_k": "348.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "977.5"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_630",
+                "temperature_k": "348.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.1996",
+                "mass_density_kg_m3": "898.1"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_636",
+                "temperature_k": "348.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.4034",
+                "mass_density_kg_m3": "840.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_641",
+                "temperature_k": "348.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "0.6489",
+                "mass_density_kg_m3": "794.6"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_648",
+                "temperature_k": "348.15",
+                "pressure_kpa": "10000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "751.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_649",
+                "temperature_k": "348.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "981.9"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_683",
+                "temperature_k": "348.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.1903",
+                "mass_density_kg_m3": "906.5"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_690",
+                "temperature_k": "348.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.4034",
+                "mass_density_kg_m3": "847.5"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_695",
+                "temperature_k": "348.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "0.6489",
+                "mass_density_kg_m3": "802.9"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_702",
+                "temperature_k": "348.15",
+                "pressure_kpa": "20000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "761.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_703",
+                "temperature_k": "348.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "986.1"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_738",
+                "temperature_k": "348.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.1996",
+                "mass_density_kg_m3": "908.5"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_744",
+                "temperature_k": "348.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.4034",
+                "mass_density_kg_m3": "854"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_749",
+                "temperature_k": "348.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "0.6489",
+                "mass_density_kg_m3": "810.6"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_756",
+                "temperature_k": "348.15",
+                "pressure_kpa": "30000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "770.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_757",
+                "temperature_k": "348.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "990.1"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_791",
+                "temperature_k": "348.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.1903",
+                "mass_density_kg_m3": "916.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_798",
+                "temperature_k": "348.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.4034",
+                "mass_density_kg_m3": "860"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_803",
+                "temperature_k": "348.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "0.6489",
+                "mass_density_kg_m3": "817.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_810",
+                "temperature_k": "348.15",
+                "pressure_kpa": "40000",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "778.6"
+              }
+            ],
+            "inspection_id": "INSP_38392edfd29c",
+            "lit_num_id": "GLOBlit_220"
+          },
+          {
+            "doi": "10.1016/j.fluid.2004.11.019",
+            "block_number": "PROPblock_2",
+            "table_mode": "rdp",
+            "columns": [
+              "BLKpoint_id",
+              "temperature_k",
+              "pressure_kpa",
+              "mole_fraction_<ethanol>",
+              "mass_density_kg_m3"
+            ],
+            "rows_shown": [
+              {
+                "BLKpoint_id": "BLKpoint_1",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "995.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_38",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.2502",
+                "mass_density_kg_m3": "918.5"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_43",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "868.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_48",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "825.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_54",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "785.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_271",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "986.5"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_307",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.2269",
+                "mass_density_kg_m3": "905.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_313",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.4501",
+                "mass_density_kg_m3": "846.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_318",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.6967",
+                "mass_density_kg_m3": "802.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_324",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "763.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_541",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.003",
+                "mass_density_kg_m3": "973.1"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_575",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.1903",
+                "mass_density_kg_m3": "895.8"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_582",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.4034",
+                "mass_density_kg_m3": "833.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_587",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "0.6489",
+                "mass_density_kg_m3": "785.6"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_594",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mole_fraction_<ethanol>": "1",
+                "mass_density_kg_m3": "739.4"
+              }
+            ],
+            "inspection_id": "INSP_13b9dbeeee1e",
+            "lit_num_id": "GLOBlit_220"
+          },
+          {
+            "doi": "10.1016/j.jct.2018.02.022",
+            "block_number": "PROPblock_19",
+            "table_mode": "rdp",
+            "columns": [
+              "BLKpoint_id",
+              "temperature_k",
+              "mole_fraction_<ethanol>",
+              "pressure_kpa",
+              "mass_density_kg_m3"
+            ],
+            "rows_shown": [
+              {
+                "BLKpoint_id": "BLKpoint_1",
+                "temperature_k": "293.15",
+                "mole_fraction_<ethanol>": "0.0024",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "997.039"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_23",
+                "temperature_k": "293.15",
+                "mole_fraction_<ethanol>": "0.7006",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "829.434"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_59",
+                "temperature_k": "298.15",
+                "mole_fraction_<ethanol>": "0.7006",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "825.07"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_95",
+                "temperature_k": "303.15",
+                "mole_fraction_<ethanol>": "0.7006",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "820.66"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_131",
+                "temperature_k": "308.15",
+                "mole_fraction_<ethanol>": "0.7006",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "816.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_145",
+                "temperature_k": "293.15",
+                "mole_fraction_<ethanol>": "0",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "998.429"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_146",
+                "temperature_k": "298.15",
+                "mole_fraction_<ethanol>": "0",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "997.267"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_147",
+                "temperature_k": "303.15",
+                "mole_fraction_<ethanol>": "0",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "995.867"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_148",
+                "temperature_k": "308.15",
+                "mole_fraction_<ethanol>": "0",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "994.252"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_149",
+                "temperature_k": "293.15",
+                "mole_fraction_<ethanol>": "1",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "789.547"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_150",
+                "temperature_k": "298.15",
+                "mole_fraction_<ethanol>": "1",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "785.26"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_151",
+                "temperature_k": "303.15",
+                "mole_fraction_<ethanol>": "1",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "780.941"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_152",
+                "temperature_k": "308.15",
+                "mole_fraction_<ethanol>": "1",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "776.592"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_160",
+                "temperature_k": "293.15",
+                "mole_fraction_<ethanol>": "0.1984",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "935.19"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_165",
+                "temperature_k": "293.15",
+                "mole_fraction_<ethanol>": "0.4495",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "873.57"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_183",
+                "temperature_k": "298.15",
+                "mole_fraction_<ethanol>": "0.1984",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "931.84"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_188",
+                "temperature_k": "298.15",
+                "mole_fraction_<ethanol>": "0.4495",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "869.34"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_206",
+                "temperature_k": "303.15",
+                "mole_fraction_<ethanol>": "0.1984",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "928.77"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_211",
+                "temperature_k": "303.15",
+                "mole_fraction_<ethanol>": "0.4495",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "865.03"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_229",
+                "temperature_k": "308.15",
+                "mole_fraction_<ethanol>": "0.1984",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "925.04"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_234",
+                "temperature_k": "308.15",
+                "mole_fraction_<ethanol>": "0.4495",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "860.66"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_244",
+                "temperature_k": "308.15",
+                "mole_fraction_<ethanol>": "0.929",
+                "pressure_kpa": "92.3",
+                "mass_density_kg_m3": "785.46"
+              }
+            ],
+            "inspection_id": "INSP_b49f3d6ec58f",
+            "lit_num_id": "GLOBlit_5201"
+          },
+          {
+            "doi": "10.1016/j.jct.2007.05.004",
+            "block_number": "PROPblock_12",
+            "table_mode": "rdp",
+            "columns": [
+              "BLKpoint_id",
+              "temperature_k",
+              "mole_fraction_<water>",
+              "pressure_kpa",
+              "mass_density_kg_m3"
+            ],
+            "rows_shown": [
+              {
+                "BLKpoint_id": "BLKpoint_1",
+                "temperature_k": "293.15",
+                "mole_fraction_<water>": "0",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "789.75"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_7",
+                "temperature_k": "293.15",
+                "mole_fraction_<water>": "0.4971",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "862.82"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_9",
+                "temperature_k": "293.15",
+                "mole_fraction_<water>": "0.6991",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "908.69"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_13",
+                "temperature_k": "293.15",
+                "mole_fraction_<water>": "1",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "998.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_14",
+                "temperature_k": "298.15",
+                "mole_fraction_<water>": "0",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "785.46"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_19",
+                "temperature_k": "298.15",
+                "mole_fraction_<water>": "0.3991",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "840.94"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_20",
+                "temperature_k": "298.15",
+                "mole_fraction_<water>": "0.5989",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "879.89"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_25",
+                "temperature_k": "298.15",
+                "mole_fraction_<water>": "1",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "997.05"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_26",
+                "temperature_k": "303.15",
+                "mole_fraction_<water>": "0",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "781.15"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_30",
+                "temperature_k": "303.15",
+                "mole_fraction_<water>": "0.2961",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "820.29"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_32",
+                "temperature_k": "303.15",
+                "mole_fraction_<water>": "0.5989",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "875.63"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_37",
+                "temperature_k": "303.15",
+                "mole_fraction_<water>": "1",
+                "pressure_kpa": "101.0",
+                "mass_density_kg_m3": "995.65"
+              }
+            ],
+            "inspection_id": "INSP_1d2031e2c9c2",
+            "lit_num_id": "GLOBlit_2825"
+          }
+        ]
+      }
+    },
+    {
+      "label": "inspect_220",
+      "result": {
+        "answer": "**GLOBlit_220 PROPblock_1 \u2014 Inspection Result**\n\nThis block contains **pure ethanol density data only** \u2014 it is **not** ethanol + water mixture data.\n\n**Details:**\n\n| Field | Value |\n|---|---|\n| DOI | 10.1016/j.fluid.2004.11.019 (GLOBlit_220) |\n| Block | PROPblock_1 |\n| System type | Unary (pure component) |\n| Compound | Ethanol (GLOBcomp_2, C\u2082H\u2086O) |\n| Property | Mass density (GLOBprop_1), kg/m\u00b3 |\n| Phase | Liquid |\n| Temperature range | 298.15\u2013348.15 K (15 points) |\n| Pressure range | 100\u201340000 kPa (15 points) |\n| Density range | 739.4\u2013815.7 kg/m\u00b3 (15 points) |\n| Data points | 15 total (12 shown via RDP) |\n| Composition | None (pure ethanol \u2014 no water present) |\n\n**Inspected data (12 of 15 points shown):**\n\n| BLKpoint_id | Temperature (K) | Pressure (kPa) | Mass density (kg/m\u00b3) |\n|---|---|---|---|\n| BLKpoint_1 | 298.15 | 100 | 785.7 |\n| BLKpoint_3 | 298.15 | 20000 | 801.9 |\n| BLKpoint_5 | 298.15 | 40000 | 815.7 |\n| BLKpoint_6 | 323.15 | 100 | 763.7 |\n| BLKpoint_7 | 323.15 | 10000 | 773.4 |\n| BLKpoint_8 | 323.15 | 20000 | 782.3 |\n| BLKpoint_10 | 323.15 | 40000 | 797.7 |\n| BLKpoint_11 | 348.15 | 100 | 739.4 |\n| BLKpoint_12 | 348.15 | 10000 | 751.2 |\n| BLKpoint_13 | 348.15 | 20000 | 761.2 |\n| BLKpoint_14 | 348.15 | 30000 | 770.3 |\n| BLKpoint_15 | 348.15 | 40000 | 778.6 |\n\n**Conclusion:** This block does **not** contain ethanol + water binary density data. Although the parent DOI (10.1016/j.fluid.2004.11.019) references ethanol\u2013water mixtures in its title, PROPblock_1 specifically holds only pure ethanol measurements. Other blocks within GLOBlit_220 (e.g., PROPblock_2, PROPblock_3, etc.) should be checked for the binary mixture data.",
+        "core_claims": [
+          "GLOBlit_220 PROPblock_1 contains pure ethanol density data only, not ethanol + water binary mixture data, despite the parent DOI (10.1016/j.fluid.2004.11.019) referencing ethanol\u2013water mixtures in its title.",
+          "The block reports 15 liquid-phase mass density data points for pure ethanol spanning 298.15\u2013348.15 K in temperature, 100\u201340000 kPa in pressure, and 739.4\u2013815.7 kg/m\u00b3 in density.",
+          "Other blocks within GLOBlit_220 (e.g., PROPblock_2, PROPblock_3) would need to be checked for binary ethanol + water mixture data."
+        ],
+        "status": "success",
+        "summary": "GLOBlit_220 PROPblock_1 (DOI 10.1016/j.fluid.2004.11.019) contains pure ethanol density data only, not ethanol + water mixture data. The block reports 15 liquid-phase mass density measurements for pure ethanol (C\u2082H\u2086O) over 298.15\u2013348.15 K and 100\u201340000 kPa, with densities ranging from 739.4 to 815.7 kg/m\u00b3. No water is present; no composition variable is included. Binary ethanol\u2013water mixture data, if present in this DOI, would be in other blocks (e.g., PROPblock_2, PROPblock_3, etc.).",
+        "core_id_updates": [],
+        "core_blocks_found": [
+          {
+            "lit_num_id": "GLOBlit_220",
+            "block_number": "PROPblock_1",
+            "BLKsubsys_id": null,
+            "system_type": "unary",
+            "comp_num_ids": [
+              "GLOBcomp_2"
+            ],
+            "prop_num_ids": [
+              "GLOBprop_1"
+            ],
+            "description": "Pure ethanol mass density measurements at 298.15\u2013348.15 K and 100\u201340000 kPa, 15 data points, liquid phase. Not ethanol+water binary data.",
+            "doi": "10.1016/j.fluid.2004.11.019",
+            "lit_id": "2005-pec-dol-0",
+            "block_type": "PureOrMixtureData",
+            "blocktype_num_id": "GLOBblocktype_2",
+            "n_datapoints": 15,
+            "n_components": 1,
+            "compounds": [
+              {
+                "org_num": "DOIcomp_2",
+                "comp_num_id": "GLOBcomp_2",
+                "name": "ethanol",
+                "formula": "C2H6O",
+                "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+                "SMILES": "CCO",
+                "sample_num": "DOIcompSample_2_1"
+              }
+            ],
+            "solvents": [],
+            "constraints": [],
+            "variables": [
+              {
+                "BLKvar_id": "BLKvar_1",
+                "var_num_id": "GLOBvar_1",
+                "var_id": "temperature_k",
+                "name": "Temperature, K",
+                "type": "eTemperature",
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_1",
+                  "name": "Temperature, K",
+                  "min": 298.15,
+                  "max": 348.15,
+                  "n_unique": 3
+                },
+                "range_min": 298.15,
+                "range_max": 348.15
+              },
+              {
+                "BLKvar_id": "BLKvar_2",
+                "var_num_id": "GLOBvar_3",
+                "var_id": "pressure_kpa",
+                "name": "Pressure, kPa",
+                "type": "ePressure",
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_2",
+                  "name": "Pressure, kPa",
+                  "min": 100.0,
+                  "max": 40000.0,
+                  "n_unique": 5
+                },
+                "range_min": 100.0,
+                "range_max": 40000.0
+              }
+            ],
+            "properties": [
+              {
+                "BLKprop_id": "BLKprop_1",
+                "prop_num_id": "GLOBprop_1",
+                "prop_ID": "mass_density_kg_m3",
+                "name": "Mass density, kg/m3",
+                "group": "VolumetricProp",
+                "component_org_num": null,
+                "meas_num_id": "GLOBmeas_138",
+                "meas_ID": "vibtub_ufactor_2",
+                "method_standard": null,
+                "method_custom": "VIBTUB:UFactor:2",
+                "range": {
+                  "BLKprop_id": "BLKprop_1",
+                  "name": "Mass density, kg/m3",
+                  "min": 739.4,
+                  "max": 815.7,
+                  "mean": 780.953333,
+                  "std": 21.489827,
+                  "n": 15
+                },
+                "uncertainty": {
+                  "evaluation_method": "Propagation of evaluated standard uncertainties",
+                  "confidence_level": 95,
+                  "evaluator": "Data file compiler",
+                  "assessment_num": "BLKpropAssessment_1_1"
+                },
+                "range_min": 739.4,
+                "range_max": 815.7
+              }
+            ],
+            "phases": [
+              {
+                "owner_id": "BLKprop_1",
+                "role": "property_phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_1",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_2",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              }
+            ],
+            "reaction_type": null,
+            "participants": [],
+            "notes": null,
+            "declared_system_type": "unary",
+            "declared_n_components": 1,
+            "declared_compounds": [
+              {
+                "org_num": "DOIcomp_2",
+                "comp_num_id": "GLOBcomp_2",
+                "name": "ethanol",
+                "formula": "C2H6O",
+                "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+                "SMILES": "CCO",
+                "sample_num": "DOIcompSample_2_1"
+              }
+            ],
+            "parent_n_datapoints": 15,
+            "subsystem_scope": null,
+            "subsystem_point_runs": [],
+            "subsystem_path_class": null,
+            "subsystem_evidence_quality": null,
+            "subsystem_condition_ranges": []
+          }
+        ],
+        "data_inspections": [
+          {
+            "doi": "10.1016/j.fluid.2004.11.019",
+            "block_number": "PROPblock_1",
+            "table_mode": "rdp",
+            "columns": [
+              "BLKpoint_id",
+              "temperature_k",
+              "pressure_kpa",
+              "mass_density_kg_m3"
+            ],
+            "rows_shown": [
+              {
+                "BLKpoint_id": "BLKpoint_1",
+                "temperature_k": "298.15",
+                "pressure_kpa": "100",
+                "mass_density_kg_m3": "785.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_3",
+                "temperature_k": "298.15",
+                "pressure_kpa": "20000",
+                "mass_density_kg_m3": "801.9"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_5",
+                "temperature_k": "298.15",
+                "pressure_kpa": "40000",
+                "mass_density_kg_m3": "815.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_6",
+                "temperature_k": "323.15",
+                "pressure_kpa": "100",
+                "mass_density_kg_m3": "763.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_7",
+                "temperature_k": "323.15",
+                "pressure_kpa": "10000",
+                "mass_density_kg_m3": "773.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_8",
+                "temperature_k": "323.15",
+                "pressure_kpa": "20000",
+                "mass_density_kg_m3": "782.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_10",
+                "temperature_k": "323.15",
+                "pressure_kpa": "40000",
+                "mass_density_kg_m3": "797.7"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_11",
+                "temperature_k": "348.15",
+                "pressure_kpa": "100",
+                "mass_density_kg_m3": "739.4"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_12",
+                "temperature_k": "348.15",
+                "pressure_kpa": "10000",
+                "mass_density_kg_m3": "751.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_13",
+                "temperature_k": "348.15",
+                "pressure_kpa": "20000",
+                "mass_density_kg_m3": "761.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_14",
+                "temperature_k": "348.15",
+                "pressure_kpa": "30000",
+                "mass_density_kg_m3": "770.3"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_15",
+                "temperature_k": "348.15",
+                "pressure_kpa": "40000",
+                "mass_density_kg_m3": "778.6"
+              }
+            ],
+            "inspection_id": "INSP_c620a1344d0d",
+            "lit_num_id": "GLOBlit_220"
+          }
+        ]
+      }
+    },
+    {
+      "label": "inspect_2432",
+      "result": {
+        "answer": "**Inspection of GLOBlit_2432 PROPblock_1**\n\nThis block does **not** contain ethanol + water density data. It contains **methanol + water** density data instead.\n\n**Details:**\n\n- **DOI:** 10.1016/j.jct.2004.07.019 (GLOBlit_2432)\n- **Compounds:** water (GLOBcomp_1) + methanol (GLOBcomp_4) \u2014 a binary system\n- **Property:** Mass density (kg/m\u00b3), measured as density differences relative to pure solvent water, using the vibrating-tube method\n- **Phase:** Liquid\n- **Temperature range:** 298.16\u2013573.15 K\n- **Pressure range:** 390\u201330320 kPa (high-pressure measurements)\n- **Composition range:** Methanol molality 0.07706\u20131.04694 mol/kg\n- **Total data points:** 596\n- **Density difference values:** range from \u221213.3065 to \u22120.4632 kg/m\u00b3 (all negative, indicating methanol solutions are less dense than pure water at the same T and P)\n\nFor example, at 298.16 K and 14450 kPa, the density difference at methanol molality 0.10243 mol/kg is \u22120.6308 kg/m\u00b3 (BLKpoint_1), while at molality 0.98932 mol/kg it is \u22125.7028 kg/m\u00b3 (BLKpoint_6), showing the expected trend of increasing density reduction with higher methanol content.\n\n**Conclusion:** This block is **not** ethanol + water mass density data. The second component is methanol (CH\u2084O, GLOBcomp_4), not ethanol.",
+        "core_claims": [
+          "PROPblock_1 of GLOBlit_2432 (DOI 10.1016/j.jct.2004.07.019) contains methanol + water density data, not ethanol + water density data; the second component is methanol (CH\u2084O, GLOBcomp_4).",
+          "The block reports liquid-phase mass density differences (kg/m\u00b3) relative to pure water for the methanol + water binary system, covering 298.16\u2013573.15 K, 390\u201330320 kPa, methanol molality 0.07706\u20131.04694 mol/kg, with 596 data points.",
+          "All reported density difference values are negative (ranging from \u221213.3065 to \u22120.4632 kg/m\u00b3), indicating that methanol solutions are less dense than pure water at the same temperature and pressure, with the magnitude of the density reduction increasing with higher methanol content."
+        ],
+        "status": "success",
+        "summary": "GLOBlit_2432 PROPblock_1 does not contain ethanol + water density data. It contains methanol + water density data. The DOI is 10.1016/j.jct.2004.07.019. The compounds are water (GLOBcomp_1) and methanol (GLOBcomp_4). The property is mass density (kg/m\u00b3), measured as density differences relative to pure water using the vibrating-tube method, in the liquid phase. The temperature range is 298.16\u2013573.15 K, pressure range is 390\u201330320 kPa, methanol molality range is 0.07706\u20131.04694 mol/kg, and there are 596 data points. Density difference values range from \u221213.3065 to \u22120.4632 kg/m\u00b3, all negative, indicating methanol solutions are less dense than pure water at the same T and P. For example, at 298.16 K and 14450 kPa, the density difference at methanol molality 0.10243 mol/kg is \u22120.6308 kg/m\u00b3 and at molality 0.98932 mol/kg is \u22125.7028 kg/m\u00b3. The second component is methanol (CH\u2084O), not ethanol.",
+        "core_id_updates": [],
+        "core_blocks_found": [
+          {
+            "lit_num_id": "GLOBlit_2432",
+            "block_number": "PROPblock_1",
+            "BLKsubsys_id": null,
+            "system_type": "binary",
+            "comp_num_ids": [
+              "GLOBcomp_4",
+              "GLOBcomp_1"
+            ],
+            "prop_num_ids": [
+              "GLOBprop_1"
+            ],
+            "description": "Mass density difference measurements for methanol + water at 298.16\u2013573.15 K, 390\u201330320 kPa, methanol molality 0.07706\u20131.04694 mol/kg; 596 data points. Not ethanol + water density data.",
+            "doi": "10.1016/j.jct.2004.07.019",
+            "lit_id": "2004-hyn-hne-0",
+            "block_type": "PureOrMixtureData",
+            "blocktype_num_id": "GLOBblocktype_1",
+            "n_datapoints": 596,
+            "n_components": 2,
+            "compounds": [
+              {
+                "org_num": "DOIcomp_5",
+                "comp_num_id": "GLOBcomp_4",
+                "name": "methanol",
+                "formula": "CH4O",
+                "inchi_key": "OKKJLVBELUTLKV-UHFFFAOYSA-N",
+                "SMILES": "CO",
+                "sample_num": "DOIcompSample_5_1"
+              },
+              {
+                "org_num": "DOIcomp_4",
+                "comp_num_id": "GLOBcomp_1",
+                "name": "water",
+                "formula": "H2O",
+                "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+                "SMILES": "O",
+                "sample_num": "DOIcompSample_4_1"
+              }
+            ],
+            "solvents": [
+              {
+                "component_org_num": "DOIcomp_4",
+                "comp_num_id": "GLOBcomp_1",
+                "solvent_num_id": "GLOBsolvent_1",
+                "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N"
+              }
+            ],
+            "constraints": [],
+            "variables": [
+              {
+                "BLKvar_id": "BLKvar_1",
+                "var_num_id": "GLOBvar_1",
+                "var_id": "temperature_k",
+                "name": "Temperature, K",
+                "type": "eTemperature",
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_1",
+                  "name": "Temperature, K",
+                  "min": 298.16,
+                  "max": 573.15,
+                  "n_unique": 16
+                },
+                "range_min": 298.16,
+                "range_max": 573.15
+              },
+              {
+                "BLKvar_id": "BLKvar_2",
+                "var_num_id": "GLOBvar_3",
+                "var_id": "pressure_kpa",
+                "name": "Pressure, kPa",
+                "type": "ePressure",
+                "component_org_num": null,
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_2",
+                  "name": "Pressure, kPa",
+                  "min": 390.0,
+                  "max": 30320.0,
+                  "n_unique": 32
+                },
+                "range_min": 390.0,
+                "range_max": 30320.0
+              },
+              {
+                "BLKvar_id": "BLKvar_3",
+                "var_num_id": "GLOBvar_4",
+                "var_id": "molality_mol_kg_DOIcomp_5",
+                "name": "Molality, mol/kg",
+                "type": "eComponentComposition",
+                "component_org_num": "DOIcomp_5",
+                "phase": {
+                  "phase": "Liquid",
+                  "phase_num_id": "GLOBphase_1",
+                  "phase_id": "liquid"
+                },
+                "range": {
+                  "BLKvar_id": "BLKvar_3",
+                  "name": "Molality, mol/kg",
+                  "min": 0.07706,
+                  "max": 1.04694,
+                  "n_unique": 161
+                },
+                "range_min": 0.07706,
+                "range_max": 1.04694
+              }
+            ],
+            "properties": [
+              {
+                "BLKprop_id": "BLKprop_1",
+                "prop_num_id": "GLOBprop_1",
+                "prop_ID": "mass_density_kg_m3",
+                "name": "Mass density, kg/m3",
+                "group": "VolumetricProp",
+                "component_org_num": null,
+                "meas_num_id": "GLOBmeas_2",
+                "meas_ID": "vibrating_tube_method",
+                "method_standard": "Vibrating tube method",
+                "method_custom": null,
+                "range": {
+                  "BLKprop_id": "BLKprop_1",
+                  "name": "Mass density, kg/m3",
+                  "min": -13.3065,
+                  "max": -0.4632,
+                  "mean": -3.693235,
+                  "std": 2.632762,
+                  "n": 596
+                },
+                "uncertainty": {
+                  "evaluation_method": "Propagation of evaluated standard uncertainties",
+                  "confidence_level": 95,
+                  "evaluator": "Data file compiler",
+                  "assessment_num": "BLKpropAssessment_1_1"
+                },
+                "range_min": -13.3065,
+                "range_max": -0.4632
+              }
+            ],
+            "phases": [
+              {
+                "owner_id": "BLKprop_1",
+                "role": "property_phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_1",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_2",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              },
+              {
+                "owner_id": "BLKvar_3",
+                "role": "phase",
+                "phase": "Liquid",
+                "phase_num_id": "GLOBphase_1",
+                "phase_id": "liquid"
+              }
+            ],
+            "reaction_type": null,
+            "participants": [],
+            "notes": null,
+            "declared_system_type": "binary",
+            "declared_n_components": 2,
+            "declared_compounds": [
+              {
+                "org_num": "DOIcomp_5",
+                "comp_num_id": "GLOBcomp_4",
+                "name": "methanol",
+                "formula": "CH4O",
+                "inchi_key": "OKKJLVBELUTLKV-UHFFFAOYSA-N",
+                "SMILES": "CO",
+                "sample_num": "DOIcompSample_5_1"
+              },
+              {
+                "org_num": "DOIcomp_4",
+                "comp_num_id": "GLOBcomp_1",
+                "name": "water",
+                "formula": "H2O",
+                "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+                "SMILES": "O",
+                "sample_num": "DOIcompSample_4_1"
+              }
+            ],
+            "parent_n_datapoints": 596,
+            "subsystem_scope": null,
+            "subsystem_point_runs": [],
+            "subsystem_path_class": null,
+            "subsystem_evidence_quality": null,
+            "subsystem_condition_ranges": []
+          }
+        ],
+        "data_inspections": [
+          {
+            "doi": "10.1016/j.jct.2004.07.019",
+            "block_number": "PROPblock_1",
+            "table_mode": "rdp",
+            "columns": [
+              "BLKpoint_id",
+              "temperature_k",
+              "pressure_kpa",
+              "molality_mol_kg_<methanol>",
+              "mass_density_kg_m3"
+            ],
+            "rows_shown": [
+              {
+                "BLKpoint_id": "BLKpoint_1",
+                "temperature_k": "298.16",
+                "pressure_kpa": "14450",
+                "molality_mol_kg_<methanol>": "0.10243",
+                "mass_density_kg_m3": "-0.6308"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_6",
+                "temperature_k": "298.16",
+                "pressure_kpa": "14450",
+                "molality_mol_kg_<methanol>": "0.98932",
+                "mass_density_kg_m3": "-5.7028"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_12",
+                "temperature_k": "298.16",
+                "pressure_kpa": "29990",
+                "molality_mol_kg_<methanol>": "0.98931",
+                "mass_density_kg_m3": "-5.7779"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_31",
+                "temperature_k": "298.16",
+                "pressure_kpa": "29990",
+                "molality_mol_kg_<methanol>": "0.10243",
+                "mass_density_kg_m3": "-0.6295"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_47",
+                "temperature_k": "298.24",
+                "pressure_kpa": "400",
+                "molality_mol_kg_<methanol>": "0.98932",
+                "mass_density_kg_m3": "-5.6141"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_57",
+                "temperature_k": "298.24",
+                "pressure_kpa": "400",
+                "molality_mol_kg_<methanol>": "0.07706",
+                "mass_density_kg_m3": "-0.4632"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_77",
+                "temperature_k": "318.14",
+                "pressure_kpa": "390",
+                "molality_mol_kg_<methanol>": "0.71144",
+                "mass_density_kg_m3": "-4.175"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_82",
+                "temperature_k": "318.14",
+                "pressure_kpa": "15370",
+                "molality_mol_kg_<methanol>": "0.71146",
+                "mass_density_kg_m3": "-4.2"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_93",
+                "temperature_k": "318.14",
+                "pressure_kpa": "390",
+                "molality_mol_kg_<methanol>": "0.09689",
+                "mass_density_kg_m3": "-0.5893"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_98",
+                "temperature_k": "318.14",
+                "pressure_kpa": "15370",
+                "molality_mol_kg_<methanol>": "0.09689",
+                "mass_density_kg_m3": "-0.5958"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_107",
+                "temperature_k": "318.15",
+                "pressure_kpa": "29980",
+                "molality_mol_kg_<methanol>": "0.71149",
+                "mass_density_kg_m3": "-4.215"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_113",
+                "temperature_k": "318.15",
+                "pressure_kpa": "29980",
+                "molality_mol_kg_<methanol>": "0.09818",
+                "mass_density_kg_m3": "-0.6009"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_123",
+                "temperature_k": "338.15",
+                "pressure_kpa": "14810",
+                "molality_mol_kg_<methanol>": "0.98922",
+                "mass_density_kg_m3": "-5.8941"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_130",
+                "temperature_k": "338.15",
+                "pressure_kpa": "14810",
+                "molality_mol_kg_<methanol>": "0.10242",
+                "mass_density_kg_m3": "-0.6333"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_141",
+                "temperature_k": "338.16",
+                "pressure_kpa": "460",
+                "molality_mol_kg_<methanol>": "0.98929",
+                "mass_density_kg_m3": "-5.9152"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_146",
+                "temperature_k": "338.16",
+                "pressure_kpa": "30210",
+                "molality_mol_kg_<methanol>": "0.71142",
+                "mass_density_kg_m3": "-4.2846"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_158",
+                "temperature_k": "338.16",
+                "pressure_kpa": "460",
+                "molality_mol_kg_<methanol>": "0.10243",
+                "mass_density_kg_m3": "-0.6372"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_164",
+                "temperature_k": "338.16",
+                "pressure_kpa": "30210",
+                "molality_mol_kg_<methanol>": "0.09688",
+                "mass_density_kg_m3": "-0.6051"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_180",
+                "temperature_k": "373.17",
+                "pressure_kpa": "14890",
+                "molality_mol_kg_<methanol>": "0.98915",
+                "mass_density_kg_m3": "-6.2575"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_186",
+                "temperature_k": "373.17",
+                "pressure_kpa": "30120",
+                "molality_mol_kg_<methanol>": "1.0111",
+                "mass_density_kg_m3": "-6.3192"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_205",
+                "temperature_k": "373.17",
+                "pressure_kpa": "2090",
+                "molality_mol_kg_<methanol>": "0.10241",
+                "mass_density_kg_m3": "-0.6788"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_210",
+                "temperature_k": "373.17",
+                "pressure_kpa": "2090",
+                "molality_mol_kg_<methanol>": "0.98918",
+                "mass_density_kg_m3": "-6.3363"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_211",
+                "temperature_k": "373.17",
+                "pressure_kpa": "14890",
+                "molality_mol_kg_<methanol>": "0.094",
+                "mass_density_kg_m3": "-0.6107"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_217",
+                "temperature_k": "373.17",
+                "pressure_kpa": "30120",
+                "molality_mol_kg_<methanol>": "0.09399",
+                "mass_density_kg_m3": "-0.6082"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_234",
+                "temperature_k": "408.15",
+                "pressure_kpa": "15000",
+                "molality_mol_kg_<methanol>": "1.01107",
+                "mass_density_kg_m3": "-6.8718"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_240",
+                "temperature_k": "408.15",
+                "pressure_kpa": "2070",
+                "molality_mol_kg_<methanol>": "1.01108",
+                "mass_density_kg_m3": "-7.0201"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_247",
+                "temperature_k": "408.15",
+                "pressure_kpa": "2070",
+                "molality_mol_kg_<methanol>": "0.09399",
+                "mass_density_kg_m3": "-0.6721"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_252",
+                "temperature_k": "408.15",
+                "pressure_kpa": "2070",
+                "molality_mol_kg_<methanol>": "1.01108",
+                "mass_density_kg_m3": "-7.0201"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_253",
+                "temperature_k": "408.15",
+                "pressure_kpa": "15000",
+                "molality_mol_kg_<methanol>": "0.09399",
+                "mass_density_kg_m3": "-0.6616"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_271",
+                "temperature_k": "408.16",
+                "pressure_kpa": "30030",
+                "molality_mol_kg_<methanol>": "0.09399",
+                "mass_density_kg_m3": "-0.644"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_276",
+                "temperature_k": "408.16",
+                "pressure_kpa": "30030",
+                "molality_mol_kg_<methanol>": "1.01105",
+                "mass_density_kg_m3": "-6.7209"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_282",
+                "temperature_k": "443.16",
+                "pressure_kpa": "30320",
+                "molality_mol_kg_<methanol>": "1.01097",
+                "mass_density_kg_m3": "-7.1798"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_283",
+                "temperature_k": "443.16",
+                "pressure_kpa": "30320",
+                "molality_mol_kg_<methanol>": "0.09398",
+                "mass_density_kg_m3": "-0.6829"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_316",
+                "temperature_k": "443.17",
+                "pressure_kpa": "2040",
+                "molality_mol_kg_<methanol>": "0.09399",
+                "mass_density_kg_m3": "-0.7315"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_321",
+                "temperature_k": "443.17",
+                "pressure_kpa": "2040",
+                "molality_mol_kg_<methanol>": "1.01102",
+                "mass_density_kg_m3": "-7.6916"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_322",
+                "temperature_k": "443.17",
+                "pressure_kpa": "14920",
+                "molality_mol_kg_<methanol>": "0.09398",
+                "mass_density_kg_m3": "-0.7087"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_327",
+                "temperature_k": "443.17",
+                "pressure_kpa": "14920",
+                "molality_mol_kg_<methanol>": "1.01099",
+                "mass_density_kg_m3": "-7.4388"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_333",
+                "temperature_k": "473.16",
+                "pressure_kpa": "2750",
+                "molality_mol_kg_<methanol>": "1.01093",
+                "mass_density_kg_m3": "-8.3743"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_339",
+                "temperature_k": "473.16",
+                "pressure_kpa": "15010",
+                "molality_mol_kg_<methanol>": "1.0109",
+                "mass_density_kg_m3": "-8.0216"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_345",
+                "temperature_k": "473.16",
+                "pressure_kpa": "30060",
+                "molality_mol_kg_<methanol>": "1.01641",
+                "mass_density_kg_m3": "-7.7256"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_352",
+                "temperature_k": "473.16",
+                "pressure_kpa": "15010",
+                "molality_mol_kg_<methanol>": "0.10575",
+                "mass_density_kg_m3": "-0.8604"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_364",
+                "temperature_k": "473.16",
+                "pressure_kpa": "2750",
+                "molality_mol_kg_<methanol>": "0.09398",
+                "mass_density_kg_m3": "-0.7983"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_370",
+                "temperature_k": "473.16",
+                "pressure_kpa": "15010",
+                "molality_mol_kg_<methanol>": "0.10575",
+                "mass_density_kg_m3": "-0.8604"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_376",
+                "temperature_k": "473.16",
+                "pressure_kpa": "30060",
+                "molality_mol_kg_<methanol>": "0.10575",
+                "mass_density_kg_m3": "-0.8231"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_392",
+                "temperature_k": "498.15",
+                "pressure_kpa": "15030",
+                "molality_mol_kg_<methanol>": "1.01635",
+                "mass_density_kg_m3": "-8.6519"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_399",
+                "temperature_k": "498.15",
+                "pressure_kpa": "30150",
+                "molality_mol_kg_<methanol>": "1.01637",
+                "mass_density_kg_m3": "-8.1703"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_413",
+                "temperature_k": "498.15",
+                "pressure_kpa": "30150",
+                "molality_mol_kg_<methanol>": "0.10575",
+                "mass_density_kg_m3": "-0.8706"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_419",
+                "temperature_k": "498.15",
+                "pressure_kpa": "3840",
+                "molality_mol_kg_<methanol>": "0.10575",
+                "mass_density_kg_m3": "-0.9656"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_424",
+                "temperature_k": "498.15",
+                "pressure_kpa": "3840",
+                "molality_mol_kg_<methanol>": "1.0164",
+                "mass_density_kg_m3": "-9.112"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_425",
+                "temperature_k": "498.15",
+                "pressure_kpa": "15030",
+                "molality_mol_kg_<methanol>": "0.10574",
+                "mass_density_kg_m3": "-0.9218"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_441",
+                "temperature_k": "523.14",
+                "pressure_kpa": "5880",
+                "molality_mol_kg_<methanol>": "1.01632",
+                "mass_density_kg_m3": "-9.9531"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_447",
+                "temperature_k": "523.14",
+                "pressure_kpa": "15600",
+                "molality_mol_kg_<methanol>": "1.01629",
+                "mass_density_kg_m3": "-9.3473"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_453",
+                "temperature_k": "523.14",
+                "pressure_kpa": "30090",
+                "molality_mol_kg_<methanol>": "1.01627",
+                "mass_density_kg_m3": "-8.6936"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_472",
+                "temperature_k": "523.14",
+                "pressure_kpa": "5880",
+                "molality_mol_kg_<methanol>": "0.10574",
+                "mass_density_kg_m3": "-1.0594"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_478",
+                "temperature_k": "523.14",
+                "pressure_kpa": "15600",
+                "molality_mol_kg_<methanol>": "0.10574",
+                "mass_density_kg_m3": "-0.993"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_484",
+                "temperature_k": "523.14",
+                "pressure_kpa": "30090",
+                "molality_mol_kg_<methanol>": "0.10573",
+                "mass_density_kg_m3": "-0.9275"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_495",
+                "temperature_k": "548.16",
+                "pressure_kpa": "8000",
+                "molality_mol_kg_<methanol>": "1.01623",
+                "mass_density_kg_m3": "-11.0973"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_501",
+                "temperature_k": "548.16",
+                "pressure_kpa": "15970",
+                "molality_mol_kg_<methanol>": "1.01618",
+                "mass_density_kg_m3": "-10.2986"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_507",
+                "temperature_k": "548.16",
+                "pressure_kpa": "30120",
+                "molality_mol_kg_<methanol>": "1.04694",
+                "mass_density_kg_m3": "-9.5934"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_526",
+                "temperature_k": "548.16",
+                "pressure_kpa": "8000",
+                "molality_mol_kg_<methanol>": "0.09819",
+                "mass_density_kg_m3": "-1.0956"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_532",
+                "temperature_k": "548.16",
+                "pressure_kpa": "15970",
+                "molality_mol_kg_<methanol>": "0.09819",
+                "mass_density_kg_m3": "-1.0204"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_537",
+                "temperature_k": "548.16",
+                "pressure_kpa": "30120",
+                "molality_mol_kg_<methanol>": "0.09819",
+                "mass_density_kg_m3": "-0.9253"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_548",
+                "temperature_k": "573.15",
+                "pressure_kpa": "10140",
+                "molality_mol_kg_<methanol>": "1.04693",
+                "mass_density_kg_m3": "-13.3065"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_554",
+                "temperature_k": "573.15",
+                "pressure_kpa": "17990",
+                "molality_mol_kg_<methanol>": "1.0469",
+                "mass_density_kg_m3": "-11.8248"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_567",
+                "temperature_k": "573.15",
+                "pressure_kpa": "17990",
+                "molality_mol_kg_<methanol>": "0.09818",
+                "mass_density_kg_m3": "-1.1328"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_579",
+                "temperature_k": "573.15",
+                "pressure_kpa": "10140",
+                "molality_mol_kg_<methanol>": "0.09819",
+                "mass_density_kg_m3": "-1.2695"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_585",
+                "temperature_k": "573.15",
+                "pressure_kpa": "17990",
+                "molality_mol_kg_<methanol>": "0.09818",
+                "mass_density_kg_m3": "-1.1328"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_591",
+                "temperature_k": "573.15",
+                "pressure_kpa": "30110",
+                "molality_mol_kg_<methanol>": "0.09818",
+                "mass_density_kg_m3": "-1.0044"
+              },
+              {
+                "BLKpoint_id": "BLKpoint_596",
+                "temperature_k": "573.15",
+                "pressure_kpa": "30110",
+                "molality_mol_kg_<methanol>": "1.04688",
+                "mass_density_kg_m3": "-10.4212"
+              }
+            ],
+            "inspection_id": "INSP_1dc375d4da8a",
+            "lit_num_id": "GLOBlit_2432"
+          }
+        ]
+      }
+    }
+  ]
+}
+</subagent_answer>
+```
+</details>
+
+**📦 Context compaction** (after step 5, trigger: chars=89078>80000)
+- **Outcome:** skipped_by_agent
+- **Purpose:** Ready to proceed to fitting phase with GLOBlit_220 PROPblock_2 at 348.15 K; context manageable
+- **Tasks:** SKIP
+- 89,078 → 89,078 chars (−0%)
+
+---
+
+### Step 6 [A · c20]: `inspect_block` 🔒 VALIDATION BLOCKED
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "doi": "10.1016/j.fluid.2004.11.019",
+  "block_number": "PROPblock_2",
+  "property_filter": "density"
+}
+```
+</details>
+
+- **Result:** 297 chars  |  **Time:** 0.0s  |  **Started:** 06:53:01 (t+547.2s)
+- **Status:** blocked
+
+<details><summary>Validation detail</summary>
+
+```
+**✗ inspect_block** — tool syntax or arguments need correction:
+TOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to inspect_block: missing a required argument: 'purpose'
+
+_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._
+```
+</details>
+
+---
+
+### Step 7 [A · c21]: `inspect_block` 🔒 VALIDATION BLOCKED
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "doi": "10.1016/j.fluid.2004.11.019",
+  "block_number": "PROPblock_2",
+  "property_filter": "density",
+  "purpose": "Get fitting variable guidance for ethanol+water density block at atmospheric pressure"
+}
+```
+</details>
+
+- **Result:** 295 chars  |  **Time:** 0.0s  |  **Started:** 06:53:07 (t+553.5s)
+- **Status:** blocked
+
+<details><summary>Validation detail</summary>
+
+```
+**✗ inspect_block** — tool syntax or arguments need correction:
+TOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to inspect_block: missing a required argument: 'tasks'
+
+_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._
+```
+</details>
+
+---
+
+### Step 8 [A · c22]: `inspect_block` 🔒 VALIDATION BLOCKED
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "doi": "10.1016/j.fluid.2004.11.019",
+  "block_number": "PROPblock_2",
+  "property_filter": "density",
+  "purpose": "Get fitting variable guidance for RK density fit at atmospheric pressure isotherms",
+  "tasks": [
+    "inspect block structure",
+    "identify composition and property columns",
+    "check temperature and pressure variables"
+  ]
+}
+```
+</details>
+
+- **Result:** 438 chars  |  **Time:** 0.0s  |  **Started:** 06:53:11 (t+557.8s)
+- **Status:** blocked
+
+<details><summary>Validation detail</summary>
+
+```
+**✗ inspect_block** — tool syntax or arguments need correction:
+TOOL_ARGUMENT_REFINEMENT_REQUIRED: inspect_block.tasks received ['inspect block structure', 'identify composition and property columns', 'check temperature and pressure variables'] (list); expected <class 'str'>; tool arguments are never coerced
+
+_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._
+```
+</details>
+
+---
+
+### Step 9 [A · c23]: `inspect_block`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "doi": "10.1016/j.fluid.2004.11.019",
+  "block_number": "PROPblock_2",
+  "property_filter": "density",
+  "purpose": "Get fitting variable guidance for ethanol+water density RK fit at atmospheric pressure",
+  "tasks": "Inspect block structure to identify composition and property columns and check temperature and pressure variables"
+}
+```
+</details>
+
+- **Result:** 1,374 chars  |  **Time:** 0.9s  |  **Started:** 06:53:17 (t+563.5s)
+
+<details><summary>Result</summary>
+
+```
+**Block GLOBlit_220 / DOI 10.1016/j.fluid.2004.11.019 / PROPblock_2 @ declared** (PureOrMixtureData)
+Compounds: ethanol, water | Rows: 810
+x‑columns: ['mole_fraction_<ethanol>'] | y‑columns: ['mass_density_kg_m3']
+
+**Property response semantics (reported metadata; values are not materialized here)**
+- **BLKprop_1 / GLOBprop_1** `mass_density_kg_m3` (mass_density_kg_m3)
+  - reported response: Direct value, X
+  - measurement: GLOBmeas_138 / vibtub_ufactor_2
+  - property phase: Liquid (GLOBphase_1; liquid)
+  - reference: none; T=unspecified K; P=unspecified kPa
+  - reference phase: none
+  - component_org_num: none
+
+**Selected property response contract (inspection only; values are not materialized here)**
+- **BLKprop_1 / GLOBprop_1** `mass_density_kg_m3` (mass_density_kg_m3)
+  - reported response: Direct value, X [direct]
+  - units: reported=kg/m3; absolute=kg/m3
+  - preparation gate: reference_materialization=False; normalized_composition=False; supported=True
+  - reference: none; T=unspecified K; P=unspecified kPa
+  - property phase: Liquid (GLOBphase_1; liquid)
+  - reference phase: none
+  - component_org_num: none
+
+| Column | Min | Max | Valid pts |
+|--------|-----|-----|-----------|
+| temperature_k | 298.15 | 348.15 | 810 |
+| pressure_kpa | 100 | 40000 | 810 |
+| mole_fraction_<ethanol> | 0.003 | 1 | 810 |
+| mass_density_kg_m3 | 739.4 | 1012.7 | 810 |
+
+```
+</details>
+
+**📦 Context compaction** (after step 9, trigger: chars=92013>80000)
+- **Outcome:** skipped_by_agent
+- **Purpose:** Ready to fit RK at 348.15 K using GLOBlit_220::PROPblock_2; context manageable
+- **Tasks:** SKIP
+- 92,013 → 92,013 chars (−0%)
+
+---
+
+### Step 10 [A · c24]: `fit_multi_system` 🔒 VALIDATION BLOCKED
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "systems": [
+    {
+      "label": "EtOH-H2O_298K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "Mole fraction of ethanol"
+      ],
+      "y_props": [
+        "Mass density, kg/m3"
+      ],
+      "x_vars_constrained": {
+        "Temperature, K": {
+          "value": 298.15,
+          "tol": 0.5
+        },
+        "Pressure, kPa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5,
+      "mixing_rule": "linear"
+    },
+    {
+      "label": "EtOH-H2O_323K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "Mole fraction of ethanol"
+      ],
+      "y_props": [
+        "Mass density, kg/m3"
+      ],
+      "x_vars_constrained": {
+        "Temperature, K": {
+          "value": 323.15,
+          "tol": 0.5
+        },
+        "Pressure, kPa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5,
+      "mixing_rule": "linear"
+    },
+    {
+      "label": "EtOH-H2O_348K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "Mole fraction of ethanol"
+      ],
+      "y_props": [
+        "Mass density, kg/m3"
+      ],
+      "x_vars_constrained": {
+        "Temperature, K": {
+          "value": 348.15,
+          "tol": 0.5
+        },
+        "Pressure, kPa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5,
+      "mixing_rule": "linear"
+    }
+  ],
+  "purpose": "Fit Redlich-Kister density correlations for ethanol+water at three atmospheric-pressure isotherms"
+}
+```
+</details>
+
+- **Result:** 301 chars  |  **Time:** 0.0s  |  **Started:** 06:53:39 (t+585.8s)
+- **Status:** blocked
+
+<details><summary>Validation detail</summary>
+
+```
+**✗ fit_multi_system** — tool syntax or arguments need correction:
+TOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to fit_multi_system: missing a required argument: 'tasks'
+
+_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._
+```
+</details>
+
+---
+
+### Step 11 [A · c25]: `fit_multi_system` 🔒 VALIDATION BLOCKED
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "systems": [
+    {
+      "label": "EtOH-Water_298K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "composition_hint": "mole_fraction",
+      "max_rk_order": 5,
+      "mixing_rule": "linear",
+      "x_vars": [
+        "Mole fraction"
+      ],
+      "y_props": [
+        "Mass density, kg/m3"
+      ],
+      "x_vars_constrained": {
+        "Temperature, K": {
+          "value": 298.15,
+          "tol": 0.5
+        },
+        "Pressure, kPa": {
+          "value": 100,
+          "tol": 1
+        }
+      }
+    },
+    {
+      "label": "EtOH-Water_323K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "composition_hint": "mole_fraction",
+      "max_rk_order": 5,
+      "mixing_rule": "linear",
+      "x_vars": [
+        "Mole fraction"
+      ],
+      "y_props": [
+        "Mass density, kg/m3"
+      ],
+      "x_vars_constrained": {
+        "Temperature, K": {
+          "value": 323.15,
+          "tol": 0.5
+        },
+        "Pressure, kPa": {
+          "value": 100,
+          "tol": 1
+        }
+      }
+    },
+    {
+      "label": "EtOH-Water_348K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "composition_hint": "mole_fraction",
+      "max_rk_order": 5,
+      "mixing_rule": "linear",
+      "x_vars": [
+        "Mole fraction"
+      ],
+      "y_props": [
+        "Mass density, kg/m3"
+      ],
+      "x_vars_constrained": {
+        "Temperature, K": {
+          "value": 348.15,
+          "tol": 0.5
+        },
+        "Pressure, kPa": {
+          "value": 100,
+          "tol": 1
+        }
+      }
+    }
+  ],
+  "purpose": "Fit Redlich-Kister density correlations for ethanol+water at 298.15, 323.15, and 348.15 K at atmospheric pressure (100 kPa)",
+  "tasks": [
+    "fit_data"
+  ]
+}
+```
+</details>
+
+- **Result:** 340 chars  |  **Time:** 0.0s  |  **Started:** 06:53:55 (t+601.8s)
+- **Status:** blocked
+
+<details><summary>Validation detail</summary>
+
+```
+**✗ fit_multi_system** — tool syntax or arguments need correction:
+TOOL_ARGUMENT_REFINEMENT_REQUIRED: fit_multi_system.tasks received ['fit_data'] (list); expected <class 'str'>; tool arguments are never coerced
+
+_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._
+```
+</details>
+
+---
+
+### Step 12 [A · c26]: `fit_multi_system`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "systems": [
+    {
+      "label": "EtOH-Water_298K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "composition_hint": "mole_fraction",
+      "max_rk_order": 5,
+      "mixing_rule": "linear",
+      "x_vars": [
+        "Mole fraction of ethanol"
+      ],
+      "y_props": [
+        "Mass density, kg/m3"
+      ],
+      "x_vars_constrained": {
+        "Temperature, K": {
+          "value": 298.15,
+          "tol": 0.5
+        },
+        "Pressure, kPa": {
+          "value": 100,
+          "tol": 5
+        }
+      }
+    },
+    {
+      "label": "EtOH-Water_323K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "composition_hint": "mole_fraction",
+      "max_rk_order": 5,
+      "mixing_rule": "linear",
+      "x_vars": [
+        "Mole fraction of ethanol"
+      ],
+      "y_props": [
+        "Mass density, kg/m3"
+      ],
+      "x_vars_constrained": {
+        "Temperature, K": {
+          "value": 323.15,
+          "tol": 0.5
+        },
+        "Pressure, kPa": {
+          "value": 100,
+          "tol": 5
+        }
+      }
+    },
+    {
+      "label": "EtOH-Water_348K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "composition_hint": "mole_fraction",
+      "max_rk_order": 5,
+      "mixing_rule": "linear",
+      "x_vars": [
+        "Mole fraction of ethanol"
+      ],
+      "y_props": [
+        "Mass density, kg/m3"
+      ],
+      "x_vars_constrained": {
+        "Temperature, K": {
+          "value": 348.15,
+          "tol": 0.5
+        },
+        "Pressure, kPa": {
+          "value": 100,
+          "tol": 5
+        }
+      }
+    }
+  ],
+  "purpose": "Fit Redlich-Kister density correlations for ethanol+water at 298.15, 323.15, and 348.15 K at atmospheric pressure (100 kPa)",
+  "tasks": "fit_data"
+}
+```
+</details>
+
+- **Result:** 681 chars  |  **Time:** 0.5s  |  **Started:** 06:54:06 (t+612.9s)
+
+<details><summary>Result</summary>
+
+```
+**Multi-system RK Fit** — 3 systems
+Errors: EtOH-Water_348K: Requested x column 'Mole fraction of ethanol' not found in block; EtOH-Water_323K: Requested x column 'Mole fraction of ethanol' not found in block; EtOH-Water_298K: Requested x column 'Mole fraction of ethanol' not found in block
+
+| Label | DOI | Block | Components | Order | R² | RMSE | n pts |
+|-------|-----|-------|------------|-------|----|------|-------|
+| EtOH-Water_298K | — | — | — | ERROR: Requested x column 'Mole fraction of eth | | |
+| EtOH-Water_323K | — | — | — | ERROR: Requested x column 'Mole fraction of eth | | |
+| EtOH-Water_348K | — | — | — | ERROR: Requested x column 'Mole fraction of eth | | |
+
+```
+</details>
+
+**📦 Context compaction** (after step 12, trigger: chars=93751>80000)
+- **Outcome:** skipped_by_agent
+- **Purpose:** Need to fix column name for fitting; context is manageable but large
+- **Tasks:** SKIP
+- 93,751 → 93,751 chars (−0%)
+
+---
+
+### Step 13 [A · c27]: `fit_multi_system` 🔒 VALIDATION BLOCKED
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "systems": [
+    {
+      "label": "EtOH-Water_298K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "mole_fraction_<ethanol>"
+      ],
+      "y_props": [
+        "mass_density_kg_m3"
+      ],
+      "x_vars_constrained": {
+        "temperature_k": {
+          "value": 298.15,
+          "tol": 0.5
+        },
+        "pressure_kpa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5
+    },
+    {
+      "label": "EtOH-Water_323K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "mole_fraction_<ethanol>"
+      ],
+      "y_props": [
+        "mass_density_kg_m3"
+      ],
+      "x_vars_constrained": {
+        "temperature_k": {
+          "value": 323.15,
+          "tol": 0.5
+        },
+        "pressure_kpa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5
+    },
+    {
+      "label": "EtOH-Water_348K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "mole_fraction_<ethanol>"
+      ],
+      "y_props": [
+        "mass_density_kg_m3"
+      ],
+      "x_vars_constrained": {
+        "temperature_k": {
+          "value": 348.15,
+          "tol": 0.5
+        },
+        "pressure_kpa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5
+    }
+  ],
+  "purpose": "Fit RK density correlations for ethanol+water at 298.15, 323.15, and 348.15 K at atmospheric pressure (100 kPa)"
+}
+```
+</details>
+
+- **Result:** 301 chars  |  **Time:** 0.0s  |  **Started:** 06:54:25 (t+631.9s)
+- **Status:** blocked
+
+<details><summary>Validation detail</summary>
+
+```
+**✗ fit_multi_system** — tool syntax or arguments need correction:
+TOOL_ARGUMENT_REFINEMENT_REQUIRED: invalid call to fit_multi_system: missing a required argument: 'tasks'
+
+_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._
+```
+</details>
+
+---
+
+### Step 14 [A · c28]: `fit_multi_system` 🔒 VALIDATION BLOCKED
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "purpose": "Fit RK density correlations for ethanol+water at 298.15, 323.15, 348.15 K at P=100 kPa",
+  "tasks": [
+    "fit_data"
+  ],
+  "systems": [
+    {
+      "label": "EtOH-Water_298K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "mole_fraction_<ethanol>"
+      ],
+      "y_props": [
+        "mass_density_kg_m3"
+      ],
+      "x_vars_constrained": {
+        "temperature_k": {
+          "value": 298.15,
+          "tol": 0.5
+        },
+        "pressure_kpa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5
+    },
+    {
+      "label": "EtOH-Water_323K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "mole_fraction_<ethanol>"
+      ],
+      "y_props": [
+        "mass_density_kg_m3"
+      ],
+      "x_vars_constrained": {
+        "temperature_k": {
+          "value": 323.15,
+          "tol": 0.5
+        },
+        "pressure_kpa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5
+    },
+    {
+      "label": "EtOH-Water_348K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "mole_fraction_<ethanol>"
+      ],
+      "y_props": [
+        "mass_density_kg_m3"
+      ],
+      "x_vars_constrained": {
+        "temperature_k": {
+          "value": 348.15,
+          "tol": 0.5
+        },
+        "pressure_kpa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5
+    }
+  ]
+}
+```
+</details>
+
+- **Result:** 340 chars  |  **Time:** 0.0s  |  **Started:** 06:54:47 (t+653.8s)
+- **Status:** blocked
+
+<details><summary>Validation detail</summary>
+
+```
+**✗ fit_multi_system** — tool syntax or arguments need correction:
+TOOL_ARGUMENT_REFINEMENT_REQUIRED: fit_multi_system.tasks received ['fit_data'] (list); expected <class 'str'>; tool arguments are never coerced
+
+_No tool in this batch executed. Re-emit the complete batch with only registered tool names and exact declared JSON arguments._
+```
+</details>
+
+---
+
+### Step 15 [A · c29]: `fit_multi_system`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "systems": [
+    {
+      "label": "EtOH-Water_298K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "mole_fraction_<ethanol>"
+      ],
+      "y_props": [
+        "mass_density_kg_m3"
+      ],
+      "x_vars_constrained": {
+        "temperature_k": {
+          "value": 298.15,
+          "tol": 0.5
+        },
+        "pressure_kpa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5,
+      "mixing_rule": "linear"
+    },
+    {
+      "label": "EtOH-Water_323K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "mole_fraction_<ethanol>"
+      ],
+      "y_props": [
+        "mass_density_kg_m3"
+      ],
+      "x_vars_constrained": {
+        "temperature_k": {
+          "value": 323.15,
+          "tol": 0.5
+        },
+        "pressure_kpa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5,
+      "mixing_rule": "linear"
+    },
+    {
+      "label": "EtOH-Water_348K",
+      "doi": "10.1016/j.fluid.2004.11.019",
+      "block_number": "PROPblock_2",
+      "property_hint": "density",
+      "property_type": "density",
+      "x_vars": [
+        "mole_fraction_<ethanol>"
+      ],
+      "y_props": [
+        "mass_density_kg_m3"
+      ],
+      "x_vars_constrained": {
+        "temperature_k": {
+          "value": 348.15,
+          "tol": 0.5
+        },
+        "pressure_kpa": {
+          "value": 100,
+          "tol": 1
+        }
+      },
+      "max_rk_order": 5,
+      "mixing_rule": "linear"
+    }
+  ],
+  "purpose": "Fit RK density correlations for ethanol+water at 298.15, 323.15, and 348.15 K at atmospheric pressure (100 kPa)",
+  "tasks": "fit_data"
+}
+```
+</details>
+
+- **Result:** 1,616 chars  |  **Time:** 3.9s  |  **Started:** 06:54:58 (t+665.0s)
+
+<details><summary>Result</summary>
+
+```
+**Multi-system RK Fit** — 3 systems
+
+| Label | DOI | Block | Components | Order | R² | RMSE | n pts |
+|-------|-----|-------|------------|-------|----|------|-------|
+| EtOH-Water_298K | GLOBlit_220 / DOI 10.1016/j.fluid.2004.11.019 | PROPblock_2 @ declared | ethanol, water | 3 | 0.997283 | 0.474765 | 47 |
+| EtOH-Water_323K | GLOBlit_220 / DOI 10.1016/j.fluid.2004.11.019 | PROPblock_2 @ declared | ethanol, water | 5 | 0.998545 | 0.434382 | 47 |
+| EtOH-Water_348K | GLOBlit_220 / DOI 10.1016/j.fluid.2004.11.019 | PROPblock_2 @ declared | ethanol, water | 5 | 0.998607 | 0.491146 | 47 |
+
+**EtOH-Water_298K** coeffs: [-120.557, 18.5676, 43.9191, -31.3506]
+Property response: BLKprop_1 / GLOBprop_1; kind=direct; equation=X = reported X; reference_sources=0; units=kg/m3 -> kg/m3.
+  pure values (x = mole_fraction_<ethanol>): ethanol=785.7, water=992.083
+  source: block-edges (water: direct/good, ethanol: direct/good)
+
+**EtOH-Water_323K** coeffs: [-147.182, 39.6057, 7.0175, -0.818149, 43.21, -57.7432]
+Property response: BLKprop_1 / GLOBprop_1; kind=direct; equation=X = reported X; reference_sources=0; units=kg/m3 -> kg/m3.
+  pure values (x = mole_fraction_<ethanol>): ethanol=763.7, water=983.05
+  source: block-edges (water: direct/good, ethanol: direct/good)
+
+**EtOH-Water_348K** coeffs: [-167.86, 50.4515, -18.395, 43.1929, 76.8723, -109.654]
+Property response: BLKprop_1 / GLOBprop_1; kind=direct; equation=X = reported X; reference_sources=0; units=kg/m3 -> kg/m3.
+  pure values (x = mole_fraction_<ethanol>): ethanol=739.4, water=969.467
+  source: block-edges (water: direct/good, ethanol: direct/good)
+
+```
+</details>
+
+**📦 Context compaction** (after step 15, trigger: chars=96268>80000)
+- **Outcome:** skipped_by_agent
+- **Purpose:** I have all three fits completed and am ready to assemble the final answer
+- **Tasks:** SKIP
+- 96,268 → 96,268 chars (−0%)
+
+---
+
+## Nested tool calls — L1_1 (L1-query)
+
+**Nest:** A - L1_1
+**Parent:** `query_thermoml` — Step 1 [A · c5] relays this worker's result
+**Started:** 06:44:01  |  **Ended:** 06:46:33  |  **Tool calls:** 4
+
+---
+
+### Step 1 [A - L1_1 · c1]: `resolve_compound_ids`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "queries": [
+    "ethanol",
+    "water"
+  ],
+  "min_score": 80,
+  "limit": 5,
+  "purpose": "Find GLOBcomp IDs for ethanol and water",
+  "tasks": "Resolve ethanol and water to canonical compound IDs"
+}
+```
+</details>
+
+- **Result:** 195 chars  |  **Time:** 4.1s  |  **Started:** 06:44:06 (t+12.6s)
+- **Subagent:** KEEP in 278 → 195 chars (3.9s)
+  - Both compounds resolved with exact name matches.
+
+| Compound | ID | Formula | SMILES |
+|----------|----|---------|--------|
+| ethanol | GLOBcomp_2 | C2H6O | CCO |
+| water | GLOBcomp_1 | H2O | O |
+
+<details><summary>Result</summary>
+
+```
+Both compounds resolved with exact name matches.
+
+| Compound | ID | Formula | SMILES |
+|----------|----|---------|--------|
+| ethanol | GLOBcomp_2 | C2H6O | CCO |
+| water | GLOBcomp_1 | H2O | O |
+```
+</details>
+
+---
+
+### Step 3 [A - L1_1 · c2]: `search_blocks`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "compound": [
+    "GLOBcomp_2",
+    "GLOBcomp_1"
+  ],
+  "property": "GLOBprop_1",
+  "system_type": "binary",
+  "temperature_range": [
+    330,
+    370
+  ],
+  "limit": 50,
+  "purpose": "Find density data blocks for ethanol-water binary mixtures near 350 K",
+  "tasks": "Search for blocks with both ethanol and water, mass density property, temperature coverage near 350 K"
+}
+```
+</details>
+
+- **Result:** 583 chars  |  **Time:** 15.7s  |  **Started:** 06:44:26 (t+32.2s)
+- **Subagent:** KEEP in 5,356 → 583 chars (15.1s)
+  - **Summary:** Four binary ethanol–water mass density blocks were found. The most relevant for ~350 K are **GLOBlit_1742** (T: 350.7–373.2 K, 84 pts) and **GLOBlit_1483** (T: 292.95–448.15 K, 140 pts). 
+
+<details><summary>Result</summary>
+
+```
+**Summary:** Four binary ethanol–water mass density blocks were found. The most relevant for ~350 K are **GLOBlit_1742** (T: 350.7–373.2 K, 84 pts) and **GLOBlit_1483** (T: 292.95–448.15 K, 140 pts). GLOBlit_220 (810 pts) and GLOBlit_2432 (565 pts) have titles mentioning high temperatures but their RDP-sampled topologies only showed ~298 K; the full datasets likely extend into the 330–370 K range.
+
+| # | GLOBlit | DOI | Block | Pts | T range (K) | P range (kPa) | Composition | Method |
+|---|---------|-----|-------|-----|-------------|---------------|-------------|--------|
+| 1
+```
+</details>
+
+---
+
+### Step 5 [A - L1_1 · c3]: `inspect_block_table`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "PROPblock_1",
+  "literature": "GLOBlit_1742",
+  "purpose": "Ground temperature range and data point count for ethanol-water density block",
+  "tasks": "Return block summary with T range, composition range, and number of data points"
+}
+```
+</details>
+
+- **Result:** 2,349 chars  |  **Time:** 0.1s  |  **Started:** 06:45:01 (t+68.0s)
+
+<details><summary>Result</summary>
+
+```
+**Data inspection** — 10.1016/j.fluid.2015.07.012 [GLOBlit_1742] :: PROPblock_1 (binary: methanol + water)
+filter: none (whole block)
+
+| BLKpoint_id | temperature_k | pressure_kpa | mole_fraction_<methanol> | mass_density_kg_m3 |
+|---|---|---|---|---|
+| BLKpoint_1 | 350.7 | 10000 | 0.1 | 945.55 |
+| BLKpoint_4 | 350.7 | 10000 | 0.4 | 865.13 |
+| BLKpoint_6 | 350.7 | 10000 | 0.8 | 780.91 |
+| BLKpoint_7 | 350.7 | 20000 | 0.1 | 949.82 |
+| BLKpoint_10 | 350.7 | 20000 | 0.4 | 870.55 |
+| BLKpoint_12 | 350.7 | 20000 | 0.8 | 789.25 |
+| BLKpoint_13 | 350.7 | 30000 | 0.1 | 954.11 |
+| BLKpoint_16 | 350.7 | 30000 | 0.4 | 876.99 |
+| BLKpoint_18 | 350.7 | 30000 | 0.8 | 797.6 |
+| BLKpoint_19 | 350.7 | 40000 | 0.1 | 958.39 |
+| BLKpoint_22 | 350.7 | 40000 | 0.4 | 882.71 |
+| BLKpoint_24 | 350.7 | 40000 | 0.8 | 805.96 |
+| BLKpoint_25 | 373.2 | 10000 | 0.1 | 928.71 |
+| BLKpoint_29 | 373.2 | 10000 | 0.6 | 799.33 |
+| BLKpoint_31 | 373.2 | 10000 | 1 | 725.29 |
+| BLKpoint_32 | 373.2 | 20000 | 0.1 | 932.78 |
+| BLKpoint_36 | 373.2 | 20000 | 0.6 | 807.98 |
+| BLKpoint_38 | 373.2 | 20000 | 1 | 737.85 |
+| BLKpoint_39 | 373.2 | 30000 | 0.1 | 939.53 |
+| BLKpoint_42 | 373.2 | 30000 | 0.4 | 858.91 |
+| BLKpoint_45 | 373.2 | 30000 | 1 | 748.83 |
+| BLKpoint_46 | 373.2 | 40000 | 0.1 | 943.52 |
+| BLKpoint_50 | 373.2 | 40000 | 0.6 | 823.64 |
+| BLKpoint_52 | 373.2 | 40000 | 1 | 758.66 |
+| BLKpoint_53 | 476.2 | 10000 | 0.1 | 822.65 |
+| BLKpoint_56 | 476.2 | 10000 | 0.4 | 714.67 |
+| BLKpoint_59 | 476.2 | 10000 | 1 | 576.84 |
+| BLKpoint_60 | 476.2 | 20000 | 0.1 | 831.4 |
+| BLKpoint_63 | 476.2 | 20000 | 0.4 | 730.97 |
+| BLKpoint_66 | 476.2 | 20000 | 1 | 612.56 |
+| BLKpoint_67 | 476.2 | 30000 | 0.1 | 838.61 |
+| BLKpoint_70 | 476.2 | 30000 | 0.4 | 744.11 |
+| BLKpoint_73 | 476.2 | 30000 | 1 | 636.82 |
+| BLKpoint_74 | 476.2 | 40000 | 0.1 | 845.82 |
+| BLKpoint_77 | 476.2 | 40000 | 0.4 | 754.89 |
+| BLKpoint_80 | 476.2 | 40000 | 1 | 655.67 |
+
+mode: RDP — 36 of 80 matched rows shown (shape-preserving; block has 80). Quote ONLY shown rows or the stats line; narrow `where` for other rows.
+stats (matched, n=80): temperature_k 350.7–476.2 (n=80); pressure_kpa 10000–40000 (n=80); mole_fraction_methanol 0.1–1 (n=80); mass_density_kg_m3 576.84–958.39 (n=80)
+inspection_id: INSP_da246e84fdf8
+Data points may be quoted ONLY verbatim from the table above or the stats lines.
+```
+</details>
+
+---
+
+### Step 7 [A - L1_1 · c4]: `inspect_block_table`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "PROPblock_1",
+  "literature": "GLOBlit_1483",
+  "purpose": "Verify this is ethanol+water density data and check temperature coverage near 350 K",
+  "tasks": "Inspect block composition and data"
+}
+```
+</details>
+
+- **Result:** 7,190 chars  |  **Time:** 0.2s  |  **Started:** 06:45:14 (t+80.7s)
+
+<details><summary>Result</summary>
+
+```
+**Data inspection** — 10.1016/j.fluid.2014.05.032 [GLOBlit_1483] :: PROPblock_1 (binary: ethanol + water)
+filter: none (whole block)
+
+| BLKpoint_id | pressure_kpa | temperature_k | mole_fraction_<ethanol> | mass_density_kg_m3 |
+|---|---|---|---|---|
+| BLKpoint_1 | 39170 | 297.05 | 0.0163 | 1006.1 |
+| BLKpoint_2 | 30810 | 297.05 | 0.0163 | 1003.2 |
+| BLKpoint_3 | 21070 | 297.05 | 0.0163 | 997.5 |
+| BLKpoint_4 | 11280 | 297.05 | 0.0163 | 993.5 |
+| BLKpoint_5 | 2490 | 297.05 | 0.0163 | 990.8 |
+| BLKpoint_6 | 38480 | 323.15 | 0.0163 | 995.2 |
+| BLKpoint_7 | 30890 | 323.15 | 0.0163 | 992.3 |
+| BLKpoint_8 | 21080 | 323.15 | 0.0163 | 988.4 |
+| BLKpoint_9 | 11390 | 323.15 | 0.0163 | 984.4 |
+| BLKpoint_10 | 2570 | 323.15 | 0.0163 | 980.6 |
+| BLKpoint_11 | 39910 | 348.15 | 0.0163 | 982.3 |
+| BLKpoint_12 | 29500 | 348.15 | 0.0163 | 978.3 |
+| BLKpoint_13 | 20750 | 348.15 | 0.0163 | 974.7 |
+| BLKpoint_14 | 10980 | 348.15 | 0.0163 | 970.6 |
+| BLKpoint_15 | 3220 | 348.15 | 0.0163 | 967.1 |
+| BLKpoint_16 | 35700 | 373.15 | 0.0163 | 964.6 |
+| BLKpoint_17 | 30600 | 373.15 | 0.0163 | 962.5 |
+| BLKpoint_18 | 21160 | 373.15 | 0.0163 | 958.3 |
+| BLKpoint_19 | 11320 | 373.15 | 0.0163 | 953.8 |
+| BLKpoint_20 | 3370 | 373.15 | 0.0163 | 950.2 |
+| BLKpoint_21 | 39890 | 398.15 | 0.0163 | 948 |
+| BLKpoint_22 | 30790 | 398.15 | 0.0163 | 943.7 |
+| BLKpoint_23 | 21360 | 398.15 | 0.0163 | 939.3 |
+| BLKpoint_24 | 11630 | 398.15 | 0.0163 | 934.4 |
+| BLKpoint_25 | 3710 | 398.15 | 0.0163 | 930.3 |
+| BLKpoint_26 | 39560 | 423.15 | 0.0163 | 927.2 |
+| BLKpoint_27 | 30570 | 423.15 | 0.0163 | 922.4 |
+| BLKpoint_28 | 20970 | 423.15 | 0.0163 | 917 |
+| BLKpoint_29 | 10170 | 423.15 | 0.0163 | 911 |
+| BLKpoint_30 | 2680 | 423.15 | 0.0163 | 906.7 |
+| BLKpoint_31 | 38340 | 448.15 | 0.0163 | 903.5 |
+| BLKpoint_32 | 31050 | 448.15 | 0.0163 | 899.4 |
+| BLKpoint_33 | 21530 | 448.15 | 0.0163 | 893.7 |
+| BLKpoint_34 | 11920 | 448.15 | 0.0163 | 887.5 |
+| BLKpoint_35 | 3960 | 448.15 | 0.0163 | 882.3 |
+| BLKpoint_36 | 39230 | 292.95 | 0.073 | 988 |
+| BLKpoint_37 | 30930 | 292.95 | 0.073 | 985 |
+| BLKpoint_38 | 21120 | 292.95 | 0.073 | 981.2 |
+| BLKpoint_39 | 11320 | 292.95 | 0.073 | 977.6 |
+| BLKpoint_40 | 2450 | 292.95 | 0.073 | 974.2 |
+| BLKpoint_41 | 38600 | 323.15 | 0.073 | 973.6 |
+| BLKpoint_42 | 30360 | 323.15 | 0.073 | 970.6 |
+| BLKpoint_43 | 20790 | 323.15 | 0.073 | 966.7 |
+| BLKpoint_44 | 10940 | 323.15 | 0.073 | 962.8 |
+| BLKpoint_45 | 2610 | 323.15 | 0.073 | 959.3 |
+| BLKpoint_46 | 39600 | 348.15 | 0.073 | 958.9 |
+| BLKpoint_48 | 20870 | 348.15 | 0.073 | 950.8 |
+| BLKpoint_49 | 11060 | 348.15 | 0.073 | 946.6 |
+| BLKpoint_50 | 3330 | 348.15 | 0.073 | 943 |
+| BLKpoint_51 | 37230 | 373.15 | 0.073 | 939.9 |
+| BLKpoint_52 | 30670 | 373.15 | 0.073 | 937 |
+| BLKpoint_53 | 21080 | 373.15 | 0.073 | 932.5 |
+| BLKpoint_54 | 11320 | 373.15 | 0.073 | 927.7 |
+| BLKpoint_55 | 3510 | 373.15 | 0.073 | 923.9 |
+| BLKpoint_56 | 39500 | 398.15 | 0.073 | 920.7 |
+| BLKpoint_57 | 30790 | 398.15 | 0.073 | 916.3 |
+| BLKpoint_58 | 21160 | 398.15 | 0.073 | 911.4 |
+| BLKpoint_59 | 11510 | 398.15 | 0.073 | 906.2 |
+| BLKpoint_60 | 3710 | 398.15 | 0.073 | 901.9 |
+| BLKpoint_61 | 40110 | 423.15 | 0.073 | 898.6 |
+| BLKpoint_62 | 30490 | 423.15 | 0.073 | 893 |
+| BLKpoint_63 | 20110 | 423.15 | 0.073 | 887.1 |
+| BLKpoint_64 | 10710 | 423.15 | 0.073 | 881.1 |
+| BLKpoint_65 | 2760 | 423.15 | 0.073 | 875.9 |
+| BLKpoint_66 | 37210 | 448.15 | 0.073 | 873 |
+| BLKpoint_67 | 31170 | 448.15 | 0.073 | 869.2 |
+| BLKpoint_68 | 21690 | 448.15 | 0.073 | 862.7 |
+| BLKpoint_69 | 12160 | 448.15 | 0.073 | 855.6 |
+| BLKpoint_70 | 4000 | 448.15 | 0.073 | 849.3 |
+| BLKpoint_71 | 40030 | 298.15 | 0.0946 | 979.8 |
+| BLKpoint_72 | 29980 | 298.15 | 0.0946 | 976.1 |
+| BLKpoint_73 | 20060 | 298.15 | 0.0946 | 972.4 |
+| BLKpoint_74 | 10120 | 298.15 | 0.0946 | 968.6 |
+| BLKpoint_75 | 2560 | 298.15 | 0.0946 | 965.8 |
+| BLKpoint_76 | 39810 | 323.15 | 0.0946 | 966.2 |
+| BLKpoint_77 | 32400 | 323.15 | 0.0946 | 963.3 |
+| BLKpoint_78 | 20710 | 323.15 | 0.0946 | 958.8 |
+| BLKpoint_79 | 11140 | 323.15 | 0.0946 | 954.9 |
+| BLKpoint_80 | 2730 | 323.15 | 0.0946 | 951.3 |
+| BLKpoint_81 | 37790 | 348.15 | 0.0946 | 948.7 |
+| BLKpoint_82 | 29730 | 348.15 | 0.0946 | 945.4 |
+| BLKpoint_83 | 20870 | 348.15 | 0.0946 | 941.6 |
+| BLKpoint_84 | 11390 | 348.15 | 0.0946 | 937.4 |
+| BLKpoint_85 | 2730 | 348.15 | 0.0946 | 933.7 |
+| BLKpoint_86 | 39410 | 373.15 | 0.0946 | 927.3 |
+| BLKpoint_87 | 30850 | 373.15 | 0.0946 | 922.3 |
+| BLKpoint_88 | 21200 | 373.15 | 0.0946 | 917.7 |
+| BLKpoint_90 | 3330 | 373.15 | 0.0946 | 908.6 |
+| BLKpoint_91 | 39610 | 398.15 | 0.0946 | 905.3 |
+| BLKpoint_92 | 30850 | 398.15 | 0.0946 | 901.1 |
+| BLKpoint_93 | 21200 | 398.15 | 0.0946 | 896 |
+| BLKpoint_94 | 11430 | 398.15 | 0.0946 | 890.4 |
+| BLKpoint_95 | 3510 | 398.15 | 0.0946 | 885.8 |
+| BLKpoint_96 | 39860 | 423.15 | 0.0946 | 882.2 |
+| BLKpoint_97 | 30100 | 423.15 | 0.0946 | 875.5 |
+| BLKpoint_98 | 20200 | 423.15 | 0.0946 | 869.5 |
+| BLKpoint_99 | 10050 | 423.15 | 0.0946 | 863.9 |
+| BLKpoint_100 | 2750 | 423.15 | 0.0946 | 860.1 |
+| BLKpoint_101 | 40140 | 448.15 | 0.0946 | 858.6 |
+| BLKpoint_102 | 30990 | 448.15 | 0.0946 | 852.6 |
+| BLKpoint_103 | 21690 | 448.15 | 0.0946 | 845.8 |
+| BLKpoint_104 | 11550 | 448.15 | 0.0946 | 837.9 |
+| BLKpoint_105 | 3860 | 448.15 | 0.0946 | 831.7 |
+| BLKpoint_106 | 39150 | 298.35 | 0.0343 | 998.6 |
+| BLKpoint_107 | 31040 | 298.35 | 0.0343 | 995.7 |
+| BLKpoint_108 | 21300 | 298.35 | 0.0343 | 991.9 |
+| BLKpoint_110 | 2590 | 298.35 | 0.0343 | 984.1 |
+| BLKpoint_112 | 30930 | 323.65 | 0.0343 | 985.2 |
+| BLKpoint_113 | 21200 | 323.65 | 0.0343 | 981.4 |
+| BLKpoint_114 | 11320 | 323.65 | 0.0343 | 977.4 |
+| BLKpoint_115 | 2610 | 323.65 | 0.0343 | 973.6 |
+| BLKpoint_116 | 39860 | 348.15 | 0.0343 | 974.7 |
+| BLKpoint_117 | 30850 | 348.15 | 0.0343 | 971.3 |
+| BLKpoint_118 | 21160 | 348.15 | 0.0343 | 967.5 |
+| BLKpoint_119 | 11590 | 348.15 | 0.0343 | 963.5 |
+| BLKpoint_121 | 39000 | 373.15 | 0.0343 | 957.9 |
+| BLKpoint_122 | 30520 | 373.15 | 0.0343 | 954.5 |
+| BLKpoint_123 | 21120 | 373.15 | 0.0343 | 950.3 |
+| BLKpoint_124 | 11470 | 373.15 | 0.0343 | 945.9 |
+| BLKpoint_126 | 37300 | 398.15 | 0.0343 | 938.3 |
+| BLKpoint_127 | 30930 | 398.15 | 0.0343 | 935.2 |
+| BLKpoint_128 | 21530 | 398.15 | 0.0343 | 930.7 |
+| BLKpoint_129 | 11730 | 398.15 | 0.0343 | 925.8 |
+| BLKpoint_131 | 39680 | 423.15 | 0.0343 | 918.2 |
+| BLKpoint_132 | 30640 | 423.15 | 0.0343 | 913.4 |
+| BLKpoint_133 | 21070 | 423.15 | 0.0343 | 908.1 |
+| BLKpoint_135 | 2680 | 423.15 | 0.0343 | 897.3 |
+| BLKpoint_136 | 40060 | 448.15 | 0.0343 | 894.8 |
+| BLKpoint_137 | 31010 | 448.15 | 0.0343 | 889.8 |
+| BLKpoint_138 | 22180 | 448.15 | 0.0343 | 884.2 |
+| BLKpoint_140 | 4080 | 448.15 | 0.0343 | 872.1 |
+
+mode: RDP — 131 of 140 matched rows shown (shape-preserving; block has 140). Quote ONLY shown rows or the stats line; narrow `where` for other rows.
+stats (matched, n=140): pressure_kpa 2450–40140 (n=140); temperature_k 292.95–448.15 (n=140); mole_fraction_ethanol 0.0163–0.0946 (n=140); mass_density_kg_m3 831.7–1006.1 (n=140)
+inspection_id: INSP_51f9b5335a8a
+Data points may be quoted ONLY verbatim from the table above or the stats lines.
+```
+</details>
+
+---
+
+## Nested tool calls — L1_2 (L1-query)
+
+**Nest:** A - L1_2
+**Parent:** `query_thermoml_parallel` — Step 5 [A · c19] relays this worker's result
+**Started:** 06:47:37  |  **Ended:** 06:52:34  |  **Tool calls:** 6
+
+---
+
+### Step 2 [A - L1_2 · c13]: `search_blocks`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "compound": [
+    "GLOBcomp_2",
+    "GLOBcomp_1"
+  ],
+  "property": "GLOBprop_1",
+  "system_type": "binary",
+  "pressure_range": [
+    90,
+    110
+  ],
+  "limit": 50,
+  "purpose": "Find binary ethanol+water mass density blocks at atmospheric pressure",
+  "tasks": "Search for blocks with wide composition coverage near 298-353 K"
+}
+```
+</details>
+
+- **Result:** 2,046 chars  |  **Time:** 44.3s  |  **Started:** 06:47:51 (t+238.0s)
+- **Subagent:** KEEP in 12,670 → 1,923 chars (37.1s)
+  - **Summary:** 20 binary ethanol+water mass density blocks found at ~101 kPa. The best candidates for wide composition coverage near 298–353 K are the large datasets from `10.1016/j.fluid.2004.11.019`, 
+
+<details><summary>Result</summary>
+
+```
+**Summary:** 20 binary ethanol+water mass density blocks found at ~101 kPa. The best candidates for wide composition coverage near 298–353 K are the large datasets from `10.1016/j.fluid.2004.11.019 [GLOBlit_220]`, `10.1016/j.jct.2018.02.022 [GLOBlit_5201]`, `10.1016/j.jct.2007.05.004 [GLOBlit_2825]`, `10.1021/je060335h [GLOBlit_9006]`, `10.1021/je700300y [GLOBlit_10866]`, and `10.1021/je800150h [GLOBlit_11136]`.
+
+**Top blocks ranked by composition coverage and T-range relevance:**
+
+| Rank | DOI | Block | GLOBlit | Pts | T (K) | Composition range | ρ (kg/m³) |
+|------|-----|-------|---------|-----|--------|-------------------|-----------|
+| 1 | 10.1016/j.fluid.2004.11.019 | PROPblock_2 | GLOBlit_220 | 810 | 298.15 | x(ethanol) 0.003–0.7996 | 810.9–995.3 |
+| 2 | 10.1016/j.jct.2018.02.022 | PROPblock_19 | GLOBlit_5201 | 244 | 293.15–298.15 | x(ethanol) 0.0024–0.9895 | 791.076–997.039 |
+| 3 | 10.1016/j.jct.2007.05.004 | PROPblock_12 | GLOBlit_2825 | 37 | 293.15–303.15 | x(water) 0–1 | 781.15–998.2 |
+| 4 | 10.1021/je060335h | PROPblock_1 | GLOBlit_9006 | 164 | 283.15–288.15 | x(ethanol) 0–1 | 797.93–999.7 |
+| 5 | 10.1021/je700300y | PROPblock_7 | GLOBlit_10866 | 84 | 283.15–303.15 | x(water) 0.0805–0.9605 | 790.85–984.04 |
+| 6 | 10.1021/je800150h | PROPblock_9 | GLOBlit_11136 | 108 | 268.1–323.15 | x(water) 0.1–0.5 | 774.3–886.6 |
+| 7 | 10.1021/je600565m | PROPblock_6 | GLOBlit_10699 | 18 | 298.15–318.15 | x(water) 0.0998–0.9051 | 780.53–965.51 |
+| 8 | 10.1021/je700618y | PROPblock_9 | GLOBlit_11005 | 15 | fixed T | x(water) 0.048–0.9481 | 791.06–976.77 |
+| 9 | 10.1016/j.jct.2019.02.027 | PROPblock_21 | GLOBlit_5473 | 9 | fixed T | x(ethanol) 0–1 | 785.5–997.1 |
+
+**Notes:** None of the returned blocks extend to 353 K. The highest T coverage is `10.1021/je800150h [GLOBlit_11136]` (up to 323.15 K) and `10.1021/je800942u [GLOBlit_11459]` (up to 328.15 K, but narrow composition w(water) 0.15–0.25). A follow-up search with a broader or higher temperature range (e.g., 320–360 K) may be needed to find data closer to 353 K.
+```
+</details>
+
+---
+
+### Step 3 [A - L1_2 · c14]: `search_blocks`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "compound": [
+    "GLOBcomp_2",
+    "GLOBcomp_1"
+  ],
+  "property": "GLOBprop_1",
+  "system_type": "binary",
+  "temperature_range": [
+    320,
+    360
+  ],
+  "limit": 30,
+  "purpose": "Find ethanol+water density blocks at higher temperatures (320-360 K)",
+  "tasks": "Search for binary ethanol+water mass density blocks in the 320-360 K range to find data closer to 353 K"
+}
+```
+</details>
+
+- **Result:** 2,120 chars  |  **Time:** 46.3s  |  **Started:** 06:48:46 (t+292.4s)
+- **Subagent:** KEEP in 9,438 → 2,120 chars (40.5s)
+  - **Summary:** 7 binary ethanol+water mass density blocks found in the 320–360 K search window. The two most relevant for ~353 K are **GLOBlit_1742** (T: 350.7–373.2 K, 84 pts, elevated pressures 10–40 
+
+<details><summary>Result</summary>
+
+```
+**Summary:** 7 binary ethanol+water mass density blocks found in the 320–360 K search window. The two most relevant for ~353 K are **GLOBlit_1742** (T: 350.7–373.2 K, 84 pts, elevated pressures 10–40 MPa) and **GLOBlit_1483** (T: 292.95–448.15 K, 140 pts, pressures 2.45–39.9 MPa). Both cover the target temperature but at high pressures rather than atmospheric.
+
+| # | DOI | Block | GLOBlit | Pts | T range (K) | P range (kPa) | Composition var | Notes |
+|---|-----|-------|---------|-----|-------------|----------------|-----------------|-------|
+| 1 | 10.1016/j.fluid.2015.07.012 | PROPblock_3 | GLOBlit_1742 | 84 | 350.7–373.2 | 10000–40000 | x(ethanol): 0.1–1.0 | Best T match to 353 K; high P only |
+| 2 | 10.1016/j.fluid.2014.05.032 | PROPblock_1 | GLOBlit_1483 | 140 | 292.95–448.15 | 2450–39910 | x(ethanol): 0.0163–0.073 | Wide T range covers 353 K; high P; dilute ethanol |
+| 3 | 10.1016/j.fluid.2004.11.019 | PROPblock_2 | GLOBlit_220 | 810 | 298.15–298.15* | 100–100* | x(ethanol): 0.003–0.7996 | Sampled topology shows only 298 K; may have more T in full data |
+| 4 | 10.1016/j.jct.2004.07.019 | PROPblock_2 | GLOBlit_2432 | 565 | 298.15–298.18* | 410–29930 | molality: 0.097–0.943 | Sampled at ~298 K; full data may extend higher |
+| 5 | 10.1021/je800150h | PROPblock_9 | GLOBlit_11136 | 108 | 268.1–323.15 | 101 (fixed) | x(water): 0.1–0.5 | Max T = 323.15 K, below target |
+| 6 | 10.1021/je800942u | PROPblock_6 | GLOBlit_11459 | 18 | 303.15–328.15 | 101 (fixed) | w(water): 0.15–0.25 | Max T = 328.15 K, below target |
+| 7 | 10.1021/je900064e | PROPblock_6 | GLOBlit_11504 | 10 | monotonic↓ | 101 (fixed) | φ(ethanol) = 0.5 fixed | T range not explicit; likely ≤323 K |
+
+*Sampled topology shows limited T; full dataset (810/565 pts) likely spans wider range.
+
+**Key finding:** No atmospheric-pressure block clearly covers 353 K. GLOBlit_1742 (PROPblock_3) is the closest match at 350.7 K but only at elevated pressures (≥10 MPa). GLOBlit_220 and GLOBlit_2432 have large point counts and may contain higher-T data not visible in the 50-pt sample—retrieving their full data could reveal 320–360 K points.
+```
+</details>
+
+---
+
+### Step 4 [A - L1_2 · c15]: `inspect_block_table`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "PROPblock_2",
+  "literature": "GLOBlit_220",
+  "purpose": "Check full T and composition coverage of this 810-point ethanol+water density block",
+  "tasks": "Determine if data extends beyond 298 K and verify composition range"
+}
+```
+</details>
+
+- **Result:** 4,222 chars  |  **Time:** 0.2s  |  **Started:** 06:49:41 (t+348.0s)
+
+<details><summary>Result</summary>
+
+```
+**Data inspection** — 10.1016/j.fluid.2004.11.019 [GLOBlit_220] :: PROPblock_2 (binary: ethanol + water)
+filter: none (whole block)
+
+| BLKpoint_id | temperature_k | pressure_kpa | mole_fraction_<ethanol> | mass_density_kg_m3 |
+|---|---|---|---|---|
+| BLKpoint_1 | 298.15 | 100 | 0.003 | 995.3 |
+| BLKpoint_43 | 298.15 | 100 | 0.4501 | 868.8 |
+| BLKpoint_48 | 298.15 | 100 | 0.6967 | 825.2 |
+| BLKpoint_54 | 298.15 | 100 | 1 | 785.7 |
+| BLKpoint_55 | 298.15 | 10000 | 0.003 | 999.8 |
+| BLKpoint_97 | 298.15 | 10000 | 0.4501 | 874.7 |
+| BLKpoint_102 | 298.15 | 10000 | 0.6967 | 832.3 |
+| BLKpoint_108 | 298.15 | 10000 | 1 | 794 |
+| BLKpoint_109 | 298.15 | 20000 | 0.003 | 1004.2 |
+| BLKpoint_151 | 298.15 | 20000 | 0.4501 | 880.4 |
+| BLKpoint_156 | 298.15 | 20000 | 0.6967 | 839 |
+| BLKpoint_162 | 298.15 | 20000 | 1 | 801.9 |
+| BLKpoint_163 | 298.15 | 30000 | 0.003 | 1008.5 |
+| BLKpoint_199 | 298.15 | 30000 | 0.2269 | 938.7 |
+| BLKpoint_205 | 298.15 | 30000 | 0.4501 | 885.7 |
+| BLKpoint_210 | 298.15 | 30000 | 0.6967 | 845.1 |
+| BLKpoint_216 | 298.15 | 30000 | 1 | 808.9 |
+| BLKpoint_217 | 298.15 | 40000 | 0.003 | 1012.7 |
+| BLKpoint_253 | 298.15 | 40000 | 0.2269 | 942.9 |
+| BLKpoint_259 | 298.15 | 40000 | 0.4501 | 890.8 |
+| BLKpoint_264 | 298.15 | 40000 | 0.6967 | 851 |
+| BLKpoint_270 | 298.15 | 40000 | 1 | 815.7 |
+| BLKpoint_271 | 323.15 | 100 | 0.003 | 986.5 |
+| BLKpoint_307 | 323.15 | 100 | 0.2269 | 905.2 |
+| BLKpoint_313 | 323.15 | 100 | 0.4501 | 846.7 |
+| BLKpoint_318 | 323.15 | 100 | 0.6967 | 802.8 |
+| BLKpoint_324 | 323.15 | 100 | 1 | 763.7 |
+| BLKpoint_325 | 323.15 | 10000 | 0.003 | 990.8 |
+| BLKpoint_361 | 323.15 | 10000 | 0.2269 | 910.3 |
+| BLKpoint_367 | 323.15 | 10000 | 0.4501 | 853.3 |
+| BLKpoint_372 | 323.15 | 10000 | 0.6967 | 810.9 |
+| BLKpoint_378 | 323.15 | 10000 | 1 | 773.4 |
+| BLKpoint_379 | 323.15 | 20000 | 0.003 | 994.9 |
+| BLKpoint_415 | 323.15 | 20000 | 0.2269 | 915.3 |
+| BLKpoint_421 | 323.15 | 20000 | 0.4501 | 859.7 |
+| BLKpoint_426 | 323.15 | 20000 | 0.6967 | 818.4 |
+| BLKpoint_432 | 323.15 | 20000 | 1 | 782.3 |
+| BLKpoint_433 | 323.15 | 30000 | 0.003 | 999 |
+| BLKpoint_469 | 323.15 | 30000 | 0.2269 | 920.1 |
+| BLKpoint_475 | 323.15 | 30000 | 0.4501 | 865.7 |
+| BLKpoint_480 | 323.15 | 30000 | 0.6967 | 825.4 |
+| BLKpoint_486 | 323.15 | 30000 | 1 | 790.3 |
+| BLKpoint_487 | 323.15 | 40000 | 0.003 | 1003.1 |
+| BLKpoint_523 | 323.15 | 40000 | 0.2269 | 924.7 |
+| BLKpoint_529 | 323.15 | 40000 | 0.4501 | 871.3 |
+| BLKpoint_534 | 323.15 | 40000 | 0.6967 | 831.9 |
+| BLKpoint_540 | 323.15 | 40000 | 1 | 797.7 |
+| BLKpoint_541 | 348.15 | 100 | 0.003 | 973.1 |
+| BLKpoint_575 | 348.15 | 100 | 0.1903 | 895.8 |
+| BLKpoint_582 | 348.15 | 100 | 0.4034 | 833.4 |
+| BLKpoint_587 | 348.15 | 100 | 0.6489 | 785.6 |
+| BLKpoint_594 | 348.15 | 100 | 1 | 739.4 |
+| BLKpoint_595 | 348.15 | 10000 | 0.003 | 977.5 |
+| BLKpoint_630 | 348.15 | 10000 | 0.1996 | 898.1 |
+| BLKpoint_636 | 348.15 | 10000 | 0.4034 | 840.7 |
+| BLKpoint_641 | 348.15 | 10000 | 0.6489 | 794.6 |
+| BLKpoint_648 | 348.15 | 10000 | 1 | 751.2 |
+| BLKpoint_649 | 348.15 | 20000 | 0.003 | 981.9 |
+| BLKpoint_683 | 348.15 | 20000 | 0.1903 | 906.5 |
+| BLKpoint_690 | 348.15 | 20000 | 0.4034 | 847.5 |
+| BLKpoint_695 | 348.15 | 20000 | 0.6489 | 802.9 |
+| BLKpoint_702 | 348.15 | 20000 | 1 | 761.2 |
+| BLKpoint_703 | 348.15 | 30000 | 0.003 | 986.1 |
+| BLKpoint_738 | 348.15 | 30000 | 0.1996 | 908.5 |
+| BLKpoint_744 | 348.15 | 30000 | 0.4034 | 854 |
+| BLKpoint_749 | 348.15 | 30000 | 0.6489 | 810.6 |
+| BLKpoint_756 | 348.15 | 30000 | 1 | 770.3 |
+| BLKpoint_757 | 348.15 | 40000 | 0.003 | 990.1 |
+| BLKpoint_791 | 348.15 | 40000 | 0.1903 | 916.4 |
+| BLKpoint_798 | 348.15 | 40000 | 0.4034 | 860 |
+| BLKpoint_803 | 348.15 | 40000 | 0.6489 | 817.8 |
+| BLKpoint_810 | 348.15 | 40000 | 1 | 778.6 |
+
+mode: RDP — 72 of 810 matched rows shown (shape-preserving; block has 810). Quote ONLY shown rows or the stats line; narrow `where` for other rows.
+stats (matched, n=810): temperature_k 298.15–348.15 (n=810); pressure_kpa 100–40000 (n=810); mole_fraction_ethanol 0.003–1 (n=810); mass_density_kg_m3 739.4–1012.7 (n=810)
+inspection_id: INSP_38392edfd29c
+Data points may be quoted ONLY verbatim from the table above or the stats lines.
+```
+</details>
+
+---
+
+### Step 5 [A - L1_2 · c16]: `inspect_block_table`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "PROPblock_2",
+  "literature": "GLOBlit_220",
+  "where": "pressure_kpa = 100",
+  "purpose": "Get all atmospheric-pressure data points from GLOBlit_220 to see full composition coverage at each temperature",
+  "tasks": "List all rows at P=100 kPa showing T, x(ethanol), and density"
+}
+```
+</details>
+
+- **Result:** 1,572 chars  |  **Time:** 0.1s  |  **Started:** 06:49:56 (t+362.4s)
+
+<details><summary>Result</summary>
+
+```
+**Data inspection** — 10.1016/j.fluid.2004.11.019 [GLOBlit_220] :: PROPblock_2 (binary: ethanol + water)
+filter: where pressure_kpa = 100
+
+| BLKpoint_id | temperature_k | pressure_kpa | mole_fraction_<ethanol> | mass_density_kg_m3 |
+|---|---|---|---|---|
+| BLKpoint_1 | 298.15 | 100 | 0.003 | 995.3 |
+| BLKpoint_38 | 298.15 | 100 | 0.2502 | 918.5 |
+| BLKpoint_43 | 298.15 | 100 | 0.4501 | 868.8 |
+| BLKpoint_48 | 298.15 | 100 | 0.6967 | 825.2 |
+| BLKpoint_54 | 298.15 | 100 | 1 | 785.7 |
+| BLKpoint_271 | 323.15 | 100 | 0.003 | 986.5 |
+| BLKpoint_307 | 323.15 | 100 | 0.2269 | 905.2 |
+| BLKpoint_313 | 323.15 | 100 | 0.4501 | 846.7 |
+| BLKpoint_318 | 323.15 | 100 | 0.6967 | 802.8 |
+| BLKpoint_324 | 323.15 | 100 | 1 | 763.7 |
+| BLKpoint_541 | 348.15 | 100 | 0.003 | 973.1 |
+| BLKpoint_575 | 348.15 | 100 | 0.1903 | 895.8 |
+| BLKpoint_582 | 348.15 | 100 | 0.4034 | 833.4 |
+| BLKpoint_587 | 348.15 | 100 | 0.6489 | 785.6 |
+| BLKpoint_594 | 348.15 | 100 | 1 | 739.4 |
+
+mode: RDP — 15 of 162 matched rows shown (shape-preserving; block has 810). Quote ONLY shown rows or the stats line; narrow `where` for other rows.
+stats (matched, n=162): temperature_k 298.15–348.15 (n=162); pressure_kpa 100–100 (n=162); mole_fraction_ethanol 0.003–1 (n=162); mass_density_kg_m3 739.4–995.3 (n=162)
+stats (full block, n=810): temperature_k 298.15–348.15 (n=810); pressure_kpa 100–40000 (n=810); mole_fraction_ethanol 0.003–1 (n=810); mass_density_kg_m3 739.4–1012.7 (n=810)
+inspection_id: INSP_13b9dbeeee1e
+Data points may be quoted ONLY verbatim from the table above or the stats lines.
+```
+</details>
+
+---
+
+### Step 8 [A - L1_2 · c17]: `inspect_block_table`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "GLOBlit_5201::PROPblock_19",
+  "purpose": "Verify composition and temperature coverage for ethanol+water density block",
+  "tasks": "Return stats for this block"
+}
+```
+</details>
+
+- **Result:** 1,805 chars  |  **Time:** 0.2s  |  **Started:** 06:51:26 (t+452.2s)
+
+<details><summary>Result</summary>
+
+```
+**Data inspection** — 10.1016/j.jct.2018.02.022 [GLOBlit_5201] :: PROPblock_19 (binary: ethanol + water)
+filter: none (whole block)
+block constraints: pressure_kpa = 92.3
+
+| BLKpoint_id | temperature_k | mole_fraction_<ethanol> | pressure_kpa | mass_density_kg_m3 |
+|---|---|---|---|---|
+| BLKpoint_1 | 293.15 | 0.0024 | 92.3 | 997.039 |
+| BLKpoint_23 | 293.15 | 0.7006 | 92.3 | 829.434 |
+| BLKpoint_59 | 298.15 | 0.7006 | 92.3 | 825.07 |
+| BLKpoint_95 | 303.15 | 0.7006 | 92.3 | 820.66 |
+| BLKpoint_131 | 308.15 | 0.7006 | 92.3 | 816.2 |
+| BLKpoint_145 | 293.15 | 0 | 92.3 | 998.429 |
+| BLKpoint_146 | 298.15 | 0 | 92.3 | 997.267 |
+| BLKpoint_147 | 303.15 | 0 | 92.3 | 995.867 |
+| BLKpoint_148 | 308.15 | 0 | 92.3 | 994.252 |
+| BLKpoint_149 | 293.15 | 1 | 92.3 | 789.547 |
+| BLKpoint_150 | 298.15 | 1 | 92.3 | 785.26 |
+| BLKpoint_151 | 303.15 | 1 | 92.3 | 780.941 |
+| BLKpoint_152 | 308.15 | 1 | 92.3 | 776.592 |
+| BLKpoint_160 | 293.15 | 0.1984 | 92.3 | 935.19 |
+| BLKpoint_165 | 293.15 | 0.4495 | 92.3 | 873.57 |
+| BLKpoint_183 | 298.15 | 0.1984 | 92.3 | 931.84 |
+| BLKpoint_188 | 298.15 | 0.4495 | 92.3 | 869.34 |
+| BLKpoint_206 | 303.15 | 0.1984 | 92.3 | 928.77 |
+| BLKpoint_211 | 303.15 | 0.4495 | 92.3 | 865.03 |
+| BLKpoint_229 | 308.15 | 0.1984 | 92.3 | 925.04 |
+| BLKpoint_234 | 308.15 | 0.4495 | 92.3 | 860.66 |
+| BLKpoint_244 | 308.15 | 0.929 | 92.3 | 785.46 |
+
+mode: RDP — 22 of 244 matched rows shown (shape-preserving; block has 244). Quote ONLY shown rows or the stats line; narrow `where` for other rows.
+stats (matched, n=244): temperature_k 293.15–308.15 (n=244); mole_fraction_ethanol 0–1 (n=244); pressure_kpa 92.3–92.3 (n=244); mass_density_kg_m3 776.592–998.429 (n=244)
+inspection_id: INSP_b49f3d6ec58f
+Data points may be quoted ONLY verbatim from the table above or the stats lines.
+```
+</details>
+
+---
+
+### Step 9 [A - L1_2 · c18]: `inspect_block_table`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "GLOBlit_2825::PROPblock_12",
+  "purpose": "Ground data values for secondary candidate block",
+  "tasks": "Inspect block to verify T range, composition range, point count"
+}
+```
+</details>
+
+- **Result:** 1,288 chars  |  **Time:** 0.1s  |  **Started:** 06:51:33 (t+459.9s)
+
+<details><summary>Result</summary>
+
+```
+**Data inspection** — 10.1016/j.jct.2007.05.004 [GLOBlit_2825] :: PROPblock_12 (binary: ethanol + water)
+filter: none (whole block)
+block constraints: pressure_kpa = 101.0
+
+| BLKpoint_id | temperature_k | mole_fraction_<water> | pressure_kpa | mass_density_kg_m3 |
+|---|---|---|---|---|
+| BLKpoint_1 | 293.15 | 0 | 101.0 | 789.75 |
+| BLKpoint_7 | 293.15 | 0.4971 | 101.0 | 862.82 |
+| BLKpoint_9 | 293.15 | 0.6991 | 101.0 | 908.69 |
+| BLKpoint_13 | 293.15 | 1 | 101.0 | 998.2 |
+| BLKpoint_14 | 298.15 | 0 | 101.0 | 785.46 |
+| BLKpoint_19 | 298.15 | 0.3991 | 101.0 | 840.94 |
+| BLKpoint_20 | 298.15 | 0.5989 | 101.0 | 879.89 |
+| BLKpoint_25 | 298.15 | 1 | 101.0 | 997.05 |
+| BLKpoint_26 | 303.15 | 0 | 101.0 | 781.15 |
+| BLKpoint_30 | 303.15 | 0.2961 | 101.0 | 820.29 |
+| BLKpoint_32 | 303.15 | 0.5989 | 101.0 | 875.63 |
+| BLKpoint_37 | 303.15 | 1 | 101.0 | 995.65 |
+
+mode: RDP — 12 of 37 matched rows shown (shape-preserving; block has 37). Quote ONLY shown rows or the stats line; narrow `where` for other rows.
+stats (matched, n=37): temperature_k 293.15–303.15 (n=37); mole_fraction_water 0–1 (n=37); pressure_kpa 101.0–101.0 (n=37); mass_density_kg_m3 781.15–998.2 (n=37)
+inspection_id: INSP_1d2031e2c9c2
+Data points may be quoted ONLY verbatim from the table above or the stats lines.
+```
+</details>
+
+---
+
+## Nested tool calls — L1_3 (L1-query)
+
+**Nest:** A - L1_3
+**Parent:** `query_thermoml_parallel` — Step 5 [A · c19] relays this worker's result
+**Started:** 06:47:37  |  **Ended:** 06:48:32  |  **Tool calls:** 2
+
+---
+
+### Step 1 [A - L1_3 · c9]: `search_blocks`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "GLOBlit_220::PROPblock_1",
+  "purpose": "Inspect block to determine if it contains ethanol+water density data",
+  "tasks": "Get compounds, property, temperature/pressure/composition ranges, and data point count"
+}
+```
+</details>
+
+- **Result:** 853 chars  |  **Time:** 9.7s  |  **Started:** 06:47:43 (t+229.1s)
+- **Subagent:** KEEP in 1,674 → 839 chars (9.4s)
+  - **Verdict:** PROPblock_1 from GLOBlit_220 contains **pure ethanol** density data only — it is a unary block with no water component. Despite the paper title referencing "ethanol-water mixtures," this 
+
+<details><summary>Result</summary>
+
+```
+**Verdict:** PROPblock_1 from GLOBlit_220 contains **pure ethanol** density data only — it is a unary block with no water component. Despite the paper title referencing "ethanol-water mixtures," this block does **not** contain mixture data. Other blocks in this DOI may hold the mixture data.
+
+| Field | Value |
+|---|---|
+| DOI | 10.1016/j.fluid.2004.11.019 [GLOBlit_220] |
+| Block | PROPblock_1 |
+| System | unary (pure component) |
+| Compound | DOIcomp_2 → GLOBcomp_2 (ethanol, C2H6O) |
+| Property | Mass density, kg/m³ (BLKprop_1 → GLOBprop_1) |
+| Phase | Liquid |
+| T range | 298.15–348.15 K |
+| P range | 100.0–40000.0 kPa |
+| Composition | None (pure ethanol) |
+| Points | 15 (12 kept after RDP) |
+
+**Recommendation:** Query additional blocks (PROPblock_2, PROPblock_3, etc.) from GLOBlit_220 to find the ethanol+water binary mixture density data.
+```
+</details>
+
+---
+
+### Step 3 [A - L1_3 · c11]: `inspect_block_table`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "GLOBlit_220::PROPblock_1",
+  "purpose": "Ground data values for pure ethanol density block",
+  "tasks": "Return verbatim T, P ranges and data points for PROPblock_1"
+}
+```
+</details>
+
+- **Result:** 1,078 chars  |  **Time:** 0.2s  |  **Started:** 06:48:07 (t+253.4s)
+
+<details><summary>Result</summary>
+
+```
+**Data inspection** — 10.1016/j.fluid.2004.11.019 [GLOBlit_220] :: PROPblock_1 (unary: ethanol)
+filter: none (whole block)
+
+| BLKpoint_id | temperature_k | pressure_kpa | mass_density_kg_m3 |
+|---|---|---|---|
+| BLKpoint_1 | 298.15 | 100 | 785.7 |
+| BLKpoint_3 | 298.15 | 20000 | 801.9 |
+| BLKpoint_5 | 298.15 | 40000 | 815.7 |
+| BLKpoint_6 | 323.15 | 100 | 763.7 |
+| BLKpoint_7 | 323.15 | 10000 | 773.4 |
+| BLKpoint_8 | 323.15 | 20000 | 782.3 |
+| BLKpoint_10 | 323.15 | 40000 | 797.7 |
+| BLKpoint_11 | 348.15 | 100 | 739.4 |
+| BLKpoint_12 | 348.15 | 10000 | 751.2 |
+| BLKpoint_13 | 348.15 | 20000 | 761.2 |
+| BLKpoint_14 | 348.15 | 30000 | 770.3 |
+| BLKpoint_15 | 348.15 | 40000 | 778.6 |
+
+mode: RDP — 12 of 15 matched rows shown (shape-preserving; block has 15). Quote ONLY shown rows or the stats line; narrow `where` for other rows.
+stats (matched, n=15): temperature_k 298.15–348.15 (n=15); pressure_kpa 100–40000 (n=15); mass_density_kg_m3 739.4–815.7 (n=15)
+inspection_id: INSP_c620a1344d0d
+Data points may be quoted ONLY verbatim from the table above or the stats lines.
+```
+</details>
+
+---
+
+## Nested tool calls — L1_4 (L1-query)
+
+**Nest:** A - L1_4
+**Parent:** `query_thermoml_parallel` — Step 5 [A · c19] relays this worker's result
+**Started:** 06:47:37  |  **Ended:** 06:48:42  |  **Tool calls:** 2
+
+---
+
+### Step 1 [A - L1_4 · c10]: `search_blocks`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "GLOBlit_2432::PROPblock_1",
+  "purpose": "Inspect block to determine compounds, property, conditions, and data points",
+  "tasks": "Get detailed card for GLOBlit_2432 PROPblock_1"
+}
+```
+</details>
+
+- **Result:** 1,291 chars  |  **Time:** 15.8s  |  **Started:** 06:47:43 (t+229.5s)
+- **Subagent:** KEEP in 2,534 → 1,276 chars (15.7s)
+  - **Summary:** PROPblock_1 in GLOBlit_2432 reports **mass density differences** (relative to pure solvent water) for the binary system **water + methanol** at T ≈ 298 K, P = 400–29990 kPa, and methanol 
+
+<details><summary>Result</summary>
+
+```
+**Summary:** PROPblock_1 in GLOBlit_2432 reports **mass density differences** (relative to pure solvent water) for the binary system **water + methanol** at T ≈ 298 K, P = 400–29990 kPa, and methanol molality 0.077–0.989 mol/kg. 596 total data points; vibrating-tube method; liquid phase.
+
+### Block Identity
+
+| Field | Value |
+|---|---|
+| DOI | 10.1016/j.jct.2004.07.019 [GLOBlit_2432] |
+| Block | PROPblock_1 |
+| lit_id | GLOBlit_2432 (2004-hyn-hne-0) |
+| Total pts | 596 |
+
+### Compounds
+
+| DOI ID | Global ID | Name | Formula |
+|---|---|---|---|
+| DOIcomp_4 | GLOBcomp_1 | water | H2O |
+| DOIcomp_5 | GLOBcomp_4 | methanol | CH4O |
+
+### Property
+
+| BLKprop_id | Global ID | Property | Method | Phase | Reference |
+|---|---|---|---|---|---|
+| BLKprop_1 | GLOBprop_1 | mass_density_kg_m3 | vibrating_tube_method | Liquid | Pure solvent at same T, P |
+
+### Variables
+
+| BLKvar_id | Global ID | Variable | Component |
+|---|---|---|---|
+| BLKvar_1 | GLOBvar_1 | temperature_k | — |
+| BLKvar_2 | GLOBvar_3 | pressure_kpa | — |
+| BLKvar_3 | GLOBvar_4 | molality_mol_kg (DOIcomp_5) | methanol |
+
+### Conditions & Ranges
+- **Solvent:** DOIcomp_4 → GLOBcomp_1 (water, GLOBsolvent_1)
+- **T:** 298.16–298.24 K
+- **P:** 400.0–29990.0 kPa
+- **b(methanol):** 0.07706–0.98934 mol/kg
+- **Uncertainty:** k
+```
+</details>
+
+---
+
+### Step 3 [A - L1_4 · c12]: `inspect_block_table`
+
+<details><summary>Arguments</summary>
+
+```json
+{
+  "block_number": "GLOBlit_2432::PROPblock_1",
+  "purpose": "Ground data values for GLOBlit_2432 PROPblock_1",
+  "tasks": "Inspect the block table to verify temperature, pressure, composition ranges and data point count for this water+methanol density block"
+}
+```
+</details>
+
+- **Result:** 4,379 chars  |  **Time:** 0.2s  |  **Started:** 06:48:13 (t+259.4s)
+
+<details><summary>Result</summary>
+
+```
+**Data inspection** — 10.1016/j.jct.2004.07.019 [GLOBlit_2432] :: PROPblock_1 (binary: methanol + water)
+filter: none (whole block)
+
+| BLKpoint_id | temperature_k | pressure_kpa | molality_mol_kg_<methanol> | mass_density_kg_m3 |
+|---|---|---|---|---|
+| BLKpoint_1 | 298.16 | 14450 | 0.10243 | -0.6308 |
+| BLKpoint_6 | 298.16 | 14450 | 0.98932 | -5.7028 |
+| BLKpoint_12 | 298.16 | 29990 | 0.98931 | -5.7779 |
+| BLKpoint_31 | 298.16 | 29990 | 0.10243 | -0.6295 |
+| BLKpoint_47 | 298.24 | 400 | 0.98932 | -5.6141 |
+| BLKpoint_57 | 298.24 | 400 | 0.07706 | -0.4632 |
+| BLKpoint_77 | 318.14 | 390 | 0.71144 | -4.175 |
+| BLKpoint_82 | 318.14 | 15370 | 0.71146 | -4.2 |
+| BLKpoint_93 | 318.14 | 390 | 0.09689 | -0.5893 |
+| BLKpoint_98 | 318.14 | 15370 | 0.09689 | -0.5958 |
+| BLKpoint_107 | 318.15 | 29980 | 0.71149 | -4.215 |
+| BLKpoint_113 | 318.15 | 29980 | 0.09818 | -0.6009 |
+| BLKpoint_123 | 338.15 | 14810 | 0.98922 | -5.8941 |
+| BLKpoint_130 | 338.15 | 14810 | 0.10242 | -0.6333 |
+| BLKpoint_141 | 338.16 | 460 | 0.98929 | -5.9152 |
+| BLKpoint_146 | 338.16 | 30210 | 0.71142 | -4.2846 |
+| BLKpoint_158 | 338.16 | 460 | 0.10243 | -0.6372 |
+| BLKpoint_164 | 338.16 | 30210 | 0.09688 | -0.6051 |
+| BLKpoint_180 | 373.17 | 14890 | 0.98915 | -6.2575 |
+| BLKpoint_186 | 373.17 | 30120 | 1.0111 | -6.3192 |
+| BLKpoint_205 | 373.17 | 2090 | 0.10241 | -0.6788 |
+| BLKpoint_210 | 373.17 | 2090 | 0.98918 | -6.3363 |
+| BLKpoint_211 | 373.17 | 14890 | 0.094 | -0.6107 |
+| BLKpoint_217 | 373.17 | 30120 | 0.09399 | -0.6082 |
+| BLKpoint_234 | 408.15 | 15000 | 1.01107 | -6.8718 |
+| BLKpoint_240 | 408.15 | 2070 | 1.01108 | -7.0201 |
+| BLKpoint_247 | 408.15 | 2070 | 0.09399 | -0.6721 |
+| BLKpoint_252 | 408.15 | 2070 | 1.01108 | -7.0201 |
+| BLKpoint_253 | 408.15 | 15000 | 0.09399 | -0.6616 |
+| BLKpoint_271 | 408.16 | 30030 | 0.09399 | -0.644 |
+| BLKpoint_276 | 408.16 | 30030 | 1.01105 | -6.7209 |
+| BLKpoint_282 | 443.16 | 30320 | 1.01097 | -7.1798 |
+| BLKpoint_283 | 443.16 | 30320 | 0.09398 | -0.6829 |
+| BLKpoint_316 | 443.17 | 2040 | 0.09399 | -0.7315 |
+| BLKpoint_321 | 443.17 | 2040 | 1.01102 | -7.6916 |
+| BLKpoint_322 | 443.17 | 14920 | 0.09398 | -0.7087 |
+| BLKpoint_327 | 443.17 | 14920 | 1.01099 | -7.4388 |
+| BLKpoint_333 | 473.16 | 2750 | 1.01093 | -8.3743 |
+| BLKpoint_339 | 473.16 | 15010 | 1.0109 | -8.0216 |
+| BLKpoint_345 | 473.16 | 30060 | 1.01641 | -7.7256 |
+| BLKpoint_352 | 473.16 | 15010 | 0.10575 | -0.8604 |
+| BLKpoint_364 | 473.16 | 2750 | 0.09398 | -0.7983 |
+| BLKpoint_370 | 473.16 | 15010 | 0.10575 | -0.8604 |
+| BLKpoint_376 | 473.16 | 30060 | 0.10575 | -0.8231 |
+| BLKpoint_392 | 498.15 | 15030 | 1.01635 | -8.6519 |
+| BLKpoint_399 | 498.15 | 30150 | 1.01637 | -8.1703 |
+| BLKpoint_413 | 498.15 | 30150 | 0.10575 | -0.8706 |
+| BLKpoint_419 | 498.15 | 3840 | 0.10575 | -0.9656 |
+| BLKpoint_424 | 498.15 | 3840 | 1.0164 | -9.112 |
+| BLKpoint_425 | 498.15 | 15030 | 0.10574 | -0.9218 |
+| BLKpoint_441 | 523.14 | 5880 | 1.01632 | -9.9531 |
+| BLKpoint_447 | 523.14 | 15600 | 1.01629 | -9.3473 |
+| BLKpoint_453 | 523.14 | 30090 | 1.01627 | -8.6936 |
+| BLKpoint_472 | 523.14 | 5880 | 0.10574 | -1.0594 |
+| BLKpoint_478 | 523.14 | 15600 | 0.10574 | -0.993 |
+| BLKpoint_484 | 523.14 | 30090 | 0.10573 | -0.9275 |
+| BLKpoint_495 | 548.16 | 8000 | 1.01623 | -11.0973 |
+| BLKpoint_501 | 548.16 | 15970 | 1.01618 | -10.2986 |
+| BLKpoint_507 | 548.16 | 30120 | 1.04694 | -9.5934 |
+| BLKpoint_526 | 548.16 | 8000 | 0.09819 | -1.0956 |
+| BLKpoint_532 | 548.16 | 15970 | 0.09819 | -1.0204 |
+| BLKpoint_537 | 548.16 | 30120 | 0.09819 | -0.9253 |
+| BLKpoint_548 | 573.15 | 10140 | 1.04693 | -13.3065 |
+| BLKpoint_554 | 573.15 | 17990 | 1.0469 | -11.8248 |
+| BLKpoint_567 | 573.15 | 17990 | 0.09818 | -1.1328 |
+| BLKpoint_579 | 573.15 | 10140 | 0.09819 | -1.2695 |
+| BLKpoint_585 | 573.15 | 17990 | 0.09818 | -1.1328 |
+| BLKpoint_591 | 573.15 | 30110 | 0.09818 | -1.0044 |
+| BLKpoint_596 | 573.15 | 30110 | 1.04688 | -10.4212 |
+
+mode: RDP — 69 of 596 matched rows shown (shape-preserving; block has 596). Quote ONLY shown rows or the stats line; narrow `where` for other rows.
+stats (matched, n=596): temperature_k 298.16–573.15 (n=596); pressure_kpa 390–30320 (n=596); molality_mol_kg_methanol 0.07706–1.04694 (n=596); mass_density_kg_m3 -13.3065–-0.4632 (n=596)
+inspection_id: INSP_1dc375d4da8a
+Data points may be quoted ONLY verbatim from the table above or the stats lines.
+```
+</details>
+
+---
+
+## Compaction Summary (4 events)
+
+| Iter | Trigger | Before | After | Reduction | Outcome |
+|------|---------|--------|-------|-----------|---------|
+| 5 | chars=89078>80000 | 89,078 | 89,078 | −0% | skipped_by_agent |
+| 9 | chars=92013>80000 | 92,013 | 92,013 | −0% | skipped_by_agent |
+| 12 | chars=93751>80000 | 93,751 | 93,751 | −0% | skipped_by_agent |
+| 15 | chars=96268>80000 | 96,268 | 96,268 | −0% | skipped_by_agent |
+
+## Tool Compaction Pipeline (17 calls)
+
+| # | Tool | Pipeline | Native | Hardcoded | Agentic | Verdict | Native→Final | Section |
+|--:|------|----------|-------:|----------:|--------:|---------|-------------:|---------|
+| 1 | `resolve_compound_ids` | query | 555 | 278 | 195 | KEEP | −65% | L1_1 |
+| 2 | `search_blocks` | query | 27,720 | 5,356 | 583 | KEEP | −98% | L1_1 |
+| 3 | `inspect_block_table` | query | 9,177 | 2,334 | 2,334 | SKIP | −75% | L1_1 |
+| 4 | `inspect_block_table` | query | 28,624 | 7,175 | 7,175 | SKIP | −75% | L1_1 |
+| 5 | `search_blocks` | query | 4,803 | 1,674 | 839 | KEEP | −83% | L1_3 |
+| 6 | `search_blocks` | query | 6,824 | 2,534 | 1,276 | KEEP | −81% | L1_4 |
+| 7 | `inspect_block_table` | query | 3,617 | 1,064 | 1,064 | SKIP | −71% | L1_3 |
+| 8 | `inspect_block_table` | query | 16,837 | 4,364 | 4,364 | SKIP | −74% | L1_4 |
+| 9 | `search_blocks` | query | 121,700 | 12,670 | 1,923 | KEEP | −98% | L1_2 |
+| 10 | `search_blocks` | query | 45,962 | 9,438 | 2,120 | KEEP | −95% | L1_2 |
+| 11 | `inspect_block_table` | query | 16,605 | 4,208 | 4,208 | SKIP | −75% | L1_2 |
+| 12 | `inspect_block_table` | query | 5,270 | 1,558 | 1,558 | SKIP | −70% | L1_2 |
+| 13 | `inspect_block_table` | query | 6,622 | 1,790 | 1,790 | SKIP | −73% | L1_2 |
+| 14 | `inspect_block_table` | query | 4,516 | 1,273 | 1,273 | SKIP | −72% | L1_2 |
+| 15 | `inspect_block` | analysis | 2,804 | 1,374 | 1,374 | SKIP | −51% | — |
+| 16 | `fit_multi_system` | analysis | 1,364 | 681 | 681 | SKIP | −50% | — |
+| 17 | `fit_multi_system` | analysis | 10,519 | 1,616 | 1,616 | SKIP | −85% | — |
+
+## Subagent Summary (6 events)
+
+| Tool | Verdict | Input Chars | Output Chars | Time | Section |
+|------|---------|-------------|-------------|------|---------|
+| resolve_compound_ids | KEEP | 278 | 195 | 3.9s | L1_1 |
+| search_blocks | KEEP | 5,356 | 583 | 15.1s | L1_1 |
+| search_blocks | KEEP | 1,674 | 839 | 9.4s | L1_3 |
+| search_blocks | KEEP | 2,534 | 1,276 | 15.7s | L1_4 |
+| search_blocks | KEEP | 12,670 | 1,923 | 37.1s | L1_2 |
+| search_blocks | KEEP | 9,438 | 2,120 | 40.5s | L1_2 |
+
+## Errors (2)
+
+- **Step 3** `query_thermoml_parallel` (exception): {
+  "error": "queries[0].id_catalog[0] must contain exactly ['global_id', 'name', 'registry_id', 'type']; received ['id', 'label']",
+  "error_code": "TOOL_EXECUTION_ERROR",
+  "tool": "query_thermoml_p
+- **Step 4** `query_thermoml_parallel` (exception): {
+  "error": "queries[0].id_catalog[0].type is invalid: 'compound'; valid types: ['blocktype', 'comp', 'constr', 'lit', 'meas', 'phase', 'prop', 'rxntype', 'solvent', 'var']",
+  "error_code": "TOOL_EX
+
+---
+
+**Total:** 29 tool calls  |  Tool time: 593.3s  |  Wall: 857.3s  |  **Status:** OK

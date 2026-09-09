@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% from "_raw_json_panel.html" import raw_json_panel with context %}
+{% block title %}Papers — ThermoML Browser{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">
+    {% if q %}Search: "{{ q }}"{% elif prop %}Property: {{ prop }}{% else %}All Papers{% endif %}
+    <small class="text-muted">({{ "{:,}".format(total) }} results)</small>
+  </h4>
+</div>
+
+<!-- Filters -->
+<div class="row g-2 mb-3 align-items-center">
+  <div class="col-auto">
+    <select class="form-select form-select-sm" onchange="applyFilter('journal', this.value)">
+      <option value="">All Journals</option>
+      {% for j in journals %}
+      <option value="{{ j['journal'] }}" {% if j['journal'] == journal %}selected{% endif %}>
+        {{ j['journal'] }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <select class="form-select form-select-sm" onchange="applyFilter('year', this.value)">
+      <option value="">All Years</option>
+      {% for y in years %}
+      <option value="{{ y['year'] }}" {% if y['year'] == year %}selected{% endif %}>
+        {{ y['year'] }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  {% if q or journal or year or prop %}
+  <div class="col-auto">
+    <a href="{{ url_for('papers_list') }}" class="btn btn-sm btn-outline-secondary">Clear Filters</a>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Paper list -->
+{% if papers %}
+<div class="list-group mb-4">
+  {% for p in papers %}
+  <div class="list-group-item py-3">
+    <a href="{{ url_for('paper_detail', doi=p.doi) }}" class="text-body text-decoration-none d-block">
+    <div class="d-flex justify-content-between">
+      <h6 class="mb-1">{{ p.title[:160] }}{% if p.title|length > 160 %}…{% endif %}</h6>
+      <small class="text-nowrap ms-2 text-muted">{{ p.year }}</small>
+    </div>
+    <p class="mb-1 small text-muted">
+      {{ p.first_author }}
+    </p>
+    <div class="d-flex justify-content-between align-items-center">
+      <span>
+        <span class="badge bg-secondary">{{ p.journal }}</span>
+        <span class="badge bg-info text-dark">{{ p.n_compounds }} compounds</span>
+        <span class="badge bg-primary">{{ p.n_measurements }} blocks</span>
+      </span>
+      <small class="text-muted font-monospace">{{ p.doi }}</small>
+    </div>
+    {% if p.compound_names %}
+    <small class="text-muted d-block mt-1">
+      {{ p.compound_names|join(', ') }}{% if p.n_compounds > 6 %}, …{% endif %}
+    </small>
+    {% endif %}
+    </a>
+    {{ raw_json_panel(p.doi) }}
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-secondary">No papers found.</div>
+{% endif %}
+
+<!-- Pagination -->
+{% if total_pages > 1 %}
+<nav>
+  <ul class="pagination justify-content-center flex-wrap">
+    <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+      <a class="page-link" href="{{ url_for('papers_list', page=page-1, q=q, journal=journal, year=year, prop=prop) }}">‹</a>
+    </li>
+    {% for pg in range(1, total_pages + 1) %}
+      {% if pg == page or pg <= 2 or pg >= total_pages - 1 or (pg >= page - 2 and pg <= page + 2) %}
+    <li class="page-item {% if pg == page %}active{% endif %}">
+      <a class="page-link" href="{{ url_for('papers_list', page=pg, q=q, journal=journal, year=year, prop=prop) }}">{{ pg }}</a>
+    </li>
+      {% elif pg == 3 or pg == total_pages - 2 %}
+    <li class="page-item disabled"><span class="page-link">…</span></li>
+      {% endif %}
+    {% endfor %}
+    <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+      <a class="page-link" href="{{ url_for('papers_list', page=page+1, q=q, journal=journal, year=year, prop=prop) }}">›</a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function applyFilter(name, value) {
+  const url = new URL(window.location);
+  if (value) url.searchParams.set(name, value);
+  else url.searchParams.delete(name);
+  url.searchParams.set('page', '1');
+  window.location = url;
+}
+</script>
+{% endblock %}

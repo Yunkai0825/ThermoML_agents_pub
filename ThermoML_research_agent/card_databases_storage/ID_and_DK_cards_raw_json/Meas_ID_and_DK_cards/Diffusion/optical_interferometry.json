@@ -1,0 +1,327 @@
+{
+  "meas_ID": "optical_interferometry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Optical interferometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Optical interferometry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Diffusion",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 11,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 3,
+      "per_group": {
+        "TransportProp": {
+          "instances": 11,
+          "papers": 3
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "fringe positions (spatial coordinates of interference maxima/minima)",
+          "fringe shifts over time (displacement of fringe pattern as diffusion proceeds)",
+          "total number of fringes J (Gouy) or fringe spacing (Rayleigh)",
+          "refractive index difference across the diffusion boundary (Δn)"
+        ],
+        "derived_observables": [
+          "mutual diffusion coefficient D12",
+          "concentration profile c(x,t) along the diffusion path",
+          "refractive index gradient dn/dx as a function of position and time",
+          "reduced fringe position ratios (Gouy: f(ζ) fringe function)"
+        ],
+        "target_properties": [
+          "mutual (interdiffusion) coefficient D12",
+          "concentration-dependent diffusion coefficient D(c)",
+          "ternary and multicomponent diffusion coefficient matrices Dij",
+          "refractive index increment with concentration (dn/dc)"
+        ],
+        "phases_measured": [
+          "liquid (binary and multicomponent solutions)",
+          "liquid (electrolyte solutions)",
+          "liquid (polymer solutions)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "ternary and quaternary liquid mixtures",
+          "aqueous electrolyte solutions",
+          "polymer solutions (dilute to moderately concentrated)",
+          "surfactant solutions below and above CMC",
+          "aqueous and non-aqueous solvent systems"
+        ],
+        "unsupported_sample_types": [
+          "gases (refractive index gradients too weak)",
+          "opaque or strongly absorbing liquids",
+          "highly viscous or gelling systems (diffusion too slow for practical timescales)",
+          "solidifying or precipitating systems that scatter light",
+          "supercritical fluids (require specialized high-pressure optical cells)"
+        ],
+        "typical_output_formats": [
+          "fringe position vs. fringe number at multiple times (Gouy)",
+          "fringe displacement vs. position in the cell (Rayleigh)",
+          "D12 vs. mean concentration",
+          "diffusion coefficient matrix Dij for multicomponent systems",
+          "refractive index profile n(x,t)"
+        ],
+        "units": {
+          "diffusion_coefficient": "m²/s (SI) or cm²/s (CGS, commonly reported as 10⁻⁵ cm²/s)",
+          "concentration": "mol/L or mol/kg",
+          "refractive_index": "dimensionless",
+          "fringe_position": "mm or µm on the detector plane",
+          "time": "s",
+          "temperature": "K",
+          "wavelength": "nm"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "concentration_difference",
+            "typical_range": "Δc = 0.01–0.1 mol/L across the initial boundary",
+            "hard_limits": "must be small enough that D is approximately constant over the range; must be large enough to produce a measurable number of fringes (J ≥ 20 for Gouy)",
+            "notes": "for Rayleigh, smaller Δc is tolerable due to higher sensitivity; for Gouy, too-small Δc produces too few fringes for reliable analysis"
+          },
+          {
+            "parameter": "temperature_stability",
+            "typical_range": "±0.001 K to ±0.01 K over the duration of the experiment",
+            "hard_limits": "temperature fluctuations > 0.02 K can cause detectable refractive index changes that distort fringes",
+            "notes": "water-bath thermostatting with PID control is standard; experiments typically require 4–24 hours"
+          },
+          {
+            "parameter": "optical_path_length",
+            "typical_range": "20–100 mm (diffusion cell width along optical axis)",
+            "hard_limits": "longer paths increase fringe count but require better optical quality of cell windows",
+            "notes": "Rayleigh cells typically use ~25 mm path; Gouy cells use 25–80 mm"
+          },
+          {
+            "parameter": "wavelength",
+            "typical_range": "543–633 nm (He-Ne laser lines)",
+            "hard_limits": "must be a wavelength where solutions are transparent and non-absorbing",
+            "notes": "546.1 nm (mercury green) historically standard; 632.8 nm (He-Ne) now common; shorter wavelengths give more fringes"
+          }
+        ],
+        "variables": [
+          {
+            "name": "mean_concentration",
+            "role": "primary experimental variable",
+            "typical_values": "0.01 to 5 mol/L depending on system solubility",
+            "effect": "D is concentration-dependent; experiments at multiple mean concentrations map D(c)"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled variable (isothermal experiment)",
+            "typical_values": "288 K to 353 K (aqueous systems); broader for organic solvents",
+            "effect": "D increases with temperature roughly following Stokes-Einstein behavior; each run is at one fixed T"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "pressure dependence of D is weak near ambient; high-pressure interferometric diffusion cells are rare"
+          },
+          {
+            "name": "time",
+            "role": "independent variable during diffusion observation",
+            "typical_values": "exposures taken from 500 s to 86400 s after boundary sharpening",
+            "effect": "fringe pattern evolves as √(Dt); longer times probe further into the diffusion profile"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "monochromatic light source — He-Ne laser (632.8 nm) or mercury lamp with 546.1 nm filter for coherent, single-wavelength illumination",
+          "diffusion cell — rectangular glass or quartz cell with optically flat windows, thermostated in a water bath; cell height ~80 mm, width 25–80 mm along beam",
+          "boundary sharpening system — syringe, valve, or sliding mechanism to create a sharp initial boundary between two solutions",
+          "interferometer optics — Gouy: single-beam through cell with cylindrical lens to focus fringes; Rayleigh: double-slit mask plus collimating and focusing lenses; Mach-Zehnder: beam splitter, reference arm, recombination optics",
+          "thermostat bath — precision water bath surrounding the diffusion cell, stability ±0.003 K or better",
+          "CCD camera or photographic plate — detector at the focal plane to record fringe patterns at known times",
+          "optical rail and alignment components — collimating lens, spatial filter, adjustable slits, and precision mounts",
+          "timing system — electronic timer or computer-synchronized shutter for recording fringe patterns at precise times after boundary formation",
+          "data acquisition and image analysis software — for digitizing fringe positions from CCD images"
+        ],
+        "environmental_requirements": [
+          "vibration-isolated optical table to prevent fringe jitter",
+          "temperature-controlled room (±1 K) to minimize ambient thermal disturbances",
+          "draft-free enclosure around the optical path to prevent air convection artifacts",
+          "dim or dark room conditions during fringe recording to avoid stray light contamination"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid solution filling the diffusion cell to a defined height (typically 40–80 mm above and below boundary)",
+            "two solutions of slightly different concentrations, one layered above the other"
+          ],
+          "size_limits": "cell volume ~10–50 mL per side (upper and lower reservoirs)",
+          "thickness_limits": "optical path through liquid: 25–80 mm; limited by cell window optical quality",
+          "surface_requirements": [
+            "cell windows must be optically flat to λ/4 or better",
+            "windows free of scratches, inclusions, or surface films that scatter light"
+          ],
+          "mounting_requirements": [
+            "cell mounted rigidly in the thermostat bath with minimal mechanical coupling to vibration sources",
+            "cell aligned perpendicular to the collimated beam with tilt adjustment"
+          ],
+          "preparation_requirements": [
+            "solutions prepared gravimetrically to known concentrations (±0.01% by mass)",
+            "solutions filtered through 0.2–0.45 µm membrane filters to remove particulates that scatter light",
+            "solutions degassed under vacuum to prevent bubble formation during the experiment",
+            "cell thoroughly cleaned with chromic acid or detergent, rinsed with filtered water, and dried",
+            "thermal equilibration of solutions and cell for at least 2 hours before boundary formation"
+          ]
+        },
+        "calibration_requirements": [
+          "optical magnification calibration using a precision Ronchi ruling or known grating at the cell position",
+          "cell constant determination (optical path length a) using a refractometer or known refractive index difference",
+          "timing calibration: verify electronic timer or camera frame timestamps against a reference clock",
+          "baseline fringe pattern with uniform solution in the cell to check for optical aberrations",
+          "temperature sensor calibration against a NIST-traceable thermometer"
+        ],
+        "reference_materials": [
+          "KCl(aq) — extensively studied system with IUPAC-recommended D values; primary reference for validating interferometric diffusion apparatus",
+          "sucrose(aq) — standard reference system for Gouy interferometry",
+          "NaCl(aq) — well-characterized binary diffusion coefficients over wide concentration and temperature ranges",
+          "urea(aq) — reference system for dilute-solution diffusion"
+        ],
+        "consumables": [
+          "optical-grade solvents (distilled, deionized, degassed water or HPLC-grade organics)",
+          "membrane filters (0.2–0.45 µm) for solution filtration",
+          "precision-weighed solutes for gravimetric solution preparation",
+          "lens tissue and optical cleaning solvents for cell window maintenance"
+        ],
+        "safety_notes": [
+          "laser safety: use appropriate laser safety goggles and follow Class 2/3R laser protocols when working with He-Ne lasers",
+          "mercury lamp UV exposure: use UV-blocking filters and avoid direct eye exposure",
+          "glass cell handling: use appropriate care to prevent breakage and cuts from optical-quality glassware",
+          "chemical safety: follow MSDS/SDS guidelines for solutes and solvents used"
+        ]
+      },
+      "performance": {
+        "sensitivity": "Rayleigh interferometry can detect refractive index differences as small as Δn ≈ 1×10⁻⁶; Gouy interferometry is somewhat less sensitive, requiring Δn ≈ 5×10⁻⁵ for adequate fringe count",
+        "detection_limit": "minimum measurable D ≈ 10⁻¹¹ m²/s (very slow diffusion in viscous systems); practical lower limit ~10⁻¹⁰ m²/s due to experiment duration constraints",
+        "resolution": {
+          "spatial": "fringe position measurement resolution ~1–5 µm on the detector plane, corresponding to concentration profile resolution of ~10–50 µm in the cell",
+          "temporal": "fringe patterns recorded at intervals of seconds to minutes; practical time resolution ~10–60 s between exposures",
+          "spectral": "not applicable (single-wavelength technique)",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "D from ~10⁻¹⁰ m²/s (polymer solutions) to ~5×10⁻⁹ m²/s (small molecules in low-viscosity solvents); typical aqueous systems 0.5–3.0 × 10⁻⁹ m²/s",
+        "accuracy": "Rayleigh interferometry: 0.1–0.3% for binary D; Gouy interferometry: 0.3–1.0% for binary D; multicomponent Dij matrix elements: 1–5%",
+        "precision": "Rayleigh: ≤0.1% (repeatability of D from replicate runs); Gouy: 0.2–0.5%",
+        "throughput": "one experiment per diffusion run; each run takes 4–24 hours depending on system and D magnitude",
+        "measurement_speed": "boundary formation and initial sharpening: ~15–30 min; diffusion observation: 4–24 hours; data reduction: 1–4 hours (modern automated analysis)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "two-dimensional fringe pattern images recorded by CCD camera or photographic plate, showing interference fringes whose positions encode the refractive index (concentration) profile in the diffusion cell",
+        "preprocessing_steps": [
+          "digitization of fringe positions from CCD images or photographic plates using image analysis software",
+          "correction for optical magnification and lens distortion using calibration grating data",
+          "baseline subtraction using uniform-solution fringe pattern to remove systematic optical aberrations",
+          "determination of the undeviated fringe position (Gouy) or reference channel correction (Rayleigh)",
+          "assignment of fringe order numbers j = 0, 1, 2, ... J to each fringe"
+        ],
+        "analysis_methods": [
+          "Gouy method: fringe positions Yj at time t are fit to the theoretical Gouy fringe function f(ζj) = (j/J) where ζj = Yj/(Ct^(1/2)); the diffusion coefficient is extracted from Ct = (4Dt)^(1/2) × (Δn × a × optical_constants)",
+          "Rayleigh method: fringe displacement Δk(x) at position x across the boundary is directly proportional to the refractive index difference; D is obtained from the width of the error-function-shaped fringe displacement profile at known times",
+          "Creeth method: reduced height-area ratios DA/Dt extrapolated to zero time correct for imperfect initial boundary",
+          "nonlinear least-squares fitting of the full fringe pattern to the Fick's law solution for concentration-dependent D",
+          "multicomponent analysis: simultaneous fitting of fringe data from experiments at different refractive index increment ratios (R1, R2) to extract the full Dij matrix"
+        ],
+        "model_assumptions": [
+          "Fick's second law governs one-dimensional diffusion: ∂c/∂t = D(∂²c/∂x²)",
+          "diffusion coefficient D is constant over the small concentration range Δc used in each experiment",
+          "initial boundary is infinitely sharp at t = 0 (deviations corrected by time-correction Δt)",
+          "solutions are ideal-dilute or the concentration dependence of D is weak over Δc",
+          "refractive index is a linear function of concentration over the small Δc range (dn/dc = constant)",
+          "no convective mixing — density gradient is gravitationally stable (denser solution below)"
+        ],
+        "fit_parameters": [
+          "diffusion coefficient D12 (binary) or Dij matrix elements (multicomponent)",
+          "total number of fringes J (proportional to Δn × a, where a = optical path length)",
+          "time correction Δt (accounts for imperfect initial boundary sharpening)",
+          "baseline fringe position (zero-concentration-gradient reference)"
+        ],
+        "common_artifacts": [
+          "convective instability: if denser solution is placed on top, buoyancy-driven convection destroys the diffusion boundary and produces chaotic fringe patterns",
+          "imperfect initial boundary: residual mixing during boundary formation causes the early-time fringe data to deviate from the ideal solution; corrected via Δt parameter",
+          "concentration-dependent D: if Δc is too large, fringe patterns become asymmetric (skewed) relative to the ideal error-function shape, indicating that the constant-D assumption is violated",
+          "vibration-induced fringe jitter: mechanical vibrations cause rapid oscillation of fringe positions, degrading spatial resolution",
+          "thermal lens effect: laser beam absorption in slightly colored solutions creates local refractive index gradients that distort fringes",
+          "window birefringence: stress in cell windows introduces fringe doubling or anomalous fringe shifts"
+        ],
+        "quality_control_checks": [
+          "validate apparatus with KCl(aq) reference system: measured D must agree with IUPAC-recommended values within 0.2%",
+          "check symmetry of Gouy fringe pattern about the undeviated position (asymmetry indicates concentration-dependent D or convection)",
+          "verify that D is independent of Δc by performing runs at two or three different concentration differences at the same mean concentration",
+          "confirm D is independent of time by comparing D extracted from early-time and late-time fringe data within the same run",
+          "inspect residuals from the fringe-fit for systematic trends indicating model breakdown or optical artifacts"
+        ],
+        "failure_modes": [
+          "boundary disruption from mechanical shock or vibration (complete loss of fringe pattern)",
+          "convective overturn due to inverted density gradient or insufficient thermal equilibration",
+          "bubble formation during the experiment from dissolved gas coming out of solution",
+          "cell window fogging from condensation or temperature gradients near the thermostat",
+          "laser mode hopping causing sudden fringe shift unrelated to diffusion (He-Ne without frequency stabilization)"
+        ]
+      },
+      "uncertainty": {
+        "level": "combined standard uncertainty 0.1–0.5% for binary D by Rayleigh interferometry; 0.3–1.0% for Gouy; 1–5% for individual Dij elements in multicomponent systems",
+        "random_sources": [
+          "fringe position measurement uncertainty (~1–5 µm per fringe)",
+          "CCD pixel noise and digitization error",
+          "short-term temperature fluctuations in the thermostat bath",
+          "vibration-induced fringe jitter during exposure",
+          "timing uncertainty in recording fringe exposures"
+        ],
+        "systematic_sources": [
+          "imperfect initial boundary (corrected via Δt, but residual error remains)",
+          "cell optical path length (a) calibration uncertainty",
+          "lens magnification factor calibration error",
+          "temperature offset from the nominal value (thermocouple/thermistor calibration)",
+          "concentration-dependent D: assumption of constant D over Δc introduces a small bias",
+          "refractive index nonlinearity with concentration (higher-order dn/dc terms neglected)",
+          "gravitational compression or convective microflows near the boundary"
+        ],
+        "operator_dependence": "moderate to high — boundary sharpening is a manual or semi-automated skill; the quality of the initial boundary is the single largest factor in data quality and requires experienced technique",
+        "model_dependence": "moderate — the constant-D and sharp-boundary assumptions are standard but introduce systematic bias that must be corrected; multicomponent analysis requires correct assignment of eigenvalues and is model-sensitive",
+        "dominant_error_sources": [
+          "initial boundary quality (imperfect sharpening leads to systematic error in D unless Δt correction is properly applied)",
+          "temperature stability (0.01 K uncertainty in T propagates to ~0.2% uncertainty in D via the temperature dependence of D)",
+          "fringe position measurement precision (limiting factor in Rayleigh method)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(D) at 95% confidence level (k=2)",
+          "relative standard uncertainty as percentage of D",
+          "standard deviation from replicate experiments",
+          "comparison with reference system (KCl) as accuracy validation"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Optical interferometry is the gold-standard technique for measuring mutual diffusion coefficients in liquid solutions. It exploits the fact that a concentration gradient in a liquid creates a refractive index gradient, which can be detected with extraordinary precision using the interference of coherent light. Three principal variants — Gouy, Rayleigh, and Mach-Zehnder interferometry — have been developed since the 1940s, with Rayleigh interferometry now recognized as the most precise method available for binary and multicomponent liquid diffusion measurements, achieving accuracies of 0.1–0.3%. The technique produces a direct, assumption-free measurement of the diffusion coefficient from first-principles optics and Fick's law, making it the primary reference method against which all other diffusion measurement techniques are validated.",
+      "how_it_operates": "A sharp horizontal boundary is formed between two solutions of slightly different concentration inside a thermostated rectangular glass cell. As diffusion proceeds, the initially step-like concentration profile evolves into a smooth error-function shape, creating a continuous refractive index gradient along the vertical axis. A collimated monochromatic beam (typically from a He-Ne laser at 632.8 nm) passes horizontally through the cell. In Gouy interferometry, the beam emerging from the cell is focused by a cylindrical lens to produce a pattern of horizontal fringes at the focal plane, whose positions depend on the refractive index gradient. In Rayleigh interferometry, the cell is masked with a double slit so that light passing through the diffusion boundary and through a reference region interfere, producing vertical fringes whose lateral displacement at each height encodes the local refractive index. CCD camera images of the fringe pattern are recorded at known times after boundary formation, and the diffusion coefficient is extracted from the time evolution of fringe positions.",
+      "core_theory": "Diffusion in the cell is governed by Fick's second law: ∂c/∂t = D(∂²c/∂x²), where x is the vertical coordinate and D is the mutual diffusion coefficient. For an initially sharp boundary between solutions of concentration c̄ + Δc/2 (below) and c̄ − Δc/2 (above), the solution is an error function: c(x,t) = c̄ + (Δc/2)·erf[x/(2√(Dt))]. The refractive index profile n(x,t) mirrors the concentration profile because n varies linearly with c (dn/dc = constant over the small Δc used). In Gouy interferometry, the fringe pattern encodes the refractive index gradient dn/dx, and the total number of fringes J = (Δn·a)/λ, where a is the optical path length and λ is the wavelength. The diffusion coefficient is extracted from the positions of the Gouy fringes using the relation Yj = Ct^(1/2)·f(ζj), where Ct contains D and known optical constants. In Rayleigh interferometry, the fringe displacement directly maps the refractive index difference at each height, and D is obtained from the Gaussian width of the displacement profile as a function of time.",
+      "setup": "The apparatus consists of a precision-machined rectangular glass or quartz diffusion cell (typically 80 mm tall, 25–80 mm wide along the optical axis, and 10–30 mm deep) mounted in a water-bath thermostat regulated to ±0.003 K. A boundary-sharpening mechanism — usually a fine-bore syringe or sliding partition — creates the initial sharp interface between the denser lower solution and the less-dense upper solution. A He-Ne laser or filtered mercury lamp provides collimated monochromatic light that passes through the cell horizontally. For Gouy interferometry, a cylindrical focusing lens images the fringe pattern onto a CCD camera at its focal plane. For Rayleigh interferometry, a double-slit mask isolates light from the boundary region and a reference region, and a cylindrical lens brings the two beams together to form an interference pattern. The entire optical assembly sits on a vibration-isolated table in a temperature-controlled, draft-free room. A computer-controlled data acquisition system records fringe images at programmed time intervals.",
+      "suitable_for": "Optical interferometry is the method of choice for high-accuracy measurement of mutual diffusion coefficients in binary and multicomponent liquid solutions. It is particularly powerful for aqueous electrolyte solutions, non-electrolyte organic mixtures, polymer solutions (dilute to moderately concentrated), and surfactant solutions. The Rayleigh variant is uniquely capable of yielding the full diffusion coefficient matrix Dij for ternary and quaternary systems through experiments at different refractive index increment ratios. The technique covers diffusion coefficients from approximately 10⁻¹⁰ m²/s (slow polymer diffusion) to 5×10⁻⁹ m²/s (small molecules in water), encompassing the full range of practical liquid diffusion. It serves as the primary calibration reference for faster but less accurate techniques such as Taylor dispersion and dynamic light scattering.",
+      "core_limitations": "The technique is restricted to transparent liquid solutions — opaque, strongly colored, or scattering samples cannot be measured. Each diffusion run takes 4–24 hours, limiting throughput to one or two measurements per day. The experiment is isothermal by design, so temperature-dependent studies require separate runs at each temperature. Multicomponent analysis (ternary and above) is mathematically complex and requires multiple experiments with different refractive index increment ratios [R1 values], demanding careful experimental design. The technique requires relatively large sample volumes (~10–50 mL per solution), which can be limiting for expensive or scarce materials. Very slow diffusion (D < 10⁻¹⁰ m²/s) requires impractically long observation times, and very fast diffusion (D > 5×10⁻⁹ m²/s) may not allow enough fringe exposures before the boundary broadens beyond the cell window.",
+      "sample_preparation": "Solutions must be prepared gravimetrically with high accuracy (±0.01% by mass) using analytical-grade solutes and purified solvents. Both solutions are filtered through 0.2–0.45 µm membrane filters to remove dust particles that scatter laser light and create spurious fringe distortions. Dissolved gases must be removed by vacuum degassing or ultrasonic degassing to prevent bubble nucleation during the experiment, which would catastrophically disrupt the fringe pattern. The concentration difference Δc is chosen as a compromise: large enough to produce a measurable number of fringes (J ≥ 20 for Gouy, sufficient displacement for Rayleigh) but small enough that D is approximately constant over the range. The denser solution is loaded into the lower half of the cell and the lighter solution on top to ensure gravitational stability against convection.",
+      "calibration_and_references": "The primary calibration reference is aqueous KCl, for which IUPAC-recommended mutual diffusion coefficients are available at 298.15 K at several concentrations with uncertainties < 0.1%. A new apparatus is validated by measuring D for KCl(aq) at 0.33 mol/L and 298.15 K and confirming agreement with the reference value (1.8443 × 10⁻⁹ m²/s) within the stated uncertainty. Optical calibration involves imaging a precision Ronchi ruling or known diffraction grating at the cell position to determine the magnification factor and check for lens distortion. The cell constant (optical path length a) is verified using solutions of known refractive index difference measured independently by a precision refractometer. Sucrose(aq) and NaCl(aq) serve as secondary references with well-established D values spanning a range of concentrations and temperatures.",
+      "data_interpretation": "Fringe images recorded at multiple times after boundary formation are digitized to extract fringe positions with micrometer-level precision. In Gouy analysis, for each exposure at time t, the positions Yj of the J fringes are measured and converted to reduced coordinates ζj = Yj/(Ct^(1/2)). For an ideal experiment with constant D and a perfect initial boundary, all reduced fringe positions collapse to a single universal curve f(ζ). The diffusion coefficient is obtained from the slope parameter Ct = (4πDt)^(1/2)·(Δn·a/λ). In Rayleigh analysis, the lateral fringe displacement at each cell height is proportional to the local refractive index deviation from the reference, directly yielding the concentration profile. D is extracted by fitting the fringe displacement profile to the error-function solution of Fick's law. A time correction Δt is included to account for the finite sharpness of the initial boundary, and the corrected diffusion coefficient is obtained by extrapolating D(t) = D_apparent × (t + Δt)/t to eliminate the boundary imperfection artifact.",
+      "common_pitfalls": "The most critical pitfall is poor initial boundary formation. If the boundary is not sharp and horizontally flat, the early-time fringe data are corrupted and must be discarded, reducing the useful data range and increasing uncertainty. Practitioners must master the boundary-sharpening technique through extensive practice with reference systems before attempting unknown samples. Gravitational instability — placing denser solution on top — causes buoyancy-driven convection that completely destroys the diffusion pattern within minutes. Failure to degas solutions leads to bubble formation at the cell walls that blocks and distorts fringes, often observable only after the experiment has been running for hours. Inadequate thermal equilibration of solutions and cell causes parasitic thermal convection superimposed on the diffusion process, producing systematically high apparent D values. Vibration from building HVAC systems, foot traffic, or vacuum pumps causes fringe jitter that blurs fringe positions and degrades precision.",
+      "artifacts_and_failure_modes": "Convective overturn is the most dramatic failure mode, producing wildly chaotic fringe patterns within minutes of an inverted density gradient. Bubble nucleation from dissolved gas creates localized dark spots and fringe discontinuities that progressively worsen. Imperfect boundary correction failure occurs when the Δt correction does not adequately compensate non-idealities, producing a systematic time-dependent drift in apparent D. Concentration-dependent D manifests as asymmetric Gouy fringe patterns (fringe spacings are not symmetric about the undeviated position) or curvature in Rayleigh fringe displacement plots that deviates from the ideal error function. Window birefringence introduces anomalous fringe doubling or shifts and is diagnosed by rotating the cell or inserting a polarizer. Laser mode hopping causes sudden, discrete fringe jumps that correlate with laser intensity fluctuations rather than diffusion — frequency-stabilized lasers eliminate this artifact. Thermal lens effects from residual optical absorption create curved fringe distortions that are position-dependent and intensify over time.",
+      "reporting_checklist": "Published optical interferometry diffusion results should report: interferometer type (Gouy, Rayleigh, or Mach-Zehnder); light source wavelength; diffusion cell dimensions and optical path length a; mean concentration c̄ and concentration difference Δc (or total fringe count J); temperature and thermostat stability; boundary-sharpening method; number of fringe exposures taken and time range used in the analysis; time correction Δt applied; refractive index increment dn/dc or total refractive index difference Δn; ternary system: refractive index increment ratios R1 used; method of fringe analysis (graphical, least-squares fit); the diffusion coefficient D12 (or Dij matrix) with combined expanded uncertainty at 95% confidence level (k=2); validation against KCl(aq) or other reference system; and any observed deviations from ideal behavior (asymmetric fringes, time-dependent D). For ThermoML encoding, D values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

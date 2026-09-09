@@ -1,0 +1,255 @@
+{
+  "generated": "2026-09-05T05:04:48",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_2",
+      "lit_id": null,
+      "literals": [
+        "0.02"
+      ],
+      "detail": "0.02 (near '…d values — 997.06 kg/m3 and 997.043 kg/m3 — differ by only ~…') matches no inspected row/stat, database table, or other source of PROPblock_2",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_2\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.02})"
+    },
+    {
+      "kind": "MISATTRIBUTED_VALUE",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_6",
+      "lit_id": "GLOBlit_306",
+      "literals": [
+        "101.325"
+      ],
+      "detail": "101.325 does not belong to PROPblock_2; it matches only GLOBlit_306::PROPblock_6 (inspected this run)",
+      "suggested_call": "re-anchor 101.325 to GLOBlit_306::PROPblock_6 — no new tool call needed"
+    }
+  ],
+  "verified": [
+    {
+      "anchor": "PROPblock_6",
+      "values": [
+        "997.06",
+        "298.15",
+        "101.325"
+      ]
+    }
+  ],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_2",
+      "values": [
+        "997.043",
+        "298.15",
+        "101.0",
+        "997.04",
+        "997.06",
+        "101"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_6": {
+        "lit_num_id": "GLOBlit_306",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_6715d3baae18"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2005.09.009",
+          "n_rows": 1,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              298.15,
+              298.15
+            ],
+            "pressure_kpa": [
+              101.325,
+              101.325
+            ],
+            "mass_density_kg_m3": [
+              997.06,
+              997.06
+            ]
+          }
+        }
+      },
+      "PROPblock_2": {
+        "lit_num_id": "GLOBlit_555",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_9e4417a4e81d"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2007.07.066",
+          "n_rows": 5,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              283.15,
+              303.15
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "mass_density_kg_m3": [
+              995.645,
+              999.699
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "997.06",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.325",
+        "region": "PROPblock_6",
+        "verdict": "verified"
+      },
+      {
+        "token": "997.043",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "997.04",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "997.06",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "101",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "997.06",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "997.043",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.02",
+        "region": "PROPblock_2",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "101.325",
+        "region": "PROPblock_2",
+        "verdict": "misattributed",
+        "source": "PROPblock_6"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_2",
+        "verdict": "verified"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1016/j.fluid.2007.07.066",
+      "lit_num_id": "GLOBlit_555",
+      "block_number": "PROPblock_2",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_3",
+          "temperature_k": "293.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "998.203"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_4",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "997.043"
+        }
+      ],
+      "inspection_id": "INSP_9e4417a4e81d",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.fluid.2005.09.009",
+      "lit_num_id": "GLOBlit_306",
+      "block_number": "PROPblock_6",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.325",
+          "mass_density_kg_m3": "997.06"
+        }
+      ],
+      "inspection_id": "INSP_6715d3baae18",
+      "markdown": ""
+    }
+  ]
+}

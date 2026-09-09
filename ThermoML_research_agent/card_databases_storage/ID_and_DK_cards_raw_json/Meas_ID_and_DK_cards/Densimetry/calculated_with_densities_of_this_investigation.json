@@ -1,0 +1,316 @@
+{
+  "meas_ID": "calculated_with_densities_of_this_investigation",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Calculated with densities of this investigation",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Calculated with densities of this investigation",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Densimetry",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 370,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 92,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 370,
+          "papers": 92
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "density of pure components ρ_i(T, P)",
+          "density of mixture ρ_mix(T, P, x)",
+          "composition (mole fractions x_i or molalities m_i)",
+          "temperature T",
+          "pressure P"
+        ],
+        "derived_observables": [
+          "excess molar volume V^E",
+          "apparent molar volume V_φ",
+          "partial molar volume V̄_i",
+          "thermal expansion coefficient α_P = -(1/ρ)(∂ρ/∂T)_P",
+          "isothermal compressibility κ_T = (1/ρ)(∂ρ/∂P)_T",
+          "excess thermal expansion coefficient α^E",
+          "molar volume V_m = M/ρ",
+          "specific volume v = 1/ρ"
+        ],
+        "target_properties": [
+          "excess molar volume V^E(T, P, x)",
+          "apparent molar volume V_φ(T, P, m)",
+          "partial molar volume V̄_i(T, P, x)",
+          "molar volume V_m(T, P)",
+          "thermal expansion coefficient α_P(T, P)",
+          "isothermal compressibility κ_T(T, P)"
+        ],
+        "phases_measured": [
+          "liquid (single phase)",
+          "liquid mixtures (homogeneous)",
+          "compressed liquid"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "ternary liquid mixtures",
+          "multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "non-electrolyte solutions",
+          "ionic liquid mixtures",
+          "aqueous solutions",
+          "organic solvent mixtures"
+        ],
+        "unsupported_sample_types": [
+          "gases and vapors (density measurement techniques differ)",
+          "heterogeneous (two-phase) mixtures",
+          "solids and solid mixtures",
+          "supercritical fluids (unless density data span the supercritical region)",
+          "systems where composition is not precisely known"
+        ],
+        "typical_output_formats": [
+          "V^E vs. x at fixed T and P",
+          "V_φ vs. molality at fixed T and P",
+          "V̄_i vs. x at fixed T and P",
+          "V^E vs. T at fixed x and P",
+          "Redlich-Kister polynomial coefficients for V^E(x)"
+        ],
+        "units": {
+          "density": "kg/m³ or g/cm³",
+          "molar_volume": "cm³/mol",
+          "excess_molar_volume": "cm³/mol",
+          "apparent_molar_volume": "cm³/mol",
+          "partial_molar_volume": "cm³/mol",
+          "thermal_expansion_coefficient": "K⁻¹",
+          "isothermal_compressibility": "Pa⁻¹ or MPa⁻¹",
+          "specific_volume": "cm³/g",
+          "temperature": "K",
+          "pressure": "MPa",
+          "mole_fraction": "dimensionless",
+          "molality": "mol/kg"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "density_accuracy",
+            "typical_range": "±0.00001 to ±0.0001 g/cm³",
+            "hard_limits": "propagated uncertainty in derived volumes depends directly on density precision; at least 5 significant figures in ρ are typically required for meaningful V^E",
+            "notes": "vibrating-tube densimeters commonly provide ±0.00001 g/cm³; pycnometers provide ±0.0001 g/cm³"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273.15 K to 363.15 K",
+            "hard_limits": "limited by the T range over which the source density measurements were performed",
+            "notes": "most ThermoML entries with this method cover near-ambient temperatures"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa (ambient)",
+            "hard_limits": "atmospheric pressure unless high-pressure densimetry was performed",
+            "notes": "excess volumes are most commonly reported at atmospheric pressure"
+          },
+          {
+            "parameter": "composition_range",
+            "typical_range": "full mole fraction range x = 0 to 1 for binary mixtures",
+            "hard_limits": "limited to the composition range at which densities were measured",
+            "notes": "fine composition spacing (Δx ≈ 0.05 or finer) is needed to resolve V^E curvature"
+          }
+        ],
+        "variables": [
+          {
+            "name": "mole_fraction",
+            "role": "primary composition variable",
+            "typical_values": "0 to 1 in steps of 0.05–0.1",
+            "effect": "V^E and V_φ are functions of composition; V^E is identically zero at x = 0 and x = 1"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled thermodynamic variable",
+            "typical_values": "283.15 K to 333.15 K",
+            "effect": "temperature affects density and hence all derived volumetric quantities; thermal expansion contributes to V^E(T) trends"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa",
+            "effect": "pressure is held constant for most excess volume studies; high-pressure density data enable compressibility calculations"
+          },
+          {
+            "name": "molality",
+            "role": "composition variable for electrolyte solutions",
+            "typical_values": "0.01 to 6 mol/kg",
+            "effect": "apparent molar volume V_φ is typically reported as a function of molality for electrolyte systems"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "computational environment — spreadsheet, programming language, or dedicated thermodynamic software for algebraic/numerical calculations",
+          "density data set — measured densities ρ(T, P, x) from the same investigation (e.g., vibrating-tube densimeter, pycnometer)",
+          "pure-component density data — ρ_i^*(T, P) for each component, measured in the same investigation or from a consistent source",
+          "molar mass values — M_i for each component (from IUPAC atomic weights)",
+          "curve-fitting software — for Redlich-Kister or polynomial regression of V^E(x)"
+        ],
+        "environmental_requirements": [
+          "no physical environment requirements — this is a computational method",
+          "density data must have been acquired under well-controlled and documented T and P conditions"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "not applicable — no physical sample is handled during the calculation step"
+          ],
+          "size_limits": "not applicable",
+          "thickness_limits": "not applicable",
+          "surface_requirements": [
+            "not applicable"
+          ],
+          "mounting_requirements": [
+            "not applicable"
+          ],
+          "preparation_requirements": [
+            "density measurements must have been completed for the system of interest across the full composition and temperature range",
+            "pure-component densities must be available at every T and P of interest",
+            "compositions must be gravimetrically or analytically determined with sufficient precision"
+          ]
+        },
+        "calibration_requirements": [
+          "not applicable to the calculation itself — calibration pertains to the underlying density measurement instrument",
+          "consistency check: computed V^E should be exactly zero at x = 0 and x = 1 (pure-component endpoints)",
+          "consistency check: V_φ should extrapolate smoothly to the partial molar volume at infinite dilution"
+        ],
+        "reference_materials": [
+          "not applicable to the calculation; reference materials for the underlying densimeter (e.g., dry air and degassed water) are documented under the source density measurement method"
+        ],
+        "consumables": [
+          "none — computational method"
+        ],
+        "safety_notes": [
+          "no safety concerns — purely computational procedure"
+        ]
+      },
+      "performance": {
+        "sensitivity": "determined entirely by the precision of input density data; a change of ±0.00001 g/cm³ in ρ_mix translates to approximately ±0.005 cm³/mol in V^E for a typical binary organic mixture",
+        "detection_limit": "smallest resolvable V^E is approximately 0.001–0.01 cm³/mol, set by the propagated uncertainty from density measurements",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "V^E values typically range from −5 cm³/mol to +5 cm³/mol for organic mixtures; electrolyte V_φ ranges from −20 to +300 cm³/mol",
+        "accuracy": "propagated from source density accuracy; typical 0.5–2% relative uncertainty in V^E when density is known to ±0.00005 g/cm³; much larger percentage uncertainty when V^E is near zero",
+        "precision": "propagated from density precision; repeatability of V^E typically ±0.001–0.01 cm³/mol",
+        "throughput": "high — once density data are in hand, all derived volumetric properties for the entire composition range can be computed in seconds",
+        "measurement_speed": "essentially instantaneous computation; total time is dominated by the underlying density measurement campaign"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "no raw signal — input is tabulated density values ρ(T, P, x) from the same investigation",
+        "preprocessing_steps": [
+          "verify internal consistency of density data (monotonicity with composition, smooth T-dependence)",
+          "interpolate densities to common T and P grid if measurements were not performed at identical conditions",
+          "compute molar masses from IUPAC atomic weights for each component",
+          "compute molar volumes V_m = M/ρ for mixtures and pure components",
+          "compute ideal molar volume V_id = Σ(x_i * V_i^*) where V_i^* = M_i/ρ_i^*"
+        ],
+        "analysis_methods": [
+          "excess molar volume: V^E = V_m,mix − Σ(x_i * V_i^*) = (Σ(x_i * M_i))/ρ_mix − Σ(x_i * M_i/ρ_i^*)",
+          "apparent molar volume: V_φ = (V − n_1 * V_1^*)/n_2 = M_2/ρ + (1000/m)(1/ρ − 1/ρ_0) for aqueous solutions",
+          "partial molar volume: V̄_i = V^E + V_i^* + (1 − x_i)(∂V^E/∂x_i)_{T,P}",
+          "Redlich-Kister polynomial fitting: V^E = x_1 * x_2 * Σ A_k(x_1 − x_2)^k",
+          "thermal expansion from temperature derivative: α_P = −(1/ρ)(∂ρ/∂T)_P, obtained by polynomial fit of ρ(T)",
+          "partial molar volume at infinite dilution: V̄_i^∞ = lim(x_i→0) V̄_i, obtained from Redlich-Kister coefficients"
+        ],
+        "model_assumptions": [
+          "density measurements for mixture and pure components were performed under identical T and P conditions (or rigorously interpolated)",
+          "pure-component molar volumes V_i^* represent the ideal mixing reference state",
+          "the system is homogeneous and single-phase at all compositions",
+          "Redlich-Kister polynomial adequately represents the composition dependence of V^E (appropriate truncation order)",
+          "temperature dependence of density is smooth and differentiable (required for α_P computation)"
+        ],
+        "fit_parameters": [
+          "Redlich-Kister coefficients A_0, A_1, A_2, ... for V^E(x)",
+          "polynomial coefficients for ρ(T) at fixed x (used to compute α_P)",
+          "Masson equation parameters for V_φ(√c) in electrolyte solutions",
+          "standard deviation of fit σ(V^E) as a measure of fit quality"
+        ],
+        "common_artifacts": [
+          "endpoint mismatch: slight non-zero V^E at x = 0 or x = 1 due to inconsistent pure-component and mixture density sources",
+          "overfitting with high-order Redlich-Kister polynomials — oscillatory V^E curves that are not physically meaningful",
+          "propagated systematic bias from uncorrected density calibration drift during the measurement campaign",
+          "apparent asymmetry in V^E arising from unequal composition spacing rather than real thermodynamic behavior",
+          "sign errors or unit conversion errors when mixing density data reported in kg/m³ and g/cm³"
+        ],
+        "quality_control_checks": [
+          "V^E must be exactly zero at x = 0 and x = 1; deviation indicates inconsistency between pure-component and mixture data",
+          "V^E(x) should be a smooth function without sharp discontinuities",
+          "compare computed V^E with literature values for well-studied benchmark systems",
+          "standard deviation of Redlich-Kister fit should be comparable to propagated uncertainty from density data",
+          "verify that V_φ extrapolation to infinite dilution gives physically reasonable V̄^∞ values",
+          "check sign and magnitude of V^E against expectations from molecular size and interaction differences"
+        ],
+        "failure_modes": [
+          "use of pure-component densities from a different source than the mixture densities, introducing systematic offset in V^E",
+          "insufficient composition resolution (too few data points) to capture the shape of V^E(x)",
+          "phase separation at certain compositions (system enters two-phase region), invalidating single-phase V^E calculation",
+          "density data acquired at slightly different temperatures being combined without interpolation correction",
+          "transcription or rounding errors in density values that produce anomalous outlier points in V^E"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.001–0.05 cm³/mol for V^E; relative uncertainty can exceed 10% when V^E is near zero",
+        "random_sources": [
+          "random scatter in input density measurements",
+          "composition preparation uncertainty (gravimetric weighing errors)",
+          "temperature measurement noise at each density data point",
+          "random fitting residuals in Redlich-Kister regression"
+        ],
+        "systematic_sources": [
+          "calibration bias in the underlying densimeter",
+          "impurity effects on measured density (especially water content in hygroscopic systems)",
+          "molar mass uncertainty due to isotopic variation or sample purity",
+          "use of inconsistent pure-component density sources",
+          "temperature offset between mixture and pure-component measurements",
+          "approximation error from Redlich-Kister polynomial truncation"
+        ],
+        "operator_dependence": "low for the calculation step itself — results are deterministic given the same input data; moderate dependence on the choice of fitting model order and interpolation method",
+        "model_dependence": "moderate — choice of Redlich-Kister polynomial order, composition-averaging scheme, and interpolation method for T-alignment can affect V^E values, especially near extrema and at dilute compositions",
+        "dominant_error_sources": [
+          "precision of the input density data (propagates directly and dominantly into V^E uncertainty)",
+          "inconsistency between pure-component and mixture density data (systematic offset in V^E)",
+          "composition accuracy of the prepared mixtures"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(V^E) at 95% confidence (k=2)",
+          "standard deviation of Redlich-Kister fit as an estimate of data scatter",
+          "propagated uncertainty from density measurement uncertainty via error propagation formula"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "'Calculated with densities of this investigation' is a derived-quantity method in which excess molar volumes, apparent molar volumes, partial molar volumes, and other volumetric properties are computed algebraically from density data measured within the same experimental study. It is not a physical measurement technique but rather a standard thermodynamic calculation procedure that transforms density values — typically obtained from a vibrating-tube densimeter or pycnometer — into derived volumetric properties. This method is one of the most common approaches in the ThermoML database for reporting volumetric mixing properties, appearing in 92 papers with 370 data instances, exclusively within the VolumetricProp property group.",
+      "how_it_operates": "The method operates by combining measured mixture densities ρ_mix(T, P, x) with pure-component densities ρ_i^*(T, P) — all obtained within the same investigation — to compute derived quantities through well-defined thermodynamic relations. For excess molar volume, the mixture molar volume V_m,mix = (Σ x_i M_i)/ρ_mix is compared to the ideal mixture molar volume V_id = Σ(x_i M_i/ρ_i^*), and the difference V^E = V_m,mix − V_id is the excess molar volume. For apparent molar volume of a solute, the total solution volume is partitioned between solvent and solute contributions. All calculations are performed at matched temperature and pressure conditions, and the results are typically fitted to Redlich-Kister polynomials or other empirical correlation equations to provide smooth composition-dependent representations.",
+      "core_theory": "The theoretical foundation rests on the thermodynamics of mixing. The excess molar volume is defined as V^E = V_m,mix − V_m,id, where V_m,id = Σ(x_i V_i^*) is the molar volume of an ideal mixture and V_i^* = M_i/ρ_i^* is the molar volume of pure component i. For a binary system: V^E = (x_1 M_1 + x_2 M_2)/ρ_mix − x_1 M_1/ρ_1^* − x_2 M_2/ρ_2^*. The apparent molar volume of solute 2 in solvent 1 is V_φ,2 = M_2/ρ + (1/m)(1/ρ − 1/ρ_0)·1000, where m is molality, ρ is solution density, and ρ_0 is pure solvent density. Partial molar volumes are obtained via V̄_i = (∂(nV)/∂n_i)_{T,P,n_j≠i}, which for a binary system with a Redlich-Kister fit V^E = x_1 x_2 Σ A_k(x_1 − x_2)^k yields V̄_1 = V_1^* + V^E + x_2(∂V^E/∂x_1). The key feature of all these relations is that density enters as a ratio or difference, so systematic errors in density propagate sensitively — a 0.01% uncertainty in density can yield 1–10% uncertainty in V^E.",
+      "setup": "No physical experimental setup is required. The 'setup' for this method consists of: (1) a complete set of density measurements for the pure components and their mixtures at the same temperatures and pressures, produced by the same investigation using a calibrated densimeter; (2) accurate molar masses for all components computed from IUPAC atomic weights and confirmed sample purities; (3) a computational tool (spreadsheet, Python script, or thermodynamic software package) capable of performing the algebraic transformations and curve fitting. The composition grid should be sufficiently fine (typically Δx ≈ 0.05 or finer for binaries) to capture the curvature of V^E(x), and density data must be matched to a common temperature grid by interpolation if measurements were not performed at identical temperatures.",
+      "suitable_for": "This method is suitable for any liquid system where density has been measured as a function of composition within the same investigation, making it the standard approach for deriving volumetric mixing properties. It is most commonly applied to binary and ternary non-electrolyte liquid mixtures at atmospheric pressure, binary electrolyte solutions over a range of molalities, ionic liquid mixtures with organic solvents, and aqueous solutions of alcohols, amines, or other organic solutes. The method is particularly valuable because using densities from the same investigation ensures internal thermodynamic consistency — the pure-component reference values and mixture values share the same instrumental calibration, temperature scale, and systematic characteristics, minimizing systematic offset errors in the derived quantities.",
+      "core_limitations": "The fundamental limitation is that the accuracy of all derived properties is entirely determined by the precision and accuracy of the input density data. Because V^E is a small difference of large numbers (V_m,mix − V_m,id), even small relative errors in density (±0.00005 g/cm³) can translate to significant relative errors in V^E, especially when V^E is small (near ideal mixing). The method cannot produce results at temperatures, pressures, or compositions beyond those covered by the original density measurements. Extrapolation of fitted Redlich-Kister polynomials outside the measured composition range is unreliable. For electrolyte solutions, the apparent molar volume calculation becomes ill-conditioned at very low concentrations where V_φ depends on the difference between two nearly equal quantities. The method also assumes a single homogeneous liquid phase — it cannot be applied in two-phase regions.",
+      "sample_preparation": "No sample preparation is performed for the calculation step itself. However, the quality of the derived results is directly governed by the sample preparation performed for the underlying density measurements. Critical requirements include: high-purity components (typically >99.5% for organic liquids, verified by GC or Karl Fischer titration for water content), careful gravimetric preparation of mixtures on an analytical balance (±0.0001 g) to ensure accurate compositions, thorough degassing of all liquids to eliminate dissolved air bubbles that would bias density values, and protection of hygroscopic samples from atmospheric moisture uptake during mixture preparation and density measurement.",
+      "calibration_and_references": "Calibration pertains exclusively to the underlying density measurement instrument, not to the calculation itself. The densimeter (typically a vibrating-tube instrument) must be calibrated against air and degassed, deionized water (or other certified reference liquids) at each temperature before measuring sample densities. For the calculation step, internal consistency checks serve as the 'calibration': V^E must be identically zero at both pure-component endpoints (x_1 = 0 and x_1 = 1); any non-zero value indicates inconsistency between the pure-component and mixture density data sets. Benchmark validation against well-studied systems (e.g., cyclohexane + benzene or water + ethanol) with literature-consensus V^E values provides an external check on the combined measurement-and-calculation workflow.",
+      "data_interpretation": "Interpretation begins with computing V^E at each measured composition from the density data and plotting V^E vs. x to visualize the mixing behavior. Negative V^E indicates volume contraction upon mixing (stronger unlike interactions or efficient molecular packing), while positive V^E indicates volume expansion (disruption of molecular structure or weaker unlike interactions). The data are fitted to a Redlich-Kister polynomial V^E = x_1 x_2 Σ_k A_k(x_1 − x_2)^k, where the number of terms (typically 3–5) is chosen to minimize the standard deviation without overfitting. Partial molar volumes are obtained analytically from the Redlich-Kister coefficients. For electrolyte solutions, V_φ is plotted against √c (Masson equation) or fitted to the Pitzer equation to extract the partial molar volume at infinite dilution V_φ^0 and the slope parameter S_v. Temperature dependence of V^E reveals the excess thermal expansion, and the sign and magnitude of dV^E/dT provide insight into the temperature sensitivity of molecular interactions.",
+      "common_pitfalls": "The most dangerous pitfall is mixing density data from different sources or instruments for the pure components and the mixtures, which introduces systematic offsets that propagate directly into V^E. Even a 0.0001 g/cm³ offset between pure-component and mixture density sources can produce V^E errors of ~0.05 cm³/mol — comparable to the total V^E for near-ideal systems. Other common pitfalls include: using insufficient decimal places in density values (fewer than 5 significant figures after the decimal point in g/cm³); failing to interpolate densities to exactly matched temperatures when measurements were taken at slightly different T; overfitting Redlich-Kister polynomials with too many terms, producing spurious oscillations; and neglecting to account for sample impurities that shift the effective pure-component density. A subtle pitfall is reporting V^E at compositions determined by nominal rather than actual gravimetric mole fractions.",
+      "artifacts_and_failure_modes": "The primary artifact is endpoint non-closure: if the pure-component densities used in the V^E calculation do not come from the same measurement campaign, V^E may not equal zero at x = 0 or x = 1, producing an artificial baseline offset across the entire composition range. Overfitting artifacts appear as unphysical oscillations in V^E(x) when the Redlich-Kister polynomial order is too high relative to the number of data points. Anomalous outlier points arise from transcription errors, phase separation at certain compositions, or air bubbles in the density measurement. For electrolyte solutions, the Masson equation extrapolation to infinite dilution can produce unreliable V_φ^0 values if data do not extend to sufficiently dilute concentrations. Sign errors — particularly when converting between kg/m³ and g/cm³ or when handling the (1/ρ − 1/ρ_0) term in V_φ — are a recurring failure mode that produces V^E or V_φ values of incorrect sign.",
+      "reporting_checklist": "Publications using this method should report: (1) the identity and purity of all components with analytical verification method; (2) the density measurement technique and instrument model used for both pure-component and mixture densities; (3) the density values themselves (or reference to the table where they appear); (4) the temperature and pressure at which densities were measured; (5) the method of mixture preparation (gravimetric vs. volumetric) and balance precision; (6) molar masses used in the calculation with their source; (7) the V^E (or V_φ) values at each composition; (8) the Redlich-Kister polynomial order and fitted coefficients with standard deviation of the fit; (9) uncertainty in V^E, either propagated from density uncertainty or estimated from fit residuals; (10) a statement confirming that all density data originated from the same investigation. For ThermoML encoding, derived volumetric properties are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

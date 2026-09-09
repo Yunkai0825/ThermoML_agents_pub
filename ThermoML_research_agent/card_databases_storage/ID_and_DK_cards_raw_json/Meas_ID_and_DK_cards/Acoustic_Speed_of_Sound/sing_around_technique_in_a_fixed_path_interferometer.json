@@ -1,0 +1,339 @@
+{
+  "meas_ID": "sing_around_technique_in_a_fixed_path_interferometer",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Sing-around technique in a fixed-path interferometer",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Sing-around technique in a fixed-path interferometer",
+    "thermoml_custom_codes": [
+      "FPINT"
+    ],
+    "measurement_family": "Acoustic / Speed of Sound",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 2259,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 398,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 2259,
+          "papers": 398
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "sing-around repetition frequency (f_rep)",
+          "temperature (T)",
+          "pressure (P)",
+          "acoustic path length (L)"
+        ],
+        "derived_observables": [
+          "speed of sound (u = L × f_rep, after delay correction)",
+          "isentropic compressibility (κ_S = 1/(ρ·u²), requires independent density)",
+          "isobaric expansivity (via thermodynamic relations with Cp and density)",
+          "acoustic impedance (Z = ρ·u)"
+        ],
+        "target_properties": [
+          "speed of sound in liquids",
+          "speed of sound in compressed gases",
+          "isentropic compressibility",
+          "acoustic impedance",
+          "excess speed of sound in mixtures"
+        ],
+        "phases_measured": [
+          "liquid (pure and mixtures)",
+          "compressed gas",
+          "supercritical fluid",
+          "liquid under elevated pressure"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "organic solvents",
+          "ionic liquids",
+          "compressed gases and gas mixtures",
+          "supercritical fluids",
+          "liquid fuels and hydrocarbons"
+        ],
+        "unsupported_sample_types": [
+          "solids (acoustic coupling and propagation mode differs fundamentally)",
+          "highly viscous liquids or gels (excessive attenuation damps the pulse below detection threshold)",
+          "heterogeneous suspensions or emulsions (scattering attenuates and distorts the pulse)",
+          "foaming liquids (air entrainment disrupts acoustic path)",
+          "low-pressure gases below ~0.1 MPa (attenuation too high for practical sing-around operation)"
+        ],
+        "typical_output_formats": [
+          "u vs. T at constant P",
+          "u vs. P at constant T",
+          "u vs. composition at constant T and P",
+          "κ_S vs. T (when combined with density data)",
+          "excess speed of sound (u^E) vs. mole fraction"
+        ],
+        "units": {
+          "speed_of_sound": "m/s",
+          "repetition_frequency": "kHz or MHz",
+          "temperature": "K",
+          "pressure": "MPa",
+          "acoustic_path_length": "mm or cm",
+          "isentropic_compressibility": "TPa⁻¹ or Pa⁻¹",
+          "acoustic_impedance": "Pa·s/m (rayl)",
+          "density": "kg/m³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "acoustic_path_length",
+            "typical_range": "10 mm to 100 mm",
+            "hard_limits": "must be long enough for well-separated pulses (>5 mm) but short enough to avoid excessive attenuation; practical range 5–200 mm",
+            "notes": "fixed and precisely machined; path length accuracy directly limits speed of sound accuracy"
+          },
+          {
+            "parameter": "ultrasonic_frequency",
+            "typical_range": "1 MHz to 10 MHz",
+            "hard_limits": "0.5 MHz to 20 MHz; lower frequencies suffer diffraction errors, higher frequencies suffer excessive attenuation",
+            "notes": "2–5 MHz is most common for liquids; higher frequencies used for short path lengths"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 373 K",
+            "hard_limits": "193 K to 573 K with specialized cells and seals; limited by transducer Curie temperature (~573 K for PZT) and cell seal integrity",
+            "notes": "most literature data collected between 283 K and 343 K"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 100 MPa",
+            "hard_limits": "up to 200 MPa with high-pressure cells; atmospheric pressure for routine work",
+            "notes": "high-pressure operation requires specialized thick-walled cells and pressure-rated seals"
+          },
+          {
+            "parameter": "temperature_stability",
+            "typical_range": "±0.01 K to ±0.005 K",
+            "hard_limits": "±0.001 K achievable with precision thermostatic baths",
+            "notes": "speed of sound has a typical temperature coefficient of 2–5 m/(s·K), so ±0.01 K stability contributes ~0.02–0.05 m/s uncertainty"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "283 K to 343 K in 5 K or 10 K steps",
+            "effect": "speed of sound varies strongly with temperature; typically decreases 2–5 m/s per K in organic liquids"
+          },
+          {
+            "name": "pressure",
+            "role": "secondary variable or fixed at ambient",
+            "typical_values": "0.1 MPa (ambient) to 100 MPa",
+            "effect": "speed of sound generally increases with pressure in liquids; enables determination of equation-of-state parameters"
+          },
+          {
+            "name": "composition",
+            "role": "variable for mixture studies",
+            "typical_values": "0 to 1 mole fraction across full composition range",
+            "effect": "speed of sound in mixtures reveals excess compressibility behaviors and intermolecular interactions"
+          },
+          {
+            "name": "acoustic_path_length",
+            "role": "fixed geometric parameter (set during cell fabrication)",
+            "typical_values": "20 mm to 50 mm",
+            "effect": "directly multiplies repetition frequency to yield speed of sound; must be known to ±1 µm or better for 0.01% accuracy"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "transmitting piezoelectric transducer — generates ultrasonic pulse (PZT or quartz crystal, typically 1–10 MHz fundamental)",
+          "receiving piezoelectric transducer — detects transmitted pulse after propagation through sample",
+          "fixed-path acoustic cell — precisely machined stainless steel or Inconel cell with parallel transducer faces defining path length L",
+          "trigger/feedback circuit — electronic comparator that detects received pulse and triggers next transmission after a fixed electronic delay",
+          "high-frequency counter/timer — measures sing-around repetition frequency f_rep with resolution ≤0.1 Hz (e.g., counts N cycles over a gating period)",
+          "pulse generator — provides initial trigger and shapes the drive pulse for the transmitting transducer",
+          "thermostatic bath — circulating liquid bath (water/ethylene glycol) providing temperature stability of ±0.01 K or better",
+          "calibrated thermometer — platinum resistance thermometer (PRT, ITS-90) or calibrated thermistor for temperature measurement inside or near the cell",
+          "pressure transducer and gauge (for high-pressure work) — strain-gauge or dead-weight type with accuracy ≤0.05% of reading",
+          "data acquisition system — computer interface for logging repetition frequency, temperature, and pressure"
+        ],
+        "environmental_requirements": [
+          "thermostatic bath with stability ±0.01 K or better surrounding the acoustic cell",
+          "vibration-free mounting to prevent mechanical disturbance of transducers and reflections",
+          "temperature-controlled laboratory (±1 K ambient) to minimize thermal gradients in connecting lines",
+          "electrical shielding of trigger circuit and counter from external RF interference"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid fills the entire acoustic path between transducer faces",
+            "no bubbles or particulates in the acoustic path"
+          ],
+          "size_limits": "cell volume typically 5–50 mL depending on path length and cell bore diameter",
+          "thickness_limits": "not applicable — sample fills the fixed acoustic path; path length L is a cell property, not a sample property",
+          "surface_requirements": [
+            "transducer faces must be clean and free of deposits that alter acoustic coupling",
+            "internal cell walls should be chemically compatible with the sample"
+          ],
+          "mounting_requirements": [
+            "transducers must be rigidly mounted parallel to each other within the cell body",
+            "O-ring or gasket seals must be rated for the working pressure and temperature range",
+            "cell must be fully immersed in the thermostatic bath or have integral temperature control"
+          ],
+          "preparation_requirements": [
+            "degassing of liquid samples (ultrasonic bath, vacuum degassing, or helium sparging) to remove dissolved air that causes bubble nucleation and anomalous attenuation",
+            "filtration through 0.2–0.45 µm filter for particle-free samples",
+            "drying over molecular sieves for moisture-sensitive samples",
+            "composition verification by Karl Fischer titration (water content) or GC analysis"
+          ]
+        },
+        "calibration_requirements": [
+          "path length calibration using a reference liquid of well-known speed of sound (usually pure water, IAPWS-95 equation of state) at multiple temperatures",
+          "electronic delay (τ_delay) determination — measure repetition frequency at two or more known path lengths, or compare measured speed of sound to reference values; τ_delay = (1/f_rep) − L/u_ref",
+          "temperature calibration of PRT against ITS-90 fixed points or a NIST-traceable reference thermometer",
+          "pressure transducer calibration against a dead-weight tester for high-pressure work",
+          "periodic verification of path length stability by re-measuring a reference liquid"
+        ],
+        "reference_materials": [
+          "pure water (IAPWS-95) — primary calibration reference for path length determination; u known to ±0.005% over wide T and P range",
+          "n-heptane — secondary reference liquid; NIST recommended values available",
+          "toluene — frequently used secondary reference with extensive literature data",
+          "1,1,1,2-tetrafluoroethane (R-134a) — reference for compressed gas measurements",
+          "dry nitrogen — reference gas at elevated pressures"
+        ],
+        "consumables": [
+          "O-rings (Viton, Kalrez, or PTFE) for cell seals — replaced periodically or when changing between chemically incompatible samples",
+          "acoustic couplant grease (for transducer-cell interface if not direct-bonded)",
+          "reference water (HPLC grade or freshly deionized and degassed)",
+          "cleaning solvents (acetone, ethanol) for cell and transducer face cleaning"
+        ],
+        "safety_notes": [
+          "high-pressure cells must be hydrostatically tested to at least 1.5× maximum operating pressure and inspected regularly for fatigue",
+          "volatile or toxic liquids require fume hood operation and proper ventilation",
+          "ultrasonic power levels used are low (<1 W) and pose no direct hazard, but hearing protection may be warranted if audible harmonics are present",
+          "hot thermostatic bath fluid poses burn risk at temperatures above 333 K"
+        ]
+      },
+      "performance": {
+        "sensitivity": "speed of sound changes as small as 0.01 m/s detectable; repetition frequency resolved to ~0.1 Hz over typical gating intervals",
+        "detection_limit": "not applicable in the conventional sense — technique measures bulk speed of sound; minimum concentration change detectable in mixtures depends on du/dx sensitivity (typically ~0.001 mole fraction)",
+        "resolution": {
+          "spatial": "not applicable — bulk path-averaged measurement over the fixed acoustic path length",
+          "temporal": "determined by gating interval for frequency counting; typically 1–10 s per measurement point",
+          "spectral": "not applicable (single ultrasonic frequency, not a spectroscopic method)",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "speed of sound measurable from ~150 m/s (low-density gases) to ~2000 m/s (dense liquids); practical range depends on cell design and transducer frequency",
+        "accuracy": "0.01–0.05% (0.1–0.6 m/s in water at 298 K) after full calibration; best implementations achieve 0.005%",
+        "precision": "0.005–0.02% (repeatability); limited by temperature stability and electronic noise",
+        "throughput": "single sample fills cell; one complete T or P sweep takes 1–4 hours depending on number of points and equilibration time",
+        "measurement_speed": "individual repetition frequency measurement takes 1–10 s (gating period); thermal equilibration at each set point adds 5–30 min"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "digital count of sing-around cycles over a precisely timed gate interval, yielding repetition frequency f_rep; or equivalently, the period T_rep = 1/f_rep measured by a time-interval counter",
+        "preprocessing_steps": [
+          "averaging of multiple frequency readings at each state point to reduce random noise (typically 50–500 readings averaged)",
+          "electronic delay correction: u = L/(T_rep − τ_delay) where τ_delay is determined from calibration",
+          "temperature correction: apply small correction if thermometer reading differs from equilibrium temperature",
+          "pressure correction: correct path length L for elastic deformation of cell at elevated pressure using known elastic modulus of cell material",
+          "diffraction correction: apply Kirchhoff diffraction correction for finite transducer aperture if operating at lower frequencies"
+        ],
+        "analysis_methods": [
+          "direct calculation: u = L × f_rep (after τ_delay correction) or equivalently u = L/(T_rep − τ_delay)",
+          "two-path-length method: measure f_rep at two different path lengths L1 and L2 to eliminate τ_delay; u = (L1 − L2)/(T_rep1 − T_rep2)",
+          "polynomial fitting of u(T) or u(P) data sequences to obtain smooth thermodynamic functions",
+          "isentropic compressibility calculation: κ_S = 1/(ρ·u²) using independently measured density ρ",
+          "excess property calculation: u^E = u_mixture − Σ(x_i·u_i) for mixture studies (or via Kimura relation for ideal mixing speed)"
+        ],
+        "model_assumptions": [
+          "the acoustic pulse propagates as a plane wave across the fixed path (valid when transducer diameter >> acoustic wavelength)",
+          "the fluid is homogeneous and at thermodynamic equilibrium at each measurement point",
+          "the ultrasonic frequency is low enough that dispersion due to relaxation processes is negligible (u measured equals zero-frequency thermodynamic speed of sound)",
+          "the acoustic wave amplitude is small enough that propagation is in the linear regime (no finite-amplitude effects)",
+          "the cell path length L is invariant with temperature and pressure to within the stated calibration accuracy (or corrected for thermal expansion and elastic compression)"
+        ],
+        "fit_parameters": [
+          "speed of sound u at each (T, P, x) state point",
+          "electronic delay time τ_delay (from calibration)",
+          "acoustic path length L at reference conditions (from calibration with reference liquid)",
+          "thermal expansion coefficient of cell material (for L(T) correction)",
+          "elastic compliance of cell body (for L(P) correction at high pressure)"
+        ],
+        "common_artifacts": [
+          "bubble artifact: dissolved gas coming out of solution generates scattering centers that attenuate the pulse and reduce the apparent repetition frequency, yielding erroneously low u",
+          "mode-locking artifact: at certain repetition rates, standing-wave resonances in the cell can lock the frequency to a parasitic mode, causing sudden discrete jumps in f_rep",
+          "double-triggering artifact: electronic noise or ringing causes the trigger circuit to fire on a secondary echo rather than the direct arrival, doubling the apparent transit time",
+          "thermal gradient artifact: if the sample is not uniformly thermostated, the speed of sound is path-averaged over a non-uniform temperature field, introducing a systematic bias",
+          "diffraction error: at low frequencies or short path lengths, Kirchhoff diffraction causes the effective path length to differ from the geometric path length"
+        ],
+        "quality_control_checks": [
+          "measure speed of sound in pure water at reference temperatures (e.g., 298.15 K) and compare to IAPWS-95 values; deviation should be < 0.05%",
+          "repeat measurements on heating and cooling to verify thermal equilibrium and absence of hysteresis",
+          "verify that measured f_rep is independent of pulse amplitude over a range of drive voltages (linearity check)",
+          "check for bubbles by visual inspection through a sapphire window or by monitoring signal amplitude stability",
+          "re-measure a reference liquid periodically to confirm path length has not drifted"
+        ],
+        "failure_modes": [
+          "transducer failure: depoling of PZT crystal at temperatures above Curie point (~573 K); loss of signal and inability to sustain oscillation",
+          "seal failure at high pressure: O-ring blowout causes sample leak and loss of pressure containment",
+          "trigger circuit loss of lock: if sample attenuation is too high, the received pulse amplitude drops below the trigger threshold and the sing-around loop stops oscillating",
+          "cell corrosion: chemically aggressive samples (strong acids, concentrated halides) corrode stainless steel cell walls, changing path length and contaminating the sample",
+          "electrical cross-talk: direct electromagnetic coupling between transmitter and receiver bypasses the acoustic path, triggering on the electrical pulse rather than the acoustic arrival"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.05% for speed of sound in liquids; 0.05–0.2% for compressed gases",
+        "random_sources": [
+          "frequency counter quantization noise (minimized by long gating intervals)",
+          "temperature fluctuations in the thermostatic bath (±0.01 K contributes ~0.02–0.05 m/s)",
+          "electronic trigger jitter in the feedback circuit (typically < 1 ns, contributing < 0.001%)",
+          "pulse shape variation due to acoustic noise or transient bubble events"
+        ],
+        "systematic_sources": [
+          "path length calibration uncertainty (typically ±1–5 µm, contributing 0.005–0.025% to u)",
+          "electronic delay determination accuracy (from reference liquid calibration)",
+          "temperature measurement offset (PRT calibration uncertainty, typically ±0.01–0.05 K)",
+          "pressure measurement uncertainty for high-pressure work (±0.05–0.1% of reading)",
+          "diffraction correction uncertainty at low frequencies or short paths",
+          "thermal expansion of cell changing L with temperature (corrected but residual uncertainty remains)",
+          "ultrasonic dispersion if measurement frequency overlaps a molecular relaxation (shifts u above thermodynamic value)"
+        ],
+        "operator_dependence": "low — technique is largely automated once the cell is filled and the trigger circuit locked; primary operator influence is on sample preparation (degassing quality) and cell cleaning",
+        "model_dependence": "low — the measurement principle is direct (u = L/transit_time) with minimal model assumptions; corrections for diffraction, dispersion, and thermal expansion are well-characterized and small",
+        "dominant_error_sources": [
+          "path length calibration accuracy (dominant at the 0.01% uncertainty level)",
+          "temperature measurement and stability (limiting factor for temperature-dependent studies)",
+          "sample purity and dissolved gas content (affects both accuracy and reproducibility)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(u) at 95% confidence level (k=2)",
+          "relative uncertainty as percentage of speed of sound",
+          "absolute uncertainty in m/s"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The sing-around technique in a fixed-path interferometer is an ultrasonic method for measuring the speed of sound in fluids with high precision. An ultrasonic pulse is transmitted across a precisely machined acoustic cell of known path length; upon detection at the receiving transducer, the received signal triggers the transmission of the next pulse, establishing a self-sustaining oscillation loop. The repetition frequency of this loop is directly related to the acoustic transit time across the sample, providing a continuous, high-resolution measurement of speed of sound. The technique was developed in the mid-20th century and has become one of the most widely used methods for determining speed of sound in liquids and compressed gases, with achievable accuracies of 0.01–0.05%. It is extensively represented in the ThermoML database with over 2,200 data instances across nearly 400 papers.",
+      "how_it_operates": "A pulse generator drives the transmitting piezoelectric transducer (typically PZT operating at 1–10 MHz), which emits a short ultrasonic burst into the fluid filling the acoustic cell. The pulse propagates across the fixed path length L and is detected by the receiving transducer on the opposite face. The received electrical signal is amplified, shaped by a comparator circuit, and fed back to trigger the next transmission after a fixed electronic delay τ_delay. This creates a continuous sing-around loop whose repetition period is T_rep = L/u + τ_delay, where u is the speed of sound in the fluid. A high-resolution frequency counter measures the repetition frequency f_rep = 1/T_rep by counting cycles over a precisely timed gate interval (typically 1–10 s). The speed of sound is then extracted as u = L/(T_rep − τ_delay) = L/(1/f_rep − τ_delay). The electronic delay τ_delay is determined during calibration using a reference liquid of known speed of sound, or eliminated entirely by performing measurements at two different path lengths.",
+      "core_theory": "The fundamental relation governing the sing-around technique is T_rep = L/u + τ_delay, where T_rep is the measured repetition period, L is the fixed acoustic path length, u is the speed of sound, and τ_delay is the total electronic delay in the trigger circuit. Rearranging gives u = L/(T_rep − τ_delay). For the two-path-length variant, measurements at path lengths L₁ and L₂ yield u = (L₁ − L₂)/(T_rep1 − T_rep2), eliminating τ_delay entirely. The speed of sound in a fluid is a thermodynamic quantity defined as u = √(∂P/∂ρ)_S, the square root of the isentropic derivative of pressure with respect to density. Combining u with independently measured density ρ yields the isentropic compressibility κ_S = 1/(ρ·u²). Corrections to the basic formula include: a Kirchhoff diffraction correction for finite transducer aperture, a thermal expansion correction for L(T) = L₀[1 + α_cell(T − T₀)], and an elastic compression correction for high-pressure work L(P) = L₀[1 − P/(E_cell)], where α_cell and E_cell are the thermal expansion coefficient and elastic modulus of the cell material. Dispersion corrections may be needed if the ultrasonic frequency falls near a molecular relaxation frequency, where the measured phase velocity exceeds the zero-frequency thermodynamic speed of sound.",
+      "setup": "A typical sing-around apparatus consists of a fixed-path acoustic cell machined from stainless steel (316L) or Inconel, with two parallel recesses housing the transmitting and receiving piezoelectric transducers separated by a precisely known path length (typically 20–50 mm). The transducers are bonded or spring-loaded into the cell body with O-ring seals rated for the operating pressure. The cell is immersed in a high-precision thermostatic bath (water or silicone oil circulating bath providing ±0.01 K stability) and fitted with inlet/outlet ports for sample filling and flushing. Temperature is measured by a calibrated platinum resistance thermometer (PRT) inserted into the cell body adjacent to the acoustic path. For high-pressure operation, the cell is connected to a pressure generation system (hand pump or syringe pump) and fitted with a calibrated pressure transducer. The electronic circuit comprises a pulse generator, a broadband receiving amplifier, a zero-crossing or threshold comparator for triggering, and a frequency counter (HP/Agilent 53131A type with ≤0.1 Hz resolution). All components are connected to a computer for automated data acquisition and temperature stepping.",
+      "suitable_for": "The sing-around technique in a fixed-path interferometer is ideally suited for precision measurements of speed of sound in pure liquids, liquid mixtures, electrolyte solutions, and compressed gases over wide temperature and pressure ranges. It is the method of choice when accuracies of 0.01–0.05% are required and when measurements must be performed continuously or at many closely spaced state points along isotherms or isobars. The technique is widely applied for determining excess speeds of sound in binary and multicomponent mixtures, where deviations from ideal mixing reveal details of intermolecular interactions. It is also heavily used for equation-of-state studies, where u(T,P) data are combined with density to derive isentropic compressibility, isothermal compressibility, and other second-order thermodynamic properties. The continuous oscillation loop makes it well-suited for monitoring gradual composition or temperature changes, such as in flow systems or slow kinetic studies.",
+      "core_limitations": "The technique requires that the received acoustic pulse have sufficient amplitude to reliably trigger the feedback circuit; this limits measurements to fluids with moderate acoustic attenuation. Highly viscous liquids (>500 mPa·s), fluids near a critical point (where density fluctuations cause strong scattering), and low-pressure gases below ~0.1 MPa often attenuate the signal below usable levels. The fixed-path geometry means that the cell must be completely filled with a homogeneous, bubble-free sample — any trapped bubbles in the acoustic path cause erratic triggering and erroneous speed values. Accuracy is fundamentally limited by knowledge of the acoustic path length, which must be calibrated to ~1 µm for 0.01% accuracy; this calibration can drift over time due to thermal cycling or chemical attack on the cell. At ultrasonic frequencies near molecular relaxation processes (common in associating liquids and polymers), the measured phase velocity may not equal the thermodynamic zero-frequency speed of sound, requiring a dispersion correction or use of multiple frequencies. The technique also cannot distinguish absorption from scattering losses, so both appear as signal degradation.",
+      "sample_preparation": "Liquid samples must be thoroughly degassed before measurement to prevent bubble formation in the acoustic path, which is the most common cause of measurement failure. Degassing is accomplished by placing the sample under vacuum (10–50 mbar) with stirring for 30–60 minutes, by ultrasonic agitation under reduced pressure, or by helium sparging followed by vacuum removal of dissolved helium. The sample should be filtered through 0.2–0.45 µm membrane filters to remove particulates that scatter the acoustic pulse. For hygroscopic liquids or water-sensitive systems, the water content should be verified by Karl Fischer titration and should typically be below 100 ppm. The acoustic cell must be thoroughly cleaned between samples by flushing with compatible solvents (acetone, ethanol) followed by drying with filtered dry nitrogen gas. The sample is introduced into the cell through fill ports, ensuring that no air is trapped — this is best accomplished by filling from the bottom with the cell tilted to allow air to escape from the top port. For high-pressure measurements, the sample is loaded under vacuum and then pressurized slowly to avoid cavitation.",
+      "calibration_and_references": "Calibration of the sing-around interferometer requires determination of two instrumental constants: the acoustic path length L and the electronic delay time τ_delay. Both are obtained simultaneously by measuring the repetition frequency in a reference liquid of well-known speed of sound at two or more temperatures. Pure water is the primary reference, with speed of sound known to ±0.005% from the IAPWS-95 equation of state over the range 273–473 K and 0.1–100 MPa. The path length L₀ at a reference temperature T₀ is obtained from L₀ = u_ref × (T_rep − τ_delay), with τ_delay determined from a second measurement at a different temperature (different u_ref) or by the two-path-length method. Secondary reference liquids (n-heptane, toluene, cyclohexane) are used to verify calibration over the temperature range and to cross-check against published high-accuracy data. Temperature calibration of the PRT is performed against ITS-90 fixed points or by comparison with a NIST-traceable standard thermometer. The path length correction for thermal expansion, L(T) = L₀[1 + α_cell(T − T₀)], uses the known thermal expansion coefficient of the cell material (e.g., α ≈ 16 × 10⁻⁶ K⁻¹ for 316L stainless steel). Recalibration should be performed at least annually or whenever the cell is disassembled for maintenance.",
+      "data_interpretation": "The primary data reduction converts measured repetition frequency f_rep to speed of sound via u = L/(1/f_rep − τ_delay), using the calibrated path length L (corrected for thermal expansion and, if applicable, pressure-induced compression) and the calibrated electronic delay τ_delay. Multiple frequency readings at each state point (typically 50–500) are averaged to reduce random noise, and the standard deviation provides a measure of short-term repeatability. The resulting u(T) or u(P) data are typically fitted to polynomials or rational functions to provide smooth thermodynamic functions and to enable interpolation. Isentropic compressibility is calculated as κ_S = 1/(ρ·u²) using density from an independent measurement or correlation. For mixture studies, excess speed of sound u^E is obtained by subtracting the ideal-mixing speed of sound (calculated from pure-component data using the Kimura or Benson-Kiyohara relation) from the measured mixture speed of sound. Thermodynamic integration of u(T,P) data, combined with density and heat capacity information, yields a complete equation of state including isothermal compressibility, isobaric expansivity, and heat capacity ratio.",
+      "common_pitfalls": "The most critical pitfall is inadequate degassing of liquid samples — even small amounts of dissolved gas can nucleate bubbles in the acoustic path when temperature or pressure changes, causing sudden erratic frequency readings and systematic measurement errors. Another frequent mistake is assuming that the electronic delay τ_delay is constant; in practice it can drift with temperature if the electronic circuit is not thermally stabilized, and it must be redetermined if any component is replaced. Operators sometimes neglect the thermal expansion correction for the path length, which amounts to ~0.08% over a 50 K temperature range for a stainless steel cell — significant at the 0.01% accuracy level. Failure to verify the trigger threshold setting can lead to the circuit triggering on a reflected echo rather than the direct arrival, yielding a transit time that is an integer multiple of the true value. Measurements at temperatures far from the calibration temperature can accumulate systematic errors if the path length correction model is inadequate. Finally, neglecting ultrasonic dispersion in associating or relaxing liquids leads to speed of sound values that are systematically higher than the thermodynamic zero-frequency value.",
+      "artifacts_and_failure_modes": "Bubble artifacts are the most disruptive: a single bubble in the acoustic path can block transmission entirely, causing the sing-around loop to halt, or it can scatter the pulse so that a delayed secondary arrival triggers the circuit, yielding a falsely low repetition frequency. Mode-locking occurs when the repetition frequency coincides with a mechanical resonance of the cell body, causing the system to lock to the resonance frequency rather than tracking the true transit time — this manifests as a sudden frequency plateau that does not respond to temperature changes. Double-triggering happens when electrical ringing in the receive circuit or acoustic reflections from cell walls create a spurious pulse that triggers the circuit prematurely, leading to an anomalously high repetition frequency and falsely high speed of sound. Thermal gradient artifacts arise when the thermostatic bath provides non-uniform temperature around the cell, so the speed of sound is averaged over a temperature gradient rather than being measured at a single uniform temperature. Electrical cross-talk between the transmitter and receiver, propagating through the cell body or wiring rather than through the fluid, can sustain the oscillation loop even when the fluid signal is too weak, yielding measurements that do not reflect the actual acoustic transit time.",
+      "reporting_checklist": "Publications reporting speed of sound from the sing-around technique should include: the acoustic path length and its calibration method (reference liquid, temperature, resulting L₀); the ultrasonic carrier frequency; the electronic delay τ_delay and how it was determined; the transducer type and material; the cell material and construction details; temperature measurement method and calibration with stated uncertainty; pressure measurement details for high-pressure work; sample purity, source, and water content; degassing procedure; number of readings averaged per state point and equilibration criteria; corrections applied (thermal expansion of path length, diffraction, dispersion if relevant); combined expanded uncertainty U(u) at the 95% confidence level with an uncertainty budget identifying dominant contributions; comparison with literature or reference values for at least one reference liquid. For ThermoML encoding, speed of sound values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

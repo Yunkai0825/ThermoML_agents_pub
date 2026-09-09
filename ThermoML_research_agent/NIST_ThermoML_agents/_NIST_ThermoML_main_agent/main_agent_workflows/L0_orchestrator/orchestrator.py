@@ -1,0 +1,460 @@
+"""L0 Orchestrator — loads the workflow and wires tools to agents.
+
+This module is the main entry point for the ThermoML Main Agent.
+It parses the L0 workflow skill markdown, builds the tool registry,
+and drives the ReAct agent loop via ``agent_turn()``.
+
+Public API
+----------
+run(question, run_verdict=True) -> MainRunResult
+    Synchronous entry point — sets up everything and runs the full loop.
+
+Architecture
+------------
+Uses the markdown workflow approach: agent behaviour is defined in
+``L0_main_workflow.md`` and parsed by ``subworkflow_parser.py``.
+The system prompt comes from the .md file, tool instructions are
+auto-generated from the tool registry via ``build_tool_instructions()``.
+"""
+from __future__ import annotations
+
+import functools
+import json
+import logging
+import re
+import time
+import datetime as dt
+from dataclasses import dataclass, field, asdict
+from pathlib import Path
+from typing import Any, Callable, Dict, Optional
+
+log = logging.getLogger("MAIN-L0")
+
+from ....general_db_query_engine.general_text_context_marker_catalog import strip_reasoning as _strip_reasoning
+
+
+# ── Configuration ────────────────────────────────────────────
+from ...ThermoML_main_argo_config import AGENT_CONFIG as cfg
+
+# ── Workflow parser ──────────────────────────────────────────
+from .._subworkflow_md_parser.subworkflow_parser import parse_workflow, render_prompt
+
+# ── Tool description injection (shared module) ──────────────
+from ....general_db_query_engine.general_subagent_skill_schema_and_parser.subworkflow_md_tool_descriptions import (
+    build_tool_instructions,
+)
+
+# ── Reuse the shared ReAct engine ─────────────────────────────
+from ....general_db_query_engine.general_argo_engine_helpers import (
+    agent_turn, AgentTurnResult, anchor, with_engine_config,
+)
+
+# ── Main client ──────────────────────────────────────────────
+from ...main_agent_argo_engine.argo_client import MainClient
+
+# ── Main-agent tools + ToolResult ────────────────────────────
+from ...main_agent_toobox.tool_catalog import (
+    MAIN_CATALOG, COMPACTOR_CATALOG, ToolResult,
+)
+from ....general_db_query_engine.general_tool_management_helpers.general_agent_tool_catalog import ToolEntry
+from ....general_db_query_engine.general_tool_management_helpers.general_agent_tool_catalog.health_check_helper import (
+    run_health_check,
+)
+from ....general_db_query_engine.general_hooks_management_helpers.general_context_hooks import _context_hooks_anchors_catalog as ctx_anchor
+from ....general_db_query_engine.general_hooks_management_helpers.general_memory_management_tools_hooks_helpers import _memory_hooks_anchors_catalog as mem_anchor
+from ....general_db_query_engine.general_hooks_management_helpers.general_memory_management_tools_hooks_helpers.memory_tool_result_instrumentation_helper import make_instrumented_wrapper
+from ....general_db_query_engine.general_hooks_management_helpers.general_postans_eval_hooks import (
+    evaluate_and_assemble_return,
+    prepare_answer_only_system_prompt,
+)
+from ....general_db_query_engine.general_data_grounding_gate import (
+    export_inspections,
+    harvest_inspections,
+)
+from ....NIST_ThermoML_query_agent.query_agent_workflows.L0_orchestrator.sources_block_validation import (
+    validate_and_enrich_l0_sources,
+)
+
+# ── Interactive compactor ────────────────────────────────────
+from ...main_agent_context_hooks.hook_catalog import MainInteractiveCompactor
+
+# ── Session management ───────────────────────────────────────
+from ...main_agent_context_hooks.hook_catalog import session_manager as _sess_mgr
+from ...main_agent_context_hooks.hook_catalog import reopen_session as _reopen_session
+from ....general_db_query_engine.general_hooks_management_helpers.general_memory_management_tools_hooks_helpers.session_manager_output_storage import (
+    _filesystem_path,
+    ensure_directory,
+)
+from ....general_db_query_engine.general_hooks_management_helpers.general_tracking_hooks_output_helpers.output_writers import (
+    ledger_section_lines as _ledger_section_lines,
+    split_answer_ledger as _split_answer_ledger,
+)
+
+# ── Working memory ───────────────────────────────────────────
+from ...main_agent_context_hooks.hook_catalog import MainWorkingMemory
+
+# ── Verdict agent ────────────────────────────────────────────
+from ...main_agent_context_hooks.hook_catalog import (
+    MainAgentHooks,
+    build_agent_hooks,
+)
+
+# ── Menu batch summary stage hook ────────────────────────────
+from ...main_agent_context_hooks.compactor_hooks._menu_batch_summary_hook import (
+    build_menu_batch_summary_hook,
+)
+
+_HERE = Path(__file__).resolve().parent
+_WORKFLOW_PATH = _HERE / "L0_main_workflow.md"
+_COMPACTION_INTERVAL = cfg.COMPACTION_INTERVAL
+
+# Module-level compactor instance used by the orchestrator loop
+_main_compactor = MainInteractiveCompactor()
+
+# Module-level menu batch summary hook
+_menu_batch_hook = build_menu_batch_summary_hook()
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Setup helpers
+# ═══════════════════════════════════════════════════════════════
+
+def load_workflow() -> dict[str, Any]:
+    """Parse and return the L0 main workflow definition."""
+    return parse_workflow(_WORKFLOW_PATH)
+
+
+def build_system_prompt(workflow: dict[str, Any]) -> str:
+    """Extract the system prompt from the parsed workflow."""
+    return workflow["system_prompt"]
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Session catalog tool (callable by the agent)
+# ═══════════════════════════════════════════════════════════════
+
+def list_session_files() -> dict:
+    """Return a manifest of all output files generated in this session."""
+    sess = _sess_mgr.get_session()
+    if not sess:
+        return {"files": [], "note": "No active session."}
+    files = sess.list_files()
+    return {
+        "session_dir": str(sess.session_dir),
+        "n_files": len(files),
+        "files": files,
+    }
+
+
+# ═══════════════════════════════════════════════════════════════
+#  MainRunResult
+# ═══════════════════════════════════════════════════════════════
+
+@dataclass
+class MainRunResult:
+    """Structured result from a main agent run.
+
+    The test runners convert this dataclass to plain dicts when needed.
+    """
+    answer: str
+    verdict: str | None
+    iterations: int
+    elapsed_seconds: float
+    tool_history: list[dict] = field(default_factory=list)
+    timed_out: bool = False
+    session_dir: str | None = None
+    output_files: list[dict] = field(default_factory=list)
+    final_context: str = ""
+    # ── Continuation state (not serialised to result.md) ─────
+    round_number: int = 1
+    working_memory: Any = field(default=None, repr=False)
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Tool registry
+# ═══════════════════════════════════════════════════════════════
+
+def _build_tool_registry() -> Dict[str, Callable]:
+    """Build the L0 tool registry from MAIN_CATALOG + session tool."""
+    # Register the session tool in the catalog so the health check covers it
+    if "list_session_files" not in MAIN_CATALOG:
+        MAIN_CATALOG.register(ToolEntry(
+            "list_session_files", list_session_files,
+            group="session", skip_compactor=True, skip_subagent=True,
+        ))
+    tools: Dict[str, Callable] = MAIN_CATALOG.wrapped_tools(
+        expose_internal_results=True
+    )
+    # ── Pre-flight health check ──────────────────────────────
+    run_health_check(
+        MAIN_CATALOG,
+        compactor_catalog=COMPACTOR_CATALOG,
+        actual_tools=tools,
+        label="main-L0",
+    )
+    return tools
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Main entry point
+# ═══════════════════════════════════════════════════════════════
+
+@with_engine_config(cfg)
+def run(
+    question: str,
+    *,
+    run_verdict: bool = True,
+    # ── Continuation parameters ──────────────────────────────
+    round_number: int = 1,
+    session_dir: Path | str | None = None,
+    prev_context: str = "",
+    prev_working_memory: "MainWorkingMemory | None" = None,
+    hooks: MainAgentHooks | None = None,
+) -> MainRunResult:
+    """Run the main agent on a single question.
+
+    Parameters
+    ----------
+    round_number : int
+        1-based round index inside a multi-round session.  Debug files
+        are named ``run_history_R{n}.md``, etc.
+    session_dir : Path | str | None
+        If provided, reopen this existing session directory instead of
+        creating a new one.  Enables multi-round conversations.
+    prev_context : str
+        Cleaned full context from the previous round (system prompt and
+        working memory already stripped).  Pre-seeded into the memory
+        list so the LLM sees the complete prior conversation.
+    prev_working_memory : MainWorkingMemory | None
+        Working memory object carrying entity catalog and history from
+        previous rounds.
+
+    Returns
+    -------
+    MainRunResult
+        Supports both attribute and dict-style access.
+    """
+    # ── Session setup ────────────────────────────────────────
+    if session_dir is not None:
+        sess = _reopen_session(Path(session_dir))
+    else:
+        sess = _sess_mgr.init_session(cfg.OUTPUT_DIR, question)
+    log.info("Session dir: %s  (round %d)", sess.session_dir, round_number)
+
+    # Round-aware file suffix
+    _R = f"_R{round_number}" if round_number > 1 else ""
+
+    _history_path = Path(sess.session_dir) / f"run_history{_R}.md"
+    _stats_path = Path(sess.session_dir) / f"reference_stats{_R}.md"
+    _reasoning_path = Path(sess.session_dir) / f"reasoning_tokens_stripped{_R}.md"
+
+    # ── Load workflow from markdown ──────────────────────────
+    workflow = load_workflow()
+    system_prompt = build_system_prompt(workflow)
+
+    client = MainClient.for_l0()
+
+    working_mem = prev_working_memory if prev_working_memory is not None else MainWorkingMemory()
+
+    agent_hooks = hooks or build_agent_hooks(
+        working_memory_loader=working_mem.render,
+        compactor=_main_compactor.compact,
+        batch_summary=_menu_batch_hook,
+        batch_validator=MAIN_CATALOG.validate_batch,
+    )
+
+    memory: list[dict] = []
+    if prev_context:
+        _prior_context_block = (
+            "## Prior Conversation Context\n"
+            "Below is the full conversation history from the previous round. "
+            "Continue from where it left off.\n\n"
+            + prev_context
+        )
+        _prior_context_block = anchor(
+            mem_anchor.SYNC_PRIOR_CONTEXT_APPEND,
+            agent_hooks.engine_hooks,
+            content=_prior_context_block,
+            round_number=round_number,
+        ) or _prior_context_block
+        memory.append({"role": "user", "content": _prior_context_block})
+
+    # Wrap tools to auto-record results into working memory.
+    tools = _build_tool_registry()
+    instrumented_tools = {
+        name: make_instrumented_wrapper(
+            name, fn,
+            working_mem=working_mem,
+            agent_hooks=agent_hooks,
+            anchor_fn=anchor,
+            mem_anchor_record=mem_anchor.SYNC_WORKING_MEMORY_RECORD,
+        )
+        for name, fn in tools.items()
+    }
+
+    # ── Inject tool-calling instructions into system prompt ──
+    system_prompt = prepare_answer_only_system_prompt(
+        system_prompt + "\n\n" + build_tool_instructions(instrumented_tools)
+    )
+    system_prompt = anchor(
+        ctx_anchor.SYNC_SYSTEM_PROMPT_READY,
+        agent_hooks.engine_hooks,
+        system_prompt=system_prompt,
+        tool_names=sorted(instrumented_tools.keys()),
+        workflow=workflow,
+    ) or system_prompt
+    anchor(
+        agent_hooks.anchors.start_tracking,
+        agent_hooks.engine_hooks,
+        agent="main-agent",
+        prompt=question,
+        history_out_path=_history_path,
+        stats_out_path=_stats_path,
+        reasoning_out_path=_reasoning_path,
+    )
+
+    log.info("=" * 60)
+    log.info("MAIN AGENT START")
+    log.info("Question: %s", question[:200])
+    log.info("=" * 60)
+
+    result: AgentTurnResult = agent_turn(
+        question,
+        system_prompt=system_prompt,
+        tools=instrumented_tools,
+        memory=memory,
+        client=client,
+        max_iterations=cfg.MAX_TOOL_ITERATIONS,
+        timeout=cfg.MAX_TURN_SECONDS,
+        # No required_tools — main agent decides freely which subagents to call
+        compaction_interval=_COMPACTION_INTERVAL,
+        hooks=agent_hooks.engine_hooks,
+    )
+
+    log.info(
+        "MAIN AGENT DONE: %d iterations, %.1fs, %d tools called",
+        result.iterations, result.elapsed_seconds, len(result.tool_history),
+    )
+
+    postanswer = evaluate_and_assemble_return(
+        agent_answer=result.answer,
+        response_json_schema=workflow["response_json_schema"],
+        client=client,
+        label="main-L0",
+        tool_history=result.tool_history,
+        task_context=question,
+        hooks=agent_hooks,
+        id_alignment_processor=validate_and_enrich_l0_sources,
+        deterministic_fields={
+            "data_inspections": export_inspections(
+                harvest_inspections(result.tool_history)
+            ),
+        },
+    )
+    result.answer = postanswer.to_json()
+
+    # Verdict
+    verdict = None
+    if run_verdict and not result.timed_out:
+        log.info("Running verdict agent...")
+        # The ledger is machine-merged — reviewing it as "answer" text only
+        # inflates/truncates the verdict input; rows stay in the trace.
+        _verdict_answer, _ = _split_answer_ledger(result.answer)
+        verdict = anchor(
+            agent_hooks.anchors.run_verdict,
+            agent_hooks.engine_hooks,
+            question, _verdict_answer, result.tool_history, client=client,
+        )
+        log.info("Verdict: %s", verdict[:200] if verdict else "(none)")
+
+    run_result = MainRunResult(
+        answer=_strip_reasoning(result.answer),
+        verdict=verdict,
+        iterations=result.iterations,
+        elapsed_seconds=result.elapsed_seconds,
+        tool_history=result.tool_history,
+        timed_out=result.timed_out,
+        session_dir=str(sess.session_dir),
+        output_files=sess.list_files(),
+        final_context=result.final_context,
+        round_number=round_number,
+        working_memory=working_mem,
+    )
+
+    _save_run_output(question, run_result)
+
+    # Write raw final LLM context via shared postjob hook
+    _final_ctx = result.final_context
+    anchor(
+        agent_hooks.anchors.save_final_context,
+        agent_hooks.engine_hooks,
+        session_dir=sess.session_dir, final_context=_final_ctx,
+        filename=f"final_full_context{_R}.md",
+    )
+
+    anchor(
+        agent_hooks.anchors.finalize_tracking,
+        agent_hooks.engine_hooks,
+        status="TIMEOUT" if run_result.timed_out else "OK",
+        stats_path=_stats_path,
+    )
+
+    # Generate workflow artifacts; child runs are included in the root
+    # workflow, and rendering failures do not fail the agent run.
+    from ....general_db_query_engine.general_posteval_helpers.compaction_funnels.api import (
+        maybe_generate_workflow)
+    maybe_generate_workflow(sess.session_dir, kind="main")
+
+    return run_result
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Output persistence
+# ═══════════════════════════════════════════════════════════════
+
+def _save_run_output(question: str, result: MainRunResult) -> Optional[Path]:
+    """Write result + history + manifest to the session directory."""
+    if not result.session_dir:
+        raise ValueError("MainRunResult.session_dir is required for durable output")
+    out_dir = Path(result.session_dir)
+    if not _filesystem_path(out_dir).exists():
+        raise FileNotFoundError(f"main session directory does not exist: {out_dir}")
+    ensure_directory(out_dir)
+
+    ts = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
+    _R = f"_R{result.round_number}" if result.round_number > 1 else ""
+
+    # Result file
+    _display_answer, _ledger = _split_answer_ledger(result.answer)
+    result_lines = [
+        f"# Main Agent Run — {ts} (Round {result.round_number})",
+        f"",
+        f"**Question:** {question}",
+        f"",
+        f"**Time:** {result.elapsed_seconds:.1f}s | "
+        f"**Iterations:** {result.iterations} | "
+        f"**Tools:** {len(result.tool_history)}",
+        f"",
+        f"---",
+        f"",
+        f"## Answer",
+        f"",
+        _display_answer,
+    ]
+    result_lines += _ledger_section_lines(_ledger)
+    if result.verdict:
+        result_lines += ["", "---", "", "## Verdict", "", result.verdict]
+
+    output_files = result.output_files or []
+    if output_files:
+        result_lines += ["", "---", "", "## Output Files", ""]
+        for f in output_files:
+            desc = f" — {f['description']}" if f.get("description") else ""
+            result_lines.append(f"- **{f.get('category', 'file')}**: `{f['path']}`{desc}")
+
+    _filesystem_path(out_dir / f"result{_R}.md").write_text(
+        "\n".join(result_lines), encoding="utf-8"
+    )
+
+    log.info("Output saved to %s", out_dir)
+    return out_dir

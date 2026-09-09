@@ -1,0 +1,330 @@
+{
+  "meas_ID": "drop_ice_or_diphenyl_ether_calorimetry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Drop ice or diphenyl ether calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Drop ice or diphenyl ether calorimetry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 8,
+      "property_groups": [
+        "HeatCapacityAndDerivedProp",
+        "PhaseTransition"
+      ],
+      "n_papers": 2,
+      "per_group": {
+        "HeatCapacityAndDerivedProp": {
+          "instances": 5,
+          "papers": 1
+        },
+        "PhaseTransition": {
+          "instances": 3,
+          "papers": 2
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "volume change of ice or diphenyl ether (mercury displacement in capillary)",
+          "mercury column height difference (proportional to mass of medium melted)",
+          "sample drop temperature (furnace thermocouple reading before drop)"
+        ],
+        "derived_observables": [
+          "enthalpy increment H(T) − H(273.15 K) for ice calorimeter",
+          "enthalpy increment H(T) − H(300.02 K) for diphenyl ether calorimeter",
+          "mean heat capacity over temperature interval Cp,mean = ΔH/ΔT",
+          "enthalpy of phase transitions (from enthalpy vs. T discontinuities)"
+        ],
+        "target_properties": [
+          "enthalpy increment (relative enthalpy)",
+          "mean isobaric heat capacity (Cp)",
+          "enthalpy of fusion",
+          "enthalpy of solid-solid phase transitions",
+          "heat content of alloys and refractory materials"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous)",
+          "liquid",
+          "two-phase solid mixtures"
+        ],
+        "supported_sample_types": [
+          "pure metals and alloys",
+          "refractory oxides and ceramics",
+          "minerals and geological specimens",
+          "inorganic salts",
+          "organic solids with low vapor pressure",
+          "intermetallic compounds",
+          "glass and glassy materials"
+        ],
+        "unsupported_sample_types": [
+          "gases",
+          "volatile liquids",
+          "materials that decompose above 273.15 K (ice) or 300.02 K (diphenyl ether)",
+          "samples that react with mercury or the calorimeter medium",
+          "hygroscopic materials that absorb moisture during transfer",
+          "very small samples (< 0.05 g) due to insufficient heat content"
+        ],
+        "typical_output_formats": [
+          "H(T) − H(T_ref) vs. T tabulation",
+          "mean Cp vs. T tabulation derived from successive enthalpy increments",
+          "enthalpy of transition from discontinuity in H(T) curve"
+        ],
+        "units": {
+          "enthalpy_increment": "J/mol or J/g",
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "temperature": "K",
+          "volume_change": "cm³ or mL",
+          "mercury_displacement": "cm (capillary height)",
+          "mass": "g"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "sample_drop_temperature",
+            "typical_range": "300 K to 1800 K",
+            "hard_limits": "lower limit is the calorimeter reference temperature (273.15 K for ice, 300.02 K for diphenyl ether); upper limit set by furnace capability and sample stability",
+            "notes": "sample temperature must be well above reference temperature for adequate signal; drop temperatures below ~350 K give marginal sensitivity in ice calorimeters"
+          },
+          {
+            "parameter": "calorimeter_reference_temperature",
+            "typical_range": "273.15 K (ice) or 300.02 K (diphenyl ether)",
+            "hard_limits": "fixed by the melting point of the receiving medium; not operator-adjustable",
+            "notes": "isothermal operation at the phase-change equilibrium temperature is intrinsic to the method"
+          },
+          {
+            "parameter": "sample_mass",
+            "typical_range": "0.1 g to 5 g",
+            "hard_limits": "minimum ~0.05 g for detectable mercury displacement; maximum limited by calorimeter well volume and heat capacity of receiving medium reservoir",
+            "notes": "larger samples give better signal but require more receiving medium and longer equilibration"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (atmospheric)",
+            "hard_limits": "standard operation at ambient pressure only",
+            "notes": "the phase-change equilibrium of the receiving medium is pressure-sensitive; operation is always near atmospheric"
+          }
+        ],
+        "variables": [
+          {
+            "name": "sample_drop_temperature",
+            "role": "primary experimental variable",
+            "typical_values": "350 K to 1800 K",
+            "effect": "determines the enthalpy increment measured; higher drop temperatures yield larger volume changes and better signal-to-noise"
+          },
+          {
+            "name": "sample_mass",
+            "role": "controlled input variable",
+            "typical_values": "0.1 g to 5 g",
+            "effect": "total heat released is proportional to mass; must be chosen to stay within the linear range of the mercury displacement system"
+          },
+          {
+            "name": "furnace_equilibration_time",
+            "role": "controlled input variable",
+            "typical_values": "15 min to 60 min at target temperature",
+            "effect": "insufficient equilibration leads to systematic underestimation of enthalpy increment because the sample core has not reached the nominal temperature"
+          },
+          {
+            "name": "receiving_medium",
+            "role": "method variant selector (ice or diphenyl ether)",
+            "typical_values": "ice at 273.15 K or diphenyl ether at 300.02 K",
+            "effect": "determines the reference temperature and the sensitivity (via ΔH_fusion and density change of medium)"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "drop calorimeter vessel — Dewar or insulated container holding the phase-change receiving medium (ice/water or solid/liquid diphenyl ether) surrounding a sample well",
+          "mercury displacement system — precision bore capillary tube connected to the receiving medium, measuring volume change as mercury meniscus displacement",
+          "sample well — thin-walled metal tube (silver or platinum) providing a path for the dropped sample to reach thermal equilibrium with the medium",
+          "drop tube — evacuated or inert-gas-filled vertical tube connecting the furnace to the calorimeter, with a gate mechanism to release the sample",
+          "furnace — resistance furnace with thermocouple (type S or B for high temperatures) for heating sample to the desired drop temperature",
+          "cathetometer or capacitance gauge — for precision reading of mercury meniscus height change in the capillary",
+          "thermocouple for sample temperature — positioned adjacent to sample in furnace to verify thermal equilibrium before drop",
+          "insulation and thermal shielding — surrounding the calorimeter to minimize parasitic heat exchange with the environment",
+          "timing device — to record the drop instant and the equilibration period"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature to minimize drift of the ice or diphenyl ether equilibrium",
+          "vibration-free bench to avoid disturbing mercury meniscus readings",
+          "draft-free enclosure around the calorimeter to reduce convective heat losses",
+          "for ice calorimeters: 0 °C environment or adequate insulation to maintain ice/water equilibrium"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "cylindrical pellet or rod (preferred for smooth entry into sample well)",
+            "small irregular piece (acceptable if it fits the sample well)",
+            "encapsulated in thin-walled platinum or silver capsule for powders or reactive materials"
+          ],
+          "size_limits": "0.1–5 g; diameter must fit the sample well (typically 5–15 mm bore)",
+          "thickness_limits": "no strict thickness limit, but sample dimensions should allow thermal equilibration within ~15–30 min after drop",
+          "surface_requirements": [
+            "clean and oxide-free surface to prevent extraneous heat from oxidation during drop",
+            "polished or freshly cleaned for reactive metals to ensure reproducible surface state"
+          ],
+          "mounting_requirements": [
+            "sample suspended in furnace on a thin wire (Pt or W) or resting on a release platform",
+            "rapid and complete release into drop tube without mechanical obstruction"
+          ],
+          "preparation_requirements": [
+            "known mass weighed to ±0.1 mg on analytical balance",
+            "annealing or heat treatment if thermal history must be controlled",
+            "drying if material is hygroscopic",
+            "encapsulation in noble-metal capsule for powders, reactive, or volatile samples"
+          ]
+        },
+        "calibration_requirements": [
+          "determination of the calorimeter constant: mercury displacement per unit of heat absorbed, calibrated using electrical heating or a reference material drop",
+          "furnace thermocouple calibration against melting-point standards (Au 1337.33 K, Ag 1234.93 K, Zn 692.68 K, Sn 505.08 K)",
+          "mercury capillary bore calibration (uniform bore diameter verified by mercury slug weighing)",
+          "heat exchange correction: measured parasitic heat gain/loss rate of the calorimeter (drift rate) determined before and after each drop",
+          "dead-space correction: heat absorbed by the sample well, drop tube gas, and any capsule material"
+        ],
+        "reference_materials": [
+          "α-Al2O3 (synthetic sapphire, NIST SRM 720) — primary enthalpy increment standard",
+          "copper (high-purity, NIST SRM 2221) — well-characterized enthalpy increments",
+          "platinum — used as capsule material and secondary enthalpy reference",
+          "benzoic acid — enthalpy of fusion reference for moderate-temperature checks"
+        ],
+        "consumables": [
+          "mercury (high purity) for the displacement system",
+          "ice (distilled/deionized water) or diphenyl ether (high purity, ≥99%) as receiving medium",
+          "platinum or silver capsules for sample encapsulation",
+          "suspension wire (Pt or W, thin gauge)",
+          "inert gas supply (argon or nitrogen) for drop tube atmosphere"
+        ],
+        "safety_notes": [
+          "mercury is highly toxic — use in well-ventilated area with spill containment; follow institutional mercury handling protocols",
+          "high-temperature furnace operation requires burn protection and proper ventilation",
+          "diphenyl ether is an irritant — use appropriate PPE and fume hood if weighing or handling",
+          "hot sample drop poses burn risk — ensure the drop mechanism is shielded"
+        ]
+      },
+      "performance": {
+        "sensitivity": "mercury displacement of approximately 3–5 mm per joule of heat absorbed in a typical Bunsen ice calorimeter; diphenyl ether calorimeters have comparable volumetric sensitivity",
+        "detection_limit": "minimum detectable enthalpy increment ~0.5 J, corresponding to ~0.1 mm mercury rise in precision capillary; practical limit set by drift correction uncertainty",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "equilibration after drop typically 5–30 min depending on sample size; time resolution is set by the drop interval",
+          "spectral": "not applicable",
+          "energy": "enthalpy increment resolution ~0.1–0.5% of measured value for well-calibrated systems"
+        },
+        "dynamic_range": "enthalpy increments from ~5 J/mol (small samples, low ΔT) to ~100 kJ/mol (refractory materials dropped from >1500 K); temperature range 273.15–1800 K (ice) or 300.02–1800 K (diphenyl ether)",
+        "accuracy": "0.1–0.5% for enthalpy increments under optimal conditions; achievable because the reference temperature is automatically maintained at the phase-change point",
+        "precision": "0.1–0.3% (repeatability of enthalpy increment from replicate drops at the same temperature)",
+        "throughput": "low — one drop per measurement cycle; including furnace equilibration and calorimeter re-equilibration, 2–6 drops per day",
+        "measurement_speed": "each drop experiment requires 30–90 min total (furnace equilibration + drop + calorimeter equilibration + drift measurement)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "mercury meniscus displacement in the capillary (length in mm or cm), recorded as a function of time after the sample drop, converging to a final equilibrium value",
+        "preprocessing_steps": [
+          "convert mercury displacement to volume change using the calibrated capillary bore cross-section",
+          "apply drift correction: subtract the pre-drop and post-drop calorimeter drift rate (linear interpolation) from the total displacement",
+          "subtract dead-space correction: heat absorbed by the sample well, capsule, and any gas in the drop tube",
+          "convert corrected volume change to heat absorbed using the calorimeter constant (J/cm³ or J per unit mercury displacement)",
+          "correct for heat loss during sample transit through the drop tube (radiation and convection loss correction, typically small)"
+        ],
+        "analysis_methods": [
+          "enthalpy increment calculation: ΔH = (corrected mercury displacement) × (calorimeter constant) / (sample moles or mass)",
+          "tabulation of H(T) − H(T_ref) at multiple drop temperatures to construct the enthalpy function",
+          "numerical differentiation of H(T) curve to obtain mean Cp(T) = dH/dT over each temperature interval",
+          "polynomial or spline fitting of H(T) data for smooth interpolation",
+          "detection of phase transitions as discontinuities (jumps) in the H(T) curve, with transition enthalpy equal to the enthalpy jump"
+        ],
+        "model_assumptions": [
+          "the sample reaches complete thermal equilibrium with the receiving medium (no residual temperature gradient in the sample at the end of the experiment)",
+          "the receiving medium remains at its melting point throughout the measurement (sufficient reservoir of solid + liquid medium)",
+          "heat exchange with the environment (parasitic drift) is linear over the measurement period and adequately corrected",
+          "the calorimeter constant is independent of the fraction of medium melted (valid for small fractional melting)",
+          "radiation and convection heat loss during the drop transit is small or adequately corrected"
+        ],
+        "fit_parameters": [
+          "calorimeter constant (J per unit mercury displacement)",
+          "drift rate (mm/min or cm³/min) before and after drop",
+          "enthalpy increment ΔH per drop",
+          "polynomial coefficients for H(T) curve fitting"
+        ],
+        "common_artifacts": [
+          "incomplete equilibration: if the sample has not fully equilibrated with the receiving medium, the measured enthalpy increment is systematically low",
+          "spurious heat from oxidation: reactive metal samples oxidizing during the drop transit contribute extraneous exothermic heat",
+          "mercury sticking in capillary: surface tension effects cause the mercury meniscus to lag behind the true volume change, producing hysteresis",
+          "receiving medium depletion: if too much ice or diphenyl ether melts, the system leaves the two-phase equilibrium and the reference temperature drifts",
+          "condensation of furnace atmosphere moisture into the ice calorimeter, adding spurious heat"
+        ],
+        "quality_control_checks": [
+          "replicate drops at the same temperature should agree within 0.3% to verify reproducibility",
+          "measure enthalpy increment of α-Al2O3 (sapphire) reference material to verify agreement with NIST certified values within stated accuracy",
+          "pre-drop and post-drop drift rates should be small and consistent (< 0.5% of total displacement per measurement period)",
+          "check that the mercury displacement vs. time curve reaches a stable plateau, confirming complete equilibration",
+          "verify that the receiving medium has adequate solid + liquid reserve by monitoring the calorimeter before the next drop"
+        ],
+        "failure_modes": [
+          "mercury leak from capillary (loss of displacement signal or erratic readings)",
+          "receiving medium fully melted — calorimeter exits isothermal two-phase regime (temperature begins to rise)",
+          "sample stuck in drop tube — does not reach the calorimeter well (no displacement observed)",
+          "furnace thermocouple failure — incorrect sample temperature leads to systematic enthalpy error",
+          "capillary blockage from frozen mercury or contamination (no meniscus response)"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5% for enthalpy increments; up to 1% for derived mean Cp from numerical differentiation",
+        "random_sources": [
+          "mercury meniscus reading uncertainty (parallax, vibration)",
+          "sample mass weighing uncertainty",
+          "statistical variation in drop transit heat loss",
+          "furnace temperature fluctuations during equilibration",
+          "timing uncertainty in recording the drop instant and equilibration endpoint"
+        ],
+        "systematic_sources": [
+          "calorimeter constant calibration uncertainty",
+          "furnace thermocouple calibration offset",
+          "dead-space correction error (heat absorbed by capsule and sample well)",
+          "drift correction error (non-linear parasitic heat exchange)",
+          "incomplete sample equilibration (residual thermal gradient)",
+          "drop transit heat loss correction uncertainty",
+          "mercury capillary bore non-uniformity"
+        ],
+        "operator_dependence": "moderate — reading the mercury meniscus, timing the drop, and judging equilibration completion depend on operator skill; automated cathetometers reduce this",
+        "model_dependence": "low — the method is fundamentally absolute (heat = mass_melted × ΔH_fusion), with minimal model assumptions beyond linearity of drift and complete equilibration",
+        "dominant_error_sources": [
+          "drift correction accuracy (especially for small enthalpy increments where drift is a large fraction of the signal)",
+          "dead-space correction for capsule and sample well heat capacity",
+          "furnace thermocouple calibration at high temperatures"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔH) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of enthalpy increment",
+          "standard deviation from replicate drops"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Drop ice (Bunsen) or diphenyl ether calorimetry is a classical phase-change receiving calorimetric technique for measuring enthalpy increments. A heated sample is dropped into a calorimeter whose receiving medium — ice at 273.15 K or diphenyl ether at 300.02 K — is held isothermally at its melting point. The heat released by the cooling sample melts a quantity of receiving medium proportional to the enthalpy increment, and this quantity is determined from the volume change via mercury displacement. Invented by Robert Bunsen in 1870 for the ice variant, the method remains valued for its inherent accuracy because the receiving temperature is automatically fixed by the solid-liquid equilibrium of the medium, eliminating the need for active temperature control.",
+      "how_it_operates": "A solid sample is heated to a precisely known temperature T in a resistance furnace, then rapidly released through an evacuated or inert-gas-filled drop tube into the calorimeter well surrounded by the two-phase receiving medium. As the sample cools from T to the reference temperature (273.15 K for ice, 300.02 K for diphenyl ether), it releases heat that melts a corresponding mass of the receiving medium. Because melting changes the density of the medium (ice contracts upon melting; diphenyl ether also contracts), the total volume of the medium decreases. This contraction is transmitted to a precision-bore capillary tube filled with mercury, where the mercury meniscus displacement is recorded. The experiment is complete when the meniscus reaches a stable plateau, indicating full thermal equilibration. The enthalpy increment is calculated as the product of the corrected mercury displacement and the calibrated calorimeter constant.",
+      "core_theory": "The fundamental equation is ΔH_sample = m_melted × ΔH_fusion, where m_melted is the mass of receiving medium melted and ΔH_fusion is the enthalpy of fusion of the medium (333.5 J/g for ice, 104.8 J/g for diphenyl ether). Because the calorimeter operates isothermally at the phase-change temperature, the Clausius-Clapeyron constraint ensures that the temperature remains invariant as long as both solid and liquid phases coexist — providing automatic, arbitrarily precise temperature control without any feedback electronics. The volume change ΔV upon melting is related to the mass melted by the density difference between solid and liquid: ΔV = m_melted × (1/ρ_liquid − 1/ρ_solid). For ice, the density change is large (ρ_solid = 0.917 g/cm³, ρ_liquid = 1.000 g/cm³), giving a contraction of ~0.0906 cm³ per gram melted and excellent volumetric sensitivity. Mercury in the capillary tracks this contraction linearly, yielding ΔH_sample = ΔV_mercury × (calorimeter constant).",
+      "setup": "A typical Bunsen ice calorimeter consists of a borosilicate glass vessel filled with degassed, air-free distilled water, frozen from the outside to form a mantle of ice surrounding a central thin-walled metal (Pt or Ag) sample well. The space between the ice and the outer vessel wall is filled with mercury that extends into a precision-bore capillary tube for displacement measurement. The entire assembly is housed in an insulated enclosure (crushed ice or thermostatted jacket) to minimize parasitic heat flow. Above the calorimeter, a vertical drop tube connects to a resistance furnace where the sample is heated. A gate valve or electromagnetic release mechanism allows rapid, reproducible sample drops. The diphenyl ether variant replaces ice/water with solid/liquid diphenyl ether at 300.02 K, offering a reference temperature closer to ambient, which reduces parasitic heat exchange in many laboratory environments.",
+      "suitable_for": "This technique excels at measuring enthalpy increments H(T) − H(T_ref) for metals, alloys, ceramics, minerals, and other inorganic materials from moderate to high temperatures (up to ~1800 K). It is particularly well suited for refractory materials that are difficult to measure by scanning calorimetry because of their high melting points. The method is also valuable for detecting and quantifying enthalpies of solid-solid phase transitions and fusion through discontinuities in the H(T) curve. The ice variant is preferred for samples dropped from high temperatures, while the diphenyl ether variant is useful when measurements near or below 273 K would create problems (e.g., samples that react with water or when a 300 K reference is more convenient). Historical high-precision thermodynamic tables for many elements and oxides were established using Bunsen ice calorimetry.",
+      "core_limitations": "Drop calorimetry provides enthalpy increments rather than continuous Cp(T) curves — the heat capacity must be derived by numerical differentiation of H(T) data collected at discrete drop temperatures, reducing the temperature resolution. Each measurement requires a separate furnace heating cycle and drop, making the technique slow (2–6 data points per day). The method cannot measure below the reference temperature of the receiving medium (273.15 K or 300.02 K). Samples that are volatile or decompose during heating to the drop temperature cannot be studied. The mercury displacement system requires careful maintenance and poses toxicity concerns. Very small samples (< 0.05 g) give insufficient mercury displacement for precise measurement. The furnace-to-calorimeter transit introduces a small, sample-dependent heat loss that must be corrected.",
+      "sample_preparation": "Samples should be prepared as compact pellets, rods, or small pieces that fit the calorimeter sample well (typically 5–15 mm diameter). The mass is determined to ±0.1 mg on an analytical balance. For reactive metals, the sample surface should be freshly cleaned or polished to prevent extraneous heat from surface oxide formation during the drop. Powders or granular materials are sealed in thin-walled platinum or silver capsules whose heat capacity is separately determined and subtracted. Hygroscopic materials must be thoroughly dried. If the sample undergoes a known phase transition, the furnace temperature should be set above or below the transition temperature as needed to construct the full H(T) function. Samples should be annealed or thermally cycled if their thermal history is relevant.",
+      "calibration_and_references": "Calibration establishes the calorimeter constant, which converts mercury displacement to heat. This is most commonly performed by dropping sapphire (α-Al2O3, NIST SRM 720, with certified enthalpy increments) from known furnace temperatures and comparing the observed mercury displacement with the expected heat input. Alternatively, electrical calibration can be used: a known electrical energy (measured via precision voltage and current) is dissipated in a heater within the sample well, and the resulting displacement is recorded. The furnace thermocouple is calibrated against melting-point standards (gold at 1337.33 K, silver at 1234.93 K, zinc at 692.68 K, tin at 505.08 K). The capillary bore is verified for uniformity by mercury slug weighing at multiple positions. Calibration drops should bracket the temperature range of interest.",
+      "data_interpretation": "The primary result is the enthalpy increment ΔH = H(T) − H(T_ref), obtained from the drift-corrected mercury displacement multiplied by the calorimeter constant and divided by the sample amount (moles or grams). Multiple experiments at different drop temperatures T build up the H(T) function. Mean heat capacity over each temperature interval is obtained by numerical differentiation: Cp,mean = [H(T2) − H(T1)] / (T2 − T1). Smooth representation of H(T) is achieved by fitting a polynomial or Shomate equation, which then provides Cp(T) by analytic differentiation. Phase transitions appear as sharp jumps in the H(T) data, with the transition enthalpy equal to the enthalpy discontinuity. Data from ice and diphenyl ether calorimeters can be combined to extend the temperature range, with overlapping measurements providing a consistency check.",
+      "common_pitfalls": "The most frequent error source is inadequate drift correction — parasitic heat exchange between the calorimeter and its surroundings produces a slow, steady mercury displacement that must be carefully measured before and after the drop and linearly interpolated. If the drift is non-linear (e.g., due to changing ambient temperature), systematic error results. Incomplete equilibration after the drop leads to underestimation of the enthalpy increment; the operator must wait until the mercury meniscus is truly stable. Oxidation of reactive metal samples during transit through the drop tube adds extraneous exothermic heat, biasing results high — this is mitigated by using an inert atmosphere in the drop tube. Using too large a sample can melt so much receiving medium that the calorimeter exits the two-phase regime and the reference temperature drifts upward. Mercury sticking in the capillary due to surface contamination or oxide films causes erratic readings.",
+      "artifacts_and_failure_modes": "Receiving medium depletion is the most critical failure: if all the ice (or diphenyl ether) melts, the calorimeter exits isothermal operation and subsequent measurements are invalid — this is detected by a rising baseline temperature or runaway mercury displacement. Mercury leaks from cracks in the capillary or vessel joints cause irreversible loss of the displacement signal and require complete reassembly. Condensation of atmospheric moisture into the ice calorimeter releases latent heat and produces a spurious positive drift. Capsule rupture during the drop exposes reactive powders to the receiving medium, contaminating both the sample and calorimeter. Furnace thermocouple drift causes systematic error in the assigned drop temperature, which propagates directly to the enthalpy increment. Trapped air bubbles in the mercury system create a compressible volume that attenuates the meniscus response, leading to underestimated displacements.",
+      "reporting_checklist": "Published drop ice or diphenyl ether calorimetry results should report: type of receiving medium (ice or diphenyl ether), reference temperature, sample identity and purity, sample mass and form (pellet, capsule), furnace drop temperatures, number of replicate drops per temperature, calorimeter constant and how it was determined (reference material or electrical calibration), drift correction procedure and magnitude, dead-space corrections applied, transit heat loss correction, furnace thermocouple type and calibration standards, enthalpy increment values H(T) − H(T_ref) with combined expanded uncertainty at 95% confidence (k=2), any derived mean Cp values and their uncertainties from numerical differentiation, and notes on any phase transitions detected. For ThermoML encoding, enthalpy values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

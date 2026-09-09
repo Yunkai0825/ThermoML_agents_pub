@@ -1,0 +1,337 @@
+{
+  "meas_ID": "pendant_drop_shape",
+  "identity": {
+    "name": "Pendant drop shape",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Pendant drop shape",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Surface Tension",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "yes"
+    },
+    "db_usage": {
+      "instance_count": 592,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 114,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 592,
+          "papers": 114
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "drop profile coordinates (pixel x, y from digital image)",
+          "drop apex radius of curvature (R0)",
+          "capillary diameter (needle outer diameter)",
+          "density difference between drop phase and surrounding phase (Δρ)"
+        ],
+        "derived_observables": [
+          "surface tension (γ) from Young-Laplace fit",
+          "interfacial tension (γ_12) for liquid-liquid systems",
+          "Bond number (Bo = ΔρgR0²/γ)",
+          "shape factor (β = ΔρgR0²/γ)",
+          "drop volume"
+        ],
+        "target_properties": [
+          "surface tension of liquid-vapor interfaces",
+          "interfacial tension of liquid-liquid interfaces",
+          "dynamic surface tension (time-dependent measurements)",
+          "temperature-dependent surface tension",
+          "pressure-dependent surface tension"
+        ],
+        "phases_measured": [
+          "liquid-vapor interface",
+          "liquid-liquid interface (immiscible or partially miscible pairs)",
+          "liquid-supercritical fluid interface"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "liquid mixtures and solutions",
+          "surfactant solutions",
+          "polymer melts and solutions",
+          "ionic liquids",
+          "liquid metals (with high-temperature apparatus)",
+          "molten salts (with high-temperature apparatus)",
+          "emulsion components (oil-water pairs)",
+          "biological fluids"
+        ],
+        "unsupported_sample_types": [
+          "highly viscous liquids that do not form equilibrium drop shapes within practical timescales (η > ~100 Pa·s)",
+          "liquids with surface tension below ~1 mN/m (drop is nearly spherical, insufficient shape distortion for fitting)",
+          "solutions that react with or dissolve the needle material",
+          "volatile liquids that evaporate faster than imaging timescale under measurement conditions",
+          "opaque surrounding phases that prevent optical imaging of the drop profile"
+        ],
+        "typical_output_formats": [
+          "γ vs. T curve (surface tension as function of temperature)",
+          "γ vs. t curve (dynamic surface tension as function of time)",
+          "γ vs. P curve (surface tension as function of pressure)",
+          "γ vs. concentration curves for surfactant solutions",
+          "tabulated γ values at specified T, P conditions"
+        ],
+        "units": {
+          "surface_tension": "mN/m (= dyn/cm)",
+          "interfacial_tension": "mN/m",
+          "temperature": "K",
+          "pressure": "MPa",
+          "density": "kg/m³",
+          "drop_volume": "µL",
+          "capillary_diameter": "mm",
+          "Bond_number": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 473 K (standard apparatus)",
+            "hard_limits": "cryogenic to >2000 K with specialized high-temperature pendant drop tensiometers",
+            "notes": "high-temperature cells use ceramic or metallic needles and inert gas environments; thermostatting must maintain ±0.01–0.1 K stability"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (ambient) to 70 MPa",
+            "hard_limits": "high-pressure optical cells rated up to 200 MPa exist for reservoir fluid studies",
+            "notes": "requires pressure-rated optical cell with sapphire or quartz windows; density of both phases must be known at measurement P"
+          },
+          {
+            "parameter": "drop_volume",
+            "typical_range": "5 µL to 30 µL",
+            "hard_limits": "minimum ~1 µL (limited by needle size and imaging resolution); maximum limited by drop detachment",
+            "notes": "optimal drop volume provides Bond number in range 0.1–1.0 for good sensitivity"
+          },
+          {
+            "parameter": "needle_outer_diameter",
+            "typical_range": "0.5 mm to 3 mm",
+            "hard_limits": "must be chosen so that drop does not detach under gravity; smaller needles for low-tension systems",
+            "notes": "needle diameter affects maximum drop volume and accessible Bond number range"
+          },
+          {
+            "parameter": "density_difference",
+            "typical_range": "50 kg/m³ to 1200 kg/m³",
+            "hard_limits": "Δρ must be > ~10 kg/m³ for sufficient gravitational deformation; technique loses sensitivity as Δρ → 0",
+            "notes": "for near-equal density phases (e.g., near critical points), spinning drop tensiometry is preferred"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "288 K to 353 K (common range for organic liquids)",
+            "effect": "surface tension generally decreases with increasing temperature; approaches zero at the critical point"
+          },
+          {
+            "name": "pressure",
+            "role": "controlled variable (for high-pressure studies)",
+            "typical_values": "0.1 MPa to 70 MPa",
+            "effect": "surface tension of liquid-vapor systems decreases with increasing pressure as phases become more similar"
+          },
+          {
+            "name": "composition",
+            "role": "controlled variable (for mixtures and surfactant studies)",
+            "typical_values": "varies by system",
+            "effect": "surface tension depends strongly on composition, particularly surfactant concentration (Gibbs adsorption)"
+          },
+          {
+            "name": "drop_age",
+            "role": "time variable for dynamic measurements",
+            "typical_values": "0.1 s to 10000 s",
+            "effect": "surface tension evolves as surfactant molecules adsorb to the interface; equilibrium is reached at long times"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision syringe pump or micrometer-driven syringe — delivers controlled drop volume through needle",
+          "stainless steel or PTFE-coated blunt-tip needle (gauge 14–22) — supports pendant drop",
+          "CCD or CMOS camera with telecentric or macro lens — captures drop profile image at ≥640×480 resolution",
+          "collimated LED backlight or diffuse light source — provides uniform illumination for high-contrast silhouette imaging",
+          "thermostated sample chamber or cuvette — encloses drop and surrounding phase with temperature control",
+          "temperature sensor (Pt100 or thermocouple) — monitors temperature near the drop",
+          "image analysis software (e.g., OpenDrop, ImageJ with drop analysis plugin, or commercial ADSA software) — fits Young-Laplace equation to extracted drop profile",
+          "optical rail or rigid mounting stage — aligns camera, light source, and needle on a vibration-free platform",
+          "high-pressure optical cell with sapphire windows (for high-pressure measurements)",
+          "computer with frame grabber or USB camera interface — acquires and stores images"
+        ],
+        "environmental_requirements": [
+          "vibration-free surface or optical table to prevent drop oscillation during imaging",
+          "draft-free enclosure to eliminate air convection that distorts the drop",
+          "temperature stability within ±0.05 K during measurement for accurate equilibrium surface tension",
+          "clean environment to prevent dust or particulate contamination of the interface"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample must be able to form a pendant drop from the needle tip",
+            "surrounding phase is air, vapor, or a second immiscible liquid filling the cuvette"
+          ],
+          "size_limits": "typically 5–30 µL per drop; total liquid needed is ~0.5–5 mL to fill syringe and purge needle",
+          "thickness_limits": "not applicable (drop geometry is self-determined by surface tension and gravity)",
+          "surface_requirements": [
+            "needle tip must be clean, flat, and free of burrs or wettability defects",
+            "needle outer surface may be coated (PTFE) to define the contact line at the needle tip edge"
+          ],
+          "mounting_requirements": [
+            "needle must be rigidly mounted, vertical, and centered in the camera field of view",
+            "for inverted pendant drop (rising drop/bubble), needle points upward and lighter phase is dispensed into denser phase"
+          ],
+          "preparation_requirements": [
+            "liquid and surrounding phase must have known densities at measurement temperature and pressure",
+            "liquid should be filtered or degassed to remove particulates and dissolved gases that cause bubble nucleation",
+            "for interfacial tension measurements, both liquid phases must be mutually pre-saturated to avoid dissolution effects",
+            "needle and syringe must be thoroughly cleaned with appropriate solvents and dried before use"
+          ]
+        },
+        "calibration_requirements": [
+          "spatial calibration of the camera using a precision sphere, gauge block, or the known needle outer diameter to establish the pixel-to-length conversion factor (µm/pixel)",
+          "verification of vertical alignment of the optical axis by imaging a plumb line or reference edge",
+          "validation with a reference liquid of known surface tension (e.g., ultra-pure water) at the measurement temperature",
+          "density calibration — densities of both phases must be measured independently (densimeter, pycnometer) or taken from reliable literature sources"
+        ],
+        "reference_materials": [
+          "ultra-pure water (Millipore, 18.2 MΩ·cm) — γ = 72.0 mN/m at 25 °C, primary reference",
+          "n-hexane — γ = 17.9 mN/m at 25 °C, low surface tension reference",
+          "n-dodecane — γ = 25.1 mN/m at 25 °C, intermediate reference",
+          "diiodomethane — γ = 50.8 mN/m at 20 °C, high surface tension organic reference",
+          "DMSO — γ = 42.9 mN/m at 25 °C"
+        ],
+        "consumables": [
+          "blunt-tip dispensing needles (various gauges, stainless steel or PTFE-coated)",
+          "gas-tight glass or PTFE syringes",
+          "cleaning solvents (ethanol, acetone, chromic acid solution for glassware)",
+          "ultra-pure water for cleaning and reference measurements",
+          "optical cleaning tissues and lens cleaning solution"
+        ],
+        "safety_notes": [
+          "high-pressure optical cells must be rated and tested for the operating pressure range; sapphire windows can shatter catastrophically",
+          "high-temperature measurements require thermal insulation and burn protection",
+          "organic solvents used for cleaning require fume hood and appropriate PPE",
+          "compressed gas cylinders for pressurized systems require proper securing and handling"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving surface tension changes as small as 0.01 mN/m for optimized imaging systems; standard setups resolve ~0.05 mN/m",
+        "detection_limit": "minimum measurable surface tension ~1 mN/m (below this, drops become nearly spherical and Young-Laplace fitting loses sensitivity)",
+        "resolution": {
+          "spatial": "image resolution typically 3–10 µm/pixel; sub-pixel edge detection algorithms achieve 0.5–1 µm effective resolution on the drop profile",
+          "temporal": "single image acquisition in 10–100 ms; time-resolved dynamic measurements achievable at 1–30 frames per second",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "surface tension from ~1 mN/m to ~2000 mN/m (liquid metals); typical organic/aqueous range 15–73 mN/m",
+        "accuracy": "0.1–0.5 mN/m for absolute surface tension (0.1–1% relative) when density, calibration, and imaging are well controlled",
+        "precision": "0.02–0.1 mN/m (repeatability of replicate drops under identical conditions)",
+        "throughput": "one equilibrium measurement per 1–30 minutes depending on equilibration time; dynamic measurements yield continuous γ(t) curves",
+        "measurement_speed": "individual image capture and fit takes < 1 s; rate-limiting step is thermal and compositional equilibration of the drop"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "digital grayscale image of pendant drop silhouette; the drop profile is extracted as a set of (x, y) pixel coordinates defining the drop contour from apex to needle tip",
+        "preprocessing_steps": [
+          "image thresholding or edge detection (Canny, Sobel) to extract drop contour from background",
+          "sub-pixel interpolation of the edge coordinates for improved profile accuracy",
+          "identification of the drop apex (lowest point) and the needle contact points",
+          "rotation correction if the camera axis is not perfectly horizontal",
+          "conversion of pixel coordinates to physical coordinates using the calibration factor (µm/pixel)"
+        ],
+        "analysis_methods": [
+          "Axisymmetric Drop Shape Analysis (ADSA): numerical integration of the Young-Laplace equation ΔP = γ(1/R1 + 1/R2) to generate theoretical profiles, then least-squares fitting to the experimental profile by adjusting γ and R0",
+          "selected-plane method (historical): measures drop dimensions at specific planes to compute γ via shape tables — less accurate than ADSA but simpler",
+          "polynomial or spline fitting of drop contour followed by local curvature calculation (used as initial guess for ADSA)",
+          "Bashforth-Adams tables (classical): compares measured drop shape factor β = ΔρgR0²/γ to tabulated profiles"
+        ],
+        "model_assumptions": [
+          "drop is axisymmetric about the vertical axis (no azimuthal asymmetry from vibration or tilt)",
+          "drop is in mechanical equilibrium — gravitational and surface tension forces balance (no inertial or viscous flow effects)",
+          "Young-Laplace equation applies: ΔP = γ(1/R1 + 1/R2), with hydrostatic pressure varying linearly with height",
+          "the interface is characterized by a single value of surface tension γ (uniform Gibbs dividing surface)",
+          "the surrounding medium is quiescent (no convection distorting the drop shape)",
+          "density difference Δρ is known accurately and is uniform throughout both phases"
+        ],
+        "fit_parameters": [
+          "surface/interfacial tension γ",
+          "radius of curvature at the drop apex R0",
+          "drop apex position (x0, y0) — geometric centering parameters",
+          "tilt angle θ — accounts for small misalignment of drop axis from vertical"
+        ],
+        "common_artifacts": [
+          "vibration artifact: mechanical vibration causes periodic distortion of the drop profile, leading to oscillating γ values and poor fit residuals",
+          "evaporation artifact: drop volume decreases over time for volatile liquids, changing the apparent equilibrium γ and drop shape",
+          "buoyancy convection: temperature gradients in the surrounding phase cause convective currents that distort the drop shape asymmetrically",
+          "optical distortion: lens aberration, incorrect magnification calibration, or parallax from camera misalignment produce systematic γ bias",
+          "needle wetting artifact: if the liquid creeps along the outside of the needle, the contact line position is undefined, invalidating the axisymmetric profile fit",
+          "surfactant depletion: in small drop volumes, surfactant adsorption to the interface significantly depletes the bulk, altering the effective concentration"
+        ],
+        "quality_control_checks": [
+          "verify γ of ultra-pure water at 25 °C reads 72.0 ± 0.3 mN/m before each measurement session",
+          "inspect fit residuals — root-mean-square deviation of fitted profile from experimental profile should be < 1 µm (< 0.5 pixel)",
+          "check that multiple replicate drops (n ≥ 3) agree within 0.1 mN/m",
+          "confirm that the Bond number is in the sensitive range (0.1 < Bo < 1.0); if Bo < 0.05, the drop is too spherical for reliable fitting",
+          "verify axisymmetry by checking that left and right halves of the drop profile are mirror images within noise",
+          "for dynamic measurements, confirm that γ has reached a stable plateau before reporting equilibrium surface tension"
+        ],
+        "failure_modes": [
+          "drop detachment: if drop volume exceeds critical size, the drop detaches from the needle — maximum volume depends on γ and needle diameter",
+          "loss of axisymmetry: vibrations, convection, or rapid surfactant transport cause the drop to become non-axisymmetric, invalidating ADSA fitting",
+          "image saturation or poor contrast: incorrect lighting produces noisy or ambiguous edge detection and unreliable profile extraction",
+          "bubble adhesion: small air bubbles adhere to the drop surface or needle, distorting the profile locally",
+          "needle contamination: residual surfactant or organic films on the needle alter the contact line and produce inconsistent drop shapes"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5 mN/m (0.1–1% relative) for well-executed measurements",
+        "random_sources": [
+          "pixel noise in edge detection (camera sensor noise, quantization)",
+          "mechanical vibrations causing drop profile fluctuations",
+          "temperature fluctuations during imaging",
+          "random variation in drop formation (volume delivery precision)"
+        ],
+        "systematic_sources": [
+          "spatial calibration error (pixel-to-length conversion factor uncertainty)",
+          "density uncertainty — propagates directly into γ via Δρ; a 0.1% density error causes ~0.1% γ error",
+          "optical distortion from lens aberration or camera misalignment",
+          "gravitational acceleration value (varies with location; standard g = 9.80665 m/s²)",
+          "needle diameter uncertainty affecting contact line position in the fit",
+          "temperature measurement offset (thermometer calibration)",
+          "refractive index mismatch causing apparent profile shift for liquid-liquid systems viewed through a second liquid phase"
+        ],
+        "operator_dependence": "low to moderate — automated ADSA software minimizes operator influence on data analysis; however, needle cleaning, drop formation technique, and system alignment depend on operator skill",
+        "model_dependence": "low — the Young-Laplace equation is exact for static axisymmetric drops in hydrostatic equilibrium; deviations only arise from violated assumptions (vibration, asymmetry, dynamic effects)",
+        "dominant_error_sources": [
+          "density difference Δρ accuracy (especially for liquid-liquid and high-pressure systems where densities change significantly)",
+          "spatial calibration accuracy (magnification factor)",
+          "mechanical vibration and thermal stability during imaging"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(γ) at 95% confidence (k=2)",
+          "standard deviation from replicate drop measurements",
+          "relative uncertainty as percentage of γ"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Pendant drop shape analysis is an optical technique for measuring the surface tension or interfacial tension of liquids by fitting the profile of a hanging drop to the Young-Laplace equation. A liquid drop is formed at the tip of a vertical needle or capillary, where its shape results from the balance between gravitational deformation (which elongates the drop) and surface tension (which minimizes the surface area toward a sphere). By photographing the drop silhouette and numerically fitting the axisymmetric Young-Laplace equation to the extracted contour, the surface tension is obtained without any mechanical contact with the interface. The method is among the most versatile and widely used tensiometric techniques, applicable to liquid-vapor and liquid-liquid interfaces over broad ranges of temperature and pressure.",
+      "how_it_operates": "A precision syringe pump dispenses a controlled volume of liquid through a blunt-tip needle mounted vertically inside a thermostated chamber. The pendant drop hangs from the needle tip under gravity, adopting a shape uniquely determined by the surface tension γ, the density difference Δρ between the drop and the surrounding phase, and the drop size. A collimated LED backlight illuminates the drop from behind, while a CCD or CMOS camera with a telecentric or macro lens captures a high-contrast silhouette image. Image analysis software applies edge detection to extract the drop profile as a set of (x, y) coordinates, then performs Axisymmetric Drop Shape Analysis (ADSA): the Young-Laplace equation is integrated numerically from the drop apex outward, generating a family of theoretical drop profiles parameterized by γ and the apex radius of curvature R0. A nonlinear least-squares algorithm adjusts γ and R0 (plus centering and tilt parameters) until the calculated profile optimally matches the experimental contour. The best-fit γ is the reported surface tension.",
+      "core_theory": "The shape of a pendant drop is governed by the Young-Laplace equation, which relates the pressure difference across a curved interface to the surface tension and the local mean curvature: ΔP = γ(1/R1 + 1/R2), where R1 and R2 are the principal radii of curvature. For an axisymmetric drop in a gravitational field, this equation is reformulated as a system of coupled ordinary differential equations (the Bashforth-Adams equations) that describe the drop profile r(s), z(s) as functions of arc length s from the apex. The key dimensionless parameter is the Bond number Bo = ΔρgR0²/γ, which quantifies the ratio of gravitational to capillary forces. When Bo is very small (< 0.05), the drop is nearly spherical and its shape carries little information about γ; when Bo is in the range 0.1–1.0, the drop is appreciably elongated and the shape is highly sensitive to γ. The ADSA algorithm exploits this sensitivity by matching the observed profile to the theoretical family of Laplacian shapes.",
+      "setup": "A typical pendant drop tensiometer consists of a syringe pump or micrometer-driven syringe connected via tubing to a stainless steel or PTFE-coated blunt-tip needle (gauge 14–22, outer diameter 0.5–3 mm) mounted vertically inside a transparent cuvette or optical cell. For liquid-liquid measurements, the cuvette is filled with the surrounding immiscible phase. A uniformly collimated LED backlight is positioned on one side of the cell and a CCD/CMOS camera with a telecentric lens on the opposite side, both aligned on an optical rail for precise focusing. Temperature control is provided by a circulating water bath jacket around the cuvette or a Peltier-controlled stage, with a Pt100 sensor monitoring the temperature near the drop. For high-pressure measurements, a stainless steel optical cell with sapphire windows rated to the target pressure is used, with the liquid delivered by a high-pressure syringe pump. A computer running ADSA software (commercial packages include Krüss ADVANCE, Biolin/Attension, Ramé-Hart DROPimage; open-source options include OpenDrop) acquires images and performs the Young-Laplace fitting in real time.",
+      "suitable_for": "Pendant drop tensiometry is suitable for measuring surface tension at liquid-vapor interfaces and interfacial tension at liquid-liquid interfaces. It excels in situations requiring small sample volumes (~5–30 µL per drop, ~0.5 mL total), wide temperature ranges, and high-pressure conditions that preclude mechanical contact methods. It is the preferred technique for studying surface tension of ionic liquids, polymer melts, liquid metals, and molten salts at elevated temperatures; interfacial tension of oil-water systems relevant to petroleum engineering and emulsion science; surface tension under high-pressure CO2 or gas environments for enhanced oil recovery and supercritical fluid studies; dynamic surface tension of surfactant solutions (time-dependent γ as molecules adsorb to the freshly created interface); and systems where avoiding mechanical contact with the interface is essential to prevent contamination or disruption of fragile adsorbed layers.",
+      "core_limitations": "The technique requires an optically transparent path from the backlight through the drop to the camera, which excludes opaque surrounding phases and heavily turbid systems. The density difference Δρ must be known accurately at the measurement temperature and pressure — an error of 0.5% in Δρ propagates directly to a 0.5% error in γ. When Δρ is very small (< ~10 kg/m³, as occurs near liquid-liquid critical points), gravitational deformation of the drop is insufficient for reliable fitting, and spinning drop tensiometry becomes necessary. Very low surface tensions (< ~1 mN/m) also result in nearly spherical drops with poor sensitivity. Highly viscous liquids (η > ~100 Pa·s) may not reach equilibrium drop shape within practical timescales, and transient viscoelastic effects complicate the analysis. Dynamic measurements are limited at short timescales (< ~0.1 s) by the frame rate of the camera and the time required to form the drop.",
+      "sample_preparation": "The liquid sample should be filtered through a 0.2 µm membrane filter to remove particulates that could adhere to the interface and alter the surface tension. For surface tension measurements, dissolved gases should be removed by degassing under vacuum or by gentle sonication to prevent bubble nucleation on the drop. The syringe and needle must be scrupulously cleaned — a typical protocol involves flushing with acetone, then ethanol, then copious amounts of ultra-pure water, followed by drying with filtered nitrogen. For interfacial tension measurements between two immiscible liquids, both phases should be pre-equilibrated (mutually saturated) by stirring together and separating before the measurement, to eliminate dissolution-driven changes in γ during the experiment. The needle should be inspected under magnification to verify that the tip is flat, symmetric, and free of burrs. For measurements at high temperature, metallic or ceramic needles replace stainless steel, and the sample may be loaded under inert atmosphere to prevent oxidation.",
+      "calibration_and_references": "Calibration of the pendant drop apparatus involves two essential steps. First, the spatial calibration converts pixel dimensions to physical dimensions: a precision gauge block, calibration sphere of certified diameter, or the known outer diameter of the needle itself is imaged under identical optical conditions, and the pixel-to-micrometer ratio is computed. Typical calibration accuracy is ±0.1% of field of view. Second, the entire measurement chain is validated by measuring the surface tension of ultra-pure water (γ = 72.0 mN/m at 25 °C), which should agree within ±0.3 mN/m. Additional reference liquids spanning the expected γ range (e.g., n-hexane at 17.9 mN/m, n-dodecane at 25.1 mN/m, diiodomethane at 50.8 mN/m) may be used to verify linearity. Density values for the drop and surrounding phases must be independently measured or sourced from high-quality references — for high-pressure work, an equation of state or direct densimeter measurement at the operating conditions is required.",
+      "data_interpretation": "Raw data are digital images of the pendant drop. Image processing software applies edge detection (typically Canny or Sobel filters) with sub-pixel interpolation to extract the drop profile as a discrete set of (x, y) coordinates from the apex to the needle contact line. The ADSA algorithm then fits these points by numerically integrating the Young-Laplace equation from the drop apex outward, treating γ and the apex radius R0 as adjustable parameters. The quality of the fit is assessed by the root-mean-square (RMS) deviation between the experimental and computed profiles, which should be below ~1 µm (< 0.5 pixel) for a good measurement. If the RMS residual is large, possible causes include vibration, asymmetry, optical distortion, or an incorrect density input. For dynamic surface tension measurements, images are captured continuously (1–30 fps) after rapid drop formation, and γ(t) is extracted from each frame, yielding an adsorption kinetic curve that can be fitted to diffusion-controlled or mixed kinetic-diffusion adsorption models.",
+      "common_pitfalls": "The most frequent pitfall is using an incorrect or imprecise density difference Δρ — because γ and Δρ appear as a product in the Young-Laplace equation, any error in Δρ maps directly to γ. Failure to clean the needle thoroughly between samples introduces surfactant contamination that lowers the measured γ, often by several mN/m, and may manifest as anomalously slow dynamic behavior. Operating at too low a Bond number (drop too small or γ too high relative to ΔρgR0²) makes the fit ill-conditioned because the nearly spherical drop shape is insensitive to γ. Mechanical vibrations — from building structure, pumps, or even air conditioning fans — cause oscillatory distortions of the drop that degrade fit quality or produce systematic bias. Camera misalignment (tilted optical axis) introduces a systematic asymmetry in the captured profile that the fitting algorithm must correct, and large tilts exceed the correction capability. For liquid-liquid interfacial tension measurements, neglecting to mutually saturate the two phases leads to a continuously changing γ that never reaches equilibrium.",
+      "artifacts_and_failure_modes": "Vibration artifacts appear as periodic fluctuations in the extracted γ time series and elevated RMS fit residuals; they are diagnosed by Fourier analysis of the γ(t) trace or by visual inspection of drop images for blurred or oscillating contours. Evaporation artifacts cause a monotonic drift in drop volume and apparent surface tension for volatile liquids — the drop shrinks, changing its shape; this is mitigated by using a sealed, vapor-saturated chamber. Optical aberration artifacts produce systematic curvature errors in the extracted profile, causing a bias in γ that depends on drop position within the field of view; telecentric lenses minimize this. Needle wetting failure occurs when the liquid spreads beyond the needle tip, creating an undefined and non-reproducible contact line; PTFE coating or using a needle of appropriate size and surface energy prevents this. At very high temperatures, thermal convection in the surrounding gas phase distorts the drop shape asymmetrically, which can be reduced by minimizing free gas space and using baffles. Complete failure occurs when the drop detaches from the needle (exceeds maximum volume) or when edge detection fails due to poor image contrast.",
+      "reporting_checklist": "Published pendant drop shape measurements should report: needle material, diameter, and any surface treatment; drop phase and surrounding phase identities; densities of both phases at measurement temperature and pressure with source and uncertainty; spatial calibration method and calibration factor; camera type, resolution, and lens magnification; image analysis software and ADSA algorithm version; number of replicate drops and images per drop; Bond number range; RMS deviation of the Young-Laplace fit; equilibration time before data acquisition; temperature and pressure with measurement uncertainties; surface or interfacial tension values with combined expanded uncertainty at 95% confidence (k=2); and any dynamic γ(t) data with time resolution specified. For ThermoML encoding, surface tension values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

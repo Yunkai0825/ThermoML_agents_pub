@@ -1,0 +1,368 @@
+{
+  "generated": "2026-09-05T02:23:25",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_9",
+      "block_number": "PROPblock_9",
+      "lit_id": null,
+      "literals": [
+        "0.5000"
+      ],
+      "detail": "0.5000 (near '…omposition:** No data point exists at exactly x(methanol) = …') matches no inspected row/stat, database table, or other source of PROPblock_9",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_9\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.5})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_9",
+      "block_number": "PROPblock_9",
+      "lit_id": null,
+      "literals": [
+        "0.4997"
+      ],
+      "detail": "0.4997 (near '…on is **x(water) = 0.5003**, corresponding to x(methanol) ≈ …') matches no inspected row/stat, database table, or other source of PROPblock_9",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_9\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.4997})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_9",
+      "block_number": "PROPblock_9",
+      "lit_id": null,
+      "literals": [
+        "101.325"
+      ],
+      "detail": "101.325 (near '…the dataset is **101.0 kPa**, slightly below the requested 1…') matches no inspected row/stat, database table, or other source of PROPblock_9",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_9\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 101.325})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_9",
+      "block_number": "PROPblock_9",
+      "lit_id": "GLOBlit_2825",
+      "literals": [
+        "0.000545"
+      ],
+      "detail": "0.000545 exists in PROPblock_9's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_2825::PROPblock_9\", nearest={\"column\": \"mole_fraction_<water>\", \"value\": 0.000545})"
+    }
+  ],
+  "verified": [],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_9",
+      "values": [
+        "0.5003",
+        "101.0",
+        "0.001309",
+        "0.7",
+        "298.15",
+        "0.3985",
+        "0.00115",
+        "0.5994",
+        "0.001463",
+        "0.6997",
+        "0.001554",
+        "0.7986",
+        "0.001542",
+        "0.8999",
+        "0.001317"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_9": {
+        "lit_num_id": "GLOBlit_2825",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_2852b20db799",
+          "INSP_87b7eb06bdc8"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.jct.2007.05.004",
+          "n_rows": 39,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "mole_fraction_<water>",
+            "pressure_kpa",
+            "viscosity_pa_s"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              293.15,
+              303.15
+            ],
+            "mole_fraction_<water>": [
+              0.0,
+              1.0
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "viscosity_pa_s": [
+              0.000508,
+              0.001793
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "0.5000",
+        "region": "PROPblock_9",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.5003",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.4997",
+        "region": "PROPblock_9",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.325",
+        "region": "PROPblock_9",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.001309",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.000545",
+        "region": "PROPblock_9",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_9"
+      },
+      {
+        "token": "0.7",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.3985",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.00115",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.5003",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.001309",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.5994",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.001463",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.6997",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.001554",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.7986",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.001542",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.8999",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.001317",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.7",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.001554",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1016/j.jct.2007.05.004",
+      "lit_num_id": "GLOBlit_2825",
+      "block_number": "PROPblock_9",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<water>",
+        "pressure_kpa",
+        "viscosity_pa_s"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_19",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.3985",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.00115"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_20",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.5003",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.001309"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_21",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.5994",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.001463"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_22",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.6997",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.001554"
+        }
+      ],
+      "inspection_id": "INSP_2852b20db799",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.jct.2007.05.004",
+      "lit_num_id": "GLOBlit_2825",
+      "block_number": "PROPblock_9",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<water>",
+        "pressure_kpa",
+        "viscosity_pa_s"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_23",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.7986",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.001542"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_24",
+          "temperature_k": "298.15",
+          "mole_fraction_<water>": "0.8999",
+          "pressure_kpa": "101.0",
+          "viscosity_pa_s": "0.001317"
+        }
+      ],
+      "inspection_id": "INSP_87b7eb06bdc8",
+      "markdown": ""
+    }
+  ]
+}

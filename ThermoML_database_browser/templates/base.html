@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ThermoML Browser{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  <style>
+    .raw-json-panel { border-left: 3px solid #dc3545; padding-left: .6rem; }
+    .raw-json-panel > summary { cursor: pointer; user-select: none; }
+    .raw-json-content {
+      max-height: 38rem; overflow: auto; white-space: pre-wrap;
+      overflow-wrap: anywhere; padding: .75rem; border-radius: .25rem;
+      color: #e9ecef; background: #212529; font-size: .75rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">ThermoML Browser</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('search.search_page') }}">Advanced Search</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('papers_list') }}">All Papers</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('agents.agents_page') }}">
+            <i class="bi bi-robot"></i> Agents</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('agents.agents_history') }}">
+            <i class="bi bi-clock-history"></i> History</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('analysis_tools_page') }}">
+            <i class="bi bi-graph-up-arrow"></i> Analysis</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('specialized_tools.browser_page') }}">
+            <i class="bi bi-puzzle"></i> Specialized tools</a></li>
+        </ul>
+        <form class="d-flex" action="{{ url_for('papers_list') }}" method="get">
+          <input class="form-control form-control-sm me-2" type="search" name="q"
+                 placeholder="Compound, formula, DOI…"
+                 value="{{ request.args.get('q','') }}">
+          <button class="btn btn-sm btn-outline-light" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-4">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="text-muted small py-4 border-top bg-white">
+    <div class="container">
+      <div class="row g-3 align-items-start">
+        <div class="col-lg-7">
+          <div class="fw-semibold text-secondary text-uppercase mb-1" style="font-size:.72rem;letter-spacing:.02em">Contact</div>
+          <a class="text-reset" href="mailto:yunkai.sun@anl.gov">Yunkai Sun</a> (CSE) &middot;
+          <a class="text-reset" href="mailto:aravichandran@anl.gov">Adwaith Ravichandran</a> (PHYS) &middot;
+          <a class="text-reset" href="mailto:hharb@anl.gov">Hassan Harb</a> (MSD)
+        </div>
+        <div class="col-lg-5 text-lg-end">
+          <div class="fw-semibold text-secondary text-uppercase mb-1" style="font-size:.72rem;letter-spacing:.02em">Attribution</div>
+          <div>Browser platform developed for C-STEEL at Argonne National Laboratory.</div>
+          <div>Data from <a class="text-reset" href="https://trc.nist.gov/ThermoML/">NIST ThermoML Archive</a> (v2020-09-30)</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  // Raw JSON panels. Documents are fetched lazily from the
+  // compressed corpus, so result lists do not load dozens of large records.
+  (function () {
+    function load(panel) {
+      if (!panel || panel.dataset.loaded || panel.dataset.loading) return;
+      panel.dataset.loading = '1';
+      var status = panel.querySelector('.raw-json-status');
+      var output = panel.querySelector('.raw-json-content');
+      if (status) status.textContent = 'Loading complete raw JSON…';
+      fetch(panel.dataset.rawJsonUrl)
+        .then(function (response) {
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.text();
+        })
+        .then(function (text) {
+          output.textContent = text;
+          output.classList.remove('d-none');
+          if (status) status.classList.add('d-none');
+          panel.dataset.loaded = '1';
+        })
+        .catch(function (error) {
+          if (status) {
+            status.textContent = 'Unable to load raw JSON: ' + error.message;
+            status.classList.remove('text-muted');
+            status.classList.add('text-danger');
+          }
+        })
+        .finally(function () { delete panel.dataset.loading; });
+    }
+    document.addEventListener('click', function (event) {
+      var summary = event.target.closest && event.target.closest('.raw-json-panel > summary');
+      if (!summary) return;
+      var panel = summary.parentElement;
+      setTimeout(function () { if (panel.open) load(panel); }, 0);
+    });
+    document.addEventListener('toggle', function (event) {
+      var panel = event.target;
+      if (panel.matches && panel.matches('.raw-json-panel') && panel.open) load(panel);
+    }, true);
+  })();
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,116 @@
+# Reference Stats — query-agent
+
+**Run started:** 2026-09-05 02:20:35
+**Wall time (at last flush):** 195.5 s
+
+---
+
+## 1. Argo API Call Summary
+
+| Tier | Calls | System (chars) | Prompt (chars) | Response (chars) | Total sent | Avg Context | Total time (s) | Model(s) |
+|------|------:|---------------:|---------------:|-----------------:|-----------:|------------:|---------------:|----------|
+| L0-main | 8 | 30,036 | 29,073 | 8,048 | 59,109 | 7,388 | 55.0 | claudeopus46 |
+| L1-worker | 18 | 255,056 | 96,119 | 18,328 | 351,175 | 19,509 | 141.9 | claudeopus46 |
+| verdict | 1 | 972 | 5,589 | 1,003 | 6,561 | 6,561 | 8.9 | claudeopus46 |
+| **TOTAL** | **27** | **286,064** | **130,781** | **27,379** | **416,845** | **15,438** | **205.8** | |
+
+**Estimated tokens:** ~104,211 input + ~6,844 output = ~111,055 total
+*(rough estimate: 1 token ≈ 4 chars)*
+
+---
+
+## 2. Data Complexity Summary
+
+### 2a. Raw Tool-Return Counters
+
+*Direct counts from raw tool results, before agent condensation.*
+
+| Tool | Compounds | Properties | Variables | Constraints | DOIs | Blocks | Datapoints |
+|------|----------:|-----------:|----------:|------------:|-----:|-------:|-----------:|
+| `resolve_compound_ids` | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `inspect_block_table` | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| **TOTAL** | **2** | **0** | **0** | **0** | **0** | **0** | **0** |
+
+### 2b. Agent-Condensed Data Complexity
+
+*Deduplicated entities and DOI references after agent processing.*
+
+#### Compounds (2 unique)
+
+| ID | Name | Source tools |
+|---:|------|-------------|
+| GLOBcomp_4 |  | resolve_compound_ids |
+| GLOBcomp_1 |  | resolve_compound_ids |
+
+#### Aggregate Counts (Condensed)
+
+| Metric | Count |
+|--------|------:|
+| Unique Compounds | 2 |
+| Total DOIs | 0 |
+| Unique parent blocks | 0 |
+| Explicit block/subsystem targets | 0 |
+| Subsystem targets | 0 |
+| Target-matched data points | 0 |
+
+---
+
+## 3. DOI & Block References
+
+*(no DOI/block references recorded)*
+
+---
+
+## 4. Tool Results (post tool-pipeline, pre context-compaction)
+
+| # | Iter | Tool | Args | Result (chars) | Subagent | Out (chars) | Time (s) |
+|--:|-----:|------|------|------------:|----------|------------:|---------:|
+| 1 | 1 | `resolve_compound_ids` | purpose=Find compound IDs for methano…, queries=['… | 203 | KEEP ←in 277 | 203 | 4.5 |
+| 2 | 3 | `search_blocks` | compound=['GLOBcomp_4', 'GLOBcomp_1'], limit=20, p… | 1,101 | KEEP ←in 6,223 | 1101 | 21.5 |
+| 3 | 4 | `inspect_block_table` | block_number=PROPblock_9, literature=GLOBlit_2825,… | 267 | — | — | 0.0 |
+| 4 | 5 | `inspect_block_table` | block_number=PROPblock_9, literature=GLOBlit_2825,… | 365 | — | — | 0.2 |
+| 5 | 6 | `inspect_block_table` | block_number=PROPblock_9, literature=GLOBlit_2825,… | 1,216 | — | — | 0.1 |
+| 6 | 8 | `inspect_block_table` | block_number=GLOBlit_2825::PROPblock_9, nearest={'… | 1,111 | — | — | 0.1 |
+| 7 | 1 | `L1_query` | context=Property ID for dynamic visco…, id_catalog… | 12,555 | — | — | 138.9 |
+| | | **TOTAL (7 tools)** | | **16,818** | | **1,304** | **165.3** |
+
+---
+
+## 5. Compaction Events
+
+*(no compaction events recorded)*
+
+---
+
+## 6. Argo Call Detail Log
+
+| # | Tier | Model | System | Prompt | Context | Response | Time (s) |
+|--:|------|-------|-------:|-------:|--------:|---------:|---------:|
+| 1 | L0-main | claudeopus46 | 11,581 | 1,009 | 12,590 | 1,261 | 8.1 |
+| 2 | L1-worker | claudeopus46 | 24,095 | 1,131 | 25,226 | 572 | 5.1 |
+| 3 | L1-worker | claudeopus46 | 3,767 | 431 | 4,198 | 335 | 3.8 |
+| 4 | L1-worker | claudeopus46 | 24,095 | 1,580 | 25,675 | 1,675 | 11.3 |
+| 5 | L1-worker | claudeopus46 | 24,095 | 2,302 | 26,397 | 659 | 4.8 |
+| 6 | L1-worker | claudeopus46 | 3,767 | 6,709 | 10,476 | 1,738 | 14.7 |
+| 7 | L1-worker | claudeopus46 | 24,095 | 3,382 | 27,477 | 998 | 7.7 |
+| 8 | L1-worker | claudeopus46 | 24,095 | 4,033 | 28,128 | 609 | 6.4 |
+| 9 | L1-worker | claudeopus46 | 24,095 | 4,720 | 28,815 | 1,170 | 8.5 |
+| 10 | L1-worker | claudeopus46 | 24,095 | 6,262 | 30,357 | 1,483 | 15.3 |
+| 11 | L1-worker | claudeopus46 | 24,095 | 11,379 | 35,474 | 1,110 | 9.5 |
+| 12 | L1-worker | claudeopus46 | 24,095 | 12,862 | 36,957 | 1,709 | 13.6 |
+| 13 | L1-worker | claudeopus46 | 24,095 | 16,768 | 40,863 | 1,707 | 9.5 |
+| 14 | L1-worker | claudeopus46 | 627 | 2,396 | 3,023 | 693 | 5.3 |
+| 15 | L1-worker | claudeopus46 | 2,106 | 3,768 | 5,874 | 856 | 5.3 |
+| 16 | L1-worker | claudeopus46 | 2,320 | 2,516 | 4,836 | 991 | 6.5 |
+| 17 | L1-worker | claudeopus46 | 366 | 1,633 | 1,999 | 483 | 3.1 |
+| 18 | L1-worker | claudeopus46 | 366 | 1,428 | 1,794 | 946 | 4.4 |
+| 19 | L1-worker | claudeopus46 | 787 | 12,819 | 13,606 | 594 | 7.1 |
+| 20 | L0-main | claudeopus46 | 11,581 | 12,999 | 24,580 | 3,057 | 22.0 |
+| 21 | L0-main | claudeopus46 | 2,106 | 3,310 | 5,416 | 604 | 5.1 |
+| 22 | L0-main | claudeopus46 | 2,320 | 2,469 | 4,789 | 987 | 6.0 |
+| 23 | L0-main | claudeopus46 | 366 | 1,153 | 1,519 | 673 | 3.4 |
+| 24 | L0-main | claudeopus46 | 366 | 1,462 | 1,828 | 938 | 4.0 |
+| 25 | L0-main | claudeopus46 | 560 | 2,942 | 3,502 | 71 | 2.2 |
+| 26 | L0-main | claudeopus46 | 1,156 | 3,729 | 4,885 | 457 | 4.2 |
+| 27 | verdict | claudeopus46 | 972 | 5,589 | 6,561 | 1,003 | 8.9 |
+

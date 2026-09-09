@@ -1,0 +1,330 @@
+{
+  "meas_ID": "differential_flow_calorimetry",
+  "identity": {
+    "name": "Differential flow calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Differential flow calorimetry",
+    "thermoml_custom_codes": [
+      "DIFFLOW"
+    ],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 9,
+      "property_groups": [
+        "ExcessPartialApparentEnergyProp"
+      ],
+      "n_papers": 4,
+      "per_group": {
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 9,
+          "papers": 4
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "differential power between sample and reference flow channels (ΔP)",
+          "differential temperature between sample and reference channels (ΔT)",
+          "flow rate of fluid through each channel"
+        ],
+        "derived_observables": [
+          "specific heat capacity of solution (cp)",
+          "volumetric heat capacity (ρcp)",
+          "excess heat capacity (Cp^E)",
+          "apparent molar heat capacity (Cp,φ)",
+          "partial molar heat capacity at infinite dilution"
+        ],
+        "target_properties": [
+          "isobaric heat capacity of solutions (Cp)",
+          "excess molar heat capacity (Cp^E)",
+          "apparent molar heat capacity (Cp,φ)",
+          "partial molar heat capacity",
+          "heat capacity ratio cp,solution/cp,solvent",
+          "heat of dilution (from flow-dilution variant)"
+        ],
+        "phases_measured": [
+          "liquid (aqueous solutions)",
+          "liquid (non-aqueous solutions)",
+          "liquid (mixed-solvent systems)",
+          "liquid (electrolyte solutions)"
+        ],
+        "supported_sample_types": [
+          "aqueous electrolyte solutions",
+          "aqueous non-electrolyte solutions",
+          "organic liquid mixtures",
+          "surfactant solutions",
+          "polymer solutions (dilute)",
+          "biochemical solutions (proteins, amino acids in water)",
+          "ionic liquid mixtures",
+          "pure liquids (as calibration or reference)"
+        ],
+        "unsupported_sample_types": [
+          "solids and solid suspensions (would block flow channels)",
+          "gases",
+          "highly viscous fluids (> ~500 mPa·s, impede steady flow)",
+          "volatile liquids with high vapor pressure near operating temperature (degassing disrupts flow)",
+          "reactive mixtures that evolve gas or precipitate in flow lines",
+          "samples available only in very small total volumes (< ~5 mL, insufficient for continuous flow)"
+        ],
+        "typical_output_formats": [
+          "cp,solution/cp,reference vs. composition at fixed T and P",
+          "Cp^E vs. mole fraction at fixed T",
+          "apparent molar heat capacity Cp,φ vs. molality",
+          "ΔP vs. time trace (raw)",
+          "volumetric heat capacity ρcp vs. composition"
+        ],
+        "units": {
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "excess_heat_capacity": "J/(mol·K)",
+          "apparent_molar_heat_capacity": "J/(mol·K)",
+          "temperature": "K",
+          "pressure": "MPa",
+          "flow_rate": "mL/min or cm³/min",
+          "differential_power": "mW or µW"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "flow_rate",
+            "typical_range": "0.1 mL/min to 1.0 mL/min",
+            "hard_limits": "minimum set by signal-to-noise; maximum set by pressure drop and residence time needed for thermal equilibration",
+            "notes": "Picker-type instruments typically operate at 0.5–0.6 mL/min; flow rate must be identical in both channels for accurate common-mode rejection"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "278 K to 373 K",
+            "hard_limits": "lower limit set by freezing of aqueous solutions; upper limit set by boiling and back-pressure rating of flow cell (~2 MPa)",
+            "notes": "pressurized flow systems extend the upper limit to ~400 K; most published data are in the 288–328 K range"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa to 2 MPa (back-pressure to suppress boiling)",
+            "hard_limits": "limited by flow-cell seals and tubing ratings; specialized high-pressure cells reach ~40 MPa",
+            "notes": "back-pressure of 0.2–0.5 MPa commonly applied above 350 K to prevent degassing and bubble formation"
+          },
+          {
+            "parameter": "concentration_range",
+            "typical_range": "0.001 mol/kg to saturation",
+            "hard_limits": "upper limit set by viscosity and solubility; very dilute solutions require high instrument sensitivity",
+            "notes": "for electrolytes, concentrations from 0.01 to 5 mol/kg are typical; compositional scans done by switching feed solutions or using a gradient pump"
+          }
+        ],
+        "variables": [
+          {
+            "name": "flow_rate",
+            "role": "controlled variable (held constant during a measurement)",
+            "typical_values": "0.5 mL/min to 0.6 mL/min",
+            "effect": "determines residence time in the calorimetric zone and thermal equilibration; common-mode noise rejection requires matched flow rates in both channels"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled variable (set point, isothermal operation)",
+            "typical_values": "288 K to 328 K",
+            "effect": "heat capacity varies with temperature; instrument operates isothermally at each set point to avoid transient corrections"
+          },
+          {
+            "name": "composition",
+            "role": "scanned or stepped variable",
+            "typical_values": "mole fractions 0 to 1 or molality 0.01 to 5 mol/kg",
+            "effect": "determines the heat capacity difference between sample and reference; scanning composition yields Cp^E or Cp,φ as a function of concentration"
+          },
+          {
+            "name": "pressure",
+            "role": "controlled variable (usually fixed)",
+            "typical_values": "0.1 MPa to 0.5 MPa",
+            "effect": "back-pressure suppresses degassing and boiling; small Cp pressure dependence is usually negligible at low pressures"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "twin flow cells — matched pair of thin-walled tubes or microchannels with integral heaters and temperature sensors, one for reference fluid and one for sample fluid",
+          "peristaltic or syringe pump — delivers fluid at precisely matched flow rates through both channels",
+          "flow-rate controller or splitter — ensures identical volumetric flow in reference and sample channels",
+          "thermostated heat-exchange zone — pre-equilibration coil or block that brings both inlet streams to the same temperature before the measurement zone",
+          "differential temperature sensor — matched thermopile or pair of platinum resistance thermometers detecting ΔT between channels",
+          "differential power compensation heater (power-compensation mode) — supplies variable electrical power to null the temperature difference",
+          "adiabatic shield — temperature-regulated jacket surrounding the flow cells to minimize thermal leakage",
+          "back-pressure regulator — maintains constant pressure in the flow circuit to prevent degassing and bubble formation",
+          "data acquisition system — high-resolution voltmeter and computer for recording ΔP or ΔT, flow rate, temperature, and pressure",
+          "degassing unit — in-line vacuum degasser or helium sparging to remove dissolved gas before fluid enters the calorimeter"
+        ],
+        "environmental_requirements": [
+          "temperature stability of surrounding thermostat better than ±0.005 K",
+          "vibration-free environment to prevent flow pulsations and noise in differential signal",
+          "draft-free room or enclosure to avoid convective perturbations of adiabatic shield",
+          "stable room temperature (±1 K) to reduce drift in external heat exchange"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid — sample is pumped through tubing; no geometric constraints on the fluid itself"
+          ],
+          "size_limits": "minimum ~5 mL total volume for a single measurement point; ~20–100 mL for a full composition scan with multiple points",
+          "thickness_limits": "not applicable (flowing liquid)",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "particle-free: solutions must be filtered (0.45 µm) to prevent blocking of flow channels",
+            "bubble-free: thorough degassing required before injection"
+          ],
+          "preparation_requirements": [
+            "accurate gravimetric preparation of solutions using an analytical balance (±0.1 mg)",
+            "thorough degassing by vacuum, sonication, or helium sparging",
+            "filtration through 0.45 µm membrane to remove particulates",
+            "density measurement of each solution (needed to convert volumetric to specific heat capacity)",
+            "thermal pre-equilibration of feed reservoirs to near operating temperature"
+          ]
+        },
+        "calibration_requirements": [
+          "electrical calibration: known Joule heating applied differentially to determine power-sensitivity coefficient (W/V or W/K)",
+          "water baseline: pure water flowing through both channels to establish the zero-difference baseline and verify common-mode rejection",
+          "chemical calibration using NaCl(aq) solutions of known heat capacity (Archer equation of state) to validate absolute cp values",
+          "flow-rate calibration: timed collection of effluent or use of a precision flow meter to verify volumetric flow rates",
+          "temperature calibration of sensors against ITS-90 fixed points or a NIST-traceable reference thermometer"
+        ],
+        "reference_materials": [
+          "pure water — primary reference fluid (cp = 4.1818 J/(g·K) at 298.15 K, 0.1 MPa; NIST data)",
+          "NaCl(aq) — chemical calibration standard with well-known cp (Archer equation of state)",
+          "KCl(aq) — alternative chemical calibrant for aqueous electrolyte work",
+          "ethanol or methanol — reference for non-aqueous calibrations",
+          "n-heptane — non-polar organic reference liquid"
+        ],
+        "consumables": [
+          "PEEK or stainless steel tubing (1/16\" OD) for flow lines",
+          "membrane filters (0.45 µm, PTFE or nylon)",
+          "degassing membrane or helium supply for sparging",
+          "O-rings and ferrules for flow-cell seals",
+          "analytical-grade solvents and solutes for solution preparation"
+        ],
+        "safety_notes": [
+          "pressurized flow system — check pressure ratings of all fittings and tubing before operation",
+          "flammable solvents require spark-free pumps and proper ventilation",
+          "hot liquids above 373 K: burn risk from pressurized hot effluent",
+          "corrosive electrolyte solutions: use chemically compatible wetted materials (PEEK, Hastelloy, PTFE)"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of detecting specific heat capacity differences (Δcp/cp) of ~1 × 10⁻⁴ between sample and reference channels; absolute sensitivity ~10 µW for power-compensated designs",
+        "detection_limit": "minimum detectable cp difference ~0.001 J/(g·K) under optimized conditions; translates to ~0.05 J/(mol·K) for typical molar masses",
+        "resolution": {
+          "spatial": "not applicable (bulk flowing-liquid measurement)",
+          "temporal": "response time ~30–120 s to reach steady-state after a composition or flow change",
+          "spectral": "not applicable",
+          "energy": "differential power resolution ~5–50 µW depending on instrument design"
+        },
+        "dynamic_range": "cp from ~1 J/(g·K) to ~5 J/(g·K) for aqueous systems; Cp^E values from ~0.01 to ~50 J/(mol·K); temperature range 278–400 K",
+        "accuracy": "0.1–0.5% in specific heat capacity cp for well-calibrated systems; 1–5% for excess heat capacity Cp^E depending on the magnitude of the excess quantity",
+        "precision": "0.05–0.2% (repeatability of cp ratio measurement at constant T and flow rate)",
+        "throughput": "one composition point every 5–15 minutes after steady-state is reached; full isotherm of 10–20 points in 2–5 hours",
+        "measurement_speed": "steady-state technique; each data point requires 5–15 min for thermal equilibration after composition change; faster than batch calorimetry for multi-point isotherms"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "differential voltage from thermopile (heat-leak mode) or differential electrical power applied to nulling heater (power-compensation mode), recorded as a time series at fixed temperature and flow rate",
+        "preprocessing_steps": [
+          "baseline subtraction: subtract the water-vs-water zero-difference baseline to remove systematic offset",
+          "steady-state extraction: identify the plateau region of the ΔP or ΔT trace after composition switching and average over the stable interval",
+          "flow-rate correction: normalize the differential signal by the measured volumetric flow rate if channels are not exactly matched",
+          "temperature drift correction: remove any slow linear drift in the differential signal during the measurement window",
+          "density correction: multiply specific heat capacity by solution density to convert between volumetric and mass-specific quantities"
+        ],
+        "analysis_methods": [
+          "ratio method: cp,solution = cp,reference × (1 + ΔP/P_ref), where P_ref is the total power required to heat the reference stream through the calorimetric zone",
+          "direct integration: for power-compensation mode, cp = P_comp/(ṁ·ΔT_rise) where ṁ is mass flow rate and ΔT_rise is the calibrated temperature increment",
+          "excess heat capacity calculation: Cp^E = cp,mixture × M_mix − Σ(xi × Cp,i*), where Cp,i* are pure-component molar heat capacities",
+          "apparent molar heat capacity: Cp,φ = Cp^E/x₂ + Cp,2*, relating excess to composition",
+          "Redlich-Kister or Margules polynomial fitting of Cp^E vs. composition for thermodynamic modeling"
+        ],
+        "model_assumptions": [
+          "flow rates in both channels are identical and constant during the measurement",
+          "both fluids reach full thermal equilibrium with the calorimetric zone (sufficient residence time)",
+          "no heat of mixing or dilution occurs inside the flow cell (pure comparison of cp values)",
+          "specific heat capacity is uniform across the flow cross-section (well-mixed, no radial gradients)",
+          "pressure drop across the flow cell does not contribute significantly to the enthalpy balance (low-viscosity fluids)"
+        ],
+        "fit_parameters": [
+          "specific heat capacity ratio cp,solution/cp,water",
+          "Redlich-Kister coefficients for Cp^E(x) polynomial fit",
+          "apparent molar heat capacity at infinite dilution Cp,φ∞ (from extrapolation of Cp,φ vs. √m)",
+          "Debye-Hückel limiting-law slope for electrolyte Cp,φ extrapolations"
+        ],
+        "common_artifacts": [
+          "bubble artifact: dissolved gas coming out of solution in the heated zone produces erratic ΔT or ΔP spikes",
+          "flow mismatch artifact: unequal flow rates in the two channels create a systematic offset that mimics a cp difference",
+          "heat-of-mixing artifact: if the solution composition changes in situ (flow-dilution mode), enthalpy of mixing is superimposed on the cp signal",
+          "memory effect: residual solution from a previous composition clinging to tubing walls contaminates the next measurement",
+          "viscosity artifact: highly viscous samples alter flow dynamics and heat transfer coefficients, introducing systematic error"
+        ],
+        "quality_control_checks": [
+          "verify water-vs-water baseline reproduces ΔP or ΔT = 0 within noise limits before and after each measurement series",
+          "measure NaCl(aq) reference solutions and compare to Archer equation of state values; agreement within ±0.1% confirms calibration",
+          "check reversibility: measure the same solution composition in forward and reverse sweeps",
+          "inspect time traces for steady-state plateaus; reject points with drift > 0.02% over the averaging window",
+          "duplicate measurements on independently prepared solutions to verify reproducibility"
+        ],
+        "failure_modes": [
+          "flow blockage from precipitated solute or particulates — sudden baseline shift or complete loss of signal",
+          "pump failure or pulsation — periodic noise in ΔT or ΔP trace at pump frequency",
+          "seal leak in flow cell — loss of fluid, baseline drift, and potential cross-contamination between channels",
+          "thermostat instability — large low-frequency oscillations in the differential signal exceeding the common-mode rejection capability",
+          "degassing failure — persistent bubbles in one or both channels producing irreproducible noisy baselines"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5% for specific heat capacity cp; 1–5% for excess heat capacity Cp^E (relative uncertainty is larger for small Cp^E values)",
+        "random_sources": [
+          "flow-rate fluctuations (pump pulsation, tubing compliance)",
+          "thermal noise in differential temperature sensors",
+          "baseline drift from slow thermostat temperature oscillations",
+          "bubble-induced transient noise",
+          "electronic noise in data acquisition chain"
+        ],
+        "systematic_sources": [
+          "flow-rate mismatch between sample and reference channels",
+          "incomplete thermal equilibration of fluid in the calorimetric zone",
+          "heat exchange with surroundings (imperfect adiabatic shielding)",
+          "density uncertainty propagated through the cp calculation",
+          "solution preparation uncertainty (composition, impurities)",
+          "calibration constant uncertainty (electrical or chemical calibration)",
+          "reference fluid cp uncertainty (water or NaCl equation of state)"
+        ],
+        "operator_dependence": "low to moderate — technique is largely automated once flow lines are connected and degassed; main operator-dependent steps are solution preparation accuracy and ensuring bubble-free operation",
+        "model_dependence": "low — the ratio method directly compares sample to reference without complex thermal models; however, extracting Cp^E requires accurate pure-component Cp values and density data, introducing model-dependent uncertainties in the derived excess quantities",
+        "dominant_error_sources": [
+          "flow-rate mismatch between the two channels (even 0.1% mismatch introduces ~0.1% cp error)",
+          "bubbles or dissolved gas evolution in one channel",
+          "solution composition uncertainty for excess property calculations"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(cp) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of cp or Cp^E",
+          "standard deviation from replicate steady-state readings"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Differential flow calorimetry is a twin-channel calorimetric technique that measures the heat capacity difference between a sample fluid (solution or mixture) and a reference fluid (typically the pure solvent), both flowing simultaneously through matched flow cells under identical conditions. Developed commercially by Picker and co-workers in the 1970s, it exploits common-mode rejection — any thermal disturbance (ambient fluctuations, flow-rate noise) affects both channels equally and cancels in the differential signal. This makes the technique exceptionally precise for determining small differences in specific heat capacity, yielding excess heat capacities Cp^E and apparent molar heat capacities Cp,φ that are central to solution thermodynamics and activity-coefficient modeling.",
+      "how_it_operates": "Two streams of fluid — a reference (pure solvent or known solution) and a sample (mixture or solution of interest) — are pumped at identical, precisely controlled flow rates through a pair of matched calorimetric cells housed in a common thermostat. In power-compensation mode, individual heaters raise each stream by a fixed temperature increment, and the differential power needed to maintain identical temperature rises is measured; this differential power is directly proportional to the difference in volumetric heat capacity between the two fluids. In heat-leak mode, a thermopile spanning the two cells detects the differential temperature arising when both streams absorb the same power input. The isothermal, steady-state operation eliminates scanning transients, and the continuous flow allows rapid composition changes by switching the feed solution.",
+      "core_theory": "The fundamental relationship exploits the energy balance for steady-state flow through a heated zone: P = ṁ·cp·ΔT, where P is the heater power, ṁ is the mass flow rate, cp is the specific heat capacity, and ΔT is the temperature rise. For matched flow rates (V̇_ref = V̇_sample) and identical geometry, the ratio of specific heat capacities is obtained from the differential power: cp,sample/cp,ref = 1 + ΔP/P_ref, where ΔP = P_sample − P_ref is the differential power. Since ΔP/P_ref is typically small (10⁻³ to 10⁻²), the technique achieves high precision. The volumetric heat capacity product (ρcp) is the primary measured quantity; converting to mass-specific cp requires independent density measurements. Excess heat capacity is then computed as Cp^E = cp,mix·M_mix − Σ(xi·Cp,i*), using pure-component molar heat capacities Cp,i*.",
+      "setup": "A typical Picker-type differential flow calorimeter consists of a precision peristaltic or HPLC-style pump feeding two parallel flow paths through a thermostated pre-equilibration coil and into twin measurement cells, each containing a platinum resistance heater and a high-sensitivity temperature sensor (thermistor or PRT). The cells are housed within a massive metal block maintained at the set-point temperature to ±0.005 K or better by a PID-controlled thermostat. A back-pressure regulator downstream maintains 0.2–0.5 MPa to suppress degassing. The differential signal (ΔP or ΔT) is amplified, digitized, and recorded by computer. Modern commercial instruments (e.g., CSC 5500 Nano DSC in flow mode) use micro-volume cells (~0.3 mL) with integrated Peltier heating and cooling for rapid temperature changes and sub-microwatt power resolution.",
+      "suitable_for": "Differential flow calorimetry is the method of choice for measuring heat capacities and excess heat capacities of liquid solutions across a wide composition range at moderate temperatures and pressures. It excels for aqueous electrolyte solutions (where Cp^E data underpin Pitzer and electrolyte NRTL models), non-electrolyte organic mixtures (for UNIQUAC/NRTL parameterization), surfactant and micellar solutions, dilute biochemical solutions (amino acids, proteins in buffer), and mixed-solvent systems. Its continuous-flow format is ideal for scanning many compositions along an isotherm efficiently. It is also used for measuring heats of dilution when combined with a mixing tee upstream of the calorimetric zone.",
+      "core_limitations": "The technique is limited to homogeneous liquid phases — it cannot handle suspensions, gels, or gas-evolving systems that would block or disrupt flow. Sensitivity drops for very dilute solutions where Cp^E approaches zero; at very low concentrations the systematic error from flow-rate mismatch can exceed the signal. The operating temperature range is bounded by freezing (typically > 275 K for aqueous systems) and boiling or back-pressure limits (typically < 400 K). Highly viscous fluids (> ~500 mPa·s) cause unequal pressure drops and flow-pattern changes that violate the matched-channel assumption. Absolute cp accuracy (0.1–0.5%) is good but inferior to adiabatic calorimetry; the method's strength lies in precise differential measurements rather than absolute determination.",
+      "sample_preparation": "Solutions must be prepared gravimetrically using an analytical balance (±0.1 mg) to ensure accurate composition. Solvents and solutes should be of analytical grade with known purity. Each solution must be thoroughly degassed — by vacuum filtration, sonication under reduced pressure, or helium sparging — to prevent bubble formation in the heated flow cell. Filtration through a 0.45 µm membrane removes particulates that could block the narrow flow channels. The density of each solution should be measured independently (e.g., by vibrating-tube densimetry) because the calorimeter yields the volumetric heat capacity product ρcp, and converting to mass-specific cp requires an accurate density value. Feed reservoirs should be equilibrated thermally to minimize transient effects when fluid enters the pre-equilibration zone.",
+      "calibration_and_references": "Calibration is performed in three stages. First, an electrical calibration determines the power-sensitivity coefficient by applying a known differential Joule-heating power to one channel while the other receives zero differential power, establishing the relationship between the recorded signal and ΔP. Second, a water-versus-water baseline run verifies that both channels are perfectly balanced (ΔP ≈ 0 within noise) and quantifies any residual offset to be subtracted from subsequent measurements. Third, a chemical calibration using NaCl(aq) solutions of known concentration is performed and compared to the Archer equation of state for aqueous NaCl heat capacity to validate the absolute cp scale; agreement within ±0.1% is expected for a properly functioning instrument. Flow-rate calibration (timed mass collection or precision flow meter) and temperature sensor calibration against ITS-90 standards complete the procedure.",
+      "data_interpretation": "At each composition and temperature, the steady-state differential power ΔP (or ΔT) is extracted from the time trace by averaging over the plateau after equilibration. The specific heat capacity ratio is computed as cp,sample/cp,ref = 1 + ΔP/P_ref, and the absolute cp of the sample is obtained by multiplying by the known cp of the reference fluid (usually water). Dividing by density gives the molar heat capacity, from which the excess molar heat capacity Cp^E is extracted by subtracting the ideal-mixing contribution. Apparent molar heat capacity Cp,φ is computed as Cp,φ = (cp − cp,1*·w₁)/(m₂·M₂·cp,1*) × 1000 for electrolyte work, or equivalently from Cp^E/x₂ + Cp,2*. Composition-dependent Cp^E data are typically fitted to Redlich-Kister polynomials for thermodynamic modeling. For electrolyte solutions, extrapolation of Cp,φ to infinite dilution using the Debye-Hückel limiting-law slope yields the standard partial molar heat capacity Cp,2°.",
+      "common_pitfalls": "The most frequent pitfall is inadequate degassing: even a small bubble in one channel creates an asymmetric thermal impedance that shifts the baseline by an amount comparable to or larger than the true signal for dilute solutions. Flow-rate mismatch between channels — caused by tubing blockage, pump wear, or unequal back-pressure — introduces a systematic offset that directly corrupts the cp ratio. Contamination between composition steps (memory effect) occurs when dead-volume liquid from a previous solution persists in tubing or fittings, requiring sufficient flushing volume before the next measurement. Failure to measure solution density independently and relying on estimated densities propagates errors into the final cp and Cp^E values. Operating at temperatures too close to the boiling point without adequate back-pressure causes intermittent degassing spikes.",
+      "artifacts_and_failure_modes": "Bubble artifacts are the most characteristic failure of flow calorimetry: dissolved gas released at the heated zone produces erratic spikes and baseline shifts in the differential signal. Flow mismatch artifacts mimic a constant cp difference, offset equally at all compositions. Heat-of-mixing artifacts arise in flow-dilution configurations where the sample stream is diluted in situ; the mixing enthalpy is superimposed on the heat capacity signal and must be accounted for or eliminated by design. Memory-effect artifacts appear as gradual composition errors when switching between solutions without sufficient flushing. Pump pulsation noise appears at the pump frequency as a periodic modulation of the differential signal, reducing precision. Seal leaks in the flow cell degrade the differential balance irreversibly and require disassembly and resealing. Thermostat instability beyond the common-mode rejection bandwidth appears as slow baseline oscillations.",
+      "reporting_checklist": "Published differential flow calorimetry results should report: instrument make and model (e.g., Picker flow microcalorimeter, Setaram MicroDSC-flow, CSC Nano DSC), cell volume and material of construction, flow rate and how it was calibrated, operating temperature and pressure, back-pressure applied, calibration substances used and deviations from literature cp values, water-vs-water baseline reproducibility, solution preparation method (gravimetric, volumetric) and purity of components, independent density values and their source, raw quantity measured (ρcp or cp ratio), derived quantities (Cp^E, Cp,φ) with the equations used, fitting model for composition dependence (Redlich-Kister order), combined expanded uncertainty at 95% confidence (k=2) for both cp and Cp^E, and number of replicate measurements. For ThermoML encoding, heat capacity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

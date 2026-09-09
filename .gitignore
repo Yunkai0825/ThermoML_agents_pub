@@ -1,0 +1,119 @@
+# ════════════════════════════════════════════════════════════════════
+#  ThermoML Agents — workspace .gitignore
+#  Goal: publish a self-contained snapshot: source code, database artifacts,
+#  and benchmark/user run outputs.  Only local caches, build products, and
+#  secrets stay ignored.
+# ════════════════════════════════════════════════════════════════════
+
+# ── Nested per-project git repos (temporarily renamed during publish) ──
+# Exclude archived nested repository metadata retained during migration.
+**/.git_DISABLED_FOR_PUBLISH/
+
+# ── Python ────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+*.egg
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.ipynb_checkpoints/
+
+# ── Virtual environments ──────────────────────────────────────────────
+.venv/
+.venv-ci*/
+venv/
+env/
+ENV/
+.conda/
+
+# ── Editor / OS ───────────────────────────────────────────────────────
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Secrets / credentials (NEVER publish) ─────────────────────────────
+gitlab.txt
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pfx
+# Flask session-signing key written by the PDF parsing browser (<bucket>/PDF_docx_parsers/_cache/ui_jobs/)
+**/.secret_key
+
+# ── Machine-local runtime state ───────────────────────────────────────
+_master_settings.json
+_server_log.txt
+_server_err.txt
+_tmp_*.txt
+*.log
+**/test/
+**/tests/
+
+# ── Scratch / campaign archives (never published) ─────────────────────
+**/__tmp/
+**/__tmp__/
+**/_temp_script/
+**/_tmp_pycache_strict_audit/
+
+# ── Huge local model caches (not needed by the browser snapshot) ──────
+/Util_Docling_PDF/doc_parsers/base_docling_MLmodels/
+/Util_Argo_APIs/_BROWSER_DATA/
+**/_fallback_temp_files/
+**/DEBUG_topology_output/
+**/_DEBUG_output/
+**/DEBUG_output/
+**/Debug_output/
+**/DEBUG_csv_output/
+**/parser_output/
+**/_freeform_output/
+
+# ── Archived / obsolete material ──────────────────────────────────────
+**/__obsolete__/
+**/__obsolete_/
+**/__obsolete/
+**/_obsolete/
+**/_prefix_corrupted_backup/
+# Deep DEBUG-input backup/fixture trees (very long paths, not source)
+**/_DEBUG_input/_backup_*/
+**/_DEBUG_input/_obsolete/
+
+# NOTE: database artifacts, _benchmark/, and _output/ are not broadly ignored.
+# See docs/PUBLICATION.md for data distribution and release artifact selection.
+
+# Transient publish audit artifacts
+_publish_audit*.txt
+_audit*.txt
+_cscan.txt
+_rc_*.txt
+_remote.txt
+_ssh.txt
+_push.txt
+anthropic_raw_capture.jsonl
+ci_artifacts/
+
+# Legacy output-tree workflow exclusion; current _output/_benchmark artifacts
+# remain eligible for deliberate publication selection.
+_outputs_user/**/workflow/
+
+# SQLite live sidecar files
+*.db-shm
+*.db-wal
+/_probe_hist_out.txt
+
+# publish the compaction funnels reference outputs (user-requested)
+!**/compaction_funnels/DEBUG_output/

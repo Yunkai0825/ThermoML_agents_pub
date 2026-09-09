@@ -1,0 +1,345 @@
+{
+  "meas_ID": "photoacoustic_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Photoacoustic method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Photoacoustic method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Optical / Refractometry",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 3,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 3,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "photoacoustic signal amplitude (PA amplitude) as a function of modulation frequency",
+          "photoacoustic signal phase (PA phase) as a function of modulation frequency",
+          "PA signal amplitude vs. wavelength (photoacoustic spectrum)"
+        ],
+        "derived_observables": [
+          "thermal diffusivity (α)",
+          "thermal conductivity (λ = α·ρ·Cp, when density and heat capacity are known)",
+          "optical absorption coefficient (β)",
+          "thermal effusivity (e = √(λ·ρ·Cp))",
+          "sample thickness (from characteristic frequency)"
+        ],
+        "target_properties": [
+          "thermal diffusivity",
+          "thermal conductivity",
+          "optical absorption coefficient",
+          "thermal effusivity",
+          "composition at phase equilibrium (via optical absorption differences between phases)"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous)",
+          "solid (powder/pellet)",
+          "thin films on substrates",
+          "liquid (in specialized sealed cells)",
+          "soft condensed matter"
+        ],
+        "supported_sample_types": [
+          "opaque and semi-transparent solids",
+          "thin films and coatings",
+          "powders and pellets",
+          "ceramics and glasses",
+          "polymers and composites",
+          "metals and alloys",
+          "layered and multilayer structures",
+          "biological tissues",
+          "liquids in sealed photoacoustic cells"
+        ],
+        "unsupported_sample_types": [
+          "transparent materials with negligible optical absorption at the excitation wavelength",
+          "gases (require specialized resonant PA cells, not standard open-cell method)",
+          "highly volatile liquids that evaporate in the PA cell",
+          "samples that decompose under laser irradiation",
+          "samples smaller than the laser spot diameter"
+        ],
+        "typical_output_formats": [
+          "PA amplitude vs. modulation frequency (log-log plot)",
+          "PA phase vs. modulation frequency",
+          "PA amplitude vs. wavelength (photoacoustic spectrum)",
+          "thermal diffusivity vs. temperature",
+          "fitted thermal diffusivity value with uncertainty"
+        ],
+        "units": {
+          "thermal_diffusivity": "m²/s (commonly reported as cm²/s or mm²/s)",
+          "thermal_conductivity": "W/(m·K)",
+          "optical_absorption_coefficient": "cm⁻¹",
+          "thermal_effusivity": "W·s^(1/2)/(m²·K)",
+          "modulation_frequency": "Hz",
+          "PA_signal_amplitude": "mV or µV (arbitrary units, microphone-dependent)",
+          "PA_signal_phase": "degrees",
+          "temperature": "K"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "modulation_frequency",
+            "typical_range": "10 Hz to 1000 Hz",
+            "hard_limits": "lower limit set by 1/f noise and ambient acoustic interference; upper limit set by microphone frequency response and diminishing PA signal at high frequencies",
+            "notes": "the characteristic frequency fc = α/(π·l²) where l is sample thickness is critical — measurements should span a range around fc for reliable fitting"
+          },
+          {
+            "parameter": "laser_power",
+            "typical_range": "10 mW to 500 mW",
+            "hard_limits": "must be low enough to avoid sample damage, ablation, or nonlinear thermal effects; must be high enough for adequate signal-to-noise ratio",
+            "notes": "continuous-wave lasers modulated by a mechanical chopper or acousto-optic modulator are standard"
+          },
+          {
+            "parameter": "excitation_wavelength",
+            "typical_range": "200 nm to 10 µm",
+            "hard_limits": "sample must absorb at the chosen wavelength; common sources are Ar-ion (488/514 nm), He-Ne (633 nm), diode lasers (650–980 nm), CO₂ (10.6 µm)",
+            "notes": "wavelength selection depends on sample absorption properties; strong absorption ensures surface heating regime"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 800 K",
+            "hard_limits": "limited by PA cell materials, microphone operating range, and sample stability; cryogenic or high-temperature variants require specialized cells",
+            "notes": "most measurements are at room temperature; variable-temperature PA requires careful thermal management of the cell"
+          }
+        ],
+        "variables": [
+          {
+            "name": "modulation_frequency",
+            "role": "primary experimental variable (scanned)",
+            "typical_values": "10 Hz to 1000 Hz in logarithmic steps",
+            "effect": "determines thermal diffusion length µ = √(2α/ω); frequency scanning probes different thermal depths and allows extraction of thermal diffusivity from amplitude/phase vs. frequency curves"
+          },
+          {
+            "name": "laser_power",
+            "role": "controlled input variable",
+            "typical_values": "50–200 mW",
+            "effect": "PA signal scales linearly with incident power in the linear regime; higher power improves SNR but risks sample damage"
+          },
+          {
+            "name": "excitation_wavelength",
+            "role": "fixed or scanned (for PA spectroscopy)",
+            "typical_values": "488 nm, 514 nm, 633 nm, 980 nm, 10.6 µm",
+            "effect": "controls optical penetration depth 1/β; wavelength scanning yields the photoacoustic absorption spectrum"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled variable (for temperature-dependent studies)",
+            "typical_values": "room temperature (295 K); scanned 200–800 K for T-dependent thermal diffusivity",
+            "effect": "thermal diffusivity is strongly temperature-dependent; PA measurements can map α(T)"
+          },
+          {
+            "name": "gas_medium_in_cell",
+            "role": "coupling medium",
+            "typical_values": "air, helium, nitrogen",
+            "effect": "thermal properties of the gas affect signal transfer from sample surface to microphone; helium increases signal due to higher thermal conductivity"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "modulated light source — continuous-wave laser (Ar-ion, He-Ne, diode, CO₂) with mechanical chopper or acousto-optic modulator for frequency control",
+          "photoacoustic cell — sealed chamber with optical window for laser entry, sample mount, and embedded microphone; minimal dead volume for maximum sensitivity",
+          "electret or condenser microphone — high sensitivity, low noise, flat frequency response over the measurement range (e.g., Brüel & Kjær, Knowles)",
+          "lock-in amplifier — phase-sensitive detection referenced to the chopper frequency; extracts PA amplitude and phase from noisy microphone signal",
+          "chopper controller — provides stable, tunable modulation frequency and TTL reference signal for lock-in",
+          "sample holder/mount — positions sample flush with cell interior; may include thermal stage for variable-temperature measurements",
+          "pre-amplifier — low-noise amplification of microphone signal before lock-in input",
+          "data acquisition system — computer-controlled digitizer for recording amplitude, phase, and frequency; automation of frequency sweeps"
+        ],
+        "environmental_requirements": [
+          "acoustic isolation — PA cell must be shielded from ambient noise; measurements conducted in quiet rooms or inside sound-insulating enclosures",
+          "vibration isolation — optical table or vibration-damped platform to prevent mechanical noise coupling into microphone",
+          "stable ambient temperature — temperature fluctuations alter gas properties in the PA cell and shift baseline signals",
+          "stray light shielding — cell must block ambient light from reaching the microphone or sample"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "flat disk or plate (standard geometry for Rosencwaig-Gersho analysis)",
+            "thin film on optically transparent or opaque substrate",
+            "pressed pellet or powder compacted to known thickness",
+            "cylindrical plug for liquids in sealed cell"
+          ],
+          "size_limits": "sample diameter must cover the PA cell aperture (typically 5–15 mm diameter); no inherent mass limit",
+          "thickness_limits": "typically 0.05 mm to 5 mm; thickness must be known for thermal diffusivity extraction; thin samples (< 1 mm) preferred for higher characteristic frequencies",
+          "surface_requirements": [
+            "optically flat surface facing the laser beam for uniform illumination",
+            "surface may be coated with a thin opaque layer (carbon black, graphite) if sample is partially transparent — to ensure surface absorption regime",
+            "clean, free of dust or contaminants that could scatter light or generate spurious PA signal"
+          ],
+          "mounting_requirements": [
+            "sample seated flush against PA cell backing plate with minimal air gaps",
+            "thermal grease or vacuum grease at sample-backing interface for good thermal coupling (if variable-temperature measurements)",
+            "sample must not rattle or vibrate in the holder — mechanical contact must be firm"
+          ],
+          "preparation_requirements": [
+            "thickness measurement by micrometer or profilometer to ±1 µm accuracy",
+            "surface polishing (for solid disks) to reduce scatter",
+            "carbon coating (thin sputtered or painted) for semi-transparent samples to ensure surface absorption",
+            "drying or degassing for porous or hygroscopic samples",
+            "density measurement (Archimedes method or pycnometry) if thermal conductivity is to be derived"
+          ]
+        },
+        "calibration_requirements": [
+          "cell-response calibration: measure PA signal of a reference material of known thermal diffusivity at multiple frequencies to characterize the microphone/cell transfer function",
+          "frequency response calibration: verify that chopper frequency is accurate and lock-in reference tracks correctly across the full frequency range",
+          "power normalization: measure incident laser power at the sample surface with a calibrated power meter; normalize PA amplitude to power for intersample comparison",
+          "phase reference calibration: use a thermally thick, opaque reference (e.g., carbon black) at low frequency to set the absolute phase origin"
+        ],
+        "reference_materials": [
+          "aluminum — thermal diffusivity 97.1 × 10⁻⁶ m²/s at 300 K (well-characterized metal standard)",
+          "copper — thermal diffusivity 117 × 10⁻⁶ m²/s at 300 K",
+          "glassy carbon — thermal diffusivity ~5 × 10⁻⁶ m²/s (lower diffusivity reference)",
+          "iron — thermal diffusivity ~23 × 10⁻⁶ m²/s at 300 K",
+          "AISI 304 stainless steel — thermal diffusivity ~4.2 × 10⁻⁶ m²/s (commonly used reference for intermediate diffusivity)",
+          "carbon black coating — used as optically thick absorber for phase calibration"
+        ],
+        "consumables": [
+          "mechanical chopper blades (replacement)",
+          "microphone cartridges (periodic replacement due to aging)",
+          "thermal/vacuum grease for sample mounting",
+          "carbon coating material (graphite spray or carbon sputtering target)",
+          "optical windows (BaF₂, ZnSe, or quartz depending on wavelength)",
+          "gas supply (air, helium, nitrogen) for cell filling"
+        ],
+        "safety_notes": [
+          "laser safety: Class 3B or Class 4 lasers require proper eyewear, beam enclosure, and warning signage per ANSI Z136.1",
+          "CO₂ lasers (10.6 µm) produce invisible beams — particular care required",
+          "high-power laser beams must be terminated by beam dumps, not reflective surfaces",
+          "cryogenic setups require standard liquid nitrogen/helium handling precautions"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of detecting thermal diffusivity differences of ~1% between samples; PA signal amplitudes down to ~1 µV detectable with lock-in amplification",
+        "detection_limit": "thermal diffusivity measurable for samples as thin as ~10 µm (thin-film PA variant); optical absorption coefficients detectable to ~1 cm⁻¹",
+        "resolution": {
+          "spatial": "determined by laser spot size, typically 0.5–5 mm; focused-beam variants achieve ~50 µm for PA microscopy",
+          "temporal": "set by modulation period; time resolution 1 ms to 100 ms per frequency point; full frequency sweep takes minutes",
+          "spectral": "wavelength resolution depends on laser source; tunable lasers provide ~1 nm spectral resolution for PA spectroscopy",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "thermal diffusivity from ~10⁻⁸ m²/s (polymers, glasses) to ~10⁻⁴ m²/s (metals, diamond); frequency range 1 Hz to 100 kHz with appropriate microphone and cell",
+        "accuracy": "3–10% for thermal diffusivity (typical); 5–8% achievable with careful calibration and well-characterized sample geometry; best results ~2–3% for flat opaque disks",
+        "precision": "1–3% (repeatability on the same sample with remounting)",
+        "throughput": "single sample per measurement; a complete frequency sweep at one temperature requires 10–30 minutes; multi-temperature sweeps require hours",
+        "measurement_speed": "individual PA reading at one frequency takes seconds; full frequency scan (20–50 points) takes 10–30 minutes depending on averaging and settling time"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "AC voltage from microphone, demodulated by lock-in amplifier into amplitude (R) and phase (θ) at the chopper reference frequency; raw data are R(f) and θ(f) curves over the scanned frequency range",
+        "preprocessing_steps": [
+          "power normalization — divide PA amplitude by measured incident laser power at each frequency to remove power fluctuations",
+          "cell-response correction — divide sample PA signal by the response of a thermally thick reference (carbon black) to remove microphone/cell frequency dependence",
+          "background subtraction — subtract empty-cell or blank measurement to remove residual acoustic pickup and window absorption contributions",
+          "phase unwrapping — correct for ±180° jumps in phase data across the frequency sweep",
+          "outlier removal — reject data points corrupted by ambient noise spikes or chopper jitter"
+        ],
+        "analysis_methods": [
+          "Rosencwaig-Gersho (RG) model fitting: fit PA amplitude and/or phase vs. frequency to the one-dimensional RG theory expression to extract thermal diffusivity α",
+          "characteristic frequency method: identify fc from the inflection point in the log(amplitude) vs. log(frequency) plot; α = π·fc·l²",
+          "phase-based extraction: thermal diffusivity extracted from the slope of phase vs. √f in the thermally thick regime, using θ ∝ −√(πf/α)·l",
+          "two-parameter fit (α and β): for semi-transparent samples, simultaneously fit both thermal diffusivity and optical absorption coefficient",
+          "multilayer model fitting: for thin films on substrates, use the extended RG or Mandelis thermal-wave model to extract film thermal diffusivity separately from substrate"
+        ],
+        "model_assumptions": [
+          "one-dimensional heat flow perpendicular to the sample surface (valid when laser spot diameter >> thermal diffusion length)",
+          "sample has uniform thickness and homogeneous thermal properties",
+          "optical absorption follows Beer-Lambert law: I(x) = I₀·exp(−βx)",
+          "gas in the PA cell acts as an ideal acoustic piston — no viscous or thermal boundary layer effects at the modulation frequencies used",
+          "negligible radiative heat loss from the sample surface compared to conductive heat transfer to the backing and gas"
+        ],
+        "fit_parameters": [
+          "thermal diffusivity α of the sample",
+          "optical absorption coefficient β (for semi-transparent samples)",
+          "sample thickness l (if used as a free parameter in calibration runs)",
+          "thermal diffusivity of backing material (for multilayer fits)",
+          "PA cell transfer function normalization constant"
+        ],
+        "common_artifacts": [
+          "acoustic resonance of the PA cell: sharp peaks in amplitude vs. frequency at cell resonance frequencies; mask or distort the thermal signal",
+          "window absorption artifact: optical window partially absorbs laser light, generating its own PA signal that adds to the sample signal",
+          "thermoelastic bending: modulated thermal expansion of the sample generates an acoustic signal independent of the gas-coupling mechanism, particularly for stiff thin samples",
+          "scattered light artifact: light scattered by rough sample surfaces strikes the cell walls or microphone, producing spurious signals",
+          "nonlinear PA signal: at high laser powers, sample surface temperature excursion is large enough to make thermal properties temperature-dependent within each modulation cycle"
+        ],
+        "quality_control_checks": [
+          "measure a standard reference material (e.g., stainless steel disk) under identical conditions and verify α agrees with literature within stated accuracy",
+          "repeat sample measurement after remounting to verify reproducibility and assess contact/alignment contributions",
+          "check linearity: vary laser power by factor of 2–3 and confirm PA amplitude scales linearly",
+          "compare amplitude-derived and phase-derived thermal diffusivity values — agreement confirms model validity",
+          "inspect residuals of the RG model fit for systematic deviations suggesting model inadequacy (e.g., multilayer effects, lateral heat flow)"
+        ],
+        "failure_modes": [
+          "microphone failure or degradation — reduced sensitivity, increased noise floor, or distorted frequency response",
+          "sample cracking or delamination under thermal cycling — discontinuous PA signal changes",
+          "laser mode hopping or power instability — random amplitude fluctuations unrelated to sample properties",
+          "air leaks in the PA cell — reduced or erratic signal due to acoustic short-circuit",
+          "carbon coating delamination — for coated semi-transparent samples, partial coating loss produces mixed surface/volume absorption regime that cannot be modeled by simple RG theory"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 3–10% for thermal diffusivity; 5–15% for thermal conductivity (additional uncertainties from density and Cp inputs)",
+        "random_sources": [
+          "microphone noise and amplifier input noise",
+          "ambient acoustic noise coupling into the PA cell",
+          "laser power fluctuations (shot noise, mode instability)",
+          "mechanical vibrations coupling into the microphone mount",
+          "chopper frequency jitter"
+        ],
+        "systematic_sources": [
+          "sample thickness measurement uncertainty (dominant for thin samples)",
+          "non-one-dimensional heat flow (laser spot not sufficiently larger than thermal diffusion length)",
+          "cell-response calibration uncertainty (reference material thermal diffusivity uncertainty)",
+          "optical absorption depth uncertainty (semi-transparent samples deviate from surface-absorption assumption)",
+          "thermal contact resistance between sample and backing plate",
+          "PA cell acoustic resonance distortion near resonance frequencies",
+          "temperature uncertainty (for temperature-dependent measurements)"
+        ],
+        "operator_dependence": "moderate — sample surface preparation quality, alignment of laser beam on sample center, mounting pressure, and carbon coating uniformity are operator-dependent factors affecting reproducibility",
+        "model_dependence": "significant — accuracy depends on the validity of the one-dimensional RG model; deviations due to lateral heat flow, multilayer structure, semi-transparency, or thermoelastic effects require extended models and introduce additional model-parameter correlations",
+        "dominant_error_sources": [
+          "sample thickness measurement (thermal diffusivity scales as l²; a 2% thickness error gives ~4% α error)",
+          "model validity — departure from 1D surface-absorption assumptions for semi-transparent or laterally heterogeneous samples",
+          "cell-response normalization accuracy"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(α) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of thermal diffusivity",
+          "standard deviation from repeated measurement/remounting cycles"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The photoacoustic (PA) method is an optical-acoustic technique for measuring thermophysical properties of condensed matter, primarily thermal diffusivity and optical absorption. Intensity-modulated light is absorbed by a sample enclosed in a sealed cell, producing periodic heating at the sample surface. This periodic heating generates thermal waves that propagate into the sample and into the gas layer above it; the resulting periodic expansion and contraction of the gas boundary layer creates pressure oscillations detected by a sensitive microphone. By measuring the amplitude and phase of the photoacoustic signal as a function of modulation frequency, the thermal diffusivity of the sample can be extracted through fitting to the Rosencwaig-Gersho theory. The method is non-contact, non-destructive, and requires no special sample preparation beyond knowing the specimen thickness.",
+      "how_it_operates": "A continuous-wave laser beam is intensity-modulated by a mechanical chopper or acousto-optic modulator at a controlled frequency f. The modulated beam enters the photoacoustic cell through an optical window and is absorbed at or near the sample surface. The absorbed energy converts to heat, creating a periodic temperature oscillation at the sample surface at frequency f. This temperature oscillation diffuses into the thin gas layer (typically air or helium) immediately above the sample surface, causing periodic gas expansion that acts as an acoustic piston. The resulting pressure wave propagates through the cell volume and is detected by a miniature electret or condenser microphone. A lock-in amplifier, referenced to the chopper frequency, extracts the PA signal amplitude and phase from the microphone output with high signal-to-noise ratio. By sweeping the modulation frequency over a range that spans the characteristic frequency fc = α/(π·l²) of the sample (where l is thickness and α is thermal diffusivity), the frequency-dependent PA response encodes the sample's thermal transport properties.",
+      "core_theory": "The theoretical foundation is the Rosencwaig-Gersho (RG) model (1976), which solves the one-dimensional heat diffusion equation in a three-layer system: backing material – sample – gas. Modulated light absorbed in the sample produces a periodic heat source S(x,t) = ½β·I₀·exp(−βx)·[1 + exp(iωt)], where β is the optical absorption coefficient and I₀ the incident intensity. The thermal diffusion length µ = √(2α/ω) determines how deeply the thermal wave penetrates into the sample at angular frequency ω = 2πf. In the thermally thick, optically opaque regime (l >> µ and βl >> 1), only the thermal wave reaching the gas boundary matters, and the PA signal amplitude decays as 1/f while the phase shifts linearly with √f. The characteristic frequency fc at which the thermal diffusion length equals the sample thickness marks the transition between thermally thick and thermally thin regimes; fitting the amplitude and phase curves around fc yields the thermal diffusivity α. For semi-transparent samples (finite β), the RG model provides a two-parameter (α, β) expression that can be fitted simultaneously. Thermal conductivity is obtained indirectly as λ = α·ρ·Cp when density and specific heat are known from other measurements.",
+      "setup": "A standard photoacoustic setup comprises four main subsystems. (1) Light source and modulation: a continuous-wave laser (commonly Ar-ion at 488/514 nm, He-Ne at 633 nm, diode laser at 650–980 nm, or CO₂ at 10.6 µm) whose beam is modulated by a mechanical chopper wheel with adjustable frequency (typically 10–1000 Hz); the chopper also provides a TTL reference signal for the lock-in amplifier. (2) Photoacoustic cell: a small-volume (~1 cm³) sealed chamber machined from aluminum or brass, with an optical window (quartz, BaF₂, or ZnSe depending on wavelength) for beam entry, a recess for the sample disk, and a port for the microphone; the cell volume is minimized to maximize pressure sensitivity. (3) Detection electronics: a low-noise electret or condenser microphone with a preamplifier feeds into a dual-phase lock-in amplifier that outputs the PA signal amplitude R and phase θ. (4) Data acquisition: a computer controls the chopper frequency, records R and θ at each frequency step, and automates the frequency sweep. For variable-temperature measurements, the PA cell is mounted on a thermal stage (Peltier element or resistive heater with PID controller) inside a temperature-controlled enclosure.",
+      "suitable_for": "The photoacoustic method is particularly well suited for measuring thermal diffusivity of opaque and semi-opaque solids including metals, alloys, ceramics, semiconductors, polymers, and composites. It excels for samples that are difficult to measure by contact methods — thin films, coatings, layered structures, and fragile specimens — because it requires no physical contact with the measurement region. The technique is valuable for materials with low thermal diffusivity (polymers, glasses, biological tissues) where the characteristic frequency falls in a convenient range. It can also measure optical absorption coefficients and generate photoacoustic spectra, making it useful for spectroscopic characterization of condensed-phase samples that are too opaque or scattering for conventional UV-Vis transmission spectroscopy. Liquids can be measured using sealed PA cells with a transparent window.",
+      "core_limitations": "The primary limitations arise from the one-dimensional heat flow assumption: the laser spot must be much larger than the thermal diffusion length to avoid lateral heat loss, which constrains spatial resolution and requires relatively large, flat samples. Accuracy is typically 3–10%, lower than flash diffusivity or laser flash methods, because of uncertainties in sample thickness measurement, cell calibration, and model fitting. The technique is insensitive to transparent samples that do not absorb at the laser wavelength, and semi-transparent samples require the more complex two-parameter RG model with correlated α–β fitting. The PA cell has acoustic resonances that can distort the signal at certain frequencies, requiring careful cell design or exclusion of resonance regions. Measurements are limited to moderate temperatures by the microphone and cell window materials. Variable-temperature measurements are slow because the PA cell must equilibrate thermally at each temperature point.",
+      "sample_preparation": "For the standard photoacoustic method, samples are prepared as flat disks or plates with parallel faces. Thickness is measured with a precision micrometer or contact profilometer to ±1 µm, since thermal diffusivity extraction scales with l² and thickness uncertainty is often the dominant error source. The illuminated surface should be smooth and free of scratches or surface contamination that could scatter the laser beam. For semi-transparent samples (where β·l is not >> 1), a thin opaque coating of carbon black (spray-deposited or sputtered, ~1 µm thick) is applied to the front surface to enforce the surface-absorption regime and simplify analysis. Powder samples are compressed into pellets of known thickness and density. Porous or hygroscopic samples are dried under vacuum before measurement. The sample is placed in the PA cell recess with the illuminated face exposed to the gas, and the backing face seated against the cell body; a thin layer of vacuum grease at the rear interface improves thermal coupling to the backing for variable-temperature work.",
+      "calibration_and_references": "Calibration of the photoacoustic system is essential to remove the frequency-dependent response of the microphone, cell acoustics, and electronics from the measured PA signal. The standard approach uses a thermally thick, optically opaque reference sample (e.g., a thick slab of carbon black or a thick aluminum disk coated with graphite) measured under identical conditions: the sample PA signal is divided by the reference PA signal at each frequency to yield a normalized response that depends only on the sample's thermal properties. Temperature calibration is verified with a thermocouple in contact with the PA cell body. For quantitative thermal diffusivity work, standard reference materials of known α — such as AISI 304 stainless steel (α ≈ 4.2 × 10⁻⁶ m²/s), iron (α ≈ 23 × 10⁻⁶ m²/s), or copper (α ≈ 117 × 10⁻⁶ m²/s) — are measured and compared to literature values. Laser power is measured at the sample plane with a calibrated power meter, and linearity is confirmed by verifying that PA amplitude scales proportionally with power.",
+      "data_interpretation": "The primary analysis involves fitting the PA amplitude R(f) and/or phase θ(f) data to the Rosencwaig-Gersho model to extract thermal diffusivity α. In the simplest case (optically opaque, thermally thick-to-thin transition), the characteristic frequency fc is identified from the inflection in the log R vs. log f curve, and α = π·fc·l². A more rigorous approach performs a nonlinear least-squares fit of the full RG expression to both amplitude and phase data simultaneously, using α (and optionally β for semi-transparent samples) as fit parameters. The normalized amplitude should decay as f⁻¹ in the thermally thick regime and approach a frequency-independent plateau in the thermally thin regime. The phase should transition from a steep negative slope at high frequency (thermally thick) to a flatter region at low frequency (thermally thin). Thermal conductivity is computed from the measured α using λ = α·ρ·Cp, where ρ and Cp must be obtained independently. For multilayer samples (e.g., thin film on substrate), extended thermal-wave models are fitted to extract the film thermal diffusivity separately.",
+      "common_pitfalls": "The most frequent pitfall is neglecting the one-dimensional heat flow condition: if the laser spot diameter is not significantly larger (at least 3–5 times) than the thermal diffusion length µ at the lowest measurement frequency, lateral heat losses cause the measured thermal diffusivity to be overestimated. Using an inaccurate sample thickness is the single largest source of systematic error, since α ∝ l². Attempting to fit semi-transparent sample data with the opaque-sample RG model leads to erroneous α values — the analyst must either coat the sample or use the full two-parameter model. Operating near an acoustic resonance of the PA cell produces sharp spikes in the amplitude spectrum that can be mistaken for thermal features. Insufficient signal averaging at low frequencies, where the PA signal is weak and ambient acoustic noise is high, degrades data quality. Failing to normalize by laser power when power varies across the frequency sweep (due to chopper transmission or AOM efficiency changes) introduces systematic frequency-dependent errors.",
+      "artifacts_and_failure_modes": "Cell acoustic resonances are the most common artifact — they appear as narrow peaks in the PA amplitude spectrum at frequencies determined by the cell geometry (typically 500–3000 Hz for small cells). These must be identified and excluded from fitting. Window absorption artifacts occur when the optical window partially absorbs the laser beam, generating its own PA signal that adds coherently to the sample signal; this is minimized by using highly transparent window materials and by reference normalization. Thermoelastic bending of thin, stiff samples produces an acoustic signal from flexural vibration that is distinct from the gas-piston PA mechanism and can dominate at certain frequencies. Scattered light reaching the microphone diaphragm or cell walls generates a frequency-independent background signal. Carbon coating delamination on semi-transparent samples leads to non-uniform absorption and model breakdown. Microphone aging or moisture contamination causes gradual sensitivity loss and frequency response distortion, detectable by periodic reference measurements.",
+      "reporting_checklist": "Published photoacoustic thermal diffusivity results should report: laser type and wavelength, laser power at the sample (mW), modulation frequency range and number of frequency points, PA cell gas medium and pressure, sample material and composition, sample thickness with measurement uncertainty, sample surface condition (polished, coated, as-received), whether samples were coated with carbon and coating method, cell calibration reference material and its thermal diffusivity, RG model variant used (opaque or semi-transparent, single-layer or multilayer), fit method (amplitude only, phase only, or simultaneous), resulting thermal diffusivity with combined expanded uncertainty (k=2, 95% confidence), thermal conductivity (if reported) with the density and Cp values used and their sources, temperature of measurement, and evidence of linearity check (PA amplitude vs. laser power). For ThermoML encoding, values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

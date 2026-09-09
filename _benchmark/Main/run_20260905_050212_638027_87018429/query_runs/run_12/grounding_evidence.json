@@ -1,0 +1,2145 @@
+{
+  "generated": "2026-09-05T05:11:53",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": "GLOBlit_555",
+      "literals": [
+        "283.15"
+      ],
+      "detail": "283.15 exists in PROPblock_8's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_555::PROPblock_8\", nearest={\"column\": \"temperature_k\", \"value\": 283.15})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": "GLOBlit_555",
+      "literals": [
+        "976.004"
+      ],
+      "detail": "976.004 exists in PROPblock_8's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_555::PROPblock_8\", nearest={\"column\": \"mass_density_kg_m3\", \"value\": 976.004})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": "GLOBlit_555",
+      "literals": [
+        "992.444"
+      ],
+      "detail": "992.444 exists in PROPblock_8's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_555::PROPblock_8\", nearest={\"column\": \"mass_density_kg_m3\", \"value\": 992.444})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": "GLOBlit_555",
+      "literals": [
+        "283.15"
+      ],
+      "detail": "283.15 exists in PROPblock_8's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_555::PROPblock_8\", nearest={\"column\": \"temperature_k\", \"value\": 283.15})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_5",
+      "lit_id": "GLOBlit_590",
+      "literals": [
+        "992.405"
+      ],
+      "detail": "992.405 exists in PROPblock_5's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_590::PROPblock_5\", nearest={\"column\": \"mass_density_kg_m3\", \"value\": 992.405})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "573.15"
+      ],
+      "detail": "573.15 (near '…75.791–992.405 | 15 | Vibrating tube | | 3 |   |   | 298.15–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 573.15})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.0943"
+      ],
+      "detail": "0.0943 (near '…| Vibrating tube | | 3 |   |   | 298.15–573.15 | Molality, 0…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.0943})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.84695"
+      ],
+      "detail": "0.84695 (near '…ating tube | | 3 |   |   | 298.15–573.15 | Molality, 0.0943–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.84695})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "420"
+      ],
+      "detail": "420 (near '…|   |   | 298.15–573.15 | Molality, 0.0943–0.84695 mol/kg | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 420.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "456"
+      ],
+      "detail": "456 (near '…43–0.84695 mol/kg | 420–30310 | (excess density reported) | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 456.0})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": "GLOBlit_555",
+      "literals": [
+        "283.15"
+      ],
+      "detail": "283.15 exists in PROPblock_8's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_555::PROPblock_8\", nearest={\"column\": \"temperature_k\", \"value\": 283.15})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_9",
+      "lit_id": "GLOBlit_2979",
+      "literals": [
+        "308.15"
+      ],
+      "detail": "308.15 exists in PROPblock_9's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_2979::PROPblock_9\", nearest={\"column\": \"temperature_k\", \"value\": 308.15})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_9",
+      "lit_id": "GLOBlit_2979",
+      "literals": [
+        "911.83"
+      ],
+      "detail": "911.83 exists in PROPblock_9's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_2979::PROPblock_9\", nearest={\"column\": \"mass_density_kg_m3\", \"value\": 911.83})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_9",
+      "lit_id": "GLOBlit_2979",
+      "literals": [
+        "999.69"
+      ],
+      "detail": "999.69 exists in PROPblock_9's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_2979::PROPblock_9\", nearest={\"column\": \"mass_density_kg_m3\", \"value\": 999.69})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "96"
+      ],
+      "detail": "96 (near '…5–308.15 | Mole fraction, 0.0–0.2 | 98.93 | 911.83–999.69 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 96.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "582.08"
+      ],
+      "detail": "582.08 (near '…3 | 911.83–999.69 | 96 | Pycnometric | | 5 |   |   | 298.15–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 582.08})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.869"
+      ],
+      "detail": "0.869 (near '…96 | Pycnometric | | 5 |   |   | 298.15–582.08 | Molality, 0…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.869})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "56.348"
+      ],
+      "detail": "56.348 (near '…Pycnometric | | 5 |   |   | 298.15–582.08 | Molality, 0.869–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 56.348})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "2353"
+      ],
+      "detail": "2353 (near '…5 |   |   | 298.15–582.08 | Molality, 0.869–56.348 mol/kg | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 2353.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "40000"
+      ],
+      "detail": "40000 (near '…|   | 298.15–582.08 | Molality, 0.869–56.348 mol/kg | 2353–4…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 40000.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "322.1"
+      ],
+      "detail": "322.1 (near '…98.15–582.08 | Molality, 0.869–56.348 mol/kg | 2353–40000 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 322.1})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "1004.4"
+      ],
+      "detail": "1004.4 (near '…582.08 | Molality, 0.869–56.348 mol/kg | 2353–40000 | 322.1–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 1004.4})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "174"
+      ],
+      "detail": "174 (near '…Molality, 0.869–56.348 mol/kg | 2353–40000 | 322.1–1004.4 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 174.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "292.05"
+      ],
+      "detail": "292.05 (near '…1–1004.4 | 174 | Constant-volume piezometry | | 6 |   |   | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 292.05})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "352.05"
+      ],
+      "detail": "352.05 (near '…4 | 174 | Constant-volume piezometry | | 6 |   |   | 292.05–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 352.05})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.869"
+      ],
+      "detail": "0.869 (near '…volume piezometry | | 6 |   |   | 292.05–352.05 | Molality, …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.869})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "56.348"
+      ],
+      "detail": "56.348 (near '…piezometry | | 6 |   |   | 292.05–352.05 | Molality, 0.869–5…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 56.348})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "801.03"
+      ],
+      "detail": "801.03 (near '…| 292.05–352.05 | Molality, 0.869–56.348 mol/kg | 101.0 | 80…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 801.03})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "29"
+      ],
+      "detail": "29 (near '…5 | Molality, 0.869–56.348 mol/kg | 101.0 | 801.03–991.42 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 29.0})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": "GLOBlit_555",
+      "literals": [
+        "288.15"
+      ],
+      "detail": "288.15 exists in PROPblock_8's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_555::PROPblock_8\", nearest={\"column\": \"temperature_k\", \"value\": 288.15})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_9",
+      "lit_id": "GLOBlit_2979",
+      "literals": [
+        "308.15"
+      ],
+      "detail": "308.15 exists in PROPblock_9's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_2979::PROPblock_9\", nearest={\"column\": \"temperature_k\", \"value\": 308.15})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.01666"
+      ],
+      "detail": "0.01666 (near '…29 | Pycnometric | | 7 |   |   | 288.15–308.15 | Molality, 0…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.01666})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.16617"
+      ],
+      "detail": "0.16617 (near '…cnometric | | 7 |   |   | 288.15–308.15 | Molality, 0.01666–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.16617})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "84.5"
+      ],
+      "detail": "84.5 (near '…|   | 288.15–308.15 | Molality, 0.01666–0.16617 mol/kg | 84.…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 84.5})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "992.305"
+      ],
+      "detail": "992.305 (near '…| 288.15–308.15 | Molality, 0.01666–0.16617 mol/kg | 84.5 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 992.305})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "998.928"
+      ],
+      "detail": "998.928 (near '…–308.15 | Molality, 0.01666–0.16617 mol/kg | 84.5 | 992.305–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 998.928})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "40"
+      ],
+      "detail": "40 (near '…Molality, 0.01666–0.16617 mol/kg | 84.5 | 992.305–998.928 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 40.0})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": "GLOBlit_555",
+      "literals": [
+        "288.15"
+      ],
+      "detail": "288.15 exists in PROPblock_8's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_555::PROPblock_8\", nearest={\"column\": \"temperature_k\", \"value\": 288.15})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.4"
+      ],
+      "detail": "0.4 (near '…ing tube | | 8 |   |   | 288.15–303.15 | Mass fraction, 0.1–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.4})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "924.386"
+      ],
+      "detail": "924.386 (near '…|   |   | 288.15–303.15 | Mass fraction, 0.1–0.4 | 100.0 | 9…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 924.386})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "16"
+      ],
+      "detail": "16 (near '…303.15 | Mass fraction, 0.1–0.4 | 100.0 | 924.386–985.245 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 16.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "313.15"
+      ],
+      "detail": "313.15 (near '…24.386–985.245 | 16 | Vibrating tube | | 9 |   |   | 298.15–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 313.15})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.04"
+      ],
+      "detail": "0.04 (near '…brating tube | | 9 |   |   | 298.15–313.15 | Mass fraction, …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.04})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.16"
+      ],
+      "detail": "0.16 (near '…ng tube | | 9 |   |   | 298.15–313.15 | Mass fraction, 0.04–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.16})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "85.0"
+      ],
+      "detail": "85.0 (near '…| | 9 |   |   | 298.15–313.15 | Mass fraction, 0.04–0.16 | 8…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 85.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "966.84"
+      ],
+      "detail": "966.84 (near '…|   |   | 298.15–313.15 | Mass fraction, 0.04–0.16 | 85.0 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 966.84})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "313.15"
+      ],
+      "detail": "313.15 (near '…966.84–990.59 | 12 | Vibrating tube | | 10 |   |   | 298.15–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 313.15})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "14.0"
+      ],
+      "detail": "14.0 (near '…Vibrating tube | | 10 |   |   | 298.15–313.15 | Molality = 1…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 14.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "903.156"
+      ],
+      "detail": "903.156 (near '…| 298.15–313.15 | Molality = 14.0 mol/kg (fixed) | 100.0 | 9…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 903.156})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "914.36"
+      ],
+      "detail": "914.36 (near '…5–313.15 | Molality = 14.0 mol/kg (fixed) | 100.0 | 903.156–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 914.36})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "282.15"
+      ],
+      "detail": "282.15 (near '…00.0 | 903.156–914.36 | 2 | Vibrating tube | | 11 |   |   | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 282.15})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "425.15"
+      ],
+      "detail": "425.15 (near '…903.156–914.36 | 2 | Vibrating tube | | 11 |   |   | 282.15–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 425.15})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.255"
+      ],
+      "detail": "0.255 (near '…rating tube | | 11 |   |   | 282.15–425.15 | Mole fraction, …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.255})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "0.738"
+      ],
+      "detail": "0.738 (near '…tube | | 11 |   |   | 282.15–425.15 | Mole fraction, 0.255–0…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.738})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "5753"
+      ],
+      "detail": "5753 (near '…| 11 |   |   | 282.15–425.15 | Mole fraction, 0.255–0.738 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 5753.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "29883"
+      ],
+      "detail": "29883 (near '…|   |   | 282.15–425.15 | Mole fraction, 0.255–0.738 | 5753–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 29883.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "731.4"
+      ],
+      "detail": "731.4 (near '…| 282.15–425.15 | Mole fraction, 0.255–0.738 | 5753–29883 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 731.4})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "896.2"
+      ],
+      "detail": "896.2 (near '…15–425.15 | Mole fraction, 0.255–0.738 | 5753–29883 | 731.4–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 896.2})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "380"
+      ],
+      "detail": "380 (near '…5 | Mole fraction, 0.255–0.738 | 5753–29883 | 731.4–896.2 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 380.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "313.15"
+      ],
+      "detail": "313.15 (near '…883 | 731.4–896.2 | 380 | Isochoric | | 12 |   |   | 293.15–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 313.15})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "14.0"
+      ],
+      "detail": "14.0 (near '…380 | Isochoric | | 12 |   |   | 293.15–313.15 | Molality, 1…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 14.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "22.0"
+      ],
+      "detail": "22.0 (near '…| Isochoric | | 12 |   |   | 293.15–313.15 | Molality, 14.0–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 22.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "879.756"
+      ],
+      "detail": "879.756 (near '…|   | 293.15–313.15 | Molality, 14.0–22.0 mol/kg | 101.0 | 8…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 879.756})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "918.103"
+      ],
+      "detail": "918.103 (near '…93.15–313.15 | Molality, 14.0–22.0 mol/kg | 101.0 | 879.756–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 918.103})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "25"
+      ],
+      "detail": "25 (near '…15 | Molality, 14.0–22.0 mol/kg | 101.0 | 879.756–918.103 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 25.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "13"
+      ],
+      "detail": "13 (near '…mol/kg | 101.0 | 879.756–918.103 | 25 | Vibrating tube | | 1…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 13.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "323.15"
+      ],
+      "detail": "323.15 (near '…9.756–918.103 | 25 | Vibrating tube | | 13 |   |   | 293.15–…') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 323.15})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "81.5"
+      ],
+      "detail": "81.5 (near '…e | | 13 |   |   | 293.15–323.15 | Mole fraction, 0.0–1.0 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 81.5})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "778.92"
+      ],
+      "detail": "778.92 (near '…3 |   |   | 293.15–323.15 | Mole fraction, 0.0–1.0 | 81.5 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 778.92})"
+    },
+    {
+      "kind": "UNINSPECTED_VALUE",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_9",
+      "lit_id": "GLOBlit_2979",
+      "literals": [
+        "998.2"
+      ],
+      "detail": "998.2 exists in PROPblock_9's database table but was never shown in an inspection of this run",
+      "suggested_call": "inspect_block_table(block_number=\"GLOBlit_2979::PROPblock_9\", nearest={\"column\": \"mass_density_kg_m3\", \"value\": 998.2})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "block_number": "PROPblock_8",
+      "lit_id": null,
+      "literals": [
+        "56"
+      ],
+      "detail": "56 (near '….15–323.15 | Mole fraction, 0.0–1.0 | 81.5 | 778.92–998.2 | …') matches no inspected row/stat, database table, or other source of PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_8\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 56.0})"
+    },
+    {
+      "kind": "UNINSPECTED_BLOCK",
+      "anchor": "PROPblock_10",
+      "block_number": "PROPblock_10",
+      "lit_id": null,
+      "literals": [
+        "13",
+        "298.15",
+        "40",
+        "13",
+        "0.0",
+        "1.0",
+        "298.15"
+      ],
+      "detail": "PROPblock_10 is quoted with data values (13, 298.15, 40, 13, …) but was never inspected in this run",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_10\", literature=\"<GLOBlit_N or DOI>\")"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_9",
+      "block_number": "PROPblock_9",
+      "lit_id": null,
+      "literals": [
+        "803"
+      ],
+      "detail": "803 (near '…. This reflects the lower intrinsic density of 1-propanol (~…') matches no inspected row/stat, database table, or other source of PROPblock_9",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_9\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 803.0})"
+    },
+    {
+      "kind": "AMBIGUOUS_VALUE",
+      "anchor": "PROPblock_9",
+      "block_number": "PROPblock_9",
+      "lit_id": null,
+      "literals": [
+        "101.0"
+      ],
+      "detail": "101.0 matches 2 different sources — ambiguous; re-quote it from an inspection of the block you mean",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_9\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 101.0})"
+    },
+    {
+      "kind": "MISATTRIBUTED_VALUE",
+      "anchor": "PROPblock_9",
+      "block_number": "PROPblock_8",
+      "lit_id": "GLOBlit_555",
+      "literals": [
+        "989.431"
+      ],
+      "detail": "989.431 does not belong to PROPblock_9; it matches only GLOBlit_555::PROPblock_8 (inspected this run)",
+      "suggested_call": "re-anchor 989.431 to GLOBlit_555::PROPblock_8 — no new tool call needed"
+    },
+    {
+      "kind": "MISATTRIBUTED_VALUE",
+      "anchor": "PROPblock_9",
+      "block_number": "PROPblock_5",
+      "lit_id": "GLOBlit_590",
+      "literals": [
+        "989.387"
+      ],
+      "detail": "989.387 does not belong to PROPblock_9; it matches only GLOBlit_590::PROPblock_5 (inspected this run)",
+      "suggested_call": "re-anchor 989.387 to GLOBlit_590::PROPblock_5 — no new tool call needed"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_9",
+      "block_number": "PROPblock_9",
+      "lit_id": null,
+      "literals": [
+        "0.044"
+      ],
+      "detail": "0.044 (near '…densities are 989.431 vs. 989.387 kg/m3 (difference of only …') matches no inspected row/stat, database table, or other source of PROPblock_9",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_9\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 0.044})"
+    },
+    {
+      "kind": "UNINSPECTED_BLOCK",
+      "anchor": "PROPblock_3",
+      "block_number": "PROPblock_3",
+      "lit_id": null,
+      "literals": [
+        "0.0",
+        "1.0",
+        "56",
+        "293.15",
+        "323.15"
+      ],
+      "detail": "PROPblock_3 is quoted with data values (0.0, 1.0, 56, 293.15, …) but was never inspected in this run",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_3\", literature=\"<GLOBlit_N or DOI>\")"
+    },
+    {
+      "kind": "UNINSPECTED_BLOCK",
+      "anchor": "PROPblock_2",
+      "block_number": "PROPblock_2",
+      "lit_id": null,
+      "literals": [
+        "0.869",
+        "56.348",
+        "29",
+        "101.0",
+        "40"
+      ],
+      "detail": "PROPblock_2 is quoted with data values (0.869, 56.348, 29, 101.0, …) but was never inspected in this run",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_2\", literature=\"<GLOBlit_N or DOI>\")"
+    }
+  ],
+  "verified": [
+    {
+      "anchor": "PROPblock_8",
+      "values": [
+        "101.0",
+        "0.05",
+        "989.431",
+        "0.10",
+        "983.475",
+        "0.15",
+        "978.117"
+      ]
+    },
+    {
+      "anchor": "PROPblock_5",
+      "values": [
+        "101.0",
+        "0.05",
+        "989.387",
+        "0.10",
+        "983.372",
+        "0.15",
+        "977.921"
+      ]
+    }
+  ],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+      "values": [
+        "303.15",
+        "0.05",
+        "0.15",
+        "101.0",
+        "15",
+        "975.791",
+        "298.15",
+        "30310",
+        "0.0",
+        "0.2",
+        "98.93",
+        "991.42",
+        "0.1",
+        "100.0",
+        "985.245",
+        "990.59",
+        "293.15",
+        "1.0"
+      ]
+    },
+    {
+      "anchor": "PROPblock_9",
+      "values": [
+        "98.93",
+        "997.04",
+        "0.002",
+        "995.4",
+        "0.005",
+        "993.76",
+        "0.009",
+        "991.66",
+        "0.01",
+        "991.14",
+        "0.02",
+        "986.54",
+        "0.03",
+        "982.56",
+        "0.05",
+        "975.49",
+        "298.15",
+        "997",
+        "975"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_8": {
+        "lit_num_id": "GLOBlit_555",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_3aa36d70ff07"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2007.07.066",
+          "n_rows": 15,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "mass_fraction_<propan-1-ol>",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              283.15,
+              303.15
+            ],
+            "mass_fraction_<propan-1-ol>": [
+              0.05,
+              0.15
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "mass_density_kg_m3": [
+              976.004,
+              992.444
+            ]
+          }
+        }
+      },
+      "PROPblock_5": {
+        "lit_num_id": "GLOBlit_590",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_859136865c90"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2008.01.004",
+          "n_rows": 15,
+          "columns": [
+            "BLKpoint_id",
+            "mass_fraction_<propan-1-ol>",
+            "temperature_k",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "mass_fraction_<propan-1-ol>": [
+              0.05,
+              0.15
+            ],
+            "temperature_k": [
+              283.15,
+              303.15
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "mass_density_kg_m3": [
+              975.791,
+              992.405
+            ]
+          }
+        }
+      },
+      "PROPblock_3": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_9": {
+        "lit_num_id": "GLOBlit_2979",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_884f359f5908"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.jct.2008.07.005",
+          "n_rows": 96,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "mole_fraction_<propan-1-ol>",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              283.15,
+              308.15
+            ],
+            "mole_fraction_<propan-1-ol>": [
+              0.0,
+              0.2
+            ],
+            "pressure_kpa": [
+              98.93,
+              98.93
+            ],
+            "mass_density_kg_m3": [
+              911.83,
+              999.69
+            ]
+          }
+        }
+      },
+      "PROPblock_1": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_2": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_7": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_13": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_6": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_10": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "283.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_8"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.05",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "976.004",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_8"
+      },
+      {
+        "token": "992.444",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_8"
+      },
+      {
+        "token": "15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_8"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.05",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "975.791",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "992.405",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_5"
+      },
+      {
+        "token": "15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "573.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.0943",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.84695",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "420",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "30310",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "456",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_8"
+      },
+      {
+        "token": "308.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_9"
+      },
+      {
+        "token": "0.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.2",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "98.93",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "911.83",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_9"
+      },
+      {
+        "token": "999.69",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_9"
+      },
+      {
+        "token": "96",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "582.08",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.869",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "56.348",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "2353",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "40000",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "322.1",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "1004.4",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "174",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "292.05",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "352.05",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.869",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "56.348",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "801.03",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "991.42",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "29",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "288.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_8"
+      },
+      {
+        "token": "308.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_9"
+      },
+      {
+        "token": "0.01666",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.16617",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "84.5",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "992.305",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "998.928",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "40",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "288.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_8"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.1",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.4",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "100.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "924.386",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "985.245",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "16",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.04",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.16",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "85.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "966.84",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "990.59",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "14.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "100.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "903.156",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "914.36",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "282.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "425.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.255",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.738",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "5753",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "29883",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "731.4",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "896.2",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "380",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "14.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "22.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "879.756",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "918.103",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "25",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "13",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "323.15",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "1.0",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "verified"
+      },
+      {
+        "token": "81.5",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "778.92",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "998.2",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "uninspected_value",
+        "source": "PROPblock_9"
+      },
+      {
+        "token": "56",
+        "region": "PROPblock_8 + PROPblock_5 + PROPblock_3 + PROPblock_9 + PROPblock_1 + PROPblock_2 + PROPblock_7 + PROPblock_13 + PROPblock_6 + PROPblock_10",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "13",
+        "region": "PROPblock_10",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_10",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "40",
+        "region": "PROPblock_10",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "13",
+        "region": "PROPblock_10",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "0.0",
+        "region": "PROPblock_10",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1.0",
+        "region": "PROPblock_10",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_10",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.05",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "989.431",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.10",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "983.475",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.15",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "978.117",
+        "region": "PROPblock_8",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_5",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.05",
+        "region": "PROPblock_5",
+        "verdict": "verified"
+      },
+      {
+        "token": "989.387",
+        "region": "PROPblock_5",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.10",
+        "region": "PROPblock_5",
+        "verdict": "verified"
+      },
+      {
+        "token": "983.372",
+        "region": "PROPblock_5",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.15",
+        "region": "PROPblock_5",
+        "verdict": "verified"
+      },
+      {
+        "token": "977.921",
+        "region": "PROPblock_5",
+        "verdict": "verified"
+      },
+      {
+        "token": "98.93",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "997.04",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.002",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "995.4",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.005",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "993.76",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.009",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "991.66",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.01",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "991.14",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.02",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "986.54",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.03",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "982.56",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.05",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "975.49",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "997",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "975",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.05",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "803",
+        "region": "PROPblock_9",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_9",
+        "verdict": "ambiguous",
+        "source_count": 2
+      },
+      {
+        "token": "0.05",
+        "region": "PROPblock_9",
+        "verdict": "verified"
+      },
+      {
+        "token": "989.431",
+        "region": "PROPblock_9",
+        "verdict": "misattributed",
+        "source": "PROPblock_8"
+      },
+      {
+        "token": "989.387",
+        "region": "PROPblock_9",
+        "verdict": "misattributed",
+        "source": "PROPblock_5"
+      },
+      {
+        "token": "0.044",
+        "region": "PROPblock_9",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "0.0",
+        "region": "PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1.0",
+        "region": "PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "56",
+        "region": "PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "323.15",
+        "region": "PROPblock_3",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "0.869",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "56.348",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "29",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "101.0",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "40",
+        "region": "PROPblock_2",
+        "verdict": "uninspected_block"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1016/j.fluid.2007.07.066",
+      "lit_num_id": "GLOBlit_555",
+      "block_number": "PROPblock_8",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mass_fraction_<propan-1-ol>",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "temperature_k": "293.15",
+          "mass_fraction_<propan-1-ol>": "0.05",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "990.715"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "temperature_k": "293.15",
+          "mass_fraction_<propan-1-ol>": "0.1",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "985.011"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_10",
+          "temperature_k": "298.15",
+          "mass_fraction_<propan-1-ol>": "0.05",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "989.431"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_11",
+          "temperature_k": "298.15",
+          "mass_fraction_<propan-1-ol>": "0.1",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "983.475"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_12",
+          "temperature_k": "298.15",
+          "mass_fraction_<propan-1-ol>": "0.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "978.117"
+        }
+      ],
+      "inspection_id": "INSP_3aa36d70ff07",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.jct.2008.07.005",
+      "lit_num_id": "GLOBlit_2979",
+      "block_number": "PROPblock_9",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<propan-1-ol>",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_49",
+          "temperature_k": "298.15",
+          "mole_fraction_<propan-1-ol>": "0",
+          "pressure_kpa": "98.93",
+          "mass_density_kg_m3": "997.04"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_50",
+          "temperature_k": "298.15",
+          "mole_fraction_<propan-1-ol>": "0.002",
+          "pressure_kpa": "98.93",
+          "mass_density_kg_m3": "995.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_51",
+          "temperature_k": "298.15",
+          "mole_fraction_<propan-1-ol>": "0.005",
+          "pressure_kpa": "98.93",
+          "mass_density_kg_m3": "993.76"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_52",
+          "temperature_k": "298.15",
+          "mole_fraction_<propan-1-ol>": "0.009",
+          "pressure_kpa": "98.93",
+          "mass_density_kg_m3": "991.66"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_53",
+          "temperature_k": "298.15",
+          "mole_fraction_<propan-1-ol>": "0.01",
+          "pressure_kpa": "98.93",
+          "mass_density_kg_m3": "991.14"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_54",
+          "temperature_k": "298.15",
+          "mole_fraction_<propan-1-ol>": "0.02",
+          "pressure_kpa": "98.93",
+          "mass_density_kg_m3": "986.54"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_55",
+          "temperature_k": "298.15",
+          "mole_fraction_<propan-1-ol>": "0.03",
+          "pressure_kpa": "98.93",
+          "mass_density_kg_m3": "982.56"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_56",
+          "temperature_k": "298.15",
+          "mole_fraction_<propan-1-ol>": "0.05",
+          "pressure_kpa": "98.93",
+          "mass_density_kg_m3": "975.49"
+        }
+      ],
+      "inspection_id": "INSP_884f359f5908",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.fluid.2008.01.004",
+      "lit_num_id": "GLOBlit_590",
+      "block_number": "PROPblock_5",
+      "BLKsubsys_id": null,
+      "table_mode": "nearest",
+      "columns": [
+        "BLKpoint_id",
+        "mass_fraction_<propan-1-ol>",
+        "temperature_k",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_3",
+          "mass_fraction_<propan-1-ol>": "0.05",
+          "temperature_k": "293.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "990.671"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "mass_fraction_<propan-1-ol>": "0.1",
+          "temperature_k": "293.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "984.913"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_13",
+          "mass_fraction_<propan-1-ol>": "0.15",
+          "temperature_k": "293.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "979.828"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_4",
+          "mass_fraction_<propan-1-ol>": "0.05",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "989.387"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_9",
+          "mass_fraction_<propan-1-ol>": "0.1",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "983.372"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_14",
+          "mass_fraction_<propan-1-ol>": "0.15",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "977.921"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_5",
+          "mass_fraction_<propan-1-ol>": "0.05",
+          "temperature_k": "303.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "987.86"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_10",
+          "mass_fraction_<propan-1-ol>": "0.1",
+          "temperature_k": "303.15",
+          "pressure_kpa": "101.0",
+          "mass_density_kg_m3": "981.595"
+        }
+      ],
+      "inspection_id": "INSP_859136865c90",
+      "markdown": ""
+    }
+  ]
+}

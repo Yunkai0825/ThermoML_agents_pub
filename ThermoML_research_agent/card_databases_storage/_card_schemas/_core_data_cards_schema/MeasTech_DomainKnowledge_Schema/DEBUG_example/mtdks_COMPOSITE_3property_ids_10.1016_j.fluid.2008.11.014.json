@@ -1,0 +1,87 @@
+{
+  "key": {
+    "doi": "10.1016/j.fluid.2008.11.014",
+    "lit_id": "2009-gha-gha-1",
+    "lit_num_id": "GLOBlit_678"
+  },
+  "methods_summary": {
+    "n_unique_methods": 3,
+    "n_standard": 3,
+    "n_custom": 0
+  },
+  "methods": [
+    {
+      "method_type": "standard",
+      "method_name": "Chromatography",
+      "meas_num_id": "GLOBmeas_1",
+      "meas_id": "chromatography",
+      "property_group": "CompositionAtPhaseEquilibrium",
+      "properties": [
+        {
+          "name": "Mass fraction",
+          "component_linked": true,
+          "prop_num_id": "GLOBprop_6",
+          "prop_id": "mass_fraction_DOIcomp_2"
+        },
+        {
+          "name": "Mole fraction",
+          "component_linked": true,
+          "prop_num_id": "GLOBprop_2",
+          "prop_id": "mole_fraction_DOIcomp_1"
+        },
+        {
+          "name": "Mole fraction",
+          "component_linked": true,
+          "prop_num_id": "GLOBprop_2",
+          "prop_id": "mole_fraction_DOIcomp_2"
+        }
+      ],
+      "block_numbers": [
+        "PROPblock_5",
+        "PROPblock_6",
+        "PROPblock_7"
+      ],
+      "instance_count": 5
+    },
+    {
+      "method_type": "standard",
+      "method_name": "Standard Abbe refractometry",
+      "meas_num_id": "GLOBmeas_3",
+      "meas_id": "standard_abbe_refractometry",
+      "property_group": "RefractionSurfaceTensionSoundSpeed",
+      "properties": [
+        {
+          "name": "Refractive index (Na D-line)",
+          "component_linked": false,
+          "prop_num_id": "GLOBprop_7",
+          "prop_id": "refractive_index_na_dline"
+        }
+      ],
+      "block_numbers": [
+        "PROPblock_1",
+        "PROPblock_3"
+      ],
+      "instance_count": 2
+    },
+    {
+      "method_type": "standard",
+      "method_name": "Vibrating tube method",
+      "meas_num_id": "GLOBmeas_2",
+      "meas_id": "vibrating_tube_method",
+      "property_group": "VolumetricProp",
+      "properties": [
+        {
+          "name": "Mass density, kg/m3",
+          "component_linked": false,
+          "prop_num_id": "GLOBprop_1",
+          "prop_id": "mass_density_kg_m3"
+        }
+      ],
+      "block_numbers": [
+        "PROPblock_2",
+        "PROPblock_4"
+      ],
+      "instance_count": 2
+    }
+  ]
+}

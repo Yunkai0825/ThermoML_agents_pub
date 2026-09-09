@@ -1,0 +1,290 @@
+{
+  "meas_ID": "derived_graphically",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Derived graphically",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Derived graphically",
+    "thermoml_custom_codes": [],
+    "measurement_family": "PVT / Volumetric",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 8,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 5,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 8,
+          "papers": 5
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "coordinate values read from plotted data points on graphs (x, y pairs)",
+          "slope of tangent lines drawn to curves at specified points",
+          "area under curve segments estimated by graphical integration"
+        ],
+        "derived_observables": [
+          "interpolated property values between plotted data points",
+          "extrapolated property values beyond the range of plotted data",
+          "first derivatives (dY/dX) from tangent-line slopes",
+          "integrals (∫Y dX) from area-under-curve estimation",
+          "inflection points and transition temperatures from curve shape analysis"
+        ],
+        "target_properties": [
+          "molar volume and specific volume (from PVT graphs)",
+          "density (from density vs. temperature or pressure plots)",
+          "thermal expansion coefficient (from slope of volume–temperature plots)",
+          "isothermal compressibility (from slope of volume–pressure plots)",
+          "any thermophysical property obtainable from published graphical data"
+        ],
+        "phases_measured": [
+          "liquid",
+          "gas / vapor",
+          "solid",
+          "supercritical fluid",
+          "two-phase coexistence regions (from phase envelopes)"
+        ],
+        "supported_sample_types": [
+          "pure compounds (data extracted from published graphs)",
+          "binary mixtures (from composition-dependent plots)",
+          "multicomponent systems (from cross-plotted graphical data)",
+          "any material for which graphical data have been published"
+        ],
+        "unsupported_sample_types": [
+          "systems without existing graphical data",
+          "properties requiring three-dimensional surface interpolation beyond standard 2-D graph reading",
+          "high-precision applications where reading uncertainty exceeds tolerance"
+        ],
+        "typical_output_formats": [
+          "tabulated (x, y) pairs read from graphs",
+          "interpolated property value at a specified condition",
+          "slope value at a specified point (derivative)",
+          "integrated area value over a specified interval"
+        ],
+        "units": {
+          "property_values": "same units as the original graph axes (e.g., cm³/mol, g/cm³, K, MPa)",
+          "slopes": "ratio of y-axis units to x-axis units",
+          "integrals": "product of y-axis units and x-axis units"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "graph_resolution",
+            "typical_range": "0.5–1.0 mm reading precision on printed graph",
+            "hard_limits": "limited by line width, grid spacing, and physical size of the published graph",
+            "notes": "larger graphs with finer grid lines improve reading accuracy; photocopied or scanned reproductions degrade resolution"
+          },
+          {
+            "parameter": "axis_scale_type",
+            "typical_range": "linear or logarithmic scales",
+            "hard_limits": "nonstandard or compressed scales increase reading error",
+            "notes": "logarithmic scales amplify relative errors at the low end of the axis range"
+          },
+          {
+            "parameter": "data_point_density",
+            "typical_range": "5–100 points per curve in typical published graphs",
+            "hard_limits": "insufficient density limits interpolation accuracy; overly dense points merge at graph scale",
+            "notes": "spacing of original data points constrains achievable interpolation accuracy"
+          },
+          {
+            "parameter": "curve_smoothness",
+            "typical_range": "smooth monotonic curves yield best results",
+            "hard_limits": "discontinuities, sharp transitions, or noisy scatter degrade graphical reading reliability",
+            "notes": "authors' smoothed curves offer better graphical extraction than raw scatter plots"
+          }
+        ],
+        "variables": [
+          {
+            "name": "independent_variable_range",
+            "role": "defines the x-axis domain over which graphical extraction is performed",
+            "typical_values": "depends on the original graph (temperature, pressure, composition, etc.)",
+            "effect": "interpolation within the plotted range is more reliable than extrapolation beyond it"
+          },
+          {
+            "name": "graph_physical_dimensions",
+            "role": "determines spatial resolution of readings",
+            "typical_values": "5 cm × 5 cm to 20 cm × 20 cm in typical journal figures",
+            "effect": "larger graphs allow finer spatial discrimination, reducing reading error"
+          },
+          {
+            "name": "number_of_extracted_points",
+            "role": "determines completeness of the digitized dataset",
+            "typical_values": "10–50 points per curve extraction",
+            "effect": "more extracted points improve subsequent curve fitting but each point carries independent reading error"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "original published graph or high-quality reproduction (journal figure, technical report plot)",
+          "straightedge or transparent ruler for reading coordinate values",
+          "drafting tools — triangles, French curves, or flexible splines for tangent construction and curve tracing",
+          "graph paper or transparent overlay grid for area estimation (graphical integration)",
+          "magnifying glass or loupe for reading fine-scale graphs",
+          "planimeter (mechanical or digital) for precise area-under-curve measurements (optional)",
+          "digitizing tablet or software (modern alternative to manual reading)"
+        ],
+        "environmental_requirements": [
+          "adequate lighting for accurate visual reading of graph lines",
+          "flat, stable work surface to prevent parallax and distortion",
+          "clean, unfaded graph reproduction to ensure legibility"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "not applicable — no physical sample; input is a published graph"
+          ],
+          "size_limits": "not applicable",
+          "thickness_limits": "not applicable",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "obtain highest quality reproduction of the original graph available",
+            "verify axis labels, units, and scale markings for correctness",
+            "identify and mark the specific curve(s) to be read",
+            "note any stated conditions (temperature, pressure, composition) associated with each curve"
+          ]
+        },
+        "calibration_requirements": [
+          "verify scale linearity by checking at least three marked axis values against ruler distances",
+          "confirm logarithmic scales by checking multiple decades against physical spacing",
+          "cross-check a few visually read values against any tabulated data provided by the same source",
+          "for digitizing software, calibrate pixel-to-axis mapping using at least two known axis points per axis"
+        ],
+        "reference_materials": [
+          "tabulated data from the same source (if available) to validate graphical readings",
+          "independent literature values for spot-check verification of extracted data"
+        ],
+        "consumables": [
+          "transparent overlays or tracing paper",
+          "fine-tip pencils or pens for marking",
+          "graph paper with compatible grid spacing"
+        ],
+        "safety_notes": [
+          "no physical hazards — this is a data extraction method, not a laboratory technique"
+        ]
+      },
+      "performance": {
+        "sensitivity": "depends on the axis range and physical size of the graph; typically resolves differences corresponding to ~0.5–1.0 mm on the printed figure",
+        "detection_limit": "not applicable — limited by the smallest feature resolvable on the original graph",
+        "resolution": {
+          "spatial": "~0.3–0.5 mm on a well-printed graph (corresponds to axis resolution set by graph dimensions and axis range)",
+          "temporal": "not applicable",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "full range of the original graph axes; limited by legibility at extremes of the plotted range",
+        "accuracy": "typically 1–5% relative for interpolated values; 5–10% or worse for extrapolated values and graphical derivatives",
+        "precision": "0.5–2% for repeated independent readings of the same graph by the same operator; inter-operator variability 1–5%",
+        "throughput": "manual: 1–5 points per minute; digitizing software: 10–50 points per minute",
+        "measurement_speed": "complete extraction of a single curve typically takes 10–30 minutes manually"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "visual coordinate readings (x, y) from a printed or displayed graph, recorded as numerical pairs",
+        "preprocessing_steps": [
+          "axis calibration: establish mapping from physical position (mm) to data coordinates using known axis tick marks",
+          "point extraction: read (x, y) coordinates of data points or curve positions at desired x-values",
+          "scale conversion: transform values if axes use logarithmic, reciprocal, or other nonlinear scales",
+          "unit conversion: convert extracted values to desired SI or consistent units if graph uses different units"
+        ],
+        "analysis_methods": [
+          "graphical interpolation: read property values at conditions between plotted points by following the curve",
+          "graphical extrapolation: extend the curve trend beyond the plotted range to estimate values at unmeasured conditions",
+          "graphical differentiation: construct tangent line at a point of interest and measure its slope to obtain dY/dX",
+          "graphical integration: estimate area under the curve using counting squares, trapezoidal approximation on grid, or planimeter",
+          "curve fitting: fit extracted (x, y) data to an analytical function for subsequent numerical analysis"
+        ],
+        "model_assumptions": [
+          "the original graph accurately represents the underlying experimental data",
+          "curve smoothing applied by the original author faithfully represents the data trend",
+          "axis scales are correctly labeled and uniformly spaced (or correctly logarithmic)",
+          "the reader can visually resolve the curve position to within ±0.5 mm on the printed graph",
+          "for interpolation: the property varies smoothly and continuously between plotted data points"
+        ],
+        "fit_parameters": [
+          "coordinates of extracted data points (x_i, y_i)",
+          "slope of tangent line at a given point (for derivatives)",
+          "bounded area under a curve segment (for integrals)",
+          "parameters of fitted analytical expression (if curve fitting is applied to extracted data)"
+        ],
+        "common_artifacts": [
+          "parallax error: misalignment of eye, ruler, and graph surface introduces systematic reading offset",
+          "axis misidentification: incorrect reading of scale factors, multipliers, or unit labels",
+          "curve confusion: misidentifying which curve is being read when multiple curves are plotted on the same graph",
+          "grid interference: printed grid lines or axis ticks that visually merge with data curves",
+          "reproduction distortion: photocopying or scanning that introduces non-uniform scaling or warping"
+        ],
+        "quality_control_checks": [
+          "verify extracted values against any tabulated numerical data provided in the same publication",
+          "check monotonicity or expected trend of extracted values for physical consistency",
+          "have a second operator independently read the same graph and compare results",
+          "compare extracted data with independent literature sources for the same system and conditions",
+          "re-read a subset of points on a different day to assess intra-operator reproducibility"
+        ],
+        "failure_modes": [
+          "illegible or degraded graph print quality preventing reliable reading",
+          "mislabeled or ambiguous axis scales leading to systematic factor-of-ten or unit errors",
+          "extrapolation beyond the data range producing physically unreasonable values",
+          "attempting to derive slopes from noisy or scattered data where no clear tangent exists",
+          "graphical integration of a curve with insufficient resolution to capture sharp features"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined relative uncertainty 2–10% depending on graph quality, reading method, and whether interpolation or differentiation is performed",
+        "random_sources": [
+          "visual reading imprecision in locating curve position relative to grid lines (~0.3–0.5 mm)",
+          "operator variability in tangent-line placement for slope determination",
+          "inconsistent point placement when tracing a broad or diffuse printed line",
+          "random errors in planimeter or grid-square counting for area integration"
+        ],
+        "systematic_sources": [
+          "axis scale calibration error (non-uniform printing or distorted reproduction)",
+          "parallax from viewing angle when reading the graph",
+          "curve smoothing bias introduced by the graph's original author",
+          "nonlinear scale reading errors (e.g., consistently underreading on logarithmic scales)",
+          "systematic distortion from photocopying or scanning the original figure"
+        ],
+        "operator_dependence": "high — graphical reading accuracy is strongly dependent on operator care, visual acuity, experience with graphical methods, and consistency of technique",
+        "model_dependence": "moderate — interpolation accuracy depends on the assumption of smooth curve behavior between data points; differentiation amplifies uncertainty by a factor proportional to the local curvature; integration averages out reading errors and is generally more robust",
+        "dominant_error_sources": [
+          "visual reading precision of curve position on printed graph (sets the floor for all derived quantities)",
+          "tangent-line placement subjectivity for graphical differentiation (derivatives are most error-prone)",
+          "reproduction quality of the graph (degraded copies greatly amplify all errors)"
+        ],
+        "reported_as": [
+          "estimated uncertainty based on graph reading precision and axis scale resolution",
+          "comparison with independently tabulated or measured values",
+          "range of values obtained from repeated readings or multiple operators"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Graphical derivation is a data extraction and analysis method in which thermophysical property values are obtained by reading, interpolating, extrapolating, or differentiating published graphical data. Rather than a physical measurement technique, it is a manual or semi-automated procedure for recovering numerical values from plotted curves in journal figures, technical reports, or reference charts. In the ThermoML database context, it is classified under volumetric properties and indicates that the reported values were not measured directly by the citing authors but were instead extracted from graphical presentations of experimental data, typically from earlier publications. The method was historically important before widespread digital data archiving and remains useful for recovering data from older literature.",
+      "how_it_operates": "The operator locates the graph of interest in a publication, identifies the relevant curve and its axis labels and units, and then reads coordinate values from the curve at desired conditions. For interpolation, the operator visually follows the curve between plotted points and reads the y-value corresponding to a specified x-value by projecting to the axes using a straightedge. For graphical differentiation, a tangent line is drawn at the point of interest using a ruler or French curve, and its slope is computed from two widely separated points on the tangent line. For graphical integration, the area under a curve segment is estimated by counting grid squares, applying the trapezoidal rule on graph paper, or tracing the curve boundary with a planimeter. Modern digitizing software can automate point extraction by calibrating pixel coordinates against axis markers.",
+      "core_theory": "Graphical interpolation assumes that the underlying property varies smoothly and continuously between plotted data points, so that a curve drawn through the points represents a valid estimate at intermediate conditions. Graphical differentiation relies on the geometric definition of the derivative as the slope of the tangent to the curve at a given point: dY/dX ≈ ΔY/ΔX measured along the carefully constructed tangent line. Graphical integration uses the fundamental theorem relating the definite integral to the area bounded by the curve, the x-axis, and the integration limits: ∫Y dX ≈ A, where A is measured in the product units of the axes. Error propagation theory shows that graphical differentiation amplifies reading uncertainty (the derivative uncertainty is inversely proportional to the interval ΔX over which the tangent is drawn), while graphical integration tends to average out random reading errors, making it the most accurate of the three graphical operations.",
+      "setup": "The essential requirement is a high-quality reproduction of the original graph — ideally the published journal page itself or a high-resolution digital scan. The reader needs a flat, well-lit surface, a transparent ruler or straightedge for projecting coordinates, and fine drafting tools (triangle, French curve, or flexible spline) for constructing tangent lines or tracing curves. Graph paper or a transparent grid overlay is used for area estimation. For systematic extractions, a digitizing tablet or dedicated software such as WebPlotDigitizer, Engauge Digitizer, or similar tools can be used, in which the operator clicks on axis reference points to establish the coordinate mapping and then clicks along the curve to extract data pairs. A planimeter may be used for precise area measurements.",
+      "suitable_for": "Graphical derivation is appropriate when numerical tabulations of data are unavailable and the only accessible form of the data is a published graph — a common situation for older literature, proprietary technical reports, and certain handbook compilations. It is well-suited to recovering approximate property values for engineering estimates, populating databases from legacy sources, extracting phase-boundary data from phase diagrams, reading volumetric properties (density, molar volume) from PVT surface cross-sections, and obtaining approximate derivatives such as thermal expansion coefficients or compressibilities from smooth property-versus-temperature or property-versus-pressure curves. The method is most reliable for smooth, well-separated curves on large, clearly printed graphs.",
+      "core_limitations": "The fundamental limitation is the finite visual resolution of reading a printed graph, which typically introduces 1–5% relative uncertainty in directly read values and substantially more in derived quantities (slopes, derivatives). Extrapolation beyond the plotted range is inherently unreliable and model-dependent. Graphical differentiation amplifies reading errors because the slope computation divides a small ΔY by a small ΔX, both subject to reading uncertainty, so derivative values may carry 5–20% relative error. Graphs reproduced by photocopying or scanning may introduce geometric distortion, non-uniform scaling, or loss of fine detail. The method is subjective and operator-dependent, lacking the traceability and reproducibility of direct numerical tabulation. Multiple overlapping curves, poor print quality, or unusual axis scales (reciprocal, log-log, semi-log) compound the difficulty.",
+      "sample_preparation": "No physical sample is involved. Preparation consists of obtaining the best available reproduction of the source graph. If working from a paper copy, the graph should be clean, uncrumpled, and printed at full resolution — poor-quality photocopies should be avoided in favor of the original or a digital scan at 300 dpi or higher. The operator should verify all axis labels, units, scale factors, and any multiplicative prefixes (×10³, etc.) before reading begins. When multiple curves appear on a single graph, each curve should be clearly identified by its parameter label (temperature, composition, etc.). If digitizing software is used, the image should be checked for rotation, skew, and aspect ratio fidelity before calibrating the axes.",
+      "calibration_and_references": "Calibration of the graphical reading process involves establishing the mapping between physical position on the graph (in millimeters) and the data coordinates of each axis. For manual reading, this is done by measuring the distances between axis tick marks with a ruler and computing the scale factor (data units per mm). For digitizing software, the operator clicks on at least two known axis points per axis to define the mapping. The calibration should be verified by reading a data point whose value is known from the source's text or tables. If the original publication provides any tabulated data alongside the graph, these serve as primary cross-check references. Independent literature values for the same system under similar conditions provide secondary validation.",
+      "data_interpretation": "Extracted (x, y) pairs require no signal processing in the traditional sense but should be checked for physical consistency (correct sign, monotonic trend, expected order of magnitude). If the purpose is interpolation, the extracted values are used directly or fitted to a smooth analytical function (polynomial, Redlich-Kister, Tait equation, etc.) for generating values at arbitrary conditions. For graphical differentiation results, the derived slope values should be compared with expectations from thermodynamic relations — for example, the thermal expansion coefficient α = (1/V)(∂V/∂T)_P should be positive for most liquids and decrease with increasing pressure. For graphical integration, the result should satisfy dimensional analysis and any applicable thermodynamic sum rules or consistency checks.",
+      "common_pitfalls": "The most frequent error is misreading the axis scale — overlooking a factor of 10³ or confusing SI and CGS units can introduce order-of-magnitude errors that propagate unnoticed if no cross-check is performed. Reading the wrong curve on a multi-curve plot is another common mistake, especially when curves are closely spaced or inadequately labeled. Parallax errors occur when the ruler or straightedge is not held perfectly perpendicular to the line of sight. For graphical differentiation, choosing too narrow a ΔX interval amplifies noise, while choosing too wide an interval averages out real curvature — the optimal window is a compromise that depends on both graph resolution and the smoothness of the underlying function. Extrapolating linearly from a curve that is actually nonlinear produces progressively larger errors with distance from the data range.",
+      "artifacts_and_failure_modes": "Reproduction artifacts include non-uniform stretching or compression from photocopying or printing at incorrect aspect ratio, which introduces systematic distortion in read values. Faded or low-contrast graphs make it difficult to distinguish the curve from the background, leading to erratic readings. Thick printed lines introduce an inherent ambiguity of ±line-width/2 in position, which sets a floor on achievable precision. When multiple curves cross or come close together, misidentification of curves produces gross errors. Extrapolation failure occurs when the trend seen within the plotted range does not continue beyond it — physically, this often happens near phase boundaries, critical points, or composition extremes. Digitizing software may produce artifacts if the image is noisy, the curve color is similar to the grid color, or the thresholding parameters are poorly set.",
+      "reporting_checklist": "Published values derived graphically should report: the original source publication and figure number from which data were extracted, the specific curve(s) read and their identifying conditions (temperature, pressure, composition), the method of extraction (manual with ruler, digitizing software with name and version), the estimated spatial reading precision on the graph (in mm or in data units), the number of extracted points and the range covered, any analytical fitting function applied to the extracted data, a comparison with independently tabulated values if available, the estimated combined uncertainty of the derived quantities, and the specific operation performed (interpolation, extrapolation, differentiation, or integration). For ThermoML encoding, reported values carry nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

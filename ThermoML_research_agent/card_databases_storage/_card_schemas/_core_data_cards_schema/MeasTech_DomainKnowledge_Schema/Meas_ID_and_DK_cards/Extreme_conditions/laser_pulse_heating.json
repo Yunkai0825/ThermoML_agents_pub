@@ -1,0 +1,390 @@
+{
+  "meas_ID": "laser_pulse_heating",
+  "identity": {
+    "name": "Laser pulse heating",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Laser pulse heating",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Extreme Conditions",
+    "modality": {
+      "contact": "no",
+      "destructive": "partially",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 8,
+      "property_groups": [
+        "HeatCapacityAndDerivedProp",
+        "PhaseTransition",
+        "TransportProp"
+      ],
+      "n_papers": 5,
+      "per_group": {
+        "HeatCapacityAndDerivedProp": {
+          "instances": 4,
+          "papers": 3
+        },
+        "PhaseTransition": {
+          "instances": 3,
+          "papers": 2
+        },
+        "TransportProp": {
+          "instances": 1,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "spectral radiance from sample surface (pyrometer signal, V or counts vs. time)",
+          "time trace of laser pulse power delivered to sample (W vs. µs)",
+          "reflected laser power from sample surface (W vs. µs)",
+          "current and voltage across resistively heated wire specimen (if hybrid resistive-laser setup)"
+        ],
+        "derived_observables": [
+          "true temperature T(t) from pyrometric radiance after emissivity correction",
+          "normal spectral emissivity ε(λ, T) from ratio of reflected to incident laser power",
+          "specific enthalpy h(T) from integrated deposited power and sample mass",
+          "isobaric heat capacity Cp(T) = dh/dT from enthalpy-temperature slope",
+          "thermal diffusivity α(T) from spatial or temporal temperature profile analysis",
+          "melting temperature (solidus/liquidus) from thermal arrest in T(t) curve",
+          "enthalpy of fusion ΔHfus from enthalpy plateau at melting"
+        ],
+        "target_properties": [
+          "molar heat capacity at constant pressure (Cp)",
+          "specific enthalpy as a function of temperature",
+          "enthalpy of fusion",
+          "phase transition temperature (melting point, solidus, liquidus)",
+          "normal spectral emissivity",
+          "thermal diffusivity",
+          "electrical resistivity (in resistive-pulse hybrid configurations)",
+          "thermal expansion (from shadowgraphy or imaging diagnostics)"
+        ],
+        "phases_measured": [
+          "solid (crystalline, up to melting point)",
+          "liquid (from melting up to several thousand K above melting)",
+          "solid-liquid coexistence (mushy zone during melting)",
+          "undercooled liquid (accessible via rapid cooling after pulse)"
+        ],
+        "supported_sample_types": [
+          "refractory metals (W, Mo, Ta, Nb, Re, Zr, Hf, Ti)",
+          "refractory alloys (W-Re, Mo-Nb, high-entropy alloys)",
+          "refractory carbides and nitrides (TaC, HfC, ZrC, TiN)",
+          "refractory oxides and ceramics (UO2, ThO2, ZrO2, Al2O3)",
+          "nuclear fuel materials (UO2, MOX, UC)",
+          "carbon and graphite",
+          "transition metals with high melting points",
+          "metallic thin films on refractory substrates"
+        ],
+        "unsupported_sample_types": [
+          "transparent or highly reflective materials (poor laser absorption)",
+          "volatile materials that evaporate before reaching target temperature",
+          "polymers and organic compounds (decompose far below the useful temperature range)",
+          "gases and low-boiling-point liquids",
+          "samples that cannot be formed into wire, strip, or disk geometry",
+          "materials with very low thermal conductivity and very large volume (thermal gradients too severe)"
+        ],
+        "typical_output_formats": [
+          "T(t) temperature–time thermogram",
+          "h(T) specific enthalpy vs. temperature curve",
+          "Cp(T) heat capacity vs. temperature curve",
+          "ε(λ, T) normal spectral emissivity vs. temperature",
+          "radiance vs. time raw pyrometer trace"
+        ],
+        "units": {
+          "temperature": "K",
+          "heat_capacity": "J/(mol·K) or J/(kg·K)",
+          "enthalpy": "J/mol or kJ/kg",
+          "thermal_diffusivity": "m²/s",
+          "emissivity": "dimensionless (0–1)",
+          "time": "µs or ms",
+          "power": "W or MW",
+          "radiance": "W/(m²·sr·nm)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "2000 K to 6000 K",
+            "hard_limits": "lower limit set by pyrometer sensitivity (~1500 K); upper limit set by sample vaporization or containment failure (~10000 K for carbon)",
+            "notes": "most published data cover 2000–5000 K; the technique is specifically designed for temperatures inaccessible to conventional calorimetry"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "10^6 to 10^9 K/s",
+            "hard_limits": "minimum ~10^5 K/s to outrun heat conduction losses; maximum ~10^10 K/s limited by laser power density and thermal shock fracture",
+            "notes": "typical Nd:YAG pulse experiments achieve 10^7–10^8 K/s; CW laser ramp experiments operate at 10^5–10^6 K/s"
+          },
+          {
+            "parameter": "pulse_duration",
+            "typical_range": "0.1 ms to 10 ms",
+            "hard_limits": "nanosecond pulses possible but create extreme surface-bulk gradients; pulses >50 ms allow excessive heat loss and defeat the purpose",
+            "notes": "millisecond-range pulses are standard for thermophysical property measurements; shorter pulses used for thermal diffusivity"
+          },
+          {
+            "parameter": "laser_power_density",
+            "typical_range": "10^7 to 10^10 W/m²",
+            "hard_limits": "below 10^6 W/m² heating is too slow for pulse technique; above 10^11 W/m² surface ablation and plasma formation dominate",
+            "notes": "power density is tuned to achieve desired heating rate without vaporization or plasma shielding"
+          },
+          {
+            "parameter": "atmosphere",
+            "typical_range": "inert gas (Ar, He) at 0.1–0.3 MPa or vacuum",
+            "hard_limits": "oxidizing atmospheres cause surface contamination above ~1500 K; some experiments run at slight positive pressure to suppress vaporization",
+            "notes": "argon at ~0.2 MPa is most common; helium used when faster quenching is desired"
+          }
+        ],
+        "variables": [
+          {
+            "name": "laser_pulse_energy",
+            "role": "primary controlled input",
+            "typical_values": "1–500 J per pulse (Nd:YAG or CO2)",
+            "effect": "determines peak temperature reached and heating rate; higher energy = higher final temperature"
+          },
+          {
+            "name": "pulse_shape_and_duration",
+            "role": "controlled input waveform",
+            "typical_values": "0.1–10 ms, approximately rectangular or shaped pulse",
+            "effect": "controls time–temperature profile; shaped pulses allow controlled heating ramps within the pulse duration"
+          },
+          {
+            "name": "spot_size",
+            "role": "controlled geometric parameter",
+            "typical_values": "1–10 mm diameter",
+            "effect": "affects power density and thermal gradient uniformity; larger spots reduce radial gradients but require more total power"
+          },
+          {
+            "name": "pyrometer_wavelength",
+            "role": "detection parameter",
+            "typical_values": "650 nm (visible) or 1550 nm (near-IR); multi-wavelength systems use 3–6 channels",
+            "effect": "choice of wavelength affects temperature resolution, emissivity correction strategy, and minimum detectable temperature"
+          },
+          {
+            "name": "sample_geometry",
+            "role": "fixed per experiment",
+            "typical_values": "wire (0.5–1 mm dia, 50–100 mm length), disk (3–10 mm dia, 0.1–1 mm thick), or strip (0.5–2 mm wide)",
+            "effect": "geometry determines thermal gradient severity, heat loss paths, and whether 1D or 2D thermal analysis applies"
+          },
+          {
+            "name": "ambient_gas_pressure",
+            "role": "controlled environmental parameter",
+            "typical_values": "0.1–0.3 MPa inert gas",
+            "effect": "suppresses surface vaporization and modifies convective heat loss; too high triggers convective cooling artifacts"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "high-power pulsed laser — Nd:YAG (1064 nm, pulsed or Q-switched), CO2 (10.6 µm), or fiber laser with pulse shaping capability",
+          "beam delivery optics — mirrors, lenses, beam homogenizer/diffuser to produce uniform irradiation on sample surface",
+          "fast pyrometer — high-speed multi-channel or single-channel pyrometer with sub-microsecond response time for non-contact temperature measurement",
+          "integrating sphere or reflectometer — for simultaneous measurement of reflected laser power to determine in-situ emissivity",
+          "high-speed digitizer/oscilloscope — ≥1 MHz sampling rate for recording pyrometer signal, laser power monitor, and reflected power",
+          "sample chamber — vacuum-tight or pressure-rated chamber with optical windows (sapphire, ZnSe, or BaF2 depending on wavelengths)",
+          "sample holder/mount — minimal-contact supports (knife edges, thin wire suspension, or levitation) to reduce conductive heat loss",
+          "laser power/energy meter — calibrated sensor for measuring total pulse energy delivered to sample",
+          "gas handling system — inert gas supply (Ar, He) with pressure regulation and purge capability",
+          "optical filters — narrow bandpass filters for pyrometer channels to select specific wavelengths and reject laser scatter",
+          "safety enclosure — laser-rated enclosure with interlocks for Class 4 laser operation"
+        ],
+        "environmental_requirements": [
+          "Class 4 laser safety enclosure with interlocked doors and beam dumps",
+          "inert atmosphere (Ar or He) or high vacuum (< 10^-3 Pa) in sample chamber",
+          "optical table or vibration-isolated bench for beam alignment stability",
+          "temperature-controlled room to maintain stable pyrometer calibration",
+          "adequate ventilation for any vaporized material (especially for nuclear materials or toxic metals)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "thin wire (0.5–1 mm diameter, 50–100 mm length) — most common for resistive-pulse hybrid",
+            "thin disk or plate (3–10 mm diameter, 0.1–1 mm thick) — standard for laser-only heating",
+            "thin strip or foil (0.5–2 mm wide, 0.05–0.5 mm thick, 20–50 mm long)"
+          ],
+          "size_limits": "sample mass typically 10 mg to 5 g depending on geometry; disk samples 50–500 mg are most common",
+          "thickness_limits": "should be thin enough for near-uniform through-thickness heating: typically 0.1–1 mm; thicker samples develop severe front-to-back thermal gradients",
+          "surface_requirements": [
+            "optically smooth and flat surface for reproducible laser absorption and pyrometric measurement",
+            "known or measurable surface emissivity at pyrometer wavelength",
+            "surface free of oxide layers, machining marks, or contaminants that alter absorptivity",
+            "blackbody coating (carbon soot or graphite) sometimes applied to improve and stabilize absorptivity"
+          ],
+          "mounting_requirements": [
+            "minimal thermal contact mounting — knife-edge supports, thin wire suspension, or electrostatic/aerodynamic levitation",
+            "alignment fixtures to position sample at laser focal plane and in pyrometer field of view",
+            "electrical contacts for hybrid resistive-pulse setups (low-resistance clamps for current injection)"
+          ],
+          "preparation_requirements": [
+            "precision weighing (±0.01 mg) before and after experiment to check for mass loss from vaporization",
+            "surface polishing to optical-grade finish (for emissivity studies) or controlled roughening for consistent absorptivity",
+            "dimensional measurement (micrometer or optical profilometry) for thickness and diameter",
+            "annealing to relieve residual stress and ensure well-defined initial microstructure",
+            "chemical analysis or certification of purity (≥99.9% for reference-grade measurements)"
+          ]
+        },
+        "calibration_requirements": [
+          "pyrometer calibration against a blackbody radiation source (NIST-traceable) at multiple temperatures spanning the measurement range",
+          "pyrometer temporal response characterization using a fast-chopped blackbody or pulsed LED source",
+          "laser energy/power meter calibration against a NIST-traceable calorimetric power standard",
+          "in-situ emissivity determination via simultaneous reflectometry at pyrometer wavelength during each experiment",
+          "timing calibration of all digitizer channels to ensure synchronization of temperature, power, and reflectivity traces",
+          "validation of entire system by reproducing known melting points of refractory metals (e.g., Mo at 2896 K, W at 3695 K)"
+        ],
+        "reference_materials": [
+          "tungsten (W) — melting point 3695 K, well-characterized Cp(T) and emissivity, primary reference for laser pulse heating",
+          "molybdenum (Mo) — melting point 2896 K, secondary temperature and Cp reference",
+          "tantalum (Ta) — melting point 3290 K, well-studied thermophysical properties for validation",
+          "niobium (Nb) — melting point 2750 K, reference for lower end of extreme temperature range",
+          "NIST blackbody radiation standards for pyrometer calibration"
+        ],
+        "consumables": [
+          "high-purity sample wires, disks, or foils (single-use per heating pulse for destructive experiments)",
+          "inert gas supply (high-purity Ar 99.999%, He 99.999%)",
+          "optical windows (sapphire, ZnSe) — may degrade from sputter deposition over many shots",
+          "blackbody coating material (colloidal graphite spray) for absorptivity control",
+          "replacement laser flashlamps or diode pump modules"
+        ],
+        "safety_notes": [
+          "Class 4 laser hazard — capable of causing immediate eye injury and skin burns; full laser safety protocol with interlocks, eyewear, and barriers required",
+          "extreme temperatures can cause violent sample fragmentation or ejection of molten droplets — blast shielding and protective enclosures mandatory",
+          "vaporization of metals (especially toxic or radioactive materials) requires HEPA filtration and fume containment",
+          "high-voltage power supplies for laser systems present electrocution hazard",
+          "pressurized gas systems require standard compressed gas handling procedures",
+          "for nuclear fuel materials (UO2, MOX), full radiological safety protocols required"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving enthalpy changes of ~1 kJ/kg against total enthalpy of ~500–2000 kJ/kg at extreme temperatures; detects solidus-liquidus separation in alloys",
+        "detection_limit": "minimum measurable Cp change ~2–5% relative; minimum resolved temperature change ~5–10 K via pyrometry at 3000 K",
+        "resolution": {
+          "spatial": "defined by laser spot size and pyrometer field of view; typically 1–5 mm lateral; through-thickness resolution limited by thermal gradient (~0.1 mm at best)",
+          "temporal": "pyrometer response time 0.1–10 µs; digitizer resolution 0.1–1 µs; sets minimum resolvable time interval in T(t) thermogram",
+          "spectral": "pyrometer bandpass 10–50 nm FWHM per channel; multi-wavelength systems use 3–6 channels spanning 500–1600 nm",
+          "energy": "enthalpy resolution ~0.5–2% of total deposited energy; Cp resolution ~2–5% typical"
+        },
+        "dynamic_range": "temperature: 1500 K to 10000 K (material dependent); Cp: ~20 to ~80 J/(mol·K) for metals; pulse energy: 1–500 J",
+        "accuracy": "temperature: ±1–3% (50–100 K at 3000 K) limited by emissivity uncertainty; Cp: ±3–7% after all corrections; melting point: ±10–50 K for well-characterized materials",
+        "precision": "temperature repeatability: ±0.5–1% (15–30 K at 3000 K) for identical pulse conditions; Cp repeatability: ±2–4% from shot-to-shot variation",
+        "throughput": "one heating pulse per sample (destructive); ~5–20 experiments per day including sample preparation, alignment, and data reduction",
+        "measurement_speed": "single experiment duration: 0.1–10 ms (the pulse itself); full temperature sweep from ambient to peak T captured in one pulse"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "time-resolved pyrometer voltage proportional to spectral radiance at the selected wavelength, digitized at 1–10 MHz; simultaneous recording of laser pulse power monitor signal and reflected power from integrating sphere",
+        "preprocessing_steps": [
+          "pyrometer signal conversion from voltage to spectral radiance using calibration curve from blackbody source",
+          "correction for window transmission losses and any neutral density filter attenuation",
+          "in-situ emissivity correction: ε(t) determined from simultaneous reflectometry, applied to convert radiance to true temperature via Planck's law",
+          "conversion of radiance to temperature T(t) using Wien's approximation or full Planck inversion at the pyrometer wavelength",
+          "deposited power calculation: P_absorbed(t) = P_incident(t) × [1 − R(t)], where R(t) is the time-resolved reflectance",
+          "integration of absorbed power over time to obtain total deposited energy E(t) = ∫P_absorbed dt",
+          "computation of specific enthalpy h(T) = E(t)/(m) mapped against T(t), where m is sample mass",
+          "numerical differentiation of h(T) to obtain Cp(T) = dh/dT, typically using Savitzky-Golay smoothing to reduce noise amplification"
+        ],
+        "analysis_methods": [
+          "enthalpy method: construct h(T) from integrated deposited energy vs. pyrometric temperature; slope gives Cp(T)",
+          "thermal arrest analysis: plateau or inflection in T(t) at phase transition identifies melting point and yields enthalpy of fusion from enthalpy discontinuity",
+          "multi-wavelength pyrometry: simultaneous temperature determination at multiple wavelengths to reduce emissivity model dependence",
+          "radiance fitting: fit Planck function to multi-wavelength radiance data to simultaneously extract T and ε",
+          "thermal diffusivity extraction: from spatial or temporal temperature profile analysis using 1D heat conduction equation",
+          "uncertainty propagation: Monte Carlo or analytical propagation of pyrometer calibration, emissivity, power measurement, and mass uncertainties through the data reduction chain"
+        ],
+        "model_assumptions": [
+          "sample is heated uniformly across the laser-irradiated area (homogeneous irradiation assumption)",
+          "through-thickness temperature gradient is negligible or correctable for the sample thickness used",
+          "heat losses (radiation, conduction through mounts, convection) are negligible during the short pulse duration or can be corrected",
+          "sample remains in local thermodynamic equilibrium despite extremely high heating rates",
+          "surface emissivity measured by reflectometry is representative of the pyrometer viewing area",
+          "sample mass remains constant during the pulse (no significant vaporization mass loss)",
+          "Planck's law (or Wien's approximation) is valid for the emitted thermal radiation at the pyrometer wavelength"
+        ],
+        "fit_parameters": [
+          "true temperature T(t) at each time step",
+          "normal spectral emissivity ε(λ, T) at pyrometer wavelength",
+          "absorbed laser power fraction [1 − R(t)]",
+          "specific enthalpy h(T) as a function of temperature",
+          "heat capacity Cp(T) from enthalpy differentiation",
+          "melting temperature Tm from thermal arrest",
+          "enthalpy of fusion ΔHfus from enthalpy plateau height"
+        ],
+        "common_artifacts": [
+          "emissivity error artifact: systematic temperature error propagating through T⁴ dependence of radiance — 5% emissivity error can cause 1–2% temperature error and 3–7% Cp error",
+          "thermal gradient artifact: non-uniform through-thickness heating makes surface pyrometric temperature higher than bulk average, biasing Cp low",
+          "vaporization artifact: mass loss during the pulse reduces effective sample mass, leading to overestimation of specific enthalpy and Cp",
+          "plasma shielding: at very high power densities, ablated vapor or plasma can absorb incoming laser radiation, reducing actual energy deposited on sample",
+          "reflected light contamination: scattered laser light entering pyrometer produces spurious high-temperature readings",
+          "recalescence artifact: rapid resolidification upon cooling releases latent heat causing apparent temperature plateau that can be confused with melting during heating",
+          "window deposition artifact: sputtered or vaporized material deposits on optical windows over multiple shots, degrading transmission and altering pyrometer calibration"
+        ],
+        "quality_control_checks": [
+          "reproduce known melting point of a well-characterized refractory metal (W: 3695 K, Mo: 2896 K) within stated uncertainty",
+          "verify mass conservation: weigh sample before and after pulse to quantify any vaporization loss",
+          "check consistency of multi-wavelength pyrometer temperatures — divergence indicates emissivity model failure",
+          "compare Cp values from multiple independent pulses on identical samples for shot-to-shot reproducibility",
+          "verify that Cp(T) curve joins smoothly with lower-temperature data from conventional calorimetry in the overlap region (~1500–2000 K)",
+          "inspect T(t) thermogram for monotonic heating — non-monotonic behavior indicates problems (arcing, sample cracking, inhomogeneous absorption)",
+          "confirm that heat loss corrections are small (<5% of total deposited energy) or properly accounted for"
+        ],
+        "failure_modes": [
+          "sample fracture or explosion from thermal shock due to excessive heating rate or pre-existing defects",
+          "catastrophic vaporization if pulse energy far exceeds target — destroys sample and contaminates chamber windows",
+          "pyrometer saturation at temperatures above calibrated range — produces clipped T(t) trace with loss of peak temperature data",
+          "loss of reflectometry signal due to surface roughening, melting, or droplet ejection — emissivity becomes indeterminate",
+          "misalignment of laser spot relative to pyrometer field of view — measures temperature of unheated or partially heated region",
+          "window damage or coating from sputter deposition — progressive degradation of optical signals over multiple shots",
+          "electrical breakdown or arcing in hybrid resistive setups at extreme temperatures"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: temperature ±1–3% (±30–100 K at 3000 K); Cp ±3–7%; enthalpy of fusion ±5–10%; melting point ±10–50 K",
+        "random_sources": [
+          "pyrometer detector noise (shot noise and amplifier noise)",
+          "shot-to-shot variation in laser pulse energy and temporal profile",
+          "surface condition variation between nominally identical samples",
+          "digitizer quantization noise at high sampling rates",
+          "sample positioning irreproducibility affecting pyrometer solid angle"
+        ],
+        "systematic_sources": [
+          "emissivity uncertainty — dominant systematic error; propagates nonlinearly into temperature through Planck's law",
+          "pyrometer calibration uncertainty against blackbody standard (±0.5–1% of T)",
+          "absorbed power fraction uncertainty from reflectometry (±2–5%)",
+          "sample mass uncertainty (±0.1–0.5%), amplified if vaporization occurs",
+          "heat loss corrections (radiation loss from sample surface, conduction through mounts) — typically corrected to ±1–3%",
+          "window transmission uncertainty (±0.5–2%, worsens with deposition buildup)",
+          "non-equilibrium effects: actual heat capacity may differ from equilibrium Cp at extreme heating rates"
+        ],
+        "operator_dependence": "high — sample surface preparation quality, laser beam alignment, pyrometer focus and positioning, and pulse parameter selection all significantly affect results and require substantial expertise",
+        "model_dependence": "high — results critically depend on emissivity model (grey body vs. wavelength-dependent), assumed uniformity of heating, heat loss correction model, and whether local thermodynamic equilibrium holds at the applied heating rate",
+        "dominant_error_sources": [
+          "surface emissivity uncertainty at the pyrometer wavelength (often the single largest error contributor)",
+          "thermal gradient through sample thickness (especially for thicker or less conductive samples)",
+          "absorbed power fraction determination (reflectance measurement accuracy)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence level (k=2)",
+          "relative uncertainty as percentage of measured value",
+          "component uncertainty budget tabulating individual contributions"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Laser pulse heating is an extreme-conditions measurement technique that uses high-power laser pulses to rapidly heat refractory materials to temperatures ranging from 2000 K to beyond 6000 K, far exceeding the capabilities of conventional calorimetry. Pioneered at NIST by Cezairliyan and colleagues in the 1970s–1990s, and further developed by Pottlacher's group at TU Graz, the method captures thermophysical properties — heat capacity, enthalpy, thermal diffusivity, emissivity, and melting points — of materials under conditions relevant to aerospace, nuclear, and metallurgical applications. Heating rates of 10⁶ to 10⁹ K/s are achieved, allowing the sample to reach extreme temperatures before heat losses or chemical degradation can corrupt the measurement within the microsecond-to-millisecond pulse duration.",
+      "how_it_operates": "A high-power pulsed laser (typically Nd:YAG at 1064 nm or CO₂ at 10.6 µm) delivers a shaped energy pulse to a thin sample (wire, disk, or foil), rapidly heating it from an initial temperature to the target extreme temperature within 0.1–10 ms. A high-speed pyrometer focused on the sample surface records the spectral radiance as a function of time, providing the thermal emission signal from which temperature is derived via Planck's law after correction for surface emissivity. Simultaneously, a reflectometer or integrating sphere measures the fraction of laser light reflected from the sample surface, allowing determination of the absorbed power in real time. The deposited energy is integrated over time and divided by sample mass to yield specific enthalpy h(T), and numerical differentiation of h(T) produces the heat capacity Cp(T). Thermal arrests in the temperature-time trace reveal phase transitions and their associated enthalpies.",
+      "core_theory": "The fundamental measurement equation relates the specific enthalpy increment to the absorbed laser energy: dh = (1/m) × P_incident(t) × [1 − R(t)] × dt, where m is the sample mass, P_incident is the instantaneous laser power, and R(t) is the time-resolved reflectance. Integration yields h(T) = (1/m) ∫₀ᵗ P_incident(t')[1 − R(t')] dt', with T(t) obtained from pyrometric inversion of the Planck function: L(λ,T) = ε(λ,T) × (2hc²/λ⁵) × 1/[exp(hc/λkT) − 1], where L is the measured spectral radiance, ε is the normal spectral emissivity, and other symbols have their standard meanings. The heat capacity is then Cp(T) = dh/dT, typically obtained by numerical differentiation with appropriate smoothing. The critical assumption enabling this analysis is that the heating is fast enough that radiative, convective, and conductive heat losses during the pulse are negligible compared to the deposited energy — validated when the pulse duration is much shorter than the characteristic heat loss time of the sample geometry.",
+      "setup": "A typical laser pulse heating facility consists of a high-power pulsed laser (50–500 J per pulse) with beam-shaping optics that produce a uniform irradiance profile on the sample surface. The sample — a thin wire, disk, or strip of refractory material — is mounted in a vacuum or inert-gas-filled chamber fitted with optical-quality windows for laser input, pyrometric observation, and reflectometry. Knife-edge or minimal-contact supports hold the sample to minimize conductive heat loss. A high-speed multi-channel pyrometer (response time <1 µs) views the central region of the heated spot through narrowband interference filters, and its signal is digitized at 1–10 MHz. An integrating sphere or specular reflectometer captures reflected laser light for real-time emissivity determination. All timing signals are synchronized through a common trigger and high-speed digitizer system. The chamber is evacuated and backfilled with high-purity argon or helium at slight overpressure to suppress vaporization.",
+      "suitable_for": "Laser pulse heating is uniquely suited for measuring thermophysical properties of materials at temperatures above 2000 K where conventional contact methods fail due to container reactions, heat losses, or sensor limitations. Primary applications include refractory metals (W, Mo, Ta, Nb, Re), refractory compounds (carbides, nitrides, oxides), and nuclear fuel materials (UO₂, ThO₂, mixed oxide fuels) where data at extreme temperatures are critical for reactor safety modeling. The technique is also valuable for determining the melting points and enthalpies of fusion of the highest-melting materials, measuring normal spectral emissivity for radiative heat transfer modeling, and establishing thermodynamic data for materials under conditions approaching those in rocket nozzles, plasma-facing components, and atmospheric re-entry.",
+      "core_limitations": "The dominant limitation is the uncertainty in surface emissivity, which propagates nonlinearly into temperature through the T⁴ dependence of thermal radiation — a 5% error in emissivity typically produces 1–2% error in temperature and 3–7% error in Cp. Through-thickness thermal gradients can be severe, especially for lower-conductivity materials or thicker samples, causing the surface pyrometric temperature to exceed the volume-average temperature and biasing Cp low. The extremely high heating rates may violate local thermodynamic equilibrium for some materials, meaning the measured dynamic heat capacity could differ from the equilibrium value. Vaporization at the highest temperatures leads to mass loss, contamination of optical windows, and potential plasma shielding of the incoming laser beam. The technique is inherently destructive in most implementations, as samples undergo irreversible melting and microstructural transformation.",
+      "sample_preparation": "Samples are typically prepared as thin wires (0.5–1 mm diameter, 50–100 mm length formed by swaging and drawing), disks (3–10 mm diameter, 0.1–1 mm thick cut by EDM or laser), or strips (electron-beam melted and rolled to 0.05–0.5 mm thickness). Surface preparation is critical: mechanical polishing to a mirror finish ensures reproducible laser absorption and pyrometric measurement, while chemical etching or electropolishing removes subsurface damage. For some experiments, a thin layer of colloidal graphite is applied to the surface to stabilize and raise absorptivity. Samples are annealed in vacuum at temperatures well below the target range to relieve residual stress and produce a well-defined initial microstructure. Each sample is weighed on a microbalance (±0.01 mg) before and after the experiment to quantify any vaporization-induced mass loss. Purity certification (≥99.9%) and dimensional metrology (thickness, diameter by micrometer or optical profilometry) complete the preparation.",
+      "calibration_and_references": "Pyrometer calibration is performed against a NIST-traceable high-temperature blackbody radiation source spanning the range of interest, establishing the relationship between detector signal and spectral radiance at each wavelength channel. The temporal response of the pyrometer is characterized using a fast-chopped blackbody source or pulsed LED to verify sub-microsecond response. Laser energy is measured with a calibrated calorimetric power meter. The complete measurement chain — from laser pulse through pyrometric temperature to enthalpy and Cp — is validated by reproducing the known melting points of primary reference metals: tungsten (3695 K), molybdenum (2896 K), and tantalum (3290 K), and comparing derived Cp(T) curves with established literature values in overlapping temperature ranges. In-situ emissivity calibration via simultaneous reflectometry during each experiment is essential and provides experiment-specific emissivity data rather than relying on literature values that may not match the actual surface condition.",
+      "data_interpretation": "The raw pyrometer voltage trace is converted to spectral radiance using the blackbody calibration, then to true temperature T(t) by solving Planck's equation with the simultaneously measured emissivity ε(λ,t). The absorbed power is computed from the incident laser power and the measured reflectance: P_abs(t) = P_inc(t)×[1−R(t)]. Integration of P_abs over time and division by sample mass gives the specific enthalpy h(t), which is then plotted against T(t) to produce h(T). The slope dh/dT yields Cp(T), obtained by numerical differentiation using Savitzky-Golay or spline smoothing to suppress noise amplification. Phase transitions appear as plateaus or inflections in h(T) — the temperature at the onset of the plateau gives the melting point, and the height of the enthalpy discontinuity gives the enthalpy of fusion. Multi-wavelength pyrometry allows cross-checking temperature values and detecting emissivity anomalies (e.g., at melting where surface reflectivity changes abruptly).",
+      "common_pitfalls": "The most critical pitfall is the use of literature emissivity values instead of in-situ measured values — surface emissivity changes dramatically with oxidation, roughening, melting, and recrystallization during the pulse, and static values introduce large systematic errors. Insufficient laser beam homogeneity creates hot spots and cold regions within the measured area, causing the pyrometer to report a non-representative average temperature. Operating with samples that are too thick for the heating rate produces severe front-to-back thermal gradients, biasing all derived thermodynamic quantities. Failure to check for mass loss after the experiment can leave vaporization-induced errors undetected. Alignment drift between the pyrometer field of view and the laser heated spot — which can occur from thermal expansion of the chamber — causes measurement of an off-center region with different effective temperature. Ignoring the time response of the pyrometer relative to the heating rate can introduce dynamic lag errors in T(t).",
+      "artifacts_and_failure_modes": "Emissivity change artifacts are the most pervasive: abrupt emissivity shifts at melting cause apparent discontinuities in the pyrometer signal that can be misinterpreted as anomalous thermal events. Plasma shielding occurs when vaporized material above the sample surface absorbs incoming laser light, reducing actual energy deposition while the power monitor still records the full pulse — this leads to an overestimate of deposited energy and hence Cp. Recalescence artifacts appear during rapid cooling following the pulse, when undercooled liquid suddenly crystallizes and releases latent heat, producing a brief temperature rise that can obscure the solidification point. Thermal shock fracture causes the sample to crack or shatter during the heating pulse, terminating the experiment and producing a discontinuous T(t) trace. Window coating from sputtered material progressively degrades optical signals over multiple experiments and must be monitored. Reflected laser light contamination entering the pyrometer creates spurious signals that distort the temperature measurement, particularly problematic at early times in the pulse when sample surface temperature is still low and thermal emission is weak relative to reflected laser scatter.",
+      "reporting_checklist": "Published laser pulse heating results should include: laser type and wavelength, pulse energy and duration, pulse shape (temporal profile), sample material with purity and supplier, sample geometry and dimensions, sample mass before and after experiment, surface preparation method, atmosphere and pressure in chamber, pyrometer wavelength(s) and temporal response time, method of emissivity determination (in-situ reflectometry or literature values with reference), blackbody calibration source and traceability, temperature range covered, Cp(T) or h(T) data in tabular form, melting point and enthalpy of fusion if measured, corrections applied (heat loss, thermal gradient, vaporization), combined expanded uncertainty (k=2) with breakdown of dominant components (emissivity, power, mass), comparison with literature or lower-temperature data for validation, and number of replicate pulses. For ThermoML encoding, properties are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

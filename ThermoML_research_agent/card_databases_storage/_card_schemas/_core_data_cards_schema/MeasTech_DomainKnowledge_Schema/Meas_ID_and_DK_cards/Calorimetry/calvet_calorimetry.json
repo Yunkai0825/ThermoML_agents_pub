@@ -1,0 +1,344 @@
+{
+  "meas_ID": "calvet_calorimetry",
+  "identity": {
+    "name": "Calvet calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Calvet calorimetry",
+    "thermoml_custom_codes": [
+      "CALVET"
+    ],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 911,
+      "property_groups": [
+        "ExcessPartialApparentEnergyProp"
+      ],
+      "n_papers": 186,
+      "per_group": {
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 911,
+          "papers": 186
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "thermopile voltage (V) — integrated electromotive force from thousands of thermocouple junctions surrounding the sample cell",
+          "heat-flux signal (dQ/dt) — instantaneous rate of heat exchange between sample and thermostat",
+          "integrated thermopile signal (integral of V dt) — proportional to total heat exchanged"
+        ],
+        "derived_observables": [
+          "molar enthalpy of mixing (delta_mix H)",
+          "molar enthalpy of dissolution (delta_sol H)",
+          "molar enthalpy of reaction (delta_r H)",
+          "molar enthalpy of adsorption (delta_ads H)",
+          "specific heat capacity (Cp) via continuous or step methods",
+          "partial molar excess enthalpy (H_E)"
+        ],
+        "target_properties": [
+          "excess molar enthalpy of mixing (H_E)",
+          "enthalpy of dissolution",
+          "enthalpy of reaction",
+          "enthalpy of adsorption/desorption",
+          "heat capacity at constant pressure (Cp)",
+          "partial molar enthalpy at infinite dilution",
+          "enthalpy of vaporization (with coupled vaporization cell)",
+          "enthalpy of immersion"
+        ],
+        "phases_measured": [
+          "liquid",
+          "liquid mixtures",
+          "solid (powder, granular)",
+          "solid-liquid (dissolution, immersion)",
+          "gas-solid (adsorption)",
+          "gas-liquid (absorption)"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "ionic liquids and deep eutectic solvents",
+          "polymer solutions",
+          "surfactant solutions",
+          "solid powders and granules (adsorption studies)",
+          "biological macromolecules in solution",
+          "slurries and suspensions",
+          "reactive systems (slow reactions)"
+        ],
+        "unsupported_sample_types": [
+          "gases at low pressure (insufficient thermal signal)",
+          "highly volatile liquids in open cells (evaporation losses)",
+          "fast explosive or detonation reactions (response too slow)",
+          "samples requiring sub-milliwatt detection (use nanocalorimetry instead)",
+          "samples requiring extremely rapid scanning (use flash DSC instead)"
+        ],
+        "typical_output_formats": [
+          "heat flux (mW) vs. time (s) thermogram",
+          "integrated heat (J) vs. time curve",
+          "molar enthalpy of mixing vs. mole fraction",
+          "partial molar excess enthalpy vs. composition",
+          "Cp vs. temperature curve (step or continuous method)"
+        ],
+        "units": {
+          "heat_flux": "mW or uW",
+          "integrated_heat": "J or mJ",
+          "enthalpy_of_mixing": "J/mol or kJ/mol",
+          "heat_capacity": "J/(mol*K) or J/(g*K)",
+          "temperature": "K or degC",
+          "thermopile_voltage": "uV or mV",
+          "sample_mass": "g or mg",
+          "volume": "mL or cm3"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 573 K",
+            "hard_limits": "77 K to 1273 K depending on instrument model; standard SETARAM C80 operates from ambient to 573 K; high-temperature versions to 1273 K",
+            "notes": "isothermal mode is most common for mixing and dissolution; scanning mode used for Cp and reaction studies"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (atmospheric)",
+            "hard_limits": "up to 100 MPa with high-pressure mixing cells (SETARAM C80 with HP vessel)",
+            "notes": "high-pressure cells permit measurements on gas-saturated liquids and supercritical fluids"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "1 mL to 12 mL",
+            "hard_limits": "0.1 mL (micro cells) to 15 mL (large batch cells)",
+            "notes": "cell volume must be matched to expected heat effect to ensure adequate signal-to-noise ratio"
+          },
+          {
+            "parameter": "heating_or_cooling_rate",
+            "typical_range": "0.01 K/min to 2 K/min",
+            "hard_limits": "0.001 K/min to 2 K/min; slower rates give better baseline stability for isothermal measurements",
+            "notes": "Calvet instruments favor slow scanning rates; faster rates degrade the isothermal assumption and broaden peaks"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled or scanned variable",
+            "typical_values": "298.15 K for isothermal mixing; 273-573 K for scanning Cp",
+            "effect": "determines thermodynamic state; isothermal operation critical for accurate excess enthalpy measurements"
+          },
+          {
+            "name": "composition",
+            "role": "primary experimental variable (mixing experiments)",
+            "typical_values": "0 to 1 mole fraction in 10-20 increments",
+            "effect": "maps the composition dependence of excess enthalpy; each injection changes cell composition incrementally"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed; variable with high-pressure cells",
+            "typical_values": "0.1 MPa (standard); up to 40 MPa (high-pressure studies)",
+            "effect": "affects gas solubility and phase behavior; must be controlled for gas-liquid mixing experiments"
+          },
+          {
+            "name": "injection_volume",
+            "role": "controlled input (flow or batch mixing mode)",
+            "typical_values": "0.05 mL to 1 mL per injection",
+            "effect": "determines composition increment and magnitude of thermal signal per step; smaller injections give finer composition resolution but weaker signals"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "twin cylindrical calorimetric cells — sample cell and reference cell, symmetrically positioned within the thermostat block",
+          "thermopile detector — array of hundreds to thousands of thermocouple junctions (typically chromel-alumel or bismuth-telluride) surrounding each cell in a 3D cage geometry",
+          "massive thermostat block — large aluminum or copper block providing thermal inertia and isothermal environment",
+          "programmable temperature controller — regulates thermostat block temperature for isothermal hold or slow scanning",
+          "mixing device — mercury-sealed plunger, membrane-breaking injector, or motorized stirrer for in-situ mixing",
+          "injection/dosing system — precision syringe pump or flow-through system for controlled addition of second component",
+          "differential amplifier and nanovoltmeter — measures difference signal between sample and reference thermopiles",
+          "data acquisition system — computer with dedicated software (SETARAM Calisto, etc.) for signal recording and integration",
+          "gas-tight or high-pressure cell assembly (optional) — for volatile liquids, gas absorption, or elevated-pressure measurements"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (plus/minus 1 K) to minimize thermostat drift",
+          "vibration-free bench or isolation table to prevent mechanical noise in thermopile signal",
+          "absence of strong air drafts near the instrument",
+          "stable electrical power supply for controller and amplifier electronics"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid samples — no geometry constraint; fill cell to specified volume",
+            "solid powders — loosely packed in cell for adsorption or dissolution studies",
+            "solid pieces — must fit within the cylindrical cell bore"
+          ],
+          "size_limits": "typically 0.5 g to 10 g for liquid samples; 0.1 g to 5 g for solid samples; cell volume 1-15 mL",
+          "thickness_limits": "not applicable for liquid measurements; for solid samples, smaller particle sizes improve dissolution and thermal equilibration kinetics",
+          "surface_requirements": [
+            "clean, degassed liquids to prevent bubble formation during mixing",
+            "dry solid surfaces for adsorption measurements"
+          ],
+          "mounting_requirements": [
+            "sample loaded into cylindrical stainless-steel or Hastelloy cell",
+            "cell sealed with appropriate gasket (PTFE or metal) for volatile or high-pressure samples",
+            "reference cell loaded with thermally matched inert material or left empty depending on protocol"
+          ],
+          "preparation_requirements": [
+            "precisely known masses of both components (weighed to plus/minus 0.1 mg)",
+            "degassing of liquids under vacuum or ultrasonication to eliminate dissolved gases",
+            "drying of hygroscopic samples over molecular sieves or under vacuum",
+            "density measurement of liquid components for volume-to-mole conversions",
+            "thermal pre-equilibration of injection fluids to calorimeter temperature"
+          ]
+        },
+        "calibration_requirements": [
+          "Joule-effect (electrical) calibration — dissipate known power through a built-in calibration heater in the sample cell to establish the proportionality constant between thermopile voltage integral and heat",
+          "calibration constant K (uV/mW or uV*s/J) determination as a function of temperature",
+          "verification with a chemical reference reaction (e.g., dissolution of KCl in water or mixing of cyclohexane + hexane)",
+          "baseline stability check — run with both cells empty or filled identically to verify zero-line drift",
+          "time-constant (tau) determination for deconvolution of thermopile response lag"
+        ],
+        "reference_materials": [
+          "KCl dissolution in water — NIST-traceable reference enthalpy of solution",
+          "cyclohexane + hexane mixing — well-characterized excess enthalpy system",
+          "1-propanol + water mixing — standard test mixture for H_E measurements",
+          "TRIS dissolution in HCl(aq) — IUPAC recommended calorimetric reference reaction",
+          "sapphire (alpha-Al2O3, NIST SRM 720) — for Cp calibration in scanning mode"
+        ],
+        "consumables": [
+          "PTFE or Viton O-ring gaskets for cell sealing",
+          "mercury for mercury-sealed plunger mixing systems (legacy instruments)",
+          "precision syringes and PTFE tubing for injection systems",
+          "cleaning solvents (acetone, ethanol) for cell and mixing device decontamination",
+          "inert gas (nitrogen or argon) for purging and blanketing"
+        ],
+        "safety_notes": [
+          "mercury-sealed mixing cells require proper mercury handling and disposal procedures",
+          "high-pressure cells must be pressure-tested and operated within certified limits",
+          "corrosive or toxic samples require appropriate ventilation and personal protective equipment",
+          "hot thermostat blocks present burn hazard; allow adequate cool-down before cell removal"
+        ]
+      },
+      "performance": {
+        "sensitivity": "thermopile sensitivity typically 30-60 uV/mW; detection of thermal effects as small as ~10 uW sustained or ~10 mJ total heat",
+        "detection_limit": "minimum detectable enthalpy change ~5-20 mJ depending on cell volume and baseline noise; minimum detectable heat flux ~5 uW for MicroDSC III",
+        "resolution": {
+          "spatial": "not applicable (bulk calorimetric measurement)",
+          "temporal": "time constant (tau) of thermopile response ~60-300 s depending on instrument; limits resolution of fast thermal events",
+          "spectral": "not applicable",
+          "energy": "enthalpy resolution ~0.1-1% of measured value for well-calibrated instruments"
+        },
+        "dynamic_range": "heat flux from ~10 uW to ~1 W; total heat from ~10 mJ to ~100 J; temperature range 77 K to 1273 K model-dependent",
+        "accuracy": "0.5-1% for enthalpy of mixing and dissolution with proper calibration and technique; 1-2% for Cp in scanning mode",
+        "precision": "0.2-0.5% (repeatability of enthalpy measurements on replicate runs)",
+        "throughput": "one experiment per cell loading; typical isothermal mixing run 2-8 hours including equilibration; batch mode can be faster",
+        "measurement_speed": "inherently slow due to large thermal mass and long time constant; single mixing event requires 30-60 min for complete signal return to baseline"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "differential thermopile voltage (uV) versus time — the difference between sample-cell and reference-cell thermopile outputs, proportional to differential heat flux",
+        "preprocessing_steps": [
+          "baseline subtraction — remove residual drift between sample and reference cell signals",
+          "time-constant (Tian) correction — deconvolve the exponential response lag of the thermopile to recover true heat-flux profile dQ/dt",
+          "integration of corrected heat-flux curve over time to obtain total heat Q for each thermal event",
+          "normalization by moles of substance mixed, dissolved, or reacted to obtain molar enthalpy",
+          "correction for heat of breaking ampoule or membrane (blank experiment subtraction)"
+        ],
+        "analysis_methods": [
+          "peak integration — integrate thermopile signal over baseline-to-baseline interval for each mixing or reaction event",
+          "Tian equation deconvolution — apply dQ/dt = (1/K)[V(t) + tau*dV/dt] to correct for thermopile lag",
+          "Redlich-Kister polynomial fitting of H_E vs. composition data",
+          "Margules or Wilson equation fitting for excess enthalpy curves",
+          "partial molar enthalpy calculation from composition derivative of H_E(x) curve"
+        ],
+        "model_assumptions": [
+          "complete and instantaneous mixing of injected component with cell contents (no persistent concentration gradients)",
+          "heat exchange occurs solely through the thermopile — no unmeasured heat leaks (3D thermopile cage captures nearly all heat flux)",
+          "calibration constant K is independent of the nature of the thermal event (Joule calibration is representative)",
+          "reference cell provides a perfect thermal blank (any residual asymmetry is captured by baseline subtraction)",
+          "sample and reference cells have identical thermal path characteristics (twin-cell differential design cancels environmental perturbations)"
+        ],
+        "fit_parameters": [
+          "total integrated heat Q per injection (J)",
+          "molar enthalpy of mixing delta_mix H (J/mol) at each composition point",
+          "Redlich-Kister coefficients (A0, A1, A2, ...) for H_E(x) fitting",
+          "calorimeter time constant tau (s) for Tian deconvolution",
+          "calibration sensitivity constant K (uV/mW)"
+        ],
+        "common_artifacts": [
+          "incomplete mixing artifact — non-uniform composition in cell produces erroneous enthalpy that depends on injection protocol",
+          "evaporation artifact — volatile component evaporates into cell headspace producing an endothermic signal unrelated to mixing",
+          "ampoule-breaking artifact — mechanical energy of breaking membrane or ampoule contributes a spurious heat signal",
+          "viscous heating artifact — vigorous stirring of viscous samples generates frictional heat superimposed on mixing signal",
+          "thermal crosstalk — insufficient thermal isolation between sample and reference cells produces correlated noise or apparent baseline shifts",
+          "adsorption-on-cell-walls artifact — surface-active components adsorb on stainless-steel cell walls, contributing an unaccounted exothermic effect"
+        ],
+        "quality_control_checks": [
+          "reproduce the certified enthalpy of solution of KCl in water within plus/minus 1% to validate calibration",
+          "verify baseline stability: run dual empty cells or dual identical samples to confirm drift < 5 uW over 2 hours",
+          "check closure of excess enthalpy curve: H_E should approach zero at both x = 0 and x = 1 end points",
+          "compare forward and reverse titrations (A-into-B vs. B-into-A) for consistency",
+          "replicate at least three independent runs at a reference composition to establish precision",
+          "verify that injected component has reached thermal equilibrium with calorimeter before injection"
+        ],
+        "failure_modes": [
+          "cell leak — loss of sample through failed seal causes irreproducible signal decay and mass balance errors",
+          "injection system failure — clogged needle or stuck plunger prevents controlled dosing of second component",
+          "baseline instability — thermostat drift or environmental perturbation produces wandering baseline that precludes reliable integration",
+          "thermopile degradation — corrosion or mechanical damage to thermocouple junctions reduces sensitivity and introduces noise",
+          "incomplete thermal equilibration — starting experiment before calorimeter has fully stabilized produces large transient artifact"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5-2% for molar enthalpy of mixing; 1-3% for enthalpy of dissolution or reaction",
+        "random_sources": [
+          "baseline noise in thermopile signal (Johnson noise, amplifier noise)",
+          "imprecision in injection volume or mass delivery",
+          "temperature fluctuations in thermostat block",
+          "variability in mixing completeness between replicate runs",
+          "weighing uncertainty of loaded sample masses"
+        ],
+        "systematic_sources": [
+          "calibration constant uncertainty (Joule calibration heater resistance and voltage measurement)",
+          "incomplete heat capture — residual heat leak paths bypassing the thermopile",
+          "evaporation or condensation effects in cell headspace",
+          "impurity effects in sample components altering true enthalpy",
+          "dead-volume corrections for flow-through or injection systems",
+          "heat of ampoule or membrane breaking (if not properly blanked)"
+        ],
+        "operator_dependence": "moderate — cell loading procedure, degassing quality, injection timing, and mixing completeness depend on operator technique",
+        "model_dependence": "low to moderate — primary enthalpy measurement is model-independent (direct integration of heat flux); model dependence enters through Tian deconvolution time-constant estimation and Redlich-Kister fitting of composition-dependent data",
+        "dominant_error_sources": [
+          "calibration constant determination (typically the single largest systematic uncertainty contribution)",
+          "evaporation corrections for volatile components",
+          "incomplete mixing for viscous systems or large volume ratios"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(delta_mix H) at 95% confidence level (k = 2)",
+          "relative uncertainty as percentage of measured enthalpy",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Calvet calorimetry is a heat-flux technique based on the twin-cell Tian-Calvet design, in which a sample cell and a matched reference cell are each surrounded by a three-dimensional thermopile comprising hundreds to thousands of thermocouple junctions. By integrating the differential thermopile voltage over time, the instrument measures the total heat exchanged during a process with high accuracy. Named after Edouard Calvet, who refined the original Tian design in the 1940s-1960s, this calorimeter is the principal method in the ThermoML database for determining excess and partial molar enthalpies of liquid mixtures, dissolution enthalpies, and reaction enthalpies under isothermal or near-isothermal conditions.",
+      "how_it_operates": "The sample cell is loaded with one component and lowered into the massive thermostat block, where the surrounding thermopile detects any heat flux between the cell and the block. After thermal equilibration to a stable baseline, a precisely known amount of a second component is injected into the sample cell via a plunger, syringe pump, or ampoule-breaking device. The exothermic or endothermic mixing event drives a transient temperature difference between the cell wall and the thermostat block, generating a voltage across the thermopile that is recorded as a function of time. The reference cell, loaded with an inert material or left empty, is monitored by an identical thermopile; the differential signal cancels environmental perturbations such as room-temperature fluctuations. The area under the corrected thermopile voltage-time curve, divided by the calibration constant, yields the total heat of the process.",
+      "core_theory": "The fundamental measurement equation is Q = (1/K) * integral[V(t) dt], where Q is the total heat exchanged, K is the calibration sensitivity (uV/mW), and V(t) is the differential thermopile voltage. Because the thermopile cage encloses the cell nearly completely in three dimensions, it intercepts virtually all heat flux, giving Calvet calorimeters a heat-capture fraction approaching 95-98%. The finite thermal inertia of the cell-thermopile assembly introduces an exponential response lag characterized by a time constant tau (typically 60-300 s). The Tian correction recovers the true heat-flux profile: dQ/dt_true = (1/K)[V(t) + tau * dV(t)/dt]. For isothermal mixing, the molar excess enthalpy at composition x is H_E(x) = Q / n_total, where n_total is the total number of moles in the cell after injection. The composition dependence of H_E is commonly fitted to a Redlich-Kister polynomial: H_E = x(1-x) * sum[Ai*(1-2x)^i].",
+      "setup": "A typical Calvet calorimeter (e.g., SETARAM C80) consists of a large cylindrical thermostat block machined from aluminum alloy, within which two vertical cylindrical cavities hold the sample and reference cells. Each cavity is lined with a thermopile sleeve containing 400-1000 chromel-alumel or bismuth-telluride thermocouple junctions wired in series, producing sensitivities of 30-60 uV/mW. The cells are stainless-steel or Hastelloy cylinders (typically 8-12 mL volume) sealed with PTFE or metal gaskets. Mixing is accomplished by a mercury-sealed plunger (classic design), a membrane-puncture device, or a motor-driven stirrer. A precision temperature controller maintains the block at the set-point to plus/minus 0.01 K, and a nanovoltmeter digitizes the differential thermopile signal at 0.1-1 Hz. The entire assembly is typically insulated in a thermostated outer enclosure.",
+      "suitable_for": "Calvet calorimetry is ideally suited for measuring enthalpies of mixing in binary and multicomponent liquid systems, including nonelectrolyte organic mixtures, electrolyte solutions, ionic liquids, deep eutectic solvents, and polymer solutions. It is widely used for dissolution enthalpies, enthalpies of adsorption of gases and vapors on solid sorbents, and enthalpies of slow chemical reactions (hydration, polymerization, cement setting). The near-isothermal operation and long-time-constant design make it especially appropriate for slow processes that evolve heat over minutes to hours, where scanning calorimeters would either miss the signal or distort the baseline. The large cell volume accommodates representative samples of heterogeneous or poorly homogeneous mixtures such as slurries and surfactant systems.",
+      "core_limitations": "The large thermal mass and long time constant (60-300 s) make Calvet calorimeters unsuitable for resolving fast thermal events shorter than approximately 1 minute; rapid reactions or phase transformations are broadened and attenuated. Slow scanning rates (no more than 2 K/min) are required for meaningful temperature-programmed measurements, limiting throughput compared to DSC. The relatively large sample volume (1-15 mL) demands correspondingly large quantities of material, which may be problematic for expensive or scarce samples. Baseline drift over multi-hour runs can introduce systematic errors in integrated heats, especially for small enthalpy effects (|delta_H| < 100 J/mol). Mercury-sealed mixing cells in legacy instruments pose toxicity concerns and are being replaced by mercury-free designs.",
+      "sample_preparation": "Liquid samples should be of high chemical purity (at least 99 mol%), verified by GC or Karl Fischer titration for water content. Both components are degassed under reduced pressure or by ultrasonication to prevent bubble formation during injection, which would produce endothermic evaporation artifacts. Masses are determined to plus/minus 0.1 mg on an analytical balance, and densities measured (pycnometer or vibrating-tube densimeter) for converting volumes to moles. The primary component is loaded into the sample cell using a calibrated syringe, ensuring freedom from air bubbles, and sealed. The second component is loaded into the injection system (syringe, plunger reservoir, or ampoule) and thermally pre-equilibrated to the calorimeter set-point temperature. For adsorption studies, solid sorbents are pre-dried under vacuum at elevated temperature and loaded into the cell in a glove box under inert atmosphere.",
+      "calibration_and_references": "Calibration is performed by the Joule-effect method: a known electrical power is dissipated in a precision heater built into the sample cell, and the resulting thermopile integral is used to compute the sensitivity constant K (uV/mW) and time constant tau at the working temperature. This electrical calibration is traceable to SI standards through precision voltage and resistance measurements. Chemical validation employs well-characterized reference systems: dissolution of KCl in water (NIST-traceable; delta_sol H = +17.22 kJ/mol at infinite dilution, 298.15 K), mixing of cyclohexane + hexane, or 1-propanol + water excess enthalpies. The IUPAC-recommended TRIS reaction (tris(hydroxymethyl)aminomethane in HCl) serves as an additional independent check. Calibration should be verified at each temperature of interest, since K varies with temperature. Baseline calibration (both cells empty or identically filled) establishes the zero-line drift magnitude.",
+      "data_interpretation": "The primary data is a thermogram — differential thermopile voltage versus time. Processing begins with baseline subtraction (linear or polynomial fit to the pre- and post-event baseline regions). The Tian deconvolution correction is applied to sharpen the heat-flux profile if temporal resolution is needed, though for total enthalpy determination the correction does not change the integral. The corrected voltage-time curve is integrated numerically (trapezoidal or Simpson's rule) to give the total heat Q for each injection. Q is divided by the number of moles transferred to obtain the enthalpy per mole of injectant (or per mole of mixture). A series of injections at increasing composition yields H_E(x), which is fitted to a Redlich-Kister or Margules polynomial. Partial molar excess enthalpies are obtained by analytical differentiation: h1_E = H_E + (1-x)*(dH_E/dx). For Cp measurements in scanning mode, the heat-flux signal is directly proportional to the product Cp * (dT/dt), and dividing by the known scan rate yields Cp(T).",
+      "common_pitfalls": "The most critical pitfall is incomplete mixing — if the injected component forms a separate layer or the stirrer speed is inadequate, the measured enthalpy reflects only partial mixing and is systematically low. Inadequate degassing of liquid samples causes exsolution of dissolved gas upon injection, producing a spurious endothermic contribution that can bias H_E by several percent. Starting data acquisition before full thermal equilibration of the calorimeter (which can require 2-4 hours after loading) produces a drifting baseline that corrupts the integration. Evaporation of volatile components into the cell headspace contributes an endothermic artifact proportional to the vapor pressure; this is mitigated by minimizing headspace or using sealed pressurized cells. Inconsistent injection volumes or rates across a composition series introduce scatter that propagates into the Redlich-Kister fit and partial molar quantities.",
+      "artifacts_and_failure_modes": "Incomplete mixing artifacts appear as abnormally broad or asymmetric thermopile peaks, sometimes with secondary shoulders as stratified layers eventually interdiffuse. Evaporation artifacts are recognized as an endothermic tail that persists long after the expected mixing signal has returned to baseline. Ampoule-breaking or membrane-puncture artifacts produce a sharp exothermic spike (mechanical energy) at the instant of breaking, superimposed on the chemical signal — blank experiments with pure solvent quantify this contribution. Thermal crosstalk between cells produces correlated baseline fluctuations visible as mirror-image disturbances in the differential signal. Cell leaks manifest as a progressive decline in integrated heat across successive injections and may be confirmed by post-run mass balance. Thermopile degradation (corrosion by aggressive samples) is detected as a gradual decrease in calibration constant K over time.",
+      "reporting_checklist": "Published Calvet calorimetry results should report: calorimeter make and model (e.g., SETARAM C80, BT2.15, MicroDSC III); calibration method (Joule effect) and chemical validation system used; calibration constant uncertainty; cell type, volume, and material; sample purities and sources with analytical verification method; sample masses with uncertainties; degassing and preparation procedure; isothermal set-point temperature or scanning rate and range; mixing method and injection protocol; number of replicate runs; baseline treatment and integration method; Tian correction application; enthalpy values with combined expanded uncertainty at 95% confidence (k = 2); Redlich-Kister or other fitting equation with coefficients and standard deviation of fit; and partial molar quantities if derived. For ThermoML encoding, enthalpies are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

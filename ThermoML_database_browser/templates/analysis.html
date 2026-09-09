@@ -1,0 +1,941 @@
+{% extends "base.html" %}
+{% block title %}Analysis Tools — ThermoML{% endblock %}
+
+{% block content %}
+<h3 class="mb-3"><i class="bi bi-graph-up-arrow"></i> Analysis Tools</h3>
+<p class="text-muted small mb-4">
+  Select a data block, choose an analysis tool, and configure its settings.
+  Default values are used when settings are left unchanged.
+</p>
+
+<div class="row">
+
+{# ═══════════════════════════════════════════════════════════
+   LEFT COLUMN — Block selector, tool chooser, settings
+   ═══════════════════════════════════════════════════════════ #}
+<div class="col-lg-5">
+
+  {# ── Source tabs ── #}
+  <ul class="nav nav-tabs mb-3" role="tablist">
+    <li class="nav-item">
+      <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabDB" type="button">
+        <i class="bi bi-database"></i> From Database
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabCustom" type="button">
+        <i class="bi bi-pencil-square"></i> Custom Data
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    {# ── Database block selector ── #}
+    <div class="tab-pane fade show active" id="tabDB">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Find Paper</label>
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" id="doiInput"
+                     placeholder="DOI, title keyword, or compound name…">
+              <button class="btn btn-outline-primary" id="searchPaperBtn" type="button">
+                <i class="bi bi-search"></i> Search
+              </button>
+            </div>
+          </div>
+          <div id="paperResults" class="list-group list-group-flush small mb-3"
+               style="max-height: 200px; overflow-y: auto;">
+            <div class="text-muted text-center py-2">Search for a paper above</div>
+          </div>
+          <div id="selectedPaper" class="d-none">
+            <div class="alert alert-light py-2 mb-2" id="paperInfo"></div>
+            <label class="form-label fw-semibold small">Select Data Block</label>
+            <div id="blockList" class="list-group list-group-flush small mb-3"
+                 style="max-height: 250px; overflow-y: auto;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# ── Custom data entry ── #}
+    <div class="tab-pane fade" id="tabCustom">
+      <div class="card mb-3">
+        <div class="card-body">
+          <label class="form-label fw-semibold small">Paste CSV / TSV Data</label>
+          <textarea class="form-control font-monospace small" id="customDataInput" rows="10"
+                    placeholder="x1,Molar volume cm3/mol,Viscosity mPa.s
+0.0,18.07,0.890
+0.1,20.51,1.123
+...
+1.0,58.39,0.546"></textarea>
+          <div class="form-text">
+            First row = headers. Must include a mole-fraction column and at
+            least one property. Accepts comma, tab, or semicolon delimiters.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── Tool selector cards ── #}
+  <div class="mb-3">
+    <label class="form-label fw-semibold small">
+      <i class="bi bi-tools"></i> Choose Analysis Tool
+    </label>
+    <div id="toolCards">
+      {% for tool in tools %}
+      <div class="card mb-2 tool-card {{ 'border-primary' if loop.first else '' }}"
+           data-tool-id="{{ tool.id }}"
+           data-supports-custom="{{ 'true' if tool.supports_custom else 'false' }}"
+           role="button" tabindex="0"
+           style="cursor: pointer;">
+        <div class="card-body py-2 px-3">
+          <div class="d-flex align-items-center">
+            <div class="form-check me-2 mb-0">
+              <input class="form-check-input" type="radio" name="toolRadio"
+                     id="tool_{{ tool.id }}" value="{{ tool.id }}"
+                     {{ 'checked' if loop.first else '' }}>
+            </div>
+            <i class="bi {{ tool.icon }} me-2 text-primary"></i>
+            <div class="flex-grow-1">
+              <strong class="small">{{ tool.name }}</strong>
+              {% if not tool.supports_custom %}
+              <span class="badge bg-secondary ms-1" style="font-size: 0.6rem;">DB only</span>
+              {% endif %}
+              <div class="text-muted" style="font-size: 0.7rem;">{{ tool.description[:120] }}…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {# ── Tool settings panel (dynamic) ── #}
+  <div id="toolSettingsPanel" class="mb-3 d-none">
+    <div class="card">
+      <div class="card-header py-2 small fw-semibold">
+        <i class="bi bi-gear"></i> <span id="toolSettingsTitle">Settings</span>
+      </div>
+      <div class="card-body py-2" id="toolSettingsBody">
+      </div>
+    </div>
+  </div>
+
+  {# ── Run button ── #}
+  <div class="d-grid mb-3">
+    <button class="btn btn-primary" id="runAnalysisBtn" disabled>
+      <i class="bi bi-play-fill"></i> <span id="runBtnLabel">Run Analysis</span>
+    </button>
+  </div>
+
+  {# ── Block preview ── #}
+  <div class="card mb-3 d-none" id="blockPreviewCard">
+    <div class="card-header py-2 small fw-semibold">
+      <i class="bi bi-table"></i> Block Preview
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+        <table class="table table-sm table-striped table-hover mb-0 small" id="blockPreviewTable">
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{# ═══════════════════════════════════════════════════════════
+   RIGHT COLUMN — Results
+   ═══════════════════════════════════════════════════════════ #}
+<div class="col-lg-7">
+
+  {# Loading spinner #}
+  <div class="d-none text-center py-5" id="analysisSpinner">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="text-muted mt-2">Running analysis…</p>
+  </div>
+
+  {# Error #}
+  <div class="d-none" id="analysisError">
+    <div class="alert alert-danger" id="analysisErrorMsg"></div>
+  </div>
+
+  {# Results — nonideality #}
+  <div class="d-none" id="analysisResults">
+    <div class="alert alert-info py-2 mb-3" id="systemClassBanner">
+      <i class="bi bi-award"></i> <strong>System Classification:</strong>
+      <span id="systemClassLabel"></span>
+    </div>
+    <div id="propertyCards"></div>
+  </div>
+
+  {# Results — RK fitting #}
+  <div class="d-none" id="rkResults">
+    <div class="alert alert-info py-2 mb-3" id="rkSystemBanner">
+      <i class="bi bi-award"></i> <strong>System Classification:</strong>
+      <span id="rkSystemLabel"></span>
+    </div>
+    <div id="rkPropertyCards"></div>
+  </div>
+
+  {# Results — Block inspector #}
+  <div class="d-none" id="inspectResults">
+    <div id="inspectContent"></div>
+  </div>
+
+  {# Results — Pure values #}
+  <div class="d-none" id="pureResults">
+    <div id="pureContent"></div>
+  </div>
+
+  {# Placeholder #}
+  <div id="resultsPlaceholder">
+    <div class="card">
+      <div class="card-body text-center text-muted py-5">
+        <i class="bi bi-bar-chart" style="font-size: 3rem;"></i>
+        <p class="mt-3">Select a data block, choose an analysis tool, and click <strong>Run Analysis</strong>.</p>
+        <p class="small">
+          Available tools: <strong>Non-Ideality Analysis</strong>,
+          <strong>RK Fitting</strong> (BIC order selection),
+          <strong>Block Inspector</strong>, <strong>Pure Values Extraction</strong>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+  "use strict";
+
+  /* ═══════════════════════════════════════════════════════════
+   * TOOL DEFINITIONS (from server)
+   * ═══════════════════════════════════════════════════════════ */
+  const TOOLS = {{ tools | tojson }};
+
+  /* ═══════════════════════════════════════════════════════════
+   * STATE
+   * ═══════════════════════════════════════════════════════════ */
+  let selectedDoi = null;
+  let selectedBlock = null;
+  let selectedTool = TOOLS.length ? TOOLS[0].id : 'nonideality';
+  let charts = [];
+
+  const doiInput       = document.getElementById('doiInput');
+  const searchBtn      = document.getElementById('searchPaperBtn');
+  const paperResults   = document.getElementById('paperResults');
+  const selectedPaper  = document.getElementById('selectedPaper');
+  const paperInfo      = document.getElementById('paperInfo');
+  const blockList      = document.getElementById('blockList');
+  const runBtn         = document.getElementById('runAnalysisBtn');
+  const runBtnLabel    = document.getElementById('runBtnLabel');
+  const customInput    = document.getElementById('customDataInput');
+  const previewCard    = document.getElementById('blockPreviewCard');
+  const previewTable   = document.getElementById('blockPreviewTable');
+  const spinner        = document.getElementById('analysisSpinner');
+  const errorDiv       = document.getElementById('analysisError');
+  const errorMsg       = document.getElementById('analysisErrorMsg');
+  const placeholder    = document.getElementById('resultsPlaceholder');
+  const settingsPanel  = document.getElementById('toolSettingsPanel');
+  const settingsTitle  = document.getElementById('toolSettingsTitle');
+  const settingsBody   = document.getElementById('toolSettingsBody');
+
+  /* ═══════════════════════════════════════════════════════════
+   * TOOL CARD SELECTION
+   * ═══════════════════════════════════════════════════════════ */
+  document.querySelectorAll('.tool-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      const tid = card.dataset.toolId;
+      document.querySelectorAll('.tool-card').forEach(function(c) {
+        c.classList.remove('border-primary');
+      });
+      card.classList.add('border-primary');
+      card.querySelector('input[type=radio]').checked = true;
+      selectedTool = tid;
+      renderToolSettings(tid);
+      updateRunButton();
+    });
+  });
+
+  function getToolDef(tid) {
+    return TOOLS.find(function(t) { return t.id === tid; });
+  }
+
+  function renderToolSettings(tid) {
+    const def = getToolDef(tid);
+    if (!def || !def.settings || def.settings.length === 0) {
+      settingsPanel.classList.add('d-none');
+      return;
+    }
+    settingsPanel.classList.remove('d-none');
+    settingsTitle.textContent = def.name + ' Settings';
+
+    let html = '';
+    def.settings.forEach(function(s) {
+      html += '<div class="mb-2">';
+      html += '<label class="form-label small mb-1" for="setting_' + s.key + '">' + s.label + '</label>';
+
+      if (s.type === 'select') {
+        html += '<select class="form-select form-select-sm" id="setting_' + s.key + '" data-key="' + s.key + '">';
+        (s.options || []).forEach(function(opt) {
+          const sel = opt === s.default ? ' selected' : '';
+          html += '<option value="' + opt + '"' + sel + '>' + opt + '</option>';
+        });
+        html += '</select>';
+      } else if (s.type === 'number') {
+        html += '<input type="number" class="form-control form-control-sm" id="setting_' + s.key + '"'
+              + ' data-key="' + s.key + '"'
+              + ' value="' + s.default + '"'
+              + (s.min != null ? ' min="' + s.min + '"' : '')
+              + (s.max != null ? ' max="' + s.max + '"' : '')
+              + (s.step != null ? ' step="' + s.step + '"' : '')
+              + '>';
+      } else {
+        html += '<input type="text" class="form-control form-control-sm" id="setting_' + s.key + '"'
+              + ' data-key="' + s.key + '"'
+              + ' value="' + (s.default || '') + '"'
+              + ' placeholder="' + (s.placeholder || '') + '">';
+      }
+
+      if (s.help) {
+        html += '<div class="form-text" style="font-size: 0.7rem;">' + s.help + '</div>';
+      }
+      html += '</div>';
+    });
+    settingsBody.innerHTML = html;
+  }
+
+  function collectSettings() {
+    const settings = {};
+    settingsBody.querySelectorAll('[data-key]').forEach(function(el) {
+      const key = el.dataset.key;
+      let val = el.value;
+      if (el.type === 'number') {
+        val = parseFloat(val);
+        if (isNaN(val)) return;
+      }
+      settings[key] = val;
+    });
+    return settings;
+  }
+
+  // Initialize first tool settings
+  renderToolSettings(selectedTool);
+
+  /* ═══════════════════════════════════════════════════════════
+   * UPDATE RUN BUTTON STATE
+   * ═══════════════════════════════════════════════════════════ */
+  function updateRunButton() {
+    const def = getToolDef(selectedTool);
+    runBtnLabel.textContent = 'Run ' + (def ? def.name : 'Analysis');
+
+    const customTabActive = document.querySelector('#tabCustom.active, #tabCustom.show.active');
+    const customText = customInput.value.trim();
+    const hasCustom = customTabActive && customText.split('\n').length >= 3;
+    const hasBlock = !!selectedBlock;
+
+    if (customTabActive) {
+      // Custom mode: only supports_custom tools
+      if (def && !def.supports_custom) {
+        runBtn.disabled = true;
+        runBtn.title = 'This tool requires a database block';
+      } else {
+        runBtn.disabled = !hasCustom;
+        runBtn.title = '';
+      }
+    } else {
+      runBtn.disabled = !hasBlock;
+      runBtn.title = '';
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+   * PAPER SEARCH
+   * ═══════════════════════════════════════════════════════════ */
+  searchBtn.addEventListener('click', searchPapers);
+  doiInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') searchPapers();
+  });
+
+  function searchPapers() {
+    const q = doiInput.value.trim();
+    if (!q) return;
+    paperResults.innerHTML = '<div class="text-muted text-center py-2">Searching…</div>';
+    fetch('/analysis/search_papers?q=' + encodeURIComponent(q))
+      .then(r => r.json())
+      .then(function(data) {
+        if (data.error) {
+          paperResults.innerHTML = '<div class="text-danger small py-2">' + data.error + '</div>';
+          return;
+        }
+        if (data.papers.length === 0) {
+          paperResults.innerHTML = '<div class="text-muted text-center py-2">No papers found.</div>';
+          return;
+        }
+        paperResults.innerHTML = '';
+        data.papers.forEach(function(p) {
+          const a = document.createElement('a');
+          a.href = '#';
+          a.className = 'list-group-item list-group-item-action py-1';
+          a.innerHTML = '<strong>' + (p.first_author || '') + '</strong> (' + p.year + ') ' +
+            '<span class="text-muted">' + (p.title || '').slice(0, 80) + '</span>' +
+            '<br><small class="text-primary">' + p.doi + '</small>' +
+            ' <span class="badge bg-secondary">' + p.n_blocks + ' blocks</span>';
+          a.addEventListener('click', function(e) {
+            e.preventDefault();
+            selectPaper(p);
+          });
+          paperResults.appendChild(a);
+        });
+      })
+      .catch(function(err) {
+        paperResults.innerHTML = '<div class="text-danger small py-2">Error: ' + err + '</div>';
+      });
+  }
+
+  function selectPaper(p) {
+    selectedDoi = p.doi;
+    selectedPaper.classList.remove('d-none');
+    paperInfo.innerHTML = '<strong>' + p.first_author + '</strong> (' + p.year +
+      '), <em>' + (p.title || '').slice(0, 100) + '</em>' +
+      '<br><small class="text-primary">' + p.doi + '</small>';
+    const panel = document.createElement('details');
+    panel.className = 'raw-json-panel mt-2';
+    panel.dataset.rawJsonUrl = '/raw-json/' + p.doi.split('/').map(encodeURIComponent).join('/');
+    panel.innerHTML = '<summary class="small text-danger"><i class="bi bi-braces"></i> Raw JSON</summary>' +
+      '<div class="raw-json-status small text-muted py-2">Expand to load the complete archived JSON.</div>' +
+      '<pre class="raw-json-content d-none mb-0"></pre>';
+    paperInfo.appendChild(panel);
+
+    blockList.innerHTML = '<div class="text-muted text-center py-2">Loading blocks…</div>';
+    fetch('/analysis/paper_blocks/' + encodeURIComponent(p.doi))
+      .then(r => r.json())
+      .then(function(data) {
+        if (data.error) { blockList.innerHTML = '<div class="text-danger small py-2">' + data.error + '</div>'; return; }
+        blockList.innerHTML = '';
+        data.blocks.forEach(function(blk) {
+          const a = document.createElement('a');
+          a.href = '#';
+          a.className = 'list-group-item list-group-item-action py-1';
+          let targetId = blk.block_number + (blk.BLKsubsys_id ? '/' + blk.BLKsubsys_id : '');
+          let label = '<strong>' + blk.type_label + ' ' + targetId + '</strong>';
+          label += ' — ' + blk.properties.join(', ');
+          label += ' <span class="badge bg-primary">' + blk.n_datapoints + ' pts</span>';
+          if (blk.components) label += '<br><small class="text-muted">' + blk.components + '</small>';
+          a.innerHTML = label;
+          a.addEventListener('click', function(e) {
+            e.preventDefault();
+            blockList.querySelectorAll('.list-group-item').forEach(function(el) { el.classList.remove('active'); });
+            a.classList.add('active');
+            selectBlock(p.doi, blk.block_number, blk.BLKsubsys_id);
+          });
+          blockList.appendChild(a);
+        });
+      })
+      .catch(function(err) { blockList.innerHTML = '<div class="text-danger small py-2">Error: ' + err + '</div>'; });
+  }
+
+  function selectBlock(doi, blockNumber, subsystemId) {
+    let targetUrl = '/analysis/block_data/' + encodeURIComponent(doi) + '/' + encodeURIComponent(blockNumber);
+    if (subsystemId) targetUrl += '?BLKsubsys_id=' + encodeURIComponent(subsystemId);
+    fetch(targetUrl)
+      .then(r => r.json())
+      .then(function(data) {
+        if (data.error) { alert(data.error); return; }
+        selectedBlock = data;
+        updateRunButton();
+        showPreview(data.columns, data.rows);
+      })
+      .catch(function(err) { alert('Error loading block: ' + err); });
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+   * CUSTOM DATA
+   * ═══════════════════════════════════════════════════════════ */
+  customInput.addEventListener('input', function() {
+    const lines = customInput.value.trim().split('\n').filter(function(l) { return l.trim(); });
+    if (lines.length >= 3) selectedBlock = null;
+    updateRunButton();
+  });
+
+  // Listen for tab changes to update button state
+  document.querySelectorAll('[data-bs-toggle="tab"]').forEach(function(btn) {
+    btn.addEventListener('shown.bs.tab', updateRunButton);
+  });
+
+  /* ═══════════════════════════════════════════════════════════
+   * PREVIEW TABLE
+   * ═══════════════════════════════════════════════════════════ */
+  function showPreview(columns, rows) {
+    previewCard.classList.remove('d-none');
+    let html = '<thead><tr><th>#</th>';
+    columns.forEach(function(c) { html += '<th>' + c.name + '</th>'; });
+    html += '</tr></thead><tbody>';
+    const maxRows = Math.min(rows.length, 30);
+    for (let i = 0; i < maxRows; i++) {
+      html += '<tr><td class="text-muted">' + (i + 1) + '</td>';
+      rows[i].forEach(function(v) { html += '<td>' + v + '</td>'; });
+      html += '</tr>';
+    }
+    if (rows.length > 30) {
+      html += '<tr><td colspan="' + (columns.length + 1) +
+        '" class="text-muted text-center">… ' + (rows.length - 30) + ' more rows</td></tr>';
+    }
+    html += '</tbody>';
+    previewTable.innerHTML = html;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+   * RUN ANALYSIS
+   * ═══════════════════════════════════════════════════════════ */
+  runBtn.addEventListener('click', runAnalysis);
+
+  function runAnalysis() {
+    charts.forEach(function(c) { c.destroy(); });
+    charts = [];
+
+    // Hide all result panels
+    placeholder.classList.add('d-none');
+    hideAllResults();
+    spinner.classList.remove('d-none');
+
+    const settings = collectSettings();
+    let body;
+    const customTabActive = document.querySelector('#tabCustom.active, #tabCustom.show.active');
+    const customText = customInput.value.trim();
+
+    if (customTabActive && customText.split('\n').length >= 3) {
+      body = { mode: 'custom', tool: selectedTool, csv_text: customText, settings: settings };
+    } else if (selectedBlock) {
+      body = {
+        mode: 'block',
+        tool: selectedTool,
+        doi: selectedBlock.doi,
+        block_number: selectedBlock.block_number,
+        BLKsubsys_id: selectedBlock.BLKsubsys_id,
+        settings: settings,
+      };
+    } else {
+      spinner.classList.add('d-none');
+      showError('No data selected.');
+      return;
+    }
+
+    fetch('/analysis/run', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    })
+    .then(r => r.json())
+    .then(function(data) {
+      spinner.classList.add('d-none');
+      if (!data.success) {
+        showError(data.error || 'Analysis failed.');
+        return;
+      }
+      // Route to the right display handler
+      if (selectedTool === 'nonideality') {
+        handleNonidealityResults(data);
+      } else if (selectedTool === 'rk_fitting') {
+        handleRkResults(data);
+      } else if (selectedTool === 'inspect') {
+        handleInspectResults(data);
+      } else if (selectedTool === 'pure_values') {
+        handlePureResults(data);
+      }
+    })
+    .catch(function(err) {
+      spinner.classList.add('d-none');
+      showError('Request failed: ' + err);
+    });
+  }
+
+  function hideAllResults() {
+    ['analysisResults', 'rkResults', 'inspectResults', 'pureResults', 'analysisError'].forEach(function(id) {
+      document.getElementById(id).classList.add('d-none');
+    });
+  }
+
+  function showError(msg) {
+    errorDiv.classList.remove('d-none');
+    errorMsg.textContent = msg;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+   * DISPLAY: NON-IDEALITY RESULTS
+   * ═══════════════════════════════════════════════════════════ */
+  function handleNonidealityResults(data) {
+    const resultsDiv = document.getElementById('analysisResults');
+    resultsDiv.classList.remove('d-none');
+
+    const systemBanner = document.getElementById('systemClassBanner');
+    const systemLabel  = document.getElementById('systemClassLabel');
+    const propCards    = document.getElementById('propertyCards');
+
+    const cls = data.system_class || '';
+    systemLabel.textContent = cls;
+    systemBanner.className = 'alert py-2 mb-3 ';
+    if (cls.toLowerCase().includes('attractive') && !cls.toLowerCase().includes('repulsive')) {
+      systemBanner.className += 'alert-success';
+    } else if (cls.toLowerCase().includes('repulsive') && !cls.toLowerCase().includes('attractive')) {
+      systemBanner.className += 'alert-danger';
+    } else {
+      systemBanner.className += 'alert-warning';
+    }
+
+    propCards.innerHTML = '';
+    (data.properties || []).forEach(function(prop, idx) {
+      const card = document.createElement('div');
+      card.className = 'card mb-3';
+
+      const badge = classBadge(prop.classification);
+      let fitInfo = '';
+      if (prop.fit) {
+        const coeffs = prop.fit.coefficients.map(function(c) { return c.toFixed(4); }).join(', ');
+        fitInfo = '<div class="small mt-2"><strong>Redlich-Kister fit</strong> (order ' + prop.fit.order + '): ' +
+          'A = [' + coeffs + ']<br>R² = ' + prop.fit.r_squared.toFixed(4) +
+          ', RMSE = ' + prop.fit.rmse.toFixed(6) + '</div>';
+      }
+
+      card.innerHTML =
+        '<div class="card-header d-flex justify-content-between align-items-center py-2">' +
+        '<span><strong>' + prop.property_name + '</strong></span>' + badge + '</div>' +
+        '<div class="card-body">' +
+        '<div class="row"><div class="col-md-6"><canvas id="chartDev' + idx + '" height="220"></canvas></div>' +
+        '<div class="col-md-6"><canvas id="chartMeas' + idx + '" height="220"></canvas></div></div>' +
+        '<div class="row mt-2"><div class="col-12"><div class="d-flex gap-4 small">' +
+        '<span>Pure 1 (x=0): <strong>' + prop.pure1_value + '</strong></span>' +
+        '<span>Pure 2 (x=1): <strong>' + prop.pure2_value + '</strong></span>' +
+        '<span>Points: <strong>' + prop.n_points + '</strong></span></div>' + fitInfo + '</div></div></div>';
+
+      propCards.appendChild(card);
+      setTimeout(function() { drawNonidealityCharts(prop, idx); }, 50);
+    });
+  }
+
+  function drawNonidealityCharts(prop, idx) {
+    const pts = prop.points || [];
+
+    const devCtx = document.getElementById('chartDev' + idx);
+    if (devCtx) {
+      const c = new Chart(devCtx, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: 'Deviation', data: pts.map(function(p) { return {x: p.x, y: p.deviation}; }),
+            borderColor: 'rgba(54,162,235,1)', backgroundColor: 'rgba(54,162,235,0.5)',
+            pointRadius: 4, showLine: true, tension: 0.3,
+          }, {
+            label: 'Zero', data: [{x: 0, y: 0}, {x: 1, y: 0}],
+            borderColor: 'rgba(0,0,0,0.3)', borderDash: [5,5], pointRadius: 0, showLine: true,
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: { title: { display: true, text: 'Excess / Deviation', font: {size: 12} }, legend: {display: false} },
+          scales: { x: {title: {display: true, text: prop.x_column_name || 'x₁'}}, y: {title: {display: true, text: 'Deviation'}} },
+        },
+      });
+      charts.push(c);
+    }
+
+    const measCtx = document.getElementById('chartMeas' + idx);
+    if (measCtx) {
+      const c = new Chart(measCtx, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: 'Measured', data: pts.map(function(p) { return {x: p.x, y: p.measured}; }),
+            borderColor: 'rgba(54,162,235,1)', backgroundColor: 'rgba(54,162,235,0.5)',
+            pointRadius: 4, showLine: true, tension: 0.3,
+          }, {
+            label: 'Ideal', data: pts.map(function(p) { return {x: p.x, y: p.ideal}; }),
+            borderColor: 'rgba(255,99,132,1)', backgroundColor: 'rgba(255,99,132,0.2)',
+            pointRadius: 3, showLine: true, borderDash: [5,5], tension: 0.3,
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'Measured vs. Ideal ' + prop.property_name, font: {size: 12} },
+            legend: { position: 'bottom', labels: {boxWidth: 12, font: {size: 10}} },
+          },
+          scales: { x: {title: {display: true, text: prop.x_column_name || 'x₁'}}, y: {title: {display: true, text: prop.property_name}} },
+        },
+      });
+      charts.push(c);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+   * DISPLAY: RK FITTING RESULTS
+   * ═══════════════════════════════════════════════════════════ */
+  function handleRkResults(data) {
+    const panel = document.getElementById('rkResults');
+    panel.classList.remove('d-none');
+
+    // System banner
+    const banner = document.getElementById('rkSystemBanner');
+    const label  = document.getElementById('rkSystemLabel');
+    const cls = data.system_class || '';
+    label.textContent = cls;
+    banner.className = 'alert py-2 mb-3 ';
+    if (cls.toLowerCase().includes('attractive') && !cls.toLowerCase().includes('repulsive')) {
+      banner.className += 'alert-success';
+    } else if (cls.toLowerCase().includes('repulsive') && !cls.toLowerCase().includes('attractive')) {
+      banner.className += 'alert-danger';
+    } else {
+      banner.className += 'alert-warning';
+    }
+
+    const container = document.getElementById('rkPropertyCards');
+    container.innerHTML = '';
+
+    (data.properties || []).forEach(function(prop, idx) {
+      if (prop.error) {
+        container.innerHTML += '<div class="alert alert-warning small">' +
+          '<strong>' + prop.property + '</strong>: ' + prop.error + '</div>';
+        return;
+      }
+
+      const card = document.createElement('div');
+      card.className = 'card mb-3';
+
+      const badge = classBadge(prop.classification);
+      const fit = prop.fit || {};
+      const coeffStr = (fit.coefficients || []).map(function(c) { return c.toFixed(6); }).join(', ');
+
+      // Pure value details
+      let pvHtml = '';
+      if (prop.pure_info) {
+        Object.keys(prop.pure_info).forEach(function(comp) {
+          const pi = prop.pure_info[comp];
+          const qBadge = pi.quality === 'good' ? 'bg-success' : pi.quality === 'fair' ? 'bg-warning text-dark' : 'bg-danger';
+          pvHtml += '<span class="me-3">' + comp + ': <strong>' + pi.value + '</strong> ' +
+            '<span class="badge ' + qBadge + '" style="font-size:0.6rem;">' + pi.method + ' / ' + pi.quality + '</span></span>';
+        });
+      }
+
+      // BIC order table
+      let bicHtml = '';
+      if (fit.all_orders && fit.all_orders.length > 1) {
+        bicHtml = '<details class="mt-2"><summary class="small text-muted">Order selection (BIC)</summary>' +
+          '<table class="table table-sm small mt-1 mb-0"><thead><tr><th>Order</th><th>BIC</th><th>R²</th><th>RMSE</th></tr></thead><tbody>';
+        fit.all_orders.forEach(function(o) {
+          const sel = o.order === fit.order ? ' class="table-primary"' : '';
+          bicHtml += '<tr' + sel + '><td>' + o.order + '</td><td>' + o.bic.toFixed(1) + '</td><td>' +
+            o.r_squared.toFixed(6) + '</td><td>' + (o.rmse || 0).toFixed(6) + '</td></tr>';
+        });
+        bicHtml += '</tbody></table></details>';
+      }
+
+      card.innerHTML =
+        '<div class="card-header d-flex justify-content-between align-items-center py-2">' +
+        '<span><strong>' + prop.property + '</strong> <small class="text-muted">(' + prop.mixing_rule + ')</small></span>' +
+        badge + '</div>' +
+        '<div class="card-body">' +
+        '<div class="row"><div class="col-md-6"><canvas id="rkChartExcess' + idx + '" height="240"></canvas></div>' +
+        '<div class="col-md-6"><canvas id="rkChartMeas' + idx + '" height="240"></canvas></div></div>' +
+        '<div class="mt-2 small">' + pvHtml + '</div>' +
+        '<div class="small mt-2"><strong>RK-' + fit.order + '</strong>: A = [' + coeffStr + ']' +
+        '<br>R² = ' + (fit.r_squared || 0).toFixed(6) + ', RMSE = ' + (fit.rmse || 0).toFixed(8) +
+        ', BIC = ' + (fit.bic || 0).toFixed(1) +
+        ', Data: ' + prop.n_data_points + ' pts (' + prop.n_mixture_points + ' mixture)</div>' +
+        bicHtml + '</div>';
+
+      container.appendChild(card);
+      setTimeout(function() { drawRkCharts(prop, idx); }, 50);
+    });
+  }
+
+  function drawRkCharts(prop, idx) {
+    const d = prop.data || {};
+    const fc = prop.fitted_curve || {};
+
+    // Chart 1: Excess property with RK fit curve
+    const exCtx = document.getElementById('rkChartExcess' + idx);
+    if (exCtx) {
+      const datasets = [{
+        label: 'Y^E (data)', type: 'scatter',
+        data: (d.x || []).map(function(x, i) { return {x: x, y: (d.y_excess || [])[i]}; }),
+        borderColor: 'rgba(54,162,235,1)', backgroundColor: 'rgba(54,162,235,0.5)',
+        pointRadius: 3,
+      }];
+      if (fc.x && fc.y_excess) {
+        datasets.push({
+          label: 'RK fit', type: 'scatter',
+          data: fc.x.map(function(x, i) { return {x: x, y: fc.y_excess[i]}; }),
+          borderColor: 'rgba(255,99,132,1)', backgroundColor: 'transparent',
+          pointRadius: 0, showLine: true, borderWidth: 2,
+        });
+      }
+      datasets.push({
+        label: 'Zero', data: [{x: 0, y: 0}, {x: 1, y: 0}],
+        borderColor: 'rgba(0,0,0,0.2)', borderDash: [5,5], pointRadius: 0, showLine: true,
+      });
+
+      const c = new Chart(exCtx, {
+        type: 'scatter', data: { datasets: datasets },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: prop.excess_label || 'Excess property', font: {size: 12} },
+            legend: { position: 'bottom', labels: {boxWidth: 12, font: {size: 10}} },
+          },
+          scales: { x: {title: {display: true, text: prop.composition_column || 'x₁'}}, y: {title: {display: true, text: 'Y^E'}} },
+        },
+      });
+      charts.push(c);
+    }
+
+    // Chart 2: Measured vs Ideal
+    const mCtx = document.getElementById('rkChartMeas' + idx);
+    if (mCtx) {
+      const c = new Chart(mCtx, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: 'Measured',
+            data: (d.x || []).map(function(x, i) { return {x: x, y: (d.y_measured || [])[i]}; }),
+            borderColor: 'rgba(54,162,235,1)', backgroundColor: 'rgba(54,162,235,0.5)',
+            pointRadius: 3, showLine: true, tension: 0.3,
+          }, {
+            label: 'Ideal',
+            data: (d.x || []).map(function(x, i) { return {x: x, y: (d.y_ideal || [])[i]}; }),
+            borderColor: 'rgba(255,99,132,1)', backgroundColor: 'rgba(255,99,132,0.2)',
+            pointRadius: 2, showLine: true, borderDash: [5,5], tension: 0.3,
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'Measured vs. Ideal: ' + prop.property, font: {size: 12} },
+            legend: { position: 'bottom', labels: {boxWidth: 12, font: {size: 10}} },
+          },
+          scales: { x: {title: {display: true, text: prop.composition_column || 'x₁'}}, y: {title: {display: true, text: prop.property}} },
+        },
+      });
+      charts.push(c);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+   * DISPLAY: BLOCK INSPECTOR RESULTS
+   * ═══════════════════════════════════════════════════════════ */
+  function handleInspectResults(data) {
+    const panel = document.getElementById('inspectResults');
+    panel.classList.remove('d-none');
+    const content = document.getElementById('inspectContent');
+
+    let html = '<div class="card mb-3"><div class="card-header py-2 small fw-semibold">' +
+      '<i class="bi bi-info-circle"></i> Block ' + data.block_number + ' — ' +
+      data.n_columns + ' columns, ' + data.n_rows + ' rows</div>' +
+      '<div class="card-body p-0">';
+
+    // Metadata
+    if (data.metadata) {
+      html += '<div class="p-2 small">';
+      Object.keys(data.metadata).forEach(function(k) {
+        const v = data.metadata[k];
+        if (v !== null && v !== '' && !(Array.isArray(v) && v.length === 0)) {
+          html += '<span class="badge bg-light text-dark me-2 mb-1">' + k + ': ' +
+            (Array.isArray(v) ? v.join(', ') : v) + '</span>';
+        }
+      });
+      html += '</div>';
+    }
+
+    // Column match
+    if (data.column_match) {
+      const cm = data.column_match;
+      html += '<div class="p-2 border-top small">' +
+        '<strong>Identified:</strong> x = <code>' + cm.x_column + '</code>, y = <code>' + cm.y_column + '</code>';
+      if (cm.y_columns && cm.y_columns.length > 1) {
+        html += ' (all y: ' + cm.y_columns.map(function(c) { return '<code>' + c + '</code>'; }).join(', ') + ')';
+      }
+      if (cm.compound_map && Object.keys(cm.compound_map).length) {
+        html += '<br>Compounds: ';
+        Object.keys(cm.compound_map).forEach(function(col) {
+          html += '<code>' + col + '</code> → ' + cm.compound_map[col] + '  ';
+        });
+      }
+      html += '</div>';
+    }
+
+    // Column stats table
+    html += '<table class="table table-sm table-striped mb-0 small">' +
+      '<thead><tr><th>Column</th><th>Valid</th><th>Missing</th><th>Min</th><th>Max</th><th>Mean</th><th>Std</th></tr></thead><tbody>';
+    (data.columns || []).forEach(function(col) {
+      if (col.filtered_out) return;
+      html += '<tr><td><code>' + col.name + '</code></td>' +
+        '<td>' + col.n_valid + '</td><td>' + col.n_missing + '</td>' +
+        '<td>' + (col.min != null ? col.min : '—') + '</td>' +
+        '<td>' + (col.max != null ? col.max : '—') + '</td>' +
+        '<td>' + (col.mean != null ? col.mean : '—') + '</td>' +
+        '<td>' + (col.std != null ? col.std : '—') + '</td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+
+    content.innerHTML = html;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+   * DISPLAY: PURE VALUES RESULTS
+   * ═══════════════════════════════════════════════════════════ */
+  function handlePureResults(data) {
+    const panel = document.getElementById('pureResults');
+    panel.classList.remove('d-none');
+    const content = document.getElementById('pureContent');
+
+    let html = '<div class="card mb-3"><div class="card-header py-2 small fw-semibold">' +
+      '<i class="bi bi-bullseye"></i> Pure Values — ' +
+      (data.components || []).join(' / ') + ' (threshold: ' + data.edge_threshold + ')</div>' +
+      '<div class="card-body p-0">';
+
+    (data.extractions || []).forEach(function(ext) {
+      html += '<div class="p-2 border-bottom">' +
+        '<strong class="small">' + ext.property + '</strong>' +
+        ' <span class="text-muted small">(' + ext.n_data_points + ' pts, x: ' +
+        ext.x_range[0] + ' — ' + ext.x_range[1] + ')</span>';
+
+      html += '<table class="table table-sm small mb-0 mt-1"><thead><tr>' +
+        '<th>Component</th><th>Value</th><th>Max x</th><th>Near-pure pts</th><th>Method</th><th>Quality</th>' +
+        '</tr></thead><tbody>';
+
+      Object.keys(ext.pure_values).forEach(function(comp) {
+        const pv = ext.pure_values[comp];
+        const qBadge = pv.quality === 'good' ? 'bg-success' : pv.quality === 'fair' ? 'bg-warning text-dark' : 'bg-danger';
+        html += '<tr><td>' + comp + '</td><td><strong>' + pv.value + '</strong></td>' +
+          '<td>' + pv.max_x + '</td><td>' + pv.n_near_pure + '</td>' +
+          '<td>' + pv.method + '</td>' +
+          '<td><span class="badge ' + qBadge + '">' + pv.quality + '</span></td></tr>';
+      });
+
+      html += '</tbody></table></div>';
+    });
+
+    html += '</div></div>';
+    content.innerHTML = html;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+   * HELPERS
+   * ═══════════════════════════════════════════════════════════ */
+  function classBadge(cls) {
+    if (cls === 'attractive') return '<span class="badge bg-success">Attractive</span>';
+    if (cls === 'repulsive') return '<span class="badge bg-danger">Repulsive</span>';
+    if (cls === 'mixed') return '<span class="badge bg-warning text-dark">Mixed</span>';
+    if (cls === 'ideal') return '<span class="badge bg-secondary">Ideal</span>';
+    return '<span class="badge bg-secondary">' + (cls || '—') + '</span>';
+  }
+
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,354 @@
+{
+  "meas_ID": "extra_sensitive_dsc",
+  "identity": {
+    "name": "Extra sensitive DSC",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Extra sensitive DSC",
+    "thermoml_custom_codes": [
+      "XDSC"
+    ],
+    "measurement_family": "Differential Scanning Calorimetry (DSC/DTA)",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 92,
+      "property_groups": [
+        "HeatCapacityAndDerivedProp",
+        "ExcessPartialApparentEnergyProp"
+      ],
+      "n_papers": 26,
+      "per_group": {
+        "HeatCapacityAndDerivedProp": {
+          "instances": 50,
+          "papers": 13
+        },
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 42,
+          "papers": 13
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "differential heat flux between sample and reference (µW to mW)",
+          "sample temperature (T)",
+          "reference temperature (Tref)"
+        ],
+        "derived_observables": [
+          "heat capacity at constant pressure (Cp)",
+          "transition temperature (onset, peak, endset)",
+          "enthalpy of transition (ΔH)",
+          "partial molar heat capacity (Cp,m)",
+          "excess heat capacity (Cp,excess)",
+          "apparent molar heat capacity (Cp,φ)"
+        ],
+        "target_properties": [
+          "isobaric heat capacity (Cp)",
+          "molar heat capacity at constant pressure (Cp,m)",
+          "excess molar heat capacity (CpE,m)",
+          "partial molar heat capacity",
+          "apparent molar heat capacity",
+          "enthalpy of phase transitions (ΔtrsH)",
+          "transition temperatures (Ttrs, Tm, Tg)",
+          "enthalpy of protein unfolding/denaturation",
+          "enthalpy of lipid phase transitions"
+        ],
+        "phases_measured": [
+          "liquid (aqueous solutions, organic solvents)",
+          "solid (polymers, thin films, pharmaceutical solids)",
+          "gel and soft condensed matter",
+          "liquid crystal",
+          "micellar and vesicular dispersions",
+          "protein solutions (folded/unfolded equilibria)"
+        ],
+        "supported_sample_types": [
+          "dilute aqueous solutions of biomolecules (proteins, nucleic acids, lipids)",
+          "surfactant and lipid dispersions",
+          "polymer solutions and dilute polymer blends",
+          "pharmaceutical compounds in solution",
+          "ionic liquid mixtures",
+          "liquid mixtures and binary/ternary solutions",
+          "thin polymer films (sub-milligram)",
+          "nanoparticle suspensions",
+          "micellar solutions and microemulsions"
+        ],
+        "unsupported_sample_types": [
+          "gases",
+          "highly viscous pastes that trap air bubbles in the cell",
+          "strongly corrosive liquids incompatible with Hastelloy or gold cells",
+          "large solid bulk samples (cell volume limited to ~1 mL)",
+          "volatile liquids with vapor pressure exceeding cell seal rating",
+          "highly exothermic reactive mixtures"
+        ],
+        "typical_output_formats": [
+          "Cp vs. T thermogram",
+          "excess Cp vs. T curve (baseline-subtracted)",
+          "raw differential power (µW) vs. T",
+          "Cp,apparent vs. T for macromolecule unfolding",
+          "integrated ΔH vs. scan number (reversibility check)"
+        ],
+        "units": {
+          "heat_flux": "µW or mW",
+          "heat_capacity": "J/(mol·K) or J/(g·K) or kJ/(mol·K)",
+          "temperature": "K or °C",
+          "enthalpy": "J/mol or kJ/mol or J/g",
+          "scanning_rate": "K/min or °C/min",
+          "sample_volume": "mL",
+          "concentration": "mg/mL or mol/L"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "scanning_rate",
+            "typical_range": "0.01 K/min to 2 K/min",
+            "hard_limits": "instrument minimum ~0.001 K/min; maximum ~2 K/min (sensitivity degrades at faster rates)",
+            "notes": "slow scan rates (0.1–1 K/min) are standard to preserve the high sensitivity advantage; faster rates reduce sensitivity to that of conventional DSC"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "−10 °C to 130 °C (liquid cell instruments); 0 °C to 160 °C for capillary cells",
+            "hard_limits": "limited by cell seal integrity and aqueous solvent boiling; specialized solid-sample variants may reach 200 °C",
+            "notes": "most biological applications operate between 5 °C and 130 °C; overpressure cells extend upper limit to ~130 °C for aqueous solutions"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa to 0.6 MPa (atmospheric to ~6 atm overpressure)",
+            "hard_limits": "standard cells rated to ~0.6 MPa; higher pressures require specialized cells",
+            "notes": "overpressure (typically ~0.3 MPa N2) is applied to suppress bubble formation above 100 °C in aqueous solutions"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "0.3 mL to 1.0 mL (liquid cells)",
+            "hard_limits": "fixed by cell design; capillary cells ~0.13 mL; standard cells 0.5–1.0 mL",
+            "notes": "matched reference cell is filled with buffer or solvent; precise volume matching reduces baseline curvature"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "scanned variable",
+            "typical_values": "0 °C to 130 °C",
+            "effect": "temperature scan reveals thermal transitions (protein unfolding, lipid melting, glass transitions, mixing enthalpies)"
+          },
+          {
+            "name": "scanning_rate",
+            "role": "controlled experimental variable",
+            "typical_values": "0.1 K/min to 1 K/min",
+            "effect": "slower rates improve thermal equilibrium and sensitivity; faster rates reduce measurement time but broaden peaks and degrade signal-to-noise"
+          },
+          {
+            "name": "sample_concentration",
+            "role": "sample-dependent variable",
+            "typical_values": "0.5 mg/mL to 10 mg/mL for proteins; higher for small molecules",
+            "effect": "must be high enough to produce a detectable signal above the baseline noise (~0.02 µW); too high can cause aggregation or non-ideal behavior"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed (overpressure for aqueous systems)",
+            "typical_values": "0.1 MPa to 0.3 MPa",
+            "effect": "overpressure suppresses boiling and bubble formation; does not significantly affect thermodynamic properties at these modest pressures"
+          },
+          {
+            "name": "pH_and_ionic_strength",
+            "role": "solution condition variable (for biomolecular samples)",
+            "typical_values": "pH 2–12; ionic strength 10 mM to 1 M",
+            "effect": "directly affects protein stability, lipid phase behavior, and solution non-ideality"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "twin fixed-in-place sample and reference cells — typically coin-shaped or cylindrical Hastelloy, gold, or platinum cells (0.3–1.0 mL volume) with high thermal conductivity",
+          "differential thermoelectric sensor array — thermopile or semiconductor sensor surrounding both cells, detecting differential heat flux with ~0.02 µW noise floor",
+          "Peltier or resistive thermostat — provides programmable temperature scanning with stability ≤0.0001 K",
+          "adiabatic or power-compensation shield — surrounds the cell assembly to minimize heat exchange with surroundings",
+          "overpressure system — regulated N2 supply (0–0.6 MPa) to suppress boiling in aqueous samples above 100 °C",
+          "liquid handling system — precision syringe or peristaltic pump for filling and cleaning fixed cells; some instruments have autosampler capability",
+          "temperature controller and data acquisition — high-resolution ADC (24-bit) with dedicated firmware for baseline stability and noise reduction",
+          "circulating water bath or Peltier cooling unit — provides heat sink for low-temperature operation"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature (±1 °C) to minimize baseline drift",
+          "vibration-free bench or vibration isolation pad",
+          "clean laboratory environment to avoid particulate contamination of cells",
+          "dedicated power supply or UPS favored for long scans (hours) to prevent data loss"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid: fills the fixed cell volume; must be free of bubbles",
+            "solid: thin film or small piece (≤ 1 mg) placed inside the cell with thermal contact fluid"
+          ],
+          "size_limits": "0.3–1.0 mL for liquid cells; ~0.5–2 mg for solid samples in specialized cells",
+          "thickness_limits": "not directly applicable for liquids; solid samples should be thin enough for rapid thermal equilibration (< 0.5 mm)",
+          "surface_requirements": [
+            "cell interior must be scrupulously clean — protein residue or surfactant films from prior runs produce ghost peaks",
+            "sample solution must be degassed to prevent bubble nucleation during scanning"
+          ],
+          "mounting_requirements": [
+            "cells are fixed in the calorimeter; sample is injected via syringe through filling ports",
+            "no air gaps or trapped bubbles — cells filled completely and sealed",
+            "reference cell filled with matched solvent/buffer to within ±0.01 mL of sample cell"
+          ],
+          "preparation_requirements": [
+            "samples degassed under vacuum or by gentle heating before loading",
+            "protein solutions dialyzed against buffer; dialysate used as reference",
+            "concentration determined independently (UV-Vis, gravimetric) before loading",
+            "buffer/solvent pH and ionic strength matched precisely between sample and reference"
+          ]
+        },
+        "calibration_requirements": [
+          "electrical calibration using a built-in precision resistive heater to deliver known power pulses",
+          "temperature calibration against melting-point standards (indium 156.6 °C, gallium 29.76 °C)",
+          "baseline reproducibility check: repeated buffer-vs-buffer scans to verify flat baseline (<0.1 µW deviation)",
+          "cell constant determination from a known enthalpy standard (e.g., ribonuclease A unfolding or NIST-traceable Joule-heating)",
+          "scan-rate-dependent baseline correction to account for dynamic thermal lag at different heating rates"
+        ],
+        "reference_materials": [
+          "ribonuclease A (RNase A) in acetate buffer — well-characterized protein unfolding standard (Tm ≈ 62 °C, ΔH ≈ 400 kJ/mol)",
+          "lysozyme in glycine-HCl buffer — protein folding standard",
+          "DPPC (dipalmitoylphosphatidylcholine) multilamellar vesicles — lipid transition standard (Tm ≈ 41.3 °C)",
+          "indium — melting point standard (156.6 °C) for temperature calibration",
+          "sapphire (α-Al2O3, NIST SRM 720) — Cp calibration for heat capacity mode",
+          "water — Cp reference (4.182 J/(g·K) at 25 °C) for liquid cell Cp verification"
+        ],
+        "consumables": [
+          "cleaning agents: dilute SDS or Contrad-70 detergent, followed by copious water rinses",
+          "degassed high-purity water (Milli-Q grade) for rinsing and reference cell",
+          "nitrogen gas (high purity) for overpressure and purging",
+          "syringes and filling needles compatible with cell ports",
+          "disposable capillary cells (for instruments with single-use cell designs)"
+        ],
+        "safety_notes": [
+          "overpressure system operates at elevated pressure — check seals and pressure relief before operation",
+          "hot cells (up to 130 °C) present burn hazard during maintenance",
+          "biological samples may pose biohazard — follow institutional biosafety protocols for prion-forming proteins or pathogens",
+          "cleaning solvents require standard chemical hygiene precautions"
+        ]
+      },
+      "performance": {
+        "sensitivity": "~0.02 µW noise floor (short-term); 10–100× more sensitive than standard power-compensation or heat-flux DSC; capable of resolving transitions producing as little as 0.04 µW differential signal",
+        "detection_limit": "protein unfolding detectable at concentrations as low as 0.1 mg/mL in a 0.5 mL cell; heat capacity changes of ~100 J/(mol·K) resolvable for µmol quantities",
+        "resolution": {
+          "spatial": "not applicable (bulk calorimetric measurement)",
+          "temporal": "instrument time constant ~5–10 s; effective temporal resolution limited by scan rate (0.01–2 K/min)",
+          "spectral": "not applicable",
+          "energy": "heat capacity resolution ~0.5% of absolute Cp for well-calibrated systems; differential sensitivity ~0.02 µW"
+        },
+        "dynamic_range": "differential power: 0 to ±100 µW typical (some instruments to ±1 mW); Cp range from ~1 J/(mol·K) to >10,000 J/(mol·K); temperature: −10 °C to 160 °C",
+        "accuracy": "1–3% for absolute Cp after full calibration; 0.5–2% for transition enthalpy ΔH; ±0.1 °C for transition temperature",
+        "precision": "0.1–0.5% repeatability for Cp; ±0.05 °C for Tm across repeated scans; baseline repeatability <0.1 µW over full temperature range",
+        "throughput": "single sample per run; typical scan ~2–8 hours including equilibration, scanning, and cleaning; autosamplers enable 4–8 samples per day unattended",
+        "measurement_speed": "inherently slow due to low scan rates required for sensitivity; a 100 K scan at 1 K/min takes ~100 minutes plus equilibration time"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "differential power (µW) between sample and reference cells as a function of temperature or time, recorded as a continuous thermogram",
+        "preprocessing_steps": [
+          "buffer-buffer baseline subtraction: subtract a scan of solvent-vs-solvent from sample-vs-solvent scan to remove instrumental asymmetry",
+          "concentration normalization: divide excess power by moles (or mass) of solute to obtain molar (or specific) excess Cp",
+          "progress baseline correction: apply a chemical-baseline or sigmoidal baseline that accounts for the change in Cp between native and denatured states",
+          "scan-rate normalization: divide raw power signal by scan rate to convert to heat capacity units",
+          "instrumental lag correction: deconvolve the instrument time constant from the raw signal (Tian correction)"
+        ],
+        "analysis_methods": [
+          "two-state model fitting: fit Cp,excess(T) to a van't Hoff two-state unfolding model to extract Tm, ΔHcal, and ΔHvH",
+          "non-two-state (multi-domain) decomposition: deconvolute overlapping transitions into independent or sequential unfolding units",
+          "integration of Cp,excess peak to obtain calorimetric enthalpy ΔHcal",
+          "van't Hoff ratio: ΔHvH/ΔHcal as a diagnostic for cooperativity (=1 for true two-state; <1 for intermediates; >1 for oligomeric coupling)",
+          "Kirchhoff analysis: extract ΔCp of unfolding from the baseline shift between native and denatured states",
+          "isothermal titration comparison: cross-validate ΔH with ITC measurements at the transition midpoint"
+        ],
+        "model_assumptions": [
+          "differential heat flux is proportional to the difference in heat capacity between sample and reference cells (Newton's law of cooling)",
+          "sample and reference cells are thermally symmetric (any asymmetry is removed by baseline subtraction)",
+          "thermal equilibrium is maintained within the sample at each point during the scan (quasi-static approximation)",
+          "for biomolecular analysis: the unfolding transition is reversible and at thermodynamic equilibrium (checked by rescan)",
+          "heat capacity of the solvent in the sample cell equals that of the pure solvent in the reference cell (dilute solution approximation)"
+        ],
+        "fit_parameters": [
+          "transition midpoint temperature (Tm or Ttrs)",
+          "calorimetric enthalpy (ΔHcal) from peak area integration",
+          "van't Hoff enthalpy (ΔHvH) from peak shape analysis",
+          "heat capacity change upon transition (ΔCp)",
+          "number of cooperative units (n) for oligomeric systems",
+          "transition width at half-height (ΔT1/2)"
+        ],
+        "common_artifacts": [
+          "bubble formation: nucleation of dissolved gas during heating produces sharp exothermic spikes superimposed on the thermogram",
+          "protein aggregation after unfolding: irreversible aggregation causes an exothermic tail following the endothermic unfolding peak",
+          "baseline mismatch: imprecise solvent matching between sample and reference cells produces a sloping or curved baseline",
+          "ghost peaks from residual sample: inadequate cell cleaning leaves trace material from previous runs that produces small spurious transitions",
+          "thermal lag artifact: finite instrument time constant shifts apparent Tm to higher values at faster scan rates"
+        ],
+        "quality_control_checks": [
+          "reversibility test: perform a second scan immediately after cooling to verify that the transition is reproducible (≥90% enthalpy recovery for reversible systems)",
+          "scan-rate independence: verify that Tm and ΔH do not change significantly between two different scan rates",
+          "buffer-buffer baseline flatness: confirm baseline reproducibility to within 0.1 µW",
+          "concentration series: measure at 2–3 concentrations to rule out concentration-dependent aggregation or non-ideality effects",
+          "compare ΔHvH/ΔHcal to expected cooperativity (=1 for two-state; deviation indicates intermediates or aggregation)"
+        ],
+        "failure_modes": [
+          "cell leakage under overpressure — loss of sample produces erratic baseline and unreliable thermogram",
+          "irreversible protein aggregation — prevents equilibrium analysis and produces artifactual exothermic features",
+          "cell contamination from adsorbed material — ghost peaks and baseline drift that persist through buffer scans",
+          "loss of pressure seal — boiling of aqueous samples above 100 °C produces large noisy excursions",
+          "sensor degradation over time — gradual loss of sensitivity manifesting as increased baseline noise"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 1–3% for absolute Cp; 0.5–2% for ΔH; ±0.1 °C for Tm",
+        "random_sources": [
+          "thermal noise in the differential sensor (Johnson noise of thermopile)",
+          "baseline noise from temperature controller fluctuations (~0.02 µW)",
+          "bubble nucleation events producing stochastic spikes",
+          "sample loading variability (trapped microbubbles affecting effective volume)",
+          "electrical noise in the amplification and data acquisition chain"
+        ],
+        "systematic_sources": [
+          "baseline subtraction error (incomplete cancellation of cell asymmetry)",
+          "concentration error in the loaded sample (affects normalization of Cp per mole)",
+          "cell volume mismatch between sample and reference sides",
+          "temperature calibration offset from the true thermodynamic temperature",
+          "scan-rate-dependent thermal lag (shifts apparent Tm upward)",
+          "partial sample adsorption to cell walls (reduces effective concentration)"
+        ],
+        "operator_dependence": "moderate — cell loading technique, degassing thoroughness, cleaning protocol adherence, and concentration determination accuracy all depend on operator skill and diligence",
+        "model_dependence": "moderate to high for biomolecular applications — extracted thermodynamic parameters (ΔHvH, cooperativity) depend on the assumed unfolding model (two-state vs. multi-state); ΔHcal from integration is model-independent but baseline choice introduces subjectivity",
+        "dominant_error_sources": [
+          "sample concentration uncertainty (propagates directly to molar Cp and ΔH)",
+          "baseline selection and subtraction (especially for broad or overlapping transitions)",
+          "irreversibility and kinetic effects that violate equilibrium assumptions"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k=2)",
+          "relative uncertainty as percentage of Cp or ΔH",
+          "standard deviation from replicate scans",
+          "Tm reported with ±0.1 °C or ±0.05 °C repeatability"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Extra sensitive DSC (also called high-sensitivity DSC, nanoDSC, or microcalorimetric DSC) is a variant of differential scanning calorimetry engineered for 10–100× greater sensitivity than conventional power-compensation or heat-flux DSC. Representative instruments include the TA Instruments Nano DSC and the Malvern MicroCal VP-DSC/PEAQ-DSC. By employing twin fixed-in-place cells with large thermal mass, highly sensitive differential thermopile sensors (~0.02 µW noise floor), and very slow scan rates (0.01–2 K/min), these calorimeters detect minute thermal events—protein unfolding, lipid bilayer transitions, dilute-solution mixing enthalpies, and glass transitions in sub-milligram polymer films—that would be invisible to standard DSC. In the NIST ThermoML database, this technique appears primarily under HeatCapacityAndDerivedProp and ExcessPartialApparentEnergyProp, reflecting its use for measuring molar and excess heat capacities of solutions and biomolecular systems.",
+      "how_it_operates": "The calorimeter contains two matched cells (sample and reference), each of 0.3–1.0 mL volume, machined from high-thermal-conductivity material (Hastelloy, gold, or platinum) and permanently mounted within an adiabatic or semi-adiabatic shield. During a scan, both cells are heated at a precisely controlled rate (typically 0.1–1 K/min). When the sample undergoes a thermal event (endothermic unfolding, exothermic aggregation, or a change in Cp), the differential heat flux between the two cells deviates from zero. A sensitive thermopile array surrounding the cells measures this differential signal with a noise floor of ~0.02 µW. The signal is amplified, digitized at high resolution (24-bit ADC), and recorded as differential power versus temperature. For absolute Cp determination, the raw power signal is divided by the scan rate and normalized by sample amount. Overpressure (typically 0.2–0.3 MPa N₂) is applied to suppress bubble formation in aqueous solutions scanned above 100 °C.",
+      "core_theory": "The fundamental principle is identical to all DSC: the differential heat flow dQ/dt between sample and reference is proportional to the difference in heat capacity: dQ/dt = ΔCp × (dT/dt), where dT/dt is the programmed scan rate. In extra sensitive DSC, the engineering emphasis is on minimizing the noise floor of the dQ/dt measurement. The twin-cell design with permanently installed cells ensures maximal thermal symmetry, so the residual baseline (buffer-vs-buffer) is nearly flat, and the small excess signal from the solute is cleanly resolvable. For dilute solution thermodynamics, the measurand is the apparent or excess molar heat capacity: Cp,excess = (Qsample − Qbuffer)/(β × n), where β is the scan rate and n is moles of solute. For protein unfolding, the calorimetric enthalpy ΔHcal is the integral of Cp,excess over the transition, while the van't Hoff enthalpy ΔHvH is derived from the peak shape, and their ratio provides a cooperativity diagnostic.",
+      "setup": "A typical extra sensitive DSC consists of: (1) twin coin-shaped or cylindrical fixed cells (0.3–1.0 mL) with fill ports and pressure seals, housed within a concentric adiabatic shield; (2) a thermopile sensor array wrapping both cells, wired in differential mode; (3) precision temperature programmer (Peltier stack or resistive heater plus circulating coolant) capable of scan rates from 0.001 to 2 K/min with short-term stability ≤0.0001 K; (4) overpressure manifold supplying 0–0.6 MPa dry N₂; (5) high-resolution data acquisition system (24-bit ADC, dedicated DSP firmware); (6) optional autosampler with syringe pump for automated cell filling, rinsing, and unattended multi-sample operation. The reference cell is filled with pure solvent or buffer identical to the sample matrix, minus the analyte. Instruments are placed on vibration-isolation benches in temperature-stable rooms.",
+      "suitable_for": "Extra sensitive DSC is the technique of choice for thermal characterization of dilute biological and chemical systems where the thermal signal is very small. Primary applications include: protein folding/unfolding thermodynamics (Tm, ΔH, ΔCp, cooperativity), lipid membrane phase transitions (gel-to-liquid crystalline, pre-transition), nucleic acid melting, surfactant micellization, polymer dissolution and glass transitions in very thin films or dilute solution, pharmaceutical polymorph screening of compounds available only in small amounts, and measurement of excess and apparent molar heat capacities of liquid mixtures, electrolyte solutions, and ionic liquids. It is particularly powerful where only micromole quantities of sample are available or where transitions produce signals below the detection threshold of conventional DSC.",
+      "core_limitations": "The technique is inherently slow: scan rates are typically 0.1–1 K/min to maintain sensitivity, so a 100 K temperature sweep requires 1.5–8 hours per run plus equilibration and cleaning time. Throughput is limited to a few samples per day even with an autosampler. The temperature range is restricted (typically −10 °C to 130 °C for aqueous-cell instruments), dictated by cell seal integrity and solvent boiling. Only liquid samples or very small solids can be accommodated in the fixed cells. The technique requires careful baseline subtraction — any mismatch between solvent in the sample and reference cells produces systematic curvature that can obscure small transitions. Irreversible processes (protein aggregation, chemical degradation) complicate thermodynamic interpretation and may contaminate cells. Absolute Cp accuracy (1–3%) is lower than that of adiabatic or drop calorimetry.",
+      "sample_preparation": "For liquid samples (the dominant use case), the analyte is dissolved at a known concentration (typically 0.5–10 mg/mL for proteins; higher for small molecules). The sample solution must be degassed thoroughly—either by gentle vacuum, helium sparging, or centrifugal degassing—to prevent bubble nucleation during scanning. Protein solutions should be prepared in the final buffer by exhaustive dialysis, with the dialysate retained for filling the reference cell, ensuring exact solvent matching. Concentration is determined independently by UV-Vis spectrophotometry or gravimetric analysis. The sample is loaded into the cell via a precision syringe through the fill port, taking care to avoid introducing air. For solid samples (rare use), sub-milligram thin films or powders are placed in the cell with a contact fluid. Cells must be cleaned meticulously between runs using dilute detergent (SDS or Contrad-70), copious water rinses, and sometimes acid or base washes to remove adsorbed protein.",
+      "calibration_and_references": "Calibration comprises: (1) electrical (Joule) calibration using a precision heater built into the cell to deliver a known energy pulse, establishing the power scale; (2) temperature calibration against melting-point standards (indium at 156.6 °C, gallium at 29.76 °C, or water at 0 °C); (3) baseline verification by repeated buffer-vs-buffer scans to confirm flatness (<0.1 µW deviation over the full range). Biological reference standards include ribonuclease A (Tm ≈ 62 °C, ΔH ≈ 400 kJ/mol in pH 4 acetate buffer) and DPPC multilamellar vesicles (Tm ≈ 41.3 °C). For Cp-mode operation, sapphire (NIST SRM 720) or water at 25 °C (Cp = 4.182 J/(g·K)) serve as heat capacity references. Calibration should be verified each day of operation or whenever cells are cleaned or the pressure configuration is changed.",
+      "data_interpretation": "The raw thermogram (differential power vs. T) is first corrected by subtracting a buffer-vs-buffer baseline to remove instrumental asymmetry. The resulting excess power signal is divided by the scan rate and normalized by moles (or mass) of solute to yield Cp,excess(T). A progress baseline (linear, cubic, or sigmoidal) is applied to account for the difference in absolute Cp between the initial and final states (e.g., native vs. denatured protein). Integration of the Cp,excess peak gives the calorimetric enthalpy ΔHcal. The peak shape is fit to theoretical models (two-state, non-two-state, sequential) to extract Tm, ΔHvH, and ΔCp of transition. The van't Hoff ratio ΔHvH/ΔHcal diagnoses cooperativity: a ratio of 1 indicates true two-state behavior; values <1 suggest intermediates; values >1 suggest coupled oligomeric unfolding. For heat capacity studies, the absolute Cp is calculated from the difference between sample-vs-reference and buffer-vs-reference scans, referenced to the known Cp of the solvent.",
+      "common_pitfalls": "The most frequent pitfall is inadequate degassing, which causes bubble nucleation during heating and produces sharp spikes that corrupt the thermogram — this is especially problematic above 60–70 °C in aqueous solutions. Poor solvent matching between sample and reference cells generates a sloping or curved baseline that can be mistaken for a broad thermal event or that obscures small transitions. Using scan rates that are too fast (>1 K/min) sacrifices the sensitivity advantage and can shift apparent Tm values through thermal lag. Failing to check reversibility by rescanning leads to over-interpretation of kinetically trapped states as equilibrium transitions. Inadequate cell cleaning between runs produces ghost peaks from adsorbed material. Reporting ΔHvH from a two-state fit without verifying the ΔHvH/ΔHcal ratio can yield misleading thermodynamic parameters if the system is not truly two-state.",
+      "artifacts_and_failure_modes": "Bubble artifacts are the most common failure mode: dissolved gas comes out of solution upon heating, causing erratic exothermic spikes. Protein aggregation after unfolding produces an irreversible exothermic feature following the endothermic unfolding peak and fouls the cell, requiring aggressive cleaning. Thermal lag at faster scan rates shifts the apparent transition temperature upward by an amount proportional to the scan rate and instrument time constant (~5–10 s). Baseline drift from cell contamination or sensor degradation manifests as a slowly changing power offset that degrades sensitivity over time. Cell leakage under overpressure results in sudden baseline discontinuities and loss of sample. Ghost peaks from incomplete cleaning can mimic real transitions and have led to erroneous reports of multiple unfolding intermediates.",
+      "reporting_checklist": "Published extra sensitive DSC results should report: instrument make and model, cell volume and material, scan rate (K/min), overpressure applied, temperature range scanned, sample concentration and method of determination, buffer composition (pH, ionic strength, additives), degassing procedure, baseline subtraction method (buffer-buffer or polynomial), whether transition was reversible (rescan results), calorimetric enthalpy ΔHcal and van't Hoff enthalpy ΔHvH (if applicable), transition midpoint Tm with stated precision, ΔCp of transition, model used for fitting (two-state, non-two-state), combined expanded uncertainty at 95% confidence for Cp and ΔH, and cleaning protocol between samples. For ThermoML encoding, values are recorded with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

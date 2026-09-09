@@ -1,0 +1,333 @@
+{
+  "meas_ID": "spherical_resonator",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Spherical resonator",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Spherical resonator",
+    "thermoml_custom_codes": [
+      "SPHERE"
+    ],
+    "measurement_family": "Acoustic / Speed of Sound",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 9,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 6,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 9,
+          "papers": 6
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "acoustic resonant frequencies f_n of radial and non-radial modes",
+          "resonance half-widths (bandwidths) g_n characterizing energy dissipation",
+          "cavity temperature T from calibrated thermometer",
+          "cavity pressure p from calibrated pressure transducer",
+          "microphone/transducer voltage response as a function of swept frequency"
+        ],
+        "derived_observables": [
+          "speed of sound u in the gas (or liquid) from mode frequencies and cavity radius",
+          "ideal-gas heat capacity ratio γ° (from zero-pressure extrapolation of u²)",
+          "ideal-gas isobaric heat capacity Cp° from γ° and molecular mass",
+          "second and third acoustic virial coefficients βa, γa",
+          "compressibility and equation-of-state parameters",
+          "Boltzmann constant kB (metrological application via ideal-gas acoustics)",
+          "relative dielectric permittivity ε (electromagnetic resonance variant)"
+        ],
+        "target_properties": [
+          "speed of sound u(T,p)",
+          "ideal-gas heat capacity Cp°(T)",
+          "acoustic virial coefficients βa(T), γa(T)",
+          "second virial coefficient B(T) derived from βa",
+          "compressibility factor Z(T,p)",
+          "relative dielectric permittivity ε(T,p) (electromagnetic variant)"
+        ],
+        "phases_measured": [
+          "gas (primary application)",
+          "liquid (less common; higher attenuation limits accuracy)",
+          "supercritical fluids"
+        ],
+        "supported_sample_types": [
+          "pure gases (noble gases, diatomics, small polyatomics)",
+          "gas mixtures of known composition",
+          "condensable vapors at temperatures above saturation",
+          "liquids with moderate acoustic attenuation",
+          "supercritical fluids"
+        ],
+        "unsupported_sample_types": [
+          "solids (acoustic impedance mismatch with cavity walls)",
+          "highly absorbing or attenuating gases (e.g., heavily polyatomic at low pressure where mean free path exceeds cavity size)",
+          "corrosive gases that attack the resonator shell material",
+          "multiphase or two-phase mixtures (scattering destroys resonance)"
+        ],
+        "typical_output_formats": [
+          "u(T) at fixed pressure or along isotherms u(p) at fixed T",
+          "u² vs. p plot for zero-pressure extrapolation",
+          "Cp°(T) tabulation derived from u²(T, p→0)",
+          "acoustic virial coefficients βa(T) and γa(T) as polynomial coefficients",
+          "resonance frequency and half-width tables for each mode measured"
+        ],
+        "units": {
+          "speed_of_sound": "m/s",
+          "frequency": "Hz or kHz",
+          "half_width": "Hz",
+          "temperature": "K",
+          "pressure": "Pa or kPa or MPa",
+          "heat_capacity": "J/(mol·K)",
+          "acoustic_virial_coefficient": "m³/mol (βa) or m⁶/mol² (γa)",
+          "permittivity": "dimensionless (relative)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "200 K to 700 K",
+            "hard_limits": "limited by thermostat capability and thermal expansion corrections; cryogenic setups extend to ~80 K, high-T setups to ~1000 K",
+            "notes": "temperature stability of ±0.5 mK or better required for highest accuracy"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "10 kPa to 5 MPa for gases",
+            "hard_limits": "lower limit set by signal-to-noise (low density → weak coupling to transducers); upper limit set by pressure vessel rating and onset of precondensation",
+            "notes": "acoustic virial analysis requires measurements over a pressure range, typically 50 kPa to 1 MPa"
+          },
+          {
+            "parameter": "frequency_range",
+            "typical_range": "1 kHz to 100 kHz depending on cavity radius",
+            "hard_limits": "mode frequencies scale as z_n·u/(2πa); practical range set by transducer bandwidth and shell resonance avoidance",
+            "notes": "radial modes (0,n) from n=2 to n=8 are most commonly used; lowest modes overlap shell resonances"
+          },
+          {
+            "parameter": "cavity_radius",
+            "typical_range": "40 mm to 90 mm",
+            "hard_limits": "smaller spheres push modes to higher frequencies (transducer limitations); larger spheres are harder to machine to high sphericity",
+            "notes": "typical precision sphere radius ~50 mm or ~62 mm for metrological work"
+          }
+        ],
+        "variables": [
+          {
+            "name": "pressure",
+            "role": "primary scanned variable",
+            "typical_values": "50 kPa to 1 MPa in 50–100 kPa steps",
+            "effect": "speed of sound varies with pressure through acoustic virial equation; extrapolation to p→0 yields ideal-gas speed"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled variable (set for each isotherm)",
+            "typical_values": "200 K to 700 K",
+            "effect": "controls thermodynamic state; Cp° and virial coefficients are functions of T"
+          },
+          {
+            "name": "acoustic_mode_order",
+            "role": "replicate measurement variable",
+            "typical_values": "radial modes (0,2) through (0,8)",
+            "effect": "multiple modes provide independent speed-of-sound determinations; mode-to-mode consistency is a quality check"
+          },
+          {
+            "name": "gas_composition",
+            "role": "sample variable (for mixtures)",
+            "typical_values": "mole fractions prepared gravimetrically or verified by GC",
+            "effect": "speed of sound depends on mixture composition through effective molecular mass and heat capacity"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision spherical cavity — two machined hemispheres bolted or clamped together, typically stainless steel, copper, or aluminum; inner surface polished and lapped to achieve sphericity deviations < 1 µm",
+          "acoustic transducers — source and detector (electrostatic, piezoelectric, or condenser microphone type) mounted flush in small ports on the cavity wall",
+          "frequency synthesizer — stable sinusoidal source capable of sweeping or stepping through resonance frequencies with mHz resolution",
+          "network analyzer or lock-in amplifier — measures amplitude and phase of the transmitted acoustic signal as a function of frequency",
+          "thermostat — precision bath (liquid or dry) or cryostat enclosing the resonator; stability ±0.5 mK or better",
+          "calibrated thermometer — platinum resistance thermometer (SPRT) or calibrated thermistor in thermal contact with the sphere",
+          "pressure transducer — calibrated quartz or piezoresistive gauge (Paroscientific, Ruska, or similar), accuracy ±0.01% of reading",
+          "gas handling manifold — stainless steel vacuum/pressure system with turbopump for evacuation, precision valves, and sample gas cylinders",
+          "data acquisition and control computer — automated frequency sweep, temperature ramp, and pressure control with real-time Lorentzian fitting"
+        ],
+        "environmental_requirements": [
+          "vibration isolation to prevent mechanical coupling into acoustic modes",
+          "temperature-stable laboratory (±1 K ambient) to reduce thermostat load variation",
+          "electromagnetic shielding if electrostatic transducers are used",
+          "clean gas supply lines and cavity interior to prevent contamination-induced frequency shifts"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "gas fills the spherical cavity uniformly — no geometric constraint on sample shape",
+            "for liquids, the cavity must be completely filled with no trapped gas bubbles"
+          ],
+          "size_limits": "cavity volume typically 0.5–3 L; sample gas quantity determined by cavity volume and target pressure range",
+          "thickness_limits": "not applicable (volumetric sample)",
+          "surface_requirements": [
+            "cavity interior must be clean and free of adsorbed contaminants that could outgas",
+            "inner surface polish reduces viscous and thermal boundary layer corrections"
+          ],
+          "mounting_requirements": [
+            "cavity mounted in thermostat with good thermal contact on outer shell",
+            "transducer ports sealed with O-rings or metal gaskets to maintain pressure integrity"
+          ],
+          "preparation_requirements": [
+            "gas purity verified (typically >99.99% for metrological work); degassed if liquefied",
+            "cavity evacuated to < 1 Pa and leak-tested before filling",
+            "sample gas introduced slowly to avoid adiabatic heating artifacts"
+          ]
+        },
+        "calibration_requirements": [
+          "cavity radius determination: measured using microwave (electromagnetic) resonances with known eigenvalues, or from speed-of-sound measurements in argon (known to high accuracy from ab initio calculations)",
+          "thermal expansion correction: cavity radius corrected for temperature using known linear expansion coefficient of shell material",
+          "pressure transducer calibration against a primary piston gauge or transfer standard",
+          "thermometer calibration on ITS-90 using fixed-point cells",
+          "transducer response calibration to ensure flat frequency response across the mode range"
+        ],
+        "reference_materials": [
+          "argon — primary acoustic reference gas; ab initio pair-potential calculations yield u(T,p) to parts per million accuracy",
+          "helium — used for electromagnetic radius determination and as a check gas",
+          "nitrogen — well-characterized reference for moderate-accuracy verification",
+          "mercury (for electromagnetic variant) — well-known dielectric constant reference"
+        ],
+        "consumables": [
+          "high-purity sample gases (research grade, >99.999% for metrological work)",
+          "O-rings or metal gaskets for pressure seals",
+          "vacuum pump oil and turbopump maintenance items",
+          "calibration gases (argon, helium)"
+        ],
+        "safety_notes": [
+          "high-pressure gas systems require appropriate pressure vessel certification and burst disk protection",
+          "cryogenic operation requires standard cryogen handling precautions (frostbite, asphyxiation in confined spaces)",
+          "compressed gas cylinders must be secured and handled per institutional safety protocols",
+          "some sample gases (e.g., hydrocarbons, fluorocarbons) may be flammable or have occupational exposure limits"
+        ]
+      },
+      "performance": {
+        "sensitivity": "frequency measurement resolution of ~0.001 Hz on resonances at 1–100 kHz yields speed-of-sound sensitivity of ~1 part in 10⁷",
+        "detection_limit": "gas pressures as low as ~10 kPa measurable; lower pressures limited by transducer coupling and increasing mean-free-path boundary corrections",
+        "resolution": {
+          "spatial": "not applicable (bulk volumetric measurement)",
+          "temporal": "each resonance sweep takes 1–10 minutes; a full p-isotherm takes hours",
+          "spectral": "frequency resolution limited by synthesizer stability; typically < 1 mHz",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "speed of sound from ~100 m/s (heavy gases, low T) to ~1500 m/s (helium, high T); pressures from ~10 kPa to ~10 MPa",
+        "accuracy": "0.001–0.01% (10–100 ppm) for speed of sound in gases; sub-ppm achievable in metrological argon measurements with ab initio radius calibration",
+        "precision": "0.001–0.005% (repeatability across radial modes and repeated fills)",
+        "throughput": "single gas sample at a time; one complete (T,p) dataset takes days to weeks of careful measurement",
+        "measurement_speed": "individual resonance scan: 1–10 minutes; full isotherm (10–15 pressure points × multiple modes): several hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "complex voltage transfer function (amplitude and phase) vs. swept frequency across each acoustic resonance, fitted to a Lorentzian line shape to extract resonant frequency f_n and half-width g_n",
+        "preprocessing_steps": [
+          "Lorentzian (or complex resonance) fit to each mode peak to extract center frequency f_n and half-width g_n",
+          "correction for thermal boundary layer (Kirchhoff-Helmholtz): Δf_thermal and Δg_thermal proportional to (f_n)^(1/2)",
+          "correction for viscous boundary layer: Δf_viscous and Δg_viscous from gas transport properties",
+          "shell compliance correction: elastic motion of cavity wall shifts f_n; calculated from shell theory or measured via pressure dependence",
+          "geometric imperfection corrections: non-sphericity, transducer port perturbations, equatorial join effects — computed from perturbation theory",
+          "fill tube and port corrections: small volume and impedance perturbations from gas inlet tubes and transducer recesses"
+        ],
+        "analysis_methods": [
+          "mode-by-mode speed of sound: u_n = 2πa·f_n,corrected / z_n, where z_n is the nth zero of the spherical Bessel function derivative",
+          "weighted average of u_n across multiple radial modes (typically (0,2)–(0,8)) with outlier rejection",
+          "acoustic virial equation fit: u²(p) = A₀ + A₁p + A₂p² + ..., where A₀ = γ°RT/M, A₁ = (γ°/M)(βa + (γ°−1)B/γ°), etc.",
+          "zero-pressure intercept A₀ yields ideal-gas heat capacity ratio γ° = Cp°/(Cp°−R), hence Cp° = γ°R/(γ°−1)",
+          "comparison of measured g_n with calculated boundary-layer losses as a quality diagnostic",
+          "electromagnetic resonance analysis (variant): f_em,n = c·z'_n / (2πa·√ε) yields dielectric permittivity ε"
+        ],
+        "model_assumptions": [
+          "cavity is a perfect sphere — departures treated as small perturbations",
+          "gas behaves as a continuum (mean free path << cavity radius and boundary layer thickness)",
+          "acoustic excitation is in the linear (small-amplitude) regime",
+          "thermal and viscous boundary layers are thin compared to wavelength (high-Q approximation)",
+          "shell vibrations are decoupled from acoustic modes except through perturbation corrections",
+          "gas composition is uniform and constant during measurement (no adsorption/desorption)"
+        ],
+        "fit_parameters": [
+          "resonant frequency f_n and half-width g_n for each mode (from Lorentzian fit)",
+          "effective cavity radius a (from reference gas measurement or microwave calibration)",
+          "acoustic virial coefficients A₀, A₁, A₂ (from u² vs p polynomial regression)",
+          "ideal-gas heat capacity Cp° (from A₀)",
+          "second acoustic virial coefficient βa(T) (from A₁)"
+        ],
+        "common_artifacts": [
+          "shell resonance overlap: when a mechanical resonance of the cavity wall coincides with an acoustic mode, the measured frequency is perturbed and the half-width is anomalously large",
+          "precondensation: near the dew point, adsorption of gas on cavity walls shifts frequencies and broadens resonances",
+          "transducer port perturbation: poorly characterized port geometry introduces mode-dependent systematic errors",
+          "non-radial mode contamination: imperfect transducer placement or cavity asymmetry couples energy into non-radial modes that overlap with radial modes",
+          "outgassing: contaminant desorption from cavity walls after evacuation changes effective gas composition"
+        ],
+        "quality_control_checks": [
+          "mode consistency: speed of sound from each radial mode should agree within stated uncertainty; outliers indicate shell resonance overlap or port perturbation",
+          "reciprocity check: interchanging source and detector transducers should yield identical frequencies",
+          "half-width comparison: measured g_n should match theoretical boundary-layer prediction within ~5%; excess half-width indicates energy loss to shell or surface effects",
+          "argon validation: measured u in argon should agree with ab initio values to within instrumental uncertainty",
+          "pressure cycling reproducibility: measurements at the same (T,p) on filling and emptying should agree, ruling out hysteresis or adsorption effects"
+        ],
+        "failure_modes": [
+          "vacuum leak in cavity or gas manifold (drift in resonance frequency with time; contamination of sample gas)",
+          "transducer failure or degradation (loss of signal, distorted line shape, excessive half-widths)",
+          "thermostat instability (frequency drift correlated with temperature oscillation)",
+          "sample gas impurity (systematic offset in u from expected values; may shift all modes uniformly)",
+          "mechanical disturbance or vibration (broadened or split resonance peaks)"
+        ]
+      },
+      "uncertainty": {
+        "level": "combined standard uncertainty 0.001–0.01% (10–100 ppm) for speed of sound in gases; 0.01–0.05% for derived Cp°",
+        "random_sources": [
+          "frequency fitting uncertainty (Lorentzian peak centroid determination)",
+          "temperature measurement noise and short-term thermostat instability",
+          "pressure gauge noise and drift",
+          "electronic noise in transducer signal chain",
+          "mode-to-mode scatter from residual geometric perturbations"
+        ],
+        "systematic_sources": [
+          "cavity radius calibration uncertainty (often the dominant systematic error; ~1–5 ppm)",
+          "thermal expansion coefficient uncertainty of cavity material",
+          "boundary layer correction model uncertainty (transport property inputs for thermal conductivity and viscosity)",
+          "shell compliance correction uncertainty",
+          "gas purity (trace impurities shift speed of sound)",
+          "pressure calibration offset",
+          "temperature scale realization (ITS-90 calibration uncertainty of SPRT)"
+        ],
+        "operator_dependence": "low — measurement is highly automated; operator influence limited to gas handling cleanliness, transducer installation quality, and judgment in mode selection",
+        "model_dependence": "moderate — accuracy depends on the correctness of boundary-layer theory, shell perturbation calculations, and geometric imperfection corrections; these models are mature and well-validated for precision spherical resonators",
+        "dominant_error_sources": [
+          "cavity radius determination (for absolute speed of sound)",
+          "boundary layer corrections (especially for gases with poorly known transport properties)",
+          "sample gas purity"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(u) at 95% confidence (k=2), in m/s and as relative (ppm)",
+          "combined expanded uncertainty U(Cp°) at 95% confidence (k=2), in J/(mol·K)",
+          "individual uncertainty components tabulated by source"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "A spherical resonator is a precision acoustic instrument that determines the speed of sound in gases (and occasionally liquids) by exciting and measuring the resonant acoustic modes of a gas-filled spherical cavity. Listed as a distinct eMethodName in ThermoML, this entry represents the resonator apparatus itself and its use as a measurement device — closely related to, but catalogued separately from, the broader 'Spherical cavity resonance method.' The technique exploits the analytically exact eigenfrequencies of a perfect sphere, enabling absolute speed-of-sound measurements with uncertainties as low as a few parts per million. From speed-of-sound data over a range of pressures, ideal-gas heat capacities, acoustic virial coefficients, and equation-of-state information are derived. The spherical resonator has also been employed in electromagnetic (microwave) mode for determining dielectric constants and for high-accuracy dimensional metrology, where microwave and acoustic modes are combined to determine the Boltzmann constant.",
+      "how_it_operates": "The instrument consists of a highly spherical metallic cavity — typically two precision-machined hemispheres bolted together — equipped with small acoustic transducers (source and detector) mounted in ports on the cavity wall. The cavity is filled with sample gas at controlled temperature and pressure. A frequency synthesizer drives the source transducer through a swept or stepped frequency range encompassing multiple radial acoustic resonances. At each resonance, the standing-wave pattern inside the sphere produces a peak in the detected signal; the complex transfer function (amplitude and phase) is recorded as a function of frequency and fitted to a Lorentzian line shape. The center frequency f_n of the nth radial mode is related to the speed of sound by f_n = u·z_n/(2πa), where z_n is the nth zero of the derivative of the zeroth-order spherical Bessel function and a is the cavity radius. Multiple radial modes (typically n = 2 through 8) provide independent determinations of u, and their consistency serves as a powerful internal quality check. The resonance half-widths g_n carry information about energy dissipation in the thermal and viscous boundary layers at the cavity wall.",
+      "core_theory": "The acoustic eigenfrequencies of a perfect, rigid, spherical cavity of radius a filled with a lossless fluid of sound speed u are given by f_ln = u·z_ln/(2πa), where z_ln is the nth positive root of j'_l(z) = 0 (the derivative of the spherical Bessel function of order l). For the radially symmetric modes (l = 0), the eigenvalues z_0n are known analytically (z_01 = π, z_02 = 2π, z_03 = 3π, etc.), giving f_0n = n·u/(2a). In practice, several corrections modify these ideal frequencies: (1) thermal boundary layer — heat exchange between the oscillating gas and the isothermal wall creates a thin absorbing layer of thickness δ_t = √(2κ/(ωρCp)), shifting frequencies downward by Δf/f ≈ −(γ−1)δ_t/(2a) and contributing to the half-width; (2) viscous boundary layer — tangential velocity vanishing at the wall (relevant for non-radial modes; negligible for purely radial modes in an ideal sphere); (3) shell compliance — elastic deformation of the cavity wall under acoustic pressure changes the effective radius slightly, producing a mode-dependent frequency shift calculable from elasticity theory; (4) geometric imperfections — deviations from perfect sphericity, transducer port openings, and the equatorial joining seam introduce perturbations treated by first-order cavity perturbation theory. The speed of sound in a real gas depends on pressure through the acoustic virial equation, u²(T,p) = A₀(T) + A₁(T)·p + A₂(T)·p² + ..., where A₀ = γ°RT/M yields the ideal-gas heat capacity ratio γ° = Cp°/(Cp° − R), and higher-order coefficients relate to intermolecular potential parameters through the acoustic virial coefficients βa and γa.",
+      "setup": "A typical spherical resonator system comprises a precision cavity of 50–90 mm internal radius, fabricated from stainless steel (Type 316 or 304) or oxygen-free copper (for superior thermal conductivity). The two hemispheres are machined on a precision lathe and diamond-turned or lapped to achieve sphericity deviations below 1 µm over the interior surface. They are aligned by a tongue-and-groove or dowel-pin arrangement and clamped with a bolted flange or compression ring. Two small ports (~2 mm diameter) on opposite poles accommodate electrostatic or piezoelectric transducers, with one acting as the acoustic source and the other as the detector. The cavity is mounted inside a precision thermostat — either a stirred liquid bath or a copper thermal shield in a vacuum cryostat — achieving temperature stability of ±0.5 mK or better. A calibrated standard platinum resistance thermometer (SPRT) is embedded in or strapped to the cavity wall. Gas pressure is measured by a quartz-crystal transducer (e.g., Paroscientific Digiquartz) calibrated against a primary piston gauge. A stainless-steel gas handling manifold with turbomolecular pump, precision valves, and gas purification traps connects the cavity to sample and reference gas supplies. A frequency synthesizer with sub-mHz stability drives the source; the detector output is analyzed by a network analyzer or lock-in amplifier interfaced to a computer that automates frequency sweeping, data acquisition, and real-time Lorentzian fitting.",
+      "suitable_for": "The spherical resonator is the instrument of choice for the highest-accuracy speed-of-sound measurements in gases, routinely achieving uncertainties of 10–100 parts per million and approaching sub-ppm levels in metrological applications. It is ideally suited for determining ideal-gas heat capacities Cp°(T) of pure gases and well-defined mixtures, deriving acoustic virial coefficients βa(T) that relate to intermolecular pair potentials, and characterizing equation-of-state behavior of gases at moderate pressures. The technique has been central to fundamental metrology, notably the acoustic determination of the Boltzmann constant kB (contributing to the 2019 SI redefinition) and the thermodynamic determination of temperature via primary acoustic gas thermometry. It is also applied to the study of gas-phase relaxation phenomena through analysis of resonance half-widths. In its electromagnetic variant, the spherical resonator measures the relative dielectric permittivity ε of gases, enabling determination of polarizabilities and dielectric virial coefficients. It is less commonly but viably used for liquids, though higher acoustic attenuation limits the achievable accuracy.",
+      "core_limitations": "The spherical resonator is fundamentally a gas-phase instrument; measurements in liquids suffer from higher acoustic attenuation that broadens resonances and degrades precision. The technique requires substantial sample volumes (0.5–3 L) and high-purity gases, as even trace impurities directly bias the measured speed of sound. The cavity radius must be known or calibrated to ppm-level accuracy, which typically demands a separate microwave resonance measurement or validation against a gas with ab initio known properties (argon). Shell resonances — mechanical vibrations of the cavity wall — can overlap with acoustic modes and must be identified and avoided or corrected, constraining the usable mode set. The operating pressure range is bounded below by signal-to-noise considerations and increasing boundary-layer corrections, and above by the mechanical rating of the pressure vessel and onset of precondensation effects near the saturation curve. Measurements are time-intensive: achieving full thermodynamic equilibrium at each state point and sweeping multiple modes at multiple pressures along each isotherm typically requires days to weeks per complete dataset.",
+      "sample_preparation": "Sample gases must be of the highest achievable purity, typically research grade (>99.999%) for metrological work. Purity is verified by gas chromatography or mass spectrometry, and any specified trace impurities (particularly water and heavier hydrocarbons) are quantified for uncertainty budgeting. The gas handling manifold and cavity are evacuated to below 1 Pa using a turbomolecular pump and leak-tested (leak rate < 10⁻⁸ Pa·L/s) before each fill. The cavity interior must be clean and free of residual pump oil, machining debris, or adsorbed moisture; baking under vacuum at 50–100 °C accelerates desorption. Sample gas is admitted slowly through a needle valve to avoid adiabatic heating and to allow thermal equilibration. For liquids, the cavity is filled from the bottom to avoid trapping gas bubbles, and the fill state is verified by monitoring mode frequencies for bubble-related anomalies.",
+      "calibration_and_references": "The cavity radius a is the critical dimensional parameter. It is most accurately determined by measuring electromagnetic (microwave) resonances of the evacuated or helium-filled cavity: the TE and TM mode frequencies yield a via f_em,ln = c·z'_ln/(2πa), where c is the known speed of light (or speed in helium). Alternatively, acoustic measurements in argon exploit the ab initio pair potential of argon (accurate to ~1 ppm in u) to extract a acoustically. The thermal expansion of the cavity with temperature is corrected using the known expansion coefficient of the shell material (e.g., 16.0 × 10⁻⁶ K⁻¹ for 316 stainless steel). Temperature is calibrated on ITS-90 using an SPRT referenced to fixed-point cells (triple points of water, mercury, gallium, indium). Pressure transducers are calibrated against a primary dead-weight piston gauge traceable to national standards. The overall measurement chain is validated by comparing the speed of sound in argon with the best available ab initio values.",
+      "data_interpretation": "At each state point (T, p), the complex frequency response is swept across each radial resonance and fitted to a Lorentzian (or more precisely, a complex resonance function accounting for the overlap of neighboring modes) to extract f_n and g_n. Corrections are applied sequentially for the thermal boundary layer, shell compliance, geometric imperfections, and fill-tube perturbations, yielding corrected frequencies f_n,corr. The speed of sound from each mode is u_n = 2πa(T)·f_n,corr/z_0n, and a weighted mean across modes n = 2–8 is taken, with weights inversely proportional to the variance of each mode. The pressure dependence of u²(T, p) is fitted to the acoustic virial equation u² = A₀ + A₁p + A₂p², where the intercept A₀ = γ°RT/M gives the ideal-gas heat capacity ratio γ°, from which Cp° = Mγ°R/(M(γ°−1)) is computed. The slope coefficient A₁ relates to the second acoustic virial coefficient βa(T), which in turn provides the second virial coefficient B(T) and its temperature derivative. Measured half-widths g_n are compared with boundary-layer predictions to verify the self-consistency of the transport-property inputs and to identify anomalous energy losses. For the electromagnetic variant, dielectric permittivity ε is extracted from microwave resonance frequencies via ε = (c·z'_ln/(2πa·f_em,ln))².",
+      "common_pitfalls": "The most critical pitfall is inadequate cavity radius calibration, which propagates directly as a proportional error in the absolute speed of sound. Failure to identify and exclude modes contaminated by shell resonance overlap leads to outlier u_n values that bias the weighted mean. Insufficient gas purity — particularly trace water contamination — causes systematic frequency shifts that may pass undetected because they affect all modes uniformly. Neglecting or underestimating the shell compliance correction produces a pressure-dependent systematic error in u that distorts the acoustic virial fit. Premature measurement before full thermal equilibration after a temperature change introduces transient frequency drift that is aliased into the apparent speed of sound. Operating too close to the dew curve causes precondensation on the cavity walls, broadening resonances and introducing irreproducible frequency shifts.",
+      "artifacts_and_failure_modes": "Shell resonance overlap is the most common artifact: when a flexural or breathing mode of the cavity wall falls near an acoustic radial mode, the acoustic frequency is shifted by up to several parts per million and the half-width increases substantially. These overlaps can be identified by their anomalous half-width relative to boundary-layer predictions and by their pressure independence (since shell eigenfrequencies are nearly independent of gas pressure). Non-radial mode contamination arises when imperfect transducer placement or cavity asymmetry couples energy into (l ≠ 0) modes that degenerate or nearly degenerate with the target radial mode, producing asymmetric line shapes. Precondensation near the saturation boundary produces a progressive downward drift in resonance frequency as a film forms on the cavity wall, increasing the effective acoustic path. Vacuum leaks or outgassing cause slow drifts in resonance frequencies over hours as the gas composition changes. Transducer degradation (e.g., dielectric breakdown in electrostatic transducers) manifests as loss of signal amplitude, increased noise floor, or distorted line shapes.",
+      "reporting_checklist": "Publications using a spherical resonator should report: cavity material, nominal radius, and method of radius determination (microwave, argon reference, or dimensional metrology); sphericity characterization (deviations from ideal sphere); transducer type and location; thermostat type and demonstrated temperature stability; thermometer type and ITS-90 calibration traceability; pressure transducer model and calibration traceability; sample gas purity and supplier, with quantified trace impurities; radial modes used and any modes excluded (with reasons); corrections applied (thermal boundary layer, shell compliance, geometric imperfections, fill tube) with references to the perturbation models used; tabulated u(T,p) data with combined expanded uncertainties at 95% confidence (k = 2); derived quantities (Cp°, βa, γa) with propagated uncertainties; comparison with reference data (argon validation or literature values). For ThermoML encoding, speed-of-sound and derived heat capacity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

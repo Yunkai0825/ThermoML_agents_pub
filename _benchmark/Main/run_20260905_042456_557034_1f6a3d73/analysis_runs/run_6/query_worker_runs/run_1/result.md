@@ -1,0 +1,13 @@
+{
+  "answer": "**Excess molar volume (V^E) data for ethanol + water at 298.15 K: Not found in the ThermoML database.**\n\nA comprehensive search was conducted:\n\n- **Compounds confirmed:** ethanol (GLOBcomp_2) and water (GLOBcomp_1) are both present in the database.\n- **Property confirmed:** Excess molar volume (GLOBprop_28, m³/mol) exists in the database and is recorded for other binary and ternary systems (e.g., in DOIs 10.1007/s10765-010-0717-9 [GLOBlit_92] and 10.1016/j.fluid.2005.06.011 [GLOBlit_276]), but **none of those blocks involve ethanol or water**.\n- **Ethanol + water binary data exists** for other properties — mass density (GLOBprop_1, 12 blocks), mole fraction / VLE (GLOBprop_2, 9 blocks), activity coefficient (GLOBprop_3, 4 blocks), viscosity (GLOBprop_4, 4 blocks), and vapor pressure (GLOBprop_5, 5 blocks) — but no excess molar volume blocks were found for this pair under any scope (declared or subsystem).\n\nIn summary, the ThermoML database does not contain excess molar volume (V^E) measurements for the ethanol + water binary system. Density data (GLOBprop_1) is available for this system and could, in principle, be used to derive V^E if pure-component densities are also available, but no direct V^E entries exist.",
+  "core_claims": [
+    "The ThermoML database does not contain excess molar volume (V^E) measurements for the ethanol + water binary system at 298.15 K, despite both compounds and the V^E property being present in the database for other systems.",
+    "Ethanol + water binary data exists in the database for other properties (mass density, mole fraction/VLE, activity coefficient, viscosity, vapor pressure) but not for excess molar volume.",
+    "Density data for ethanol + water is available in the database and could in principle be used to derive V^E, but no direct V^E entries exist."
+  ],
+  "status": "no_results",
+  "summary": "A comprehensive search of the ThermoML database found that both ethanol and water are present as compounds, and excess molar volume (V^E) exists as a property for other systems, but no excess molar volume data for the ethanol + water binary system is recorded. Ethanol + water data exists for other properties — mass density, mole fraction/VLE, activity coefficient, viscosity, and vapor pressure — but not for V^E. Density data for this pair could in principle be used to derive V^E, but no direct V^E entries exist in the database.",
+  "core_id_updates": [],
+  "core_blocks_found": [],
+  "data_inspections": []
+}

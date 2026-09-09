@@ -1,0 +1,314 @@
+/* ThermoML Browser — custom styles */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.95rem;
+}
+
+/* measurement cards */
+.meas-card > .card-header {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s;
+}
+.meas-card > .card-header:hover {
+  background-color: #f0f0f0;
+}
+
+/* data tables */
+.data-scroll {
+  max-height: 480px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+.data-table {
+  font-size: 0.82rem;
+  margin-bottom: 0;
+}
+.data-table thead th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 2;
+  white-space: nowrap;
+  border-bottom: 2px solid #dee2e6;
+}
+.data-table td {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.row-num {
+  width: 38px;
+  text-align: center;
+  color: #999;
+}
+.uncert-col {
+  color: #888;
+  font-size: 0.78em;
+}
+/* derived absolute-value column (browser-computed, not a stored ThermoML value) */
+.abs-col {
+  color: #6f42c1;
+  font-style: italic;
+}
+/* reference-state metadata panel under the property table */
+.ref-state-box {
+  background: #f8f9fa;
+  border-left: 3px solid #6c757d;
+  padding: .35rem .6rem;
+}
+.ref-state-item + .ref-state-item {
+  margin-top: .25rem;
+}
+
+/* compound table tweaks */
+.table td, .table th {
+  vertical-align: middle;
+}
+
+/* pagination */
+.pagination .page-link {
+  min-width: 2.2rem;
+  text-align: center;
+}
+
+/* ── Smart search (in left panel) ── */
+.smart-bar-input-sm {
+  padding-left: 2rem;
+  border-radius: 6px;
+  border: 2px solid #b8c9e0;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.smart-bar-input-sm:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+.smart-bar-icon-sm {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  font-size: 0.85rem;
+  z-index: 2;
+  pointer-events: none;
+}
+.smart-bar-hints {
+  font-size: 0.72rem;
+  color: #7a8a9e;
+}
+.smart-bar-hints code {
+  font-size: 0.82em;
+  background: rgba(0,0,0,0.06);
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+/* ── Resolution feedback chips (inline in smart panel) ── */
+.resolution-inline {
+  background: #fffbe6;
+  border: 1px solid #f0e4a8;
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+.res-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.72rem;
+  padding: 1px 6px 1px 1px;
+  border-radius: 10px;
+  border: 1px solid #dee2e6;
+  background: #fff;
+  line-height: 1.4;
+}
+.res-chip-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 8px;
+  color: #fff;
+}
+.res-chip-id {
+  font-size: 0.6rem;
+  color: #0d6efd;
+  font-family: monospace;
+  opacity: 0.7;
+}
+.res-chip-score {
+  font-size: 0.6rem;
+  color: #888;
+  margin-left: 1px;
+}
+.res-chip-compound .res-chip-label { background: #0d6efd; }
+.res-chip-property .res-chip-label { background: #198754; }
+.res-chip-measurement .res-chip-label { background: #6f42c1; }
+.res-chip-variable .res-chip-label { background: #20c997; }
+.res-chip-constraint .res-chip-label { background: #fd7e14; }
+.res-chip-bibliography .res-chip-label { background: #6c757d; }
+.res-chip-filter .res-chip-label { background: #495057; }
+.res-chip-unknown .res-chip-label { background: #dc3545; }
+.res-chip-unknown { border-color: #f5c2c7; background: #fff5f5; }
+
+/* ── Search page panels ── */
+.search-panel > .card-header {
+  font-size: 0.88rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+.search-panel > .card-header:hover {
+  background: #e9ecef;
+}
+.search-panel .form-label-sm {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #555;
+}
+.search-panel .form-text {
+  color: #888;
+}
+
+/* ── Similarity visual bar ── */
+.sim-bar {
+  height: 6px;
+  background: linear-gradient(90deg, #198754, #20c997);
+  border-radius: 3px;
+  min-width: 4px;
+}
+
+/* ── Result table ── */
+.result-table td {
+  vertical-align: top;
+  font-size: 0.85rem;
+}
+.result-table .badge {
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+/* ── Agent Monitor page ── */
+.agent-progress-log {
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.agent-progress-log .text-success {
+  color: #75b798 !important;   /* lighter green for dark background */
+  border-left: 3px solid #198754;
+  padding-left: 8px;
+  margin: 4px 0;
+}
+.agent-progress-log .text-danger {
+  color: #ea868f !important;   /* lighter red for dark background */
+  border-left: 3px solid #dc3545;
+  padding-left: 8px;
+  margin: 4px 0;
+}
+.agent-progress-log .text-light {
+  color: #f8f9fa !important;
+}
+.agent-progress-log .text-info {
+  color: #f8f9fa !important;
+}
+.agent-progress-log .text-muted {
+  color: #ced4da !important;
+}
+.agent-progress-log .text-secondary {
+  color: #adb5bd !important;   /* visible grey on dark bg */
+}
+.agent-progress-log .text-warning {
+  color: #ffda6a !important;
+}
+
+/* Reasoning token panel – ensure visible text */
+#reasoningMdPanel {
+  color: #e0e0e0 !important;
+}
+
+/* Agent run list sidebar */
+.agent-run-scroll {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+.agent-run-scroll .run-item {
+  border-left: 3px solid transparent;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.agent-run-scroll .run-item:hover {
+  border-left-color: #6c757d;
+}
+.agent-run-scroll .run-item.active {
+  border-left-color: #0d6efd;
+  background-color: #e8f0fe;
+}
+.badge-sm { font-size: 0.68rem; padding: 0.2em 0.45em; }
+
+/* Detail panel sections */
+.detail-section { display: none; }
+.detail-section.active { display: block; }
+.detail-tabs .nav-link { font-size: 0.85rem; padding: 0.35rem 0.7rem; }
+.multi-section-result-panel .detail-section.active { margin-bottom: 0.75rem; }
+
+/* Rendered MD in detail panels */
+.rendered-md { font-size: 0.88rem; max-height: calc(100vh - 300px); overflow-y: auto; }
+.rendered-md h1, .rendered-md h2, .rendered-md h3 { margin-top: 1rem; }
+.rendered-md table { font-size: 0.82rem; width: 100%; border-collapse: collapse; }
+.rendered-md table th,
+.rendered-md table td { padding: 0.25rem 0.5rem; border: 1px solid #dee2e6; }
+.rendered-md table thead th { background: #f8f9fa; position: sticky; top: 0; }
+
+/* Specialized-tool plugin browser */
+.specialized-run-list { max-height: 73vh; overflow: auto; }
+.specialized-run-item {
+  display: block; width: 100%; padding: .75rem; text-align: left;
+  border: 0; border-bottom: 1px solid #e9ecef; background: #fff;
+}
+.specialized-run-item:hover { background: #f8f9fa; }
+.specialized-run-item.active {
+  color: #052c65; background: #cfe2ff; box-shadow: inset 3px 0 #0d6efd;
+}
+.specialized-panel-toolbar { position: sticky; top: .25rem; z-index: 8; }
+.specialized-panel-toggle { white-space: nowrap; }
+.specialized-plugin-sections {
+  display: flex; align-items: flex-start; gap: .75rem; overflow-x: auto;
+  padding: .75rem; border: 1px solid #dee2e6; border-radius: .375rem;
+  background: #f8f9fa; scroll-snap-type: x proximity;
+}
+.specialized-plugin-section {
+  display: none; min-width: min(26rem, 88vw); max-height: 76vh;
+  overflow: auto; border: 1px solid #dee2e6; border-radius: .375rem;
+  background: #fff; scroll-snap-align: start;
+}
+.specialized-plugin-section.active { display: block; flex-grow: 0; flex-shrink: 0; }
+.specialized-json-box {
+  max-height: 28rem; overflow: auto; border: 1px solid #dee2e6;
+  border-radius: .375rem; background: #f8f9fa;
+}
+.specialized-json-box pre { margin: 0; padding: .75rem; font-size: .75rem; white-space: pre-wrap; }
+.specialized-table-wrap { max-height: 34rem; overflow: auto; border: 1px solid #dee2e6; }
+.specialized-data-table { font-size: .78rem; }
+.specialized-data-table thead th {
+  position: sticky; top: 0; z-index: 2; white-space: nowrap; background: #f1f3f5;
+}
+.specialized-table-filter { width: min(20rem, 100%); }
+.specialized-browser code { overflow-wrap: anywhere; }
+.specialized-browser-frame { width: 100%; min-height: 760px; border: 0; display: block; }
+
+/* DOI links in memory/result views */
+.doi-link { color: #0d6efd; text-decoration: none; border-bottom: 1px dashed #0d6efd; }
+.doi-link:hover { color: #0a58ca; text-decoration: underline; }
+
+/* Entity ID links (prop_1, var_2, meas_42, constr_5) in memory/stats */
+.entity-id-link { color: #6f42c1; font-family: monospace; font-size: 0.88em; text-decoration: none; border-bottom: 1px dashed #6f42c1; cursor: pointer; }
+.entity-id-link:hover { color: #5a32a3; text-decoration: underline; }
+
+/* Sub-runs bar (query agent) */
+.sub-runs-bar .btn-group .btn { font-size: 0.78rem; }
+
+/* Image thumbnails */
+.img-thumb-item { transition: transform 0.15s, box-shadow 0.15s; }
+.img-thumb-item:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+/* CSV display reuses data-scroll/data-table from papers */

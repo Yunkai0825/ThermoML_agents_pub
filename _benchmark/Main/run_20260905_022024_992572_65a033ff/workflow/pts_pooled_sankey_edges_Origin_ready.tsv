@@ -1,0 +1,15 @@
+Source	Target	Value	source_full	target_full	flow_type	ids	provenance	edge_order	appearance_order	appearance_key
+memory carry (WM render · transient) (2×)	main · agent context (dedup merge)	86	grp:support|memory	grp:main|context	memory	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18		1	1	grp:support|memory
+Q1 · L1 · search · raw results	Q1 · L1 · search · hardcoded compact	86	grp:Q1|L1|search|raw	grp:Q1|L1|search|hardcoded	retained	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18	run_history.md::Step 5 [main - Q_1 - L1_1 · c2]	2	2	grp:main|context
+Q1 · L1 · search · hardcoded compact	Q1 · L1 · search · agentic kept	86	grp:Q1|L1|search|hardcoded	grp:Q1|L1|search|agentic	retained	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18	run_history.md::Step 5 [main - Q_1 - L1_1 · c2]	3	3	grp:Q1|L1|search|raw
+Q1 · L1 · search · agentic kept	L1 · agent context (dedup merge)	86	grp:Q1|L1|search|agentic	grp:L1|context	context	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18	run_history.md::Step 5 [main - Q_1 - L1_1 · c2]	4	4	grp:Q1|L1|search|hardcoded
+deterministic DB evidence (inspection tools + ledger + DB hydration · deduped) (9×)	L1 · agent context (dedup merge)	86	grp:inspection	grp:L1|context	metadata;context	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18	run_history.md::Step 7 [main - Q_1 - L1_1 · c4] | run_history.md::Step 9 [main - Q_1 - L1_1 · c6]	5	5	grp:Q1|L1|search|agentic
+L1 · agent context (dedup merge)	L1 · answer	86	grp:L1|context	grp:L1|answer	synthesis	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18		6	6	grp:L1|context
+L1 · answer	L1 · result envelope (deliverable)	86	grp:L1|answer	grp:L1|deliverable	relay	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18		7	7	grp:inspection
+L1 · agent context (dedup merge)	re-confirmed known IDs (dedup) (3×)	86	grp:L1|context	grp:sink|dedup	deduplicated	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18		8	8	grp:L1|answer
+L1 · result envelope (deliverable)	Q · agent context (dedup merge)	86	grp:L1|deliverable	grp:Q|context	relay	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18	run_history.md::Step 1 [main - Q_1 · c7]	9	9	grp:L1|deliverable
+Q · agent context (dedup merge)	Q · answer	86	grp:Q|context	grp:Q|answer	synthesis	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18		10	10	grp:sink|dedup
+Q · answer	Q · result envelope (deliverable)	86	grp:Q|answer	grp:Q|deliverable	relay	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18		11	11	grp:Q|context
+Q · result envelope (deliverable)	main · agent context (dedup merge)	86	grp:Q|deliverable	grp:main|context	relay	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18	run_history.md::Step 2 [main · c1]	12	12	grp:Q|answer
+main · agent context (dedup merge)	main · final answer	86	grp:main|context	grp:main|answer	synthesis	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18		13	13	grp:Q|deliverable
+main · agent context (dedup merge)	re-confirmed known IDs (dedup) (3×)	86	grp:main|context	grp:sink|dedup	deduplicated	GLOBlit_4124::PROPblock_6;GLOBlit_7481::PROPblock_18		14	14	grp:main|answer

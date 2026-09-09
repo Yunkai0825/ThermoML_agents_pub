@@ -1,0 +1,289 @@
+{
+  "meas_ID": "rectilinear_diameter",
+  "identity": {
+    "name": "Rectilinear diameter",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Rectilinear diameter",
+    "thermoml_custom_codes": [
+      "RECTID"
+    ],
+    "measurement_family": "Visual / Direct Observation",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 5,
+      "property_groups": [
+        "Criticals"
+      ],
+      "n_papers": 2,
+      "per_group": {
+        "Criticals": {
+          "instances": 5,
+          "papers": 2
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "liquid-phase density (ρ_L) at each temperature along the coexistence curve",
+          "vapor-phase density (ρ_V) at each temperature along the coexistence curve",
+          "coexistence temperatures (T) at which ρ_L and ρ_V are measured"
+        ],
+        "derived_observables": [
+          "rectilinear diameter ρ_d(T) = (ρ_L + ρ_V) / 2",
+          "critical density (ρ_c) by extrapolation of ρ_d to T_c",
+          "critical temperature (T_c) from intersection with coexistence curve envelope",
+          "slope coefficient a in ρ_d = ρ_c + a(T − T_c)",
+          "singular-diameter correction amplitude B_d in extended models"
+        ],
+        "target_properties": [
+          "critical density (ρ_c)",
+          "critical temperature (T_c)",
+          "coexistence curve shape parameters",
+          "rectilinear diameter slope (dρ_d/dT)"
+        ],
+        "phases_measured": [
+          "liquid (saturated liquid on coexistence curve)",
+          "vapor (saturated vapor on coexistence curve)",
+          "near-critical fluid"
+        ],
+        "supported_sample_types": [
+          "pure fluids with accessible liquid-vapor coexistence",
+          "simple molecular fluids (noble gases, hydrocarbons, refrigerants)",
+          "polar and associating fluids (water, alcohols, amines)",
+          "binary mixtures (applied along mixture critical locus)",
+          "quantum fluids (helium-3, helium-4)"
+        ],
+        "unsupported_sample_types": [
+          "solids (no liquid-vapor coexistence)",
+          "fluids that decompose before reaching the critical point",
+          "systems lacking measurable coexistence data (e.g., ionic liquids with extremely high T_c)",
+          "highly reactive systems where composition changes near T_c",
+          "supercritical fluids measured above T_c only (no coexistence data)"
+        ],
+        "typical_output_formats": [
+          "ρ_d vs. T plot (rectilinear diameter line)",
+          "ρ_L and ρ_V vs. T coexistence curve with midpoint locus",
+          "tabulated {T, ρ_L, ρ_V, ρ_d} data",
+          "fitted parameters: ρ_c, T_c, slope a, and singular-diameter coefficients",
+          "ρ_c with combined uncertainty estimate"
+        ],
+        "units": {
+          "density": "kg/m³ or mol/dm³",
+          "temperature": "K",
+          "slope_coefficient_a": "kg/(m³·K) or mol/(dm³·K)",
+          "pressure": "MPa (when reporting corresponding saturation pressures)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range_of_coexistence_data",
+            "typical_range": "0.6 T_c to 0.999 T_c",
+            "hard_limits": "data must span a substantial fraction of the coexistence curve; extrapolation is unreliable if only a narrow T window near T_c is available",
+            "notes": "inclusion of data too far from T_c introduces curvature that the linear model cannot capture; data very close to T_c suffer from critical opalescence and gravitational stratification"
+          },
+          {
+            "parameter": "number_of_coexistence_data_points",
+            "typical_range": "10 to 100 (ρ_L, ρ_V) pairs",
+            "hard_limits": "minimum ~5 pairs for a meaningful linear fit; more points improve extrapolation reliability",
+            "notes": "denser spacing near T_c improves sensitivity to singular-diameter deviations"
+          },
+          {
+            "parameter": "proximity_to_critical_point",
+            "typical_range": "reduced temperature t = (T_c − T)/T_c from 0.001 to 0.4",
+            "hard_limits": "below t ≈ 0.001 gravitational effects distort density profiles; above t ≈ 0.4 the diameter deviates significantly from linearity",
+            "notes": "optimal fitting window typically 0.01 < t < 0.3"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "independent variable along coexistence curve",
+            "typical_values": "substance-dependent; e.g., 200–640 K for n-alkanes",
+            "effect": "determines the position on the coexistence curve and the lever for extrapolation to T_c"
+          },
+          {
+            "name": "liquid_density",
+            "role": "measured input at each coexistence temperature",
+            "typical_values": "substance-dependent; e.g., 200–800 kg/m³ for organic fluids",
+            "effect": "one branch of the coexistence envelope; contributes to ρ_d calculation"
+          },
+          {
+            "name": "vapor_density",
+            "role": "measured input at each coexistence temperature",
+            "typical_values": "substance-dependent; e.g., 1–300 kg/m³ depending on proximity to T_c",
+            "effect": "complementary branch of the coexistence envelope; contributes to ρ_d calculation"
+          },
+          {
+            "name": "fitting_window",
+            "role": "analyst-selected temperature range for the linear fit",
+            "typical_values": "reduced temperature range 0.01 < t < 0.3",
+            "effect": "controls the bias-variance tradeoff: wider windows include more data but violate linearity; narrower windows improve model validity but reduce statistical power"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "no dedicated instrument — this is a data analysis/extrapolation method applied to existing coexistence data",
+          "input data source: densimetry (vibrating-tube, pycnometer, magnetic float) or visual observation of meniscus disappearance",
+          "computing environment: spreadsheet, statistical software, or scripting language for least-squares fitting",
+          "optional: nonlinear regression software for extended models incorporating singular-diameter corrections"
+        ],
+        "environmental_requirements": [
+          "not applicable — analysis method performed on previously acquired data",
+          "the underlying coexistence measurements require temperature-controlled sealed cells near the critical point"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "not applicable — method operates on tabulated density data, not physical samples"
+          ],
+          "size_limits": "not applicable",
+          "thickness_limits": "not applicable",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "coexistence data must be available as matched (T, ρ_L, ρ_V) pairs",
+            "data quality: density values must be measured with sufficient precision to resolve the diameter slope",
+            "high-purity samples recommended for underlying measurements to avoid impurity-induced shifts in T_c"
+          ]
+        },
+        "calibration_requirements": [
+          "no instrument calibration — the method itself is a calibration-free extrapolation",
+          "the underlying density data must have been obtained with calibrated instruments",
+          "cross-validation: compare ρ_c from rectilinear diameter with independent measurements (e.g., sealed-ampoule visual method)"
+        ],
+        "reference_materials": [
+          "CO₂ — critical constants very precisely known (T_c = 304.13 K, ρ_c = 467.6 kg/m³); benchmark for validating the method",
+          "SF₆ — extensively studied near T_c with high-precision coexistence data",
+          "xenon — noble gas with well-characterized critical point",
+          "water — IAPWS-95 reference data provide benchmark coexistence densities"
+        ],
+        "consumables": [],
+        "safety_notes": [
+          "no direct safety concerns for the data analysis step",
+          "underlying measurements near T_c involve high-pressure sealed cells — standard high-pressure safety protocols apply to those experiments"
+        ]
+      },
+      "performance": {
+        "sensitivity": "the method can resolve ρ_c to within 0.1–0.5% when high-quality coexistence data spanning a wide temperature range are available",
+        "detection_limit": "not applicable — extrapolation method, not a detection technique",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "applicable to any fluid with measurable liquid-vapor coexistence; density range from dilute vapor (~1 kg/m³) to dense liquid (~1500 kg/m³)",
+        "accuracy": "classical linear law: 0.5–2% for ρ_c; extended models with singular-diameter correction: 0.1–0.5% for ρ_c; accuracy is limited by the quality and extent of the input coexistence data",
+        "precision": "0.1–0.3% (repeatability of ρ_c from different fitting windows applied to the same dataset)",
+        "throughput": "rapid — once coexistence data are available, the extrapolation takes seconds to minutes",
+        "measurement_speed": "analysis is essentially instantaneous; the rate-limiting step is acquiring the underlying coexistence data"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "tabulated coexistence densities {T_i, ρ_L,i, ρ_V,i} from experimental measurements",
+        "preprocessing_steps": [
+          "compute rectilinear diameter at each temperature: ρ_d,i = (ρ_L,i + ρ_V,i) / 2",
+          "assess data quality: reject obvious outliers in ρ_L or ρ_V",
+          "select fitting window: choose temperature range where the linear approximation is valid (typically 0.01 < t < 0.3)",
+          "convert temperatures to reduced temperature t = (T_c − T)/T_c if T_c is known or estimated",
+          "weight data points by inverse-variance of ρ_d if individual uncertainties are available"
+        ],
+        "analysis_methods": [
+          "classical linear fit: ρ_d(T) = ρ_c + a(T − T_c), solved by ordinary least squares for ρ_c and a",
+          "extended singular-diameter model: ρ_d(T) = ρ_c + a·t + B_d·t^(1−α), where α ≈ 0.110 is the heat capacity critical exponent",
+          "simultaneous fit of coexistence curve and diameter: fit ρ_L and ρ_V with scaling law Δρ = B·t^β and diameter model jointly",
+          "Wegner expansion: include higher-order correction-to-scaling terms ρ_d = ρ_c + a·t + B_d·t^(1−α) + B_1·t^(1−α+Δ₁) + ...",
+          "graphical extrapolation: plot ρ_d vs. T and visually extrapolate to T_c (historical method, now replaced by regression)"
+        ],
+        "model_assumptions": [
+          "law of rectilinear diameters: the average ρ_d = (ρ_L + ρ_V)/2 varies linearly with T in the classical approximation",
+          "mean-field assumption underlies the classical linear law; the actual diameter has a weak singularity at T_c",
+          "coexistence data are at true thermodynamic equilibrium (no metastable states)",
+          "gravitational stratification is negligible or has been corrected for in the input density data",
+          "the fluid is a single pure component or a mixture at fixed overall composition along the critical locus"
+        ],
+        "fit_parameters": [
+          "ρ_c — critical density (primary target of the extrapolation)",
+          "a — slope of the rectilinear diameter (dρ_d/dT)",
+          "T_c — critical temperature (sometimes co-fitted, sometimes taken from independent measurement)",
+          "B_d — amplitude of the singular-diameter contribution (in extended models)",
+          "B — amplitude of the order parameter Δρ = ρ_L − ρ_V = B·t^β (when fitting coexistence and diameter simultaneously)"
+        ],
+        "common_artifacts": [
+          "apparent curvature of the diameter: the classical linear law predicts a straight line but real fluids exhibit a weak t^(1−α) singularity, causing systematic deviation of ρ_c if ignored",
+          "gravitational rounding: near T_c gravity creates a density gradient in tall sample cells, distorting both ρ_L and ρ_V and thus ρ_d",
+          "impurity effects: trace impurities broaden the coexistence region and shift apparent T_c, introducing bias in the extrapolation",
+          "fitting-window bias: different temperature ranges yield different ρ_c if the model does not capture the true diameter shape",
+          "asymmetric data coverage: more data on the liquid branch than the vapor branch (or vice versa) biases the average"
+        ],
+        "quality_control_checks": [
+          "plot residuals of the linear fit to ρ_d vs. T — systematic curvature indicates the need for singular-diameter correction",
+          "compare ρ_c from different fitting windows; consistent results indicate model adequacy",
+          "verify that independently measured T_c falls within the extrapolation range",
+          "cross-check ρ_c against values from other methods (visual sealed-ampoule, scaling law fits to order parameter)",
+          "compute χ² or adjusted R² for the fit to assess goodness of fit",
+          "confirm that coexistence data satisfy the Clausius-Clapeyron relation as an internal consistency check"
+        ],
+        "failure_modes": [
+          "insufficient coexistence data: too few (T, ρ_L, ρ_V) points or too narrow a T range produces an ill-constrained extrapolation",
+          "strongly non-linear diameter: for fluids with large singular-diameter amplitudes (e.g., water, 3He), the classical linear law fails badly",
+          "decomposition or reaction near T_c: the fluid changes composition, invalidating the single-component assumption",
+          "gravitationally stratified data near T_c: unresolved density gradients lead to systematically incorrect ρ_L and ρ_V values",
+          "hysteresis in the input data: use of values from non-equilibrium heating/cooling runs biases ρ_d"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.3–2% for ρ_c depending on data quality and model used; improved to <0.3% with singular-diameter correction and high-precision input data",
+        "random_sources": [
+          "scatter in individual ρ_L and ρ_V measurements",
+          "temperature measurement noise at each coexistence point",
+          "limited number of coexistence data points"
+        ],
+        "systematic_sources": [
+          "use of classical linear model when the true diameter has a t^(1−α) singularity (dominant systematic error)",
+          "gravitational stratification bias in input density data near T_c",
+          "impurity-induced shift in T_c and broadening of the coexistence curve",
+          "selection of fitting window (temperature range bias)",
+          "uncertainty in T_c when it is taken from an independent measurement",
+          "systematic error in the underlying densimetry (e.g., vibrating-tube calibration drift)"
+        ],
+        "operator_dependence": "moderate — choice of fitting window, decision to include or exclude singular-diameter terms, and outlier rejection criteria are subjective analyst decisions",
+        "model_dependence": "high — the classical linear law and extended singular-diameter models yield systematically different ρ_c values; the discrepancy can reach 1–3% for fluids with strong diameter singularity",
+        "dominant_error_sources": [
+          "model inadequacy: failure to account for singular-diameter contribution is the single largest source of systematic error in ρ_c",
+          "gravitational effects on density measurements within ~1 K of T_c",
+          "purity of the sample used in the underlying coexistence measurements"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ρ_c) at 95% confidence (k=2)",
+          "standard uncertainty from the least-squares fit covariance matrix",
+          "range of ρ_c values from sensitivity analysis over different fitting windows"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The method of rectilinear diameters is a data analysis and extrapolation technique — not a physical instrument — used to determine the critical density (ρ_c) of a fluid from its liquid-vapor coexistence curve. First formulated by Cailletet and Mathias in 1886, the law of rectilinear diameters states that the arithmetic mean of the coexisting liquid and vapor densities, ρ_d = (ρ_L + ρ_V)/2, varies approximately linearly with temperature as the critical point is approached. By fitting this rectilinear diameter to a straight line and extrapolating to the independently known (or co-fitted) critical temperature T_c, one obtains ρ_c. This method is widely used in the thermophysical property community because direct measurement of ρ_c at T_c is experimentally difficult due to critical opalescence, divergent compressibility, and gravitational stratification effects.",
+      "how_it_operates": "The analyst begins with a set of experimentally measured coexisting liquid densities ρ_L(T) and vapor densities ρ_V(T) at multiple temperatures below T_c. At each temperature the rectilinear diameter ρ_d(T) = (ρ_L + ρ_V)/2 is computed. These ρ_d values are then plotted against temperature, and a least-squares linear regression ρ_d = ρ_c + a(T − T_c) is performed. The intercept at T = T_c yields the critical density ρ_c, and the slope a characterizes how the mean density of the coexisting phases changes with temperature. When higher accuracy is needed, an extended model incorporating a weakly singular term proportional to |T − T_c|^(1−α) is used, where α ≈ 0.110 is the universal heat capacity critical exponent from renormalization group theory.",
+      "core_theory": "The classical law of rectilinear diameters rests on mean-field (van der Waals) thermodynamics, which predicts that the coexistence curve is symmetric about its midpoint and the diameter is exactly linear. In reality, renormalization group theory and exact model solutions (e.g., the 3D Ising model mapped onto the liquid-gas transition) show that the diameter acquires a weak singularity: ρ_d = ρ_c + a·t + B_d·t^(1−α) + higher-order Wegner corrections, where t = (T_c − T)/T_c is the reduced temperature. The singular term arises from pressure-mixing in the mapping between the lattice-gas (Ising) variables and the physical density-temperature variables. For most simple fluids B_d is small and the linear approximation suffices to ~1%, but for strongly asymmetric fluids (e.g., water, helium-3) the singular contribution can shift ρ_c by several percent. The order parameter Δρ = ρ_L − ρ_V follows the scaling law Δρ = B·t^β with β ≈ 0.326, and the diameter and order parameter together fully describe the coexistence curve shape near T_c.",
+      "setup": "No physical apparatus is required — the method of rectilinear diameters is performed computationally on pre-existing coexistence density data. The analyst needs: (1) a dataset of matched {T, ρ_L, ρ_V} values spanning a significant portion of the coexistence curve, typically obtained from sealed-tube visual observations, vibrating-tube densimetry, or pycnometric measurements; (2) a value of T_c from independent measurement (e.g., visual observation of meniscus disappearance) or a simultaneous fitting procedure; (3) a least-squares fitting tool capable of linear or nonlinear regression. Standard scientific computing environments (Python with SciPy, MATLAB, Origin, or even a spreadsheet) are sufficient. For the extended singular-diameter model, a nonlinear least-squares solver with the ability to constrain the exponent (1−α) is needed.",
+      "suitable_for": "The method is ideally suited for determining ρ_c of pure fluids for which extensive coexistence curve data exist but direct measurement at the critical point is impractical. It is most accurate for simple, nearly symmetric fluids — noble gases, small nonpolar molecules (N₂, O₂, CH₄, C₂H₆), and halogenated refrigerants — where the diameter singularity is weak. It is also applied to binary mixtures along the mixture critical locus and to quantum fluids (³He, ⁴He). The method is the standard approach used by NIST and IUPAC for recommending reference critical density values for pure fluids, and it underpins many entries in databases such as the NIST Chemistry WebBook.",
+      "core_limitations": "The method is inherently an extrapolation and is only as reliable as the underlying coexistence data and the assumed functional form. The classical linear law systematically overestimates or underestimates ρ_c for fluids with significant diameter singularity, introducing biases of 1–3% for highly asymmetric molecules. Coexistence data very close to T_c (within ~0.1 K) are experimentally compromised by critical opalescence, divergent compressibility, and gravitational density stratification in finite-height cells, limiting the closest approach temperature. The method requires that both ρ_L and ρ_V be measured at the same temperatures — datasets with mismatched temperature grids require interpolation, adding uncertainty. It cannot be applied to fluids that decompose, polymerize, or react before reaching T_c, nor to fluids for which no liquid-vapor coexistence exists (e.g., supercritical-only measurements).",
+      "sample_preparation": "No sample preparation is performed for the analysis method itself. However, the quality of the result depends critically on the purity and preparation of samples used in the underlying coexistence measurements. Fluids should be of the highest available purity (≥99.9 mol% for reference-grade determinations) because trace impurities broaden the coexistence region, shift T_c, and distort both ρ_L and ρ_V. Degassing is essential — dissolved gases alter vapor densities significantly. For sealed-tube visual observations the sample must be loaded at very close to the critical density to observe coexistence over a wide temperature range. For densimetric measurements, careful filling procedures are needed to ensure that each measurement cell samples a single phase at equilibrium.",
+      "calibration_and_references": "The rectilinear diameter method has no instrumental calibration — it is a mathematical procedure. Validation is performed by applying the method to fluids with independently known ρ_c and assessing agreement. Key reference systems include: CO₂ (T_c = 304.1282 K, ρ_c = 467.6 kg/m³ from NIST), SF₆ (T_c = 318.723 K, ρ_c = 742.3 kg/m³), and xenon (T_c = 289.733 K, ρ_c = 1102.9 kg/m³). Comparison with ρ_c values from independent methods — visual observation of the vanishing meniscus in a sealed ampoule loaded at the critical density, or analysis of compressibility PVT data at the critical isochore — provides cross-validation. When the singular-diameter model is used, the fixed critical exponent α = 0.110 is taken from universal renormalization group calculations and is not fitted.",
+      "data_interpretation": "The primary result is the intercept ρ_c from a linear or extended regression of ρ_d vs. T (or t). In the classical analysis, ρ_d is plotted against T and a straight line is fitted; the intercept at T = T_c is read as ρ_c. The slope a is also informative — it reflects the asymmetry of the coexistence curve and varies from fluid to fluid. In the extended analysis, the singular-diameter term B_d·t^(1−α) is included and a nonlinear fit extracts ρ_c, a, and B_d simultaneously. Residual analysis is crucial: if the linear-fit residuals show systematic curvature (concave or convex pattern), this signals that the singular-diameter correction is needed. A simultaneous fit to both the diameter and the order parameter Δρ = B·t^β provides a self-consistent determination of ρ_c, T_c, and the scaling amplitudes. Sensitivity analysis — repeating the fit over different temperature windows — quantifies the model dependence of the result.",
+      "common_pitfalls": "The most frequent pitfall is applying the classical linear law without testing for singular-diameter deviations, leading to biased ρ_c values. This is especially problematic for polar or hydrogen-bonding fluids (water, methanol) where B_d is large. A second pitfall is including data too close to T_c, where gravitational stratification and critical anomalies distort the measured densities, or too far from T_c, where the diameter departs from linearity even without a singularity. Inconsistent T_c values — using one T_c for the fit and reporting another — introduce systematic shifts. Interpolating ρ_L and ρ_V independently to common temperatures using different fitting functions can introduce correlated errors in ρ_d. Finally, neglecting the uncertainty in T_c when propagating errors into ρ_c underestimates the reported uncertainty.",
+      "artifacts_and_failure_modes": "The law of rectilinear diameters fails in a strict sense for all real fluids because the diameter always possesses a weak t^(1−α) singularity — this is a fundamental artifact of the classical linear assumption. Gravitational rounding is the main experimental artifact: in cells taller than a few millimeters, the density varies with height near T_c, causing the measured 'ρ_L' and 'ρ_V' to reflect height-averaged values rather than true coexisting densities. Impurity artifacts broaden the phase envelope and introduce dew-bubble point splitting, making the concept of a single coexistence temperature ambiguous. For binary mixtures, applying the method along the mixture critical locus requires that the coexisting phase compositions be known, and composition-dependent asymmetry can make the diameter strongly nonlinear. Complete failure occurs if the underlying coexistence data are too sparse, too noisy, or cover too narrow a temperature window to constrain the extrapolation.",
+      "reporting_checklist": "Published results based on the rectilinear diameter method should report: the source and purity of coexistence data used (original measurements or literature compilation), the temperature range of the data included in the fit, the functional form of the diameter model (linear, or extended with singular-diameter term), the value of T_c used and its source, the fitted parameters (ρ_c, slope a, and B_d if applicable), the number of data points and the goodness-of-fit statistic (R², χ², or RMS residual), the combined expanded uncertainty of ρ_c with confidence level (typically 95%, k = 2), a comparison with ρ_c from at least one independent method, and whether gravitational corrections were applied to the input data. For ThermoML encoding, ρ_c values are reported with nCombExpandUncertValue at the 95% confidence level. Sensitivity to fitting-window selection should be documented."
+    }
+  }
+}

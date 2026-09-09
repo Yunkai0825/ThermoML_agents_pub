@@ -1,0 +1,1698 @@
+{
+  "$schema": "thermoml_property_ID_DK_schema_v1",
+  "$id": "PCS_property_ID_and_DK_schema",
+  "title": "ThermoML Property Identity & Domain Knowledge Card Schema",
+  "description": "Defines the structure for per-property domain knowledge cards. One card per unique thermodynamic property (105 properties across 12 groups). Contains static identity, database usage statistics, and domain knowledge about the physical quantity — the 'textbook knowledge' about what each property measures, its physical meaning, applicable methods, and quality considerations. Analogous to MTDKS per-technique cards. Agents load these to understand a property before interpreting measurement data from INDIV block cards.",
+  "version": "1.0.0",
+  "generated": "2026-06-22",
+  "design_notes": {
+    "why_per_property": "Each of the 105 ThermoML properties has unique physical meaning, applicable methods, phase considerations, and uncertainty profiles. Per-property cards give agents deep context for data interpretation, quality assessment, and query planning.",
+    "relationship_to_INDIV": "ID_and_DK cards describe WHAT a property is. INDIV block cards (PCS_property_INDIV_snapshot) contain the actual measured VALUES. Agents load ID_and_DK first to understand the property, then load relevant INDIV cards for data.",
+    "relationship_to_MTDKS": "MTDKS describes HOW measurements are made (technique knowledge). PCS ID_and_DK describes WHAT is being measured (property knowledge). Together they give agents complete measurement context.",
+    "domain_knowledge_dual_format": "Like MTDKS, each card has a machine-parseable structured_block (JSON for programmatic queries) and an agent-readable description_block (prose for LLM reasoning).",
+    "organization": "105 cards organized into 12 property group folders, mirroring the ThermoML PropertyGroup classification. Each card is a JSON file named by prop_ID."
+  },
+  "database_stats": {
+    "total_properties": 105,
+    "total_property_groups": 12,
+    "total_block_property_instances": 130104,
+    "total_papers": 11923,
+    "property_groups": {
+      "CompositionAtPhaseEquilibrium": {
+        "n_properties": 22,
+        "total_instances": 31696
+      },
+      "VolumetricProp": {
+        "n_properties": 13,
+        "total_instances": 24222
+      },
+      "RefractionSurfaceTensionSoundSpeed": {
+        "n_properties": 7,
+        "total_instances": 16119
+      },
+      "PhaseTransition": {
+        "n_properties": 10,
+        "total_instances": 12805
+      },
+      "TransportProp": {
+        "n_properties": 9,
+        "total_instances": 11474
+      },
+      "VaporPBoilingTAzeotropTandP": {
+        "n_properties": 5,
+        "total_instances": 11253
+      },
+      "ActivityFugacityOsmoticProp": {
+        "n_properties": 5,
+        "total_instances": 10634
+      },
+      "HeatCapacityAndDerivedProp": {
+        "n_properties": 9,
+        "total_instances": 5036
+      },
+      "ExcessPartialApparentEnergyProp": {
+        "n_properties": 9,
+        "total_instances": 4093
+      },
+      "Criticals": {
+        "n_properties": 8,
+        "total_instances": 1526
+      },
+      "ReactionStateChangeProp": {
+        "n_properties": 5,
+        "total_instances": 1146
+      },
+      "ReactionEquilibriumProp": {
+        "n_properties": 3,
+        "total_instances": 100
+      }
+    }
+  },
+  "card_structure": {
+    "prop_ID": {
+      "type": "string",
+      "description": "Primary key. Slugified from the property name: lowercase, underscores for spaces, no special characters. Examples: 'mass_density_kg_m3', 'mole_fraction', 'viscosity_pa_s', 'normal_melting_temperature_k'. Unique across all 105 properties.",
+      "construction": "slugify(prop_name): lowercase → replace spaces/commas/slashes with '_' → strip non-alphanumeric except underscore → collapse multiple underscores"
+    },
+    "identity": {
+      "description": "Static identity fields for this property. What IS this property?",
+      "fields": {
+        "name": {
+          "type": "string",
+          "description": "Full property name exactly as in ThermoML (ePropName). Example: 'Mass density, kg/m3'"
+        },
+        "unit": {
+          "type": "string|null",
+          "description": "SI unit extracted from the property name. Example: 'kg/m3'. Null for dimensionless properties (e.g., mole fraction, refractive index, compressibility factor)."
+        },
+        "symbol": {
+          "type": "string|null",
+          "description": "Standard thermodynamic symbol. Example: 'ρ' for density, 'η' for viscosity, 'x' for mole fraction, 'Cp' for heat capacity at constant pressure."
+        },
+        "dimension": {
+          "type": "string|null",
+          "description": "SI dimensional formula. Example: 'M L^-3' for density, 'M L^-1 T^-1' for viscosity. Null for dimensionless."
+        },
+        "property_group": {
+          "type": "string",
+          "description": "ThermoML PropertyGroup classification",
+          "allowed_values": [
+            "ActivityFugacityOsmoticProp",
+            "CompositionAtPhaseEquilibrium",
+            "Criticals",
+            "ExcessPartialApparentEnergyProp",
+            "HeatCapacityAndDerivedProp",
+            "PhaseTransition",
+            "ReactionEquilibriumProp",
+            "ReactionStateChangeProp",
+            "RefractionSurfaceTensionSoundSpeed",
+            "TransportProp",
+            "VaporPBoilingTAzeotropTandP",
+            "VolumetricProp"
+          ]
+        },
+        "property_class": {
+          "type": "string",
+          "description": "Broad physical classification of this property",
+          "allowed_values": [
+            "thermodynamic",
+            "transport",
+            "phase_equilibrium",
+            "composition",
+            "critical_point",
+            "reaction",
+            "optical_acoustic_surface"
+          ]
+        },
+        "is_intensive": {
+          "type": "boolean",
+          "description": "True if the property is intensive (independent of system size). False for extensive properties."
+        },
+        "is_molar": {
+          "type": "boolean",
+          "description": "True if expressed per mole (molar quantity)."
+        },
+        "is_excess": {
+          "type": "boolean",
+          "description": "True if the property is an excess property (deviation from ideal mixing)."
+        },
+        "is_partial": {
+          "type": "boolean",
+          "description": "True if the property is a partial molar quantity."
+        },
+        "is_apparent": {
+          "type": "boolean",
+          "description": "True if the property is an apparent quantity."
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Common alternative names an agent or user might use. Example for 'Mass density, kg/m3': ['density', 'mass density', 'liquid density']. For 'Viscosity, Pa*s': ['dynamic viscosity', 'absolute viscosity', 'shear viscosity']."
+        },
+        "typical_variables": {
+          "type": "array",
+          "description": "Variables most commonly swept when measuring this property, ordered by frequency. Shows the typical experimental axes. Example for density: ['Temperature, K', 'Pressure, kPa', 'Mole fraction']. Example for mole fraction (VLE): ['Temperature, K', 'Pressure, kPa'].",
+          "items": {
+            "type": "object",
+            "fields": {
+              "var_name": {
+                "type": "string",
+                "description": "Variable name from ThermoML vocabulary (e.g., 'Temperature, K', 'Mole fraction')."
+              },
+              "var_type": {
+                "type": "string",
+                "description": "Variable category.",
+                "allowed_values": [
+                  "eTemperature",
+                  "ePressure",
+                  "eComponentComposition",
+                  "eSolventComposition",
+                  "eMiscellaneous"
+                ]
+              },
+              "role": {
+                "type": "string",
+                "description": "How this variable typically relates to the property: 'primary_axis' (most common sweep), 'secondary_axis' (second sweep dimension), 'composition' (mixture variable), 'environmental' (T or P held or swept as context).",
+                "allowed_values": [
+                  "primary_axis",
+                  "secondary_axis",
+                  "composition",
+                  "environmental"
+                ]
+              },
+              "usage_fraction": {
+                "type": "number",
+                "description": "Fraction of blocks measuring this property that use this variable (0-1)."
+              }
+            }
+          }
+        },
+        "typical_constraints": {
+          "type": "array",
+          "description": "Constraints most commonly held fixed when measuring this property, ordered by frequency. Example for density: ['Pressure, kPa']. Example for VLE mole fraction: ['Temperature, K'] or ['Pressure, kPa'].",
+          "items": {
+            "type": "object",
+            "fields": {
+              "constraint_name": {
+                "type": "string",
+                "description": "Constraint name from ThermoML vocabulary.",
+                "not_observed_in_current_build": true
+              },
+              "constraint_type": {
+                "type": "string",
+                "allowed_values": [
+                  "eTemperature",
+                  "ePressure",
+                  "eComponentComposition",
+                  "eSolventComposition",
+                  "eMiscellaneous"
+                ],
+                "not_observed_in_current_build": true
+              },
+              "usage_fraction": {
+                "type": "number",
+                "description": "Fraction of blocks measuring this property that fix this constraint (0-1).",
+                "not_observed_in_current_build": true
+              }
+            }
+          }
+        },
+        "thermoml_name": {
+          "type": "string",
+          "description": "Exact ePropName string from ThermoML vocabulary. Same as 'name'."
+        },
+        "db_usage": {
+          "description": "Database usage statistics from thermoml_raw.db",
+          "fields": {
+            "total_instances": {
+              "type": "integer",
+              "description": "Number of block_properties rows with this property"
+            },
+            "n_papers": {
+              "type": "integer",
+              "description": "Number of distinct DOIs measuring this property"
+            },
+            "rank_in_group": {
+              "type": "integer",
+              "description": "Rank by instance count within its property group (1 = most common)"
+            },
+            "rank_overall": {
+              "type": "integer",
+              "description": "Rank by instance count across all 105 properties (1 = most common)"
+            },
+            "common_methods": {
+              "type": "array",
+              "description": "Top measurement methods used for this property, sorted by frequency",
+              "items": {
+                "type": "object",
+                "fields": {
+                  "method_name": {
+                    "type": "string"
+                  },
+                  "method_type": {
+                    "type": "string",
+                    "allowed_values": [
+                      "standard",
+                      "custom"
+                    ]
+                  },
+                  "count": {
+                    "type": "integer"
+                  },
+                  "fraction": {
+                    "type": "number",
+                    "description": "Fraction of instances using this method"
+                  }
+                }
+              }
+            },
+            "common_variables": {
+              "type": "array",
+              "description": "Most common variables (swept conditions) in blocks measuring this property",
+              "items": {
+                "type": "object",
+                "fields": {
+                  "var_name": {
+                    "type": "string"
+                  },
+                  "count": {
+                    "type": "integer"
+                  },
+                  "fraction": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "common_constraints": {
+              "type": "array",
+              "description": "Most common constraints (fixed conditions) in blocks measuring this property",
+              "items": {
+                "type": "object",
+                "fields": {
+                  "constraint_name": {
+                    "type": "string",
+                    "not_observed_in_current_build": true
+                  },
+                  "count": {
+                    "type": "integer",
+                    "not_observed_in_current_build": true
+                  },
+                  "fraction": {
+                    "type": "number",
+                    "not_observed_in_current_build": true
+                  }
+                }
+              }
+            },
+            "system_type_distribution": {
+              "type": "object",
+              "description": "Distribution of system types (number of components)",
+              "fields": {
+                "unary": {
+                  "type": "integer"
+                },
+                "binary": {
+                  "type": "integer"
+                },
+                "ternary": {
+                  "type": "integer"
+                },
+                "quaternary_plus": {
+                  "type": "integer"
+                }
+              }
+            },
+            "presentation_distribution": {
+              "type": "object",
+              "description": "Distribution of presentation modes",
+              "fields": {
+                "direct": {
+                  "type": "integer"
+                },
+                "difference": {
+                  "type": "integer"
+                },
+                "ratio": {
+                  "type": "integer"
+                },
+                "other": {
+                  "type": "integer",
+                  "description": "[audited] Present in 100.0% of cards. Example: 0"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "domain_knowledge": {
+      "description": "Domain knowledge in dual format: machine-parseable structured_block + agent-readable description_block. Filled by domain expert or LLM with thermodynamic knowledge.",
+      "fields": {
+        "structured_block": {
+          "description": "Machine-parseable JSON with 6 sections covering the property's physical definition, measurement context, and quality considerations.",
+          "fields": {
+            "definition": {
+              "description": "Physical and mathematical definition of this property",
+              "fields": {
+                "physical_quantity": {
+                  "type": "string",
+                  "description": "One-line description of what this property measures. Example: 'mass per unit volume of a substance'"
+                },
+                "mathematical_definition": {
+                  "type": "string|null",
+                  "description": "Mathematical formula. Example: 'ρ = m/V' for density, 'η = τ/(dγ/dt)' for viscosity. Null for directly observed quantities."
+                },
+                "thermodynamic_definition": {
+                  "type": "string|null",
+                  "description": "Formal thermodynamic definition if applicable. Example: 'Cp = (∂H/∂T)_P' for heat capacity. Null for non-derived quantities."
+                },
+                "sign_convention": {
+                  "type": "string|null",
+                  "description": "Sign convention if relevant. Example: 'Exothermic → negative ΔH' for reaction enthalpy."
+                },
+                "related_properties": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Other ThermoML properties related by definition or derivation. Example for density: ['Molar volume, m3/mol', 'Specific volume, m3/kg', 'Amount density, mol/m3']."
+                },
+                "derived_from": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Properties from which this can be derived. Example: 'Excess molar volume' can be derived from 'Mass density' + 'Molar volume'. Empty if primary observable."
+                },
+                "can_derive": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Properties derivable from this one. Example: density can derive 'Molar volume', 'Isobaric coefficient of expansion' (with T-dependence)."
+                }
+              }
+            },
+            "measurement_context": {
+              "description": "How this property is typically measured in the ThermoML database",
+              "fields": {
+                "primary_methods": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Standard ThermoML methods that most commonly measure this property. Maps to MTDKS technique cards."
+                },
+                "typical_variable_patterns": {
+                  "type": "array",
+                  "description": "Common experimental sweep patterns",
+                  "items": {
+                    "type": "object",
+                    "fields": {
+                      "pattern_name": {
+                        "type": "string",
+                        "description": "e.g., 'isothermal T-sweep', 'isobaric composition sweep'",
+                        "not_observed_in_current_build": true
+                      },
+                      "variables": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "constraints": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "description": {
+                        "type": "string",
+                        "not_observed_in_current_build": true
+                      }
+                    }
+                  }
+                },
+                "applicable_presentations": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Which presentation modes apply: 'Direct value, X', 'Difference with the reference state, X-X(REF)', 'Ratio with the reference state, X/X(REF)'. Most properties only use 'Direct value'."
+                },
+                "applicable_standard_states": {
+                  "type": "array|null",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Standard state definitions if applicable (ActivityFugacityOsmoticProp only): 'Pure compound', 'Infinite dilution solute', 'Pure liquid solute'. Null for most property groups."
+                },
+                "applicable_ref_state_types": {
+                  "type": "array|null",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Reference state types if applicable (for difference/ratio presentations). Null when only direct values are used."
+                }
+              }
+            },
+            "phase_applicability": {
+              "description": "Phase and system context for this property",
+              "fields": {
+                "applicable_phases": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Phases where this property can be measured. Subset of the global 25 phases."
+                },
+                "primary_phases": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Most common phases in which this property is measured. Example for density: ['Liquid']. Example for vapor pressure: ['Liquid', 'Gas']."
+                },
+                "phase_equilibrium_type": {
+                  "type": "string|null",
+                  "description": "Type of phase equilibrium if the property describes an equilibrium condition. Examples: 'VLE' (vapor-liquid), 'LLE' (liquid-liquid), 'SLE' (solid-liquid), 'VLLE'. Null for single-phase properties."
+                },
+                "applicable_system_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "System sizes: ['unary'], ['unary', 'binary', 'ternary', ...]. Example: density applies to all; critical temperature is mostly unary."
+                },
+                "component_specific": {
+                  "type": "boolean",
+                  "description": "True if the property value refers to a DOI-scoped component in a mixture (for example, mole_fraction_{DOIcomp_id}). False for bulk mixture properties."
+                },
+                "requires_solvent": {
+                  "type": "boolean",
+                  "description": "True if the property requires a solvent specification (solution properties like molality, osmotic coefficient)."
+                }
+              }
+            },
+            "typical_ranges": {
+              "description": "Expected value and condition ranges from the ThermoML database",
+              "fields": {
+                "value_range": {
+                  "type": "object",
+                  "fields": {
+                    "min": {
+                      "type": "number"
+                    },
+                    "max": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string|null",
+                      "description": "Context for the range, e.g., 'gases 0.01-10, liquids 500-2000, solids 1000-22000'"
+                    }
+                  }
+                },
+                "temperature_range_K": {
+                  "type": "object",
+                  "fields": {
+                    "min": {
+                      "type": "number"
+                    },
+                    "max": {
+                      "type": "number"
+                    },
+                    "note": {
+                      "type": "string|null"
+                    }
+                  }
+                },
+                "pressure_range_kPa": {
+                  "type": "object",
+                  "fields": {
+                    "min": {
+                      "type": "number"
+                    },
+                    "max": {
+                      "type": "number"
+                    },
+                    "note": {
+                      "type": "string|null"
+                    }
+                  }
+                },
+                "reference_values": {
+                  "type": "array",
+                  "description": "Well-known reference values for sanity checking",
+                  "items": {
+                    "type": "object",
+                    "fields": {
+                      "substance": {
+                        "type": "string",
+                        "not_observed_in_current_build": true
+                      },
+                      "value": {
+                        "type": "number",
+                        "not_observed_in_current_build": true
+                      },
+                      "conditions": {
+                        "type": "string",
+                        "not_observed_in_current_build": true
+                      },
+                      "source": {
+                        "type": "string|null",
+                        "not_observed_in_current_build": true
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "uncertainty_profile": {
+              "description": "Uncertainty characteristics for this property type",
+              "fields": {
+                "typical_relative_uncertainty": {
+                  "type": "string",
+                  "description": "Typical relative expanded uncertainty range. Example: '0.01-0.1%' for density, '1-5%' for thermal conductivity."
+                },
+                "best_achievable_uncertainty": {
+                  "type": "string|null",
+                  "description": "Best-case uncertainty with state-of-the-art methods."
+                },
+                "dominant_uncertainty_sources": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Main contributors to measurement uncertainty for this property."
+                },
+                "method_dependent_quality": {
+                  "type": "array|null",
+                  "description": "If uncertainty varies significantly by method, list method → quality mapping",
+                  "items": {
+                    "type": "object",
+                    "fields": {
+                      "method": {
+                        "type": "string",
+                        "not_observed_in_current_build": true
+                      },
+                      "typical_uncertainty": {
+                        "type": "string",
+                        "not_observed_in_current_build": true
+                      },
+                      "quality_tier": {
+                        "type": "string",
+                        "allowed_values": [
+                          "high",
+                          "medium",
+                          "low"
+                        ],
+                        "not_observed_in_current_build": true
+                      }
+                    }
+                  }
+                },
+                "quality_indicators": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Signs that data quality may be poor. Example for density: ['deviation from known reference substances > 0.5%', 'temperature uncertainty > 0.1 K', 'no calibration with reference fluids']."
+                }
+              }
+            },
+            "data_patterns": {
+              "description": "Common data patterns observed in the ThermoML database for this property",
+              "fields": {
+                "typical_n_points": {
+                  "type": "object",
+                  "fields": {
+                    "median": {
+                      "type": "integer"
+                    },
+                    "p10": {
+                      "type": "integer",
+                      "description": "10th percentile"
+                    },
+                    "p90": {
+                      "type": "integer",
+                      "description": "90th percentile"
+                    }
+                  }
+                },
+                "common_block_patterns": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Typical block structures. Example for density: ['T-sweep at fixed P (isobar)', 'P-sweep at fixed T (isotherm)', 'composition sweep at fixed T,P']."
+                },
+                "multi_property_frequency": {
+                  "type": "string",
+                  "description": "How often this property appears in multi-property blocks. Example: 'Mole fraction appears in 95% of multi-property VLE blocks'."
+                },
+                "co_measured_properties": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Properties commonly measured alongside this one in the same block or paper."
+                }
+              }
+            }
+          }
+        },
+        "description_block": {
+          "description": "Agent-readable prose in 12 sections. Each section is a short paragraph (50-200 words) written for an LLM agent that needs to understand this property for data interpretation and quality assessment.",
+          "fields": {
+            "property_overview": {
+              "type": "string",
+              "description": "2-3 sentence overview: what it measures, why it matters, where it fits in thermodynamics."
+            },
+            "physical_meaning": {
+              "type": "string",
+              "description": "Intuitive explanation of the physical quantity. What does a larger/smaller value mean? How does it relate to molecular behavior?"
+            },
+            "thermodynamic_context": {
+              "type": "string",
+              "description": "How this property fits into the broader thermodynamic framework. Gibbs phase rule implications, equation of state connections, relation to other fundamental quantities."
+            },
+            "measurement_methods_overview": {
+              "type": "string",
+              "description": "Brief overview of how this property is typically measured. Which techniques dominate? Key differences between methods. References MTDKS technique cards."
+            },
+            "common_variable_patterns": {
+              "type": "string",
+              "description": "Typical experimental designs: what is swept (T, P, composition)? Common constraint patterns. Expected data shapes (monotonic, with extrema, etc.)."
+            },
+            "phase_behavior": {
+              "type": "string",
+              "description": "Phase considerations specific to this property. Which phases? Phase transitions? Equilibrium conditions? Multi-phase measurements?"
+            },
+            "data_quality_indicators": {
+              "type": "string",
+              "description": "How to assess quality of measured values. Red flags, consistency checks, comparison with literature correlations."
+            },
+            "unit_conventions": {
+              "type": "string",
+              "description": "Unit standards, conversion factors, common alternative units in the literature. ThermoML's unit choice rationale."
+            },
+            "typical_applications": {
+              "type": "string",
+              "description": "Engineering and scientific applications. Process design, material selection, model parameterization."
+            },
+            "common_pitfalls": {
+              "type": "string",
+              "description": "Mistakes to watch for in data interpretation. Confusion with related properties, presentation modes, sign conventions, reference state issues."
+            },
+            "related_properties": {
+              "type": "string",
+              "description": "How this property connects to other ThermoML properties. Derivation chains, group relationships, complementary measurements."
+            },
+            "reporting_checklist": {
+              "type": "string",
+              "description": "Essential metadata an agent should check: method, phase, T, P, composition, uncertainty, presentation mode. What's needed for a complete data record?"
+            }
+          }
+        }
+      }
+    },
+    "base_prop_ID": {
+      "type": "string",
+      "description": "[audited] Present in 100.0% of cards. Example: mass_density_kg_m3"
+    },
+    "card_type": {
+      "type": "string",
+      "description": "[audited] Present in 100.0% of cards. Example: domain_knowledge"
+    },
+    "component_linked": {
+      "type": "boolean",
+      "description": "[audited] Present in 100.0% of cards. Example: False"
+    },
+    "prop_num_id": {
+      "type": "string",
+      "description": "[audited] Present in 100.0% of cards. Example: GLOBprop_1"
+    }
+  },
+  "global_enumerations": {
+    "property_groups": [
+      "ActivityFugacityOsmoticProp",
+      "CompositionAtPhaseEquilibrium",
+      "Criticals",
+      "ExcessPartialApparentEnergyProp",
+      "HeatCapacityAndDerivedProp",
+      "PhaseTransition",
+      "ReactionEquilibriumProp",
+      "ReactionStateChangeProp",
+      "RefractionSurfaceTensionSoundSpeed",
+      "TransportProp",
+      "VaporPBoilingTAzeotropTandP",
+      "VolumetricProp"
+    ],
+    "property_classes": [
+      "thermodynamic",
+      "transport",
+      "phase_equilibrium",
+      "composition",
+      "critical_point",
+      "reaction",
+      "optical_acoustic_surface"
+    ],
+    "presentations": [
+      "Direct value, X",
+      "Difference with the reference state, X-X(REF)",
+      "Ratio with the reference state, X/X(REF)",
+      "Ratio of difference with ref state to ref state, [X-X(REF)]/X(REF)",
+      "Difference between upper and lower temperature, X(T2)-X(T1)"
+    ],
+    "standard_states": [
+      "Pure compound",
+      "Infinite dilution solute",
+      "Pure liquid solute"
+    ],
+    "ref_state_types": [
+      "Pure components in the same proportion at the same temperature and pressure",
+      "Pure solvent at the same temperature and pressure",
+      "Pure solvent at the temperature of the same phase equilibrium",
+      "Pure solute at the same temperature and pressure",
+      "Phase in equilibrium with primary phase at the same temperature and pressure",
+      "Reference phase with the same composition, temperature and pressure",
+      "Reference phase with the same composition at fixed temperature and pressure"
+    ],
+    "all_phases": [
+      "Air at 1 atmosphere",
+      "Cholesteric liquid crystal",
+      "Crystal",
+      "Crystal 1",
+      "Crystal 2",
+      "Crystal 3",
+      "Crystal 4",
+      "Crystal 5",
+      "Crystal of intercomponent compound 1",
+      "Crystal of intercomponent compound 2",
+      "Crystal of intercomponent compound 3",
+      "Crystal of unknown type",
+      "Fluid (supercritical or subcritical phases)",
+      "Gas",
+      "Glass",
+      "Ideal gas",
+      "Liquid",
+      "Liquid crystal of unknown type",
+      "Liquid mixture 1",
+      "Liquid mixture 2",
+      "Liquid mixture 3",
+      "Metastable crystal",
+      "Metastable liquid",
+      "Nematic liquid crystal",
+      "Smectic liquid crystal"
+    ],
+    "variable_types": [
+      "eTemperature",
+      "ePressure",
+      "eComponentComposition",
+      "eSolventComposition",
+      "eMiscellaneous"
+    ],
+    "all_variable_names": [
+      "Temperature, K",
+      "Pressure, kPa",
+      "Mole fraction",
+      "Mass fraction",
+      "Molality, mol/kg",
+      "Amount concentration (molarity), mol/dm3",
+      "Volume fraction",
+      "Mass ratio of solute to solvent",
+      "Amount ratio of solute to solvent",
+      "Ratio of amount of solute to mass of solution, mol/kg",
+      "Mass density, kg/m3",
+      "Amount density, mol/m3",
+      "Specific volume, m3/kg",
+      "Volume ratio of solute to solvent",
+      "Frequency, MHz",
+      "Wavelength, nm",
+      "Lower temperature, K",
+      "Upper temperature, K",
+      "Initial molality of solute, mol/kg",
+      "Final molality of solute, mol/kg",
+      "Initial mole fraction of solute",
+      "Final mole fraction of solute",
+      "Initial mass fraction of solute",
+      "Ratio of mass of solute to volume of solution, kg/m3",
+      "Solvent: Mole fraction",
+      "Solvent: Mass fraction",
+      "Solvent: Molality, mol/kg",
+      "Solvent: Amount concentration (molarity), mol/dm3",
+      "Solvent: Volume fraction",
+      "Solvent: Amount ratio of component to other component of binary solvent",
+      "Solvent: Mass ratio of component to other component of binary solvent",
+      "Solvent: Volume ratio of component to other component of binary solvent",
+      "Solvent: Ratio of component mass to volume of solvent, kg/m3",
+      "Solvent: Ratio of amount of component to mass of solvent, mol/kg"
+    ],
+    "block_types": [
+      "PureOrMixtureData",
+      "ReactionData"
+    ]
+  },
+  "field_universe_audit": {
+    "generated": "2026-08-03",
+    "source": "full scan of every card in the database (audit_card_fields.py)",
+    "rows_scanned": 110,
+    "distinct_paths": 118,
+    "wildcards": "ID-grammar keys collapsed: <GLOBxxx_N>, <PROPblock_N>, <BLKxxx_N>, <DOIcomp_N>, <doi>, <n>",
+    "paths": {
+      "base_prop_ID": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "mass_density_kg_m3"
+      },
+      "card_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "domain_knowledge"
+      },
+      "component_linked": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "domain_knowledge": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.common_pitfalls": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.common_variable_patterns": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.data_quality_indicators": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.measurement_methods_overview": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.phase_behavior": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.physical_meaning": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.property_overview": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.related_properties": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.reporting_checklist": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.thermodynamic_context": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.typical_applications": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.description_block.unit_conventions": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.data_patterns": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.data_patterns.co_measured_properties": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.data_patterns.common_block_patterns": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.data_patterns.multi_property_frequency": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.data_patterns.typical_n_points": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.data_patterns.typical_n_points.median": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.data_patterns.typical_n_points.p10": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.data_patterns.typical_n_points.p90": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.definition": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.definition.can_derive": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.definition.derived_from": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.definition.mathematical_definition": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.definition.physical_quantity": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.definition.related_properties": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.definition.sign_convention": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.definition.thermodynamic_definition": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.measurement_context": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.measurement_context.applicable_presentations": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.measurement_context.applicable_ref_state_types": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.measurement_context.applicable_standard_states": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.measurement_context.primary_methods": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.measurement_context.typical_variable_patterns": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.phase_applicability": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.phase_applicability.applicable_phases": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.phase_applicability.applicable_system_types": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.phase_applicability.component_specific": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "domain_knowledge.structured_block.phase_applicability.phase_equilibrium_type": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.phase_applicability.primary_phases": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.phase_applicability.requires_solvent": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "domain_knowledge.structured_block.typical_ranges": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.pressure_range_kPa": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.pressure_range_kPa.max": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.pressure_range_kPa.min": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.pressure_range_kPa.note": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.reference_values": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.temperature_range_K": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.temperature_range_K.max": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.temperature_range_K.min": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.temperature_range_K.note": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.value_range": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.value_range.max": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.value_range.min": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.value_range.note": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.typical_ranges.value_range.unit": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.uncertainty_profile": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.uncertainty_profile.best_achievable_uncertainty": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.uncertainty_profile.dominant_uncertainty_sources": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.uncertainty_profile.method_dependent_quality": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.uncertainty_profile.quality_indicators": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "domain_knowledge.structured_block.uncertainty_profile.typical_relative_uncertainty": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.aliases": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.db_usage": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.db_usage.common_constraints": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.db_usage.common_methods": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.db_usage.common_methods[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.db_usage.common_methods[].count": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "13059"
+      },
+      "identity.db_usage.common_methods[].fraction": {
+        "types": [
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "0.5661"
+      },
+      "identity.db_usage.common_methods[].method_name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Vibrating tube method"
+      },
+      "identity.db_usage.common_methods[].method_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "standard"
+      },
+      "identity.db_usage.common_variables": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.db_usage.common_variables[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 88.18,
+        "example": null
+      },
+      "identity.db_usage.common_variables[].count": {
+        "types": [
+          "integer"
+        ],
+        "pct": 88.18,
+        "example": "20081"
+      },
+      "identity.db_usage.common_variables[].fraction": {
+        "types": [
+          "number"
+        ],
+        "pct": 88.18,
+        "example": "0.8704"
+      },
+      "identity.db_usage.common_variables[].var_name": {
+        "types": [
+          "string"
+        ],
+        "pct": 88.18,
+        "example": "Temperature, K"
+      },
+      "identity.db_usage.n_papers": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "4673"
+      },
+      "identity.db_usage.presentation_distribution": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.db_usage.presentation_distribution.difference": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "220"
+      },
+      "identity.db_usage.presentation_distribution.direct": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "22850"
+      },
+      "identity.db_usage.presentation_distribution.other": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "identity.db_usage.presentation_distribution.ratio": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "identity.db_usage.rank_in_group": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "1"
+      },
+      "identity.db_usage.rank_overall": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "1"
+      },
+      "identity.db_usage.system_type_distribution": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.db_usage.system_type_distribution.binary": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "8207"
+      },
+      "identity.db_usage.system_type_distribution.quaternary_plus": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "identity.db_usage.system_type_distribution.ternary": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "2907"
+      },
+      "identity.db_usage.system_type_distribution.unary": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "11956"
+      },
+      "identity.db_usage.total_instances": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "23070"
+      },
+      "identity.dimension": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.is_apparent": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "identity.is_excess": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "identity.is_intensive": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "True"
+      },
+      "identity.is_molar": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "identity.is_partial": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "identity.name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Mass density, kg/m3"
+      },
+      "identity.property_class": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "thermodynamic"
+      },
+      "identity.property_group": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "VolumetricProp"
+      },
+      "identity.symbol": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.thermoml_name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Mass density, kg/m3"
+      },
+      "identity.typical_constraints": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.typical_variables": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.typical_variables[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 88.18,
+        "example": null
+      },
+      "identity.typical_variables[].role": {
+        "types": [
+          "string"
+        ],
+        "pct": 88.18,
+        "example": "primary_axis"
+      },
+      "identity.typical_variables[].usage_fraction": {
+        "types": [
+          "number"
+        ],
+        "pct": 88.18,
+        "example": "0.8704"
+      },
+      "identity.typical_variables[].var_name": {
+        "types": [
+          "string"
+        ],
+        "pct": 88.18,
+        "example": "Temperature, K"
+      },
+      "identity.typical_variables[].var_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 88.18,
+        "example": "eTemperature"
+      },
+      "identity.unit": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "kg/m3"
+      },
+      "prop_ID": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "mass_density_kg_m3"
+      },
+      "prop_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBprop_1"
+      }
+    }
+  }
+}

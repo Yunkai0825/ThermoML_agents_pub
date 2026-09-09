@@ -1,0 +1,45 @@
+severity	check	subject	detail
+FAIL	orphan	detailed:Q/L1#1:resolve_compound_ids#1:raw	not connected to any answer component
+FAIL	orphan	detailed:Q/L1#1:resolve_compound_ids#1:hardcoded	not connected to any answer component
+FAIL	orphan	detailed:Q/L1#1:sink:hardcoded_cut	not connected to any answer component
+FAIL	orphan	detailed:Q/L1#1:sink:triage_cut	not connected to any answer component
+FAIL	orphan	detailed:Q/L1#1:resolve_compound_ids#2:raw	not connected to any answer component
+FAIL	orphan	detailed:Q/L1#1:resolve_compound_ids#2:hardcoded	not connected to any answer component
+FAIL	orphan	detailed:Q/L1#1:search_id_alignment#1:raw	not connected to any answer component
+FAIL	orphan	detailed:Q/L1#1:search_id_alignment#1:hardcoded	not connected to any answer component
+FAIL	orphan	agentic:grp:Q/L1#1|search|raw	not connected to any answer component
+FAIL	orphan	agentic:grp:Q/L1#1|search|hardcoded	not connected to any answer component
+FAIL	orphan	agentic:grp:Q/L1#1|sink|hardcoded_cut	not connected to any answer component
+FAIL	orphan	agentic:grp:Q/L1#1|sink|triage_cut	not connected to any answer component
+FAIL	orphan	pooled:grp:Q|L1|search|raw	not connected to any answer component
+FAIL	orphan	pooled:grp:Q|L1|search|hardcoded	not connected to any answer component
+FAIL	orphan	pooled:grp:sink|hardcoded_cut	not connected to any answer component
+FAIL	orphan	pooled:grp:sink|triage_cut	not connected to any answer component
+INFO	balance	detailed/chars	sources emit 13,859 / sinks absorb 13,859
+FAIL	orphan	detailed/chars:Q/L1#1:resolve_compound_ids#1:hardcoded	'L1#1 · resolve_compound_ids · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/chars:Q/L1#1:resolve_compound_ids#1:raw	'L1#1 · resolve_compound_ids · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/chars:Q/L1#1:resolve_compound_ids#2:hardcoded	'L1#1 · resolve_compound_ids · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/chars:Q/L1#1:resolve_compound_ids#2:raw	'L1#1 · resolve_compound_ids · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/chars:Q/L1#1:search_id_alignment#1:hardcoded	'L1#1 · search_id_alignment · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/chars:Q/L1#1:search_id_alignment#1:raw	'L1#1 · search_id_alignment · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/chars:Q/L1#1:sink:hardcoded_cut	'L1#1 · hardcoded compaction cut' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/chars:Q/L1#1:sink:triage_cut	'L1#1 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	detailed/ids	sources emit 26 / sinks absorb 26
+INFO	balance	detailed/blocks	sources emit 0 / sinks absorb 0
+INFO	balance	detailed/pts	sources emit 0 / sinks absorb 0
+INFO	balance	agentic/chars	sources emit 13,859 / sinks absorb 13,859
+FAIL	orphan	agentic/chars:grp:Q/L1#1|search|hardcoded	'L1#1 · resolve_compound_ids · hardcoded compact (+2 merged)' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	agentic/chars:grp:Q/L1#1|search|raw	'L1#1 · resolve_compound_ids · raw results (+2 merged)' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	agentic/chars:grp:Q/L1#1|sink|hardcoded_cut	'L1#1 · hardcoded compaction cut' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	agentic/chars:grp:Q/L1#1|sink|triage_cut	'L1#1 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	agentic/ids	sources emit 26 / sinks absorb 26
+INFO	balance	agentic/blocks	sources emit 0 / sinks absorb 0
+INFO	balance	agentic/pts	sources emit 0 / sinks absorb 0
+INFO	balance	pooled/chars	sources emit 13,859 / sinks absorb 13,859
+FAIL	orphan	pooled/chars:grp:Q|L1|search|hardcoded	'L1#1 · resolve_compound_ids · hardcoded compact (+2 merged)' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	pooled/chars:grp:Q|L1|search|raw	'L1#1 · resolve_compound_ids · raw results (+2 merged)' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	pooled/chars:grp:sink|hardcoded_cut	'hardcoded compaction cut' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	pooled/chars:grp:sink|triage_cut	'agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	pooled/ids	sources emit 26 / sinks absorb 26
+INFO	balance	pooled/blocks	sources emit 0 / sinks absorb 0
+INFO	balance	pooled/pts	sources emit 0 / sinks absorb 0

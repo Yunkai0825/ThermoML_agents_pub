@@ -1,0 +1,1 @@
+General purpose of fixing the constraint. What is unchanged and what can change when fixing the constraint with constr_num_id

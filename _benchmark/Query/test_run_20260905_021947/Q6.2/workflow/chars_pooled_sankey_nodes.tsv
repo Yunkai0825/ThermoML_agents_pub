@@ -1,0 +1,17 @@
+key	label	kind	role	is_source	is_sink	value	n_ids	ids	blocks	order	provenance	args	meta
+grp:Q|context	Q · agent context (dedup merge)	merge	context	0	0	5058	0			1			
+grp:support|memory	memory carry (WM render · transient)	hardmeta	support	1	0	2777	0			2	working_memory.md::Q		
+grp:L1|context	L1 · agent context (dedup merge)	merge	context	0	0	2519	0			3			
+grp:support|content	supporting content (briefs · seeds · scaffolding · wrappers · utility/error returns · LLM additions) (3×)	delegated	support	1	0	2724	0			4	run_history.md::Step 1 [Q · c4]		
+grp:Q|L1|search|raw	L1#1 · resolve_compound_ids · raw results (+2 merged)	raw	raw	1	0	8352	26	GLOBcomp_1016;GLOBcomp_1023;GLOBcomp_103;GLOBcomp_1066;GLOBcomp_1687;GLOBcomp_199;GLOBcomp_214;GLOBcomp_226;GLOBcomp_234;GLOBcomp_2520;GLOBcomp_2943;GLOBcomp_3;GLOBcomp_312;GLOBcomp_358;GLOBcomp_51;GLOBcomp_547;GLOBcomp_600;GLOBcomp_62;GLOBcomp_633;GLOBcomp_708;GLOBcomp_811;GLOBcomp_838;GLOBcomp_904;GLOBcomp_927;GLOBcomp_937;GLOBcomp_993		10	run_history.md::Step 2 [Q - L1_1 · c1] | run_history.md::Step 3 [Q - L1_1 · c2] | run_history.md::Step 4 [Q - L1_1 · c3]		
+grp:Q|L1|search|hardcoded	L1#1 · resolve_compound_ids · hardcoded compact (+2 merged)	hardcoded	hardcoded	0	0	2754	26	GLOBcomp_1016;GLOBcomp_1023;GLOBcomp_103;GLOBcomp_1066;GLOBcomp_1687;GLOBcomp_199;GLOBcomp_214;GLOBcomp_226;GLOBcomp_234;GLOBcomp_2520;GLOBcomp_2943;GLOBcomp_3;GLOBcomp_312;GLOBcomp_358;GLOBcomp_51;GLOBcomp_547;GLOBcomp_600;GLOBcomp_62;GLOBcomp_633;GLOBcomp_708;GLOBcomp_811;GLOBcomp_838;GLOBcomp_904;GLOBcomp_927;GLOBcomp_937;GLOBcomp_993		11	run_history.md::Step 2 [Q - L1_1 · c1] | run_history.md::Step 3 [Q - L1_1 · c2] | run_history.md::Step 4 [Q - L1_1 · c3]		
+grp:Q|L1|search|agentic	L1#1 · resolve_compound_ids · agentic kept (+2 merged)	agentic	agentic	0	0	2144	0			12	run_history.md::Step 2 [Q - L1_1 · c1] | run_history.md::Step 3 [Q - L1_1 · c2] | run_history.md::Step 4 [Q - L1_1 · c3]		
+grp:sink|hardcoded_cut	hardcoded compaction cut	removed	sink	0	1	5598	0			15			
+grp:sink|triage_cut	agentic triage cut	removed	sink	0	1	2754	26	GLOBcomp_1016;GLOBcomp_1023;GLOBcomp_103;GLOBcomp_1066;GLOBcomp_1687;GLOBcomp_199;GLOBcomp_214;GLOBcomp_226;GLOBcomp_234;GLOBcomp_2520;GLOBcomp_2943;GLOBcomp_3;GLOBcomp_312;GLOBcomp_358;GLOBcomp_51;GLOBcomp_547;GLOBcomp_600;GLOBcomp_62;GLOBcomp_633;GLOBcomp_708;GLOBcomp_811;GLOBcomp_838;GLOBcomp_904;GLOBcomp_927;GLOBcomp_937;GLOBcomp_993		15			
+grp:L1|answer	L1 · answer	answer	answer	0	0	864	0			17	run_history.md::Step 1 [Q · c4]		
+grp:L1|deliverable	L1 · result envelope (deliverable)	envelope	deliverable	0	0	2281	0			18	run_history.md::Step 1 [Q · c4]		
+grp:L1|env	L1 · envelope (merged fields) (5×)	envelope	envelope_part	0	0	1417	0			19	run_history.md::Step 1 [Q · c4]		
+grp:inspection	deterministic DB evidence (inspection tools + ledger + DB hydration · deduped) (2×)	payload	support	1	0	6	0			21	run_history.md::Step 1 [Q · c4]		
+grp:sink|condensed	condensed away in synthesis (2×)	removed	sink	0	1	492	0			27			
+grp:Q|wm	Q · working-memory archive	payload	wm_archive	0	0	2236	0			28	working_memory.md::records		
+grp:sink|memory	retained only in memory (WM archive · uncited memory carry · uncited ledger) (3×)	removed	sink	0	1	5015	0			31			

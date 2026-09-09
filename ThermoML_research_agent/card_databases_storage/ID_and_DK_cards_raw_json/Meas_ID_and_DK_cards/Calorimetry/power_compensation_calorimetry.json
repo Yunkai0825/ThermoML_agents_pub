@@ -1,0 +1,369 @@
+{
+  "meas_ID": "power_compensation_calorimetry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Power-compensation calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Power-compensation calorimetry",
+    "thermoml_custom_codes": [
+      "POWC"
+    ],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 289,
+      "property_groups": [
+        "ExcessPartialApparentEnergyProp"
+      ],
+      "n_papers": 34,
+      "per_group": {
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 289,
+          "papers": 34
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "differential electrical power (ΔP, mW) required to maintain ΔT = 0 between sample and reference furnaces",
+          "sample temperature (T, K) from platinum resistance thermometer in sample furnace",
+          "reference temperature (T_ref, K) from platinum resistance thermometer in reference furnace",
+          "time (s)"
+        ],
+        "derived_observables": [
+          "heat flow rate dH/dt = ΔP (mW)",
+          "heat capacity at constant pressure Cp (J/(mol·K) or J/(g·K)) from dH/dt divided by heating rate",
+          "enthalpy of transition ΔH (J/mol or J/g) from integration of ΔP over time",
+          "enthalpy of reaction (J/mol) from integration of exothermic or endothermic power difference",
+          "onset and peak temperatures of thermal events (K)",
+          "degree of conversion (α) from fractional area under reaction peak"
+        ],
+        "target_properties": [
+          "isobaric heat capacity (Cp)",
+          "enthalpy of fusion",
+          "enthalpy of crystallization",
+          "enthalpy of vaporization",
+          "enthalpy of solid-solid transition",
+          "glass transition temperature (Tg)",
+          "melting temperature (Tm)",
+          "onset temperature of thermal decomposition",
+          "purity by van't Hoff analysis of melting peak",
+          "excess molar enthalpy of mixing",
+          "partial molar enthalpy"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous/glassy)",
+          "liquid",
+          "liquid crystal",
+          "solution",
+          "polymeric melt"
+        ],
+        "supported_sample_types": [
+          "pure solids",
+          "pure liquids",
+          "polymers and polymer blends",
+          "pharmaceutical compounds",
+          "metals and alloys",
+          "ionic liquids",
+          "binary and multicomponent liquid mixtures",
+          "biological macromolecules (proteins, lipids)",
+          "oils, fats, and waxes",
+          "thin films",
+          "nanoparticle suspensions (sealed pans)"
+        ],
+        "unsupported_sample_types": [
+          "gases at ambient pressure (no containment in standard pans)",
+          "highly corrosive materials (attack platinum furnaces)",
+          "samples larger than ~60 µL (furnace volume limit)",
+          "strongly magnetic samples (interfere with platinum sensor response)",
+          "samples requiring pressures above ~0.7 MPa (standard pans)"
+        ],
+        "typical_output_formats": [
+          "ΔP (mW) vs. T (K) thermogram",
+          "ΔP (mW) vs. time (s) isotherm",
+          "Cp (J/(g·K)) vs. T curve",
+          "enthalpy (J/g) vs. T from integration",
+          "onset/peak/endset temperature table"
+        ],
+        "units": {
+          "differential_power": "mW",
+          "heat_flow_rate": "mW",
+          "temperature": "K or °C",
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "enthalpy": "J/mol or J/g",
+          "time": "s or min",
+          "heating_rate": "K/min",
+          "sample_mass": "mg"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "−180 °C to 750 °C (93 K to 1023 K)",
+            "hard_limits": "depends on furnace assembly and coolant; liquid nitrogen cooling extends low end to ~93 K; intracooler systems cover −90 °C to 450 °C",
+            "notes": "standard platinum furnace assemblies rated to 725 °C; specialized high-temperature heads extend further"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "0.1 K/min to 500 K/min",
+            "hard_limits": "maximum ~750 K/min with HyperDSC mode; minimum limited by baseline noise at very slow rates",
+            "notes": "fast scanning (100–500 K/min) suppresses recrystallization and reveals metastable phases; standard operation at 5–20 K/min"
+          },
+          {
+            "parameter": "cooling_rate",
+            "typical_range": "0.1 K/min to 500 K/min (ballistic cooling faster)",
+            "hard_limits": "controlled cooling limited by coolant capacity; ballistic cooling from 725 °C to 25 °C in ~2 min",
+            "notes": "fast controlled cooling rates are a key advantage of the small-furnace design"
+          },
+          {
+            "parameter": "sample_mass",
+            "typical_range": "0.5 mg to 20 mg",
+            "hard_limits": "pan volume ~60 µL maximum; minimum detectable signal depends on transition enthalpy",
+            "notes": "smaller samples give sharper peaks due to reduced thermal lag; 3–10 mg is typical for most applications"
+          },
+          {
+            "parameter": "purge_gas_flow",
+            "typical_range": "20–60 mL/min",
+            "hard_limits": "flow too low allows oxidation; flow too high causes baseline noise",
+            "notes": "nitrogen or helium most common; helium improves heat transfer and baseline flatness"
+          }
+        ],
+        "variables": [
+          {
+            "name": "heating_rate",
+            "role": "primary experimental variable",
+            "typical_values": "5, 10, 20 K/min standard; 100–500 K/min for fast scanning",
+            "effect": "higher rates increase sensitivity (larger ΔP signal) but reduce temperature resolution; very fast rates suppress kinetic events"
+          },
+          {
+            "name": "temperature",
+            "role": "scanned variable",
+            "typical_values": "program-specific, commonly −50 °C to 400 °C",
+            "effect": "temperature scan reveals all thermal events in sequence; isothermal holds reveal kinetic processes"
+          },
+          {
+            "name": "sample_mass",
+            "role": "controlled parameter",
+            "typical_values": "3–10 mg",
+            "effect": "larger mass increases signal but degrades resolution; optimal mass depends on transition enthalpy"
+          },
+          {
+            "name": "purge_gas_type",
+            "role": "controlled atmosphere",
+            "typical_values": "nitrogen (inert), helium (high thermal conductivity), oxygen or air (oxidative studies)",
+            "effect": "gas type affects heat transfer, baseline shape, and whether oxidation reactions occur"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "standard power-compensation DSC operates at ambient pressure; elevated pressure requires specialized sealed pans"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "twin platinum micro-furnaces — matched sample and reference furnaces with individual platinum resistance heaters and sensors (~1 cm diameter, ~1 g mass each)",
+          "platinum resistance temperature sensors — embedded in each furnace for independent temperature measurement with ±0.01 K sensitivity",
+          "individual furnace heaters — platinum wire wound around each furnace for independent power delivery",
+          "differential power feedback controller — closed-loop servo that adjusts power to maintain ΔT = 0 between the two furnaces",
+          "temperature programmer — generates the demand temperature ramp or isothermal hold profile",
+          "cooling system — mechanical intracooler (CCA), liquid nitrogen Dewar (CryoFill), or compressed air for sub-ambient operation",
+          "sample and reference pans — aluminum (standard, up to 600 °C), gold (up to 725 °C), or stainless steel (high-pressure)",
+          "pan press/crimper — for sealing volatile or atmosphere-sensitive samples in hermetic pans",
+          "purge gas system — flow controller and tubing for nitrogen, helium, or other gases",
+          "data acquisition and analysis software — records ΔP, T, and time; performs integration, Cp calculation, and kinetic analysis"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature (±2 °C) to avoid baseline drift",
+          "vibration-free bench to prevent microphonic noise in the power signal",
+          "dry purge gas (<5 ppm H2O) to prevent ice formation at sub-ambient temperatures",
+          "adequate ventilation for exhaust of decomposition products at high temperatures"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "powder, granules, or small pieces pressed flat against pan bottom",
+            "thin film or disk fitting inside the pan (≤6 mm diameter)",
+            "liquid filled into pan without air bubbles"
+          ],
+          "size_limits": "0.5–20 mg typical; pan volume ≤60 µL",
+          "thickness_limits": "thin samples (<1 mm) preferred to minimize thermal gradients within sample",
+          "surface_requirements": [
+            "good thermal contact with pan bottom (flat samples or pressed powders)",
+            "no protrusions that prevent lid sealing"
+          ],
+          "mounting_requirements": [
+            "sample placed centrally in pan for symmetric thermal contact",
+            "pan crimped or hermetically sealed for volatile/reactive samples",
+            "reference pan matched in mass and type to sample pan (empty or containing reference material)"
+          ],
+          "preparation_requirements": [
+            "known mass weighed to ±0.01 mg on analytical balance",
+            "drying for hygroscopic samples",
+            "grinding or cutting to fit pan geometry",
+            "degassing for samples that evolve gases below measurement temperature"
+          ]
+        },
+        "calibration_requirements": [
+          "temperature calibration using two or more melting-point standards (indium 156.60 °C, tin 231.93 °C, zinc 419.53 °C) at the planned heating rate",
+          "heat flow (ΔH) calibration using indium melting enthalpy (28.45 J/g) to establish the ordinate scale",
+          "heat capacity calibration using sapphire (α-Al2O3, NIST SRM 720) three-run method: empty pans, sapphire, sample",
+          "baseline flatness check: run empty matched pans through full temperature range to verify ΔP baseline <0.05 mW drift",
+          "recalibration whenever heating rate, purge gas, or pan type is changed"
+        ],
+        "reference_materials": [
+          "indium — temperature (156.60 °C) and enthalpy (28.45 J/g) standard",
+          "tin — temperature standard (231.93 °C)",
+          "zinc — temperature standard (419.53 °C) and enthalpy reference",
+          "lead — temperature standard (327.47 °C)",
+          "sapphire (α-Al2O3) — NIST SRM 720, Cp calibration standard over wide temperature range",
+          "water — Cp reference (4.184 J/(g·K) at 25 °C) for solution calorimetry verification",
+          "naphthalene — melting point (80.26 °C) and enthalpy standard for low-temperature check"
+        ],
+        "consumables": [
+          "aluminum sample pans and lids (standard, hermetic, or autosampler variants)",
+          "gold sample pans for high-temperature or corrosive samples",
+          "stainless steel high-pressure pans with O-ring seals",
+          "liquid nitrogen for CryoFill cooling accessory",
+          "high-purity nitrogen or helium purge gas",
+          "calibration standards (indium wire or disk)"
+        ],
+        "safety_notes": [
+          "liquid nitrogen requires cryogenic handling precautions (frostbite risk, asphyxiation in confined spaces)",
+          "furnace surfaces exceed 700 °C — burn hazard; do not open furnace cover during high-temperature operation",
+          "hermetically sealed pans containing volatile materials may build internal pressure — use blast shield if overheated",
+          "decomposition of certain polymers or energetic materials may release toxic gases — ensure adequate ventilation"
+        ]
+      },
+      "performance": {
+        "sensitivity": "power sensitivity ~1 µW; can detect thermal events as small as ~0.01 mW peak height",
+        "detection_limit": "enthalpy detection limit ~0.1 J/g for well-resolved peaks; sample mass as low as ~0.1 mg for strong transitions",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "thermal response time constant ~2 s for standard furnaces; as fast as ~0.5 s at high heating rates",
+          "spectral": "not applicable",
+          "energy": "enthalpy precision ~0.1% (repeatability); calorimetric resolution ~0.2 µW RMS baseline noise"
+        },
+        "dynamic_range": "differential power range ±200 mW; temperature range 93–1023 K depending on cooling accessory",
+        "accuracy": "enthalpy accuracy 1–3% of certified reference value; Cp accuracy 0.5–2% after three-run calibration; temperature accuracy ±0.1 °C after multi-point calibration",
+        "precision": "enthalpy repeatability ≤1% RSD; Cp repeatability ≤0.5% RSD; temperature repeatability ±0.02 °C",
+        "throughput": "single sample per run; one temperature scan takes 10–90 min depending on range and rate; autosampler models process ~50 samples/day unattended",
+        "measurement_speed": "very fast thermal response due to low furnace mass (~1 g); equilibration from perturbation within 2–5 s; HyperDSC mode reaches 500 K/min"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "time-resolved differential electrical power ΔP (mW) = P_sample − P_reference, continuously recorded as a function of programmed temperature and time",
+        "preprocessing_steps": [
+          "baseline correction: subtract a run with matched empty pans to remove instrumental baseline curvature",
+          "smoothing: optional Savitzky-Golay or moving-average filter to reduce high-frequency noise",
+          "temperature correction: apply calibration offsets derived from melting-point standards",
+          "normalization: divide ΔP by sample mass to obtain specific heat flow (mW/mg or W/g)",
+          "enthalpy integration: define onset and endset temperatures, integrate ΔP·dt peak area to obtain ΔH"
+        ],
+        "analysis_methods": [
+          "onset temperature determination by tangent intersection method (ASTM E967/E968)",
+          "peak integration using linear, sigmoidal, or spline baseline for ΔH",
+          "three-run Cp method: Cp(T) = Cp_ref × (ΔP_sample − ΔP_empty) / (ΔP_ref − ΔP_empty) × (m_ref / m_sample)",
+          "van't Hoff purity analysis from the shape of the melting peak depression",
+          "Kissinger, Ozawa-Flynn-Wall, or Friedman kinetic analysis from multi-rate scans",
+          "glass transition analysis: midpoint Tg by half-height or inflection point of Cp step"
+        ],
+        "model_assumptions": [
+          "null-balance condition: ΔT between sample and reference is maintained at zero by the feedback loop at all times",
+          "differential power ΔP is a direct measure of the instantaneous heat flow to/from the sample",
+          "thermal resistance between sample and pan is negligible (good thermal contact assumed)",
+          "sample temperature is uniform (no internal thermal gradients) — valid for thin, small-mass samples",
+          "heat capacity of the pan cancels between sample and empty-pan runs in the three-run method"
+        ],
+        "fit_parameters": [
+          "onset temperature (T_onset) by tangent construction",
+          "peak temperature (T_peak)",
+          "endset temperature (T_endset)",
+          "transition enthalpy ΔH (J/g or J/mol) from peak area",
+          "heat capacity Cp (J/(g·K)) at each temperature point",
+          "glass transition midpoint temperature Tg",
+          "purity (mol%) from van't Hoff analysis"
+        ],
+        "common_artifacts": [
+          "thermal lag: apparent shift of onset temperatures to higher values at faster heating rates due to finite heat transfer between furnace and sample",
+          "pan deformation: warping of aluminum pans at high temperatures causes irreproducible thermal contact and baseline offsets",
+          "moisture artifact: broad endothermic feature near 100 °C from desorption of adsorbed water in hygroscopic samples",
+          "atmosphere artifact: exothermic oxidation peaks when using air/oxygen purge that may overlap endothermic transitions",
+          "overshoot artifact: spike at furnace turnaround (isothermal→scan) due to PID controller transient",
+          "sublimation artifact: mass loss from sample pan through gaps in lid produces drifting baseline"
+        ],
+        "quality_control_checks": [
+          "verify indium melting onset within ±0.3 °C of certified value and ΔH within ±2% of 28.45 J/g",
+          "check baseline flatness with empty matched pans (<0.05 mW drift over operational range)",
+          "reproduce sapphire Cp within ±2% of literature values across the temperature range",
+          "compare heating and cooling scans to confirm reversibility of transitions",
+          "run duplicate samples to verify repeatability of onset temperatures and enthalpies",
+          "inspect thermogram for spurious baseline steps or sudden noise, indicating pan or contact issues"
+        ],
+        "failure_modes": [
+          "pan puncture or leakage (hermetic pans): loss of volatile sample produces erratic baseline and mass-dependent enthalpy errors",
+          "furnace contamination from sample spillage: persistent baseline distortion requiring furnace cleaning or replacement",
+          "sensor degradation: gradual drift in temperature or power calibration over instrument lifetime",
+          "cooling system failure: inability to reach sub-ambient temperatures or maintain controlled cooling rate",
+          "PID oscillation: feedback loop instability producing periodic noise in the ΔP trace, especially near sharp first-order transitions"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: 0.5–2% for Cp, 1–3% for transition enthalpies, ±0.1–0.5 °C for transition temperatures",
+        "random_sources": [
+          "baseline noise from electronic and thermal fluctuations (~0.2 µW RMS)",
+          "sample mass weighing uncertainty (±0.01 mg, significant for very small samples)",
+          "pan positioning variability within furnace",
+          "purge gas flow fluctuations affecting heat transfer",
+          "ambient temperature variations producing slow baseline drift"
+        ],
+        "systematic_sources": [
+          "temperature calibration offset (mitigated by multi-point calibration with standards)",
+          "enthalpy calibration factor uncertainty (depends on indium standard purity and literature ΔH accuracy)",
+          "thermal lag between furnace sensor and actual sample temperature (increases with heating rate and sample mass)",
+          "empty-pan baseline subtraction residual (pan mass mismatch)",
+          "thermal contact resistance between sample and pan (geometry-dependent and irreproducible)",
+          "heat exchange with purge gas (varies with gas type and flow rate)"
+        ],
+        "operator_dependence": "moderate — sample preparation (grinding, packing), pan crimping quality, sample positioning in furnace, and choice of baseline construction for integration depend on operator skill and judgment",
+        "model_dependence": "low to moderate — the null-balance principle provides a direct power measurement, but Cp determination relies on the three-run method and baseline construction; kinetic analysis introduces model-dependent assumptions (e.g., Kissinger assumes first-order kinetics)",
+        "dominant_error_sources": [
+          "thermal lag between furnace and sample (dominant at high heating rates)",
+          "thermal contact resistance between sample and pan",
+          "baseline construction choice for enthalpy integration (especially for overlapping or asymmetric peaks)",
+          "sample mass uncertainty for sub-milligram samples"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k = 2)",
+          "relative standard deviation from replicate measurements",
+          "standard uncertainty of the mean from multiple runs"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Power-compensation calorimetry is a precision thermal analysis technique in which two independent micro-furnaces — one holding the sample and one the reference — are individually heated so that both track the same programmed temperature profile. When an endothermic or exothermic event occurs in the sample, the feedback control system adjusts the electrical power delivered to each furnace to maintain a null temperature difference (ΔT = 0). The differential power ΔP required to sustain this balance is a direct, real-time measure of the heat flow dH/dt to or from the sample. Commercialized primarily by PerkinElmer in the DSC 4000/6000/8500 series, this design traces its origins to the work of Watson, O'Neill, Justin, and Brenner in 1964. Power-compensation calorimetry is the dominant variant used for high-sensitivity, high-speed differential scanning calorimetry and is widely applied to measure heat capacity, transition enthalpies, glass transitions, purity, and reaction kinetics across materials science, pharmaceuticals, polymer science, and food science.",
+      "how_it_operates": "The instrument contains two small, lightweight platinum furnaces (each ~1 g) physically separated by an insulating block. Each furnace contains its own platinum resistance heater and platinum resistance temperature sensor. During a measurement, a common temperature program (linear ramp, isothermal hold, or modulated profile) is imposed on both furnaces simultaneously. Under null-balance feedback control, two independent control loops continuously adjust the heater power to each furnace to keep the sample and reference temperatures identical to each other and to the programmed value. When the sample undergoes an endothermic event (e.g., melting), its furnace requires additional power to keep pace with the reference; conversely, an exothermic event (e.g., crystallization) demands less power. The difference ΔP = P_sample − P_reference is recorded as a function of temperature and time. Because ΔP directly equals the rate of heat absorption or release, the thermogram provides a quantitative measure of heat flow without the need for a cell constant or Tzero calibration used in heat-flux DSC designs.",
+      "core_theory": "The fundamental operating equation is dH/dt = ΔP, where dH/dt is the heat flow rate into the sample and ΔP is the measured differential electrical power. This follows from energy conservation: under perfect null-balance conditions (ΔT = 0 at all times), the only way to maintain equal temperatures in two furnaces when one contains a sample undergoing a thermal event is to supply different amounts of electrical power. Integration of ΔP over time yields the total enthalpy change: ΔH = ∫ΔP dt. For heat capacity determination at constant pressure, where no discrete transition occurs, Cp = (dH/dt) / (dT/dt) = ΔP / β, where β is the heating rate. In practice, the feedback loop bandwidth limits the frequency of thermal events that can be faithfully tracked, and a small residual ΔT (typically <0.01 K) exists that is corrected during data processing. The fast response of the low-mass furnaces means that the instrument time constant (~2 s) is much shorter than for heat-flux designs, enabling accurate measurement at high heating rates (up to 500 K/min in HyperDSC mode) and excellent resolution of closely spaced thermal events.",
+      "setup": "A power-compensation DSC consists of a measurement head housing two platinum micro-furnace assemblies separated by an air gap or insulating bridge. Each furnace is a cylindrical platinum cup approximately 6 mm in diameter and 8 mm deep, wound with a platinum wire heater and fitted with a platinum resistance thermometer. The sample is loaded into an aluminum, gold, or stainless-steel pan which sits inside the sample furnace, and a matched empty pan (or reference material) is placed in the reference furnace. A furnace cover with a purge gas inlet directs dry nitrogen or helium over the furnaces to provide an inert atmosphere and to assist heat transfer. Cooling is provided by a mechanical refrigeration intracooler (for −90 °C operation), a liquid nitrogen CryoFill system (for −180 °C), or compressed air (for above-ambient only). The electronics cabinet houses the differential power amplifiers, PID feedback controllers, temperature programmer, and analog-to-digital converters. Instrument control and data analysis are managed by software (e.g., PerkinElmer Pyris) running on a connected computer.",
+      "suitable_for": "Power-compensation calorimetry is exceptionally well-suited for precise measurement of transition enthalpies (melting, crystallization, solid-solid, glass transition) and isobaric heat capacity over wide temperature ranges. Its fast thermal response makes it the technique of choice for studying metastable polymorphs, amorphous-to-crystalline transitions in pharmaceuticals, and rapid quench-and-reheat experiments on polymers and metallic glasses. It is the standard method for DSC purity analysis (van't Hoff method) in the pharmaceutical industry and is extensively used for polymer characterization (Tg, Tm, degree of crystallinity, cure kinetics of thermosets). The direct power measurement principle also makes it valuable for measuring excess and partial molar enthalpies of mixing in solution, which is the primary ThermoML usage context (ExcessPartialApparentEnergyProp). High-speed scanning modes (HyperDSC, 100–500 K/min) enable study of processes that are obscured at conventional rates, such as reorganization during polymer melting.",
+      "core_limitations": "The small furnace volume limits sample size to ~20 mg and ~60 µL, which can be a constraint when representative sampling of heterogeneous materials is needed. Maximum operating temperature is typically 725 °C (with gold pans), lower than heat-flux designs that can reach 1500 °C or more. The platinum furnaces are sensitive to contamination from sample spillage (particularly metals or aggressive chemicals), which can permanently degrade performance and require expensive furnace replacement. At very high heating rates, thermal lag between the furnace and the interior of the sample introduces systematic temperature errors, and the effective time constant of the feedback loop sets an upper limit on the rate of thermal events that can be quantitatively tracked. Baseline curvature can be more pronounced than in advanced Tzero heat-flux designs, making Cp measurement over wide temperature ranges somewhat more challenging without careful baseline correction.",
+      "sample_preparation": "Samples are prepared by weighing 3–10 mg of material on an analytical balance (±0.01 mg) and placing it in an appropriate pan. Powders should be finely ground and pressed flat against the pan bottom with a spatula to maximize thermal contact and eliminate air pockets. Films and fibers can be cut or stacked to fit the pan diameter (~6 mm). Liquids are pipetted or syringed into the pan, and for volatile liquids or samples studied above their boiling point, hermetically sealed pans are crimped shut using a pan press. Hygroscopic samples should be loaded in a dry box and sealed immediately. An empty reference pan of the same type should be prepared and weighed to match the sample pan mass as closely as possible (<0.1 mg mismatch), reducing spurious baseline curvature from pan heat capacity imbalance. For solution calorimetry (excess enthalpy of mixing), pre-mixed solutions at known composition are loaded, or in-situ mixing cells are used where available.",
+      "calibration_and_references": "Calibration is performed in two stages: temperature and enthalpy. Temperature calibration requires heating at least two melting-point standards through their melting transitions at the planned heating rate. Indium (onset 156.60 °C, ΔH = 28.45 J/g) is the primary standard; zinc (419.53 °C) and tin (231.93 °C) extend the range. The instrument software applies a linear or polynomial correction so that measured onsets match certified values. Enthalpy calibration uses the indium ΔH to scale the differential power ordinate. For accurate Cp measurement, a three-run procedure is followed: (1) empty matched pans establish the baseline, (2) a sapphire disk (α-Al2O3, NIST SRM 720) of known mass and certified Cp provides the reference heat capacity, and (3) the sample run is measured under identical conditions. Cp is then calculated ratio-metrically. Calibration must be repeated whenever the heating rate, pan type, purge gas, or cooling accessory is changed, as each affects the thermal environment.",
+      "data_interpretation": "The primary thermogram (ΔP vs. T) is first baseline-corrected by subtracting an empty-pan run or fitting a mathematical baseline function. Transition enthalpies are obtained by integrating the peak area between operator-selected onset and endset limits, with a linear, sigmoidal, or spline baseline connecting these limits. The onset temperature is defined by the intersection of the pre-transition baseline tangent with the steepest tangent on the leading edge of the peak. For Cp determination, the continuous ΔP signal is converted point-by-point using the three-run sapphire ratio method. Glass transitions appear as a step change in ΔP (hence Cp), and Tg is reported at the midpoint, onset, or inflection point depending on the chosen convention (ASTM E1356). Kinetic parameters (activation energy, pre-exponential factor) are derived from multi-rate experiments using model-free methods (Kissinger, Ozawa-Flynn-Wall). Purity analysis fits the shape of the melting endotherm to the van't Hoff equation to quantify the eutectic impurity fraction.",
+      "common_pitfalls": "The most frequent error is neglecting thermal lag: onset temperatures shift to higher values at faster heating rates, so calibration must be performed at the intended scan rate. Using mismatched pans (sample vs. reference) introduces a sloping or curved baseline that complicates peak integration and Cp measurement. Overfilling pans or using poorly crimped hermetic pans can lead to sample spillage, contaminating the furnace and creating irreversible baseline distortions. Failing to purge adequately with inert gas leads to sample oxidation that overlaps or obscures the transitions of interest. Running the instrument without an appropriate cooling accessory for the intended temperature range produces baseline instability and poor reproducibility. When performing Cp measurements, even small errors in sample mass weighing (e.g., ±0.1 mg on a 3 mg sample) translate to 3% Cp error, so mass accuracy is critical for small samples.",
+      "artifacts_and_failure_modes": "Thermal lag artifacts are inherent: the measured onset shifts approximately linearly with heating rate, and the peak broadens. This is correctable through rate-dependent calibration but introduces uncertainty when comparing data taken at different rates. Pan deformation at high temperatures (>500 °C for aluminum pans) changes the thermal contact area, manifesting as irreproducible baselines and peak shapes in repeat runs. The PID feedback controller can exhibit transient overshoot at program transitions (e.g., switching from isothermal to scanning mode), producing a brief spike in ΔP that is not a sample event. At sharp first-order transitions (e.g., melting of a high-purity metal), the enormous instantaneous heat demand can momentarily exceed the feedback loop bandwidth, causing a brief loss of null balance and a distorted peak shape. Contamination of the platinum furnaces — from sample decomposition products or accidental spills — creates permanent baseline artifacts that persist across all subsequent runs until the furnaces are cleaned or replaced.",
+      "reporting_checklist": "Published power-compensation calorimetry results should include: instrument make and model (e.g., PerkinElmer DSC 8500); pan type and material (aluminum standard, aluminum hermetic, gold high-temperature); sample mass (±0.01 mg); heating and cooling rates (K/min); purge gas type and flow rate; temperature and enthalpy calibration standards used with their certified values; baseline correction method; onset temperature determination method (tangent intersection per ASTM E967); peak integration baseline type (linear, sigmoidal, spline); for Cp data, the three-run method details and sapphire reference Cp source; number of replicate runs; reported uncertainty as combined expanded uncertainty at 95% confidence (k = 2); and any thermal history pre-treatment (e.g., first-heat/cool/reheat protocol). For ThermoML encoding, enthalpy and Cp values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

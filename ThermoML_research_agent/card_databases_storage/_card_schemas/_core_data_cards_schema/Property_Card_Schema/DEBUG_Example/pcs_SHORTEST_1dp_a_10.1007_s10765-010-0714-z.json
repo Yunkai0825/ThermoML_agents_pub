@@ -1,0 +1,241 @@
+{
+  "key": {
+    "doi": "10.1007/s10765-010-0714-z",
+    "lit_id": "2010-sch-bec-0",
+    "lit_num_id": "GLOBlit_91"
+  },
+  "paper": {
+    "doi": "10.1007/s10765-010-0714-z",
+    "title": "Measurements of the Calorific Value of Methane with the New GERG Reference Calorimeter"
+  },
+  "blocks_summary": {
+    "n_blocks": 1,
+    "n_pure_or_mixture": 0,
+    "n_reaction": 1,
+    "property_names": [
+      "Molar enthalpy of reaction, kJ/mol"
+    ],
+    "property_groups": [
+      "ReactionStateChangeProp"
+    ],
+    "compound_names": [
+      "carbon dioxide",
+      "methane",
+      "oxygen",
+      "water"
+    ],
+    "system_types": [
+      "quaternary"
+    ],
+    "methods": [
+      "Flame calorimetry"
+    ],
+    "temperature_range_K": {
+      "min": 298.15,
+      "max": 298.15
+    },
+    "pressure_range_kPa": {
+      "min": 101.325,
+      "max": 101.325
+    },
+    "total_datapoints": 1,
+    "block_index": [
+      {
+        "block_number": "RXNblock_1",
+        "block_type": "ReactionData",
+        "property_names": [
+          "Molar enthalpy of reaction, kJ/mol"
+        ],
+        "property_group": "ReactionStateChangeProp",
+        "system_type": "quaternary",
+        "blocktype_num_id": "GLOBblocktype_5",
+        "n_points": 1,
+        "method": "Flame calorimetry"
+      }
+    ]
+  },
+  "blocks": [
+    {
+      "block_number": "RXNblock_1",
+      "block_type": "ReactionData",
+      "system_type": "quaternary",
+      "blocktype_num_id": "GLOBblocktype_5",
+      "compounds": [
+        {
+          "org_num": "DOIcomp_4",
+          "comp_num_id": "GLOBcomp_51",
+          "inchi_key": "VNWKTOKETHGBQD-UHFFFAOYSA-N",
+          "name": "methane",
+          "formula": "CH4",
+          "InChI": "InChI=1S/CH4/h1H4",
+          "SMILES": null,
+          "sample_num": "DOIcompSample_4_1"
+        },
+        {
+          "org_num": "DOIcomp_1",
+          "comp_num_id": "GLOBcomp_3",
+          "inchi_key": "CURLTUGMZLYLDI-UHFFFAOYSA-N",
+          "name": "carbon dioxide",
+          "formula": "CO2",
+          "InChI": "InChI=1S/CO2/c2-1-3",
+          "SMILES": null,
+          "sample_num": null
+        },
+        {
+          "org_num": "DOIcomp_2",
+          "comp_num_id": "GLOBcomp_1",
+          "inchi_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+          "name": "water",
+          "formula": "H2O",
+          "InChI": "InChI=1S/H2O/h1H2",
+          "SMILES": null,
+          "sample_num": null
+        },
+        {
+          "org_num": "DOIcomp_3",
+          "comp_num_id": "GLOBcomp_16",
+          "inchi_key": "MYMOFIZGZYHOMD-UHFFFAOYSA-N",
+          "name": "oxygen",
+          "formula": "O2",
+          "InChI": "InChI=1S/O2/c1-2",
+          "SMILES": null,
+          "sample_num": null
+        }
+      ],
+      "properties": [
+        {
+          "BLKprop_id": "BLKprop_1",
+          "prop_num_id": "GLOBprop_36",
+          "prop_ID": "molar_enthalpy_of_reaction_kj_mol",
+          "name": "Molar enthalpy of reaction, kJ/mol",
+          "group": "ReactionStateChangeProp",
+          "method_standard": "Flame calorimetry",
+          "method_custom": null,
+          "meas_num_id": "GLOBmeas_127",
+          "meas_ID": "flame_calorimetry",
+          "presentation": null,
+          "standard_state": null,
+          "ref_state_type": null,
+          "ref_temperature_K": null,
+          "ref_temperature_digits": null,
+          "ref_pressure_kPa": null,
+          "ref_pressure_digits": null,
+          "temperature_K": 298.15,
+          "temperature_digits": 5,
+          "pressure_kPa": 101.325,
+          "pressure_digits": 6,
+          "property_phase": null,
+          "ref_phase": null,
+          "component_org_num": null,
+          "uncertainty": {
+            "evaluation_method": "Propagation of evaluated standard uncertainties",
+            "confidence_level": 95,
+            "evaluator": "Data file compiler",
+            "assessment_num": "BLKpropAssessment_1_1"
+          }
+        }
+      ],
+      "solvents": [],
+      "variables": [],
+      "constraints": [],
+      "data_summary": {
+        "property_names": [
+          "Molar enthalpy of reaction, kJ/mol"
+        ],
+        "property_group": "ReactionStateChangeProp",
+        "methods": [
+          "Flame calorimetry"
+        ],
+        "system_type": "quaternary",
+        "compound_names": [
+          "methane",
+          "carbon dioxide",
+          "water",
+          "oxygen"
+        ],
+        "phases": [],
+        "constraints_summary": {},
+        "n_points": 1,
+        "property_stats": {
+          "BLKprop_1": {
+            "BLKprop_id": "BLKprop_1",
+            "name": "Molar enthalpy of reaction, kJ/mol",
+            "min": -890.578,
+            "max": -890.578,
+            "mean": -890.578,
+            "std": 0,
+            "n": 1
+          }
+        },
+        "variable_ranges": {}
+      },
+      "data_points": [
+        {
+          "variable_values": {},
+          "property_values": {
+            "BLKprop_1": {
+              "value": -890.578,
+              "digits": 6,
+              "point_uncertainty": {
+                "expanded_value": 0.467,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        }
+      ],
+      "reaction": {
+        "reaction_type": "Combustion with oxygen",
+        "source_reaction_type": "Combustion with oxygen",
+        "rxn_type_num_id": "GLOBrxntype_1",
+        "rxn_type_id": "combustion_with_oxygen",
+        "participants": [
+          {
+            "org_num": "DOIcomp_4",
+            "comp_num_id": "GLOBcomp_51",
+            "phase": "Ideal gas",
+            "phase_num_id": "GLOBphase_9",
+            "phase_id": "ideal_gas",
+            "sample_num": "DOIcompSample_4_1",
+            "stoichiometric_coef": -1.0
+          },
+          {
+            "org_num": "DOIcomp_1",
+            "comp_num_id": "GLOBcomp_3",
+            "phase": "Ideal gas",
+            "phase_num_id": "GLOBphase_9",
+            "phase_id": "ideal_gas",
+            "sample_num": null,
+            "stoichiometric_coef": 1.0
+          },
+          {
+            "org_num": "DOIcomp_2",
+            "comp_num_id": "GLOBcomp_1",
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid",
+            "sample_num": null,
+            "stoichiometric_coef": 2.0
+          },
+          {
+            "org_num": "DOIcomp_3",
+            "comp_num_id": "GLOBcomp_16",
+            "phase": "Ideal gas",
+            "phase_num_id": "GLOBphase_9",
+            "phase_id": "ideal_gas",
+            "sample_num": null,
+            "stoichiometric_coef": -2.0
+          }
+        ]
+      },
+      "auxiliary": null,
+      "equation": null,
+      "provenance": {
+        "date_added": "7/18/2013",
+        "compiler": "RDC",
+        "contributor": "XXX",
+        "experimental_purpose": "Principal objective of the work"
+      }
+    }
+  ]
+}

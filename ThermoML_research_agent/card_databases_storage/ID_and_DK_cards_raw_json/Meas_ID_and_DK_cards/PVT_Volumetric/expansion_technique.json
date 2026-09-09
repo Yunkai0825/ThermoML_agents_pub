@@ -1,0 +1,335 @@
+{
+  "meas_ID": "expansion_technique",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Expansion technique",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Expansion technique",
+    "thermoml_custom_codes": [],
+    "measurement_family": "PVT / Volumetric",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 3,
+      "property_groups": [
+        "HeatCapacityAndDerivedProp"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "HeatCapacityAndDerivedProp": {
+          "instances": 3,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "initial pressure in known volume V1 (P1)",
+          "final equilibrium pressure after expansion into combined volume V1+V2 (P2)",
+          "cell volumes V1 and V2 (determined by prior calibration)",
+          "temperature of the thermostatted system (T)"
+        ],
+        "derived_observables": [
+          "compressibility factor Z = PV/(nRT)",
+          "second virial coefficient B(T) from pressure series expansion",
+          "third virial coefficient C(T) from higher-order fits",
+          "molar density ρ = n/V from PVT relations",
+          "gas-phase density from equation-of-state inversion",
+          "volume ratio N = (V1+V2)/V1 (Burnett apparatus constant)"
+        ],
+        "target_properties": [
+          "compressibility factor Z(T,P)",
+          "second virial coefficient B(T)",
+          "third virial coefficient C(T)",
+          "gas-phase molar volume",
+          "gas-phase density",
+          "PVT equation-of-state parameters",
+          "Joule-Thomson coefficient (from throttling expansion variant)"
+        ],
+        "phases_measured": [
+          "gas (primary target)",
+          "supercritical fluid",
+          "vapor phase of volatile liquids"
+        ],
+        "supported_sample_types": [
+          "pure gases",
+          "gas mixtures (binary and multicomponent)",
+          "vapors of volatile liquids",
+          "supercritical fluids",
+          "light hydrocarbons in vapor phase",
+          "refrigerant gases"
+        ],
+        "unsupported_sample_types": [
+          "liquids (incompressible; expansion technique is for compressible fluids)",
+          "solids",
+          "highly adsorptive gases that interact with vessel walls",
+          "gases that undergo chemical reaction at measurement conditions",
+          "condensable vapors near or below saturation curve at measurement pressure"
+        ],
+        "typical_output_formats": [
+          "Z vs. P isotherm",
+          "B(T) vs. T curve",
+          "C(T) vs. T curve",
+          "pressure ratio series P_r(0)/P_r(1)/P_r(2)/... (Burnett runs)",
+          "PVT data table (T, P, Vm)"
+        ],
+        "units": {
+          "pressure": "MPa or kPa",
+          "volume": "cm³ or dm³",
+          "temperature": "K",
+          "compressibility_factor": "dimensionless",
+          "second_virial_coefficient": "cm³/mol",
+          "third_virial_coefficient": "cm⁶/mol²",
+          "molar_volume": "cm³/mol",
+          "density": "mol/dm³ or kg/m³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "200 K to 700 K",
+            "hard_limits": "limited by thermostat capability and material of pressure vessel; specialized cryogenic or high-temperature apparatus can extend to 100 K–1200 K",
+            "notes": "each isotherm is measured at a single controlled temperature; temperature stability of ±1–5 mK required"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.01 MPa to 30 MPa",
+            "hard_limits": "upper limit set by vessel burst pressure rating; low-pressure limit determined by pressure transducer sensitivity; some apparatus rated to 70 MPa",
+            "notes": "initial filling pressure determines the density range accessible in a single Burnett run"
+          },
+          {
+            "parameter": "volume_ratio",
+            "typical_range": "N = 1.3 to 2.0 (Burnett apparatus constant)",
+            "hard_limits": "fixed by apparatus construction; must be precisely calibrated",
+            "notes": "smaller N gives more expansion steps and finer pressure resolution but more accumulated error; N ≈ 1.5 is a common compromise"
+          },
+          {
+            "parameter": "equilibration_time",
+            "typical_range": "10 min to 60 min per expansion step",
+            "hard_limits": "must wait for complete thermal equilibration after adiabatic cooling from expansion",
+            "notes": "insufficient equilibration is a major error source; monitored by pressure stability criterion (e.g., ΔP < 0.001% over 5 min)"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled isotherm variable",
+            "typical_values": "200 K to 700 K in discrete isotherms",
+            "effect": "each isotherm yields Z(P) at fixed T; temperature determines the magnitude and sign of virial coefficients"
+          },
+          {
+            "name": "initial_filling_pressure",
+            "role": "determines density range of the run",
+            "typical_values": "1 MPa to 30 MPa",
+            "effect": "higher initial pressure accesses higher densities; successive expansions reduce pressure geometrically by factor 1/N per step"
+          },
+          {
+            "name": "number_of_expansions",
+            "role": "determines number of data points per isotherm",
+            "typical_values": "5 to 15 expansion steps",
+            "effect": "more steps extend the measurement to lower pressures; each step introduces additional accumulated uncertainty"
+          },
+          {
+            "name": "pressure",
+            "role": "measured variable (not independently controlled after filling)",
+            "typical_values": "0.01 MPa to 30 MPa",
+            "effect": "pressure after each expansion is the primary measured quantity; decreases with each successive expansion step"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "primary pressure vessel (volume V1) — thick-walled stainless steel or Inconel bomb with precisely known internal volume",
+          "secondary expansion vessel (volume V2) — evacuated receiver of known volume connected by a valve",
+          "expansion valve — low-dead-volume bellows valve or diaphragm valve connecting V1 and V2",
+          "high-accuracy pressure transducer — quartz Bourdon-tube gauge (Paroscientific/Mensor) or piston gauge with resolution ≤0.001% of reading",
+          "thermostat — precision liquid bath or air bath enclosing both vessels with stability ±1–5 mK",
+          "temperature measurement — platinum resistance thermometer (SPRT or ITS-90 calibrated PRT) with resolution ±1 mK",
+          "vacuum system — turbomolecular or diffusion pump for evacuating V2 between expansion runs to < 10⁻³ Pa",
+          "gas handling manifold — for sample introduction, purging, and pressure regulation",
+          "data acquisition system — high-resolution ADC for pressure and temperature logging"
+        ],
+        "environmental_requirements": [
+          "thermostat enclosure maintaining both vessels at identical temperature within ±1–5 mK",
+          "vibration-free environment to avoid pressure transducer noise",
+          "temperature-controlled laboratory to minimize ambient temperature drift effects on thermostat",
+          "adequate ventilation for handling compressed or toxic gases"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "gas-phase sample (no geometric constraints on the sample itself)"
+          ],
+          "size_limits": "gas quantity defined by filling pressure and vessel volume; typically 0.01–5 mol of gas per run",
+          "thickness_limits": "not applicable (gas fills vessel completely)",
+          "surface_requirements": [
+            "vessel inner surfaces must be clean, dry, and non-adsorptive",
+            "electropolished or passivated stainless steel reduces adsorption of polar gases"
+          ],
+          "mounting_requirements": [
+            "gas is introduced through the manifold into V1 and sealed"
+          ],
+          "preparation_requirements": [
+            "high-purity gas sample (typically ≥99.9% for standards-grade measurements)",
+            "degassing of sample if dissolved air or moisture is present",
+            "leak testing of entire apparatus under vacuum and at maximum working pressure before each run",
+            "purging of vessels and manifold with sample gas to remove residual contaminants"
+          ]
+        },
+        "calibration_requirements": [
+          "precise determination of volume ratio N = (V1+V2)/V1 using helium as a nearly ideal calibrant gas at low pressure",
+          "calibration of pressure transducer against a primary standard (dead-weight piston gauge) or certified reference transducer",
+          "ITS-90 calibration of the temperature sensor at fixed points (triple point of water, gallium, indium)",
+          "dead-volume correction for valve stems, tubing, and connecting lines between V1 and V2",
+          "adsorption correction for polar or heavy gases that adsorb on vessel walls"
+        ],
+        "reference_materials": [
+          "helium — used for volume ratio calibration (nearly ideal gas behavior, Z ≈ 1.000 at low P)",
+          "nitrogen — well-characterized Z(T,P) and virial coefficients from NIST reference data for cross-validation",
+          "argon — monoatomic reference gas with highly accurate PVT data for apparatus validation",
+          "carbon dioxide — test gas with strong non-ideal behavior for verifying sensitivity to virial coefficients"
+        ],
+        "consumables": [
+          "O-rings or metal gaskets (copper, silver-plated Inconel) for high-pressure seals",
+          "high-purity sample gas",
+          "helium for calibration runs",
+          "vacuum pump oil (for diffusion pump systems)"
+        ],
+        "safety_notes": [
+          "high-pressure vessels and fittings must be rated and inspected per ASME or equivalent pressure vessel codes",
+          "burst disk or pressure relief valve required on all pressure vessels",
+          "toxic or flammable gases require gas detection, ventilation, and appropriate PPE",
+          "cryogenic thermostat fluids require standard cryogen handling precautions",
+          "compressed gas cylinder storage and handling per local safety regulations"
+        ]
+      },
+      "performance": {
+        "sensitivity": "pressure transducer resolution of 1–10 Pa enables detection of Z deviations from unity as small as 10⁻⁴ at moderate pressures",
+        "detection_limit": "minimum measurable density determined by lowest reliably readable pressure; typically ~0.001 mol/dm³",
+        "resolution": {
+          "spatial": "not applicable (bulk gas measurement)",
+          "temporal": "not applicable (equilibrium measurement; each point requires 10–60 min equilibration)",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "pressure range spanning ~3 decades (e.g., 0.01–30 MPa); density range from near-ideal-gas limit to moderate densities",
+        "accuracy": "compressibility factor Z: ±0.01–0.05% for well-calibrated Burnett apparatus; second virial coefficient B: ±1–5 cm³/mol; P accuracy ±0.005–0.02% of reading",
+        "precision": "pressure repeatability ±0.002–0.01% of reading; Z precision ±0.005–0.02% within a single isotherm",
+        "throughput": "one isotherm per day for a full Burnett series (5–15 expansion steps with equilibration); multiple isotherms require temperature re-stabilization",
+        "measurement_speed": "each expansion step requires 10–60 min for thermal equilibration; a complete isotherm takes 2–12 hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "pressure readings after each successive expansion step at constant temperature, forming a geometric series P(0), P(1), P(2), ..., P(r) where P(r+1) ≈ P(r)/N",
+        "preprocessing_steps": [
+          "correction of raw pressure for transducer zero drift and calibration curve nonlinearity",
+          "correction for dead volume in connecting tubing, valve bodies, and pressure transducer cavity",
+          "correction for gas adsorption on vessel walls (significant for polar gases and at low pressures)",
+          "correction for elastic deformation of pressure vessels under load (PV distortion correction)",
+          "temperature correction if vessel temperatures differ slightly between V1 and V2"
+        ],
+        "analysis_methods": [
+          "Burnett analysis: iterative determination of Z and N from pressure ratio series using P(r)/P(r+1) = N · Z(r)/Z(r+1)",
+          "graphical Burnett method: plot P(r)/P(r+1) vs. P(r) and extrapolate to zero pressure to obtain N",
+          "least-squares regression of Z(P) or Z(ρ) data to truncated virial equation Z = 1 + B/Vm + C/Vm² + ...",
+          "Berlin virial equation fit: Z = 1 + B'P + C'P² + ... with conversion to density-series coefficients",
+          "equation-of-state fitting (Peng-Robinson, SAFT, GERG models) to the PVT data set",
+          "direct Joule expansion analysis: ΔT measurement for Joule coefficient determination (μJ = (∂T/∂V)U)"
+        ],
+        "model_assumptions": [
+          "gas in V1 and V2 reaches complete thermal and mechanical equilibrium after each expansion (uniform T and P throughout)",
+          "no gas leaks between expansion steps — total moles n remain constant",
+          "volume ratio N is constant (independent of pressure and temperature within correction limits)",
+          "gas adsorption on vessel walls is negligible or has been corrected",
+          "vessel volumes are constant or their elastic deformation under pressure has been corrected",
+          "for virial analysis: truncation of the virial series at a finite order is valid over the measured density range"
+        ],
+        "fit_parameters": [
+          "apparatus constant N (volume ratio, determined from helium calibration)",
+          "compressibility factor Z at each measured pressure",
+          "second virial coefficient B(T)",
+          "third virial coefficient C(T)",
+          "equation-of-state parameters (e.g., interaction parameter kij for mixtures)"
+        ],
+        "common_artifacts": [
+          "adsorption artifact: apparent decrease in gas amount at low pressures for polar gases, causing systematic positive deviation in apparent Z",
+          "incomplete equilibration: premature pressure reading before thermal equilibrium leads to systematically low P and biased Z",
+          "dead volume error: imprecise correction for gas in connecting lines shifts all Z values systematically",
+          "leak artifact: slow leak from the apparatus causes apparent decrease in pressure between successive readings, mimicking additional non-ideality",
+          "elastic deformation artifact: at high pressures, vessel expansion increases the effective volume, leading to systematic error in Z if uncorrected"
+        ],
+        "quality_control_checks": [
+          "validate apparatus constant N by measuring helium at several pressures and temperatures — N should be pressure- and temperature-independent within uncertainty",
+          "verify Z → 1 as P → 0 extrapolation for each isotherm",
+          "compare measured B(T) for reference gas (N2 or Ar) against NIST recommended values",
+          "check consistency between ascending and descending pressure series (fill-expand vs. multiple fillings)",
+          "inspect residuals of virial fit for systematic trends indicating truncation error or adsorption",
+          "repeat selected isotherms to verify reproducibility within stated uncertainty"
+        ],
+        "failure_modes": [
+          "gas leak in expansion valve or vessel seal (progressive loss of sample, non-closing mass balance)",
+          "pressure transducer drift or failure during long measurement series",
+          "thermostat temperature excursion due to controller malfunction",
+          "condensation of gas sample during expansion if final pressure drops below dew point",
+          "contamination of sample gas from residual gases in inadequately evacuated V2",
+          "corrosion of vessel by reactive gas (e.g., H2S, HF) over extended measurement campaign"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: Z ±0.01–0.05%; B(T) ±1–5 cm³/mol; individual pressure readings ±0.005–0.02%",
+        "random_sources": [
+          "pressure transducer noise and short-term drift",
+          "temperature measurement noise (PRT reading fluctuations)",
+          "thermostat temperature oscillations (bath stability)",
+          "digital resolution of pressure and temperature readouts"
+        ],
+        "systematic_sources": [
+          "volume ratio N calibration uncertainty",
+          "pressure transducer calibration offset and nonlinearity",
+          "dead volume correction uncertainty",
+          "gas adsorption on vessel walls (uncorrected or under-corrected)",
+          "elastic deformation of pressure vessels (PV distortion)",
+          "temperature sensor calibration offset (ITS-90 traceability)",
+          "sample purity (impurities alter Z and virial coefficients)",
+          "virial series truncation error (model-dependent systematic bias)"
+        ],
+        "operator_dependence": "low to moderate — primary operator-dependent steps are leak testing, sample loading, equilibration time judgment, and vacuum quality",
+        "model_dependence": "moderate — choice of virial truncation order or equation of state affects derived B, C values; extrapolation to zero pressure is model-sensitive at high truncation orders",
+        "dominant_error_sources": [
+          "volume ratio N determination (propagates into every Z value in the series)",
+          "gas adsorption correction (dominant at low pressures for polar gases)",
+          "pressure transducer calibration uncertainty (propagates linearly into Z)",
+          "incomplete thermal equilibration between expansion steps"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(Z) at 95% confidence (k=2)",
+          "standard uncertainty u(B) in cm³/mol",
+          "relative uncertainty of Z as percentage",
+          "propagated uncertainty from Monte Carlo or GUM analysis"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Expansion techniques are a family of PVT measurement methods that determine the thermodynamic properties of gases by allowing a sample to expand from a vessel of known volume into an evacuated vessel of known volume, then measuring the resulting equilibrium pressure. The most prominent variant is the Burnett method (1936), in which a gas undergoes a series of successive isothermal expansions through a fixed volume ratio, generating a set of pressure readings from which the compressibility factor Z and virial coefficients are derived without requiring direct measurement of the gas amount. Other variants include single-step Joule (free) expansion and throttling (Joule-Thomson) expansion. These methods are valued because they yield absolute PVT data for the gas phase with high accuracy and without needing to know the sample mass.",
+      "how_it_operates": "In a Burnett-type expansion apparatus, a gas sample at initial pressure P(0) is confined in a primary vessel of volume V1, thermostatted at a fixed temperature T. A secondary vessel of volume V2, also thermostatted at T, is evacuated to high vacuum. The expansion valve connecting V1 and V2 is opened, allowing the gas to expand irreversibly into the combined volume V1+V2. Once thermal and mechanical equilibrium are re-established, the new pressure P(1) is recorded. The secondary vessel V2 is then re-evacuated while gas in V1 is retained, and the process is repeated to yield P(2), P(3), and so on. Each expansion reduces the pressure by approximately the factor 1/N, where N = (V1+V2)/V1 is the apparatus constant. For an ideal gas, P(r+1) = P(r)/N exactly; deviations from this geometric series encode the non-ideal behavior, from which Z(P) and virial coefficients are extracted.",
+      "core_theory": "For an isothermal expansion of n moles from volume V1 at pressure P(r) to volume V1+V2 at pressure P(r+1), the conservation of moles gives P(r)V1/[Z(r)RT] = P(r+1)(V1+V2)/[Z(r+1)RT], leading to the Burnett relation P(r)/P(r+1) = N·Z(r)/Z(r+1). In the zero-pressure limit, Z → 1, so extrapolation of the pressure ratio series to P = 0 determines N. With N known, Z at each measured pressure is calculated iteratively starting from the lowest pressure (where Z ≈ 1). The virial equation of state Z = 1 + B'P + C'P² + ... (pressure series) or Z = 1 + B/Vm + C/Vm² + ... (density series) is then fitted to the Z(P) data to extract temperature-dependent virial coefficients. The Burnett method is self-consistent — it requires no knowledge of the moles of gas, only the volume ratio and pressure readings.",
+      "setup": "A typical Burnett apparatus consists of two thick-walled stainless steel or Inconel pressure vessels (V1 ≈ 50–500 cm³, V2 ≈ 30–500 cm³) connected by a precision low-dead-volume expansion valve. Both vessels are immersed in a thermostatted liquid bath or enclosed in an air oven providing temperature stability of ±1–5 mK, measured by an ITS-90 calibrated platinum resistance thermometer. Pressure is measured by a high-accuracy quartz Bourdon-tube transducer (e.g., Paroscientific, Mensor) with resolution better than 0.001% of reading, or by a dead-weight piston gauge for primary-standard work. A gas manifold with purge and vacuum lines allows sample introduction, helium calibration, and evacuation of V2 between expansion steps using a turbomolecular pump. All tubing and valve dead volumes are minimized and precisely characterized.",
+      "suitable_for": "Expansion techniques are specifically designed for measuring PVT properties of gases and supercritical fluids. They excel at determining compressibility factors and virial coefficients of pure gases and gas mixtures over wide pressure and temperature ranges. Burnett-type expansion is particularly powerful because it does not require knowledge of the gas amount — only volume ratios and pressures — eliminating a major source of uncertainty in conventional PVT methods. The technique is well suited for light gases (He, H2, N2, Ar, CH4), refrigerant vapors, and gas mixtures relevant to natural gas and chemical process industries. It is the method of choice for generating benchmark PVT data used to calibrate equations of state.",
+      "core_limitations": "Expansion techniques are restricted to gas-phase or supercritical samples — they cannot be used for incompressible liquids or solids. The accuracy of the entire measurement series depends critically on the precision of the volume ratio N, which must be determined to better than 0.01% for state-of-the-art work. Gas adsorption on vessel walls introduces systematic errors, particularly for polar or heavy molecules at low pressures, requiring separate adsorption correction measurements. Each expansion step introduces accumulated uncertainty, so the number of useful expansion steps is limited (typically 8–15 before errors become dominant). The apparatus is expensive to construct, and measurement throughput is low (typically one isotherm per day). The method assumes no gas leaks and no condensation — both conditions must be rigorously verified.",
+      "sample_preparation": "Gas samples must be of high purity (typically ≥99.9%, preferably ≥99.99% for reference-quality work) since impurities directly affect Z and virial coefficients. For gas mixtures, the composition is prepared gravimetrically or verified by gas chromatography. Before loading, the entire apparatus (vessels, manifold, valve) is evacuated to <10⁻³ Pa, then purged multiple times with the sample gas to remove residual contaminants. Leak testing is performed by monitoring the vacuum pressure in V2 over an extended period and by checking pressure stability in the filled V1 vessel. For polar or adsorptive gases, vessel walls should be electropolished and baked under vacuum before the measurement campaign to minimize surface adsorption.",
+      "calibration_and_references": "The critical calibration parameter is the volume ratio N = (V1+V2)/V1, determined by performing Burnett expansion runs with helium at low pressure (where Z_He ≈ 1.0000 to within a calculable correction). Multiple helium runs at different temperatures verify that N is independent of temperature (or provide small correction terms for thermal expansion of the vessels). The pressure transducer is calibrated against a dead-weight piston gauge or NIST-traceable reference transducer. The temperature sensor is calibrated at ITS-90 fixed points. Dead volume corrections are determined by measuring pressure changes upon opening and closing valves with known calibrant gas. Validation is typically performed by measuring a reference gas (N2 or Ar) and comparing the resulting B(T) and Z(T,P) with NIST recommended literature values.",
+      "data_interpretation": "From the series of pressure readings P(0), P(1), ..., P(r) at temperature T, the analysis proceeds as follows: (1) plot the pressure ratio P(r)/P(r+1) vs. P(r) and extrapolate to P = 0 to determine N; (2) starting from the lowest pressure P(r) where Z ≈ 1, compute Z iteratively upward using Z(r-1) = [P(r-1)/P(r)] × Z(r)/N; (3) fit the resulting Z(P) or Z(1/Vm) data to a truncated virial equation to extract B(T) and C(T); (4) assess the truncation order by monitoring the stability of B and C values as higher-order terms are added. For gas mixtures, composition-dependent interaction virial coefficients (B12, C112, etc.) are obtained by combining measurements at multiple compositions. The zero-pressure intercept and virial fit quality provide internal consistency checks.",
+      "common_pitfalls": "The most critical pitfall is gas leakage — even a tiny leak in the expansion valve or vessel seals invalidates the entire measurement series because the analysis assumes constant total moles. Inadequate thermal equilibration after each expansion step leads to premature pressure readings, biasing Z values systematically low. Neglecting gas adsorption on vessel walls causes apparent loss of gas at low pressures and positive systematic error in Z. Using an imprecise volume ratio N propagates proportional errors into every derived Z value. Attempting too many expansion steps when the pressure approaches the transducer's noise floor degrades the final data points. Condensation of the gas when post-expansion pressure drops below the dew point invalidates the gas-phase assumption and produces anomalous pressure readings.",
+      "artifacts_and_failure_modes": "Adsorption artifacts manifest as an apparent progressive loss of gas over the expansion series, producing Z values that trend systematically above the true values at low pressures. Leak artifacts show a similar pattern but with a time-dependent rather than pressure-dependent signature. Elastic deformation of the pressure vessel at high pressures effectively increases the vessel volume, causing Z to appear lower than the true value if the PV distortion correction is not applied. Dead-volume artifacts from imprecisely characterized connecting tubing shift all Z values by a small systematic amount. Thermostat failure or temperature drift during a multi-hour isotherm causes non-isothermal data that appears as scatter or systematic curvature in the Z(P) plot. Condensation during expansion produces an abrupt pressure drop far below the expected P/N value and is immediately diagnostic.",
+      "reporting_checklist": "Published expansion-technique results should report: apparatus type (Burnett, single-expansion, or hybrid), volume ratio N and its uncertainty, pressure transducer type and calibration traceability, temperature sensor type and ITS-90 calibration, thermostat stability (±mK), number of expansion steps per isotherm, equilibration time and stability criterion, sample purity and source, dead volume and adsorption corrections applied, virial truncation order used and justification, Z(T,P) data table with combined expanded uncertainty at 95% confidence (k=2), derived virial coefficients B(T) and C(T) with uncertainties, comparison with reference gas data for apparatus validation, and a statement of any anomalies (leaks, adsorption, condensation). For ThermoML encoding, values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

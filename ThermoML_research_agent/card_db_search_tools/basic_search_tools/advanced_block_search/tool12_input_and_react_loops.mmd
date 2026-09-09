@@ -1,0 +1,65 @@
+flowchart LR
+    Q([Chemistry question]) --> R[Resolve every chemistry name<br/>to typed GLOB IDs]
+
+    subgraph I[Flat agent input: one scalar or flat list of complete strings]
+        direction TB
+        I1[Required<br/><b>targets</b><br/><b>explanation</b>]
+        I2[Chemical scope<br/>compounds and compound_match<br/>system_type, system_scope<br/>system_size_min / max<br/>phases and phase_match<br/>literature]
+        I3[Occurrence declarations<br/><b>parameters → variable</b><br/><b>targets → property</b><br/><b>fixed_constraints → constraint</b><br/><b>inline_state → target-linked state</b>]
+        I4[Qualifiers inside each declaration<br/>COMPONENT alias · PHASE GLOBphase_N<br/>PHASE_COMPONENT alias<br/>MIN_FINITE · MIN_DISTINCT<br/>CARDINALITY ONE or EACH]
+        I5[Row and block operations<br/>where · minimum_common_points<br/>calculate · select · having<br/>order_by · limit]
+        I6[Confirmation tokens<br/>omitted on first call]
+    end
+
+    R --> I
+    I --> P{Grammar and allowlisted<br/>expression parsing succeeds?}
+    P -- No --> PE[Return deterministic syntax error<br/>Agent repairs flat input]
+    PE --> I
+
+    P -- Yes --> G1
+    subgraph G1[Call 1 · lowest loop · composite ID enrichment]
+        direction TB
+        C1[Global ID catalog only<br/>No PCS or raw rows]
+        C2[Normalize quantity identity, source role,<br/>compound, component, phase, units,<br/>conditions and operations]
+        C3[Construct content-addressed<br/><b>ADVselector_hash</b> identities]
+        C4[Return enriched evidence plus<br/><b>composite_confirmation_token</b>]
+        C1 --> C2 --> C3 --> C4
+    end
+
+    C4 --> J1{Does the parsed physical quantity,<br/>role, component, phase and unit<br/>match the chemistry question?}
+    J1 -- No: correct any semantic input --> I
+    J1 -- Yes: unchanged request plus token --> G2
+
+    subgraph G2[Call 2 · middle loop · real database ID intent]
+        direction TB
+        D1[Search registry and PCS identity indexes<br/>Raw NumValues remain closed]
+        D2[Bind GLOBlit + DOI → block / BLKsubsys<br/>→ actual BLKprop / BLKvar / BLKconstr<br/>with component, phase, method,<br/>presentation, ranges and coverage]
+        D3[Return binding evidence plus<br/><b>database_intent_confirmation_token</b>]
+        D1 --> D2 --> D3
+    end
+
+    D3 --> J2{Are these the actual literature,<br/>systems, blocks and occurrences<br/>the agent intended to search?}
+    J2 -- No: revise flat chemistry input --> I
+    J2 -- Yes: unchanged request plus both tokens --> G3
+
+    subgraph G3[Call 3 · highest loop · final intent and syntax]
+        direction TB
+        F1[Restate complete chemistry plan<br/>and canonical executable AST]
+        F2[Expose scope distinctions, expressions,<br/>limits, presentation/reference state,<br/>warnings and no-data possibilities]
+        F3[Return<br/><b>execution_confirmation_token</b>]
+        F1 --> F2 --> F3
+    end
+
+    F3 --> J3{Is the complete query exactly<br/>the intended chemistry operation?}
+    J3 -- No: revise input --> I
+    J3 -- Yes: unchanged fourth call<br/>with all three tokens --> X[Open raw ThermoML rows<br/>align · filter · calculate · aggregate]
+    X --> O[Result JSON → hardcoded compactor<br/>→ concise evidence for the agent]
+
+    classDef input fill:#f3ddf1,stroke:#6d1765,color:#111;
+    classDef gate fill:#d9eef8,stroke:#145978,color:#111;
+    classDef decision fill:#fff2cc,stroke:#9a6b00,color:#111;
+    classDef execute fill:#dff2d8,stroke:#2f6b24,color:#111;
+    class I1,I2,I3,I4,I5,I6 input;
+    class C1,C2,C3,C4,D1,D2,D3,F1,F2,F3 gate;
+    class P,J1,J2,J3 decision;
+    class X,O execute;

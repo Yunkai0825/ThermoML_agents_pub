@@ -1,0 +1,27 @@
+Source	Target	Value	source_full	target_full	flow_type	ids	provenance	edge_order	appearance_order	appearance_key
+supporting content (briefs · seeds · scaffolding · wrappers · utility/error returns · LLM additions) (3×)	main · agent context (dedup merge)	212	grp:support|content	grp:main|context	context		result.md::Question	1	1	grp:support|content
+memory carry (WM render · transient)	main · agent context (dedup merge)	399	grp:support|memory	grp:main|context	memory			2	2	grp:main|context
+supporting content (briefs · seeds · scaffolding · wrappers · utility/error returns · LLM additions) (3×)	main · agent context (dedup merge)	1695	grp:support|content	grp:main|context	context		run_history.md::Step 2 [main · c1]	3	3	grp:support|memory
+Main · search · raw results	Main · search · hardcoded compact	278	grp:Main|main|search|raw	grp:Main|main|search|hardcoded	retained	GLOBcomp_2	run_history.md::Step 4 [main · c2]	4	4	grp:Main|main|search|raw
+Main · search · raw results	hardcoded compaction cut	73	grp:Main|main|search|raw	grp:sink|hardcoded_cut	removed		run_history.md::Step 4 [main · c2]	5	5	grp:Main|main|search|hardcoded
+Main · search · hardcoded compact	Main · search · agentic kept	229	grp:Main|main|search|hardcoded	grp:Main|main|search|agentic	retained	GLOBcomp_2	run_history.md::Step 4 [main · c2]	6	6	grp:sink|hardcoded_cut
+Main · search · hardcoded compact	agentic triage cut	49	grp:Main|main|search|hardcoded	grp:sink|triage_cut	removed		run_history.md::Step 4 [main · c2]	7	7	grp:Main|main|search|agentic
+Main · search · agentic kept	main · agent context (dedup merge)	229	grp:Main|main|search|agentic	grp:main|context	context	GLOBcomp_2	run_history.md::Step 4 [main · c2]	8	8	grp:sink|triage_cut
+Main · search · raw results	Main · search · hardcoded compact	284	grp:Main|main|search|raw	grp:Main|main|search|hardcoded	retained	GLOBcomp_2	run_history.md::Step 6 [main · c3]	9	9	grp:main|answer
+Main · search · raw results	hardcoded compaction cut	73	grp:Main|main|search|raw	grp:sink|hardcoded_cut	removed		run_history.md::Step 6 [main · c3]	10	10	grp:sink|condensed
+Main · search · hardcoded compact	Main · search · agentic kept	284	grp:Main|main|search|hardcoded	grp:Main|main|search|agentic	retained	GLOBcomp_2	run_history.md::Step 6 [main · c3]	11	11	grp:sink|memory
+supporting content (briefs · seeds · scaffolding · wrappers · utility/error returns · LLM additions) (3×)	Main · search · agentic kept	65	grp:support|content	grp:Main|main|search|agentic	metadata		run_history.md::Step 6 [main · c3]	12		
+Main · search · agentic kept	main · agent context (dedup merge)	349	grp:Main|main|search|agentic	grp:main|context	context	GLOBcomp_2	run_history.md::Step 6 [main · c3]	13		
+Main · search · raw results	Main · search · hardcoded compact	270	grp:Main|main|search|raw	grp:Main|main|search|hardcoded	retained	GLOBcomp_1	run_history.md::Step 9 [main · c4]	14		
+Main · search · raw results	hardcoded compaction cut	55	grp:Main|main|search|raw	grp:sink|hardcoded_cut	removed		run_history.md::Step 9 [main · c4]	15		
+Main · search · hardcoded compact	Main · search · agentic kept	214	grp:Main|main|search|hardcoded	grp:Main|main|search|agentic	retained	GLOBcomp_1	run_history.md::Step 9 [main · c4]	16		
+Main · search · hardcoded compact	agentic triage cut	56	grp:Main|main|search|hardcoded	grp:sink|triage_cut	removed		run_history.md::Step 9 [main · c4]	17		
+Main · search · agentic kept	main · agent context (dedup merge)	214	grp:Main|main|search|agentic	grp:main|context	context	GLOBcomp_1	run_history.md::Step 9 [main · c4]	18		
+Main · search · raw results	Main · search · hardcoded compact	1983	grp:Main|main|search|raw	grp:Main|main|search|hardcoded	retained	GLOBcomp_1;GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905	run_history.md::Step 10 [main · c5]	19		
+Main · search · raw results	hardcoded compaction cut	2756	grp:Main|main|search|raw	grp:sink|hardcoded_cut	removed		run_history.md::Step 10 [main · c5]	20		
+Main · search · hardcoded compact	Main · search · agentic kept	665	grp:Main|main|search|hardcoded	grp:Main|main|search|agentic	retained	GLOBcomp_1	run_history.md::Step 10 [main · c5]	21		
+Main · search · hardcoded compact	agentic triage cut	1318	grp:Main|main|search|hardcoded	grp:sink|triage_cut	removed	GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905	run_history.md::Step 10 [main · c5]	22		
+Main · search · agentic kept	main · agent context (dedup merge)	665	grp:Main|main|search|agentic	grp:main|context	context	GLOBcomp_1	run_history.md::Step 10 [main · c5]	23		
+main · agent context (dedup merge)	main · final answer	1451	grp:main|context	grp:main|answer	synthesis	GLOBcomp_1;GLOBcomp_2		24		
+main · agent context (dedup merge)	condensed away in synthesis	1913	grp:main|context	grp:sink|condensed	removed			25		
+main · agent context (dedup merge)	retained only in memory (WM archive · uncited memory carry · uncited ledger)	399	grp:main|context	grp:sink|memory	removed			26		

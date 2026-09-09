@@ -1,0 +1,331 @@
+{
+  "meas_ID": "coaxial_cylinder_method",
+  "identity": {
+    "name": "Coaxial cylinder method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Coaxial cylinder method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Thermal Conductivity",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 36,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 16,
+      "per_group": {
+        "TransportProp": {
+          "instances": 36,
+          "papers": 16
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "electrical power input to inner cylinder heater (Q)",
+          "temperature of inner cylinder surface (T₁)",
+          "temperature of outer cylinder surface (T₂)",
+          "temperature difference between cylinders (ΔT = T₁ − T₂)"
+        ],
+        "derived_observables": [
+          "thermal conductivity λ = Q·ln(r₂/r₁)/(2πLΔT)",
+          "thermal resistance of the annular fluid gap"
+        ],
+        "target_properties": [
+          "thermal conductivity (λ) of liquids",
+          "thermal conductivity (λ) of gases",
+          "thermal conductivity of binary and multicomponent liquid mixtures"
+        ],
+        "phases_measured": [
+          "liquid",
+          "gas",
+          "supercritical fluid"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "pure gases",
+          "gas mixtures",
+          "electrically conducting liquids (advantage: no Joule heating in sample)",
+          "high-viscosity liquids",
+          "ionic liquids",
+          "refrigerants"
+        ],
+        "unsupported_sample_types": [
+          "solids (cannot fill annular gap)",
+          "highly corrosive fluids (without specialized cylinder materials)",
+          "fluids with very high vapor pressure near boiling point (convection onset)",
+          "two-phase or heterogeneous samples",
+          "suspensions or slurries with settling particles"
+        ],
+        "typical_output_formats": [
+          "λ vs. T at constant pressure",
+          "λ vs. P at constant temperature",
+          "λ vs. composition at constant T and P",
+          "tabulated thermal conductivity values with associated uncertainties"
+        ],
+        "units": {
+          "thermal_conductivity": "W/(m·K)",
+          "temperature": "K",
+          "temperature_difference": "K or mK",
+          "power": "W",
+          "pressure": "MPa",
+          "length": "m or mm",
+          "radius": "mm"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 700 K",
+            "hard_limits": "limited by cylinder material, seal integrity, and onset of thermal decomposition of sample; cryogenic setups extend to ~80 K",
+            "notes": "upper limit depends on O-ring or seal material and sample stability"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 100 MPa",
+            "hard_limits": "limited by cylinder wall thickness and seal design; some apparatuses reach 500 MPa",
+            "notes": "elevated pressure suppresses convection and extends liquid range"
+          },
+          {
+            "parameter": "annular_gap_width",
+            "typical_range": "0.5 mm to 3 mm",
+            "hard_limits": "gap must be small enough to suppress convective onset (low Rayleigh number) yet large enough to minimize alignment and machining errors",
+            "notes": "narrower gaps reduce convection risk but increase sensitivity to eccentricity and surface roughness"
+          },
+          {
+            "parameter": "temperature_difference",
+            "typical_range": "1 K to 5 K",
+            "hard_limits": "ΔT must be large enough for adequate signal-to-noise but small enough to approximate isothermal conditions and avoid convection",
+            "notes": "small ΔT keeps density gradients minimal, suppressing natural convection"
+          },
+          {
+            "parameter": "cylinder_length_to_gap_ratio",
+            "typical_range": "L/gap > 50 (aspect ratio)",
+            "hard_limits": "longer cylinders reduce end-effect corrections; practical lengths 100–500 mm",
+            "notes": "guard heaters at cylinder ends eliminate axial heat flow"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "200 K to 700 K",
+            "effect": "thermal conductivity of most fluids changes significantly with temperature; measurements performed at discrete thermostat set points"
+          },
+          {
+            "name": "pressure",
+            "role": "secondary controlled variable",
+            "typical_values": "0.1 MPa to 100 MPa",
+            "effect": "pressure influences thermal conductivity (especially of gases and near-critical fluids) and suppresses convection in the gap"
+          },
+          {
+            "name": "electrical_power_input",
+            "role": "controlled input variable",
+            "typical_values": "0.1 W to 10 W",
+            "effect": "sets the radial heat flux and resulting ΔT; adjusted to keep ΔT in the optimal 1–5 K range"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable (for mixtures)",
+            "typical_values": "full mole-fraction range 0 to 1",
+            "effect": "thermal conductivity of mixtures varies nonlinearly with composition"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "inner cylinder — precision-machined metallic cylinder (typically silver, copper, or stainless steel) with embedded electrical heater wound uniformly along its length",
+          "outer cylinder — precision-machined metallic cylinder forming the outer boundary of the annular gap, maintained at a uniform temperature by circulating thermostat fluid or embedded cooling channels",
+          "guard heaters — resistive heaters at both ends of the inner cylinder to eliminate axial heat losses and ensure purely radial heat flow",
+          "temperature sensors — platinum resistance thermometers (PRTs) or thermocouples embedded in both inner and outer cylinder walls to measure ΔT",
+          "DC power supply — stable, precision power supply for the inner cylinder heater, with accurate voltage and current measurement for determining Q",
+          "thermostat system — external circulating bath or furnace controlling the outer cylinder temperature to ±0.01 K or better",
+          "pressure vessel (for high-pressure measurements) — encloses the entire cylinder assembly and pressurizes the sample fluid",
+          "vacuum jacket or insulation — surrounds the outer cylinder to minimize parasitic heat losses to the environment",
+          "sample filling and degassing system — ports, valves, and vacuum line for evacuating the annular gap and introducing the sample fluid",
+          "data acquisition system — precision multimeters or nanovoltmeters, scanner, and computer for recording heater power and temperatures"
+        ],
+        "environmental_requirements": [
+          "outer cylinder temperature stability ±0.01 K or better during measurement",
+          "vibration-free environment to avoid convective disturbances in the fluid gap",
+          "ambient temperature stability to minimize drift in electronics and thermostat",
+          "electromagnetic shielding for low-level temperature-difference measurements"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid sample filling the annular gap completely without trapped air bubbles"
+          ],
+          "size_limits": "sample volume typically 10–100 mL depending on gap width and cylinder length",
+          "thickness_limits": "determined by annular gap width, typically 0.5–3 mm",
+          "surface_requirements": [
+            "cylinder surfaces must be highly polished to minimize radiative heat transfer and ensure uniform gap width",
+            "surfaces must be clean and free of adsorbed films that could alter thermal contact"
+          ],
+          "mounting_requirements": [
+            "precise coaxial alignment of inner and outer cylinders (eccentricity < 1% of gap width)",
+            "rigid mechanical support to maintain alignment across the full temperature and pressure range"
+          ],
+          "preparation_requirements": [
+            "sample must be degassed under vacuum to remove dissolved air that alters thermal conductivity and promotes bubble formation",
+            "sample purity verified by chemical analysis, GC, or Karl Fischer titration for water content",
+            "for hygroscopic samples, handling under dry inert atmosphere",
+            "pre-filtering to remove particulates that could block the narrow gap or introduce convection nucleation sites"
+          ]
+        },
+        "calibration_requirements": [
+          "measurement of known reference fluids (toluene, water) to determine effective cell constant and verify end-effect corrections",
+          "determination of parasitic heat losses (radiation, conduction through supports) by measurements at multiple ΔT values and extrapolation",
+          "temperature sensor calibration against ITS-90 fixed points or a calibrated SPRT",
+          "heater power calibration using precision shunt resistor and calibrated voltmeter",
+          "verification of cylinder dimensions (radii r₁, r₂ and length L) by precision metrology — coordinate measuring machine or micrometer"
+        ],
+        "reference_materials": [
+          "toluene — NIST-recommended reference standard for thermal conductivity of liquids",
+          "water (IAPWS) — primary reference liquid with well-characterized λ(T, P)",
+          "nitrogen or argon — reference gases for gas-phase thermal conductivity calibration",
+          "n-heptane — secondary liquid reference"
+        ],
+        "consumables": [
+          "O-rings or gaskets for sealing the annular gap (Viton, PTFE, or metal seals for high pressure)",
+          "inert gas supply (nitrogen, argon) for purging and pressurizing",
+          "reference liquids for calibration runs",
+          "electrical feedthrough seals",
+          "sample fluid (purified and degassed)"
+        ],
+        "safety_notes": [
+          "high-pressure operation requires compliance with pressure vessel regulations and burst-disk protection",
+          "flammable or toxic sample fluids require appropriate ventilation, fume hoods, and fire suppression",
+          "high-temperature operation requires burn protection, insulation, and over-temperature interlocks",
+          "electrical safety: heater circuits must be properly grounded and fused"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving thermal conductivity differences of ~0.001 W/(m·K) for well-designed cells",
+        "detection_limit": "thermal conductivity values as low as ~0.01 W/(m·K) (low-pressure gases); upper limit ~1 W/(m·K) for highly conducting liquids",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement of fluid in annular gap)",
+          "temporal": "steady-state method; each measurement point requires 10–60 minutes for thermal equilibrium",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "thermal conductivity from ~0.01 W/(m·K) (dilute gases) to ~0.7 W/(m·K) (water); range depends on gap width and achievable ΔT",
+        "accuracy": "0.5–2% for absolute thermal conductivity with full corrections applied; best-in-class instruments achieve ±0.3%",
+        "precision": "0.1–0.5% (repeatability at fixed T, P conditions)",
+        "throughput": "single fluid at a time; one isotherm (single T, P point) takes 30–60 minutes; a full T sweep with ~20 points takes 1–2 days",
+        "measurement_speed": "inherently slow due to steady-state requirement; 15–60 minutes per data point depending on thermal equilibration time"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "DC voltage signals from platinum resistance thermometers (inner and outer cylinder) and precision voltage/current measurements of heater power",
+        "preprocessing_steps": [
+          "computation of temperature difference ΔT from calibrated PRT readings",
+          "computation of heater power Q = V × I from measured voltage and current",
+          "correction for parasitic heat losses: radiation across the gap, conduction through supports and lead wires",
+          "end-effect correction for finite cylinder length (guard heater effectiveness)",
+          "eccentricity correction if inner cylinder is not perfectly coaxial"
+        ],
+        "analysis_methods": [
+          "Fourier's law in cylindrical geometry: λ = Q·ln(r₂/r₁)/(2πLΔT)",
+          "multi-ΔT extrapolation: measure at several power levels and extrapolate to ΔT → 0 to eliminate convection and radiation contributions",
+          "radiation correction: subtract estimated radiative heat transfer using known emissivities and Stefan-Boltzmann law",
+          "finite-element modeling of end effects and eccentricity for high-accuracy corrections"
+        ],
+        "model_assumptions": [
+          "purely radial heat flow between coaxial cylinders (no axial or circumferential temperature gradients)",
+          "steady-state thermal equilibrium has been reached before recording data",
+          "sample fluid is opaque to infrared radiation or radiation correction is applied",
+          "no natural convection in the annular gap (Rayleigh number below critical value ~1000)",
+          "thermal conductivity is uniform throughout the gap (no significant temperature dependence over ΔT)",
+          "cylinder surfaces are isothermal at their respective temperatures"
+        ],
+        "fit_parameters": [
+          "thermal conductivity λ (primary result)",
+          "effective cell constant K_cell = 2πL/ln(r₂/r₁) (determined by calibration)",
+          "radiation correction coefficient (emissivity-dependent)",
+          "parasitic heat loss fraction"
+        ],
+        "common_artifacts": [
+          "natural convection onset: when Rayleigh number exceeds ~1000, convective circulation in the gap inflates the apparent thermal conductivity",
+          "radiation heat transfer: at high temperatures (>400 K), radiative exchange between cylinders adds a spurious contribution to the measured heat flux, increasing apparent λ",
+          "eccentricity error: misalignment of cylinders distorts the temperature field, causing systematic bias (up to several percent for 5% eccentricity)",
+          "end effects: axial heat losses at cylinder ends cause measured λ to be overestimated if guard heaters are inadequate",
+          "dissolved gas artifact: dissolved air in liquid samples increases scatter and can nucleate bubbles, disrupting the measurement"
+        ],
+        "quality_control_checks": [
+          "verify absence of convection: measure λ at multiple ΔT values — λ should be independent of ΔT if convection is absent",
+          "multi-power extrapolation: plot apparent λ vs. ΔT and confirm zero-ΔT intercept is consistent",
+          "reproduce known thermal conductivity of reference liquid (toluene or water) within stated accuracy",
+          "check symmetry: compare results with heater power increased and decreased to detect hysteresis or drift",
+          "verify steady-state: confirm temperature readings are stable (drift < 0.001 K/min) before recording data",
+          "repeat measurements after disassembly and reassembly to check for eccentricity-related bias"
+        ],
+        "failure_modes": [
+          "onset of natural convection in the annular gap (most common failure; evidenced by λ increasing with ΔT)",
+          "sample decomposition at elevated temperatures (irreversible change in measured λ with time)",
+          "bubble formation from dissolved gas or boiling near the heated cylinder (erratic temperature readings)",
+          "seal failure at high pressures (loss of sample fluid, pressure drop)",
+          "thermostat instability causing drift in outer cylinder temperature during measurement",
+          "corrosion or chemical attack of cylinder surfaces by aggressive sample fluids"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for absolute λ; best laboratories achieve 0.3–0.5%",
+        "random_sources": [
+          "temperature measurement noise (PRT or thermocouple)",
+          "fluctuations in heater power supply",
+          "thermostat temperature oscillations",
+          "ambient temperature drift affecting electronics",
+          "pressure fluctuations in pressurized measurements"
+        ],
+        "systematic_sources": [
+          "cylinder dimension uncertainties (radii r₁, r₂ and length L)",
+          "residual natural convection not fully eliminated at measurement ΔT",
+          "uncorrected radiation heat transfer across the gap",
+          "end-effect correction uncertainty (finite guard heater effectiveness)",
+          "eccentricity of inner cylinder (systematic bias in heat flow geometry)",
+          "parasitic heat conduction through mechanical supports and electrical leads",
+          "temperature sensor calibration uncertainty",
+          "sample purity and dissolved gas content"
+        ],
+        "operator_dependence": "moderate to high — assembly, alignment of cylinders, filling/degassing procedure, and guard heater tuning require experienced operators; custom-built instruments demand significant expertise",
+        "model_dependence": "moderate — results depend on validity of one-dimensional radial heat flow assumption and adequacy of radiation and end-effect corrections; convection onset must be reliably excluded by Rayleigh number analysis",
+        "dominant_error_sources": [
+          "natural convection onset (especially for low-viscosity fluids and larger gaps)",
+          "radiation correction uncertainty at elevated temperatures",
+          "cylinder alignment (eccentricity)",
+          "end-effect correction accuracy"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(λ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of λ",
+          "standard deviation from repeated measurements at same conditions"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The coaxial cylinder method is a steady-state absolute technique for measuring the thermal conductivity of fluids (liquids and gases). The sample fluid fills the narrow annular gap between two precision-machined concentric cylinders. The inner cylinder is heated electrically while the outer cylinder is maintained at a constant temperature by a thermostat. Under steady-state conditions, the radial temperature difference across the fluid gap is measured and combined with the known heat input and cell geometry to yield the thermal conductivity via Fourier's law in cylindrical coordinates. The method is one of the oldest and most reliable techniques for fluid thermal conductivity measurement, with a history dating to the early 20th century, and it remains a primary reference method for calibration and standards work.",
+      "how_it_operates": "A precisely known electrical power Q is dissipated in a heater wound uniformly along the inner cylinder. This power flows radially outward through the annular fluid gap to the outer cylinder, which is held at a constant temperature by an external thermostat. Guard heaters at both ends of the inner cylinder ensure that all heat flows radially, not axially. Platinum resistance thermometers embedded in the walls of both cylinders measure the steady-state temperature difference ΔT between the inner and outer surfaces. Once thermal equilibrium is reached (typically 15–60 minutes after a change in conditions), the thermal conductivity is calculated directly from the measured quantities using the cylindrical form of Fourier's law: λ = Q·ln(r₂/r₁)/(2πLΔT), where r₁ and r₂ are the inner and outer cylinder radii and L is the effective heated length.",
+      "core_theory": "Heat conduction through a cylindrical annulus is governed by Fourier's law in cylindrical coordinates. For steady-state, purely radial heat flow between coaxial cylinders of radii r₁ (inner) and r₂ (outer), the temperature distribution is logarithmic: T(r) = T₁ − [Q/(2πLλ)]·ln(r/r₁). The thermal conductivity is obtained by rearranging: λ = Q·ln(r₂/r₁)/(2πLΔT), where ΔT = T₁ − T₂. This expression assumes no convection, no radiation, and no axial heat flow. The critical dimensionless parameter governing convection onset is the Rayleigh number Ra = gβΔTd³/(να), where g is gravitational acceleration, β is thermal expansion, d is gap width, ν is kinematic viscosity, and α is thermal diffusivity. For heating from the inner cylinder (horizontal heat flow in a vertical apparatus), convection is suppressed when Ra < ~1000. The gap width and ΔT must be chosen to maintain Ra well below this critical value.",
+      "setup": "A coaxial cylinder apparatus is almost always custom-built, as commercial instruments are rarely available. The inner cylinder is typically 200–500 mm long and 10–30 mm in diameter, machined from silver, copper, or stainless steel with surface finish better than 1 µm Ra. A precision-wound resistance heater (constantan or nichrome wire) is embedded in or wound around the inner cylinder. The outer cylinder has an inner diameter providing a gap of 0.5–3 mm and is enclosed in a thermostat jacket with circulating fluid. Both cylinders have platinum resistance thermometers (100 Ω PRTs or SPRTs) embedded at mid-height. Guard heaters at both ends of the inner cylinder are controlled independently to match the axial temperature gradient, ensuring one-dimensional radial heat flow. The assembly is enclosed in a vacuum jacket or pressure vessel for insulation and pressurized measurements. Sample filling ports and a vacuum line allow evacuation and bubble-free introduction of the test fluid.",
+      "suitable_for": "The coaxial cylinder method is well suited for measuring thermal conductivity of Newtonian liquids, liquid mixtures, gases, and gas mixtures over wide temperature and pressure ranges. It is particularly valuable for: high-accuracy reference measurements and calibration standards; electrically conducting fluids (where hot-wire methods suffer from current leakage); viscous fluids (where the small gap naturally suppresses convection); high-pressure measurements (the robust cylindrical geometry withstands pressurization); fluids near phase boundaries where steady-state conditions are advantageous. The technique is used extensively for refrigerants, hydrocarbons, ionic liquids, and aqueous solutions.",
+      "core_limitations": "The primary limitations are: (1) natural convection in the annular gap, which sets an upper limit on ΔT and gap width — this is the most persistent challenge; (2) radiation heat transfer at elevated temperatures (>400 K), which contributes a spurious heat flux; (3) end effects from finite cylinder length, requiring effective guard heaters; (4) the requirement for precise cylinder alignment — even small eccentricity introduces systematic errors; (5) long equilibration times (15–60 min per point) making the technique slow compared to transient methods; (6) the apparatus is almost always custom-built, requiring substantial expertise in precision machining, instrumentation, and thermal design; (7) the sample volume required (10–100 mL) is larger than for transient hot-wire methods.",
+      "sample_preparation": "The sample fluid must be of known purity and thoroughly degassed before introduction into the annular gap. Degassing is performed by repeated freeze-pump-thaw cycles or by vacuum distillation. Dissolved gases alter the thermal conductivity and can nucleate bubbles on the heated inner cylinder, disrupting the measurement. The annular gap is first evacuated to remove residual air, then the sample is introduced slowly from below to prevent trapping air pockets. For hygroscopic fluids, handling under dry nitrogen or argon atmosphere is essential. Sample purity should be verified (GC, Karl Fischer titration for water content) and should exceed 99% for reference-grade measurements. For corrosive fluids, compatible cylinder materials (Hastelloy, platinum-plated surfaces) must be selected.",
+      "calibration_and_references": "The effective cell constant K_cell = 2πL/ln(r₂/r₁) is determined both from precision dimensional metrology and by calibration against reference fluids with well-known thermal conductivity. Toluene is the primary recommended calibration liquid (NIST standard reference data), and water (IAPWS formulation) serves as an independent check. For gas measurements, nitrogen or argon provides a reliable calibration reference. Temperature sensors are calibrated against ITS-90 fixed points. The heater power is determined from precision measurements of voltage across the heater and current through a calibrated shunt resistor. Radiation and end-effect corrections are validated by measuring at multiple ΔT values and verifying that the corrected λ is independent of ΔT. Calibration should be repeated if the apparatus is disassembled or if cylinder surfaces are re-machined.",
+      "data_interpretation": "The thermal conductivity is calculated from λ = Q·ln(r₂/r₁)/(2πLΔT) after applying corrections for: (1) parasitic heat losses through supports and lead wires; (2) radiative heat transfer across the gap, estimated from surface emissivities and the Stefan-Boltzmann law; (3) end effects from finite guard-heater effectiveness. To verify the absence of convection, measurements are taken at several ΔT values (multiple power levels). The apparent λ is plotted versus ΔT; if convection is absent, λ is constant. Any upward trend with increasing ΔT signals convection onset, and only points in the convection-free regime are used. For the highest accuracy, radiation corrections at elevated temperatures may be refined using finite-element analysis of the radiative-conductive coupled heat transfer in the gap.",
+      "common_pitfalls": "The most frequent pitfall is undetected natural convection in the annular gap, which systematically inflates the measured thermal conductivity. This is especially problematic for low-viscosity fluids and wider gaps. Using too large a ΔT to improve signal-to-noise ratio invites convection. Inadequate degassing leads to bubble formation on the heated surface, causing erratic and irreproducible results. Poor cylinder alignment (eccentricity) introduces a geometry-dependent systematic error that is difficult to detect without comparison to reference data. Insufficient guard heating allows axial heat flow, violating the one-dimensional radial assumption. At high temperatures, neglecting the radiation correction can overestimate λ by several percent. Finally, measuring before steady state is fully reached produces transient-biased results — patience in waiting for equilibrium is essential.",
+      "artifacts_and_failure_modes": "Natural convection is the dominant artifact: it appears as an increase in apparent λ with increasing ΔT and is confirmed by Rayleigh number analysis. Radiation artifacts manifest as a temperature-dependent apparent λ that increases faster than the true λ, especially above 400 K. Eccentricity artifacts produce a systematic offset that is constant for a given apparatus configuration but changes sign depending on the direction of misalignment. End-effect artifacts appear as an apparent λ that depends on the heated length used in the calculation. Bubble formation causes sudden jumps and scatter in temperature readings. Seal failures under pressure result in loss of sample and sudden changes in thermal signals. Corrosion of cylinder surfaces over time degrades surface finish (increasing radiation) and can contaminate the sample, gradually changing the measured λ.",
+      "reporting_checklist": "Published coaxial cylinder thermal conductivity results should report: cylinder radii (r₁, r₂) and effective heated length (L), annular gap width, gap temperature and pressure at each measurement point, sample identity, purity, and degassing procedure, ΔT values used and evidence for absence of convection (e.g., λ vs. ΔT plot), guard heater configuration and effectiveness, radiation correction method and magnitude, calibration reference fluid(s) and agreement with reference data, cylinder material and surface finish (emissivity), combined expanded uncertainty with confidence level and coverage factor (k=2), apparatus provenance (custom-built or commercial, with references to design publications). For ThermoML encoding, thermal conductivity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

@@ -1,0 +1,22 @@
+severity	check	subject	detail
+INFO	balance	detailed/chars	sources emit 1,399,491 / sinks absorb 1,399,491
+INFO	balance	detailed/ids	sources emit 2,033 / sinks absorb 2,033
+INFO	balance	detailed/blocks	sources emit 326 / sinks absorb 326
+INFO	orphan	detailed/blocks:Main/A2/L1#1:context	dead branch (8 nodes): complete sub-funnel with zero blocks delivered upward
+INFO	balance	detailed/pts	sources emit 26,147 / sinks absorb 26,147
+FAIL	orphan	detailed/pts:Main/A1/L1#2:search_blocks#1:hardcoded	'A1 · L1#2 · search_blocks · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:Main/A1/L1#2:search_blocks#1:raw	'A1 · L1#2 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:Main/A1/L1#2:search_blocks#2:hardcoded	'A1 · L1#2 · search_blocks · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:Main/A1/L1#2:search_blocks#2:raw	'A1 · L1#2 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:Main/A1/L1#2:sink:triage_cut	'A1 · L1#2 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	orphan	detailed/pts:Main/A2/L1#1:context	dead branch (8 nodes): complete sub-funnel with zero pts delivered upward
+INFO	balance	agentic/chars	sources emit 1,399,491 / sinks absorb 1,399,491
+INFO	balance	agentic/ids	sources emit 1,408 / sinks absorb 1,408
+INFO	balance	agentic/blocks	sources emit 268 / sinks absorb 268
+INFO	orphan	agentic/blocks:Main/A2/L1#1:context	dead branch (6 nodes): complete sub-funnel with zero blocks delivered upward
+INFO	balance	agentic/pts	sources emit 21,236 / sinks absorb 21,236
+INFO	orphan	agentic/pts:Main/A2/L1#1:context	dead branch (6 nodes): complete sub-funnel with zero pts delivered upward
+INFO	balance	pooled/chars	sources emit 1,399,491 / sinks absorb 1,399,491
+INFO	balance	pooled/ids	sources emit 767 / sinks absorb 767
+INFO	balance	pooled/blocks	sources emit 180 / sinks absorb 180
+INFO	balance	pooled/pts	sources emit 12,695 / sinks absorb 12,695

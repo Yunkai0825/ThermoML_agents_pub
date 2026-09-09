@@ -1,0 +1,332 @@
+{
+  "meas_ID": "static_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Static method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Static method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 34,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium",
+        "ActivityFugacityOsmoticProp"
+      ],
+      "n_papers": 3,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 18,
+          "papers": 1
+        },
+        "ActivityFugacityOsmoticProp": {
+          "instances": 16,
+          "papers": 2
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "equilibrium vapor pressure at controlled temperature",
+          "temperature of thermostated sample vessel"
+        ],
+        "derived_observables": [
+          "vapor pressure as a function of temperature P(T)",
+          "Antoine equation parameters (A, B, C)",
+          "Wagner equation parameters",
+          "Cox equation parameters",
+          "enthalpy of vaporization via Clausius-Clapeyron relation (ΔvapH)",
+          "entropy of vaporization (ΔvapS)",
+          "activity coefficients from total pressure measurements on mixtures",
+          "fugacity coefficients (with equation-of-state correction)",
+          "boiling point at reference pressure",
+          "vapor-liquid equilibrium (VLE) compositions for mixtures"
+        ],
+        "target_properties": [
+          "vapor pressure of pure compounds",
+          "total vapor pressure of mixtures",
+          "activity coefficients",
+          "fugacity coefficients",
+          "osmotic coefficients",
+          "enthalpy of vaporization",
+          "boiling temperature at specified pressure",
+          "vapor-liquid equilibrium phase compositions"
+        ],
+        "phases_measured": [
+          "liquid (pure)",
+          "liquid (solution/mixture)",
+          "vapor in equilibrium with liquid",
+          "two-phase vapor-liquid equilibrium"
+        ],
+        "supported_sample_types": [
+          "pure liquids with moderate to high vapor pressure",
+          "binary and multicomponent liquid mixtures",
+          "aqueous solutions",
+          "organic solvents",
+          "ionic liquid solutions (solvent vapor pressure over IL mixtures)",
+          "refrigerants and volatile industrial fluids"
+        ],
+        "unsupported_sample_types": [
+          "solids (sublimation requires different apparatus design)",
+          "compounds with vapor pressure below ~1 Pa (effusion or transpiration methods preferred)",
+          "thermally unstable compounds that decompose before reaching measurable vapor pressure",
+          "highly viscous liquids that do not equilibrate on practical timescales",
+          "reactive systems where vapor-phase composition changes irreversibly"
+        ],
+        "typical_output_formats": [
+          "P vs. T table (isothermal pressure at each temperature set point)",
+          "ln(P) vs. 1/T plot (Clausius-Clapeyron representation)",
+          "Antoine or Wagner fit parameters with residuals",
+          "P-x-y diagram for mixtures (total pressure vs. composition)"
+        ],
+        "units": {
+          "pressure": "kPa (SI preferred); also Pa, MPa, mmHg, bar, atm in older literature",
+          "temperature": "K (SI preferred); also °C",
+          "enthalpy_of_vaporization": "kJ/mol",
+          "entropy_of_vaporization": "J/(mol·K)",
+          "activity_coefficient": "dimensionless",
+          "mole_fraction": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "250 K to 600 K",
+            "hard_limits": "lower limit set by sample freezing or extremely low vapor pressures; upper limit by thermal stability, seal integrity, and pressure transducer rating",
+            "notes": "most static apparatus designs cover 270–500 K; specialized high-temperature cells extend to 600 K or above"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 kPa to 200 kPa",
+            "hard_limits": "lower limit ~0.01 kPa set by transducer sensitivity and residual gas; upper limit set by vessel and fitting pressure ratings",
+            "notes": "capacitance diaphragm gauges typically cover 0.01–133 kPa; quartz Bourdon gauges extend to 700 kPa"
+          },
+          {
+            "parameter": "temperature_stability",
+            "typical_range": "±0.005 K to ±0.05 K",
+            "hard_limits": "must be stable enough that pressure reading drift is within transducer resolution",
+            "notes": "better temperature stability directly improves pressure accuracy through the steep dP/dT dependence"
+          },
+          {
+            "parameter": "equilibration_time",
+            "typical_range": "10 min to 60 min per temperature point",
+            "hard_limits": "sufficient time required for vapor-liquid equilibrium; depends on sample volume, dead volume, and temperature step size",
+            "notes": "shorter times risk non-equilibrium readings; longer times increase total measurement duration"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable (scanned or set in discrete steps)",
+            "typical_values": "250 K to 600 K in 5–10 K steps",
+            "effect": "determines the equilibrium vapor pressure; each temperature set point yields one P(T) data point"
+          },
+          {
+            "name": "pressure",
+            "role": "measured response variable",
+            "typical_values": "0.01 kPa to 200 kPa",
+            "effect": "the equilibrium vapor pressure read at each temperature; used to construct P(T) curve"
+          },
+          {
+            "name": "composition",
+            "role": "controlled variable for mixture studies",
+            "typical_values": "full mole fraction range x = 0 to 1",
+            "effect": "for mixtures, composition is set gravimetrically; total vapor pressure measured as a function of liquid composition"
+          },
+          {
+            "name": "residual_gas_pressure",
+            "role": "systematic bias parameter",
+            "typical_values": "< 1 Pa after degassing",
+            "effect": "dissolved air or non-condensable gas adds a parasitic pressure offset to the true vapor pressure; must be minimized by degassing"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "sample vessel — glass or stainless-steel flask (10–100 mL) with vacuum-tight valve, designed for thorough degassing and sample introduction",
+          "pressure transducer — capacitance diaphragm gauge (e.g., MKS Baratron), quartz crystal pressure sensor (e.g., Paroscientific), or mercury U-tube manometer; often multiple gauges to cover different pressure ranges",
+          "thermostated bath — water or oil circulating bath (±0.005 K to ±0.02 K stability) enclosing or immersing the sample vessel",
+          "temperature sensor — platinum resistance thermometer (PRT, ITS-90 calibrated) or calibrated thermistor in direct contact with sample vessel wall",
+          "vacuum system — rotary pump backed by turbomolecular or diffusion pump achieving <0.1 Pa base pressure for degassing",
+          "cold trap — liquid nitrogen or dry-ice trap between sample vessel and vacuum pump to prevent sample loss and protect pump",
+          "null-reading differential manometer (optional) — for high-accuracy work, balancing sample vapor pressure against a known external pressure",
+          "manifold and valving — stainless-steel or glass tubing with high-vacuum stopcocks connecting sample, transducer, vacuum system, and (optionally) external pressure standard",
+          "data acquisition system — computer logging temperature and pressure readings at timed intervals"
+        ],
+        "environmental_requirements": [
+          "ambient temperature fluctuations should not exceed ±1 K to prevent condensation in tubing and manifold",
+          "all tubing between sample vessel and pressure transducer must be thermostated at or above sample temperature to avoid cold spots where condensation would lower the apparent pressure",
+          "laboratory free from significant vibration (relevant for mercury manometers and quartz crystal sensors)",
+          "adequate ventilation for volatile or toxic samples"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample filling approximately one-third to one-half of the sample vessel volume"
+          ],
+          "size_limits": "typically 5–50 mL of liquid; enough to maintain a liquid phase throughout the measurement temperature range",
+          "thickness_limits": "not applicable (bulk liquid measurement)",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "high-purity sample (≥99.5 mol%, preferably ≥99.9%); impurities alter vapor pressure",
+            "thorough degassing by repeated freeze-pump-thaw cycles (typically 3–5 cycles) or by vacuum distillation",
+            "drying over molecular sieves or desiccant if sample is hygroscopic",
+            "for mixtures: components weighed gravimetrically to ±0.0001 g and mixed under inert atmosphere"
+          ]
+        },
+        "calibration_requirements": [
+          "pressure transducer calibration against a primary standard (dead-weight piston gauge, mercury manometer, or NIST-traceable transfer standard) at multiple pressures spanning the measurement range",
+          "temperature sensor calibration against ITS-90 fixed points or a certified reference PRT",
+          "verification of zero offset and linearity of pressure transducer at the start and end of each measurement campaign",
+          "system leak-rate test: evacuate apparatus, close off pump, monitor pressure rise — must be <0.5 Pa/h"
+        ],
+        "reference_materials": [
+          "water — IAPWS-95 formulation provides highly accurate vapor pressure reference from 273 K to 647 K",
+          "n-decane — well-characterized vapor pressure standard for organic liquids",
+          "naphthalene — solid-vapor sublimation reference for low-pressure calibration",
+          "mercury — vapor pressure reference in older literature"
+        ],
+        "consumables": [
+          "high-vacuum grease (Apiezon L or M) for glass joints",
+          "PTFE or Viton O-rings for metal flange seals",
+          "molecular sieves (3 Å or 4 Å) for sample drying",
+          "liquid nitrogen for cold traps and freeze-pump-thaw degassing",
+          "inert gas (nitrogen or argon) for sample handling and blanketing"
+        ],
+        "safety_notes": [
+          "glass apparatus under vacuum poses implosion risk — use safety shields or mesh wrapping",
+          "volatile organic solvents require fume hood operation and proper ventilation",
+          "mercury manometers: mercury vapor toxicity — use in well-ventilated areas with spill containment",
+          "liquid nitrogen handling: cryogenic burns, asphyxiation risk in confined spaces",
+          "high-pressure fittings must be rated for maximum expected pressure with appropriate safety factor"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capacitance diaphragm gauges resolve pressure changes of ~0.001 kPa (1 Pa); quartz crystal sensors ~0.0001 kPa (0.1 Pa)",
+        "detection_limit": "minimum measurable vapor pressure ~0.01 kPa with capacitance gauges; ~0.001 kPa with quartz crystal sensors; below this, effusion or transpiration methods are preferred",
+        "resolution": {
+          "spatial": "not applicable (bulk equilibrium measurement)",
+          "temporal": "pressure readings logged at 1–10 s intervals; equilibrium attained in 10–60 min per temperature step",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "pressure range from ~0.01 kPa to ~200 kPa (4 decades) using multiple transducers; temperature from ~250 K to ~600 K",
+        "accuracy": "0.01–0.5 kPa depending on pressure range; relative accuracy 0.05–0.5% of reading in the mid-range (1–100 kPa); poorer at extremes of range",
+        "precision": "repeatability 0.005–0.05 kPa; relative precision 0.01–0.1% for well-degassed samples with stable temperature control",
+        "throughput": "single sample at a time; one complete P(T) curve (15–30 temperature points) typically takes 1–3 days including degassing and equilibration",
+        "measurement_speed": "each temperature equilibrium point requires 10–60 min; total measurement time depends on number of points and temperature range"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "voltage or digital output from pressure transducer (proportional to absolute pressure) and resistance or voltage from temperature sensor, logged as time-series data; equilibrium values extracted after pressure stabilization at each temperature",
+        "preprocessing_steps": [
+          "identification of thermal equilibrium: monitor pressure vs. time and accept reading when drift is below threshold (e.g., <0.01 kPa/min)",
+          "transducer zero-offset correction applied from vacuum baseline measurement",
+          "head correction for hydrostatic pressure difference between sample liquid surface and transducer (ΔP = ρgh if vertically separated)",
+          "temperature sensor calibration polynomial applied to convert raw resistance/voltage to ITS-90 temperature",
+          "for mercury manometers: meniscus height reading, thermal expansion correction of mercury and scale, local gravity correction"
+        ],
+        "analysis_methods": [
+          "Clausius-Clapeyron analysis: plot ln(P) vs. 1/T to obtain ΔvapH from slope",
+          "Antoine equation fit: log10(P) = A − B/(C + T) — three-parameter empirical correlation",
+          "Wagner equation fit: ln(P/Pc) = (Tc/T)[aτ + bτ^1.5 + cτ^2.5 + dτ^5] where τ = 1 − T/Tc — four-parameter model referenced to critical point",
+          "Cox equation fit for high-precision correlations",
+          "Barker's method or modified Raoult's law analysis for mixture data to extract activity coefficients",
+          "consistency tests (Redlich-Kister, Herington area test) for mixture VLE data"
+        ],
+        "model_assumptions": [
+          "thermodynamic equilibrium between liquid and vapor phases is fully established at each measurement temperature",
+          "the vapor phase behaves ideally (at low pressures) or follows a known equation of state for fugacity corrections at higher pressures",
+          "no dissolved non-condensable gas remains in the sample after degassing",
+          "the dead volume (tubing, manifold) contributes negligible amount of condensed sample or adsorbed vapor",
+          "for mixtures: liquid-phase composition remains constant during measurement (negligible depletion into vapor phase)"
+        ],
+        "fit_parameters": [
+          "Antoine constants (A, B, C)",
+          "Wagner constants (a, b, c, d) referenced to critical temperature Tc and critical pressure Pc",
+          "Clausius-Clapeyron slope (ΔvapH/R)",
+          "Margules, Van Laar, Wilson, NRTL, or UNIQUAC binary interaction parameters (for mixture data)"
+        ],
+        "common_artifacts": [
+          "dissolved gas artifact: residual air or decomposition gases produce a systematic positive pressure offset that decreases with increasing temperature as solubility decreases — the most common and insidious error in static vapor pressure measurement",
+          "cold-spot condensation: if any part of the manifold or tubing is colder than the sample, vapor condenses there, lowering the measured pressure below the true equilibrium value",
+          "adsorption artifact: at low pressures, vapor adsorption on vessel walls and tubing reduces apparent pressure; important for polar compounds on glass surfaces",
+          "thermal transpiration effect: at very low pressures (mean free path comparable to tubing diameter), pressure gauge reads lower than true sample pressure due to Knudsen flow",
+          "sample decomposition: produces permanent gases or involatile residues that shift P(T) curve; detectable by irreproducibility between ascending and descending temperature scans"
+        ],
+        "quality_control_checks": [
+          "ascending-descending temperature agreement: measure P(T) on heating then cooling — deviations indicate dissolved gas, decomposition, or incomplete equilibration",
+          "compare measured vapor pressure of a reference compound (e.g., water, n-decane) against literature values",
+          "residual pressure test: after freezing sample in liquid nitrogen, residual pressure in headspace should be <1 Pa if degassing was thorough",
+          "leak test before each measurement: evacuate system, isolate from pump, monitor pressure rise",
+          "reproducibility: repeat measurements on independently prepared samples to assess sample purity effects",
+          "for mixtures: apply thermodynamic consistency tests (Redlich-Kister or area test) to P-x data"
+        ],
+        "failure_modes": [
+          "incomplete degassing: most common failure — dissolved air gives systematically high pressures at low temperatures",
+          "sample contamination from grease, O-ring degradation, or cross-contamination from previous samples",
+          "leak in vacuum system or sample vessel — detectable as pressure rising faster than expected during leak test",
+          "pressure transducer drift or damage from overpressure or corrosive vapors",
+          "thermostat malfunction: temperature oscillation exceeds specification, causing pressure scatter",
+          "cold-spot formation due to insufficient insulation of manifold or ambient temperature changes"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.5 kPa (absolute) or 0.05–1% (relative) depending on pressure range; best results near 0.02% relative at mid-range pressures",
+        "random_sources": [
+          "pressure transducer noise and short-term drift",
+          "temperature bath fluctuations (through dP/dT coupling)",
+          "reading resolution of manometer or A/D converter",
+          "incomplete equilibration (stochastic variation in wait time adequacy)"
+        ],
+        "systematic_sources": [
+          "residual dissolved gas contributing parasitic pressure (positive bias)",
+          "pressure transducer calibration offset or nonlinearity",
+          "temperature sensor calibration offset (amplified by steep dP/dT)",
+          "hydrostatic head correction error",
+          "cold-spot condensation (negative bias)",
+          "adsorption on vessel walls (negative bias at low pressures)",
+          "sample purity — impurities with different volatility shift vapor pressure",
+          "thermal transpiration correction at very low pressures"
+        ],
+        "operator_dependence": "moderate — skill in degassing procedure, leak detection, and recognizing non-equilibrium readings significantly affects data quality",
+        "model_dependence": "low for raw P(T) data; moderate for derived quantities (ΔvapH depends on Clausius-Clapeyron linearity assumption; activity coefficients depend on equation-of-state choice for vapor-phase corrections)",
+        "dominant_error_sources": [
+          "incomplete degassing (dissolved non-condensable gas) — the single most critical error source in static vapor pressure measurements",
+          "temperature measurement uncertainty amplified through dP/dT (for a typical organic liquid near its boiling point, 0.01 K error → ~0.03 kPa pressure error)",
+          "cold spots in manifold or connecting tubing"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(P) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of measured pressure",
+          "standard deviation of replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The static method is a fundamental vapor pressure measurement technique in which a liquid sample is sealed in a thermostated vessel, thoroughly degassed, and allowed to reach vapor-liquid equilibrium at a controlled temperature. The equilibrium vapor pressure is then read directly from a pressure transducer connected to the headspace above the liquid. This is one of the oldest and most widely used approaches for determining vapor pressure as a function of temperature, relying on the simplicity of a closed system at thermodynamic equilibrium. In ThermoML, 'Static method' is a general designation encompassing several specific implementations (including manometric and comparative static techniques) that share the core principle of measuring the pressure of a sealed, quiescent sample at known temperature.",
+      "how_it_operates": "A known quantity of liquid sample is introduced into a clean, evacuated glass or stainless-steel vessel. The vessel is connected via vacuum-tight tubing to a pressure transducer and a vacuum/degassing manifold. The sample undergoes repeated freeze-pump-thaw cycles (typically freezing with liquid nitrogen, evacuating the headspace to remove dissolved gases, then thawing) until the residual non-condensable gas pressure above the frozen sample is negligible (<1 Pa). The vessel is then sealed and immersed in a precision thermostated bath. At each desired temperature, the bath is stabilized to within ±0.005–0.02 K, the system is allowed to equilibrate for 10–60 minutes, and the steady-state pressure reading is recorded. By stepping through a series of temperatures — usually in both ascending and descending order to check for hysteresis — a complete P(T) vapor pressure curve is obtained.",
+      "core_theory": "At thermodynamic equilibrium in a sealed vessel containing a pure liquid and its vapor, the Gibbs phase rule dictates that for a one-component, two-phase system there is one degree of freedom: specifying the temperature uniquely determines the equilibrium vapor pressure. This relationship P(T) is governed by the Clausius-Clapeyron equation, dP/dT = ΔvapH/(TΔvapV), where ΔvapH is the molar enthalpy of vaporization and ΔvapV the molar volume change upon vaporization. For an ideal vapor far from the critical point, this integrates to ln(P) ≈ −ΔvapH/(RT) + const, providing the basis for Clausius-Clapeyron plots. The Antoine equation log10(P) = A − B/(C + T) and the Wagner equation are widely used empirical and semi-empirical correlations fitted to static method data. For mixtures, the total measured pressure relates to component activity coefficients through modified Raoult's law: P = Σ xi·γi·Pi*, where xi is the liquid mole fraction, γi the activity coefficient, and Pi* the pure-component vapor pressure.",
+      "setup": "A typical static vapor pressure apparatus consists of a sample vessel (10–100 mL volume, glass or stainless steel) connected through high-vacuum valves and tubing to one or more pressure transducers and a vacuum system. The pressure sensing element is commonly a temperature-controlled capacitance diaphragm gauge (e.g., MKS Baratron series, with heads covering 0–1.3 kPa, 0–13.3 kPa, and 0–133 kPa ranges) or a quartz Bourdon-tube pressure sensor for higher pressures. A platinum resistance thermometer (PRT, calibrated on ITS-90) measures the sample temperature, typically inserted into a thermowell on the vessel wall or immersed in the bath liquid adjacent to the vessel. The thermostated bath uses a circulating fluid (water for 273–373 K, silicone oil for higher temperatures) controlled by a PID-regulated heater and refrigeration unit. The vacuum system comprises a rotary vane pump backed by a turbomolecular pump, with a liquid-nitrogen cold trap to prevent sample vapors from contaminating the pump. All connecting tubing is either thermostated or insulated to prevent cold spots.",
+      "suitable_for": "The static method is best suited for measuring the vapor pressure of pure liquids and liquid mixtures in the moderate-to-high vapor pressure range (roughly 0.1–200 kPa). It is the method of choice for volatile organic compounds, water and aqueous solutions, refrigerants, and common industrial solvents. For mixtures, total pressure measurements at known liquid composition provide activity coefficients and vapor-liquid equilibrium data. The technique excels in the temperature range from slightly above the sample melting point up to roughly 200 °C, where vapor pressures are comfortably within the range of capacitance diaphragm gauges. It is well-established for generating Antoine or Wagner correlation parameters and for determining enthalpies of vaporization from the temperature dependence of pressure.",
+      "core_limitations": "The static method requires that the sample can be thoroughly degassed without loss or decomposition, which is challenging for extremely volatile compounds (that are difficult to retain) or thermally labile substances. At very low vapor pressures (<0.01 kPa), the technique becomes limited by transducer sensitivity, adsorption effects, and thermal transpiration — effusion, transpiration, or gas-saturation methods are preferred in that regime. High-viscosity liquids may fail to reach equilibrium on practical timescales. The method also assumes a well-defined liquid phase exists at the measurement temperature, so it is not directly applicable to solids (sublimation measurements need modified apparatus). For mixtures, the analysis assumes the liquid-phase composition is not significantly depleted by evaporation into the headspace, requiring adequate liquid-to-vapor volume ratio.",
+      "sample_preparation": "Sample purity is paramount — impurities with different volatility directly bias the measured vapor pressure. Samples should be at least 99.5 mol% pure, preferably ≥99.9%, verified by GC, HPLC, or Karl Fischer titration (for water content). The sample is introduced into the pre-evacuated vessel through a septum or vacuum-tight valve, typically 10–30 mL of liquid. Degassing is performed by 3–5 freeze-pump-thaw cycles: the sample is frozen using liquid nitrogen, the headspace is evacuated to <1 Pa with the vacuum system, the vessel is sealed, and the sample is allowed to thaw. This cycle is repeated until the residual pressure above the frozen sample no longer decreases. For hygroscopic samples, drying over activated molecular sieves (3 Å or 4 Å) before loading is essential. For mixtures, the components are weighed individually on an analytical balance (±0.1 mg) and combined in the vessel under inert atmosphere to prevent moisture uptake or oxidation.",
+      "calibration_and_references": "Pressure transducers are calibrated against a primary pressure standard — typically a dead-weight piston gauge or a high-accuracy mercury manometer traceable to national metrology standards. Capacitance diaphragm gauges should be calibrated at multiple pressures spanning their range, with zero-offset correction checked before each measurement session. Temperature sensors are calibrated against ITS-90 fixed points (triple point of water at 273.16 K, melting point of gallium at 302.91 K, melting point of indium at 429.75 K) or against a certified reference PRT. System integrity is validated by measuring the vapor pressure of a reference compound — water (IAPWS-95) or n-decane — and comparing against established literature values. Agreement within the stated instrument uncertainty confirms that degassing procedures and corrections are adequate. The leak rate of the assembled apparatus must be characterized (typically <0.5 Pa/h) and shown to contribute negligible error over the measurement timescale.",
+      "data_interpretation": "The primary data product is a table of equilibrium pressure values at each temperature set point, P(Ti). These are typically fitted to the Antoine equation (for limited temperature ranges) or the Wagner equation (for wider ranges extending toward the critical point) using nonlinear least-squares regression. Residual analysis — plotting (Pexpt − Pcalc) vs. T — reveals systematic trends that may indicate incomplete degassing (positive residuals at low T), cold spots (negative residuals), or sample decomposition (progressive drift). The enthalpy of vaporization is obtained from the Clausius-Clapeyron equation: ΔvapH = −R·d(ln P)/d(1/T), either from the local slope of a ln(P) vs. 1/T plot or from the fitted correlation. For mixture data, Barker's method reduces total pressure measurements to activity coefficients by assuming a model for the excess Gibbs energy (e.g., Margules, Wilson, NRTL, UNIQUAC) and fitting its parameters to the P-x data. Thermodynamic consistency tests (Redlich-Kister integral test, point test, or Herington area test) are applied to validate the internal consistency of mixture VLE results.",
+      "common_pitfalls": "The single most critical pitfall is inadequate degassing. Dissolved air contributes a non-condensable gas partial pressure that adds directly to the measured vapor pressure, producing a systematic positive offset that is largest at low temperatures (where the true vapor pressure is small relative to the residual gas contribution). Even a few milligrams of dissolved air can cause errors exceeding 1% at low temperatures. A second common error is cold-spot condensation: if any portion of the tubing or manifold between the sample and the pressure transducer is at a temperature lower than the sample, vapor condenses there and the transducer reads the saturation pressure at the cold-spot temperature rather than the sample temperature. This is avoided by thermostating or heat-tracing all connecting lines. Operators sometimes record pressure readings before true equilibrium is reached, particularly at temperatures far from the starting condition or when sample viscosity slows mass transfer. Ascending vs. descending temperature comparison is the best check for equilibration adequacy.",
+      "artifacts_and_failure_modes": "Dissolved gas artifact is the dominant systematic error. Its signature is a measured vapor pressure curve that lies above the true curve, with the deviation decreasing at higher temperatures as the relative contribution of non-condensable gas diminishes. Confirmation is obtained by comparing ascending and descending temperature scans — dissolved gas typically produces a small hysteresis because gas solubility is temperature-dependent. Cold-spot condensation produces the opposite effect: measured pressures lie below the true values, and the artifact appears abruptly when ambient conditions create an unexpected cold zone. At very low pressures (<10 Pa), thermal transpiration causes the gauge to read low because molecular flow from the warm sample region to the (possibly cooler) gauge produces a pressure differential. Adsorption of polar vapors on clean glass or metal surfaces reduces the apparent pressure at low vapor pressures, with the effect diminishing as surface coverage approaches monolayer saturation. Sample decomposition is detected by irreproducibility between runs, progressive pressure increase at constant temperature, or discoloration of the sample.",
+      "reporting_checklist": "Published static method results should report: sample source, purity, and purity determination method; degassing procedure (number of freeze-pump-thaw cycles, residual pressure above frozen sample); apparatus description including pressure transducer type, model, range, and calibration method; temperature sensor type and calibration standard; thermostated bath type and stability specification; equilibration criteria (pressure drift threshold and wait time); head correction applied (if any); measured P(T) data in tabular form with temperature and pressure units clearly stated; combined expanded uncertainty U(P) at 95% confidence (k = 2) with uncertainty budget identifying dominant contributions; comparison with literature values for overlapping temperature ranges; fitted correlation parameters (Antoine, Wagner, or Cox) with residuals; for mixtures — sample composition, consistency test results, and activity coefficient model parameters. For ThermoML encoding, pressure values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

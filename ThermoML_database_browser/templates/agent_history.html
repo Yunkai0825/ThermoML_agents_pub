@@ -1,0 +1,552 @@
+{% extends "base.html" %}
+{% block title %}Agent History — ThermoML Browser{% endblock %}
+
+{% block content %}
+{% include "_agent_subnav.html" %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <div>
+    <h3 class="mb-1"><i class="bi bi-clock-history"></i> ThermoML Agent History</h3>
+    <p class="text-muted mb-0">Shared benchmark results and shared freeform runs are listed separately.</p>
+  </div>
+  <span class="badge {{ 'bg-secondary' if selected_scope == 'benchmark' else 'bg-primary' }} fs-6">
+    {{ 'Benchmark results' if selected_scope == 'benchmark' else 'Shared freeform runs' }} · page {{ page }}
+  </span>
+</div>
+
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <a class="nav-link {{ 'active' if selected_scope == 'user' else '' }}"
+       href="{{ url_for('agents.agents_history', scope='user', agent_type=selected_agent) }}">
+      <i class="bi bi-person"></i> Shared freeform runs
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {{ 'active' if selected_scope == 'benchmark' else '' }}"
+       href="{{ url_for('agents.agents_history', scope='benchmark', agent_type=selected_agent) }}">
+      <i class="bi bi-clipboard-data"></i> Benchmark results
+    </a>
+  </li>
+</ul>
+
+<ul class="nav nav-pills mb-3">
+  {% for at in agent_types %}
+  <li class="nav-item">
+    <a class="nav-link {{ 'active' if selected_agent == at.key else '' }}"
+       href="{{ url_for('agents.agents_history', scope=selected_scope, agent_type=at.key) }}">
+      <i class="bi {{ at.icon }}"></i> {{ at.label }}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+
+<div class="row g-3">
+  {% if benchmark_rows is not none %}
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header py-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <strong>Benchmark questions</strong>
+        <span class="text-muted small">
+          {{ benchmark_stats.questions }} questions ·
+          {{ benchmark_stats.executions }} executions
+          {% if benchmark_stats.collections %}
+            · {{ benchmark_stats.collections }} answer collections
+          {% endif %}
+          {% if benchmark_stats.unmatched_runs %}
+            · <span title="run_* directories whose recorded question is not in the prompt registry; they still appear under Campaign runs">{{ benchmark_stats.unmatched_runs }} unmatched runs</span>
+          {% endif %}
+        </span>
+      </div>
+      {% if benchmark_rows %}
+      <div class="table-responsive">
+        <table class="table table-sm table-striped align-middle mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Question</th>
+              <th style="min-width: 320px;">Prompt sent</th>
+              <th style="min-width: 280px;">Runs</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in benchmark_rows %}
+            <tr>
+              <td class="text-muted">{{ loop.index }}</td>
+              <td><strong>{{ row.question_id }}</strong></td>
+              <td>
+                <details class="prompt-cell">
+                  <summary class="small" style="cursor: pointer; white-space: normal;">
+                    <span class="text-muted">{{ row.prompt_text[:180] }}{% if row.prompt_text|length > 180 %}…{% endif %}</span>
+                  </summary>
+                  <pre class="small bg-light border rounded p-2 mt-1 mb-0" style="white-space: pre-wrap; max-height: 320px; overflow: auto;">{{ row.prompt_text }}</pre>
+                </details>
+              </td>
+              <td>
+                {% for execution in row.executions %}
+                <button type="button"
+                        class="btn btn-sm mb-1 me-1 benchmark-run {{ 'btn-outline-primary' if execution.status == 'completed' else 'btn-outline-danger' }}"
+                        data-dir="{{ execution.dir_name }}"
+                        data-sub-run="{{ execution.sub_run or '' }}"
+                        title="{{ execution.batch_name }} · {{ execution.model_label }} · {{ execution.status }}{% if execution.elapsed_s is not none %} · {{ '%.1f'|format(execution.elapsed_s) }}s{% endif %}">
+                  {{ execution.batch_label }}
+                  <span class="badge bg-dark ms-1">{{ execution.model_label }}</span>
+                </button>
+                {% endfor %}
+                <span class="badge bg-secondary">{{ row.batch_count }}</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="card-body text-muted text-center py-4">No benchmark questions registered for this agent.</div>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% if benchmark_rows is none or runs %}
+  <div class="col-lg-4 col-xl-3">
+    <div class="card">
+      <div class="card-header py-2 d-flex justify-content-between align-items-center">
+        <strong>{{ 'Campaign runs' if benchmark_rows is not none else 'Runs' }}</strong>
+        {% if selected_scope == 'benchmark' %}<span class="badge bg-secondary">read-only</span>{% endif %}
+      </div>
+      <div class="list-group list-group-flush agent-run-scroll">
+        {% for r in runs %}
+        <button type="button" class="list-group-item list-group-item-action run-item text-start py-2 px-3"
+                data-dir="{{ r.dir_name }}">
+          <div class="d-flex justify-content-between align-items-start gap-2">
+            <small class="text-muted text-truncate" title="{{ r.dir_name }}">{{ r.dir_name }}</small>
+            <span class="text-nowrap">
+              {% if r.temp %}<span class="badge bg-warning text-dark">temporary</span>{% endif %}
+              {% if not r.has_result %}<span class="badge bg-danger">incomplete</span>{% endif %}
+              {% if r.n_images %}<span class="badge bg-success">{{ r.n_images }} <i class="bi bi-image"></i></span>{% endif %}
+              {% if r.n_csv %}<span class="badge bg-info text-dark">{{ r.n_csv }} <i class="bi bi-table"></i></span>{% endif %}
+            </span>
+          </div>
+          <small class="d-block text-truncate mt-1" title="{{ r.question }}">{{ r.question }}</small>
+          {% if r.sub_runs %}<small class="text-primary">{{ r.sub_runs|length }} benchmark prompts</small>{% endif %}
+        </button>
+        {% else %}
+        <div class="list-group-item text-muted text-center py-4">
+          No {{ 'benchmark' if selected_scope == 'benchmark' else 'freeform' }} runs found for this agent.
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% if page > 1 or has_next %}
+    <nav class="mt-3" aria-label="History pages">
+      <ul class="pagination pagination-sm justify-content-center">
+        <li class="page-item {{ 'disabled' if page <= 1 else '' }}">
+          <a class="page-link" href="{{ url_for('agents.agents_history', scope=selected_scope, agent_type=selected_agent, page=page-1) }}">Previous</a>
+        </li>
+        <li class="page-item disabled"><span class="page-link">Page {{ page }}</span></li>
+        <li class="page-item {{ 'disabled' if not has_next else '' }}">
+          <a class="page-link" href="{{ url_for('agents.agents_history', scope=selected_scope, agent_type=selected_agent, page=page+1) }}">Next</a>
+        </li>
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="{{ 'col-12' if benchmark_rows is not none and not runs else 'col-lg-8 col-xl-9' }}">
+    <div id="historyDetail" class="agent-detail-panel"
+         data-agent="{{ selected_agent }}" data-scope="{{ selected_scope }}">
+      <div class="card detail-placeholder">
+        <div class="card-body text-center text-muted py-5">
+          <i class="bi bi-file-earmark-text" style="font-size:3rem;opacity:.3"></i>
+          <p class="mt-2 mb-0">Select a run to inspect its output.</p>
+        </div>
+      </div>
+
+      <div class="d-none detail-content">
+        {% if selected_scope == 'user' %}
+        <div class="d-flex justify-content-end mb-2">
+          <button type="button" id="deleteRunBtn" class="btn btn-sm btn-outline-danger" disabled>
+            <i class="bi bi-trash"></i> Remove selected run
+          </button>
+        </div>
+        {% endif %}
+        <div class="d-none mb-2 sub-runs-bar">
+          <label class="form-label form-label-sm mb-1">Benchmark prompt:</label>
+          <div class="btn-group btn-group-sm flex-wrap sub-runs-btns"></div>
+        </div>
+
+        <ul class="nav nav-pills nav-fill mb-2 detail-tabs" aria-label="Select one or more result sections">
+          <li class="nav-item"><button class="nav-link active dtab" data-section="result" type="button"><i class="bi bi-file-earmark-text"></i> Result</button></li>
+          
+          <li class="nav-item"><button class="nav-link dtab" data-section="history" type="button"><i class="bi bi-clock-history"></i> {{ 'Full Tool Results' if selected_scope == 'benchmark' else 'History' }}</button></li>
+          
+          <li class="nav-item"><button class="nav-link dtab" data-section="data" type="button"><i class="bi bi-table"></i> Data</button></li>
+          <li class="nav-item"><button class="nav-link dtab" data-section="images" type="button"><i class="bi bi-image"></i> Images</button></li>
+          <li class="nav-item"><button class="nav-link dtab" data-section="specialized" type="button"><i class="bi bi-puzzle"></i> Specialized tools</button></li>
+          
+          <li class="nav-item"><button class="nav-link dtab" data-section="memory" type="button"><i class="bi bi-database"></i> Memory</button></li>
+          <li class="nav-item"><button class="nav-link dtab" data-section="stats" type="button"><i class="bi bi-bar-chart-line"></i> Stats</button></li>
+          <li class="nav-item"><button class="nav-link dtab" data-section="workflow" type="button"><i class="bi bi-diagram-3"></i> Workflow</button></li>
+          
+        </ul>
+
+        <div class="detail-section active" data-section="result"><div class="card"><div class="card-body rendered-md result-md"></div></div></div>
+        
+        <div class="detail-section" data-section="history"><div class="card"><div class="card-body rendered-md history-md"></div></div></div>
+        
+        <div class="detail-section" data-section="data">
+          <div class="card">
+            <div class="card-header py-2 d-flex align-items-center gap-2 flex-wrap"><i class="bi bi-table"></i> CSV data
+              <span class="basis-controls d-none d-flex align-items-center gap-1 small">
+                <span class="text-muted">x-basis:</span>
+                <select class="form-select form-select-sm w-auto basis-select" title="Composition convention for the x axis">
+                  <option value="mole" selected>mole fraction</option>
+                  <option value="mass">mass fraction</option>
+                  <option value="molality">molality (mol/kg)</option>
+                  <option value="volume">volume fraction</option>
+                  <option value="molarity">molarity (mol/dm³)</option>
+                </select>
+                <span class="text-muted">x1 =</span>
+                <select class="form-select form-select-sm w-auto xcomp-select" title="Compound the x1 column refers to"></select>
+              </span>
+              <select class="form-select form-select-sm w-auto ms-auto csv-select"><option value="">— none —</option></select>
+            </div>
+            <div class="card-body p-2">
+              <div class="csv-plot"></div>
+              <div class="csv-plot-note small text-muted px-1"></div>
+            </div>
+            <div class="card-body csv-display p-0 border-top"><p class="text-muted text-center py-3">No CSV selected.</p></div>
+          </div>
+        </div>
+        <div class="detail-section" data-section="images">
+          <div class="card"><div class="card-body text-center img-display"><p class="text-muted">No images.</p></div></div>
+          <div class="row mt-2 img-thumbs g-2"></div>
+        </div>
+        <div class="detail-section" data-section="specialized">
+          <div class="card">
+            <div class="card-header py-2 d-flex justify-content-between align-items-center gap-2">
+              <span><i class="bi bi-puzzle"></i> Persistent specialized-tool results</span>
+              <a class="btn btn-sm btn-outline-primary" href="{{ url_for('specialized_tools.browser_page') }}" target="_blank">Open full browser</a>
+            </div>
+            <div class="card-body p-0">
+              <iframe class="specialized-browser-frame" data-src="{{ url_for('specialized_tools.browser_page', embedded=1) }}" title="Specialized tool result browser"></iframe>
+            </div>
+          </div>
+        </div>
+        
+        <div class="detail-section" data-section="memory"><div class="card"><div class="card-body rendered-md memory-md"></div></div></div>
+        <div class="detail-section" data-section="stats"><div class="card"><div class="card-body rendered-md stats-md"></div></div></div>
+        <div class="detail-section" data-section="workflow">
+          <div class="card">
+            <div class="card-header py-2"><i class="bi bi-diagram-3"></i> Compaction workflow — pooled Sankey funnels (chars / IDs / blocks / data points along the real agent workflow)</div>
+            <div class="card-body workflow-display"><p class="text-muted">No workflow artifacts.</p></div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='result_panel_toggles.js') }}"></script>
+<script src="{{ url_for('static', filename='thermoml_id_links.js') }}"></script>
+<script src="{{ url_for('static', filename='workflow_panel.js') }}"></script>
+<script>
+(function () {
+  'use strict';
+  const panel = document.getElementById('historyDetail');
+  const agentType = panel.dataset.agent;
+  const scope = panel.dataset.scope;
+
+  function encodeArtifactPath(path) {
+    return String(path).split('/').map(encodeURIComponent).join('/');
+  }
+
+  function renderMd(md) {
+    if (!md) return '<p class="text-muted">No content recorded.</p>';
+    // Stored agent output is untrusted; fall back to plain text if the sanitiser is unavailable.
+    try {
+      if (!window.DOMPurify) throw new Error('DOMPurify unavailable');
+      return DOMPurify.sanitize(marked.parse(md));
+    }
+    catch (_) { const pre = document.createElement('pre'); pre.textContent = md; return pre.outerHTML; }
+  }
+
+  const detailSections = window.ThermoMLResultPanels.createToggles({
+    root: panel,
+    buttonSelector: '.dtab',
+    sectionSelector: '.detail-section',
+    initialSections: ['result'],
+    onSectionShown: function (section) {
+      if (section !== 'specialized') return;
+      const frame = panel.querySelector('.specialized-browser-frame');
+      if (frame && !frame.src) frame.src = frame.dataset.src;
+    }
+  });
+
+  function detailUrl(dirName, subRun) {
+    let url = '/agents/detail/' + encodeURIComponent(agentType) + '/' + encodeURIComponent(dirName) +
+      '?scope=' + encodeURIComponent(scope);
+    if (subRun) url += '&sub_run=' + encodeURIComponent(subRun);
+    return url;
+  }
+
+  function loadDetail(dirName, subRun) {
+    panel.dataset.dir = dirName;
+    panel.dataset.subRun = subRun || '';
+    panel.querySelector('.detail-placeholder').classList.add('d-none');
+    panel.querySelector('.detail-content').classList.remove('d-none');
+    panel.querySelector('.result-md').innerHTML = '<p class="text-muted">Loading…</p>';
+    fetch(detailUrl(dirName, subRun)).then(function (response) { return response.json(); }).then(function (data) {
+      if (data.error) throw new Error(data.error);
+      panel.querySelector('.result-md').innerHTML = renderMd(data.result_md);
+      ThermoIDLinks.linkify(panel.querySelector('.result-md'));
+      const history = panel.querySelector('.history-md');
+      if (history && data.history_md) { history.innerHTML = renderMd(data.history_md); ThermoIDLinks.linkify(history); }
+      const memory = panel.querySelector('.memory-md');
+      const stats = panel.querySelector('.stats-md');
+      if (memory) { memory.innerHTML = renderMd(data.memory_md); ThermoIDLinks.linkify(memory); }
+      if (stats) { stats.innerHTML = renderMd(data.stats_md); ThermoIDLinks.linkify(stats); }
+      const workflowHost = panel.querySelector('.workflow-display');
+      if (workflowHost && window.ThermoMLWorkflowPanel) {
+        window.ThermoMLWorkflowPanel.render(workflowHost, data.workflow, {
+          agentType: agentType, dirName: dirName, subRun: subRun || '', scope: scope
+        });
+      }
+
+      const subBar = panel.querySelector('.sub-runs-bar');
+      const subButtons = panel.querySelector('.sub-runs-btns');
+      subButtons.innerHTML = '';
+      if (!subRun && (data.sub_runs || []).length) {
+        subBar.classList.remove('d-none');
+        data.sub_runs.forEach(function (name) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'btn btn-outline-primary';
+          button.textContent = name;
+          button.addEventListener('click', function () { loadDetail(dirName, name); });
+          subButtons.appendChild(button);
+        });
+      } else if ((data.sub_runs || []).length) {
+        subBar.classList.remove('d-none');
+        data.sub_runs.forEach(function (name) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'btn ' + (name === subRun ? 'btn-primary' : 'btn-outline-primary');
+          button.textContent = name;
+          button.addEventListener('click', function () { loadDetail(dirName, name); });
+          subButtons.appendChild(button);
+        });
+      } else {
+        subBar.classList.add('d-none');
+      }
+
+      if (!subRun && (data.sub_runs || []).length && !data.result_md) {
+        loadDetail(dirName, data.sub_runs[0]);
+        return;
+      }
+
+      const csvSelect = panel.querySelector('.csv-select');
+      csvSelect.innerHTML = '<option value="">— select CSV —</option>';
+      (data.csv_files || []).forEach(function (name) {
+        const option = document.createElement('option'); option.value = name; option.textContent = name; csvSelect.appendChild(option);
+      });
+
+      // Composition library: enables re-plotting fit CSVs on other
+      // composition conventions (exact via molar masses; volume/molarity
+      // via the library's fitted density bridge).
+      panel.__library = data.composition_library || null;
+      setupBasisControls();
+
+      const thumbs = panel.querySelector('.img-thumbs');
+      const display = panel.querySelector('.img-display');
+      thumbs.innerHTML = '';
+      display.innerHTML = '<p class="text-muted">No images generated.</p>';
+      (data.images || []).forEach(function (name, index) {
+        let url = '/agents/img/' + encodeURIComponent(agentType) + '/' +
+          encodeURIComponent(dirName) + '/' + encodeArtifactPath(name) + '?scope=' + encodeURIComponent(scope);
+        if (subRun) url += '&sub_run=' + encodeURIComponent(subRun);
+        const col = document.createElement('div'); col.className = 'col-4 col-md-3';
+        const image = document.createElement('img'); image.src = url; image.alt = name;
+        image.className = 'img-thumbnail img-thumb-item'; image.style.cursor = 'pointer'; image.style.maxHeight = '120px';
+        image.addEventListener('click', function () { display.innerHTML = ''; const full = image.cloneNode(); full.className = 'img-fluid rounded'; full.style.maxHeight = '650px'; display.appendChild(full); });
+        col.appendChild(image); thumbs.appendChild(col);
+        if (index === 0) image.click();
+      });
+      detailSections.ensureVisible('result');
+    }).catch(function (error) {
+      panel.querySelector('.result-md').innerHTML = '<div class="alert alert-danger"></div>';
+      panel.querySelector('.result-md .alert').textContent = error.message;
+    });
+  }
+
+  function loadCsv(name) {
+    const display = panel.querySelector('.csv-display');
+    const plotDiv = panel.querySelector('.csv-plot');
+    const noteDiv = panel.querySelector('.csv-plot-note');
+    if (!name) {
+      display.innerHTML = '<p class="text-muted text-center py-3">No CSV selected.</p>';
+      plotDiv.innerHTML = ''; noteDiv.textContent = '';
+      panel.__csvData = null;
+      return;
+    }
+    const dirName = panel.dataset.dir;
+    let url = '/agents/csv/' + encodeURIComponent(agentType) + '/' + encodeURIComponent(dirName) + '/' + encodeArtifactPath(name) +
+      '?scope=' + encodeURIComponent(scope);
+    if (panel.dataset.subRun) url += '&sub_run=' + encodeURIComponent(panel.dataset.subRun);
+    fetch(url).then(function (response) { return response.json(); }).then(function (data) {
+      if (data.error) throw new Error(data.error);
+      const wrapper = document.createElement('div'); wrapper.className = 'data-scroll';
+      const table = document.createElement('table'); table.className = 'table table-sm table-striped mb-0';
+      const head = table.createTHead().insertRow();
+      (data.columns || []).forEach(function (value) { const th = document.createElement('th'); th.textContent = value; head.appendChild(th); });
+      const body = table.createTBody();
+      (data.rows || []).forEach(function (row) { const tr = body.insertRow(); row.forEach(function (value) { tr.insertCell().textContent = value; }); });
+      wrapper.appendChild(table); display.innerHTML = ''; display.appendChild(wrapper);
+      panel.__csvData = data;
+      renderCsvPlot();
+    }).catch(function (error) { display.textContent = 'Failed to load CSV: ' + error.message; });
+  }
+
+  // ── Composition-convention plotting ─────────────────────────
+  function libMolarMasses() {
+    const lib = panel.__library;
+    return (lib && lib.molar_masses_g_mol) || null;
+  }
+  function libBridge() {
+    const lib = panel.__library;
+    return (lib && lib.bridges && lib.bridges.mass_density) || null;
+  }
+
+  function setupBasisControls() {
+    const controls = panel.querySelector('.basis-controls');
+    const xcomp = panel.querySelector('.xcomp-select');
+    const mm = libMolarMasses();
+    if (!mm || Object.keys(mm).length < 2) { controls.classList.add('d-none'); return; }
+    controls.classList.remove('d-none');
+    xcomp.innerHTML = '';
+    Object.keys(mm).forEach(function (name, i) {
+      const option = document.createElement('option');
+      option.value = name; option.textContent = name; option.selected = i === 0;
+      xcomp.appendChild(option);
+    });
+    const bridge = libBridge();
+    panel.querySelectorAll('.basis-select option').forEach(function (option) {
+      if ((option.value === 'volume' || option.value === 'molarity') && !bridge) {
+        option.disabled = true;
+        option.title = 'needs the composition library density bridge';
+      }
+    });
+  }
+
+  function evalBridgeRho(x1cur, flip) {
+    const bridge = libBridge();
+    const xb = flip ? (1 - x1cur) : x1cur;
+    const xc = Math.min(1, Math.max(0, xb));
+    const x2 = 1 - xc;
+    let y = xc * bridge.pure_at_x1 + x2 * bridge.pure_at_x0;
+    const diff = xc - x2;
+    let acc = 0;
+    (bridge.coeffs || []).forEach(function (a, k) { acc += a * Math.pow(diff, k); });
+    return y + xc * x2 * acc;
+  }
+
+  function convertX(x1, basis) {
+    // x1: mole fraction of the selected x1 compound. Display-only
+    // conversions; the fitted curve is transformed on the axis, y
+    // values are untouched (same physical curve, different axis).
+    const mm = libMolarMasses();
+    const xcomp = panel.querySelector('.xcomp-select').value;
+    const names = Object.keys(mm);
+    const other = names.find(function (n) { return n !== xcomp; }) || names[1];
+    const M1 = mm[xcomp], M2 = mm[other];
+    const bridge = libBridge();
+    const flip = bridge && String(bridge.x_compound || '').toLowerCase() !== String(xcomp).toLowerCase();
+    switch (basis) {
+      case 'mass':
+        return { x: x1.map(function (x) { return x * M1 / (x * M1 + (1 - x) * M2); }),
+                 label: 'mass fraction (' + xcomp + ')', note: 'exact, M from block formulas' };
+      case 'molality':
+        return { x: x1.map(function (x) { return x >= 1 ? NaN : 1000 * x / ((1 - x) * M2); }),
+                 label: 'molality of ' + xcomp + ' in ' + other + ' [mol/kg]', note: 'exact, M from block formulas' };
+      case 'volume': {
+        const rho1 = evalBridgeRho(1, flip), rho0 = evalBridgeRho(0, flip);
+        const V1 = M1 / 1000 / rho1, V2 = M2 / 1000 / rho0;
+        return { x: x1.map(function (x) { return x * V1 / (x * V1 + (1 - x) * V2); }),
+                 label: 'volume fraction (' + xcomp + ')',
+                 note: 'via density bridge ' + bridge.doi + ' (T=' + bridge.temperature_K + ' K, R²=' + bridge.r_squared + ')' };
+      }
+      case 'molarity':
+        return { x: x1.map(function (x) { return x * evalBridgeRho(x, flip) / (x * M1 + (1 - x) * M2); }),
+                 label: 'molarity of ' + xcomp + ' [mol/dm³]',
+                 note: 'via density bridge ' + bridge.doi + ' (T=' + bridge.temperature_K + ' K, R²=' + bridge.r_squared + ')' };
+      default:
+        return { x: x1, label: 'x (' + xcomp + ', mole fraction)', note: '' };
+    }
+  }
+
+  function renderCsvPlot() {
+    const plotDiv = panel.querySelector('.csv-plot');
+    const noteDiv = panel.querySelector('.csv-plot-note');
+    const data = panel.__csvData;
+    plotDiv.innerHTML = ''; noteDiv.textContent = '';
+    if (!data || !window.Plotly) return;
+    const cols = data.columns || [];
+    const xi = cols.findIndex(function (c) { return /^x1?$|^x_|mole_fraction/i.test(c); });
+    if (xi < 0 || !(data.rows || []).length) return;
+    const x1 = data.rows.map(function (r) { return parseFloat(r[xi]); });
+    const mm = libMolarMasses();
+    const basis = mm ? panel.querySelector('.basis-select').value : 'mole';
+    const conv = mm ? convertX(x1, basis) : { x: x1, label: cols[xi], note: '' };
+    const traces = [];
+    cols.forEach(function (c, j) {
+      if (j === xi) return;
+      const y = data.rows.map(function (r) { return parseFloat(r[j]); });
+      if (y.every(function (v) { return isNaN(v); })) return;
+      traces.push({ x: conv.x, y: y, mode: 'markers+lines', name: c,
+                    line: { width: 1 }, marker: { size: 5 } });
+    });
+    if (!traces.length) return;
+    Plotly.newPlot(plotDiv, traces, {
+      margin: { t: 24, r: 10, b: 40, l: 60 }, height: 320,
+      xaxis: { title: { text: conv.label } },
+      legend: { orientation: 'h', y: -0.25 },
+    }, { displayModeBar: false, responsive: true });
+    noteDiv.textContent = conv.note ? ('axis conversion: ' + conv.note) : '';
+  }
+
+  document.querySelectorAll('.run-item, .benchmark-run').forEach(function (item) {
+    item.addEventListener('click', function () {
+      document.querySelectorAll('.run-item, .benchmark-run').forEach(function (other) { other.classList.remove('active'); });
+      item.classList.add('active'); loadDetail(item.dataset.dir, item.dataset.subRun || null);
+      const deleteButton = document.getElementById('deleteRunBtn');
+      if (deleteButton) deleteButton.disabled = false;
+    });
+  });
+  const deleteButton = document.getElementById('deleteRunBtn');
+  if (deleteButton) deleteButton.addEventListener('click', function () {
+    const dirName = panel.dataset.dir;
+    if (!dirName || !window.confirm('Remove this freeform run and all of its saved files?')) return;
+    deleteButton.disabled = true;
+    fetch('/agents/delete/' + encodeURIComponent(agentType) + '/' + encodeURIComponent(dirName), {
+      method: 'POST'
+    }).then(function (response) {
+      return response.json().then(function (data) {
+        if (!response.ok) throw new Error(data.error || 'Unable to remove run.');
+        window.location.reload();
+      });
+    }).catch(function (error) {
+      window.alert(error.message);
+      deleteButton.disabled = false;
+    });
+  });
+  panel.querySelector('.csv-select').addEventListener('change', function (event) { loadCsv(event.target.value); });
+  panel.querySelector('.basis-select').addEventListener('change', renderCsvPlot);
+  panel.querySelector('.xcomp-select').addEventListener('change', renderCsvPlot);
+})();
+</script>
+{% endblock %}

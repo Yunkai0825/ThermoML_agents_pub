@@ -1,0 +1,341 @@
+{
+  "meas_ID": "transpiration_method",
+  "identity": {
+    "name": "Transpiration method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Transpiration method",
+    "thermoml_custom_codes": [
+      "TRANSPIR"
+    ],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "yes",
+      "destructive": "partially",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 585,
+      "property_groups": [
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 142,
+      "per_group": {
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 585,
+          "papers": 142
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "mass of transported (condensed/absorbed) sample material in the trap",
+          "carrier gas flow rate or total volume of carrier gas passed through the saturator",
+          "temperature of the saturator cell (saturation temperature)",
+          "total pressure in the saturator (usually atmospheric)"
+        ],
+        "derived_observables": [
+          "vapor pressure of the sample at the saturation temperature",
+          "enthalpy of sublimation (from Clausius-Clapeyron analysis of P vs. T data)",
+          "enthalpy of vaporization (from Clausius-Clapeyron analysis of P vs. T data)",
+          "molar amount of transported sample (from trapped mass and molar mass)",
+          "molar amount of carrier gas (from flow rate, pressure, and temperature via ideal gas law)"
+        ],
+        "target_properties": [
+          "vapor pressure as a function of temperature",
+          "enthalpy of sublimation",
+          "enthalpy of vaporization",
+          "sublimation/vaporization entropy (from slope and intercept of ln P vs. 1/T)"
+        ],
+        "phases_measured": [
+          "solid (sublimation vapor pressure)",
+          "liquid (vaporization vapor pressure)",
+          "solid-gas equilibrium",
+          "liquid-gas equilibrium"
+        ],
+        "supported_sample_types": [
+          "pure organic compounds with low to moderate volatility",
+          "polycyclic aromatic hydrocarbons (PAH)",
+          "pharmaceutical compounds and drug intermediates",
+          "pesticides and agrochemicals",
+          "organometallic compounds",
+          "ionic liquids (at elevated temperatures)",
+          "metal halides and inorganic salts (at high temperatures)",
+          "binary and multicomponent mixtures (with GC or selective trapping for component resolution)",
+          "waxy or solid organic compounds at ambient temperature"
+        ],
+        "unsupported_sample_types": [
+          "highly volatile compounds (vapor pressure > 10 kPa) — saturation not reliably achieved at practical flow rates",
+          "thermally unstable compounds that decompose at the measurement temperature",
+          "samples that react with carrier gas or saturator/trap materials",
+          "compounds with extremely low volatility (vapor pressure < 0.0001 Pa) — insufficient mass transport for accurate quantification",
+          "hygroscopic samples without provisions for dry carrier gas"
+        ],
+        "typical_output_formats": [
+          "vapor pressure vs. temperature table (P in Pa, T in K)",
+          "ln(P) vs. 1/T plot (Clausius-Clapeyron representation)",
+          "Antoine or Clarke-Glew equation fit parameters",
+          "enthalpy of sublimation/vaporization at a reference temperature"
+        ],
+        "units": {
+          "vapor_pressure": "Pa or kPa",
+          "temperature": "K",
+          "mass_transported": "mg or µg",
+          "carrier_gas_flow_rate": "cm³/min (sccm) or dm³/h at STP",
+          "carrier_gas_volume": "dm³ at STP",
+          "enthalpy": "kJ/mol",
+          "entropy": "J/(mol·K)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "carrier_gas_flow_rate",
+            "typical_range": "0.5 cm³/min to 20 cm³/min (at STP)",
+            "hard_limits": "flow rate must be low enough to ensure thermodynamic equilibrium (complete saturation) in the saturator; upper limit depends on saturator length, surface area, and sample volatility",
+            "notes": "saturation is verified by measuring vapor pressure at several flow rates and confirming independence; the plateau region defines the usable range"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 600 K (ambient to moderately elevated)",
+            "hard_limits": "lower limit set by insufficient mass transport for quantification; upper limit set by sample decomposition, onset of boiling, or apparatus material limits",
+            "notes": "typical experiments span 30–80 K range; high-temperature variants extend to >800 K for inorganic compounds"
+          },
+          {
+            "parameter": "total_pressure",
+            "typical_range": "80 kPa to 110 kPa (near atmospheric)",
+            "hard_limits": "reduced pressure can be used to enhance mass transport but complicates flow measurement; total pressure must be accurately known",
+            "notes": "most experiments conducted at ambient atmospheric pressure; precision manometer recommended for accurate P_total"
+          },
+          {
+            "parameter": "experiment_duration_per_point",
+            "typical_range": "1 h to 24 h per temperature point",
+            "hard_limits": "must collect sufficient mass for accurate gravimetric or chromatographic quantification (typically > 0.1 mg for gravimetric, > 1 µg for GC)",
+            "notes": "lower vapor pressures require longer collection times; multiple traps can be run in sequence for reproducibility"
+          }
+        ],
+        "variables": [
+          {
+            "name": "carrier_gas_flow_rate",
+            "role": "primary controlled variable (must be within saturation plateau)",
+            "typical_values": "1 cm³/min to 10 cm³/min at STP",
+            "effect": "too high: incomplete saturation leads to underestimation of vapor pressure; too low: excessive diffusion back-flow and insufficient mass transport"
+          },
+          {
+            "name": "temperature",
+            "role": "scanned variable (stepped, not ramped)",
+            "typical_values": "273 K to 600 K in 5–10 K increments",
+            "effect": "vapor pressure varies exponentially with temperature via Clausius-Clapeyron equation"
+          },
+          {
+            "name": "total_pressure",
+            "role": "monitored parameter, usually fixed near atmospheric",
+            "typical_values": "101.325 kPa",
+            "effect": "enters directly into vapor pressure calculation; must be measured or corrected for altitude"
+          },
+          {
+            "name": "carrier_gas_identity",
+            "role": "fixed choice (inert gas)",
+            "typical_values": "nitrogen (N₂) or helium (He); argon used occasionally",
+            "effect": "gas identity affects diffusion coefficients and thermal conductivity; must be inert toward sample"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "saturator cell — glass or stainless steel tube packed with sample dispersed on an inert support (glass beads, sand, glass wool) or containing the bulk sample with large surface area, housed in a thermostatted enclosure",
+          "thermostat — precision temperature-controlled bath (oil or air) or block heater maintaining the saturator at the target temperature (±0.05 K or better)",
+          "carrier gas supply — cylinder of high-purity inert gas (N₂ 99.999% or He 99.999%) with pressure regulator",
+          "gas flow controller — mass flow controller (MFC) or calibrated needle valve with soap-bubble or electronic flow meter for precise flow rate measurement",
+          "gas pre-heater/pre-saturator — section of tubing or a pre-column in the thermostat that brings carrier gas to the saturation temperature before contacting the sample",
+          "cold trap or absorption tube — U-tube immersed in dry ice/acetone or liquid nitrogen bath, or a tube packed with adsorbent (Tenax, activated carbon, XAD resin) to quantitatively capture transported vapor downstream of the saturator",
+          "analytical balance — microbalance with ±0.01 mg resolution for gravimetric determination of trapped mass",
+          "gas chromatograph (optional) — for quantification of trapped material by thermal desorption or solvent extraction from the trap, especially for multicomponent systems",
+          "pressure gauge — precision barometer or capacitance manometer for measuring total pressure in the saturator",
+          "temperature sensors — calibrated Pt100 RTD or thermocouple at the saturator and at the trap",
+          "gas volume meter — wet test meter or electronic totalizer downstream for measuring total carrier gas volume"
+        ],
+        "environmental_requirements": [
+          "thermostat stability ±0.05 K or better over the duration of each collection period",
+          "draft-free, temperature-stable laboratory to minimize flow rate fluctuations",
+          "adequate ventilation or fume hood for handling volatile or toxic materials",
+          "dry carrier gas or inline desiccant to prevent moisture contamination"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "powder dispersed on inert support (glass beads, sand) for maximum surface area",
+            "thin coating on glass wool or crushed firebrick for enhanced gas-sample contact",
+            "bulk liquid in a wick-type saturator or as a thin layer on packing material"
+          ],
+          "size_limits": "0.1 g to 10 g of sample, depending on volatility and desired number of measurement points; sufficient material must be present to avoid significant depletion during the experiment",
+          "thickness_limits": "not applicable in the conventional sense; the key dimension is the saturator path length (typically 10–50 cm) and packing density to ensure equilibrium saturation",
+          "surface_requirements": [
+            "maximum surface area exposure between sample and carrier gas to ensure saturation",
+            "no surface contamination or oxidation layers that impede vaporization"
+          ],
+          "mounting_requirements": [
+            "sample must be uniformly distributed through the saturator column to prevent channeling",
+            "glass wool plugs at both ends of the packing to prevent particle carryover into the trap",
+            "secure connections with leak-free fittings (ground glass joints or Swagelok) between saturator and trap"
+          ],
+          "preparation_requirements": [
+            "purity characterization (GC, DSC, or Karl Fischer) before measurement",
+            "drying if hygroscopic (vacuum desiccation or passing dry gas over sample before experiment)",
+            "grinding to powder for solids to increase surface area",
+            "pre-conditioning by flowing carrier gas through the saturator for 30–60 min at the initial temperature to achieve steady-state conditions",
+            "weighing of sample before and after each experiment series to verify mass balance"
+          ]
+        },
+        "calibration_requirements": [
+          "flow rate calibration of the mass flow controller using a soap-bubble meter or primary standard at the operating pressure and temperature",
+          "temperature calibration of the saturator thermocouple/RTD against a traceable reference thermometer",
+          "verification run using a reference compound with well-known vapor pressure (e.g., naphthalene, n-decane, ferrocene) to confirm the apparatus produces accurate results",
+          "trap efficiency check — run two traps in series to verify that the first trap captures > 99% of transported vapor",
+          "leak testing of the entire gas path under operating pressure"
+        ],
+        "reference_materials": [
+          "naphthalene — sublimation vapor pressure well-characterized from 260 K to 353 K; recommended by IUPAC",
+          "ferrocene — sublimation vapor pressure standard for the transpiration method",
+          "n-decane — liquid vapor pressure reference for moderate temperature range",
+          "benzoic acid — sublimation vapor pressure reference",
+          "anthracene — low-volatility sublimation vapor pressure reference for higher temperatures"
+        ],
+        "consumables": [
+          "high-purity carrier gas (N₂, He, or Ar)",
+          "inert packing material (glass beads, glass wool, sea sand, crushed firebrick)",
+          "cold trap coolant (dry ice, liquid nitrogen, or Peltier-cooled trap)",
+          "adsorbent for trapping (Tenax TA, XAD-2 resin, activated carbon)",
+          "solvents for trap extraction when using GC quantification (hexane, dichloromethane)",
+          "desiccant for carrier gas drying (molecular sieves, Drierite)"
+        ],
+        "safety_notes": [
+          "liquid nitrogen and dry ice require standard cryogen handling precautions (frostbite, asphyxiation in confined spaces)",
+          "volatile organic compounds may be released — work in a fume hood or with exhaust scrubbing",
+          "high-temperature experiments require burn protection and thermal insulation of exposed parts",
+          "compressed gas cylinders must be secured and equipped with proper regulators"
+        ]
+      },
+      "performance": {
+        "sensitivity": "able to measure vapor pressures as low as ~0.001 Pa when combined with sensitive GC or mass spectrometric quantification of trapped material",
+        "detection_limit": "~0.001 Pa with GC/MS quantification of trapped material; ~0.01 Pa with gravimetric quantification",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "not applicable; measurement is a time-integrated collection (hours per data point)",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "vapor pressure from ~0.001 Pa to ~10 kPa; below 0.001 Pa mass transport is too slow for practical quantification; above 10 kPa saturation is difficult to achieve and other methods (ebulliometry, static) are preferred",
+        "accuracy": "1–5% for vapor pressures above 1 Pa; 5–20% for vapor pressures in the range 0.001–1 Pa, primarily limited by mass quantification uncertainty and incomplete saturation",
+        "precision": "2–5% (relative standard deviation from replicate measurements at the same temperature)",
+        "throughput": "one temperature point per 1–24 hours depending on sample volatility; a series of 8–15 temperature points typically requires 1–3 weeks",
+        "measurement_speed": "inherently slow — each data point requires extended equilibrium collection; a complete P(T) dataset over 30–80 K range takes 1–3 weeks"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "mass of condensed/adsorbed sample material in the trap (gravimetric: milligrams on analytical balance; chromatographic: peak area from GC/GC-MS after thermal desorption or solvent extraction) plus total volume or flow rate of carrier gas and the saturator temperature and total pressure",
+        "preprocessing_steps": [
+          "convert trapped mass to moles of sample: n_sample = m_trap / M_sample",
+          "determine total moles of carrier gas: n_carrier = P_total × V_carrier / (R × T_flowmeter), corrected to measurement conditions",
+          "correct carrier gas volume to STP if measured with a wet test meter or volumetric totalizer",
+          "verify that mass is within the saturation plateau by checking flow-rate independence",
+          "subtract blank (empty-saturator) mass if detectable background exists"
+        ],
+        "analysis_methods": [
+          "ideal dilute vapor calculation: P_sample = (n_sample / (n_sample + n_carrier)) × P_total; for dilute conditions n_sample << n_carrier, simplifies to P_sample ≈ n_sample × R × T / V_carrier",
+          "Clausius-Clapeyron analysis: plot ln(P) vs. 1/T; slope = −ΔH_sub(or vap) / R; enthalpy determined from weighted linear regression",
+          "Clarke-Glew equation fit: R·ln(P/P°) = −ΔG°(θ)/θ + ΔH°(θ)·(1/θ − 1/T) + ΔCp°(θ)·(θ/T − 1 + ln(T/θ)) for temperature-dependent enthalpy analysis",
+          "Antoine equation fit: log₁₀(P/kPa) = A − B/(C + T/K) for empirical representation",
+          "weighted least-squares regression of ln(P) vs. 1/T with uncertainties from mass and flow measurements propagated"
+        ],
+        "model_assumptions": [
+          "thermodynamic equilibrium is achieved in the saturator — carrier gas exits fully saturated with sample vapor at the cell temperature",
+          "ideal gas behavior for the carrier gas and dilute sample vapor at the total pressures used (valid for P_total near atmospheric and P_sample << P_total)",
+          "no condensation or adsorption of sample vapor between the saturator outlet and the trap (all transferred material is captured)",
+          "sample composition and crystal form remain constant throughout the experiment (no polymorphic transitions, decomposition, or preferential vaporization of impurities)",
+          "carrier gas does not dissolve in or interact chemically with the sample",
+          "Dalton's law of partial pressures applies in the saturator gas stream"
+        ],
+        "fit_parameters": [
+          "vapor pressure P at each measured temperature T",
+          "enthalpy of sublimation/vaporization ΔH at a reference temperature (from Clausius-Clapeyron slope)",
+          "Antoine parameters A, B, C (if Antoine equation fitted)",
+          "Clarke-Glew parameters: ΔG°(θ), ΔH°(θ), ΔCp°(θ) at a reference temperature θ"
+        ],
+        "common_artifacts": [
+          "incomplete saturation artifact: carrier gas exits the saturator undersaturated at flow rates above the plateau region, yielding systematically low vapor pressures",
+          "supersaturation/aerosol carryover artifact: fog or aerosol droplets entrained in the gas stream deposit extra mass in the trap, yielding systematically high apparent vapor pressures, especially near or above the boiling point",
+          "thermal gradient artifact: temperature difference between the saturator outlet and the connecting tubing causes partial condensation before the trap or re-evaporation, distorting measured mass",
+          "sample depletion artifact: significant loss of sample mass during extended experiments changes the exposed surface area and may shift the equilibrium if the sample bed becomes patchy",
+          "impurity vaporization artifact: volatile impurities co-vaporize with the analyte, inflating the trapped mass and the calculated vapor pressure, particularly in early collection fractions",
+          "adsorption on tubing walls: sample vapor adsorbs on metal or glass surfaces between the saturator and the trap, leading to underestimated vapor pressures — more significant at very low vapor pressures"
+        ],
+        "quality_control_checks": [
+          "flow-rate independence test: measure vapor pressure at three or more flow rates spanning a factor of 3–5; results must agree within experimental uncertainty to confirm saturation",
+          "trap efficiency check: two traps in series; second trap should contain < 1% of the mass found in the first trap",
+          "mass balance: compare total mass lost from the saturator with the sum of trapped masses over all data points",
+          "reproducibility: replicate measurements at a reference temperature (e.g., the midpoint) at the beginning and end of the experimental campaign",
+          "comparison with literature data for the same or similar compounds at overlapping temperatures",
+          "inspect ln(P) vs. 1/T linearity — non-linearity may indicate decomposition, polymorphic transitions, or systematic errors"
+        ],
+        "failure_modes": [
+          "channeling in the saturator: carrier gas bypasses the sample through voids in the packing, producing unsaturated exit flow and low apparent vapor pressures",
+          "trap breakthrough: sample vapor passes through the trap without being captured (trap too warm, adsorbent saturated, or condensation inefficient)",
+          "leak in the gas path: ambient air enters or carrier gas escapes, invalidating flow volume measurements",
+          "sample decomposition: thermal degradation produces volatile products that co-condense in the trap, yielding erroneously high vapor pressures",
+          "thermostat failure or drift: temperature instability during the long collection period introduces uncontrolled averaging over a temperature range",
+          "carrier gas impurity: moisture or oxygen in carrier gas reacts with or adsorbs on sample, altering its volatility"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 5–20% for P < 1 Pa; 1–5% for P in the range 1 Pa to 10 kPa",
+        "random_sources": [
+          "balance readability and weighing precision for trapped mass (±0.01–0.1 mg)",
+          "flow rate fluctuations during the collection period",
+          "temperature fluctuations of the thermostat (±0.05–0.1 K translates to 1–3% P uncertainty via Clausius-Clapeyron sensitivity)",
+          "variability in trap extraction efficiency (for GC-based quantification)",
+          "GC peak integration uncertainty for chromatographic quantification"
+        ],
+        "systematic_sources": [
+          "incomplete saturation due to flow rate above the plateau region",
+          "aerosol carryover or entrainment leading to positive bias",
+          "adsorption losses on tubing walls between saturator and trap leading to negative bias",
+          "temperature measurement offset of the saturator sensor relative to the true sample temperature",
+          "total pressure measurement error (barometer calibration)",
+          "sample purity — volatile impurities inflate the apparent vapor pressure",
+          "molar mass uncertainty for the transported species",
+          "non-ideality correction if gas mixture deviates from ideal behavior (usually negligible near atmospheric pressure)"
+        ],
+        "operator_dependence": "moderate to high — packing uniformity in the saturator, thermal grease application on temperature sensors, trap preparation, and weighing technique all depend on operator skill and experience",
+        "model_dependence": "low to moderate — the ideal gas assumption is generally valid for dilute vapors near atmospheric pressure; the critical model assumption is thermodynamic equilibrium in the saturator, which must be experimentally verified via the flow-rate independence test",
+        "dominant_error_sources": [
+          "mass quantification of trapped material (especially at very low vapor pressures where only micrograms are collected)",
+          "verification of complete saturation (flow-rate independence)",
+          "temperature measurement accuracy of the saturator cell"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(P) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of vapor pressure",
+          "propagated uncertainty in ΔH_sub or ΔH_vap from the scatter in ln(P) vs. 1/T regression"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The transpiration method (also called the gas saturation method) is a well-established technique for measuring vapor pressures of low-volatility compounds. An inert carrier gas — typically nitrogen or helium — is passed slowly through or over a sample maintained at a precisely controlled temperature. The gas stream becomes saturated with the sample vapor, and the transported material is quantitatively collected in a downstream trap (cold trap, adsorption tube, or direct GC injection). By measuring the mass of material transported and the volume of carrier gas used, the partial pressure of the sample vapor is calculated from Dalton's law. The method is particularly valued for organic compounds with vapor pressures in the range 0.001 Pa to 10 kPa, a regime where static methods suffer from outgassing and manometric sensitivity limits and where ebulliometry is impractical. With 585 instances across 142 papers in the ThermoML database, it is one of the most widely used techniques for characterizing sublimation and vaporization equilibria of substances with low to moderate volatility.",
+      "how_it_operates": "The measurement proceeds in a time-integrated collection mode. High-purity inert carrier gas flows from a pressurized cylinder through a mass flow controller into a pre-heater section that brings it to the saturator temperature. The gas then passes through a saturator cell — a glass or metal tube packed with the sample dispersed on an inert support (glass beads, sand, or glass wool) to maximize the gas-sample contact area. As the carrier gas percolates through this packing at a sufficiently low flow rate, it reaches thermodynamic equilibrium with the sample and exits the saturator fully saturated with sample vapor at the cell temperature. The vapor-laden gas stream then passes into a collection device: either a cold trap (U-tube cooled by dry ice/acetone or liquid nitrogen) where the vapor condenses, or an adsorption tube packed with Tenax, XAD resin, or activated carbon that selectively retains the sample molecules. After a measured collection period (typically 1–24 h), the trap is disconnected and the captured material is quantified — by direct weighing on a microbalance for gravimetric determination, or by solvent extraction or thermal desorption followed by gas chromatography for higher sensitivity. The total volume of carrier gas passed is recorded by a downstream wet test meter, electronic totalizer, or calculated from the calibrated mass flow controller output.",
+      "core_theory": "The fundamental equation rests on Dalton's law of partial pressures applied to the gas stream exiting the saturator under equilibrium conditions. If n_sample moles of sample vapor are transported by n_carrier moles of inert carrier gas at total pressure P_total, the partial pressure of the sample is: P_sample = x_sample × P_total = [n_sample / (n_sample + n_carrier)] × P_total. For most transpiration experiments on low-volatility compounds, n_sample << n_carrier, and this simplifies to P_sample ≈ (n_sample / n_carrier) × P_total ≈ n_sample × R × T / V_carrier, where V_carrier is the carrier gas volume at temperature T and total pressure P_total. The moles of transported sample are obtained from the trapped mass via n_sample = m_trap / M (molar mass), and n_carrier from the ideal gas law. Temperature dependence follows the Clausius-Clapeyron equation: d(ln P)/d(1/T) = −ΔH_sub(or vap) / R, so a plot of ln(P) versus 1/T yields the enthalpy of sublimation or vaporization from the slope. For more accurate treatment over wider temperature ranges, the Clarke-Glew equation incorporates a heat capacity correction term, and the modified Antoine equation provides an empirical three-parameter fit for vapor pressure correlation.",
+      "setup": "A typical transpiration apparatus consists of the following components connected in series: (1) a gas supply of high-purity N₂ or He (≥ 99.999%) with a two-stage pressure regulator; (2) a gas purification and drying train (molecular sieve trap, oxygen scrubber) to remove traces of moisture and reactive gases; (3) a calibrated mass flow controller or a precision needle valve with a downstream soap-bubble flow meter for setting and monitoring the carrier gas flow rate (typically 1–10 cm³/min at STP); (4) a pre-heater coil immersed in the thermostat to bring the gas to the saturation temperature; (5) the saturator cell — a glass tube (inner diameter 10–20 mm, length 20–50 cm) packed with the sample mixed with or coated on inert glass beads or sand, held in place by glass wool plugs, and immersed in a precision thermostat (oil bath, air oven, or metal block) stable to ±0.05 K or better; (6) a connector tube (kept at or slightly above the saturator temperature to prevent condensation) leading to the collection trap; (7) one or two cold traps in series (for efficiency verification) or adsorption tubes; and (8) a gas volume totalizer or wet test meter downstream. Temperature is measured by a calibrated Pt100 RTD or thermocouple in direct contact with or embedded in the saturator packing. Total pressure is monitored with a precision barometer or capacitance manometer at the saturator location.",
+      "suitable_for": "The transpiration method is ideally suited for measuring vapor pressures of organic and organometallic compounds with low to moderate volatility — specifically in the range 0.001 Pa to approximately 10 kPa. It is the technique of choice for polycyclic aromatic hydrocarbons (PAH), pesticides, pharmaceuticals, plasticizers, dyes, explosives, and other semivolatile organic compounds where static manometric methods lack sensitivity and Knudsen effusion requires more elaborate vacuum apparatus. The method handles both sublimation pressures (solids) and vaporization pressures (liquids) with equal facility. It is widely applied to build Clausius-Clapeyron datasets for determining enthalpies of sublimation and vaporization, which are critical for environmental fate modeling, chemical process design, and thermodynamic database compilation. The technique requires only milligram quantities of sample when GC quantification is used, making it accessible for expensive or limited-availability materials.",
+      "core_limitations": "The principal limitation is the requirement for complete saturation of the carrier gas, which must be experimentally verified through flow-rate independence tests; achieving saturation becomes increasingly difficult for samples with very low volatility or poor gas-solid contact. The method is partially destructive — sample material is consumed during measurement, and for compounds with vapor pressures below ~0.001 Pa, impractically long collection times or ultrasensitive analytical detection are needed. Above approximately 10 kPa, maintaining saturation at practical flow rates becomes difficult, and aerosol entrainment or fog formation introduces systematic positive bias. Measurement speed is inherently low: each temperature point requires hours of collection, and a full P(T) dataset spanning 30–80 K may take one to three weeks. Sample purity is critical because volatile impurities are preferentially transported and can grossly inflate the apparent vapor pressure, particularly in early collection fractions. The technique cannot easily be applied to reactive compounds that decompose at the measurement temperature, and multicomponent samples require component-specific analytical detection (GC) rather than simple gravimetry.",
+      "sample_preparation": "For solid compounds, the sample is ground to a fine powder to maximize surface area and then mixed with an inert support material — typically acid-washed sea sand, glass beads (100–200 µm), or crushed firebrick — in a mass ratio of approximately 1:3 to 1:10. This ensures uniform distribution and prevents channeling of the carrier gas. The mixture is loaded into the saturator tube between glass wool plugs. For liquid samples, the packing material is coated by dissolving the sample in a volatile solvent, slurrying with the support, and evaporating the solvent under vacuum, or the liquid is loaded directly into a wick-type saturator. Sample purity should be verified by GC (≥ 99 mol% recommended) and by DSC to confirm the absence of polymorphic transitions in the temperature range of interest. The loaded saturator is pre-conditioned by flowing carrier gas through it at the lowest measurement temperature for 30–60 minutes to purge residual air, moisture, and any volatile impurities. The sample mass is recorded before and after the experiment to ensure mass balance with the sum of trapped fractions.",
+      "calibration_and_references": "Apparatus validation relies on measuring the vapor pressure of one or more well-characterized reference compounds and comparing with accepted literature values. Naphthalene is the universally recommended sublimation vapor pressure standard (reliable data from 260 K to 353 K, IUPAC-recommended), and ferrocene has become a secondary standard specifically validated for transpiration measurements. For liquid-phase calibration, n-decane or n-tetradecane at appropriate temperatures serves well. The flow controller is calibrated against a primary volumetric standard (soap-bubble meter) at the operating pressure. The saturator temperature sensor is calibrated against an ITS-90 traceable reference thermometer, and the barometer is checked against a certified standard. Trap efficiency is verified by running two traps in series; the second trap should show < 1% of the mass captured in the first. The flow-rate independence test is performed at each new temperature to confirm saturation: vapor pressures measured at three to five different flow rates (spanning a factor of 3–5) must agree within experimental uncertainty.",
+      "data_interpretation": "After each collection, the trapped mass is determined by gravimetry (analytical balance, ±0.01 mg) or by chromatographic quantification (GC peak area calibrated against standard solutions). The moles of transported sample are calculated as n_sample = m_trap / M. The total moles of carrier gas are obtained from the measured volume corrected to the saturator conditions: n_carrier = (P_total × V_carrier) / (R × T_meter), where V_carrier is the total gas volume measured at the flow meter temperature T_meter. The vapor pressure is then P_sample = [n_sample / (n_sample + n_carrier)] × P_total; in the common case where n_sample << n_carrier, this reduces to P_sample ≈ (n_sample × R × T_sat) / V_carrier(at T_sat, P_total). Individual P vs. T data points are collected at multiple temperatures, and the results are plotted as ln(P) vs. 1/T. A weighted linear regression yields the enthalpy of sublimation or vaporization from the slope (−ΔH/R). For broader temperature ranges, the Clarke-Glew equation with a heat capacity correction term provides a better fit. The Antoine equation is used for empirical correlation of the data for engineering applications.",
+      "common_pitfalls": "The most critical pitfall is failure to verify saturation. If the carrier gas flow rate is too high, the gas exits the saturator undersaturated, and the measured vapor pressure is systematically too low — this error can reach 50% or more. Operators must always perform the flow-rate independence test at each temperature and ensure the saturator has sufficient packing length and surface area. A second major pitfall is inadequate thermal control of the connecting tubing between the saturator and the trap: if any section is cooler than the saturator, sample vapor condenses in the tubing and never reaches the trap, leading to low results; if the tubing is hotter, previously condensed material re-evaporates unpredictably. Sample impurities — especially more volatile contaminants — are easily overlooked and can cause the initial collection fractions to give anomalously high vapor pressures; discarding the first collection period or performing purity analysis of each trapped fraction is recommended. Channeling in poorly packed saturators allows gas to bypass the sample, mimicking the effect of excessive flow rate. Finally, neglecting to check trap efficiency with a series arrangement can hide systematic losses.",
+      "artifacts_and_failure_modes": "Incomplete saturation is the most common systematic artifact, producing vapor pressures that decrease with increasing flow rate above the plateau region. Aerosol carryover or fog entrainment occurs when carrier gas velocity is too high or when the carrier gas exits the saturator into a cooler zone, causing supersaturation and nucleation of fine droplets that deposit as excess mass in the trap, yielding systematically high results. Thermal gradient artifacts arise when the temperature of connecting lines or the trap inlet differs from the saturator, causing either premature condensation (mass loss) or re-evaporation of previously deposited material. Sample depletion during long experiments gradually reduces the available surface area, progressively shifting the saturation condition and causing a slow downward drift in vapor pressure readings. Impurity co-vaporization is an insidious artifact: volatile impurities vaporize preferentially, inflating early measurements and depleting as the experiment progresses, producing an apparent time-dependent decrease in vapor pressure at constant temperature. Adsorption of sample vapor on tubing walls or fittings, particularly at sub-Pascal pressures, creates a negative bias that can be difficult to characterize. Trap breakthrough — failure of the trap to retain all transported material — is a catastrophic failure mode that produces systematically low results and is diagnosed by detecting significant mass in the second (backup) trap.",
+      "reporting_checklist": "Published transpiration-method results should include: the identity and purity of the sample (with analytical method); the carrier gas identity and purity; the saturator design (dimensions, packing type, sample-to-support mass ratio); the thermostat type and temperature stability; the temperature range and number of data points; the carrier gas flow rates used and the results of the flow-rate independence test demonstrating saturation; the collection method (cold trap or adsorption tube) and quantification method (gravimetric or GC); trap efficiency verification (series trap results); the total pressure and how it was measured; individual P vs. T data points in tabular form; the vapor pressure equation used for fitting (Clausius-Clapeyron, Antoine, Clarke-Glew) with fit parameters and statistical quality indicators (R², standard error); derived enthalpy of sublimation/vaporization at a specified reference temperature; combined expanded uncertainty for each P value at the 95% confidence level (k=2) with an uncertainty budget identifying the dominant sources; and any corrections applied (gas non-ideality, buoyancy, dead volume). For ThermoML encoding, vapor pressures are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

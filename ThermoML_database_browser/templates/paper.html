@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+{% from "_raw_json_panel.html" import raw_json_panel with context %}
+{% block title %}{{ paper.title[:80] }} — ThermoML{% endblock %}
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('papers_list') }}">Papers</a></li>
+    <li class="breadcrumb-item active">{{ paper.doi }}</li>
+  </ol>
+</nav>
+
+{# ── Citation ────────────────────────────────────────────────────────── #}
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>{{ paper.title }}</h4>
+    <p class="mb-1">
+      {% if paper.first_author %}
+        <span class="text-body-secondary">{{ paper.first_author }}</span>
+      {% endif %}
+    </p>
+    <p class="mb-2">
+      <strong>{{ paper.journal }}</strong>
+      ({{ paper.year }})
+    </p>
+    <p class="mb-2">
+      DOI:&nbsp;<a href="https://doi.org/{{ paper.doi }}" target="_blank" rel="noopener">{{ paper.doi }}</a>
+    </p>
+    {% if paper.n_compounds or paper.n_blocks or paper.total_datapoints %}
+    <div class="mt-2">
+      <span class="badge bg-info text-dark">{{ paper.n_compounds }} compounds</span>
+      <span class="badge bg-primary">{{ paper.n_blocks }} blocks</span>
+      <span class="badge bg-success">{{ paper.total_datapoints }} datapoints</span>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{{ raw_json_panel(paper.doi, 'mb-4') }}
+
+{% if data.error is defined %}
+<div class="alert alert-danger">Error loading data: {{ data.error }}</div>
+{% endif %}
+
+{# ── Compounds ───────────────────────────────────────────────────────── #}
+<h5 class="mb-3">Compounds ({{ data.compounds|length }})</h5>
+<div class="table-responsive mb-4">
+  <table class="table table-sm table-bordered align-middle">
+    <thead class="table-light">
+      <tr><th>#</th><th>Name</th><th>Formula</th><th>InChIKey</th><th>Source</th><th>Purity</th></tr>
+    </thead>
+    <tbody>
+      {% for comp in data.compounds %}
+      <tr>
+        <td>{{ comp.org_num }}</td>
+        <td>
+          {% if comp.inchikey %}
+          <a href="{{ url_for('compound_page', inchikey=comp.inchikey) }}">{{ comp.name }}</a>
+          {% else %}{{ comp.name }}{% endif %}
+          {% if comp.names|length > 1 %}
+          <br><small class="text-muted">{{ comp.names[1:]|join(', ') }}</small>
+          {% endif %}
+        </td>
+        <td class="font-monospace small">{{ comp.formula }}</td>
+        <td class="small">
+          {% if comp.inchikey %}{{ comp.inchikey[:14] }}…{% else %}—{% endif %}
+        </td>
+        <td class="small">
+          {% if comp.samples %}{{ comp.samples[0].source }}{% else %}<span class="text-muted">—</span>{% endif %}
+        </td>
+        <td class="small">
+          {% for sample in comp.samples %}
+            {% for step in sample.steps %}
+              {% if step.purity %}{{ step.purity }}{% if step.analyses %} ({{ step.analyses|join(', ') }}){% endif %}{% endif %}
+              {% if step.methods %}{{ step.methods|join('; ') }}{% endif %}
+              {% if step.water %}<br><span class="text-muted">{{ step.water }}</span>{% endif %}
+              {% if not loop.last %}<br>{% endif %}
+            {% endfor %}
+            {% if not loop.last %}<hr class="my-1">{% endif %}
+          {% else %}<span class="text-muted">—</span>{% endfor %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{# ── Measurements ────────────────────────────────────────────────────── #}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h5 class="mb-0">
+    Measurements ({{ data.measurements|length }} blocks, {{ "{:,}".format(data.total_datapoints) }} data points)
+  </h5>
+  <div>
+    <button class="btn btn-sm btn-outline-secondary" onclick="toggleAll(true)">Expand All</button>
+    <button class="btn btn-sm btn-outline-secondary" onclick="toggleAll(false)">Collapse All</button>
+  </div>
+</div>
+
+{% for meas in data.measurements %}
+<div class="card mb-3 meas-card" id="block-{{ meas.block_number }}">
+  {# ── card header ── #}
+  <div class="card-header d-flex justify-content-between align-items-start"
+       role="button" data-bs-toggle="collapse" data-bs-target="#meas{{ loop.index }}">
+    <div>
+      <strong>
+        {% if meas.type == 'ReactionData' %}Reaction{% else %}Block{% endif %}
+        {{ meas.block_number }}
+      </strong>:
+      {{ meas.properties|map(attribute='display_name')|join(', ') }}
+      {% if meas.type == 'PureOrMixtureData' and meas.components %}
+        <br><small class="text-muted">
+          {% for c in meas.components %}{{ c.name }}{% if not loop.last %}, {% endif %}{% endfor %}
+        </small>
+      {% endif %}
+    </div>
+    <div class="text-nowrap ms-2">
+      {% if meas.type == 'ReactionData' %}
+        <span class="badge bg-warning text-dark">Reaction</span>
+      {% endif %}
+      <span class="badge bg-primary">{{ meas.n_datapoints }} pts</span>
+      {% for ph in meas.phases %}
+        <span class="badge bg-info text-dark">{{ ph }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  {# ── card body (collapsible) ── #}
+  {% set show_plot = (meas.n_datapoints > 3) and (meas.variables|length > 0) and meas.columns and meas.rows %}
+  <div id="meas{{ loop.index }}" class="collapse {% if loop.first %}show{% endif %}">
+    <div class="card-body">
+      <div class="row">
+        {# ── left: all metadata + data table ── #}
+        <div class="{{ 'col-lg-8 col-xl-9' if show_plot else 'col-12' }}">
+
+          {# reaction equation #}
+          {% if meas.type == 'ReactionData' %}
+          <div class="alert alert-light py-2 mb-3">
+            <strong>Reaction:</strong> {{ meas.equation }}<br>
+            <strong>Type:</strong> {{ meas.reaction_type }}
+          </div>
+          {% endif %}
+
+          {# components (POM) #}
+          {% if meas.type == 'PureOrMixtureData' and meas.components %}
+          <p class="mb-2"><strong>Components:</strong>
+            {% for c in meas.components %}
+              {{ c.name }} <span class="text-muted">({{ c.formula }})</span>{% if c.sample_num %}&nbsp;<small class="text-muted">[{{ c.sample_num }}]</small>{% endif %}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+          {% endif %}
+
+          {# properties metadata table #}
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered mb-0 small">
+              <thead class="table-light">
+                <tr>
+                  <th>Property</th><th>Method</th><th>Phase</th><th>Presentation</th>
+                  {% if meas.has_fixed_temp %}<th>T&nbsp;(K)</th>{% endif %}
+                  {% if meas.has_fixed_pres %}<th>P&nbsp;(kPa)</th>{% endif %}
+                  <th>Uncertainty</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in meas.properties %}
+                <tr>
+                  <td>{{ p.display_name }}</td>
+                  <td>{{ p.method }}</td>
+                  <td>{{ p.phase }}</td>
+                  <td>{{ p.presentation }}</td>
+                  {% if meas.has_fixed_temp %}<td>{{ p.temperature if p.temperature is not none else '' }}</td>{% endif %}
+                  {% if meas.has_fixed_pres %}<td>{{ p.pressure if p.pressure is not none else '' }}</td>{% endif %}
+                  <td>
+                    {% if p.uncertainty_meta %}
+                      {{ p.uncertainty_meta.method }}{% if p.uncertainty_meta.confidence %}, {{ p.uncertainty_meta.confidence }}% conf.{% endif %}
+                    {% else %}—{% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          {# reference state (non-absolute presentations / RefPhaseID) #}
+          {% set ref_props = meas.properties | selectattr('ref_state') | list %}
+          {% if ref_props %}
+          <div class="ref-state-box small mb-3">
+            {% for p in ref_props %}
+            <div class="ref-state-item">
+              <strong>Reference state</strong>{% if meas.properties|length > 1 %} <span class="text-muted">({{ p.display_name }})</span>{% endif %}
+              {% if p.presentation_kind != 'direct' %}<span class="badge bg-secondary ms-1">{{ p.ref_state.presentation_short }}</span>{% endif %}:
+              {{ p.ref_state.summary | join(' · ') }}
+              {% if p.absolute %}
+              <div class="text-muted">
+                Absolute values:
+                {% if p.absolute.status == 'derived' %}
+                  derived column added — {{ p.absolute.formula }}, X(REF) taken from
+                  {{ p.absolute.source_block }} (pure {{ p.absolute.source_compound }}, same paper);
+                  {{ p.absolute.n_matched }}/{{ p.absolute.n_rows }} rows matched on (T,&nbsp;P).
+                {% else %}
+                  not reconstructible — {{ p.absolute.reason }}
+                {% endif %}
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {# constraints #}
+          {% if meas.constraints %}
+          <p class="mb-2"><strong>Fixed Conditions:</strong>
+            {% for c in meas.constraints %}
+              {{ c.label }} = {{ c.value }}{% if c.phase %} <small class="text-muted">({{ c.phase }})</small>{% endif %}{% if not loop.last %};&nbsp; {% endif %}
+            {% endfor %}
+          </p>
+          {% endif %}
+
+          {# compiler / date #}
+          <p class="text-muted small mb-2">
+            Added {{ meas.date_added }}
+            {% if meas.compiler %} · Compiler: {{ meas.compiler }}{% endif %}
+            {% if meas.contributor %} · Contributor: {{ meas.contributor }}{% endif %}
+          </p>
+
+          {# data table #}
+          {% if meas.display_columns and meas.display_rows %}
+          <div class="table-responsive data-scroll">
+            <table class="table table-sm table-striped table-hover data-table mb-0">
+              <thead>
+                <tr>
+                  <th class="row-num">#</th>
+                  {% for col in meas.display_columns %}
+                  <th class="{% if col.type == 'uncertainty' %}uncert-col{% elif col.type == 'absolute' %}abs-col{% endif %}"
+                      {% if col.type == 'absolute' %}title="Derived in the browser from the stored value and X(REF) of {{ col.source_block }}; not a stored ThermoML value"{% endif %}>{{ col.name }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in meas.display_rows %}
+                <tr>
+                  <td class="row-num text-muted">{{ loop.index }}</td>
+                  {% for val in row %}
+                  <td class="{% if meas.display_columns[loop.index0].type == 'absolute' %}abs-col{% endif %}">{{ val }}</td>
+                  {% endfor %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% endif %}
+
+        </div>{# end left col #}
+
+        {# ── right: miniature plot ── #}
+        {% if show_plot %}
+        <div class="col-lg-4 col-xl-3">
+          <div class="block-plot-panel border rounded p-1 sticky-top"
+               style="top:4.5rem; font-size:.72rem;"
+               data-block-idx="{{ loop.index }}"
+               data-columns='{{ meas.display_columns | tojson }}'
+               data-rows='{{ meas.display_rows | tojson }}'>
+            <div class="d-flex gap-1 mb-1 flex-wrap align-items-end">
+              <div class="flex-fill" style="min-width:0">
+                <label class="form-label mb-0" style="font-size:.65rem">X</label>
+                <select class="form-select form-select-sm py-0 axis-x" style="font-size:.68rem"></select>
+              </div>
+              <div class="flex-fill" style="min-width:0">
+                <label class="form-label mb-0" style="font-size:.65rem">Y</label>
+                <select class="form-select form-select-sm py-0 axis-y" style="font-size:.68rem"></select>
+              </div>
+            </div>
+            <div class="constraint-filters mb-1"></div>
+            <canvas class="block-chart"></canvas>
+          </div>
+        </div>
+        {% endif %}
+
+      </div>{# end row #}
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+function toggleAll(show) {
+  document.querySelectorAll('.meas-card .collapse').forEach(function(el) {
+    var inst = bootstrap.Collapse.getOrCreateInstance(el, {toggle: false});
+    show ? inst.show() : inst.hide();
+  });
+}
+
+/* Deep link: #block-PROPblock_N expands and scrolls to that block card */
+(function() {
+  var h = window.location.hash;
+  if (!h || h.indexOf('#block-') !== 0) return;
+  var card = document.getElementById(h.slice(1));
+  if (!card) return;
+  var body = card.querySelector('.collapse');
+  if (body) bootstrap.Collapse.getOrCreateInstance(body, {toggle: false}).show();
+  card.classList.add('border-primary', 'border-2');
+  function jump(smooth) {
+    card.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block: 'start'});
+  }
+  setTimeout(function() { jump(true); }, 150);
+  // charts/plots render after load and shift layout — correct once more
+  window.addEventListener('load', function() { setTimeout(function() { jump(false); }, 600); });
+})();
+
+/* ── Inline block plots ───────────────────────────────────────────── */
+(function() {
+  document.querySelectorAll('.block-plot-panel').forEach(initPlotPanel);
+
+  function initPlotPanel(panel) {
+    var columns = JSON.parse(panel.dataset.columns);
+    var rawRows = JSON.parse(panel.dataset.rows);
+    var selX = panel.querySelector('.axis-x');
+    var selY = panel.querySelector('.axis-y');
+    var filtersDiv = panel.querySelector('.constraint-filters');
+    var canvas = panel.querySelector('.block-chart');
+
+    /* Separate variable, property (incl. derived absolute), and uncertainty columns by index */
+    var varCols = [], propCols = [];
+    columns.forEach(function(c, i) {
+      if (c.type === 'variable')  varCols.push({idx: i, name: c.name, localId: c.local_id});
+      if (c.type === 'property' || c.type === 'absolute') propCols.push({idx: i, name: c.name, localId: c.local_id});
+    });
+    if (!varCols.length || !propCols.length) return;
+
+    /* Parse rows to floats; keep NaN for missing */
+    var numRows = rawRows.map(function(r) {
+      return r.map(function(v) {
+        if (v === '' || v === null || v === undefined) return NaN;
+        var n = Number(v);
+        return isNaN(n) ? NaN : n;
+      });
+    });
+
+    /* Populate axis selectors */
+    varCols.forEach(function(c) {
+      selX.add(new Option(c.name, c.idx));
+    });
+    propCols.forEach(function(c) {
+      selY.add(new Option(c.name, c.idx));
+    });
+
+    /* Chart instance — compact / miniature */
+    var chart = new Chart(canvas, {
+      type: 'scatter',
+      data: { datasets: [{ data: [], pointRadius: 2.5, pointBackgroundColor: '#0d6efd' }] },
+      options: {
+        responsive: true, maintainAspectRatio: true, aspectRatio: 1.15,
+        animation: { duration: 150 },
+        layout: { padding: { left: 0, right: 4, top: 0, bottom: 0 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            bodyFont: { size: 10 },
+            callbacks: {
+              label: function(ctx) {
+                return ctx.parsed.x.toPrecision(5) + ', ' + ctx.parsed.y.toPrecision(5);
+              }
+            }
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: '', font: { size: 9 } },
+               ticks: { font: { size: 8 }, maxTicksLimit: 6 } },
+          y: { title: { display: true, text: '', font: { size: 9 } },
+               ticks: { font: { size: 8 }, maxTicksLimit: 6 } }
+        }
+      }
+    });
+
+    /* Constraint filters state: { colIdx: Set of selected values } */
+    var constrState = {};
+
+    function buildConstraintFilters() {
+      filtersDiv.innerHTML = '';
+      constrState = {};
+      var xi = +selX.value, yi = +selY.value;
+
+      /* Every variable column that is NOT x becomes a constraint */
+      varCols.forEach(function(vc) {
+        if (vc.idx === xi) return;
+        /* Collect unique non-NaN values in this column */
+        var uniq = [];
+        numRows.forEach(function(r) {
+          var v = r[vc.idx];
+          if (!isNaN(v) && uniq.indexOf(v) === -1) uniq.push(v);
+        });
+        uniq.sort(function(a,b){ return a - b; });
+        if (uniq.length <= 1) return; /* single value — no filter needed */
+
+        constrState[vc.idx] = new Set(uniq);  /* default: all selected */
+
+        var wrap = document.createElement('div');
+        wrap.className = 'mb-1';
+        wrap.style.lineHeight = '1.3';
+        var lbl = document.createElement('strong');
+        lbl.textContent = vc.name + ': ';
+        lbl.style.fontSize = '.65rem';
+        wrap.appendChild(lbl);
+
+        /* "All" toggle */
+        var allBtn = document.createElement('button');
+        allBtn.type = 'button';
+        allBtn.className = 'btn btn-outline-secondary btn-sm me-1 py-0 px-1 active';
+        allBtn.textContent = 'All';
+        allBtn.style.fontSize = '.6rem';
+        allBtn.onclick = function() {
+          var allSel = constrState[vc.idx].size === uniq.length;
+          constrState[vc.idx] = allSel ? new Set() : new Set(uniq);
+          updateFilterBtns(wrap, vc.idx, uniq);
+          updateChart();
+        };
+        wrap.appendChild(allBtn);
+
+        uniq.forEach(function(val) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn btn-outline-primary btn-sm me-1 py-0 px-1 active';
+          btn.textContent = Number.isInteger(val) ? val : val.toPrecision(4);
+          btn.style.fontSize = '.6rem';
+          btn.dataset.val = val;
+          btn.onclick = function() {
+            var s = constrState[vc.idx];
+            s.has(val) ? s.delete(val) : s.add(val);
+            updateFilterBtns(wrap, vc.idx, uniq);
+            updateChart();
+          };
+          wrap.appendChild(btn);
+        });
+        filtersDiv.appendChild(wrap);
+      });
+    }
+
+    function updateFilterBtns(wrap, colIdx, uniq) {
+      var s = constrState[colIdx];
+      /* value buttons */
+      wrap.querySelectorAll('[data-val]').forEach(function(btn) {
+        btn.classList.toggle('active', s.has(Number(btn.dataset.val)));
+      });
+      /* All button */
+      var allBtn = wrap.querySelector('.btn-outline-secondary');
+      if (allBtn) allBtn.classList.toggle('active', s.size === uniq.length);
+    }
+
+    function updateChart() {
+      var xi = +selX.value, yi = +selY.value;
+      var pts = [];
+      numRows.forEach(function(r) {
+        var xv = r[xi], yv = r[yi];
+        if (isNaN(xv) || isNaN(yv)) return;
+        /* Check constraint filters */
+        for (var ci in constrState) {
+          var cv = r[+ci];
+          if (isNaN(cv) || !constrState[ci].has(cv)) return;
+        }
+        pts.push({x: xv, y: yv});
+      });
+      chart.data.datasets[0].data = pts;
+      chart.options.scales.x.title.text = columns[xi].name;
+      chart.options.scales.y.title.text = columns[yi].name;
+      chart.update();
+    }
+
+    selX.onchange = function() { buildConstraintFilters(); updateChart(); };
+    selY.onchange = function() { buildConstraintFilters(); updateChart(); };
+
+    /* Initial render */
+    buildConstraintFilters();
+    updateChart();
+  }
+})();
+</script>
+{% endblock %}

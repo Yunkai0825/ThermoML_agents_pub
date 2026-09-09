@@ -1,0 +1,435 @@
+{% extends base_template %}
+{% block title %}Specialized tools — ThermoML Browser{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+  <div>
+    <h2 class="mb-1"><i class="bi bi-puzzle"></i> Specialized tool data / figures / CSVs</h2>
+    <p class="text-muted mb-0">
+      Read-only plugin views over persistent deterministic tool results. Each plugin owns its cache schema;
+      this page consumes one normalized browser contract.
+    </p>
+  </div>
+  <button class="btn btn-outline-secondary btn-sm flex-shrink-0" id="refreshSpecializedRuns" type="button">
+    <i class="bi bi-arrow-clockwise"></i> Refresh
+  </button>
+</div>
+
+<div class="row g-3 specialized-browser" id="specializedBrowser">
+  <div class="col-12 col-xl-4 col-xxl-3">
+    <div class="card h-100">
+      <div class="card-header bg-white">
+        <label class="form-label small fw-semibold mb-1" for="specializedPluginSelect">Tool plugin</label>
+        <select class="form-select form-select-sm" id="specializedPluginSelect"></select>
+        <div class="small text-muted mt-2" id="specializedPluginDescription"></div>
+      </div>
+      <div class="card-body p-2 border-bottom">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text"><i class="bi bi-filter"></i></span>
+          <input class="form-control" id="specializedRunFilter" placeholder="Filter IDs, names, purpose…">
+        </div>
+      </div>
+      <div class="specialized-run-list" id="specializedRunList">
+        <div class="text-muted text-center py-5">Loading plugins…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-xl-8 col-xxl-9">
+    <div class="card specialized-detail-placeholder" id="specializedDetailPlaceholder">
+      <div class="card-body text-center text-muted py-5">
+        <i class="bi bi-bar-chart-steps" style="font-size:3rem;opacity:.3"></i>
+        <p class="mt-2 mb-0">Select a specialized-tool run.</p>
+      </div>
+    </div>
+    <div class="d-none" id="specializedDetail">
+      <div class="card mb-3">
+        <div class="card-body py-3">
+          <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+            <div>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <h4 class="mb-0" id="specializedDetailTitle">Run</h4>
+                <span class="badge" id="specializedDetailStatus"></span>
+                <span class="badge text-bg-light border" id="specializedDetailVersion"></span>
+              </div>
+              <div class="small text-muted mt-1" id="specializedDetailSubtitle"></div>
+            </div>
+            <code class="small text-break" id="specializedDetailKey"></code>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-2 mb-3" id="specializedSummaryCards"></div>
+
+      <div class="card mb-2 specialized-panel-toolbar">
+        <div class="card-body py-2 d-flex align-items-center gap-2 flex-wrap">
+          <span class="small fw-semibold me-1"><i class="bi bi-layout-split"></i> Visible result panels</span>
+          <button class="btn btn-sm btn-outline-secondary specialized-panel-toggle" data-section="overview" type="button" aria-pressed="false"><i class="bi bi-card-list"></i> Overview</button>
+          <button class="btn btn-sm btn-primary specialized-panel-toggle" data-section="rankings" type="button" aria-pressed="true"><i class="bi bi-list-ol"></i> Rankings</button>
+          <button class="btn btn-sm btn-primary specialized-panel-toggle" data-section="grid" type="button" aria-pressed="true"><i class="bi bi-graph-up"></i> Regulated grid &amp; figure</button>
+          <button class="btn btn-sm btn-outline-secondary specialized-panel-toggle" data-section="diagnostics" type="button" aria-pressed="false"><i class="bi bi-activity"></i> Diagnostics</button>
+          <button class="btn btn-sm btn-outline-secondary specialized-panel-toggle" data-section="artifacts" type="button" aria-pressed="false"><i class="bi bi-filetype-csv"></i> CSV / artifacts</button>
+          <button class="btn btn-sm btn-outline-dark ms-auto" id="specializedShowAllPanels" type="button"><i class="bi bi-grid-3x2-gap"></i> Show all</button>
+          <span class="badge text-bg-light border" id="specializedVisiblePanelCount">2 panels</span>
+        </div>
+      </div>
+
+      <div class="specialized-plugin-sections" id="specializedPluginSections">
+        <div class="card-body specialized-plugin-section" data-section="overview">
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <h6>Resolved request</h6>
+              <div class="specialized-json-box"><pre id="specializedRequestJson"></pre></div>
+            </div>
+            <div class="col-lg-6">
+              <h6>Global identifier map</h6>
+              <div class="specialized-json-box"><pre id="specializedIdentifierJson"></pre></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body specialized-plugin-section active" data-section="rankings">
+          <div class="d-flex justify-content-between align-items-center gap-2 mb-2 flex-wrap">
+            <div class="small text-muted">One row per ranked criterion. Scores include the bounded evidence-quality factor.</div>
+            <input class="form-control form-control-sm specialized-table-filter" data-table="ranking" placeholder="Filter rankings…">
+          </div>
+          <div id="specializedRankingTable"></div>
+        </div>
+
+        <div class="card-body specialized-plugin-section active" data-section="grid">
+          <div class="row g-2 align-items-end mb-3">
+            <div class="col-lg-7">
+              <label class="form-label small mb-1" for="specializedGridCandidate">Candidate / target</label>
+              <select class="form-select form-select-sm" id="specializedGridCandidate"></select>
+            </div>
+            <div class="col-lg-3">
+              <label class="form-label small mb-1" for="specializedGridMetric">Figure metric</label>
+              <select class="form-select form-select-sm" id="specializedGridMetric">
+                <option value="real_ideal">Real + ideal</option>
+                <option value="deviation">Signed deviation</option>
+                <option value="absolute_deviation">Absolute deviation</option>
+              </select>
+            </div>
+          </div>
+          <div id="specializedGridPlot" style="height:390px"></div>
+          <div class="small text-muted mb-2">
+            The x axis is the center-compound mole fraction. The default grid is endpoint-dense and intentionally
+            nonuniform; pure-edge data for ideal baselines is resolved separately rather than silently inserted.
+          </div>
+          <div id="specializedGridTable"></div>
+        </div>
+
+        <div class="card-body specialized-plugin-section" data-section="diagnostics">
+          <div class="d-flex justify-content-between align-items-center gap-2 mb-2 flex-wrap">
+            <div class="small text-muted">Explicit exclusions and notices from normalization, interpolation, and ideal-baseline stages.</div>
+            <input class="form-control form-control-sm specialized-table-filter" data-table="diagnostic" placeholder="Filter diagnostics…">
+          </div>
+          <div id="specializedDiagnosticsTable"></div>
+        </div>
+
+        <div class="card-body specialized-plugin-section" data-section="artifacts">
+          <div class="alert alert-light border small">
+            Downloads are restricted to the plugin's declared artifact allowlist and resolved beneath its cache root.
+            Cache directories themselves are never exposed as arbitrary filesystem paths.
+          </div>
+          <div class="list-group mb-3" id="specializedArtifacts"></div>
+          <div class="d-flex align-items-end gap-2 flex-wrap mb-2">
+            <div>
+              <label class="form-label small mb-1" for="specializedRawTableSelect">Preview declared CSV</label>
+              <select class="form-select form-select-sm" id="specializedRawTableSelect"></select>
+            </div>
+            <button class="btn btn-sm btn-outline-primary" id="specializedLoadRawTable" type="button">Load preview</button>
+          </div>
+          <div id="specializedRawTable"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js" charset="utf-8"></script>
+<script>
+(function () {
+  'use strict';
+  const APP_ROOT = {{ request.script_root|tojson }};
+  const api = function (path) { return APP_ROOT + path; };
+  const state = {
+    plugins: [], plugin: null, runs: [], detail: null,
+    selectedSections: new Set(['rankings', 'grid'])
+  };
+  const sectionOrder = ['overview', 'rankings', 'grid', 'diagnostics', 'artifacts'];
+  const pluginSelect = document.getElementById('specializedPluginSelect');
+  const runList = document.getElementById('specializedRunList');
+  const runFilter = document.getElementById('specializedRunFilter');
+
+  function fetchJson(url) {
+    return fetch(url).then(function (response) {
+      return response.json().catch(function () { return {}; }).then(function (data) {
+        if (!response.ok || data.error) throw new Error(data.error || ('HTTP ' + response.status));
+        return data;
+      });
+    });
+  }
+
+  function fmt(value) {
+    if (value === null || value === undefined || value === '') return '—';
+    if (typeof value === 'number') {
+      if (!Number.isFinite(value)) return String(value);
+      const magnitude = Math.abs(value);
+      if ((magnitude && magnitude < 0.0001) || magnitude >= 100000) return value.toExponential(5);
+      return Number(value.toPrecision(7)).toString();
+    }
+    if (typeof value === 'boolean') return value ? 'yes' : 'no';
+    if (Array.isArray(value)) return value.join(', ');
+    if (typeof value === 'object') return JSON.stringify(value);
+    return String(value);
+  }
+
+  function statusClass(status) {
+    return {success:'text-bg-success', partial:'text-bg-warning', no_results:'text-bg-secondary', unreadable:'text-bg-danger'}[status] || 'text-bg-secondary';
+  }
+
+  function centerLabels(run) {
+    return (run.centers || []).map(function (item) { return item.label || item.global_id; }).join(' + ');
+  }
+
+  function targetLabels(run) {
+    return (run.targets || []).map(function (item) {
+      const where = item.ranking_composition === null || item.ranking_composition === undefined
+        ? item.aggregate : ('x=' + fmt(item.ranking_composition));
+      return (item.label || item.global_id) + ' · ' + item.basis + ' · ' + where;
+    }).join('; ');
+  }
+
+  function runHaystack(run) {
+    return JSON.stringify(run).toLowerCase();
+  }
+
+  function renderRuns() {
+    const needle = runFilter.value.trim().toLowerCase();
+    const rows = state.runs.filter(function (run) { return !needle || runHaystack(run).includes(needle); });
+    runList.innerHTML = '';
+    if (!rows.length) {
+      const empty = document.createElement('div'); empty.className = 'text-muted text-center py-5'; empty.textContent = 'No matching runs.'; runList.appendChild(empty); return;
+    }
+    rows.forEach(function (run) {
+      const button = document.createElement('button');
+      button.type = 'button'; button.className = 'specialized-run-item'; button.dataset.runKey = run.run_key;
+      const first = document.createElement('div'); first.className = 'd-flex justify-content-between gap-2';
+      const title = document.createElement('strong'); title.textContent = centerLabels(run) || run.run_name;
+      const badge = document.createElement('span'); badge.className = 'badge ' + statusClass(run.status); badge.textContent = run.n_returned + ' results';
+      first.appendChild(title); first.appendChild(badge);
+      const target = document.createElement('div'); target.className = 'small mt-1'; target.textContent = targetLabels(run) || 'No target metadata';
+      const meta = document.createElement('div'); meta.className = 'small text-muted mt-1';
+      meta.textContent = run.version + ' · ' + new Date(run.modified_utc).toLocaleString() + ' · grid ' + (run.composition_grid || []).join(', ');
+      button.appendChild(first); button.appendChild(target); button.appendChild(meta);
+      if (run.error) { const err = document.createElement('div'); err.className = 'small text-danger mt-1'; err.textContent = run.error; button.appendChild(err); }
+      button.addEventListener('click', function () { loadRun(run.run_key); });
+      runList.appendChild(button);
+    });
+  }
+
+  function loadPlugins() {
+    return fetchJson(api('/api/specialized-tools/plugins')).then(function (data) {
+      state.plugins = data.plugins || [];
+      pluginSelect.innerHTML = '';
+      state.plugins.forEach(function (plugin) {
+        const option = document.createElement('option'); option.value = plugin.plugin_id; option.textContent = plugin.label; pluginSelect.appendChild(option);
+      });
+      if (!state.plugins.length) throw new Error('No specialized-tool browser plugins are registered.');
+      return loadPlugin(state.plugins[0].plugin_id);
+    });
+  }
+
+  function loadPlugin(pluginId) {
+    state.plugin = state.plugins.find(function (item) { return item.plugin_id === pluginId; });
+    document.getElementById('specializedPluginDescription').textContent = state.plugin ? state.plugin.description : '';
+    runList.innerHTML = '<div class="text-muted text-center py-5">Loading runs…</div>';
+    return fetchJson(api('/api/specialized-tools/' + encodeURIComponent(pluginId) + '/runs?limit=300')).then(function (data) {
+      state.runs = data.runs || []; renderRuns();
+      if (state.runs.length) loadRun(state.runs[0].run_key);
+    }).catch(showRunListError);
+  }
+
+  function showRunListError(error) {
+    runList.innerHTML = ''; const alert = document.createElement('div'); alert.className = 'alert alert-danger m-2'; alert.textContent = error.message; runList.appendChild(alert);
+  }
+
+  function syncVisibleSections() {
+    if (!state.selectedSections.size) state.selectedSections.add('rankings');
+    const selected = sectionOrder.filter(function (section) { return state.selectedSections.has(section); });
+    const width = selected.length === 1 ? '100%' : 'calc(' + (100 / selected.length) + '% - .75rem)';
+    document.querySelectorAll('.specialized-panel-toggle').forEach(function (button) {
+      const enabled = state.selectedSections.has(button.dataset.section);
+      button.classList.toggle('btn-primary', enabled);
+      button.classList.toggle('btn-outline-secondary', !enabled);
+      button.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+    });
+    document.querySelectorAll('.specialized-plugin-section').forEach(function (panel) {
+      const enabled = state.selectedSections.has(panel.dataset.section);
+      panel.classList.toggle('active', enabled);
+      panel.style.flexBasis = enabled ? width : '';
+    });
+    document.getElementById('specializedVisiblePanelCount').textContent =
+      selected.length + (selected.length === 1 ? ' panel' : ' panels');
+    if (state.selectedSections.has('grid') && state.detail) {
+      window.setTimeout(renderGridPlot, 40);
+    }
+  }
+
+  function toggleSection(section) {
+    if (state.selectedSections.has(section)) {
+      if (state.selectedSections.size === 1) return;
+      state.selectedSections.delete(section);
+    } else {
+      state.selectedSections.add(section);
+    }
+    syncVisibleSections();
+  }
+
+  function loadRun(runKey) {
+    document.querySelectorAll('.specialized-run-item').forEach(function (item) { item.classList.toggle('active', item.dataset.runKey === runKey); });
+    document.getElementById('specializedDetailPlaceholder').classList.add('d-none');
+    document.getElementById('specializedDetail').classList.remove('d-none');
+    document.getElementById('specializedDetailTitle').textContent = 'Loading…';
+    fetchJson(api('/api/specialized-tools/' + encodeURIComponent(state.plugin.plugin_id) + '/runs/' + encodeURIComponent(runKey))).then(function (detail) {
+      if (detail.display_contract !== 'tabular-run-v1') throw new Error('Unsupported plugin display contract: ' + detail.display_contract);
+      state.detail = detail; renderDetail(detail); syncVisibleSections();
+    }).catch(function (error) {
+      document.getElementById('specializedDetailTitle').textContent = 'Unable to read run';
+      document.getElementById('specializedDetailSubtitle').textContent = error.message;
+    });
+  }
+
+  function renderDetail(detail) {
+    const run = detail.run;
+    document.getElementById('specializedDetailTitle').textContent = centerLabels(run) || run.run_name;
+    const status = document.getElementById('specializedDetailStatus'); status.className = 'badge ' + statusClass(run.status); status.textContent = run.status;
+    document.getElementById('specializedDetailVersion').textContent = run.version;
+    document.getElementById('specializedDetailSubtitle').textContent = targetLabels(run) + (run.purpose ? ' · ' + run.purpose : '');
+    document.getElementById('specializedDetailKey').textContent = run.run_key;
+    const cards = document.getElementById('specializedSummaryCards'); cards.innerHTML = '';
+    (detail.summary_cards || []).forEach(function (item) {
+      const col = document.createElement('div'); col.className = 'col-6 col-lg-3';
+      const card = document.createElement('div'); card.className = 'card h-100';
+      const body = document.createElement('div'); body.className = 'card-body py-2';
+      const label = document.createElement('div'); label.className = 'small text-muted'; label.textContent = item.label;
+      const value = document.createElement('div'); value.className = 'fs-5 fw-semibold'; value.textContent = fmt(item.value);
+      const detailText = document.createElement('div'); detailText.className = 'small text-muted text-break'; detailText.textContent = item.detail || '';
+      body.appendChild(label); body.appendChild(value); body.appendChild(detailText); card.appendChild(body); col.appendChild(card); cards.appendChild(col);
+    });
+    document.getElementById('specializedRequestJson').textContent = JSON.stringify(detail.request, null, 2);
+    document.getElementById('specializedIdentifierJson').textContent = JSON.stringify(detail.identifier_map, null, 2);
+    renderTable(document.getElementById('specializedRankingTable'), detail.ranking_columns, detail.ranking_rows, 'ranking');
+    renderGridControls(detail.grid_rows || []);
+    renderDiagnostics(detail.diagnostics || []);
+    renderArtifacts(detail.artifacts || [], detail.tables || []);
+  }
+
+  function renderTable(target, columns, rows, tableKind) {
+    target.innerHTML = '';
+    const wrapper = document.createElement('div'); wrapper.className = 'table-responsive specialized-table-wrap';
+    const table = document.createElement('table'); table.className = 'table table-sm table-striped table-hover align-middle mb-0 specialized-data-table'; table.dataset.kind = tableKind || '';
+    const head = table.createTHead().insertRow();
+    (columns || []).forEach(function (column) { const th = document.createElement('th'); th.textContent = column.label || column.key; head.appendChild(th); });
+    const body = table.createTBody();
+    (rows || []).forEach(function (row) {
+      const tr = body.insertRow(); tr.dataset.search = JSON.stringify(row).toLowerCase();
+      (columns || []).forEach(function (column) { const td = tr.insertCell(); td.textContent = fmt(row[column.key]); if (typeof row[column.key] === 'number') td.classList.add('text-end'); });
+    });
+    wrapper.appendChild(table); target.appendChild(wrapper);
+    if (!(rows || []).length) { const empty = document.createElement('p'); empty.className = 'text-muted text-center py-4 mb-0'; empty.textContent = 'No rows.'; target.appendChild(empty); }
+  }
+
+  function renderGridControls(rows) {
+    const select = document.getElementById('specializedGridCandidate'); select.innerHTML = '';
+    const keys = new Map();
+    rows.forEach(function (row) { const key = row.candidate_key + '|' + row.target_global_id; if (!keys.has(key)) keys.set(key, '#' + row.rank + ' · ' + row.compounds + ' · ' + row.target); });
+    keys.forEach(function (label, key) { const option = document.createElement('option'); option.value = key; option.textContent = label; select.appendChild(option); });
+    renderGridPlot();
+  }
+
+  function selectedGridRows() {
+    if (!state.detail) return [];
+    const selected = document.getElementById('specializedGridCandidate').value;
+    return (state.detail.grid_rows || []).filter(function (row) { return row.candidate_key + '|' + row.target_global_id === selected; });
+  }
+
+  function renderGridPlot() {
+    const rows = selectedGridRows();
+    const plot = document.getElementById('specializedGridPlot');
+    const metric = document.getElementById('specializedGridMetric').value;
+    if (!rows.length) { if (window.Plotly) Plotly.purge(plot); plot.innerHTML = '<p class="text-muted text-center py-5">No regulated-grid rows.</p>'; renderTable(document.getElementById('specializedGridTable'), state.detail ? state.detail.grid_columns : [], [], 'grid'); return; }
+    const x = rows.map(function (row) { return row.center_mole_fraction; });
+    let traces;
+    if (metric === 'real_ideal') {
+      traces = [
+        {x:x, y:rows.map(function(r){return r.real_value;}), name:'Real', mode:'lines+markers', connectgaps:false},
+        {x:x, y:rows.map(function(r){return r.ideal_value;}), name:'Ideal baseline', mode:'lines+markers', line:{dash:'dash'}, connectgaps:false}
+      ];
+    } else {
+      traces = [{x:x, y:rows.map(function(r){return r[metric];}), name:metric === 'deviation' ? 'Real − ideal' : '|Real − ideal|', mode:'lines+markers', connectgaps:false}];
+    }
+    Plotly.react(plot, traces, {
+      margin:{l:65,r:20,t:25,b:55}, xaxis:{title:'Center-compound mole fraction', range:[-0.01,1.01]},
+      yaxis:{title: metric === 'real_ideal' ? 'Property value' : 'Interaction deviation'}, legend:{orientation:'h',y:1.12}, hovermode:'x unified'
+    }, {responsive:true, displaylogo:false});
+    renderTable(document.getElementById('specializedGridTable'), state.detail.grid_columns, rows, 'grid');
+  }
+
+  function renderDiagnostics(rows) {
+    const preferred = ['stage','code','detail','system_signature','target_global_id','phase_num_id','doi','block_number'];
+    const keys = [];
+    preferred.forEach(function (key) { if (rows.some(function (row) { return row && Object.prototype.hasOwnProperty.call(row, key); })) keys.push(key); });
+    rows.forEach(function (row) { if (!row || typeof row !== 'object') return; Object.keys(row).forEach(function (key) { if (!keys.includes(key) && keys.length < 12) keys.push(key); }); });
+    renderTable(document.getElementById('specializedDiagnosticsTable'), keys.map(function (key) { return {key:key,label:key.replaceAll('_',' ')}; }), rows, 'diagnostic');
+  }
+
+  function renderArtifacts(artifacts, tables) {
+    const list = document.getElementById('specializedArtifacts'); list.innerHTML = '';
+    artifacts.forEach(function (artifact) {
+      const row = document.createElement('a'); row.className = 'list-group-item list-group-item-action d-flex align-items-center justify-content-between gap-3'; row.href = artifact.download_url;
+      const left = document.createElement('span'); const icon = document.createElement('i'); icon.className = artifact.media_type === 'text/csv' ? 'bi bi-filetype-csv me-2 text-success' : 'bi bi-filetype-json me-2 text-warning'; left.appendChild(icon); left.appendChild(document.createTextNode(artifact.label));
+      const size = document.createElement('span'); size.className = 'badge text-bg-light border'; size.textContent = Math.max(1, Math.round(artifact.size_bytes / 1024)) + ' KiB';
+      row.appendChild(left); row.appendChild(size); list.appendChild(row);
+    });
+    const select = document.getElementById('specializedRawTableSelect'); select.innerHTML = '';
+    tables.forEach(function (table) { const option = document.createElement('option'); option.value = table.data_url; option.textContent = table.label; select.appendChild(option); });
+    document.getElementById('specializedRawTable').innerHTML = '<p class="text-muted">Choose a declared CSV and load a bounded preview.</p>';
+  }
+
+  function loadRawTable() {
+    const url = document.getElementById('specializedRawTableSelect').value; if (!url) return;
+    const target = document.getElementById('specializedRawTable'); target.innerHTML = '<p class="text-muted">Loading…</p>';
+    fetchJson(url + (url.includes('?') ? '&' : '?') + 'max_rows=2000').then(function (data) {
+      renderTable(target, (data.columns || []).map(function (key) { return {key:key,label:key}; }), (data.rows || []).map(function (row) { const obj={}; (data.columns || []).forEach(function(key,index){obj[key]=row[index];}); return obj; }), 'raw');
+      if (data.truncated) { const note=document.createElement('div'); note.className='alert alert-warning mt-2'; note.textContent='Preview truncated at ' + data.n_rows + ' rows; download the CSV for the complete table.'; target.prepend(note); }
+    }).catch(function (error) { target.textContent = 'Failed to load table: ' + error.message; });
+  }
+
+  pluginSelect.addEventListener('change', function () { loadPlugin(pluginSelect.value); });
+  runFilter.addEventListener('input', renderRuns);
+  document.getElementById('refreshSpecializedRuns').addEventListener('click', function () { if (state.plugin) loadPlugin(state.plugin.plugin_id); });
+  document.querySelectorAll('.specialized-panel-toggle').forEach(function (button) {
+    button.addEventListener('click', function () { toggleSection(button.dataset.section); });
+  });
+  document.getElementById('specializedShowAllPanels').addEventListener('click', function () {
+    if (state.selectedSections.size === sectionOrder.length) {
+      state.selectedSections = new Set(['rankings', 'grid']);
+    } else {
+      state.selectedSections = new Set(sectionOrder);
+    }
+    syncVisibleSections();
+  });
+  document.querySelectorAll('.specialized-table-filter').forEach(function (input) { input.addEventListener('input', function () { const needle=input.value.trim().toLowerCase(); document.querySelectorAll('table[data-kind="'+input.dataset.table+'"] tbody tr').forEach(function(row){row.classList.toggle('d-none', needle && !row.dataset.search.includes(needle));}); }); });
+  document.getElementById('specializedGridCandidate').addEventListener('change', renderGridPlot);
+  document.getElementById('specializedGridMetric').addEventListener('change', renderGridPlot);
+  document.getElementById('specializedLoadRawTable').addEventListener('click', loadRawTable);
+
+  syncVisibleSections();
+  loadPlugins().catch(showRunListError);
+})();
+</script>
+{% endblock %}

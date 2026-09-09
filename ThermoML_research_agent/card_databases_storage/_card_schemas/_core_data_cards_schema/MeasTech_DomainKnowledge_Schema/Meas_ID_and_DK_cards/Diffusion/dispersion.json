@@ -1,0 +1,327 @@
+{
+  "meas_ID": "dispersion",
+  "identity": {
+    "name": "Dispersion",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Dispersion",
+    "thermoml_custom_codes": [
+      "DISPS"
+    ],
+    "measurement_family": "Diffusion",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 18,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 3,
+      "per_group": {
+        "TransportProp": {
+          "instances": 18,
+          "papers": 3
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "concentration profile vs. time at downstream detector (refractive index, UV absorbance, or conductivity signal)",
+          "peak elution time (t_r) — mean residence time of the concentration pulse",
+          "peak variance (σ²) — second central moment of the concentration distribution"
+        ],
+        "derived_observables": [
+          "mutual (interdiffusion) diffusion coefficient D₁₂",
+          "tracer diffusion coefficient D_T (dilute limit)",
+          "effective axial dispersion coefficient K"
+        ],
+        "target_properties": [
+          "mutual diffusion coefficient D₁₂ at specified composition and temperature",
+          "tracer diffusion coefficient at infinite dilution",
+          "composition dependence of diffusion coefficient D₁₂(x)"
+        ],
+        "phases_measured": [
+          "liquid (most common)",
+          "liquid mixtures",
+          "supercritical fluids",
+          "gas mixtures (less common, possible with gaseous carrier)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "ternary and multicomponent liquid mixtures",
+          "dilute solutions of solutes in a solvent",
+          "electrolyte solutions",
+          "polymer solutions (low to moderate viscosity)",
+          "supercritical fluid mixtures"
+        ],
+        "unsupported_sample_types": [
+          "highly viscous melts or polymer melts (extremely slow diffusion leads to impractical run times)",
+          "solid-state diffusion (technique requires flow through a tube)",
+          "immiscible liquid mixtures (two-phase systems)",
+          "suspensions or colloidal dispersions with settling particles",
+          "reactive systems where composition changes during the experiment"
+        ],
+        "typical_output_formats": [
+          "detector signal (refractive index or absorbance) vs. time elution curve",
+          "D₁₂ vs. mole fraction at constant T and P",
+          "D₁₂ vs. temperature at constant composition",
+          "Arrhenius plot of ln(D) vs. 1/T"
+        ],
+        "units": {
+          "diffusion_coefficient": "m²/s (SI) or cm²/s (CGS, common in older literature)",
+          "temperature": "K",
+          "pressure": "MPa",
+          "time": "s",
+          "tube_radius": "mm",
+          "flow_rate": "mL/min or µL/min",
+          "concentration": "mol/L or mass fraction"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "tube_inner_radius",
+            "typical_range": "0.25 mm to 1.0 mm",
+            "hard_limits": "must be small enough that radial diffusion homogenizes the cross-section within the residence time; r should satisfy De² = r²u/(48DL) ≈ 1",
+            "notes": "narrower tubes improve resolution but require higher pressures and are more prone to clogging"
+          },
+          {
+            "parameter": "tube_length",
+            "typical_range": "5 m to 30 m",
+            "hard_limits": "must be long enough for sufficient residence time so axial dispersion reaches the Taylor regime (t_r >> r²/D)",
+            "notes": "coiled tubing is used to save space; coiling introduces secondary (Dean) flow corrections"
+          },
+          {
+            "parameter": "flow_rate",
+            "typical_range": "0.01 mL/min to 0.5 mL/min",
+            "hard_limits": "Reynolds number Re < 20 (ideally < 10) to ensure laminar flow; too slow causes excessive broadening from longitudinal molecular diffusion",
+            "notes": "optimal flow rate balances Taylor dispersion sensitivity against longitudinal diffusion and detector sensitivity"
+          },
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 473 K",
+            "hard_limits": "limited by tubing material, fittings, and thermostatting bath capability; supercritical fluid applications may extend to 600 K at high pressure",
+            "notes": "temperature must be controlled to ±0.01 K for accurate D measurement because D varies ~2%/K"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa to 40 MPa",
+            "hard_limits": "standard liquid work at or near ambient pressure; supercritical fluid applications require high-pressure tubing and connections",
+            "notes": "pressure effects on D in liquids are small below 10 MPa but become important in supercritical fluids"
+          }
+        ],
+        "variables": [
+          {
+            "name": "flow_rate",
+            "role": "primary controlled variable",
+            "typical_values": "0.05–0.3 mL/min for liquid systems",
+            "effect": "determines residence time and the relative contribution of convective vs. molecular diffusion to peak broadening"
+          },
+          {
+            "name": "temperature",
+            "role": "thermodynamic state variable",
+            "typical_values": "283–373 K for aqueous and organic liquid systems",
+            "effect": "diffusion coefficient increases approximately exponentially with temperature following Arrhenius behavior"
+          },
+          {
+            "name": "composition",
+            "role": "thermodynamic state variable",
+            "typical_values": "full mole fraction range 0–1 for binary systems; dilute injections for tracer D",
+            "effect": "D₁₂ varies with composition; the injection pulse composition determines the local gradient driving diffusion"
+          },
+          {
+            "name": "injection_volume",
+            "role": "experimental variable",
+            "typical_values": "5–50 µL",
+            "effect": "must be small enough to approximate a delta function impulse; too large causes non-Gaussian elution profiles and systematic error in D"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed; varied in supercritical studies",
+            "typical_values": "0.1 MPa (ambient) or 10–40 MPa (supercritical)",
+            "effect": "pressure effect on D is small for liquids; significant for supercritical fluids near the critical point"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "dispersion tube — long (5–30 m), narrow-bore (0.25–1.0 mm ID) stainless-steel or fused-silica capillary, coiled and thermostatted",
+          "carrier fluid pump — HPLC-grade precision pump delivering constant, pulse-free laminar flow",
+          "injection system — six-port valve with calibrated sample loop (5–50 µL) for reproducible delta-function injection",
+          "thermostatting bath — water or oil circulator maintaining tube temperature to ±0.01 K",
+          "downstream detector — differential refractometer (most common), UV-Vis spectrophotometer, or conductivity detector",
+          "data acquisition system — high-resolution digitizer and computer for recording detector signal vs. time",
+          "pressure transducer — monitors system back-pressure to verify laminar flow conditions",
+          "connecting tubing and fittings — zero-dead-volume unions and short transfer lines to minimize extra-column broadening"
+        ],
+        "environmental_requirements": [
+          "temperature stability ±0.01 K along the entire dispersion tube length",
+          "vibration-free environment to ensure stable pump flow and detector baseline",
+          "draft-free enclosure around detector to minimize refractive index baseline drift (for RI detectors)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid solution or neat liquid (injected as a small plug)"
+          ],
+          "size_limits": "5–50 µL injection volume; total sample consumption per run ~0.1–1 mL including carrier",
+          "thickness_limits": "",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "filtered through 0.2 µm membrane to remove particulates that could clog the capillary",
+            "degassed to prevent bubble formation in the tube",
+            "composition accurately known (gravimetrically prepared) for D vs. composition studies",
+            "concentration difference between injection plug and carrier must be small to remain in the linear (Fickian) diffusion regime"
+          ]
+        },
+        "calibration_requirements": [
+          "tube radius determination — from Poiseuille flow: measure volumetric flow rate and pressure drop to calculate effective r",
+          "tube length measurement — typically by weighing the tube filled with a liquid of known density",
+          "detector linearity verification — confirm that detector response is linear in the concentration range used",
+          "validation with a reference system of known D (e.g., KCl in water, sucrose in water, or n-hexane in n-dodecane)"
+        ],
+        "reference_materials": [
+          "KCl in water (D ~ 1.85 × 10⁻⁹ m²/s at 25 °C, 0.33 mol/L) — widely used aqueous reference",
+          "sucrose in water — well-characterized diffusion coefficients over wide concentration range",
+          "n-hexane in n-dodecane — organic liquid reference system",
+          "urea in water — common reference for dilute aqueous diffusion"
+        ],
+        "consumables": [
+          "carrier solvents (HPLC grade, degassed)",
+          "injection sample solutions",
+          "membrane filters (0.2 µm)",
+          "replacement fused-silica or stainless-steel capillary tubing",
+          "ferrules and fittings for zero-dead-volume connections"
+        ],
+        "safety_notes": [
+          "high-pressure fittings must be rated for operating pressure to prevent sudden release",
+          "organic solvents require fume hood operation and proper ventilation",
+          "supercritical fluid experiments involve high pressures — burst containment and proper safety shields required"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving diffusion coefficients from ~10⁻¹¹ m²/s (very slow diffusing species) to ~10⁻⁸ m²/s (small molecules in low-viscosity solvents)",
+        "detection_limit": "depends on detector; differential refractometer detects refractive index changes ~10⁻⁷ RIU, corresponding to concentration changes of ~10⁻⁵ mol/L for typical solutes",
+        "resolution": {
+          "spatial": "not applicable (flow-through measurement; spatial averaging over tube cross-section)",
+          "temporal": "detector sampling rate typically 1–10 Hz; peak widths range from 30 s to 600 s depending on flow rate and tube dimensions",
+          "spectral": "not applicable (unless UV detector is used with wavelength selection)",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "D from ~10⁻¹¹ to ~10⁻⁸ m²/s; concentration range limited by detector linearity and requirement for small perturbation",
+        "accuracy": "1–3% for well-characterized systems with proper calibration and tube geometry determination; 3–5% typical in routine measurements",
+        "precision": "0.5–2% (repeatability from replicate injections under identical conditions)",
+        "throughput": "moderate; one measurement per run (15–60 min per run depending on flow rate and tube length); multiple compositions require separate runs",
+        "measurement_speed": "15 minutes to 1 hour per data point (single injection-elution cycle); faster than classical diaphragm cell methods but slower than dynamic light scattering"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "detector voltage or signal proportional to solute concentration as a function of time; the elution profile is ideally a Gaussian peak superimposed on the carrier baseline",
+        "preprocessing_steps": [
+          "baseline correction — subtract detector drift and carrier solvent background",
+          "peak identification — locate the elution peak and determine the time window for moment analysis",
+          "moment analysis — compute first moment (mean retention time t_r) and second central moment (variance σ²) of the concentration-time profile",
+          "correction for extra-column broadening — subtract contributions from injection volume, connecting tubing, and detector cell volume",
+          "correction for secondary flow (Dean number correction) if a coiled tube is used"
+        ],
+        "analysis_methods": [
+          "Taylor-Aris moment method: D₁₂ = r²/(24σ²/t_r) from the ratio of tube radius squared to the normalized peak variance",
+          "Gaussian curve fitting: fit the elution profile to a Gaussian function to extract t_r and σ simultaneously",
+          "extended moment analysis: include skewness (third moment) to detect departure from ideal Taylor conditions",
+          "numerical solution of the convection-diffusion equation for non-ideal cases",
+          "Alizadeh-Wakeham method: simultaneous fitting of multiple peaks at different flow rates to improve accuracy"
+        ],
+        "model_assumptions": [
+          "flow is fully developed, steady-state laminar Poiseuille flow (parabolic velocity profile)",
+          "the injection pulse approximates a Dirac delta function in the axial direction",
+          "radial diffusion is fast enough to homogenize the cross-section many times during transit (Taylor condition: t_r >> r²/D)",
+          "concentration perturbation is small enough that D is effectively constant (linear Fick's law regime)",
+          "axial molecular diffusion is negligible compared to convective dispersion (Peclet number Pe = uL/D >> 1)",
+          "tube is straight or, if coiled, the Dean number is small enough that secondary flow corrections are minor"
+        ],
+        "fit_parameters": [
+          "diffusion coefficient D₁₂ (primary result)",
+          "mean retention time t_r (from first moment, also used to verify flow rate)",
+          "peak variance σ² (from second central moment)",
+          "extra-column variance σ²_ec (determined from blank or zero-diffusion experiments)",
+          "Dean number correction factor (for coiled tubes)"
+        ],
+        "common_artifacts": [
+          "injection artifact: finite sample plug volume causes non-delta injection, adding extra variance that inflates apparent D if not corrected",
+          "secondary flow (Dean vortices) in coiled tubes: enhances radial mixing and reduces apparent dispersion, leading to underestimation of D if uncorrected",
+          "non-Fickian broadening: large concentration differences between slug and carrier violate the constant-D assumption, producing asymmetric peaks",
+          "adsorption tailing: solute interaction with tube walls causes peak asymmetry and overestimation of σ²",
+          "detector cell mixing: finite detector cell volume acts as a low-pass filter, broadening the observed peak",
+          "temperature gradient along tube: non-uniform thermostatting causes position-dependent D and distorted elution profiles"
+        ],
+        "quality_control_checks": [
+          "verify Gaussian peak shape — significant skewness or tailing indicates violated assumptions (adsorption, non-Fickian behavior, or poor injection)",
+          "replicate injections (≥3) at each condition to verify reproducibility within 1–2%",
+          "measure known reference system (e.g., KCl/water) and compare to literature values within stated uncertainty",
+          "vary flow rate and confirm that extracted D is flow-rate-independent (validates Taylor regime)",
+          "check that injection volume variation does not affect D (validates delta-function approximation)",
+          "verify laminar flow: Re < 20 at all flow rates used"
+        ],
+        "failure_modes": [
+          "capillary blockage from particulates — sudden pressure increase and loss of flow",
+          "bubble formation in the tube — causes erratic detector signal and split peaks",
+          "pump pulsation — introduces periodic flow-rate variation that distorts the elution profile",
+          "detector drift or saturation — corrupts baseline and peak amplitude, preventing accurate moment analysis",
+          "tube internal surface degradation — adsorption site formation over time leads to progressive tailing"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 1–3% for D₁₂; routine measurements 3–5%",
+        "random_sources": [
+          "detector noise and baseline fluctuations",
+          "flow rate fluctuations from pump instability",
+          "temperature fluctuations in thermostatting bath",
+          "irreproducibility of injection volume and timing",
+          "statistical uncertainty in peak moment determination"
+        ],
+        "systematic_sources": [
+          "tube radius determination — D scales as r⁴ (or r² depending on formulation), so a 1% error in r propagates to 2–4% error in D",
+          "extra-column broadening correction — unaccounted dead volume inflates σ² and overestimates D",
+          "Dean number correction for coiled tubes — model-dependent and often approximate",
+          "non-zero injection volume correction",
+          "detector cell volume contribution to broadening",
+          "non-uniform temperature along tube length",
+          "composition-dependent viscosity and density affecting the parabolic velocity profile at large concentration perturbations"
+        ],
+        "operator_dependence": "low to moderate — once the system is set up and calibrated, injection and data collection are largely automated; operator skill matters in tube installation, leak-free connections, and sample preparation",
+        "model_dependence": "moderate — results depend on the validity of the Taylor-Aris dispersion model; deviations from ideal conditions (non-laminar flow, large injection volume, significant adsorption) require corrections that introduce model-dependent uncertainty",
+        "dominant_error_sources": [
+          "tube radius measurement (most critical parameter due to r⁴ sensitivity in D calculation)",
+          "extra-column broadening correction",
+          "secondary flow corrections in coiled tubes"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(D) at 95% confidence level (k=2)",
+          "relative uncertainty as percentage of D",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Dispersion is a family of diffusion measurement techniques in which a small concentration pulse (or step) of solute is injected into a laminar flow of carrier fluid within a long, narrow tube, and the broadening of the pulse as it is transported to a downstream detector is analyzed to extract the mutual diffusion coefficient. The method exploits the interplay between the parabolic velocity profile of Poiseuille flow, which stretches the pulse axially, and molecular diffusion in the radial direction, which homogenizes the concentration across the tube cross-section. This coupling — described by the Taylor-Aris dispersion theory — produces an effective axial spreading whose magnitude is directly related to the molecular diffusion coefficient D₁₂. The technique is distinguished in the ThermoML database from the more specific 'Taylor dispersion method' entry and encompasses general dispersion-based approaches including chromatographic dispersion and capillary dispersion variants.",
+      "how_it_operates": "A precision pump drives a carrier fluid (typically pure solvent or a solution at a reference composition) through a long, narrow-bore capillary tube at a constant, low flow rate to establish steady laminar Poiseuille flow. A small volume (5–50 µL) of solution at a slightly different composition is injected as a sharp plug via a six-port injection valve. As the plug travels through the tube, the parabolic velocity profile causes faster-moving fluid at the tube center to advance ahead of slower fluid near the wall, stretching the plug axially. Simultaneously, radial molecular diffusion acts to homogenize the concentration across the tube cross-section, counteracting the convective stretching. After sufficient residence time (t_r >> r²/D), a quasi-steady state is reached in which the concentration profile at the tube exit approximates a Gaussian whose temporal variance σ² is proportional to D₁₂. A detector (differential refractometer, UV spectrophotometer, or conductivity cell) records the concentration profile vs. time as the broadened pulse passes.",
+      "core_theory": "The theoretical foundation is the Taylor-Aris dispersion model. For a Newtonian fluid in steady laminar flow through a straight circular tube of radius r, the effective axial dispersion coefficient is K = r²u²/(48D) + D, where u is the mean flow velocity and D is the molecular diffusion coefficient. Under typical experimental conditions where the Peclet number Pe = uL/D >> 1, the molecular diffusion term D is negligible compared to the convective dispersion term. The diffusion coefficient is extracted from the second central moment (variance σ²) of the elution profile: D₁₂ = r²t_r/(24σ²), where t_r is the mean retention time. This relation requires that the Taylor condition be satisfied — the observation time must greatly exceed the radial diffusion time, t_r >> r²/(3.82²D) — ensuring complete radial equilibration. For coiled tubes, secondary Dean flow enhances radial mixing and requires a correction factor that depends on the Dean number De = Re√(r/R_coil).",
+      "setup": "A typical dispersion apparatus consists of a long capillary tube (5–30 m length, 0.25–1.0 mm inner diameter) made of stainless steel or fused silica, coiled on a cylindrical former and immersed in a thermostatting bath (water or oil circulator providing ±0.01 K stability). The carrier fluid is delivered by an HPLC-type precision pump at flow rates of 0.01–0.5 mL/min to maintain Reynolds numbers below 20. A six-port injection valve with a calibrated sample loop introduces the solute pulse. The tube outlet connects via a zero-dead-volume union to the detector — most commonly a differential refractometer for universal detection, or a UV-Vis detector when the solute absorbs at a suitable wavelength. The detector output is digitized at 1–10 Hz and recorded by a computer. The effective tube radius is determined from Poiseuille's law by measuring volumetric flow rate and pressure drop, and the tube length is determined by weighing the liquid-filled tube.",
+      "suitable_for": "The dispersion method is well suited for measuring mutual diffusion coefficients in binary and multicomponent liquid mixtures over a wide range of compositions and temperatures. It is particularly effective for systems where classical methods (diaphragm cell, interferometric) are impractical due to small sample volume, the need for automation, or the desire for continuous composition scanning. The technique handles aqueous solutions (including electrolytes), organic liquid mixtures, dilute polymer solutions, and supercritical fluid mixtures. It works best when diffusion coefficients are in the range 10⁻¹⁰ to 10⁻⁸ m²/s and the carrier and sample are miscible, homogeneous, and Newtonian.",
+      "core_limitations": "The dispersion method requires laminar Poiseuille flow, restricting tube dimensions and flow rates and excluding highly viscous systems where impractically long measurement times would be needed. The technique measures only mutual (Fickian) diffusion coefficients and cannot directly resolve self-diffusion or intradiffusion coefficients. Accuracy is fundamentally limited by the determination of tube radius because D scales as r² (or r⁴ in some formulations), making even small errors in r significant. Coiled-tube configurations introduce secondary flow that must be corrected using approximate Dean-number models. Non-ideal injection (finite plug volume), adsorption onto tube walls, and non-linear concentration dependence of D can all produce systematic errors. The technique is generally limited to single-phase, homogeneous fluids and cannot handle two-phase or gas-liquid systems.",
+      "sample_preparation": "Solutions are prepared gravimetrically to known mole fraction or molarity using analytical-grade solvents and solutes. Both the carrier fluid and the injection sample are filtered through 0.2 µm membrane filters to remove particulates that could block the capillary. Degassing by helium sparging is essential to prevent bubble formation within the tube, which would disrupt the flow profile and cause erratic detector signals. The composition difference between the injection plug and carrier should be small (typically Δc/c < 1–5%) to ensure that the diffusion coefficient is effectively constant across the concentration perturbation (Fickian regime). For studies as a function of mole fraction, a series of carrier compositions are prepared and the injection composition is adjusted to maintain a small perturbation at each point.",
+      "calibration_and_references": "The most critical calibration is the determination of the effective tube inner radius, which is typically obtained from Poiseuille's law by measuring the volumetric flow rate of a reference liquid of known viscosity under a measured pressure drop. Alternatively, the tube is weighed empty and filled with a liquid of known density to determine the internal volume, from which r is calculated. The overall system is validated by measuring the diffusion coefficient of a well-characterized reference system — common choices include KCl in water (~1.85 × 10⁻⁹ m²/s at 25 °C), sucrose in water, or n-hexane in n-dodecane — and comparing the result to accepted literature values. Detector linearity is verified by injecting standard solutions of known concentration spanning the working range. Extra-column broadening contributions from the injection valve, connecting tubing, and detector cell are characterized by measuring an effectively non-diffusing system or by using a very short tube.",
+      "data_interpretation": "The recorded detector signal vs. time trace is baseline-corrected and the elution peak is identified. The first moment (mean retention time t_r) and second central moment (variance σ²) of the peak are computed either by numerical moment integration or by least-squares fitting of a Gaussian function. Extra-column variance σ²_ec (from injection system, connections, and detector cell) is subtracted from the total measured variance. The diffusion coefficient is then calculated as D₁₂ = r²t_r/(24(σ² − σ²_ec)). If the tube is coiled, a Dean-number correction factor f(De) is applied to account for enhanced radial mixing: the apparent D from the uncorrected formula overestimates the true D, and the correction reduces the value by a few percent. At each condition (T, P, composition), three or more replicate injections are averaged and the standard deviation is reported. Results are presented as D₁₂(x, T) tables or as plots of D vs. mole fraction or temperature.",
+      "common_pitfalls": "The most frequent pitfall is underestimating extra-column broadening contributions. Dead volumes in fittings, the injection valve, and the detector cell all add variance to the observed peak. If these are not carefully characterized and subtracted, the calculated D will be systematically too high. A second common error is violating the Taylor condition by using flow rates that are too fast or tubes that are too short, so that radial equilibration is incomplete and the elution profile is non-Gaussian. Using injection volumes that are too large relative to the tube volume produces broad, skewed peaks that cannot be accurately analyzed by the standard moment method. Operating at excessive Reynolds numbers allows the onset of transitional flow instabilities. Finally, neglecting the Dean-number correction for coiled tubes leads to systematic underestimation of D, particularly at higher flow rates where the Dean number is no longer negligible.",
+      "artifacts_and_failure_modes": "Injection artifacts arise when the sample loop is too large or the valve switching is slow, producing a non-delta input that broadens the apparent peak and increases σ² beyond the true dispersion contribution. Adsorption tailing occurs when the solute interacts with the tube inner wall (particularly with stainless-steel tubing and polar solutes), causing an asymmetric peak with a long tail that inflates the second moment. Dean-flow artifacts in coiled tubes enhance radial mixing beyond pure molecular diffusion, reducing the apparent broadening; if the correction model is inaccurate, a systematic bias in D results. Bubble formation due to inadequate degassing creates erratic baselines, split peaks, and unreliable moment analysis. Temperature gradients along the tube produce position-dependent D values, resulting in a non-Gaussian overall profile and a D value that represents an ill-defined average. Pump pulsation introduces periodic flow-rate fluctuations that can broaden or modulate the elution profile, adding spurious variance.",
+      "reporting_checklist": "Published dispersion diffusion measurements should report: tube dimensions (internal radius with uncertainty, length), tube material and configuration (straight or coiled; coil radius if applicable), carrier fluid identity and composition, injection volume and composition, flow rate and corresponding Reynolds and Dean numbers, thermostatting temperature with uncertainty (±0.01 K or better), detector type and measured signal, method of tube radius calibration, reference system measured for validation, number of replicate injections and their standard deviation, corrections applied (extra-column broadening, Dean number, injection volume), final D₁₂ values with combined expanded uncertainty at 95% confidence (k=2), and composition and temperature at which each D value applies. For ThermoML encoding, diffusion coefficient values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

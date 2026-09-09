@@ -1,0 +1,25 @@
+key	label	kind	role	is_source	is_sink	value	n_ids	ids	blocks	order	provenance	args	meta
+Main:context	Main · agent context (dedup merge)	merge	context	0	0	2	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	1			agent=MAIN;sid=Main
+grp:Main|support|WM_RENDER	Main · working-memory render	hardmeta	support	1	0	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	3	_working_memory.md::Main		
+Main/Q1:context	Q1 · agent context (dedup merge)	merge	context	0	0	2	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	4			agent=Q_L0;sid=Main/Q1
+grp:Main/Q1|support|WM_RENDER	Q1 · working-memory render	hardmeta	support	1	0	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	6	working_memory.md::Main/Q1		
+Main/Q1/L1#1:context	Q1 · L1#1 · agent context (dedup merge)	merge	context	0	0	4	3	GLOBlit_2825::PROPblock_9;GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	GLOBlit_2825::PROPblock_9;GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	7			agent=Q_L1;sid=Main/Q1/L1#1
+grp:Main/Q1/L1#1|search|raw	Q1 · L1#1 · resolve_compound_ids · raw results (+1 merged)	raw	raw	1	0	3	3	GLOBlit_2825::PROPblock_9;GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	GLOBlit_2825::PROPblock_9;GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	10	run_history.md::Step 1 [main - Q_1 - L1_1 · c1] | run_history.md::Step 3 [main - Q_1 - L1_1 · c2]		
+grp:Main/Q1/L1#1|search|hardcoded	Q1 · L1#1 · resolve_compound_ids · hardcoded compact (+1 merged)	hardcoded	hardcoded	0	0	3	3	GLOBlit_2825::PROPblock_9;GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	GLOBlit_2825::PROPblock_9;GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	11	run_history.md::Step 1 [main - Q_1 - L1_1 · c1] | run_history.md::Step 3 [main - Q_1 - L1_1 · c2]		
+grp:Main/Q1/L1#1|search|agentic	Q1 · L1#1 · resolve_compound_ids · agentic kept (+1 merged)	agentic	agentic	0	0	3	3	GLOBlit_2825::PROPblock_9;GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	GLOBlit_2825::PROPblock_9;GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	12	run_history.md::Step 1 [main - Q_1 - L1_1 · c1] | run_history.md::Step 3 [main - Q_1 - L1_1 · c2]		
+Main/Q1/L1#1:answer	Q1 · L1#1 · answer	answer	answer	0	0	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	27	run_history.md::Step 1 [main - Q_1 · c7]		
+Main/Q1/L1#1:deliverable	Q1 · L1#1 · result envelope to Q (deliverable)	envelope	deliverable	0	0	2	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	28	run_history.md::Step 1 [main - Q_1 · c7]		
+grp:Main/Q1/L1#1|env|ledger	Q1 · L1#1 · envelope · inspection ledger (data_inspections)	envelope	envelope_part	0	0	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	33	run_history.md::Step 1 [main - Q_1 · c7]		
+grp:Main/Q1/L1#1|support|LEDGER	Q1 · L1#1 · inspection ledger (data_inspections)	validation	support	1	0	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	34	run_history.md::Step 1 [main - Q_1 · c7]		
+grp:Main/Q1/L1#1|sink|duplicate_canonical	Q1 · L1#1 · duplicate canonical copies (deduplicated)	removed	sink	0	1	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	37			
+grp:Main/Q1/L1#1|sink|dedup_exit	Q1 · L1#1 · re-confirmed known IDs (dedup)	removed	sink	0	1	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	38			
+grp:Main/Q1/L1#1|sink|not_cited_downstream	Q1 · L1#1 · not cited downstream	removed	sink	0	1	2	2	GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	GLOBlit_8869::PROPblock_3;GLOBlit_9571::PROPblock_1	39			
+grp:Main/Q1/L1#1|inspection|raw	Q1 · L1#1 · inspect_block_table · raw results (3×)	validation	raw	1	0	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	40	run_history.md::Step 5 [main - Q_1 - L1_1 · c4] | run_history.md::Step 6 [main - Q_1 - L1_1 · c5] | run_history.md::Step 8 [main - Q_1 - L1_1 · c6]		
+Main/Q1:answer	Q1 · answer	answer	answer	0	0	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	42	result.md::run_1 | result.md::## Data Inspections		
+Main/Q1:deliverable	Q1 · result envelope to Main (deliverable)	envelope	deliverable	0	0	2	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	43	result.md::run_1 | result.md::## Data Inspections		
+grp:Main/Q1|env|ledger	Q1 · envelope · inspection ledger (data_inspections)	envelope	envelope_part	0	0	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	46	result.md::run_1 | result.md::## Data Inspections		
+grp:Main/Q1|support|LEDGER	Q1 · inspection ledger (data_inspections)	validation	support	1	0	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	47	result.md::run_1 | result.md::## Data Inspections		
+grp:Main/Q1|sink|duplicate_canonical	Q1 · duplicate canonical copies (deduplicated)	removed	sink	0	1	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	50			
+grp:Main/Q1|sink|dedup_exit	Q1 · re-confirmed known IDs (dedup)	removed	sink	0	1	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	52			
+Main:answer	Main · final answer	answer	answer	0	1	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	58	result.md::run_20260905_022012_986027_82a6c5aa | result.md::## Data Inspections		
+grp:Main|sink|dedup_exit	Main · re-confirmed known IDs (dedup)	removed	sink	0	1	1	1	GLOBlit_2825::PROPblock_9	GLOBlit_2825::PROPblock_9	59			

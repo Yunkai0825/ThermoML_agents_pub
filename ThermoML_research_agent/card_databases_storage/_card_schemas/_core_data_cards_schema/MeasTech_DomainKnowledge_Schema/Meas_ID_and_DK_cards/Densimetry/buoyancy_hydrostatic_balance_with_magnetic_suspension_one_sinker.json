@@ -1,0 +1,343 @@
+{
+  "meas_ID": "buoyancy_hydrostatic_balance_with_magnetic_suspension_one_sinker",
+  "identity": {
+    "name": "Buoyancy - hydrostatic balance with magnetic suspension - one sinker",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Buoyancy - hydrostatic balance with magnetic suspension - one sinker",
+    "thermoml_custom_codes": [
+      "MSONE"
+    ],
+    "measurement_family": "Densimetry",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 151,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 67,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 151,
+          "papers": 67
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "apparent weight of sinker in vacuum (W_vac) via magnetic suspension balance",
+          "apparent weight of sinker immersed in the sample fluid (W_fluid)",
+          "balance reading difference ΔW = W_vac − W_fluid, proportional to buoyancy force",
+          "coupling/decoupling positions of the magnetic suspension mechanism (zero-point, measuring-point, tare-point)",
+          "temperature of the measuring cell (via calibrated PRT or thermocouple)"
+        ],
+        "derived_observables": [
+          "fluid density ρ = (W_vac − W_fluid) / (V_sinker(T,p) · g), the primary derived quantity",
+          "specific volume v = 1/ρ",
+          "excess molar volume V^E for binary or multicomponent mixtures",
+          "compressibility (via density measured across a pressure range at constant T)",
+          "thermal expansion coefficient α_p = −(1/ρ)(∂ρ/∂T)_p (from ρ(T) data at constant p)"
+        ],
+        "target_properties": [
+          "liquid density (compressed and saturated liquid)",
+          "gas/vapor density at elevated pressures",
+          "density of supercritical fluids",
+          "specific volume",
+          "excess molar volume of mixtures",
+          "isothermal compressibility (derived from ρ(p) isotherms)",
+          "isobaric thermal expansion coefficient (derived from ρ(T) isobars)"
+        ],
+        "phases_measured": [
+          "compressed liquid",
+          "saturated liquid",
+          "compressed gas / dense vapor",
+          "supercritical fluid"
+        ],
+        "supported_sample_types": [
+          "pure liquids (organic solvents, refrigerants, hydrocarbons, ionic liquids)",
+          "pure gases and vapors at sufficient density (typically > 1 kg/m³)",
+          "supercritical fluids (CO₂, water, hydrocarbons, refrigerants)",
+          "binary and multicomponent liquid mixtures",
+          "aqueous electrolyte solutions",
+          "cryogenic liquids (e.g., LNG constituents)"
+        ],
+        "unsupported_sample_types": [
+          "solids (sinker must be freely suspended in a fluid)",
+          "highly viscous fluids (> ~10 Pa·s) — viscous drag on sinker and slow equilibration distort buoyancy readings",
+          "strongly corrosive fluids that attack the sinker or cell materials (e.g., concentrated HF, strong oxidizing acids) unless specialized alloy sinkers are used",
+          "very low-density gases at low pressures (buoyancy force too small to resolve with adequate precision)",
+          "slurries or suspensions containing particles that could adsorb onto or mechanically interfere with the sinker",
+          "magnetic fluids (ferrofluids) — interfere with the magnetic coupling mechanism"
+        ],
+        "typical_output_formats": [
+          "ρ(T, p) tables at discrete temperature and pressure state points",
+          "ρ vs. T isobars (density as a function of temperature at constant pressure)",
+          "ρ vs. p isotherms (density as a function of pressure at constant temperature)",
+          "fitted equation of state parameters (e.g., Tait equation coefficients)"
+        ],
+        "units": {
+          "density": "kg/m³ or g/cm³",
+          "temperature": "K",
+          "pressure": "MPa or bar",
+          "mass": "g or mg",
+          "volume": "cm³",
+          "specific_volume": "m³/kg",
+          "excess_molar_volume": "cm³/mol",
+          "force": "mN or μN"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "233 K to 473 K",
+            "hard_limits": "lower limit ~90 K with cryogenic cooling; upper limit ~523 K limited by magnetic coupling stability, o-ring seals, and sinker material properties",
+            "notes": "temperature stability of ±5 mK or better is required for high-accuracy density determination; thermostat performance is often the limiting factor at extreme temperatures"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 100 MPa",
+            "hard_limits": "maximum ~200 MPa for specialized high-pressure cells; some instruments designed up to 300 MPa; minimum pressure limited by adequate buoyancy force (gas density must be high enough to resolve ΔW)",
+            "notes": "cell material (stainless steel, Hastelloy, titanium, or sapphire windows) determines the pressure ceiling; sealing systems must be compatible with the sample fluid"
+          },
+          {
+            "parameter": "sinker_volume",
+            "typical_range": "2 cm³ to 15 cm³",
+            "hard_limits": "must be large enough to generate sufficient buoyancy force for the target fluid density; sinker mass typically 10–100 g depending on material",
+            "notes": "larger sinker volume increases buoyancy signal and improves resolution at low fluid densities; sinker material chosen for density contrast and chemical inertness (commonly silicon, quartz, titanium, or gold-plated stainless steel)"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "50 cm³ to 200 cm³ (measuring cell volume)",
+            "hard_limits": "cell must be large enough to accommodate the sinker with adequate clearance on all sides to avoid wall effects; too small a cell causes systematic errors from sinker proximity to walls",
+            "notes": "for mixture measurements, the entire cell volume must be homogeneous in composition; adequate mixing or recirculation may be needed"
+          },
+          {
+            "parameter": "balance_readability",
+            "typical_range": "1 μg to 10 μg",
+            "hard_limits": "balance resolution must be sufficient to resolve the buoyancy difference ΔW to the target density uncertainty; for 0.01 kg/m³ accuracy with a 10 cm³ sinker, ~1 μg resolution is needed",
+            "notes": "microbalance stability and zero-point drift over time are critical; the magnetic suspension coupling introduces a small force transmission error that must be corrected"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "233 K to 473 K, scanned in steps of 5–20 K for isobaric surveys; finer steps (1–2 K) near phase boundaries",
+            "effect": "density decreases with increasing temperature at constant pressure; thermal expansion is mapped by measuring ρ(T) isobars"
+          },
+          {
+            "name": "pressure",
+            "role": "primary controlled variable",
+            "typical_values": "0.1 MPa to 100 MPa, in steps of 1–10 MPa for isothermal surveys",
+            "effect": "density increases with increasing pressure at constant temperature; pressure dependence yields compressibility information"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable for mixture studies",
+            "typical_values": "full mole fraction range, typically in steps of 0.05–0.20",
+            "effect": "excess molar volume and mixing density are mapped as a function of mixture composition"
+          },
+          {
+            "name": "coupling_position",
+            "role": "instrument control variable",
+            "typical_values": "zero-point (sinker decoupled), measuring-point (sinker coupled and suspended at reference position)",
+            "effect": "switching between coupling positions allows zero-point correction and sinker weighing; reproducibility of the coupling force is critical for accuracy"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "magnetic suspension coupling — permanent magnet (electromagnet in some designs) on the balance side and a suspension magnet inside the pressurized cell, separated by the cell wall; the suspension magnet levitates the sinker and transmits the apparent weight to the external balance without any mechanical feedthrough",
+          "analytical microbalance — high-resolution balance (readability 1–10 μg, capacity 10–200 g) mounted above the pressure cell; receives the force signal from the magnetic coupling and measures apparent sinker weight",
+          "sinker — precisely calibrated solid object of known mass and volume (V(T,p)) immersed in the sample fluid; typically made from silicon single crystal, quartz glass, titanium, gold-plated stainless steel, or tantalum; surface finish is polished to minimize fluid adsorption",
+          "pressurized measuring cell — thick-walled vessel (stainless steel 316L, Hastelloy C-276, or titanium alloy) containing the sample fluid and the sinker; designed for the target pressure and temperature range; equipped with fluid inlet/outlet ports and temperature sensors",
+          "thermostat system — liquid-bath thermostat or circulating thermostat jacket surrounding the measuring cell, providing temperature stability of ±5 mK or better; may include a secondary radiation shield for high-temperature work",
+          "temperature sensors — calibrated platinum resistance thermometers (Pt-100 or Pt-25) mounted on or embedded in the measuring cell wall; traceable to ITS-90",
+          "pressure transducer — high-accuracy pressure sensor (quartz crystal, strain-gauge, or dead-weight gauge) with uncertainty ~0.01% of reading; connected to the cell via capillary tubing",
+          "pressure generator — manual or automated screw-type piston pump or syringe pump for setting and maintaining the target pressure",
+          "control and data acquisition system — computer controlling the thermostat, pressure generator, and balance readings; records T, p, and apparent weight at each state point; manages the coupling/decoupling sequence",
+          "vacuum pump — for initial evacuation of the measuring cell and filling lines to remove residual air before sample introduction"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (±1 K) to minimize thermal drift in balance electronics and cell temperature",
+          "vibration-isolated support for the balance and cell assembly — the magnetic suspension coupling is sensitive to mechanical disturbances",
+          "draft-free enclosure around the balance head to eliminate air convection effects on the weighing",
+          "adequate ventilation or fume hood when working with volatile, toxic, or flammable fluids",
+          "grounding and electromagnetic shielding to prevent stray magnetic fields from interfering with the suspension coupling"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "homogeneous fluid phase — liquid, compressed gas, or supercritical fluid",
+            "no geometric constraints on the sample itself; the cell is simply filled with the fluid"
+          ],
+          "size_limits": "50–200 cm³ of fluid per filling; some instruments require as little as 10 cm³ in miniaturized cells",
+          "thickness_limits": "not applicable — bulk fluid measurement",
+          "surface_requirements": [
+            "fluid must not deposit films, precipitates, or crystals on the sinker surface during measurement — such deposits change the effective sinker volume and mass",
+            "no particle contamination that could lodge between the sinker and the coupling magnet"
+          ],
+          "mounting_requirements": [
+            "sinker is placed inside the measuring cell before sealing; it rests on a support cradle when the magnetic coupling is disengaged",
+            "cell is sealed with high-pressure fittings and o-rings (or metal gaskets for extreme conditions) rated for the target pressure"
+          ],
+          "preparation_requirements": [
+            "degas the sample thoroughly (especially liquids) to prevent bubble formation on the sinker or cell walls, which alters apparent buoyancy",
+            "for mixtures, prepare gravimetrically with verified composition (weighed on an analytical balance, uncertainty < 0.01 mol%)",
+            "filter samples to remove particulate matter that could interfere with the sinker or magnetic coupling",
+            "dry hygroscopic samples or handle under inert atmosphere to prevent moisture uptake",
+            "verify sample purity by GC, Karl Fischer titration (for water content), or other appropriate analytical method"
+          ]
+        },
+        "calibration_requirements": [
+          "sinker volume calibration: determine V_sinker(T, p) by measuring the sinker buoyancy in a reference fluid of precisely known density (typically water or nitrogen) at multiple T, p state points; sinker thermal expansion and compressibility coefficients are fitted from these data",
+          "sinker mass calibration: weigh the sinker in vacuum (or extrapolate to vacuum from measurements at decreasing pressure) using the magnetic suspension balance; verify against a mass standard traceable to SI",
+          "force transmission error (FTE) correction: the magnetic coupling transmits a small position-dependent systematic force error; this is characterized by measuring in vacuum at the coupling and decoupling positions and applying a correction to all fluid measurements",
+          "balance calibration: verify linearity and span using certified calibration weights; adjust zero-point drift correction",
+          "temperature sensor calibration: calibrate Pt-100 or Pt-25 sensors against ITS-90 fixed points (water triple point, gallium, indium) or a reference thermometer",
+          "pressure transducer calibration: calibrate against a dead-weight pressure gauge or transfer standard traceable to a national metrology institute"
+        ],
+        "reference_materials": [
+          "ultrapure water — IAPWS-95 equation of state provides density to < 0.001 kg/m³ over wide T, p range; primary calibration fluid",
+          "nitrogen gas — reference equation of state (Span et al. 2000) provides density for gas-phase sinker calibration",
+          "silicon single crystal — known density to < 0.01 kg/m³ from lattice parameter measurements; often used as sinker material because its thermal expansion and compressibility are precisely characterized",
+          "toluene or n-heptane — secondary liquid reference fluids with well-known densities for cross-validation",
+          "aqueous NaCl solutions — NIST-traceable density data available at several concentrations for validating electrolyte measurement capability"
+        ],
+        "consumables": [
+          "high-purity sample fluid (sufficient volume to fill and flush the cell multiple times)",
+          "o-rings and seals rated for the operating T, p range and compatible with the sample fluid (Viton, FFKM, PTFE, or metal gaskets)",
+          "cleaning solvents (acetone, ethanol, n-hexane) for flushing the cell and sinker between samples",
+          "nitrogen or helium gas for purging and leak testing",
+          "vacuum pump oil (if applicable)"
+        ],
+        "safety_notes": [
+          "high-pressure systems: all pressure vessels and tubing must be rated and tested to at least 1.5× the maximum operating pressure; burst discs or pressure relief valves are mandatory",
+          "toxic or flammable fluid handling requires appropriate ventilation, gas detection, and fire suppression",
+          "cryogenic operation (< 233 K) requires cryogen handling precautions if liquid nitrogen or other cryogens are used for cooling",
+          "some sinker materials (e.g., gold, tantalum) are heavy and can cause damage if dropped during loading; handle with care"
+        ]
+      },
+      "performance": {
+        "sensitivity": "density resolution of ~0.001 kg/m³ achievable with a 10 cm³ sinker and a 10 μg balance; sensitivity improves with larger sinker volume",
+        "detection_limit": "minimum measurable fluid density ~0.5–1 kg/m³ (limited by the balance resolution relative to the buoyancy force on the sinker); for gases at low pressure the buoyancy force becomes unresolvably small",
+        "resolution": {
+          "spatial": "not applicable — bulk-averaged density measurement of the homogeneous fluid surrounding the sinker",
+          "temporal": "single state-point measurement requires 5–30 min including thermal and pressure equilibration; faster for liquids than for gases near the critical point",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "density from ~1 kg/m³ (dilute gas) to ~20 000 kg/m³ (if mercury or liquid metals could be used, in principle); practical range covers 1–2000 kg/m³ for typical organic liquids, water, and compressed gases",
+        "accuracy": "0.01–0.05 kg/m³ for compressed liquids (relative uncertainty ~0.001–0.005%); 0.01–0.1% for gases and supercritical fluids depending on density level; among the most accurate absolute density techniques available",
+        "precision": "0.002–0.01 kg/m³ (repeatability of replicate measurements at identical T, p); limited by thermostat stability and balance reproducibility",
+        "throughput": "one sample per cell loading; typically 50–200 state points (T, p) per day for automated isothermal or isobaric scans; cell cleaning and reloading for a new sample requires 2–8 hours",
+        "measurement_speed": "moderate — each individual data point takes 5–30 min depending on equilibration requirements; a complete T-p matrix (e.g., 10 isotherms × 10 pressures = 100 points) can be completed in 1–3 days of automated operation"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "balance reading (apparent mass in grams or milligrams) at the coupling position (sinker suspended in fluid) and at the zero-point position (sinker decoupled); the difference, after force transmission error correction, yields the buoyancy force on the sinker",
+        "preprocessing_steps": [
+          "zero-point correction: subtract the balance reading at the decoupling position from the reading at the coupling position to remove tare offsets and balance drift",
+          "force transmission error (FTE) correction: apply the previously characterized position-dependent coupling force correction to the raw balance difference",
+          "sinker volume correction: compute V_sinker(T, p) at the measurement temperature and pressure using the calibrated thermal expansion and compressibility coefficients of the sinker material",
+          "air buoyancy correction (for ambient-side balance): correct the balance reading for the buoyancy of air acting on the balance pan and coupling housing",
+          "temperature and pressure averaging: average the T and p readings recorded during the stable measurement interval and assign them to the density data point"
+        ],
+        "analysis_methods": [
+          "Archimedes' principle inversion: ρ_fluid = (W_vac − W_fluid) / (V_sinker(T,p) · g_local), computed directly at each (T, p) state point",
+          "equation of state fitting: the ρ(T, p) data are fitted to an analytical equation (e.g., modified Tait equation, MBWR, or Helmholtz energy formulation) to generate smooth surfaces and enable interpolation",
+          "excess volume calculation: V^E = V_mix − Σ(x_i · V_i°), where the mixture molar volume is obtained from ρ_mix and pure-component molar volumes from ρ_i°",
+          "thermal expansion and compressibility derivation: α_p and κ_T are obtained analytically from the fitted ρ(T, p) surface by partial differentiation"
+        ],
+        "model_assumptions": [
+          "the fluid in the measuring cell is homogeneous and in thermodynamic equilibrium at the stated T and p",
+          "the sinker volume V(T, p) is accurately described by the calibration model (usually a polynomial in T and p using known expansion and compressibility coefficients)",
+          "the magnetic suspension coupling transmits force without hysteresis beyond the characterized FTE correction",
+          "gravitational acceleration g is constant and accurately known at the measurement location",
+          "there is no significant adsorption of the fluid onto the sinker surface that would change the effective sinker mass or volume"
+        ],
+        "fit_parameters": [
+          "fluid density ρ at each (T, p) state point (the primary result)",
+          "Tait equation parameters (B, C, and reference density ρ_0(T)) for ρ(T, p) correlation",
+          "sinker thermal expansion coefficient α_sinker and isothermal compressibility κ_sinker",
+          "FTE correction coefficients (position-dependent coupling force bias)"
+        ],
+        "common_artifacts": [
+          "adsorption artifact: fluid molecules (especially polar or high-molecular-weight species) adsorbing onto the sinker surface increase its effective mass, producing a systematically high apparent density; this is most problematic at low pressures where the buoyancy force is small relative to the adsorption mass",
+          "bubble nucleation artifact: dissolved gas coming out of solution or vapor bubbles forming on the sinker at temperatures near the boiling point reduce the effective buoyancy, causing an apparent decrease in density",
+          "thermal stratification: insufficient equilibration or large thermal gradients in the cell produce non-uniform density around the sinker, yielding an average rather than the true equilibrium density",
+          "magnetic coupling drift: slow drift in the coupling force over long measurement campaigns due to temperature changes in the permanent magnets or electronics generates a systematic density offset",
+          "sinker surface contamination: residual films from previous samples or corrosion products change sinker mass or volume, introducing bias until the sinker is recleaned and recalibrated"
+        ],
+        "quality_control_checks": [
+          "measure the density of a reference fluid (ultrapure water or nitrogen) at multiple T, p points and compare to the IAPWS-95 or Span et al. reference equation of state — agreement within 0.01 kg/m³ confirms instrument performance",
+          "verify sinker vacuum weight before and after a measurement campaign to detect mass changes from adsorption or corrosion",
+          "check zero-point reproducibility: repeated coupling/decoupling cycles in vacuum should give consistent balance readings within 10 μg",
+          "compare ascending and descending pressure scans at the same temperature (hysteresis check) — significant differences indicate incomplete equilibration or seal leaks",
+          "cross-check density values at overlapping T, p state points between different isothermal and isobaric scan series for internal consistency"
+        ],
+        "failure_modes": [
+          "seal failure / leak — loss of sample fluid or ingress of air at high pressure; detected by pressure drop or unexpected density values; requires resealing and refilling",
+          "sinker touching cell wall — if the sinker contacts the inner wall due to tilt, magnetic misalignment, or viscous fluid drag, the balance reading is corrupted; detected by erratic or out-of-range readings",
+          "magnetic coupling loss — excessive mechanical vibration or inadequate coupling magnet strength causes the sinker to drop from suspension; detected by sudden balance reading change; requires recoupling",
+          "thermostat failure — loss of temperature control causes the cell temperature to drift, invalidating density measurements; detected by temperature sensor readings outside tolerance",
+          "pressure transducer failure or drift — incorrect pressure assignment leads to systematic errors in the ρ(T, p) data; detected by cross-checking with a secondary gauge",
+          "sinker degradation — corrosion, erosion, or surface deposits on the sinker alter its mass and volume; detected by post-campaign vacuum weighing or visual inspection"
+        ]
+      },
+      "uncertainty": {
+        "level": "combined standard uncertainty in density typically 0.01–0.05 kg/m³ (relative: 0.001–0.005%) for compressed liquids at 0.1–100 MPa and 233–473 K; somewhat larger (0.02–0.2%) for low-density gases and near the critical point where density fluctuations enhance uncertainty",
+        "random_sources": [
+          "balance readout noise and short-term fluctuations during weighing (~1–10 μg)",
+          "temperature fluctuations from thermostat instability (~1–5 mK), propagating through the thermal expansion of both sinker and fluid",
+          "pressure fluctuations from pump pulsation or regulator instability (~0.001–0.01 MPa)",
+          "coupling reproducibility — small random variations in the magnetic coupling force from cycle to cycle",
+          "vibration-induced noise transmitted to the balance"
+        ],
+        "systematic_sources": [
+          "sinker volume calibration uncertainty — the dominant systematic error; propagates directly into density through ρ = ΔW/(V_sinker · g); uncertainty in V_sinker(T,p) arises from calibration fluid density uncertainty, thermal expansion/compressibility model, and dimensional metrology",
+          "force transmission error (FTE) correction residual — the coupling force bias is characterized but not perfectly repeatable; residual systematic offset ~10–50 μg in apparent weight",
+          "fluid adsorption on sinker surface — unquantified adsorption layers (especially for polar or high-molecular-weight fluids) add systematically to apparent sinker mass",
+          "temperature measurement uncertainty — bias in PRT calibration propagates through ∂ρ/∂T (typically 0.001–0.01 kg/m³ per mK of temperature bias for liquids)",
+          "pressure measurement uncertainty — bias in pressure transducer calibration propagates through ∂ρ/∂p",
+          "gravitational acceleration uncertainty — usually negligible (< 0.001%) if g_local is determined from gravity survey data"
+        ],
+        "operator_dependence": "low — the technique is highly automated in modern instruments; operator involvement is mainly in sample preparation, cell loading, sinker handling, and defining the T-p measurement matrix; however, improper degassing, sinker cleaning, or seal installation can introduce significant systematic errors",
+        "model_dependence": "low — the Archimedes' principle relation ρ = ΔW/(V·g) is exact and model-free; the only model element is the equation describing V_sinker(T,p), which is well constrained by the known elastic properties and thermal expansion of the sinker material (silicon, quartz, etc.)",
+        "dominant_error_sources": [
+          "sinker volume calibration (the single largest contribution, typically 50–70% of the total uncertainty budget)",
+          "force transmission error correction residual",
+          "temperature measurement bias (especially for fluids with large |∂ρ/∂T|)",
+          "fluid adsorption on the sinker surface (significant for polar fluids at low pressures)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ρ) at 95% confidence level (k = 2) in kg/m³",
+          "relative uncertainty Δρ/ρ in percent",
+          "individual uncertainty contributions from T, p, sinker volume, and FTE listed separately in an uncertainty budget table"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Buoyancy densimetry with magnetic suspension coupling and one sinker is an advanced Archimedes-principle method for measuring the density of fluids with very high accuracy. A solid sinker of precisely known mass and volume is immersed in the sample fluid inside a sealed, pressurized measuring cell, and its apparent weight loss due to buoyancy is measured by an analytical microbalance located outside the cell. The unique feature of this technique is the magnetic suspension coupling, which transmits the gravitational force on the sinker through the pressure-cell wall without any mechanical connection, thereby eliminating surface tension, meniscus, and wire-suspension errors. With one sinker, the method yields absolute density from a single buoyancy measurement at each state point, provided the sinker volume is accurately calibrated as a function of temperature and pressure. This technique is one of the most accurate methods for absolute fluid density measurement, routinely achieving uncertainties of 0.01–0.05 kg/m³ (0.001–0.005%) over wide ranges of temperature and pressure.",
+      "how_it_operates": "The sinker rests on a support cradle inside the pressurized measuring cell when the magnetic coupling is disengaged. To make a measurement, the electromagnetically controlled suspension magnet inside the cell is activated and lifts the sinker to a defined measuring position by coupling through the non-magnetic cell wall to a permanent magnet attached to the balance weighing hook above. The balance records the apparent weight of the sinker immersed in the fluid. The coupling is then disengaged to record the zero-point balance reading (no sinker force), and the difference yields the net buoyancy-corrected sinker weight. By performing the same measurement in vacuum (or extrapolating to vacuum), the true vacuum weight of the sinker is established. The density is then calculated as ρ = (W_vac − W_fluid)/(V_sinker(T,p) · g). Temperature and pressure are simultaneously measured at the cell, and the cycle is repeated automatically at each desired state point.",
+      "core_theory": "The measurement rests on Archimedes' principle: a body immersed in a fluid experiences an upward buoyancy force equal to the weight of the displaced fluid. For a sinker of known mass m_s and volume V_s, the apparent weight in the fluid is W_fluid = m_s·g − ρ_fluid·V_s·g. Rearranging gives the fluid density: ρ_fluid = (m_s − W_fluid/g) / V_s = (W_vac − W_fluid) / (V_s · g). The sinker volume V_s must be corrected for thermal expansion and elastic compression at each measurement temperature and pressure, typically using V_s(T,p) = V_s,ref · [1 + α_s(T − T_ref)] · [1 − κ_s(p − p_ref)], where α_s and κ_s are the sinker's thermal expansion coefficient and isothermal compressibility, respectively, both known from independent calibration or literature data for the sinker material. The magnetic suspension coupling is ideally force-neutral, but a small, reproducible position-dependent force transmission error (FTE) arises from imperfect magnetic field geometry and must be characterized and subtracted.",
+      "setup": "The apparatus consists of three main sections arranged vertically. At the top sits a commercial high-resolution analytical microbalance (readability 1–10 μg), mounted on a vibration-dampened platform inside a draft-free enclosure. Below the balance, a magnetic suspension coupling unit connects the balance to the interior of the pressurized measuring cell via contactless magnetic force transmission through a non-magnetic pressure-tight wall (typically a thin-walled beryllium copper or Hastelloy tube). Inside the cell, a permanent electromagnet assembly suspends and lifts a polished sinker (e.g., a silicon single-crystal sphere or cylinder) to a stable levitation position. The measuring cell is surrounded by a thermostatic jacket (circulating liquid bath or Peltier elements) providing temperature stability of ±5 mK. Pressure is controlled by a syringe pump or piston screw pump connected to the cell. Calibrated PRTs and a precision pressure transducer record the thermodynamic state.",
+      "suitable_for": "This technique is ideally suited for high-accuracy density measurements of pure fluids and fluid mixtures over wide temperature and pressure ranges, including subcritical liquids, compressed gases, and supercritical fluids. It is the method of choice when benchmark-quality density data are needed for developing or validating equations of state, calibrating industrial densimeters, or establishing reference datasets. The magnetic suspension coupling enables operation at pressures exceeding 100 MPa and temperatures from cryogenic to ~523 K without penetrating the cell wall, making it especially valuable for hazardous, toxic, or corrosive fluids that would damage conventional wire-suspension balances. It is widely used for refrigerants, hydrocarbons, CO₂, ionic liquids, and aqueous systems in the ThermoML database.",
+      "core_limitations": "The single-sinker configuration requires precise absolute calibration of the sinker volume V_s(T,p), and any error in this calibration propagates directly and linearly into the density result; this is the dominant uncertainty contribution. The force transmission error of the magnetic coupling must be carefully characterized and corrected, adding a non-trivial calibration step compared to conventional gravimetric methods. The technique requires relatively large sample volumes (50–200 cm³) and is not suitable for high-throughput screening — each sample loading, equilibration, and multi-point scan takes hours to days. Highly viscous fluids, multiphase systems, and magnetic fluids cannot be measured. Near the vapor-liquid critical point, density fluctuations and long equilibration times degrade accuracy.",
+      "sample_preparation": "Samples must be thoroughly degassed before loading to prevent bubble formation on the sinker, which would reduce the apparent buoyancy and cause systematic density underestimation. Liquids are typically degassed under vacuum with agitation, or by freeze-pump-thaw cycles. For mixtures, components are weighed gravimetrically into a preparation vessel with an accuracy of ±0.01 mg or better to ensure composition uncertainty below 0.01 mol%. Particulate matter is removed by filtration through sub-micron filters to avoid contamination of the sinker surface or interference with the magnetic coupling. Hygroscopic samples are handled under dry inert gas. The measuring cell and sinker are cleaned before each sample with appropriate solvents (acetone, ethanol, n-hexane), followed by evacuation and flushing to remove residual contaminants.",
+      "calibration_and_references": "Calibration centers on determining the sinker volume as a function of temperature and pressure. This is accomplished by measuring the sinker buoyancy in reference fluids of precisely known density — typically ultrapure water (with density from the IAPWS-95 formulation) for liquid-range calibration and high-purity nitrogen (Span et al. reference EOS) for gas-range calibration — at multiple temperatures and pressures, then fitting V_s(T,p) to a polynomial model. The sinker mass is determined by vacuum weighing against SI-traceable mass standards. The force transmission error (FTE) of the magnetic coupling is characterized by measurements in vacuum at different coupling positions. The temperature sensors are calibrated against ITS-90 fixed points or a reference-standard PRT, and the pressure transducer is verified against a dead-weight gauge. A validation measurement on an independent reference fluid (e.g., toluene, propane, or aqueous NaCl) confirms the combined accuracy of the entire system.",
+      "data_interpretation": "At each (T, p) state point, the density is computed directly from the Archimedes relation: ρ = (W_vac − W_fluid,corrected)/(V_sinker(T,p) · g_local), where W_fluid,corrected includes the zero-point correction and FTE correction. The resulting ρ(T, p) data set is inspected for outliers and internal consistency (e.g., smoothness along isotherms and isobars). The data are typically fitted to a semi-empirical equation of state (modified Tait, MBWR, or Helmholtz-energy-based) to enable interpolation and to derive secondary properties such as isothermal compressibility and thermal expansion by differentiation. For mixture studies, excess molar volumes V^E are computed and fitted to Redlich-Kister or similar polynomial models in composition. Deviations between measured and equation-of-state-predicted densities are reported to quantify the quality of existing correlation models.",
+      "common_pitfalls": "The most common pitfall is inadequate degassing of the sample, which leads to bubble formation on the sinker surface during the measurement — even a single small bubble can cause a detectable density error because it displaces fluid and changes the effective sinker volume. Insufficient cleaning between samples is another frequent issue: residual films on the sinker or cell walls change the effective sinker mass or promote unwanted chemical interactions. Operators sometimes neglect to re-characterize the force transmission error after servicing the magnetic coupling, leading to undetected systematic offsets. Near the critical point, extremely long equilibration times (hours) are required due to critical slowing-down, and impatient data collection yields poorly equilibrated density values. Finally, using sinker volume calibrations extrapolated far beyond their calibrated T, p range can introduce large systematic errors.",
+      "artifacts_and_failure_modes": "Adsorption of fluid molecules on the sinker surface is the most insidious artifact: it adds an undetectable apparent mass to the sinker, producing a systematic positive bias in density. This effect is largest for polar or high-molecular-weight fluids at low pressures and can reach several hundredths of a kg/m³ — comparable to or exceeding the target uncertainty. Bubble attachment to the sinker produces the opposite effect, reducing the effective buoyancy and giving an artificially low density reading; this is commonly seen when the sample is undersaturated or near its boiling curve. Magnetic coupling failure (drop of the sinker) is a characteristic failure mode that destroys the current measurement point and requires recoupling. Seal degradation over time allows slow leaks under pressure, manifesting as gradual pressure decay and apparent density drift. Sinker collision with the cell wall during filling or pressure changes can damage the sinker surface and alter its calibrated volume.",
+      "reporting_checklist": "Publications using this technique should report: sinker material, mass, and volume with uncertainties and the method of volume calibration including the reference fluid and equation of state used; magnetic suspension coupling type and force transmission error correction procedure; measuring cell material and maximum rated pressure; thermostat type and temperature stability achieved; thermometer type and calibration traceability; pressure transducer model and calibration traceability; sample source, purity, and purification procedure; degassing method; mixture preparation method and composition uncertainty; number of replicate measurements per state point; density data as a function of T and p with combined expanded uncertainties (k = 2, 95% CL); equation of state or correlation used for data fitting; and validation results against a reference fluid. In ThermoML encoding, density values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

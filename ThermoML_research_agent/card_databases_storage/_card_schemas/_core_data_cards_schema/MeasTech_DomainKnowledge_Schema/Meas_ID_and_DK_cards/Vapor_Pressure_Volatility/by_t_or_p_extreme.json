@@ -1,0 +1,306 @@
+{
+  "meas_ID": "by_t_or_p_extreme",
+  "identity": {
+    "name": "By T or P extreme",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "By T or P extreme",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 51,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium"
+      ],
+      "n_papers": 32,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 51,
+          "papers": 32
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature T as a function of liquid-phase mole fraction x at constant pressure (T-x isobar)",
+          "total pressure P as a function of liquid-phase mole fraction x at constant temperature (P-x isotherm)",
+          "liquid-phase composition x (mole fraction) at each equilibrium data point",
+          "vapor-phase composition y (mole fraction) when T-x,y or P-x,y data are available"
+        ],
+        "derived_observables": [
+          "azeotropic composition (mole fraction at the T-x or P-x extremum where dT/dx = 0 or dP/dx = 0)",
+          "azeotropic temperature (temperature at the T-x extremum, isobaric mode)",
+          "azeotropic pressure (pressure at the P-x extremum, isothermal mode)",
+          "classification of azeotrope type (positive or negative deviation; maximum/minimum in T or P)"
+        ],
+        "target_properties": [
+          "azeotropic temperature",
+          "azeotropic pressure",
+          "azeotropic composition (mole fraction)",
+          "azeotrope type (maximum-pressure/minimum-temperature or minimum-pressure/maximum-temperature)"
+        ],
+        "phases_measured": [
+          "vapor-liquid equilibrium (VLE)",
+          "liquid phase (composition measurement)",
+          "vapor phase (total pressure or boiling temperature measurement)",
+          "liquid-liquid equilibrium (LLE, when applied to T-x upper or lower critical solution temperature extrema)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "volatile organic mixtures",
+          "aqueous-organic binary systems",
+          "alcohol-water and alcohol-hydrocarbon systems",
+          "halogenated compound mixtures",
+          "systems expected to exhibit azeotropic behavior (VLE)",
+          "partially miscible binary systems exhibiting UCST or LCST extrema (LLE)"
+        ],
+        "unsupported_sample_types": [
+          "ternary or higher multicomponent mixtures (method is defined for binary T-x or P-x curves)",
+          "systems with no measurable vapor pressure or boiling point at experimental conditions",
+          "reactive systems where composition changes during measurement",
+          "solid-liquid or solid-vapor equilibria",
+          "systems exhibiting liquid-liquid phase splitting at the VLE measurement conditions without prior deconvolution"
+        ],
+        "typical_output_formats": [
+          "T vs. x isobar curve with identified extremum point (isobaric mode)",
+          "P vs. x isotherm curve with identified extremum point (isothermal mode)",
+          "azeotropic composition xaz, azeotropic temperature Taz, and/or azeotropic pressure Paz as numerical values",
+          "tabulated T-x or P-x data points with interpolation or fitted curve",
+          "graphical plot of T(x) or P(x) with marked maximum or minimum"
+        ],
+        "units": {
+          "temperature": "K",
+          "pressure": "kPa or MPa",
+          "composition": "mole fraction (dimensionless, 0 to 1)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "pressure (isobaric mode)",
+            "typical_range": "10 kPa to 200 kPa (commonly 101.325 kPa)",
+            "hard_limits": "must be below the critical pressure of both components; system must remain in VLE regime",
+            "notes": "isobaric operation at atmospheric or reduced pressure is the most common mode for T-x extreme analysis"
+          },
+          {
+            "parameter": "temperature (isothermal mode)",
+            "typical_range": "273 K to 473 K",
+            "hard_limits": "must be below the critical temperature of both components and above the melting point of the mixture",
+            "notes": "isothermal operation requires constant-temperature P-x data; identical to the By P(X) extreme approach"
+          },
+          {
+            "parameter": "composition_range",
+            "typical_range": "x = 0 to x = 1 (full binary range)",
+            "hard_limits": "sufficient data points must bracket the extremum region, with finer spacing near the expected azeotrope",
+            "notes": "minimum of 10–20 data points with 5+ points in the extremum region"
+          },
+          {
+            "parameter": "data_point_density_near_extremum",
+            "typical_range": "Δx = 0.005 to 0.02 near the azeotrope",
+            "hard_limits": "must be fine enough to resolve the curvature of the T-x or P-x curve through the extremum",
+            "notes": "coarse spacing may cause the extremum to be missed or poorly located"
+          }
+        ],
+        "variables": [
+          {
+            "name": "liquid_composition",
+            "role": "independent variable (scanned across full binary range)",
+            "typical_values": "x = 0.0 to x = 1.0",
+            "effect": "T(x) or P(x) curve shape determines the location and nature of the azeotrope"
+          },
+          {
+            "name": "temperature",
+            "role": "measured dependent variable (isobaric mode) or fixed constraint (isothermal mode)",
+            "typical_values": "273 K to 500 K",
+            "effect": "in isobaric mode, the extremum in T(x) identifies the azeotropic point; in isothermal mode, T is held constant while P(x) is measured"
+          },
+          {
+            "name": "pressure",
+            "role": "fixed constraint (isobaric mode) or measured dependent variable (isothermal mode)",
+            "typical_values": "1 kPa to 500 kPa",
+            "effect": "in isothermal mode, the extremum in P(x) identifies the azeotropic point; in isobaric mode, P is held constant while T(x) is measured"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "VLE apparatus — ebulliometer, recirculating still (Othmer, Gillespie, or modified Rogalski type) for isobaric T-x data, or static/dynamic equilibrium cell for isothermal P-x data",
+          "high-accuracy thermometer — platinum resistance thermometer or calibrated thermocouple for boiling temperature measurement (resolution ≤ 0.01 K)",
+          "high-accuracy pressure transducer or manostat — for pressure measurement (isothermal mode, ≤ 0.01 kPa resolution) or pressure control (isobaric mode, stability ≤ ±0.05 kPa)",
+          "composition analysis device — gas chromatograph (GC), refractometer, or densimeter for liquid-phase and vapor-phase mole fraction determination",
+          "thermostat or pressure controller — constant-temperature bath (isothermal mode) or manostat/ballast volume (isobaric mode)",
+          "degassing apparatus — freeze-pump-thaw or ultrasonic/vacuum degassing to remove dissolved gases",
+          "data processing software — numerical fitting or interpolation routines for T(x) or P(x) curve analysis and extremum location"
+        ],
+        "environmental_requirements": [
+          "isobaric mode: pressure must be held constant to within ±0.05 kPa during the entire T-x measurement series",
+          "isothermal mode: temperature must be held constant to within ±0.01–0.05 K during the entire P-x measurement series",
+          "absence of air or inert gas leaks that would bias pressure or temperature readings",
+          "adequate thermal equilibration time between composition changes (typically 15–60 min per data point)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid samples — no geometric constraint; loaded into equilibrium cell or still"
+          ],
+          "size_limits": "typically 10–200 mL of binary mixture per composition point, depending on the equilibrium apparatus volume",
+          "thickness_limits": "not applicable (bulk liquid measurement)",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "high-purity components (≥ 99 mol%) to avoid systematic composition errors",
+            "thorough degassing of each pure component before mixing — dissolved gases bias temperature and pressure readings",
+            "gravimetric or volumetric preparation of mixtures at known mole fractions",
+            "verification of pure-component boiling points and/or vapor pressures against literature values before mixture measurements"
+          ]
+        },
+        "calibration_requirements": [
+          "thermometer calibration against ITS-90 fixed points or a certified reference thermometer",
+          "pressure transducer or manostat calibration against a dead-weight gauge or NIST-traceable standard",
+          "GC or composition analyzer calibration with gravimetrically prepared standards spanning the full composition range",
+          "verification of apparatus by reproducing pure-component boiling points (isobaric) or vapor pressures (isothermal) of both components"
+        ],
+        "reference_materials": [
+          "pure-component boiling points and vapor pressures from Antoine equation or NIST Webbook as consistency checks",
+          "well-characterized azeotropic systems (e.g., ethanol-water at 101.325 kPa: Taz ≈ 351.3 K, xaz,ethanol ≈ 0.894; acetone-chloroform) for method validation",
+          "GC calibration standards prepared gravimetrically from high-purity components"
+        ],
+        "consumables": [
+          "high-purity solvents and solutes (≥ 99 mol%)",
+          "GC carrier gas (helium or nitrogen) and column consumables",
+          "vacuum pump oil and O-rings for equilibrium cells",
+          "septum seals and boiling stones or magnetic stirrers"
+        ],
+        "safety_notes": [
+          "volatile organic compounds require fume hood and proper ventilation",
+          "flammable solvents demand spark-free equipment and grounding",
+          "pressurized glass cells require safety shields",
+          "elevated-temperature operation (ebulliometers) requires burn protection"
+        ]
+      },
+      "performance": {
+        "sensitivity": "ability to detect azeotropes depends on the curvature of the T-x or P-x curve; shallow extrema (near-azeotropic or tangent-pinch systems) require very precise T, P, and x measurements to resolve",
+        "detection_limit": "can identify azeotropes where the temperature difference between the extremum and the nearest pure-component boiling point is as small as ~0.05 K, or the pressure difference is ~0.05 kPa, provided instrument resolution is adequate",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable (equilibrium method)",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "applicable across the full composition range x = 0 to 1; temperatures from ~250 K to ~550 K; pressures from ~0.1 kPa to several MPa depending on the underlying VLE apparatus",
+        "accuracy": "azeotropic composition typically determined to ±0.002–0.01 in mole fraction; azeotropic temperature to ±0.05–0.5 K (isobaric); azeotropic pressure to ±0.05–0.5 kPa (isothermal); depends on quality and density of underlying phase equilibrium data",
+        "precision": "repeatability of ±0.001–0.005 in mole fraction, ±0.02–0.2 K in temperature, and ±0.02–0.1 kPa in pressure for well-designed experiments with dense data near the extremum",
+        "throughput": "low — one complete T-x isobar or P-x isotherm (15–30 composition points, each requiring thermal equilibration) typically requires 1–3 days of measurement",
+        "measurement_speed": "analysis step (extremum finding) is essentially instantaneous by computation; the underlying VLE data collection dominates the total time"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "tabulated set of (x, T) data pairs at constant P (isobaric mode) or (x, P) data pairs at constant T (isothermal mode), obtained from the underlying VLE experiment",
+        "preprocessing_steps": [
+          "verification that all data points were measured at the same pressure (isobaric, within ±0.05 kPa) or same temperature (isothermal, within ±0.05 K)",
+          "screening for outlier data points using thermodynamic consistency tests (e.g., Herington area test, van Ness point test)",
+          "ordering data by increasing mole fraction",
+          "interpolation or smooth curve fitting of T(x) or P(x) data using polynomial, spline, or activity coefficient models (Margules, Wilson, NRTL, UNIQUAC)"
+        ],
+        "analysis_methods": [
+          "polynomial regression: fit T(x) or P(x) to a polynomial (typically 3rd–5th order Redlich-Kister or power series) and locate the extremum analytically by setting dT/dx = 0 or dP/dx = 0",
+          "cubic spline interpolation: fit a natural or clamped cubic spline through the data and find the zero of the first derivative numerically",
+          "activity coefficient model fitting: regress Wilson, NRTL, or UNIQUAC parameters to VLE data, compute the model T(x) or P(x) curve, and locate the extremum from the model",
+          "graphical method: plot T vs. x or P vs. x, visually identify the maximum or minimum, and read off the azeotropic coordinates",
+          "numerical differentiation: compute finite-difference dT/dx or dP/dx from tabulated data and locate the zero crossing"
+        ],
+        "model_assumptions": [
+          "the system is at true thermodynamic equilibrium at each measured data point",
+          "the T-x or P-x curve is smooth and has a single well-defined extremum (no inflection points or multiple extrema in the region of interest)",
+          "the fitting function (polynomial, spline, or activity coefficient model) adequately represents the true curve shape, especially near the extremum",
+          "the liquid-phase composition x is accurately known (no systematic bias from sampling or analysis)",
+          "the vapor phase is in equilibrium with the liquid and the measured T or P reflects only the binary system (no dissolved inert gas or partial condensation artifacts)"
+        ],
+        "fit_parameters": [
+          "azeotropic composition xaz (mole fraction at dT/dx = 0 or dP/dx = 0)",
+          "azeotropic temperature Taz (temperature at the T-x extremum, isobaric mode)",
+          "azeotropic pressure Paz (pressure at the P-x extremum, isothermal mode)",
+          "polynomial or Redlich-Kister coefficients describing T(x) or P(x)",
+          "activity coefficient model parameters (e.g., Wilson Λ12, Λ21; or NRTL τ12, τ21, α12) when using model-based fitting"
+        ],
+        "common_artifacts": [
+          "spurious extremum from noisy data: random scatter in T, P, or x may create a false maximum/minimum in a system that is not truly azeotropic",
+          "flat extremum artifact: near-ideal systems or tangent-pinch behavior produces an extremely shallow T(x) or P(x) curve, making the extremum location highly uncertain",
+          "polynomial oscillation (Runge phenomenon): high-order polynomial fits may introduce oscillations that create artificial extrema near the edges of the composition range",
+          "dissolved gas bias: residual air or inert gas raises pressures or depresses boiling points, systematically shifting Paz or Taz",
+          "pressure drift artifact (isobaric mode): if the isobar is not truly isobaric, the T-x data are inconsistent and the apparent extremum is shifted or smeared",
+          "temperature drift artifact (isothermal mode): if the isotherm is not truly isothermal, the P-x data are distorted"
+        ],
+        "quality_control_checks": [
+          "thermodynamic consistency test (Herington area test or van Ness point test) on the underlying VLE data",
+          "verify that pure-component endpoint values T(x=0), T(x=1) or P(x=0), P(x=1) agree with literature boiling points or vapor pressures within experimental uncertainty",
+          "check that the identified extremum lies within the measured composition range (not extrapolated beyond the data)",
+          "compare results from multiple fitting methods (polynomial, spline, activity coefficient model) — agreement within uncertainty confirms robustness",
+          "confirm that sufficient data points bracket the extremum (at least 3–5 points on each side)",
+          "verify that the Gibbs-Konovalov condition x = y holds at the identified extremum if vapor-phase composition data are available"
+        ],
+        "failure_modes": [
+          "insufficient data density near the extremum — too few points to resolve the curvature, leading to large uncertainty in xaz, Taz, or Paz",
+          "system does not exhibit a true azeotrope — the T(x) or P(x) curve is monotonic, but noisy data create an apparent extremum",
+          "model mismatch — the chosen fitting function cannot represent the true curve shape (e.g., symmetric model for a highly asymmetric system)",
+          "composition analysis error — systematic bias in GC calibration shifts all x values and hence xaz",
+          "incomplete degassing — dissolved air adds a pressure offset or depresses boiling temperatures, corrupting the extremum location",
+          "confusion between VLE and LLE — applying the method to a composition range that spans a miscibility gap without accounting for liquid-liquid phase splitting"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: ±0.003–0.01 in azeotropic mole fraction; ±0.1–0.5 K in azeotropic temperature (isobaric); ±0.1–1% in azeotropic pressure (isothermal)",
+        "random_sources": [
+          "scatter in individual T-x or P-x data points from thermometer or pressure transducer noise",
+          "random error in liquid-phase composition determination (GC peak integration variability)",
+          "temperature fluctuations in isobaric mode or pressure fluctuations in isothermal mode during equilibration",
+          "sampling variability when withdrawing liquid or condensed vapor for composition analysis"
+        ],
+        "systematic_sources": [
+          "thermometer calibration offset (isobaric mode)",
+          "pressure transducer calibration offset (isothermal mode)",
+          "GC composition calibration bias",
+          "manostat or thermostat setpoint offset from true value",
+          "dissolved gas contamination raising total pressure or depressing boiling temperature",
+          "adsorption or absorption effects in the equilibrium cell changing effective composition",
+          "choice of fitting function (polynomial order, model type) — model selection introduces a systematic bias in the extremum location"
+        ],
+        "operator_dependence": "moderate — data quality depends on operator skill in degassing, equilibration timing, GC calibration, and selection of appropriate fitting method",
+        "model_dependence": "significant — the extracted azeotropic coordinates depend on the mathematical form used to fit T(x) or P(x); different models (polynomial, spline, Wilson, NRTL) may yield slightly different values, especially for shallow extrema",
+        "dominant_error_sources": [
+          "composition measurement uncertainty (GC calibration and sampling) — directly limits the resolution of xaz",
+          "data point density near the extremum — sparse data causes large interpolation uncertainty",
+          "fitting model selection — especially critical for flat or asymmetric T(x) or P(x) curves",
+          "constraint variable stability — drift in pressure (isobaric) or temperature (isothermal) during the measurement series"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(xaz), U(Taz), and/or U(Paz) at 95% confidence (k=2)",
+          "standard uncertainty from propagation of T, P, and x measurement uncertainties through the fitting procedure",
+          "range of azeotropic values obtained from different fitting methods as a robustness estimate"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "By T or P extreme is a derived analytical method — not a physical instrument — used to determine azeotropic properties from phase equilibrium data by locating extrema in temperature-composition (T-x) or pressure-composition (P-x) phase diagrams of binary mixtures. In isobaric mode, the analyst identifies the composition at which the boiling temperature reaches a maximum or minimum along a constant-pressure T-x curve (dT/dx = 0). In isothermal mode, the extremum in total pressure along a constant-temperature P-x curve is located (dP/dx = 0). At such an extremum, the Gibbs-Konovalov theorem guarantees that the vapor and liquid compositions are equal (x = y), defining an azeotrope. This method is more general than the isothermal-only By P(X) extreme approach because it encompasses both isobaric T-x and isothermal P-x analysis. In the ThermoML database, it appears in the CompositionAtPhaseEquilibrium property group (51 instances, 32 papers) for reporting azeotropic temperature, azeotropic pressure, and azeotropic composition.",
+      "how_it_operates": "The method operates on a complete set of phase equilibrium data measured for a binary system under either isobaric or isothermal conditions. In isobaric mode, the analyst measures boiling temperatures at a series of known liquid-phase compositions spanning the full mole-fraction range from x = 0 to x = 1, all at a single constant pressure (commonly atmospheric, 101.325 kPa), using an ebulliometer or recirculating still. In isothermal mode, total pressure is measured at a series of compositions at constant temperature using a static or dynamic VLE apparatus. The resulting T(x) or P(x) data are fitted to a smooth mathematical function — typically a polynomial, cubic spline, or activity-coefficient-based model (Wilson, NRTL, UNIQUAC). The fitted curve is differentiated with respect to composition, and the azeotropic point is identified as the composition xaz where dT/dx = 0 (isobaric) or dP/dx = 0 (isothermal). The corresponding temperature or pressure at that point gives the azeotropic temperature Taz or pressure Paz.",
+      "core_theory": "The theoretical foundation is the Gibbs-Konovalov theorem, which states that at an azeotropic point the boiling temperature (at constant P) or the total pressure (at constant T) passes through an extremum as a function of liquid composition, and simultaneously the vapor composition equals the liquid composition (y = x). For a positive-deviation azeotrope, the T-x curve shows a minimum (minimum-boiling azeotrope) and the P-x curve shows a maximum (maximum-pressure azeotrope), indicating that the mixture is more volatile than predicted by Raoult's law. For a negative-deviation azeotrope, the T-x curve shows a maximum (maximum-boiling azeotrope) and the P-x curve shows a minimum (minimum-pressure azeotrope). Mathematically, the condition dT/dx|P = 0 or dP/dx|T = 0 is equivalent to requiring that the liquid and vapor compositions coincide, which follows from the Gibbs-Duhem equation applied to both phases at equilibrium. The curvature (d²T/dx² or d²P/dx²) at the extremum quantifies the sharpness of the azeotrope — large absolute curvature implies a well-defined azeotrope with low determination uncertainty, while near-zero curvature indicates a tangent-pinch or near-azeotropic system that is difficult to locate precisely.",
+      "setup": "Since By T or P extreme is a data analysis method rather than an instrument, the 'setup' consists of two parts: (1) the underlying VLE measurement apparatus, and (2) the computational tools. For isobaric T-x data, the typical apparatus is an ebulliometer or a recirculating equilibrium still (Othmer-type, Gillespie-type, or a modern modified design) operating at controlled pressure via a manostat or ballast volume. Boiling temperature is measured with a calibrated platinum resistance thermometer (resolution ≤ 0.01 K). For isothermal P-x data, a static equilibrium cell thermostatted in a constant-temperature bath is used, with total pressure read by a high-resolution pressure transducer (e.g., Druck or MKS Baratron, ≤ 0.01 kPa). In both modes, liquid-phase (and optionally vapor-phase) composition is determined by gas chromatography or by refractometry/densimetry. Samples are degassed by freeze-pump-thaw cycles or ultrasonic/vacuum treatment. The computational setup requires software capable of polynomial or spline fitting (Python with SciPy, MATLAB, Origin) or thermodynamic model regression (Aspen Plus, ThermoSolver) to process the data and locate the extremum.",
+      "suitable_for": "This method is suitable for any binary system that exhibits azeotropic behavior, whether studied under isobaric or isothermal conditions. It is particularly well-suited for standard atmospheric-pressure VLE studies where T-x data from ebulliometers are the natural output, making the isobaric T-x extreme approach very common in practice. Common applications include alcohol-water systems (e.g., ethanol-water with its well-known minimum-boiling azeotrope), alcohol-hydrocarbon mixtures, ketone-alcohol systems, halogenated organic mixtures, and aqueous systems with volatile solutes. The method is also applicable to partially miscible systems for locating upper or lower critical solution temperature (UCST/LCST) extrema on T-x LLE curves. It is most reliable when the underlying T-x or P-x data are dense and precise, and the extremum curvature is significant. The dual-mode capability (T-x and P-x) makes it versatile for confirming azeotrope existence across different experimental configurations.",
+      "core_limitations": "The method requires high-quality phase equilibrium data spanning the full composition range under rigorously constant pressure (isobaric) or constant temperature (isothermal) conditions, which is experimentally expensive and time-consuming. For systems with very shallow T(x) or P(x) extrema — tangent-pinch or near-azeotropic systems — the curvature at the extremum is so small that the azeotropic coordinates become highly sensitive to measurement noise and fitting model choice. The method is strictly defined for binary systems; extension to ternary or higher systems requires analysis of T(x₁, x₂) or P(x₁, x₂) surfaces, which is rarely done in practice. It cannot detect azeotropes that exist only at pressures or temperatures outside the measured isobar or isotherm. Drift in the constraint variable (pressure in isobaric mode, temperature in isothermal mode) during the measurement series distorts the apparent extremum. The method also cannot distinguish between a true azeotrope and a tangent-pinch (near-azeotropic behavior) without sufficiently precise data.",
+      "sample_preparation": "Sample preparation centers on obtaining high-purity components and preparing accurately known binary mixtures. Each pure component should be of analytical grade (≥ 99 mol%), verified by GC analysis, and thoroughly degassed to remove dissolved air or other gases that would bias boiling temperature or total pressure readings. Degassing is typically performed by repeated freeze-pump-thaw cycles, prolonged vacuum exposure, or ultrasonic treatment under vacuum. Binary mixtures are prepared gravimetrically using an analytical balance (±0.1 mg) or by precision volumetric methods. For ebulliometric (isobaric) measurements, the mixture is charged to the still under inert atmosphere or vacuum. For static (isothermal) cells, the mixture is loaded under vacuum to prevent air contamination. Pure-component boiling points (isobaric mode) or vapor pressures (isothermal mode) should be measured before and after the mixture series to verify system integrity and absence of decomposition.",
+      "calibration_and_references": "Calibration applies to the underlying VLE measurement apparatus rather than to the extremum-finding method itself. The thermometer is calibrated against ITS-90 fixed points or a certified reference platinum resistance thermometer. The pressure transducer or manostat is calibrated against a dead-weight tester or NIST-traceable reference. The composition measurement system (GC, refractometer, or densimeter) is calibrated with gravimetrically prepared binary standards spanning the full mole-fraction range. As system-level validation, the pure-component boiling points at the isobaric pressure, or vapor pressures at the isothermal temperature, are compared against established Antoine equation predictions or NIST Webbook values. For azeotrope validation, results from well-studied reference systems (e.g., ethanol-water at 101.325 kPa, acetone-chloroform, benzene-cyclohexane) can be compared with literature values to confirm that the apparatus and analysis pipeline produce consistent results.",
+      "data_interpretation": "Data interpretation involves fitting the measured T-x or P-x tabulation to a smooth function and locating the extremum. For isobaric T-x data, common approaches include fitting a Redlich-Kister polynomial to the excess boiling temperature (Texcess = Tmeasured − TRaoult linear interpolation), fitting activity coefficient models to regress vapor-liquid equilibrium parameters and predict T(x), or fitting a cubic spline through the data. The extremum is identified where dT/dx = 0 (isobaric) or dP/dx = 0 (isothermal), giving xaz and Taz or Paz. For isothermal P-x data, the procedure is analogous. The robustness of the result is assessed by comparing the azeotropic coordinates from multiple fitting approaches — if polynomial, spline, and activity coefficient model results agree within uncertainty, the determination is considered reliable. The second derivative at the extremum (d²T/dx² or d²P/dx²) quantifies the sharpness of the azeotrope: large absolute values indicate a precisely determinable azeotrope, while values near zero signal a shallow extremum with inherently higher uncertainty. If both T-x,y and P-x,y data are available, verification that x = y at the identified extremum provides an independent consistency check via the Gibbs-Konovalov theorem.",
+      "common_pitfalls": "The most common pitfall is insufficient data density near the extremum. If only a few T-x or P-x points lie in the vicinity of the azeotrope, the fitted curve may poorly represent the true phase diagram shape, and the extracted azeotropic coordinates can shift by 0.01 in mole fraction or 0.5 K in temperature depending on the fitting function. A second major pitfall is drift in the constraint variable: in isobaric mode, pressure fluctuations from an unstable manostat cause the T-x data to scatter artificially, while in isothermal mode, thermostat instability corrupts the P-x data. Inadequate degassing is a third critical issue — dissolved air raises total pressure and depresses boiling temperatures, shifting the extremum. Using an overly flexible fitting function (high-order polynomial) can introduce Runge oscillations that create spurious extrema, while an overly rigid function (two-parameter model for a highly asymmetric system) can mislocate the true extremum. A subtle pitfall specific to T-x analysis is confusion between the bubble-point and dew-point curves — the extremum must be identified on the correct curve. Neglecting to perform thermodynamic consistency tests on the underlying data is also common and can allow undetected systematic errors to propagate to the azeotropic coordinates.",
+      "artifacts_and_failure_modes": "The primary artifact is a false azeotrope: random scatter in T-x or P-x data for a non-azeotropic system can create an apparent extremum, especially with flexible fitting functions. This is detected by ensuring d²T/dx² or d²P/dx² has a physically meaningful magnitude and by applying thermodynamic consistency tests. Polynomial oscillation (Runge phenomenon) near composition endpoints can create secondary false extrema that do not correspond to real azeotropic behavior. Constraint-variable drift produces non-isobaric T-x or non-isothermal P-x datasets whose apparent extrema are systematically shifted or smeared. Dissolved gas contamination affects T-x and P-x curves differently — in T-x isobaric mode, dissolved gas depresses boiling points non-uniformly across composition, distorting the curve shape; in P-x isothermal mode, it adds a roughly constant pressure offset. Composition analysis artifacts (nonlinear GC detector response, co-elution) introduce systematic x errors that propagate directly to xaz. In partially miscible systems, failure to recognize a liquid-liquid miscibility gap can lead to fitting T-x data across a two-phase region, producing a meaningless extremum. Complete failure occurs when the system does not have an azeotrope under the measured conditions — the T(x) or P(x) curve is monotonic — and forcing an extremum onto such data yields physically meaningless results.",
+      "reporting_checklist": "Published results determined by T or P extreme should report: (1) the operating mode — isobaric (specifying the constant pressure with uncertainty) or isothermal (specifying the constant temperature with uncertainty); (2) the number of T-x or P-x data points and the composition range covered; (3) the composition spacing near the extremum; (4) the fitting method used (polynomial order, spline type, or activity coefficient model and regressed parameters); (5) azeotropic composition xaz with combined expanded uncertainty U(xaz) at 95% confidence; (6) azeotropic temperature Taz (isobaric) and/or azeotropic pressure Paz (isothermal) with combined expanded uncertainty at 95% confidence; (7) azeotrope type (positive/negative deviation; minimum-boiling/maximum-boiling or maximum-pressure/minimum-pressure); (8) pure-component boiling points or vapor pressures measured in the same apparatus as a consistency check; (9) results of thermodynamic consistency tests on the underlying VLE data; (10) comparison of azeotropic coordinates from multiple fitting approaches if available; (11) verification that x = y at the extremum if vapor-phase composition data are available. For ThermoML encoding, values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

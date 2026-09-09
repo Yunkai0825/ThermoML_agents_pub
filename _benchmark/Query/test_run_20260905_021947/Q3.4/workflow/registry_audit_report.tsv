@@ -1,0 +1,18 @@
+severity	check	subject	detail
+INFO	balance	detailed/chars	sources emit 1,252,192 / sinks absorb 1,252,192
+INFO	balance	detailed/ids	sources emit 988 / sinks absorb 988
+INFO	balance	detailed/blocks	sources emit 330 / sinks absorb 330
+INFO	balance	detailed/pts	sources emit 13,539 / sinks absorb 13,539
+INFO	balance	agentic/chars	sources emit 1,252,192 / sinks absorb 1,252,192
+INFO	balance	agentic/ids	sources emit 371 / sinks absorb 371
+INFO	balance	agentic/blocks	sources emit 131 / sinks absorb 131
+FAIL	balance	agentic/pts	2 ids never reach a sink: ['PROPblock_13', 'PROPblock_16']
+INFO	balance	agentic/pts	sources emit 5,194 / sinks absorb 5,194
+INFO	balance	pooled/chars	sources emit 1,252,192 / sinks absorb 1,252,192
+INFO	balance	pooled/ids	sources emit 361 / sinks absorb 361
+INFO	balance	pooled/blocks	sources emit 130 / sinks absorb 130
+FAIL	balance	pooled/pts	2 ids never reach a sink: ['PROPblock_13', 'PROPblock_16']
+INFO	balance	pooled/pts	sources emit 5,178 / sinks absorb 5,178
+FAIL	raw_coverage	Q/L1#2	20 evidence ids missing from ids-detailed: ['BLKpoint_11', 'BLKpoint_13', 'BLKpoint_15', 'BLKpoint_17', 'BLKpoint_18', 'BLKpoint_2', 'BLKpoint_27', 'BLKpoint_28']
+FAIL	raw_coverage	Q/L1#3	10 evidence ids missing from ids-detailed: ['GLOBcomp_154', 'GLOBlit_3971::PROPblock_1', 'GLOBlit_3971::PROPblock_2', 'GLOBlit_3971::PROPblock_3', 'GLOBlit_3971::PROPblock_4', 'GLOBlit_3971::PROPblock_5', 'GLOBlit_3971::PROPblock_6', 'GLOBlit_3971::PROPblock_7']
+FAIL	raw_coverage	Q/L1#4	29 evidence ids missing from ids-detailed: ['BLKpoint_11', 'BLKpoint_12', 'BLKpoint_13', 'BLKpoint_15', 'BLKpoint_17', 'BLKpoint_18', 'BLKpoint_2', 'BLKpoint_27']

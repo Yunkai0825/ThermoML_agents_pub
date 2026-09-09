@@ -1,0 +1,321 @@
+{
+  "$schema": "thermoml_mdks_schema_v3",
+  "$id": "MDKS_meas_INDIV_metadata",
+  "title": "MDKS Measurement Technique Usage Card (per-DOI)",
+  "description": "Per-paper record of which measurement techniques were used. One card per DOI. Method-centric: each entry describes a unique technique applied in the paper and lists which blocks used it. The agent uses this to find papers by technique and to link technique metadata to block data.",
+  "version": "3.0.0",
+  "database_stats": {
+    "total_cards": 11923,
+    "total_block_property_instances": 130104,
+    "standard_method_instances": 76184,
+    "custom_method_instances": 53919,
+    "methods_per_paper": {
+      "avg": 2.3,
+      "median": 2,
+      "max": 18
+    },
+    "distribution": {
+      "1_method": 4598,
+      "2_methods": 3309,
+      "3_methods": 2049,
+      "4_methods": 1090,
+      "5_methods": 482,
+      "6_plus_methods": 395
+    }
+  },
+  "card_structure": {
+    "key": {
+      "description": "Primary key: one card per DOI.",
+      "fields": {
+        "doi": {
+          "type": "string",
+          "description": "DOI of the paper"
+        },
+        "lit_id": {
+          "type": "string",
+          "description": "TRC literature identifier (yrYrPub-sAuthor1-sAuthor2-nAuthorn). 1:1 with DOI.",
+          "example": "2005-pat-klo-0"
+        },
+        "lit_num_id": {
+          "type": "string",
+          "description": "[audited] Present in 100.0% of cards. Example: GLOBlit_1"
+        }
+      }
+    },
+    "methods_summary": {
+      "description": "Summary counts of measurement techniques used in this paper.",
+      "fields": {
+        "n_unique_methods": {
+          "type": "integer",
+          "description": "Number of distinct method_type:method_name combinations"
+        },
+        "n_standard": {
+          "type": "integer",
+          "description": "Number of block-property instances using standard (controlled vocabulary) methods"
+        },
+        "n_custom": {
+          "type": "integer",
+          "description": "Number of block-property instances using custom (free-text) methods"
+        },
+        "technique_families": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Distinct technique families (from MDKS_meas_ID_and_DK.technique_families) represented in this paper"
+        }
+      }
+    },
+    "methods": {
+      "description": "Array of distinct measurement techniques used in this paper. Each entry groups all block-properties that used the same method.",
+      "type": "array",
+      "items": {
+        "fields": {
+          "method_type": {
+            "type": "string",
+            "description": "Whether the method is from the controlled vocabulary or free-text",
+            "allowed_values": [
+              "standard",
+              "custom"
+            ]
+          },
+          "method_name": {
+            "type": "string",
+            "description": "Method name: standard (eMethodName) or custom (sMethodName). For custom with UFactor suffix, the full string is preserved."
+          },
+          "property_group": {
+            "type": "string",
+            "description": "Property group this method was used for in this paper"
+          },
+          "property_names": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Specific property names (ePropName) measured with this technique in this paper"
+          },
+          "block_numbers": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "Block numbers in the paper where this technique was applied"
+          },
+          "instance_count": {
+            "type": "integer",
+            "description": "Number of block-property entries using this technique (usually equals len(block_numbers) for single-property blocks)"
+          },
+          "meas_id": {
+            "type": "string",
+            "description": "[audited] Present in 100.0% of cards. Example: hot_wire_method"
+          },
+          "meas_num_id": {
+            "type": "string",
+            "description": "[audited] Present in 100.0% of cards. Example: GLOBmeas_41"
+          },
+          "properties": {
+            "type": "array",
+            "description": "Property occurrences measured with this technique. Component-linked identities preserve their DOI-local suffix (for example, mole_fraction_DOIcomp_1).",
+            "items": {
+              "fields": {
+                "component_linked": {
+                  "type": "boolean",
+                  "description": "[audited] Present in 100.0% of cards. Example: False"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "[audited] Present in 100.0% of cards. Example: Thermal conductivity, W/m/K"
+                },
+                "prop_id": {
+                  "type": "string",
+                  "description": "Occurrence-level property identity. Component-linked values contain DOIcomp_N; non-component values use the base identity. Examples: mole_fraction_DOIcomp_1, thermal_conductivity_w_m_k"
+                },
+                "prop_num_id": {
+                  "type": "string",
+                  "description": "[audited] Present in 100.0% of cards. Example: GLOBprop_34"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "field_universe_audit": {
+    "generated": "2026-08-03",
+    "source": "full scan of every card in the database (audit_card_fields.py)",
+    "rows_scanned": 11923,
+    "distinct_paths": 24,
+    "wildcards": "ID-grammar keys collapsed: <GLOBxxx_N>, <PROPblock_N>, <BLKxxx_N>, <DOIcomp_N>, <doi>, <n>",
+    "paths": {
+      "key": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "key.doi": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "10.1007/s10765-005-5566-6"
+      },
+      "key.lit_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "2005-pat-klo-0"
+      },
+      "key.lit_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBlit_1"
+      },
+      "methods": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "methods[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "methods[].block_numbers": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "methods[].block_numbers[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "PROPblock_1"
+      },
+      "methods[].instance_count": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "2"
+      },
+      "methods[].meas_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "hot_wire_method"
+      },
+      "methods[].meas_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBmeas_41"
+      },
+      "methods[].method_name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Hot wire method"
+      },
+      "methods[].method_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "standard"
+      },
+      "methods[].properties": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "methods[].properties[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "methods[].properties[].component_linked": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "methods[].properties[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Thermal conductivity, W/m/K"
+      },
+      "methods[].properties[].prop_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "thermal_conductivity_w_m_k"
+      },
+      "methods[].properties[].prop_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBprop_34"
+      },
+      "methods[].property_group": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "TransportProp"
+      },
+      "methods_summary": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "methods_summary.n_custom": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "methods_summary.n_standard": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "1"
+      },
+      "methods_summary.n_unique_methods": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "1"
+      }
+    }
+  }
+}

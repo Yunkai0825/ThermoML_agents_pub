@@ -1,0 +1,21 @@
+severity	check	subject	detail
+INFO	balance	detailed/chars	sources emit 263,906 / sinks absorb 263,906
+INFO	balance	detailed/ids	sources emit 433 / sinks absorb 433
+FAIL	orphan	detailed/ids:Main/Q2/L1#2:resolve_property_ids#1:hardcoded	'Q2 · L1#2 · resolve_property_ids · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/ids:Main/Q2/L1#2:resolve_property_ids#1:raw	'Q2 · L1#2 · resolve_property_ids · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/ids:Main/Q2/L1#2:sink:triage_cut	'Q2 · L1#2 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/ids:Main/Q2/L1#2:search_blocks#1:raw	'Q2 · L1#2 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/ids:Main/Q2/L1#2:sink:hardcoded_cut	'Q2 · L1#2 · hardcoded compaction cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	detailed/blocks	sources emit 77 / sinks absorb 77
+FAIL	balance	detailed/pts	1 ids never reach a sink: ['GLOBlit_2825::PROPblock_21']
+INFO	balance	detailed/pts	sources emit 2,465 / sinks absorb 2,465
+INFO	balance	agentic/chars	sources emit 263,906 / sinks absorb 263,906
+INFO	balance	agentic/ids	sources emit 369 / sinks absorb 369
+INFO	balance	agentic/blocks	sources emit 56 / sinks absorb 56
+FAIL	balance	agentic/pts	1 ids never reach a sink: ['GLOBlit_2825::PROPblock_21']
+INFO	balance	agentic/pts	sources emit 1,657 / sinks absorb 1,657
+INFO	balance	pooled/chars	sources emit 263,906 / sinks absorb 263,906
+INFO	balance	pooled/ids	sources emit 219 / sinks absorb 219
+INFO	balance	pooled/blocks	sources emit 33 / sinks absorb 33
+FAIL	balance	pooled/pts	1 ids never reach a sink: ['GLOBlit_2825::PROPblock_21']
+INFO	balance	pooled/pts	sources emit 879 / sinks absorb 879

@@ -1,0 +1,338 @@
+{
+  "meas_ID": "direct_current_cell_with_electrodes",
+  "identity": {
+    "name": "Direct current cell with electrodes",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Direct current cell with electrodes",
+    "thermoml_custom_codes": [
+      "DCELL"
+    ],
+    "measurement_family": "Conductivity / Electrochemistry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 164,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 43,
+      "per_group": {
+        "TransportProp": {
+          "instances": 164,
+          "papers": 43
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "current through cell (I) at applied DC voltage",
+          "voltage drop across electrodes (V)",
+          "electrode geometry and separation distance (L, A)"
+        ],
+        "derived_observables": [
+          "electrical resistance of solution (R = V/I)",
+          "electrical conductance (G = 1/R)",
+          "specific electrical conductivity (κ = G × K_cell)",
+          "molar conductivity (Λ = κ/c)",
+          "equivalent conductivity",
+          "ionic mobility"
+        ],
+        "target_properties": [
+          "specific electrical conductivity (κ)",
+          "molar conductivity (Λ)",
+          "equivalent conductivity",
+          "resistivity (ρ = 1/κ)",
+          "transport number (from Hittorf-type extensions)"
+        ],
+        "phases_measured": [
+          "liquid (aqueous electrolyte solutions)",
+          "liquid (non-aqueous electrolyte solutions)",
+          "ionic liquids (neat or diluted)",
+          "molten salts",
+          "mixed solvent electrolyte systems"
+        ],
+        "supported_sample_types": [
+          "aqueous strong electrolyte solutions",
+          "aqueous weak electrolyte solutions",
+          "non-aqueous electrolyte solutions",
+          "ionic liquids",
+          "molten salts and salt mixtures",
+          "mixed solvent electrolyte systems",
+          "concentrated brine solutions",
+          "battery and fuel cell electrolytes"
+        ],
+        "unsupported_sample_types": [
+          "non-conducting pure liquids (hydrocarbons, pure water at trace level)",
+          "gases",
+          "solid electrolytes (require specialized impedance methods)",
+          "extremely dilute solutions where electrode polarization swamps signal",
+          "solutions with redox-active species that undergo electrolysis at the electrodes",
+          "highly viscous polymer melts with negligible ionic conductivity"
+        ],
+        "typical_output_formats": [
+          "κ vs. temperature curve at fixed concentration",
+          "κ vs. concentration at fixed temperature",
+          "Λ vs. √c (Kohlrausch plot)",
+          "Walden plot (log Λ vs. log 1/η)",
+          "resistance vs. time trace (for drift monitoring)"
+        ],
+        "units": {
+          "conductivity": "S/m or mS/cm",
+          "molar_conductivity": "S·cm²/mol",
+          "resistance": "Ω",
+          "conductance": "S",
+          "cell_constant": "cm⁻¹ or m⁻¹",
+          "current": "A or mA",
+          "voltage": "V or mV",
+          "temperature": "K",
+          "concentration": "mol/L or mol/kg"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "applied_dc_voltage",
+            "typical_range": "0.1 V to 5 V",
+            "hard_limits": "must remain below the decomposition voltage of the electrolyte to avoid electrolysis; for aqueous systems typically < 1.23 V unless electrodes are chosen to suppress electrolysis",
+            "notes": "lower voltages reduce polarization artifacts but decrease signal-to-noise ratio"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 473 K",
+            "hard_limits": "limited by solvent boiling point, cell material compatibility, and electrode stability; molten salt cells extend to >1000 K",
+            "notes": "temperature control to ±0.01–0.1 K needed for accurate conductivity data"
+          },
+          {
+            "parameter": "concentration_range",
+            "typical_range": "0.001 mol/L to 5 mol/L",
+            "hard_limits": "lower limit set by electrode polarization overwhelming the bulk resistance signal; upper limit set by electrode fouling and non-ideal solution behavior",
+            "notes": "four-electrode configuration extends usable range to lower concentrations"
+          },
+          {
+            "parameter": "cell_constant",
+            "typical_range": "0.1 cm⁻¹ to 10 cm⁻¹",
+            "hard_limits": "must be matched to the expected conductivity range of the sample; low-K cells for dilute solutions, high-K cells for concentrated solutions",
+            "notes": "cell constant K_cell = L/A where L is electrode separation and A is electrode area"
+          }
+        ],
+        "variables": [
+          {
+            "name": "applied_voltage",
+            "role": "controlled input variable",
+            "typical_values": "0.1 V to 2 V DC",
+            "effect": "drives current through solution; must be below electrolysis threshold to avoid faradaic processes and gas evolution"
+          },
+          {
+            "name": "temperature",
+            "role": "scanned or fixed variable",
+            "typical_values": "273 K to 473 K",
+            "effect": "conductivity increases strongly with temperature due to decreased viscosity and increased ionic mobility; Arrhenius or VTF dependence"
+          },
+          {
+            "name": "concentration",
+            "role": "sample composition variable",
+            "typical_values": "0.001 mol/L to saturation",
+            "effect": "conductivity increases with concentration at low c, passes through a maximum, and decreases at high c due to ion pairing and viscosity effects"
+          },
+          {
+            "name": "electrode_material",
+            "role": "fixed cell design parameter",
+            "typical_values": "platinum, platinized platinum, stainless steel, graphite",
+            "effect": "determines polarization characteristics, chemical inertness, and catalytic activity for parasitic electrode reactions"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "conductivity cell — glass or PTFE body containing two or four electrodes at fixed separation",
+          "electrodes — platinum plates, platinized platinum, or inert metal electrodes with defined geometry",
+          "DC power supply — stable low-voltage source (0–5 V) with current limiting",
+          "ammeter / current sensor — precision microammeter or picoammeter for current measurement",
+          "voltmeter — high-impedance voltmeter for potential drop measurement across inner electrodes (four-electrode configuration)",
+          "thermostat — water bath, oil bath, or Peltier-controlled cell holder for temperature regulation (±0.01–0.1 K)",
+          "temperature sensor — Pt100 RTD or calibrated thermistor in thermal contact with the cell",
+          "data acquisition system — digitizer and computer for recording current, voltage, and temperature"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled bath or enclosure for thermal stability",
+          "inert atmosphere (nitrogen or argon blanket) for air-sensitive electrolytes or molten salts",
+          "vibration-free bench to prevent convective mixing artifacts",
+          "clean laboratory environment to prevent contamination of electrolyte solutions"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample filling the conductivity cell between electrodes",
+            "cell volume typically 1–50 mL depending on cell design"
+          ],
+          "size_limits": "typically 5–50 mL of solution; microcells available for volumes down to 0.1 mL",
+          "thickness_limits": "electrode gap typically 0.5–5 cm; set by cell constant requirements",
+          "surface_requirements": [
+            "electrode surfaces must be clean and free of oxide films or deposits",
+            "platinized platinum requires periodic re-platinization to maintain high surface area"
+          ],
+          "mounting_requirements": [
+            "cell immersed in thermostat bath to the fill line",
+            "electrodes fully immersed in solution with no trapped air bubbles",
+            "leads connected with low-resistance contacts"
+          ],
+          "preparation_requirements": [
+            "solutions prepared gravimetrically or volumetrically from dried analytical-grade salts",
+            "solvent degassed to remove dissolved CO2 (especially for weakly buffered solutions)",
+            "water purified to ≥18.2 MΩ·cm resistivity for aqueous solutions",
+            "ionic liquid or molten salt samples dried under vacuum to remove trace water"
+          ]
+        },
+        "calibration_requirements": [
+          "cell constant determination using KCl standard solutions of known conductivity (IUPAC recommended values)",
+          "temperature sensor calibration against certified reference thermometer or fixed points",
+          "verification of ohmic (linear I-V) behavior in the working voltage range",
+          "periodic re-determination of cell constant to account for electrode fouling or geometric changes"
+        ],
+        "reference_materials": [
+          "KCl aqueous solutions — IUPAC primary conductivity standards (0.01, 0.1, and 1.0 mol/kg at 25 °C)",
+          "NaCl aqueous solutions — secondary conductivity reference",
+          "NIST SRM 3190 — potassium chloride conductivity standard",
+          "deionized water — baseline conductivity reference (κ ≈ 0.055 µS/cm at 25 °C)"
+        ],
+        "consumables": [
+          "KCl standard solutions (analytical grade)",
+          "platinum black plating solution (chloroplatinic acid + lead acetate) for re-platinization",
+          "cleaning solutions (chromic acid, dilute HNO3, or piranha solution for electrode cleaning)",
+          "ultrapure water for rinsing",
+          "inert gas supply (N2 or Ar) for atmosphere control"
+        ],
+        "safety_notes": [
+          "DC current through electrolytes can produce hydrogen and oxygen gas — ensure adequate ventilation",
+          "chromic acid and piranha cleaning solutions are highly corrosive and require appropriate PPE",
+          "molten salt measurements involve high temperatures — burn hazard and appropriate containment required",
+          "platinum black plating solutions contain toxic lead compounds — handle with care"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of measuring conductivities from ~1 µS/cm to >100 S/m; sensitivity limited by electrode polarization at the low end",
+        "detection_limit": "practical lower limit ~1–10 µS/cm for two-electrode cells; four-electrode cells extend to ~0.1 µS/cm",
+        "resolution": {
+          "spatial": "not applicable (bulk solution measurement)",
+          "temporal": "voltage-current readings can be acquired at 1–100 Hz; limited by polarization relaxation time",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "conductivity range ~10⁻⁶ S/cm to ~1 S/cm covered by selecting appropriate cell constants (0.1–10 cm⁻¹)",
+        "accuracy": "0.5–2% for bulk electrolyte solutions with four-electrode configuration and proper calibration; 2–5% for two-electrode cells due to electrode polarization",
+        "precision": "0.1–0.5% (repeatability under stable thermal conditions)",
+        "throughput": "single cell measurement; one temperature or concentration point takes 1–10 minutes including thermal equilibration",
+        "measurement_speed": "individual resistance reading acquired in seconds; full thermal equilibration between data points is the rate-limiting step (1–10 min per point)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "DC current (I) measured at applied constant voltage (V), or DC voltage measured at applied constant current; yields resistance R = V/I",
+        "preprocessing_steps": [
+          "ohmic drop correction — subtract voltage drops across leads and contacts",
+          "electrode polarization correction — extrapolate R to zero time or use current reversal/interruption methods",
+          "temperature correction — normalize measured κ to reference temperature using known temperature coefficients",
+          "cell constant application — multiply measured conductance G by calibrated K_cell to obtain specific conductivity κ",
+          "solvent conductivity subtraction — subtract blank solvent conductivity from total to obtain electrolyte contribution"
+        ],
+        "analysis_methods": [
+          "Ohm's law analysis: R = V/I, G = 1/R, κ = G × K_cell",
+          "Kohlrausch law: Λ = Λ° − K√c for strong electrolytes at low concentration",
+          "Arrhenius plot: ln(κ) vs. 1/T to extract activation energy of ionic conduction",
+          "VTF (Vogel-Tammann-Fulcher) fit: κ = A·exp(−B/(T − T0)) for glass-forming electrolytes",
+          "Walden plot: log(Λ) vs. log(1/η) to assess degree of ion association",
+          "current interruption method: measure instantaneous IR-free voltage after current cutoff"
+        ],
+        "model_assumptions": [
+          "current flow between electrodes is uniform and one-dimensional (no fringe field effects)",
+          "solution behaves as an ohmic conductor in the measurement voltage range (linear I-V relationship)",
+          "electrode reactions are negligible at the applied voltage (no faradaic current)",
+          "solution composition is homogeneous and at thermal equilibrium",
+          "cell constant is independent of solution conductivity (no significant fringe-field variation with ionic strength)"
+        ],
+        "fit_parameters": [
+          "specific conductivity κ at each temperature and concentration",
+          "limiting molar conductivity Λ° (Kohlrausch extrapolation)",
+          "Kohlrausch constant K (slope of Λ vs. √c)",
+          "Arrhenius activation energy Ea for ionic conduction",
+          "VTF parameters (A, B, T0) for non-Arrhenius systems",
+          "ion association constant Ka (from conductivity-concentration analysis)"
+        ],
+        "common_artifacts": [
+          "electrode polarization — buildup of concentration gradients and double-layer charge at electrode surfaces produces a time-dependent increase in apparent resistance",
+          "electrolysis artifact — gas bubble formation on electrodes at voltages above decomposition potential reduces effective electrode area and introduces noise",
+          "Joule heating — excessive current raises local temperature near electrodes, causing apparent conductivity increase",
+          "electrode fouling — deposition of reaction products or contaminants on electrode surface alters cell constant",
+          "convection artifact — density gradients from Joule heating or concentration polarization induce convective mixing"
+        ],
+        "quality_control_checks": [
+          "verify linear I-V behavior across the working voltage range (ohmic check)",
+          "measure KCl standard solution and verify agreement with IUPAC reference values within ±0.5%",
+          "compare forward and reverse polarity measurements to detect asymmetric polarization",
+          "monitor resistance vs. time to ensure steady-state has been reached (no drift)",
+          "verify cell constant by measuring at least two different KCl standard concentrations",
+          "check for gas bubble formation by visual inspection or reproducibility of readings"
+        ],
+        "failure_modes": [
+          "severe electrode polarization masking bulk solution resistance (especially in dilute solutions)",
+          "gas evolution from electrolysis blocking electrode surface and causing erratic readings",
+          "electrode surface contamination or passivation changing effective cell constant",
+          "thermal runaway from Joule heating in concentrated solutions at high applied voltage",
+          "lead corrosion or contact degradation producing spurious additional resistance",
+          "cracked or leaking cell body allowing solution loss or contamination"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for absolute κ; up to 5% for two-electrode cells without polarization correction",
+        "random_sources": [
+          "thermal noise in current measurement electronics",
+          "temperature fluctuations in thermostat bath",
+          "solution mixing or convection noise",
+          "contact resistance variability at electrode leads",
+          "digital multimeter resolution and quantization noise"
+        ],
+        "systematic_sources": [
+          "electrode polarization bias (dominant in two-electrode configuration)",
+          "cell constant calibration uncertainty (from KCl standard value uncertainty and geometric reproducibility)",
+          "temperature measurement offset or gradient within cell",
+          "Joule heating producing local temperature rise above the bath setpoint",
+          "solvent conductivity subtraction uncertainty",
+          "sample concentration uncertainty (from weighing or volumetric preparation)",
+          "fringe-field effects altering effective cell constant for high-conductivity solutions"
+        ],
+        "operator_dependence": "moderate — cell cleaning, electrode surface preparation, solution preparation accuracy, and bubble-free filling depend on operator technique",
+        "model_dependence": "low to moderate — basic Ohm's law analysis has minimal model dependence; molar conductivity extrapolations (Kohlrausch, VTF) introduce model assumptions that affect derived parameters",
+        "dominant_error_sources": [
+          "electrode polarization (especially for two-electrode cells and dilute solutions)",
+          "cell constant calibration accuracy",
+          "temperature measurement and control uncertainty"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(κ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of κ",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Direct current cell with electrodes is an electrochemical technique for measuring the electrical conductivity of electrolyte solutions by passing a steady DC current through a cell containing two or four electrodes immersed in the sample. The measured resistance of the solution between the electrodes, combined with the calibrated cell constant (K_cell = L/A, the ratio of electrode separation to electrode area), yields the specific conductivity κ. While conceptually the simplest approach to conductivity measurement, DC methods are less commonly employed than alternating-current (AC) bridge techniques because DC excitation is susceptible to electrode polarization — the accumulation of charge, concentration gradients, and gas evolution at the electrode surfaces. Nevertheless, DC cells with four-electrode configurations that separate current-carrying and voltage-sensing electrodes can substantially mitigate polarization, making the method viable for moderate-to-high conductivity electrolytes, ionic liquids, and molten salts, as reflected by 164 measurement instances across 43 papers in the ThermoML database.",
+      "how_it_operates": "A known DC voltage is applied across the outer (current) electrodes of the conductivity cell, driving ionic current through the electrolyte solution. In the two-electrode configuration, the same electrodes carry the current and sense the voltage, so the total measured voltage includes both the ohmic drop across the solution and the parasitic voltage from electrode polarization. In the preferred four-electrode configuration, a separate pair of inner voltage-sensing electrodes measures the potential drop across a defined length of solution using a high-impedance voltmeter that draws negligible current, thereby eliminating electrode polarization from the voltage measurement. The resistance R is calculated from Ohm's law (R = V/I), converted to conductance G = 1/R, and then multiplied by the cell constant K_cell to yield the specific conductivity κ = G × K_cell. Measurements are typically taken after the system reaches steady state, or the current-interruption technique is used to separate the ohmic and polarization contributions.",
+      "core_theory": "The fundamental relation is Ohm's law applied to ionic conduction: V = IR, where V is the ohmic voltage drop across the electrolyte, I is the ionic current, and R is the solution resistance. The specific conductivity is κ = (1/R) × (L/A) = G × K_cell, where L is the distance between voltage-sensing electrodes and A is the effective cross-sectional area. For electrochemical cells, the total cell voltage also includes the electrode overpotentials η_anode and η_cathode arising from charge-transfer kinetics and concentration polarization: V_total = IR + η_anode + η_cathode. The four-electrode method eliminates overpotential contributions by measuring only the IR drop between inner sensing electrodes. The molar conductivity Λ = κ/c relates conductivity to electrolyte concentration c, and at low concentrations follows the Kohlrausch square-root law: Λ = Λ° − K√c, where Λ° is the limiting molar conductivity at infinite dilution and K is the Kohlrausch constant. Temperature dependence typically follows Arrhenius behavior κ = A·exp(−Ea/RT) or, for glass-forming electrolytes, the Vogel-Tammann-Fulcher equation κ = A·exp(−B/(T − T0)).",
+      "setup": "A typical DC conductivity cell consists of a glass or PTFE body housing two or four parallel platinum plate electrodes at fixed separation. In a four-electrode configuration, the outer pair of electrodes is connected to a stable DC power supply with current measurement, while the inner pair is connected to a high-impedance voltmeter (>10 GΩ) that measures the potential drop without drawing significant current. The cell is immersed in a thermostatted bath (water, oil, or silicone fluid) controlled to ±0.01–0.1 K, with a calibrated Pt100 RTD or thermistor monitoring the solution temperature. For molten salt measurements, the cell is constructed from high-temperature ceramics or quartz with refractory metal electrodes, housed in a tube furnace. Data acquisition is handled by a computer-controlled system that records voltage, current, and temperature simultaneously, often with automated polarity reversal to minimize polarization effects.",
+      "suitable_for": "DC conductivity cells are well suited for electrolyte solutions of moderate to high conductivity (κ > 0.1 mS/cm), where electrode polarization is a manageable fraction of the total cell voltage. The technique is particularly useful for ionic liquids and molten salts, which have high conductivity and where the relatively simple DC instrumentation offers practical advantages over AC bridges at elevated temperatures. It is also applied to concentrated aqueous electrolytes, battery electrolyte formulations, and brine solutions. The four-electrode configuration extends the usable range to somewhat lower conductivities and is valuable when electrode surface conditions are poorly controlled or when the electrodes participate in slow faradaic processes. The method is appropriate when accuracy requirements are 0.5–2% and when the simplicity and robustness of DC instrumentation are advantageous over the higher-accuracy AC impedance approach.",
+      "core_limitations": "The principal limitation of DC conductivity measurement is electrode polarization: the accumulation of electric double-layer charge, concentration gradients near the electrode surfaces, and possible gas evolution from electrolysis all contribute parasitic voltage drops that inflate the apparent resistance. In a two-electrode configuration, polarization can introduce errors of 5–50% or more, especially in dilute solutions, rendering the two-electrode DC method inadequate for precision work. Even the four-electrode configuration is limited at very low conductivities (<10 µS/cm) where the small currents involved make the voltage measurement susceptible to noise and leakage currents. DC methods are generally less accurate (0.5–2%) than AC bridge techniques (0.01–0.1%) for the same systems. The applied voltage must remain below the electrolyte decomposition potential to prevent electrolysis, which restricts the signal magnitude. Joule heating at high current densities can raise the local temperature and introduce systematic bias.",
+      "sample_preparation": "Electrolyte solutions are prepared gravimetrically from analytical-grade or primary-standard salts that have been dried to constant mass (typically 24–48 hours at 110–200 °C depending on the salt). Water used for aqueous solutions must be ultrapure (≥18.2 MΩ·cm resistivity from a Milli-Q or equivalent system), and should be freshly degassed under vacuum or by nitrogen sparging to remove dissolved CO2 that would contribute to the blank conductivity. Non-aqueous solvents are dried over molecular sieves and handled under inert atmosphere. Ionic liquids are dried under vacuum at elevated temperature (60–80 °C, 24 h) to reduce water content below 50 ppm as verified by Karl Fischer titration. Solutions are prepared at multiple concentrations by serial dilution or independent weighing. The cell is rinsed thoroughly with the sample solution before the measurement to displace any residual cleaning or calibration solution.",
+      "calibration_and_references": "The cell constant K_cell is determined by measuring the resistance of KCl standard solutions of known specific conductivity at 25 °C, using the IUPAC-recommended values: 0.01 mol/kg KCl (κ = 1412.0 µS/cm), 0.1 mol/kg KCl (κ = 12856 µS/cm), and 1.0 mol/kg KCl (κ = 111,342 µS/cm). At least two concentrations spanning the expected sample conductivity range should be used to verify that K_cell is concentration-independent (confirming minimal fringe-field effects). The temperature sensor is calibrated against a NIST-traceable reference thermometer or at the ice point (273.15 K) and a secondary fixed point. The cell constant should be re-determined whenever the electrodes are cleaned, re-platinized, or if the cell has been mechanically disturbed. NIST SRM 3190 (KCl primary conductivity standard) provides a traceable reference for critical measurements.",
+      "data_interpretation": "The specific conductivity κ is calculated from the measured resistance R, the calibrated cell constant K_cell, and any necessary corrections: κ = K_cell/R after subtracting the solvent blank conductivity. For concentration-dependent studies, the molar conductivity Λ = κ/c is computed and plotted against √c to extract the limiting molar conductivity Λ° by Kohlrausch extrapolation. Temperature-dependent data are fitted to an Arrhenius model to obtain the activation energy Ea of ionic conduction, or to the VTF equation for glass-forming electrolytes. A Walden plot (log Λ vs. log 1/η) can reveal the degree of ion association: data falling on or near the ideal KCl line indicate fully dissociated ions, while deviations below indicate significant ion pairing. When electrode polarization correction is needed, the current-interruption method captures the instantaneous ohmic voltage at the moment of current cutoff, before polarization relaxes, yielding a more accurate resistance value.",
+      "common_pitfalls": "The most critical pitfall is neglecting electrode polarization in two-electrode measurements, which systematically overestimates the solution resistance and underestimates κ, particularly for dilute solutions where the polarization resistance can exceed the bulk solution resistance. Applying a DC voltage above the electrolyte decomposition threshold causes gas evolution at the electrodes, leading to noisy and irreproducible readings and potential electrode damage. Inadequate thermal equilibration between data points introduces scatter because conductivity has a strong temperature coefficient (typically 1.5–2.5% per kelvin for aqueous electrolytes). Using a cell constant mismatched to the sample conductivity — e.g., a high-K cell with dilute solutions — results in either poor sensitivity or excessive current that causes Joule heating. Failure to clean and re-platinize electrodes periodically leads to a drifting cell constant and irreproducible results. Dissolved CO2 in unbuffered aqueous solutions contributes anomalous conductivity that does not represent the electrolyte of interest.",
+      "artifacts_and_failure_modes": "Electrode polarization produces a time-dependent resistance that increases after voltage application as the double layer charges and concentration gradients build up; in a two-electrode cell this appears as a rising R(t) curve that never reaches a true steady state. Gas bubble formation from electrolysis partially blocks the electrode surface, causing sudden jumps or spikes in measured resistance and reducing the effective electrode area, thereby shifting the apparent cell constant. Joule heating at high current densities creates local temperature gradients near the electrodes that drive convective mixing and produce noisy, irreproducible readings. Electrode fouling from deposition of insoluble reaction products (oxides, carbonates) progressively increases the real contact resistance and changes the effective cell constant. At very low conductivities, leakage currents through the cell body or measurement leads can create a parallel conduction path that causes the measured conductivity to be higher than the true value. Corrosion of non-platinum electrode materials in aggressive electrolytes introduces dissolved metal ions that contaminate the sample and alter its conductivity.",
+      "reporting_checklist": "Published DC conductivity cell results should include: electrode configuration (two-electrode or four-electrode) and electrode material, cell constant K_cell and how it was determined (which KCl standards, at what temperature), applied DC voltage or current and verification of ohmic behavior, whether polarization correction was applied and by what method (current interruption, polarity reversal, or extrapolation), thermostat type and temperature stability (±K), temperature sensor type and calibration, sample preparation details (salt purity, drying procedure, solvent purity and resistivity), solution concentration and how it was determined (gravimetric or volumetric), solvent blank conductivity subtraction, measured κ values with combined expanded uncertainty U(κ) at 95% confidence level (k=2), and any corrections applied (Joule heating, lead resistance). For ThermoML encoding, conductivity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

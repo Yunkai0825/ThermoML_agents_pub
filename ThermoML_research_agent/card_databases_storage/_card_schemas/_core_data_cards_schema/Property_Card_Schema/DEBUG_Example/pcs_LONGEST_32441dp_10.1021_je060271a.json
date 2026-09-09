@@ -1,0 +1,6313 @@
+{
+  "key": {
+    "doi": "10.1021/je060271a",
+    "lit_id": "2007-fed-mar-0",
+    "lit_num_id": "GLOBlit_8974"
+  },
+  "paper": {
+    "doi": "10.1021/je060271a",
+    "title": "PGT Experimental Measurements and Data Correlation of Pentaerythritol Esters"
+  },
+  "blocks_summary": {
+    "n_blocks": 5,
+    "n_pure_or_mixture": 5,
+    "n_reaction": 0,
+    "property_names": [
+      "Mass density, kg/m3"
+    ],
+    "property_groups": [
+      "VolumetricProp"
+    ],
+    "compound_names": [
+      "pentaerythritol tetrabutyrate",
+      "pentaerythritol tetraheptanoate",
+      "pentaerythritol tetrahexanoate",
+      "pentaerythritol tetraoctanoate",
+      "pentaerythritol tetrapentanoate"
+    ],
+    "system_types": [
+      "unary"
+    ],
+    "methods": [
+      "Vibrating tube method"
+    ],
+    "temperature_range_K": {
+      "min": 283.14,
+      "max": 343.18
+    },
+    "pressure_range_kPa": {
+      "min": 90.5,
+      "max": 34847.5
+    },
+    "total_datapoints": 32441,
+    "block_index": [
+      {
+        "block_number": "PROPblock_1",
+        "block_type": "PureOrMixtureData",
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "system_type": "unary",
+        "blocktype_num_id": "GLOBblocktype_2",
+        "n_points": 4770,
+        "method": "Vibrating tube method"
+      },
+      {
+        "block_number": "PROPblock_2",
+        "block_type": "PureOrMixtureData",
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "system_type": "unary",
+        "blocktype_num_id": "GLOBblocktype_2",
+        "n_points": 5151,
+        "method": "Vibrating tube method"
+      },
+      {
+        "block_number": "PROPblock_3",
+        "block_type": "PureOrMixtureData",
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "system_type": "unary",
+        "blocktype_num_id": "GLOBblocktype_2",
+        "n_points": 10245,
+        "method": "Vibrating tube method"
+      },
+      {
+        "block_number": "PROPblock_4",
+        "block_type": "PureOrMixtureData",
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "system_type": "unary",
+        "blocktype_num_id": "GLOBblocktype_2",
+        "n_points": 7530,
+        "method": "Vibrating tube method"
+      },
+      {
+        "block_number": "PROPblock_5",
+        "block_type": "PureOrMixtureData",
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "system_type": "unary",
+        "blocktype_num_id": "GLOBblocktype_2",
+        "n_points": 4745,
+        "method": "Vibrating tube method"
+      }
+    ]
+  },
+  "blocks": [
+    {
+      "block_number": "PROPblock_1",
+      "block_type": "PureOrMixtureData",
+      "system_type": "unary",
+      "blocktype_num_id": "GLOBblocktype_2",
+      "compounds": [
+        {
+          "org_num": "DOIcomp_1",
+          "comp_num_id": "GLOBcomp_1371",
+          "inchi_key": "JMIAMWJLFMGGPK-UHFFFAOYSA-N",
+          "name": "pentaerythritol tetrabutyrate",
+          "formula": "C21H36O8",
+          "InChI": "InChI=1S/C21H36O8/c1-5-9-17(22)26-13-21(14-27-18(23)10-6-2,15-28-19(24)11-7-3)16-29-20(25)12-8-4/h5-16H2,1-4H3",
+          "SMILES": null,
+          "sample_num": "DOIcompSample_1_1"
+        }
+      ],
+      "properties": [
+        {
+          "BLKprop_id": "BLKprop_1",
+          "prop_num_id": "GLOBprop_1",
+          "prop_ID": "mass_density_kg_m3",
+          "name": "Mass density, kg/m3",
+          "group": "VolumetricProp",
+          "method_standard": "Vibrating tube method",
+          "method_custom": null,
+          "meas_num_id": "GLOBmeas_2",
+          "meas_ID": "vibrating_tube_method",
+          "presentation": "Direct value, X",
+          "standard_state": null,
+          "ref_state_type": null,
+          "ref_temperature_K": null,
+          "ref_temperature_digits": null,
+          "ref_pressure_kPa": null,
+          "ref_pressure_digits": null,
+          "temperature_K": null,
+          "temperature_digits": null,
+          "pressure_kPa": null,
+          "pressure_digits": null,
+          "property_phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "ref_phase": null,
+          "component_org_num": null,
+          "uncertainty": {
+            "evaluation_method": "Propagation of evaluated standard uncertainties",
+            "confidence_level": 95,
+            "evaluator": "Data file compiler",
+            "assessment_num": "BLKpropAssessment_1_1"
+          }
+        }
+      ],
+      "solvents": [],
+      "variables": [
+        {
+          "BLKvar_id": "BLKvar_1",
+          "var_num_id": "GLOBvar_1",
+          "var_id": "temperature_k",
+          "type": "eTemperature",
+          "name": "Temperature, K",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        },
+        {
+          "BLKvar_id": "BLKvar_2",
+          "var_num_id": "GLOBvar_3",
+          "var_id": "pressure_kpa",
+          "type": "ePressure",
+          "name": "Pressure, kPa",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        }
+      ],
+      "constraints": [],
+      "data_summary": {
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "methods": [
+          "Vibrating tube method"
+        ],
+        "system_type": "unary",
+        "compound_names": [
+          "pentaerythritol tetrabutyrate"
+        ],
+        "phases": [
+          "Liquid"
+        ],
+        "constraints_summary": {},
+        "n_points": 4770,
+        "property_stats": {
+          "BLKprop_1": {
+            "BLKprop_id": "BLKprop_1",
+            "name": "Mass density, kg/m3",
+            "min": 1008.1,
+            "max": 1078.3,
+            "mean": 1048.885136,
+            "std": 19.181613,
+            "n": 4770
+          }
+        },
+        "variable_ranges": {
+          "BLKvar_1": {
+            "BLKvar_id": "BLKvar_1",
+            "name": "Temperature, K",
+            "min": 283.15,
+            "max": 343.15,
+            "n_unique": 11
+          },
+          "BLKvar_2": {
+            "BLKvar_id": "BLKvar_2",
+            "name": "Pressure, kPa",
+            "min": 104.1,
+            "max": 34847.5,
+            "n_unique": 4662
+          }
+        }
+      },
+      "data_points": [
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 5069.8,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1062.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 5785.0,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1062.4,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 5790.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1062.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 5796.4,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1062.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 6791.4,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7204.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7259.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.3,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7320.1,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.4,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7411.4,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.4,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7437.1,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.4,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7462.9,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.3,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7545.9,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.4,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7572.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7606.0,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7632.9,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7657.7,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7681.7,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7710.4,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.4,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7734.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.6,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 8293.1,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1063.8,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11358.4,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11377.2,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11399.4,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11418.8,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.6,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11437.7,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.6,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11456.5,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11667.2,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11687.3,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1066.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11707.6,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11731.1,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.8,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11750.9,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11775.0,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1066.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11795.4,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1066.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11816.1,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11836.4,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11861.5,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11882.4,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11903.1,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11928.0,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1066.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11948.8,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1066.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11994.9,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1065.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 12016.0,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1066.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 13152.5,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1066.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 13177.8,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1066.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 13233.6,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1066.6,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 13898.4,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1067.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 15509.1,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1068.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 15589.8,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1068.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 15620.3,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1068.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 15664.4,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1068.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.3,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        }
+      ],
+      "reaction": null,
+      "auxiliary": null,
+      "equation": null,
+      "provenance": {
+        "date_added": "3/29/2007",
+        "compiler": "HR",
+        "contributor": "TRC",
+        "experimental_purpose": "Principal objective of the work"
+      }
+    },
+    {
+      "block_number": "PROPblock_2",
+      "block_type": "PureOrMixtureData",
+      "system_type": "unary",
+      "blocktype_num_id": "GLOBblocktype_2",
+      "compounds": [
+        {
+          "org_num": "DOIcomp_2",
+          "comp_num_id": "GLOBcomp_756",
+          "inchi_key": "ZQYCVIGMGPFQQS-UHFFFAOYSA-N",
+          "name": "pentaerythritol tetrapentanoate",
+          "formula": "C25H44O8",
+          "InChI": "InChI=1S/C25H44O8/c1-5-9-13-21(26)30-17-25(18-31-22(27)14-10-6-2,19-32-23(28)15-11-7-3)20-33-24(29)16-12-8-4/h5-20H2,1-4H3",
+          "SMILES": null,
+          "sample_num": "DOIcompSample_2_1"
+        }
+      ],
+      "properties": [
+        {
+          "BLKprop_id": "BLKprop_1",
+          "prop_num_id": "GLOBprop_1",
+          "prop_ID": "mass_density_kg_m3",
+          "name": "Mass density, kg/m3",
+          "group": "VolumetricProp",
+          "method_standard": "Vibrating tube method",
+          "method_custom": null,
+          "meas_num_id": "GLOBmeas_2",
+          "meas_ID": "vibrating_tube_method",
+          "presentation": "Direct value, X",
+          "standard_state": null,
+          "ref_state_type": null,
+          "ref_temperature_K": null,
+          "ref_temperature_digits": null,
+          "ref_pressure_kPa": null,
+          "ref_pressure_digits": null,
+          "temperature_K": null,
+          "temperature_digits": null,
+          "pressure_kPa": null,
+          "pressure_digits": null,
+          "property_phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "ref_phase": null,
+          "component_org_num": null,
+          "uncertainty": {
+            "evaluation_method": "Propagation of evaluated standard uncertainties",
+            "confidence_level": 95,
+            "evaluator": "Data file compiler",
+            "assessment_num": "BLKpropAssessment_1_1"
+          }
+        }
+      ],
+      "solvents": [],
+      "variables": [
+        {
+          "BLKvar_id": "BLKvar_1",
+          "var_num_id": "GLOBvar_1",
+          "var_id": "temperature_k",
+          "type": "eTemperature",
+          "name": "Temperature, K",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        },
+        {
+          "BLKvar_id": "BLKvar_2",
+          "var_num_id": "GLOBvar_3",
+          "var_id": "pressure_kpa",
+          "type": "ePressure",
+          "name": "Pressure, kPa",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        }
+      ],
+      "constraints": [],
+      "data_summary": {
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "methods": [
+          "Vibrating tube method"
+        ],
+        "system_type": "unary",
+        "compound_names": [
+          "pentaerythritol tetrapentanoate"
+        ],
+        "phases": [
+          "Liquid"
+        ],
+        "constraints_summary": {},
+        "n_points": 5151,
+        "property_stats": {
+          "BLKprop_1": {
+            "BLKprop_id": "BLKprop_1",
+            "name": "Mass density, kg/m3",
+            "min": 978.4,
+            "max": 1046.3,
+            "mean": 1013.383246,
+            "std": 16.797891,
+            "n": 5151
+          }
+        },
+        "variable_ranges": {
+          "BLKvar_1": {
+            "BLKvar_id": "BLKvar_1",
+            "name": "Temperature, K",
+            "min": 283.14,
+            "max": 343.16,
+            "n_unique": 10
+          },
+          "BLKvar_2": {
+            "BLKvar_id": "BLKvar_2",
+            "name": "Pressure, kPa",
+            "min": 105.8,
+            "max": 34639.0,
+            "n_unique": 5113
+          }
+        }
+      },
+      "data_points": [
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1387.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.8,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1404.2,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1537.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1028.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1581.5,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1028.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1602.2,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1028.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7137.0,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.3,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7155.5,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7173.8,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7196.4,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7215.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.3,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7545.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7570.8,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7613.2,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.4,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7932.2,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7959.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 7982.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 8033.0,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.8,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 8056.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 8103.7,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 8185.7,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1031.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 9062.7,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.4,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 9128.2,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.3,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 9352.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 9390.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.6,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 9422.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 9460.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 9493.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 9525.9,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.5,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 9558.8,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.6,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 10080.6,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 10162.1,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1032.9,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 11952.6,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1034.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 105.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 106.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 106.2,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 106.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 106.7,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 107.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 108.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 109.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 111.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 117.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 124.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 130.2,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 135.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 140.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 147.2,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 154.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 163.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 178.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1027.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        }
+      ],
+      "reaction": null,
+      "auxiliary": null,
+      "equation": null,
+      "provenance": {
+        "date_added": "3/29/2007",
+        "compiler": "HR",
+        "contributor": "TRC",
+        "experimental_purpose": "Principal objective of the work"
+      }
+    },
+    {
+      "block_number": "PROPblock_3",
+      "block_type": "PureOrMixtureData",
+      "system_type": "unary",
+      "blocktype_num_id": "GLOBblocktype_2",
+      "compounds": [
+        {
+          "org_num": "DOIcomp_3",
+          "comp_num_id": "GLOBcomp_948",
+          "inchi_key": "AOZDHFFNBZAHJF-UHFFFAOYSA-N",
+          "name": "pentaerythritol tetrahexanoate",
+          "formula": "C29H52O8",
+          "InChI": "InChI=1S/C29H52O8/c1-5-9-13-17-25(30)34-21-29(22-35-26(31)18-14-10-6-2,23-36-27(32)19-15-11-7-3)24-37-28(33)20-16-12-8-4/h5-24H2,1-4H3",
+          "SMILES": null,
+          "sample_num": "DOIcompSample_3_1"
+        }
+      ],
+      "properties": [
+        {
+          "BLKprop_id": "BLKprop_1",
+          "prop_num_id": "GLOBprop_1",
+          "prop_ID": "mass_density_kg_m3",
+          "name": "Mass density, kg/m3",
+          "group": "VolumetricProp",
+          "method_standard": "Vibrating tube method",
+          "method_custom": null,
+          "meas_num_id": "GLOBmeas_2",
+          "meas_ID": "vibrating_tube_method",
+          "presentation": "Direct value, X",
+          "standard_state": null,
+          "ref_state_type": null,
+          "ref_temperature_K": null,
+          "ref_temperature_digits": null,
+          "ref_pressure_kPa": null,
+          "ref_pressure_digits": null,
+          "temperature_K": null,
+          "temperature_digits": null,
+          "pressure_kPa": null,
+          "pressure_digits": null,
+          "property_phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "ref_phase": null,
+          "component_org_num": null,
+          "uncertainty": {
+            "evaluation_method": "Propagation of evaluated standard uncertainties",
+            "confidence_level": 95,
+            "evaluator": "Data file compiler",
+            "assessment_num": "BLKpropAssessment_1_1"
+          }
+        }
+      ],
+      "solvents": [],
+      "variables": [
+        {
+          "BLKvar_id": "BLKvar_1",
+          "var_num_id": "GLOBvar_1",
+          "var_id": "temperature_k",
+          "type": "eTemperature",
+          "name": "Temperature, K",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        },
+        {
+          "BLKvar_id": "BLKvar_2",
+          "var_num_id": "GLOBvar_3",
+          "var_id": "pressure_kpa",
+          "type": "ePressure",
+          "name": "Pressure, kPa",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        }
+      ],
+      "constraints": [],
+      "data_summary": {
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "methods": [
+          "Vibrating tube method"
+        ],
+        "system_type": "unary",
+        "compound_names": [
+          "pentaerythritol tetrahexanoate"
+        ],
+        "phases": [
+          "Liquid"
+        ],
+        "constraints_summary": {},
+        "n_points": 10245,
+        "property_stats": {
+          "BLKprop_1": {
+            "BLKprop_id": "BLKprop_1",
+            "name": "Mass density, kg/m3",
+            "min": 957.0,
+            "max": 1022.2,
+            "mean": 989.892016,
+            "std": 19.386756,
+            "n": 10245
+          }
+        },
+        "variable_ranges": {
+          "BLKvar_1": {
+            "BLKvar_id": "BLKvar_1",
+            "name": "Temperature, K",
+            "min": 283.14,
+            "max": 343.17,
+            "n_unique": 16
+          },
+          "BLKvar_2": {
+            "BLKvar_id": "BLKvar_2",
+            "name": "Pressure, kPa",
+            "min": 90.5,
+            "max": 34434.2,
+            "n_unique": 8822
+          }
+        }
+      },
+      "data_points": [
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 6785.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1008.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 6787.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1008.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 6787.7,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1008.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 6787.9,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1008.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 30862.1,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 30898.5,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 30914.8,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 32175.3,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.8,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 32194.4,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 32217.7,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 32237.5,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.8,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 32257.9,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.8,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 32281.8,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.8,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 32302.6,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.7,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 32323.5,
+              "digits": 6
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1021.8,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 6787.6,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1008.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 6787.9,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1008.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 6787.9,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1008.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 6787.9,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1008.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 90.7,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 90.8,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 90.9,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 96.0,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 96.1,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 96.4,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 96.6,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 96.7,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 96.9,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 97.3,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 97.4,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 97.6,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 99.3,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 101.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 101.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 102.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 102.2,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 106.2,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 106.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 107.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 107.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.0,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 107.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 107.7,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 107.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 111.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 111.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 111.7,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.3,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 112.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 112.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 112.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.2,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 112.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 1004.1,
+              "digits": 5,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        }
+      ],
+      "reaction": null,
+      "auxiliary": null,
+      "equation": null,
+      "provenance": {
+        "date_added": "3/29/2007",
+        "compiler": "HR",
+        "contributor": "TRC",
+        "experimental_purpose": "Principal objective of the work"
+      }
+    },
+    {
+      "block_number": "PROPblock_4",
+      "block_type": "PureOrMixtureData",
+      "system_type": "unary",
+      "blocktype_num_id": "GLOBblocktype_2",
+      "compounds": [
+        {
+          "org_num": "DOIcomp_4",
+          "comp_num_id": "GLOBcomp_794",
+          "inchi_key": "NCGQPNAQUYGWMI-UHFFFAOYSA-N",
+          "name": "pentaerythritol tetraheptanoate",
+          "formula": "C33H60O8",
+          "InChI": "InChI=1S/C33H60O8/c1-5-9-13-17-21-29(34)38-25-33(26-39-30(35)22-18-14-10-6-2,27-40-31(36)23-19-15-11-7-3)28-41-32(37)24-20-16-12-8-4/h5-28H2,1-4H3",
+          "SMILES": null,
+          "sample_num": "DOIcompSample_4_1"
+        }
+      ],
+      "properties": [
+        {
+          "BLKprop_id": "BLKprop_1",
+          "prop_num_id": "GLOBprop_1",
+          "prop_ID": "mass_density_kg_m3",
+          "name": "Mass density, kg/m3",
+          "group": "VolumetricProp",
+          "method_standard": "Vibrating tube method",
+          "method_custom": null,
+          "meas_num_id": "GLOBmeas_2",
+          "meas_ID": "vibrating_tube_method",
+          "presentation": "Direct value, X",
+          "standard_state": null,
+          "ref_state_type": null,
+          "ref_temperature_K": null,
+          "ref_temperature_digits": null,
+          "ref_pressure_kPa": null,
+          "ref_pressure_digits": null,
+          "temperature_K": null,
+          "temperature_digits": null,
+          "pressure_kPa": null,
+          "pressure_digits": null,
+          "property_phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "ref_phase": null,
+          "component_org_num": null,
+          "uncertainty": {
+            "evaluation_method": "Propagation of evaluated standard uncertainties",
+            "confidence_level": 95,
+            "evaluator": "Data file compiler",
+            "assessment_num": "BLKpropAssessment_1_1"
+          }
+        }
+      ],
+      "solvents": [],
+      "variables": [
+        {
+          "BLKvar_id": "BLKvar_1",
+          "var_num_id": "GLOBvar_1",
+          "var_id": "temperature_k",
+          "type": "eTemperature",
+          "name": "Temperature, K",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        },
+        {
+          "BLKvar_id": "BLKvar_2",
+          "var_num_id": "GLOBvar_3",
+          "var_id": "pressure_kpa",
+          "type": "ePressure",
+          "name": "Pressure, kPa",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        }
+      ],
+      "constraints": [],
+      "data_summary": {
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "methods": [
+          "Vibrating tube method"
+        ],
+        "system_type": "unary",
+        "compound_names": [
+          "pentaerythritol tetraheptanoate"
+        ],
+        "phases": [
+          "Liquid"
+        ],
+        "constraints_summary": {},
+        "n_points": 7530,
+        "property_stats": {
+          "BLKprop_1": {
+            "BLKprop_id": "BLKprop_1",
+            "name": "Mass density, kg/m3",
+            "min": 940.5,
+            "max": 1004.5,
+            "mean": 968.448154,
+            "std": 18.151404,
+            "n": 7530
+          }
+        },
+        "variable_ranges": {
+          "BLKvar_1": {
+            "BLKvar_id": "BLKvar_1",
+            "name": "Temperature, K",
+            "min": 283.14,
+            "max": 343.18,
+            "n_unique": 12
+          },
+          "BLKvar_2": {
+            "BLKvar_id": "BLKvar_2",
+            "name": "Pressure, kPa",
+            "min": 99.4,
+            "max": 34658.6,
+            "n_unique": 7068
+          }
+        }
+      },
+      "data_points": [
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 99.9,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 100.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 100.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.8,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 100.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 100.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 104.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 108.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 116.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 124.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 130.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 135.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 142.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 146.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 150.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 154.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 158.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 164.2,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 168.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 174.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 181.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 189.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 198.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 208.7,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 218.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 231.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 246.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 262.2,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 279.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 304.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 985.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 328.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 354.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 383.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 410.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.1,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 428.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 445.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.1,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 459.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 470.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.1,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 483.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 493.7,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 504.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.1,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 518.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 531.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 543.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 560.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 574.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 588.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 607.2,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 623.7,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 641.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.2,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.14,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 659.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 986.3,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        }
+      ],
+      "reaction": null,
+      "auxiliary": null,
+      "equation": null,
+      "provenance": {
+        "date_added": "3/29/2007",
+        "compiler": "HR",
+        "contributor": "TRC",
+        "experimental_purpose": "Principal objective of the work"
+      }
+    },
+    {
+      "block_number": "PROPblock_5",
+      "block_type": "PureOrMixtureData",
+      "system_type": "unary",
+      "blocktype_num_id": "GLOBblocktype_2",
+      "compounds": [
+        {
+          "org_num": "DOIcomp_5",
+          "comp_num_id": "GLOBcomp_1086",
+          "inchi_key": "CFRNDJFRRKMHTL-UHFFFAOYSA-N",
+          "name": "pentaerythritol tetraoctanoate",
+          "formula": "C37H68O8",
+          "InChI": "InChI=1S/C37H68O8/c1-5-9-13-17-21-25-33(38)42-29-37(30-43-34(39)26-22-18-14-10-6-2,31-44-35(40)27-23-19-15-11-7-3)32-45-36(41)28-24-20-16-12-8-4/h5-32H2,1-4H3",
+          "SMILES": null,
+          "sample_num": "DOIcompSample_5_1"
+        }
+      ],
+      "properties": [
+        {
+          "BLKprop_id": "BLKprop_1",
+          "prop_num_id": "GLOBprop_1",
+          "prop_ID": "mass_density_kg_m3",
+          "name": "Mass density, kg/m3",
+          "group": "VolumetricProp",
+          "method_standard": "Vibrating tube method",
+          "method_custom": null,
+          "meas_num_id": "GLOBmeas_2",
+          "meas_ID": "vibrating_tube_method",
+          "presentation": "Direct value, X",
+          "standard_state": null,
+          "ref_state_type": null,
+          "ref_temperature_K": null,
+          "ref_temperature_digits": null,
+          "ref_pressure_kPa": null,
+          "ref_pressure_digits": null,
+          "temperature_K": null,
+          "temperature_digits": null,
+          "pressure_kPa": null,
+          "pressure_digits": null,
+          "property_phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "ref_phase": null,
+          "component_org_num": null,
+          "uncertainty": {
+            "evaluation_method": "Propagation of evaluated standard uncertainties",
+            "confidence_level": 95,
+            "evaluator": "Data file compiler",
+            "assessment_num": "BLKpropAssessment_1_1"
+          }
+        }
+      ],
+      "solvents": [],
+      "variables": [
+        {
+          "BLKvar_id": "BLKvar_1",
+          "var_num_id": "GLOBvar_1",
+          "var_id": "temperature_k",
+          "type": "eTemperature",
+          "name": "Temperature, K",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        },
+        {
+          "BLKvar_id": "BLKvar_2",
+          "var_num_id": "GLOBvar_3",
+          "var_id": "pressure_kpa",
+          "type": "ePressure",
+          "name": "Pressure, kPa",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        }
+      ],
+      "constraints": [],
+      "data_summary": {
+        "property_names": [
+          "Mass density, kg/m3"
+        ],
+        "property_group": "VolumetricProp",
+        "methods": [
+          "Vibrating tube method"
+        ],
+        "system_type": "unary",
+        "compound_names": [
+          "pentaerythritol tetraoctanoate"
+        ],
+        "phases": [
+          "Liquid"
+        ],
+        "constraints_summary": {},
+        "n_points": 4745,
+        "property_stats": {
+          "BLKprop_1": {
+            "BLKprop_id": "BLKprop_1",
+            "name": "Mass density, kg/m3",
+            "min": 925.9,
+            "max": 988.6,
+            "mean": 957.716965,
+            "std": 16.881285,
+            "n": 4745
+          }
+        },
+        "variable_ranges": {
+          "BLKvar_1": {
+            "BLKvar_id": "BLKvar_1",
+            "name": "Temperature, K",
+            "min": 283.15,
+            "max": 343.15,
+            "n_unique": 10
+          },
+          "BLKvar_2": {
+            "BLKvar_id": "BLKvar_2",
+            "name": "Pressure, kPa",
+            "min": 104.51,
+            "max": 34473.6,
+            "n_unique": 4702
+          }
+        }
+      },
+      "data_points": [
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 105.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.3,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 105.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 105.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.3,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 105.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 106.7,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.3,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 110.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.3,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 125.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.3,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 155.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.3,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 203.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 224.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.3,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 235.2,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 246.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.5,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 262.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 277.9,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 295.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 319.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 342.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.5,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 369.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.5,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 405.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 438.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.4,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 468.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.6,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 495.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.6,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 514.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.6,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 534.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.6,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 557.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.6,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 575.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.6,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 593.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 616.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 636.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.5,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 653.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 671.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 693.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 713.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 734.1,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 760.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.8,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 784.3,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 808.6,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 834.5,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 866.8,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 896.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.7,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 926.4,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.8,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 962.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.8,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 986.0,
+              "digits": 4
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1010.4,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1035.5,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.8,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1066.4,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1094.0,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1122.1,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 970.9,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1158.4,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 971.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        },
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 283.15,
+              "digits": 5
+            },
+            "BLKvar_2": {
+              "value": 1189.3,
+              "digits": 5
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": 971.0,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 1.2,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        }
+      ],
+      "reaction": null,
+      "auxiliary": null,
+      "equation": null,
+      "provenance": {
+        "date_added": "3/29/2007",
+        "compiler": "HR",
+        "contributor": "TRC",
+        "experimental_purpose": "Principal objective of the work"
+      }
+    }
+  ]
+}

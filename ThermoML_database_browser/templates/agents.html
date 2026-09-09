@@ -1,0 +1,941 @@
+{% extends "base.html" %}
+{% block title %}Agent Monitor — ThermoML Browser{% endblock %}
+
+{% block content %}
+
+<style>
+  /* Make markdown tables inside dark panels readable */
+  #refStatsMdPanel table,
+  #reasoningMdPanel table {
+    color: #e0e0e0;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+  #refStatsMdPanel th, #refStatsMdPanel td,
+  #reasoningMdPanel th, #reasoningMdPanel td {
+    border: 1px solid #495057;
+    padding: 4px 8px;
+  }
+  #refStatsMdPanel th, #reasoningMdPanel th {
+    background: #343a40;
+    font-weight: 600;
+  }
+  #refStatsMdPanel h1, #refStatsMdPanel h2, #refStatsMdPanel h3,
+  #refStatsMdPanel h4, #refStatsMdPanel h5, #refStatsMdPanel h6,
+  #reasoningMdPanel h1, #reasoningMdPanel h2, #reasoningMdPanel h3,
+  #reasoningMdPanel h4, #reasoningMdPanel h5, #reasoningMdPanel h6 {
+    color: #f8f9fa;
+    font-size: 0.95rem;
+    margin-top: 0.8rem;
+  }
+  #refStatsMdPanel hr, #reasoningMdPanel hr {
+    border-color: #495057;
+  }
+  #refStatsMdPanel strong, #reasoningMdPanel strong {
+    color: #ffffff;
+  }
+</style>
+
+{% include "_agent_subnav.html" %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h3 class="mb-1"><i class="bi bi-robot"></i> ThermoML Agents</h3>
+    <p class="text-muted mb-0">Launch a Main, Analysis, or Query agent and follow its terminal in real time.</p>
+  </div>
+  
+</div>
+
+<div id="pane-launch">
+
+  {# Launch form #}
+  <div class="card mb-3" id="launchCard">
+    <div class="card-header bg-primary text-white">
+      <i class="bi bi-rocket-takeoff"></i> Launch Agent
+    </div>
+    <div class="card-body">
+      {# Agent type selector #}
+      <div class="mb-3">
+        <label class="form-label fw-semibold small">Agent Type</label>
+        <div class="btn-group w-100" role="group" id="agentTypeGroup">
+          <input type="radio" class="btn-check" name="agentType" id="agentType_analysis" value="analysis" checked autocomplete="off">
+          <label class="btn btn-outline-primary" for="agentType_analysis">
+            <i class="bi bi-graph-up"></i> Analysis
+          </label>
+          <input type="radio" class="btn-check" name="agentType" id="agentType_query" value="query" autocomplete="off">
+          <label class="btn btn-outline-primary" for="agentType_query">
+            <i class="bi bi-search"></i> Query
+          </label>
+          <input type="radio" class="btn-check" name="agentType" id="agentType_main" value="main" autocomplete="off">
+          <label class="btn btn-outline-primary" for="agentType_main">
+            <i class="bi bi-cpu"></i> Main
+          </label>
+        </div>
+      </div>
+
+      {# Model selector #}
+      <div class="mb-3">
+        <label class="form-label fw-semibold small" for="modelSelect">Model</label>
+        <select class="form-select form-select-sm" id="modelSelect">
+          {% for opt in model_options %}
+          <option value="{{ opt.value }}" data-description="{{ opt.description }}">{{ opt.label }}</option>
+          {% endfor %}
+        </select>
+        <div class="form-text" id="modelHelp">
+          {{ model_options[0].description if model_options else "Use the agent's configured model." }}
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <textarea class="form-control" id="questionInput" rows="3"
+          placeholder="e.g. Fit the viscosity of the ethanol-water binary system at 298 K…"></textarea>
+      </div>
+
+      {# Time-limit settings (collapsible) #}
+      <div class="mb-3">
+        <a class="small text-decoration-none" data-bs-toggle="collapse" href="#timeLimitsPanel" role="button">
+          <i class="bi bi-gear"></i> Time &amp; iteration limits ▾
+        </a>
+        <div class="collapse mt-2" id="timeLimitsPanel">
+          <div class="card card-body bg-light py-2 px-3">
+            {# Analysis settings (shown by default) #}
+            <div class="time-settings" id="timeSettings_analysis">
+              <div class="row g-2 align-items-center small">
+                <div class="col-6">
+                  <label class="form-label mb-0">Max iterations</label>
+                  <input type="number" class="form-control form-control-sm time-input"
+                         data-key="MAX_TOOL_ITERATIONS" value="30" min="1" max="100">
+                </div>
+                <div class="col-6">
+                  <label class="form-label mb-0">Max time (s)</label>
+                  <input type="number" class="form-control form-control-sm time-input"
+                         data-key="MAX_TURN_SECONDS" value="1200" min="60" max="7200">
+                </div>
+              </div>
+            </div>
+            {# Query settings #}
+            <div class="time-settings d-none" id="timeSettings_query">
+              <div class="row g-2 align-items-center small">
+                <div class="col-3">
+                  <label class="form-label mb-0">L0 iterations</label>
+                  <input type="number" class="form-control form-control-sm time-input"
+                         data-key="MAX_TOOL_ITERATIONS" value="25" min="1" max="100">
+                </div>
+                <div class="col-3">
+                  <label class="form-label mb-0">L0 time (s)</label>
+                  <input type="number" class="form-control form-control-sm time-input"
+                         data-key="MAX_TURN_SECONDS" value="1000" min="60" max="7200">
+                </div>
+                <div class="col-3">
+                  <label class="form-label mb-0">L1 iterations</label>
+                  <input type="number" class="form-control form-control-sm time-input"
+                         data-key="L1_MAX_ITERATIONS" value="12" min="1" max="50">
+                </div>
+                <div class="col-3">
+                  <label class="form-label mb-0">L1 time (s)</label>
+                  <input type="number" class="form-control form-control-sm time-input"
+                         data-key="L1_MAX_SECONDS" value="360" min="30" max="3600">
+                </div>
+              </div>
+            </div>
+            {# Main settings #}
+            <div class="time-settings d-none" id="timeSettings_main">
+              <div class="row g-2 align-items-center small">
+                <div class="col-6">
+                  <label class="form-label mb-0">Max iterations</label>
+                  <input type="number" class="form-control form-control-sm time-input"
+                         data-key="MAX_TOOL_ITERATIONS" value="40" min="1" max="100">
+                </div>
+                <div class="col-6">
+                  <label class="form-label mb-0">Max time (s)</label>
+                  <input type="number" class="form-control form-control-sm time-input"
+                         data-key="MAX_TURN_SECONDS" value="2400" min="60" max="7200">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verdictCheck" checked>
+          <label class="form-check-label" for="verdictCheck">Run verdict</label>
+        </div>
+        <button class="btn btn-primary" id="launchBtn"
+                {% if busy %}disabled{% endif %}>
+          <i class="bi bi-play-fill"></i> Run
+        </button>
+        {% if busy %}
+        <span class="text-warning small"><i class="bi bi-hourglass-split"></i> Agent busy</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {# Live progress panel #}
+  <div class="card mb-3 d-none" id="progressCard">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span><i class="bi bi-activity"></i> Live Progress</span>
+      <span class="badge bg-warning text-dark" id="statusBadge">starting</span>
+    </div>
+    <div class="card-body">
+      <div class="d-flex justify-content-between small text-muted mb-2">
+        <span id="elapsedLabel">Elapsed: 0s</span>
+        <span id="filesLabel">Files: 0 data, 0 plots</span>
+      </div>
+      <div class="progress mb-3" style="height: 4px">
+        <div class="progress-bar progress-bar-striped progress-bar-animated"
+             id="progressBar" style="width: 0%"></div>
+      </div>
+      <div id="progressLog"
+           class="agent-progress-log bg-dark text-light p-3 rounded"
+           style="max-height: 180px; overflow-y: auto; font-size: 0.82rem; font-family: monospace;">
+        <div class="text-muted">Waiting for agent to start…</div>
+      </div>
+
+      <details class="mt-2" id="terminalLogDetails" open>
+        <summary class="small fw-semibold" style="cursor:pointer">
+          <i class="bi bi-terminal"></i> Live terminal
+          <span class="badge bg-secondary ms-1" id="termLogCount">0</span>
+          
+        </summary>
+        <div id="terminalLogPanel"
+             class="bg-black text-success p-3 rounded mt-1"
+             style="height:50vh;min-height:260px;max-height:70vh;resize:vertical;overflow:auto;font-size:0.75rem;font-family:'Consolas','Courier New',monospace;white-space:pre-wrap;">
+        </div>
+      </details>
+
+      
+      <details class="mt-2" id="reasoningDetails" open>
+        <summary class="small text-muted" style="cursor:pointer">
+          <i class="bi bi-lightbulb"></i> Live Reasoning Tokens
+        </summary>
+        <div id="reasoningMdPanel"
+             class="rendered-md bg-dark text-light p-3 rounded mt-1"
+             style="max-height:400px; overflow-y:auto; font-size:0.78rem;">
+        </div>
+      </details>
+      <details class="mt-2" id="refStatsDetails" open>
+        <summary class="small text-muted" style="cursor:pointer">
+          <i class="bi bi-bar-chart-line"></i> Live API Stats (reference_stats.md)
+        </summary>
+        <div id="refStatsMdPanel"
+             class="rendered-md bg-dark text-light p-3 rounded mt-1"
+             style="max-height:500px; overflow-y:auto; font-size:0.82rem;">
+          <p class="text-muted">Waiting for stats…</p>
+        </div>
+      </details>
+      
+
+      {# Completed note #}
+      <div class="alert d-none mt-3" id="doneAlert" role="alert"></div>
+
+      {# Completed output remains in this page and uses the same result tabs as History. #}
+      <div class="d-none mt-3" id="liveResultRow">
+        <ul class="nav nav-tabs mb-2" id="liveResultTabs" aria-label="Select one or more result sections">
+          <li class="nav-item"><button class="nav-link active live-output-tab" data-section="result" type="button"><i class="bi bi-file-earmark-text"></i> Result</button></li>
+        
+          <li class="nav-item"><button class="nav-link live-output-tab" data-section="history" type="button"><i class="bi bi-clock-history"></i> History</button></li>
+        
+          <li class="nav-item"><button class="nav-link live-output-tab" data-section="data" type="button"><i class="bi bi-table"></i> Data</button></li>
+          <li class="nav-item"><button class="nav-link live-output-tab" data-section="images" type="button"><i class="bi bi-image"></i> Images</button></li>
+          <li class="nav-item"><button class="nav-link live-output-tab" data-section="specialized" type="button"><i class="bi bi-puzzle"></i> Specialized tools</button></li>
+        
+          <li class="nav-item"><button class="nav-link live-output-tab" data-section="memory" type="button"><i class="bi bi-database"></i> Memory</button></li>
+          <li class="nav-item"><button class="nav-link live-output-tab" data-section="stats" type="button"><i class="bi bi-bar-chart-line"></i> Stats</button></li>
+          <li class="nav-item"><button class="nav-link live-output-tab" data-section="workflow" type="button"><i class="bi bi-diagram-3"></i> Workflow</button></li>
+        
+        </ul>
+
+        <div class="detail-section active live-output-section" data-section="result">
+          <div class="card"><div class="card-body rendered-md" id="liveResultMd"><p class="text-muted">Waiting…</p></div></div>
+        </div>
+        
+        <div class="detail-section live-output-section" data-section="history">
+          <div class="card"><div class="card-body rendered-md" id="liveHistoryMd"><p class="text-muted">No history.</p></div></div>
+        </div>
+        
+        <div class="detail-section live-output-section" data-section="data">
+          <div class="card"><div class="card-body" id="liveDataPanel"><p class="text-muted">No CSV data generated.</p></div></div>
+        </div>
+        <div class="detail-section live-output-section" data-section="images">
+          <div class="card"><div class="card-body"><div class="row g-3" id="liveImagesPanel"><p class="text-muted">No images generated.</p></div></div></div>
+        </div>
+        <div class="detail-section live-output-section" data-section="specialized">
+          <div class="card">
+            <div class="card-header py-2 d-flex justify-content-between align-items-center gap-2">
+              <span><i class="bi bi-puzzle"></i> Persistent specialized-tool results</span>
+              <a class="btn btn-sm btn-outline-primary" href="{{ url_for('specialized_tools.browser_page') }}" target="_blank">Open full browser</a>
+            </div>
+            <div class="card-body p-0">
+              <iframe class="specialized-browser-frame" data-src="{{ url_for('specialized_tools.browser_page', embedded=1) }}" title="Specialized tool result browser"></iframe>
+            </div>
+          </div>
+        </div>
+        
+        <div class="detail-section live-output-section" data-section="memory">
+          <div class="card"><div class="card-body rendered-md" id="liveMemoryMd"><p class="text-muted">No working memory.</p></div></div>
+        </div>
+        <div class="detail-section live-output-section" data-section="stats">
+          <div class="card"><div class="card-body rendered-md" id="liveStatsMd"><p class="text-muted">No stats recorded.</p></div></div>
+        </div>
+        <div class="detail-section live-output-section" data-section="workflow">
+          <div class="card">
+            <div class="card-header py-2"><i class="bi bi-diagram-3"></i> Compaction workflow — pooled Sankey funnels (chars / IDs / blocks / data points along the real agent workflow)</div>
+            <div class="card-body" id="liveWorkflowPanel"><p class="text-muted">No workflow artifacts.</p></div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+</div>{# end launch pane #}
+
+{# ── Card Inspector Modal ──────────────────────────────────── #}
+<div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cardModalLabel">
+          <i class="bi bi-card-text"></i> <span id="cardModalTitle">Card</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="cardModalBody">
+        <p class="text-muted">Loading…</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{# Markdown renderer #}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+<script src="{{ url_for('static', filename='result_panel_toggles.js') }}"></script>
+<script src="{{ url_for('static', filename='thermoml_id_links.js') }}"></script>
+<script src="{{ url_for('static', filename='workflow_panel.js') }}"></script>
+{# KaTeX for math #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+<script>
+(function() {
+  "use strict";
+
+  /* ═══════════════════════════════════════════════════════════
+   * UTILITIES
+   * ═══════════════════════════════════════════════════════════ */
+
+  // DOI regex: 10.XXXX/rest (stops at whitespace, backtick, pipe, paren, angle bracket or quote)
+  const DOI_RE = /\b(10\.\d{4,9}\/[^\s`|)<>"']+)/g;
+
+  function esc(value) {
+    const d = document.createElement('div');
+    d.textContent = value === null || value === undefined ? '' : String(value);
+    return d.innerHTML;
+  }
+
+  // Agent output is untrusted (LLM text, tool results): never reach innerHTML unsanitised.
+  function renderMd(md) {
+    if (!md) return '<p class="text-muted">—</p>';
+    if (!window.DOMPurify) { const pre = document.createElement('pre'); pre.textContent = md; return pre.outerHTML; }
+    const tmp = document.createElement('div');
+    tmp.innerHTML = DOMPurify.sanitize(marked.parse(md));
+    if (window.renderMathInElement) {
+      try { renderMathInElement(tmp, {delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+      ]}); } catch(e) {}
+    }
+    return tmp.innerHTML;
+  }
+
+  /** Render markdown AND link DOIs to /paper/DOI */
+  function renderMdWithDOILinks(md) {
+    let html = renderMd(md);
+    // Replace DOIs that are NOT already inside an <a> tag
+    html = html.replace(DOI_RE, function(match) {
+      // strip trailing punctuation that snuck in
+      let doi = match.replace(/[.,;:]+$/, '');
+      return '<a href="/paper/' + encodeURI(doi) + '" class="doi-link" ' +
+             'title="View paper ' + doi + '" target="_blank">' + doi + '</a>';
+    });
+    return html;
+  }
+
+  /**
+   * Make entity IDs clickable in rendered memory HTML.
+   * Matches strict global IDs such as GLOBprop_1 and GLOBphase_5 in table cells
+   * and wraps them in clickable links that open the card modal.
+   */
+  const ENTITY_ID_RE = /\bGLOB(prop|var|meas|constr)_([1-9]\d*)\b/g;
+
+  function linkifyEntityIds(html) {
+    return html.replace(ENTITY_ID_RE, function(match, type) {
+      var label = {prop: 'Property', var: 'Variable', meas: 'Measurement', constr: 'Constraint'}[type] || type;
+      return '<a href="#" class="entity-id-link" data-entity-type="' + type +
+             '" data-global-id="' + match + '" title="Inspect ' + label + ' ' + match +
+             '">' + match + '</a>';
+    });
+  }
+
+  /** Open modal with ID/DK card info for an entity */
+  function showEntityCard(entityType, globalId) {
+    var modal = new bootstrap.Modal(document.getElementById('cardModal'));
+    var titleEl = document.getElementById('cardModalTitle');
+    var bodyEl = document.getElementById('cardModalBody');
+    var labels = {prop: 'Property', var: 'Variable', meas: 'Measurement', constr: 'Constraint'};
+    titleEl.textContent = (labels[entityType] || entityType) + ' ' + globalId;
+    bodyEl.innerHTML = '<p class="text-muted">Loading…</p>';
+    modal.show();
+
+    fetch('/agents/card/' + encodeURIComponent(entityType) + '/' + encodeURIComponent(globalId))
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.error) {
+          bodyEl.innerHTML = '<div class="alert alert-warning">' + esc(data.error) + '</div>';
+          return;
+        }
+        var html = '';
+        html += '<table class="table table-sm table-bordered mb-3">';
+        html += '<tr><th style="width:140px">Type</th><td>' + (labels[data.entity_type] || data.entity_type) + '</td></tr>';
+        html += '<tr><th>Global ID</th><td>' + data.global_id + '</td></tr>';
+        html += '<tr><th>ID</th><td><code>' + (data.entity_id || '') + '</code></td></tr>';
+        html += '<tr><th>Name</th><td><strong>' + (data.name || '') + '</strong></td></tr>';
+        html += '<tr><th>Group</th><td>' + (data.group || '—') + '</td></tr>';
+        if (data.n_blocks !== undefined && data.n_blocks !== null) {
+          html += '<tr><th>Blocks</th><td>' + data.n_blocks.toLocaleString() + '</td></tr>';
+        }
+        html += '</table>';
+
+        // Render card JSON (domain knowledge) if present
+        if (data.card) {
+          html += renderCardSections(data.card);
+        }
+        bodyEl.innerHTML = html;
+      })
+      .catch(function(err) {
+        bodyEl.innerHTML = '<div class="alert alert-danger">Failed: ' + esc(err) + '</div>';
+      });
+  }
+
+  /** Render the identity + domain_knowledge sections of a card JSON */
+  function renderCardSections(card) {
+    var html = '';
+    // Identity section
+    var identity = card.identity || card.Identity || null;
+    if (identity) {
+      html += '<h6 class="mt-3"><i class="bi bi-fingerprint"></i> Identity</h6>';
+      html += '<table class="table table-sm table-bordered">';
+      for (var key in identity) {
+        var val = identity[key];
+        if (val === null || val === undefined) continue;
+        if (typeof val === 'object') val = JSON.stringify(val);
+        html += '<tr><th style="width:200px">' + key.replace(/_/g, ' ') + '</th><td>' + val + '</td></tr>';
+      }
+      html += '</table>';
+    }
+    // Domain knowledge section
+    var dk = card.domain_knowledge || card.DomainKnowledge || null;
+    if (dk) {
+      html += '<h6 class="mt-3"><i class="bi bi-book"></i> Domain Knowledge</h6>';
+      var sb = dk.structured_block || dk;
+      html += renderNestedObj(sb, 0);
+    }
+    return html;
+  }
+
+  /** Recursively render a nested object as collapsible sections */
+  function renderNestedObj(obj, depth) {
+    if (typeof obj !== 'object' || obj === null) {
+      return '<span>' + String(obj) + '</span>';
+    }
+    if (Array.isArray(obj)) {
+      if (obj.length === 0) return '<em class="text-muted">empty</em>';
+      // Simple string arrays
+      if (typeof obj[0] === 'string') {
+        return '<ul class="mb-1">' + obj.map(function(v) {
+          return '<li class="small">' + v + '</li>';
+        }).join('') + '</ul>';
+      }
+      // Array of objects
+      return obj.map(function(item) { return renderNestedObj(item, depth + 1); }).join('');
+    }
+    // Object → table or collapsible
+    var html = '';
+    if (depth > 0) {
+      html += '<table class="table table-sm table-bordered mb-2">';
+      for (var key in obj) {
+        var val = obj[key];
+        var rendered = (typeof val === 'object' && val !== null)
+          ? renderNestedObj(val, depth + 1)
+          : String(val);
+        html += '<tr><th style="width:180px" class="small">' + key.replace(/_/g, ' ') + '</th><td class="small">' + rendered + '</td></tr>';
+      }
+      html += '</table>';
+    } else {
+      // Top-level sections as accordions
+      for (var key in obj) {
+        var sectionId = 'dk-' + key.replace(/[^a-zA-Z0-9]/g, '_') + '-' + Math.random().toString(36).substr(2, 5);
+        html += '<div class="accordion-item">';
+        html += '<h2 class="accordion-header">';
+        html += '<button class="accordion-button collapsed py-2 small" type="button" data-bs-toggle="collapse" data-bs-target="#' + sectionId + '">';
+        html += key.replace(/_/g, ' ');
+        html += '</button></h2>';
+        html += '<div id="' + sectionId + '" class="accordion-collapse collapse">';
+        html += '<div class="accordion-body p-2">';
+        html += renderNestedObj(obj[key], depth + 1);
+        html += '</div></div></div>';
+      }
+      if (html) {
+        html = '<div class="accordion accordion-flush">' + html + '</div>';
+      }
+    }
+    return html;
+  }
+
+  // Global click handler for entity ID links
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('.entity-id-link');
+    if (link) {
+      e.preventDefault();
+      showEntityCard(link.dataset.entityType, link.dataset.globalId);
+    }
+  });
+
+  function fmtElapsed(sec) {
+    if (sec < 60) return Math.round(sec) + 's';
+    const m = Math.floor(sec / 60);
+    const s = Math.round(sec % 60);
+    return m + 'm ' + s + 's';
+  }
+
+  function encodeArtifactPath(path) {
+    return String(path).split('/').map(encodeURIComponent).join('/');
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+   * LAUNCH — supports analysis / query / main agents
+   * ═══════════════════════════════════════════════════════════ */
+
+  const launchBtn    = document.getElementById('launchBtn');
+  const questionInp  = document.getElementById('questionInput');
+  const verdictChk   = document.getElementById('verdictCheck');
+  const modelSelect  = document.getElementById('modelSelect');
+  const modelHelp    = document.getElementById('modelHelp');
+  const progressCard = document.getElementById('progressCard');
+  const progressLog  = document.getElementById('progressLog');
+  const statusBadge  = document.getElementById('statusBadge');
+  const elapsedLabel = document.getElementById('elapsedLabel');
+  const filesLabel   = document.getElementById('filesLabel');
+  const progressBar  = document.getElementById('progressBar');
+  const doneAlert    = document.getElementById('doneAlert');
+  const liveResultRow = document.getElementById('liveResultRow');
+  const liveResultMd  = document.getElementById('liveResultMd');
+  const liveHistoryMd = document.getElementById('liveHistoryMd');
+  const liveDataPanel = document.getElementById('liveDataPanel');
+  const liveImagesPanel = document.getElementById('liveImagesPanel');
+  const liveMemoryMd  = document.getElementById('liveMemoryMd');
+  const liveStatsMd   = document.getElementById('liveStatsMd');
+  const reasoningMdPanel = document.getElementById('reasoningMdPanel');
+  const refStatsMdPanel  = document.getElementById('refStatsMdPanel');
+  const terminalLogPanel = document.getElementById('terminalLogPanel');
+  const terminalLogDetails = document.getElementById('terminalLogDetails');
+  const termLogCount     = document.getElementById('termLogCount');
+
+  let activeRunId = null;
+  let evtSource = null;
+  let elapsedTimer = null;
+  let runStartTime = null;
+  let _termLogTotal = 0;
+
+  /* ── Agent type selector: toggle time-settings panels ───── */
+  document.querySelectorAll('input[name="agentType"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      const sel = document.querySelector('input[name="agentType"]:checked').value;
+      document.querySelectorAll('.time-settings').forEach(function(div) {
+        div.classList.add('d-none');
+      });
+      const target = document.getElementById('timeSettings_' + sel);
+      if (target) target.classList.remove('d-none');
+    });
+  });
+
+  /** Read the selected agent type */
+  function getAgentType() {
+    const checked = document.querySelector('input[name="agentType"]:checked');
+    return checked ? checked.value : 'analysis';
+  }
+
+  /** Read selected model override. Blank means agent default. */
+  function getSelectedModel() {
+    return modelSelect ? modelSelect.value : '';
+  }
+
+  function updateModelHelp() {
+    if (!modelSelect || !modelHelp) return;
+    const selected = modelSelect.options[modelSelect.selectedIndex];
+    modelHelp.textContent = selected ? selected.dataset.description : '';
+  }
+
+  if (modelSelect) {
+    modelSelect.addEventListener('change', updateModelHelp);
+    updateModelHelp();
+  }
+
+  /** Read time-override inputs for the active agent panel */
+  function getTimeOverrides() {
+    const agentType = getAgentType();
+    const panel = document.getElementById('timeSettings_' + agentType);
+    if (!panel) return {};
+    const overrides = {};
+    panel.querySelectorAll('.time-input').forEach(function(inp) {
+      const key = inp.dataset.key;
+      const val = parseInt(inp.value, 10);
+      if (key && !isNaN(val)) overrides[key] = val;
+    });
+    return overrides;
+  }
+
+  if (launchBtn) {
+    launchBtn.addEventListener('click', function() {
+      const q = questionInp.value.trim();
+      if (!q) { questionInp.focus(); return; }
+      launchBtn.disabled = true;
+      doneAlert.classList.add('d-none');
+
+      const payload = {
+        question: q,
+        agent_type: getAgentType(),
+        run_verdict: verdictChk.checked,
+        model: getSelectedModel(),
+        time_overrides: getTimeOverrides(),
+      };
+
+      fetch('/agents/launch', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload),
+      })
+      .then(r => r.json())
+      .then(function(data) {
+        if (data.error) {
+          alert(data.error);
+          launchBtn.disabled = false;
+          return;
+        }
+        activeRunId = data.run_id;
+        progressCard.classList.remove('d-none');
+        const modelLabel = payload.model || 'agent default';
+        progressLog.innerHTML = '<div class="text-light">Agent starting (' + payload.agent_type + ', ' + modelLabel + ')…</div>';
+        if (reasoningMdPanel) reasoningMdPanel.innerHTML = '';
+        if (refStatsMdPanel) refStatsMdPanel.innerHTML = '<p class="text-muted">Waiting for stats…</p>';
+        terminalLogPanel.innerHTML = '';
+        terminalLogDetails.open = true;
+        liveResultRow.classList.add('d-none');
+        liveResultMd.innerHTML = '<p class="text-muted">Waiting…</p>';
+        if (liveHistoryMd) liveHistoryMd.innerHTML = '<p class="text-muted">No history.</p>';
+        liveDataPanel.innerHTML = '<p class="text-muted">No CSV data generated.</p>';
+        liveImagesPanel.innerHTML = '<p class="text-muted">No images generated.</p>';
+        if (liveMemoryMd) liveMemoryMd.innerHTML = '<p class="text-muted">No working memory.</p>';
+        if (liveStatsMd) liveStatsMd.innerHTML = '<p class="text-muted">No stats recorded.</p>';
+        _termLogTotal = 0;
+        termLogCount.textContent = '0';
+        statusBadge.textContent = 'starting';
+        statusBadge.className = 'badge bg-warning text-dark';
+        runStartTime = Date.now();
+        connectSSE(activeRunId);
+        startElapsedTimer();
+      })
+      .catch(function(err) {
+        alert('Launch failed: ' + err);
+        launchBtn.disabled = false;
+      });
+    });
+  }
+
+  /* ── Elapsed-time ticker (updates label every second) ──────────── */
+  function startElapsedTimer() {
+    if (elapsedTimer) clearInterval(elapsedTimer);
+    elapsedTimer = setInterval(function() {
+      if (!runStartTime) return;
+      var sec = (Date.now() - runStartTime) / 1000;
+      elapsedLabel.textContent = 'Elapsed: ' + fmtElapsed(sec);
+    }, 1000);
+  }
+
+  /* ── SSE connection ────────────────────────────────────────────── */
+  function connectSSE(runId) {
+    if (evtSource) { evtSource.close(); evtSource = null; }
+    if (elapsedTimer) { clearInterval(elapsedTimer); elapsedTimer = null; }
+    evtSource = new EventSource('/agents/stream/' + runId);
+
+    evtSource.onmessage = function(e) {
+      var d;
+      try { d = JSON.parse(e.data); } catch (_) { return; }
+      _sseErrCount = 0;  // reset on any successful message
+
+      if (d.type === 'history') {
+        /* Tool-call progress lines from run_history.md */
+        var safe = (d.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        if (safe.startsWith('### Step ')) {
+          appendLog('<i class="bi bi-wrench me-1"></i><strong>' + safe.substring(4) + '</strong>', 'text-light small');
+        } else {
+          appendLog(safe, 'text-light small');
+        }
+      }
+      else if (d.type === 'reasoning') {
+        /* Reasoning-token snippets — show in the progress log */
+        var snip = (d.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        if (snip) {
+          appendLog('<i class="bi bi-lightbulb me-1 text-warning"></i>' + snip,
+                    'text-light small fst-italic');
+        }
+      }
+      else if (d.type === 'reasoning_full') {
+        /* Full reasoning markdown — render in the panel */
+        if (d.md && reasoningMdPanel) {
+          reasoningMdPanel.innerHTML = renderMd(d.md);
+          ThermoIDLinks.linkify(reasoningMdPanel);
+          reasoningMdPanel.scrollTop = reasoningMdPanel.scrollHeight;
+        }
+      }
+      else if (d.type === 'ref_stats') {
+        /* Live reference_stats.md — render full markdown with tables */
+        if (d.md && refStatsMdPanel) {
+          refStatsMdPanel.innerHTML = renderMd(d.md);
+          ThermoIDLinks.linkify(refStatsMdPanel);
+        }
+      }
+      else if (d.type === 'terminal_log') {
+        /* Terminal log lines from Python logging */
+        var lines = d.lines || [];
+        if (lines.length > 0) {
+          var fragment = document.createDocumentFragment();
+          lines.forEach(function(ln) {
+            var div = document.createElement('div');
+            // colour by log level
+            if (ln.indexOf('ERROR') !== -1 || ln.indexOf('CRITICAL') !== -1) {
+              div.className = 'text-danger';
+            } else if (ln.indexOf('WARNING') !== -1) {
+              div.className = 'text-warning';
+            } else if (ln.indexOf('DEBUG') !== -1) {
+              div.style.opacity = '0.6';
+            }
+            div.textContent = ln;
+            fragment.appendChild(div);
+          });
+          terminalLogPanel.appendChild(fragment);
+          terminalLogPanel.scrollTop = terminalLogPanel.scrollHeight;
+          _termLogTotal += lines.length;
+          termLogCount.textContent = _termLogTotal;
+        }
+      }
+      else if (d.type === 'status') {
+        /* Heartbeat: badge, elapsed, file counts, progress bar */
+        statusBadge.textContent = d.status;
+        if (d.status === 'running') statusBadge.className = 'badge bg-primary';
+        else if (d.status === 'completed') statusBadge.className = 'badge bg-success';
+        else if (d.status === 'error') statusBadge.className = 'badge bg-danger';
+
+        if (typeof d.elapsed === 'number') {
+          elapsedLabel.textContent = 'Elapsed: ' + fmtElapsed(d.elapsed);
+          runStartTime = Date.now() - d.elapsed * 1000;   // re-sync local timer
+          var maxSec = d.max_turn_seconds || 1200;
+          var pct = Math.min(100, (d.elapsed / maxSec) * 100);
+          progressBar.style.width = pct + '%';
+        }
+        filesLabel.textContent = 'Files: ' + (d.n_data || 0) + ' data, ' + (d.n_images || 0) + ' plots';
+      }
+      else if (d.type === 'done') {
+        disconnectSSE();
+        showDoneNote(d.status, d);
+      }
+      else if (d.type === 'error') {
+        appendLog('<i class="bi bi-exclamation-triangle me-1"></i>' + (d.msg || ''), 'text-danger small');
+        disconnectSSE();
+      }
+    };
+
+    var _sseErrCount = 0;
+    evtSource.onerror = function() {
+      /* Poll the status endpoint on error.  If the run finished,
+         display the final result.  After 5 consecutive errors with
+         the run still active, close the dead EventSource and
+         switch to a periodic poll fallback so we never get stuck. */
+      if (!activeRunId) return;
+      _sseErrCount++;
+      fetch('/agents/status/' + activeRunId)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.status === 'completed') { disconnectSSE(); showDoneNote('completed', data); }
+          else if (data.status === 'error') { disconnectSSE(); showDoneNote('error', data); }
+          else if (_sseErrCount >= 5) {
+            /* SSE channel broken but run still going — switch to poll */
+            if (evtSource) { evtSource.close(); evtSource = null; }
+            appendLog('SSE stream lost — switching to polling fallback', 'text-warning');
+            var _poll = setInterval(function() {
+              if (!activeRunId) { clearInterval(_poll); return; }
+              fetch('/agents/status/' + activeRunId)
+                .then(function(r2) { return r2.json(); })
+                .then(function(d2) {
+                  if (d2.status === 'completed') { clearInterval(_poll); disconnectSSE(); showDoneNote('completed', d2); }
+                  else if (d2.status === 'error') { clearInterval(_poll); disconnectSSE(); showDoneNote('error', d2); }
+                })
+                .catch(function() {});
+            }, 3000);
+          }
+        })
+        .catch(function() {});
+    };
+  }
+
+  function disconnectSSE() {
+    if (evtSource) { evtSource.close(); evtSource = null; }
+    if (elapsedTimer) { clearInterval(elapsedTimer); elapsedTimer = null; }
+    launchBtn.disabled = false;
+    progressBar.classList.remove('progress-bar-animated');
+    progressBar.style.width = '100%';
+  }
+
+  function appendLog(text, cls) {
+    var div = document.createElement('div');
+    // Default to white text (on dark bg) when no explicit colour class is given
+    div.className = cls || 'text-light';
+    var now = new Date().toLocaleTimeString();
+    var stamp = document.createElement('span');
+    stamp.className = 'text-muted me-2';
+    stamp.textContent = '[' + now + ']';
+    div.appendChild(stamp);
+    // Log lines carry agent/tool text: keep only inline formatting tags, drop every attribute but class.
+    if (window.DOMPurify) {
+      var clean = text.replace(/\n/g, '<br>').replace(/  /g, '&nbsp;&nbsp;');
+      div.insertAdjacentHTML('beforeend', DOMPurify.sanitize(clean, {
+        ALLOWED_TAGS: ['i', 'span', 'strong', 'br', 'em'], ALLOWED_ATTR: ['class']
+      }));
+    } else {
+      div.appendChild(document.createTextNode(text));
+    }
+    progressLog.appendChild(div);
+    progressLog.scrollTop = progressLog.scrollHeight;
+  }
+
+  const liveOutputSections = window.ThermoMLResultPanels.createToggles({
+    root: liveResultRow,
+    buttonSelector: '.live-output-tab',
+    sectionSelector: '.live-output-section',
+    initialSections: ['result'],
+    onSectionShown: function(section) {
+      if (section !== 'specialized') return;
+      var frame = document.querySelector('#liveResultRow .specialized-browser-frame');
+      if (frame && !frame.src) frame.src = frame.dataset.src;
+    }
+  });
+
+  function renderCsvTable(target, data) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'data-scroll';
+    const table = document.createElement('table');
+    table.className = 'table table-sm table-striped mb-0';
+    const head = table.createTHead().insertRow();
+    (data.columns || []).forEach(function(value) {
+      const th = document.createElement('th'); th.textContent = value; head.appendChild(th);
+    });
+    const body = table.createTBody();
+    (data.rows || []).forEach(function(row) {
+      const tr = body.insertRow();
+      row.forEach(function(value) { tr.insertCell().textContent = value; });
+    });
+    wrapper.appendChild(table);
+    target.innerHTML = '';
+    target.appendChild(wrapper);
+  }
+
+  function renderLiveArtifacts(data) {
+    liveDataPanel.innerHTML = '';
+    const dataFiles = data.data_files || [];
+    if (!dataFiles.length) {
+      liveDataPanel.innerHTML = '<p class="text-muted">No CSV data generated.</p>';
+    } else {
+      const buttons = document.createElement('div');
+      buttons.className = 'd-flex flex-wrap gap-2 mb-3';
+      const display = document.createElement('div');
+      dataFiles.forEach(function(name) {
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'btn btn-sm btn-outline-primary'; button.textContent = name;
+        button.addEventListener('click', function() {
+          fetch('/agents/live_csv/' + encodeURIComponent(activeRunId) + '/' + encodeArtifactPath(name))
+            .then(function(response) { return response.json(); })
+            .then(function(csvData) { renderCsvTable(display, csvData); })
+            .catch(function(error) { display.textContent = 'Failed to load CSV: ' + error; });
+        });
+        buttons.appendChild(button);
+      });
+      liveDataPanel.appendChild(buttons); liveDataPanel.appendChild(display);
+    }
+
+    liveImagesPanel.innerHTML = '';
+    const images = data.images || [];
+    if (!images.length) {
+      liveImagesPanel.innerHTML = '<p class="text-muted">No images generated.</p>';
+    } else {
+      images.forEach(function(name) {
+        const col = document.createElement('div'); col.className = 'col-md-6 col-xl-4';
+        const img = document.createElement('img');
+        img.src = '/agents/image/' + encodeURIComponent(activeRunId) + '/' + encodeArtifactPath(name);
+        img.alt = name; img.className = 'img-fluid rounded border';
+        const caption = document.createElement('div'); caption.className = 'small text-muted mt-1'; caption.textContent = name;
+        col.appendChild(img); col.appendChild(caption); liveImagesPanel.appendChild(col);
+      });
+    }
+  }
+
+  function showDoneNote(type, data) {
+    doneAlert.classList.remove('d-none', 'alert-success', 'alert-danger');
+    if (type === 'completed') {
+      doneAlert.className = 'alert alert-success';
+      const iters = data.iterations === null || data.iterations === undefined ? '?' : data.iterations;
+      const secs = Number.isFinite(Number(data.total_seconds))
+        ? Number(data.total_seconds)
+        : (Number.isFinite(Number(data.elapsed)) ? Number(data.elapsed) : 0);
+      const to = data.timed_out ? ' (timed out)' : '';
+      doneAlert.innerHTML = '<i class="bi bi-check-circle-fill"></i> ' +
+        '<strong>Run completed</strong> — ' + iters + ' iterations, ' +
+        fmtElapsed(secs) + to;
+      appendLog('✅ Run completed.', 'text-success fw-bold');
+      // Turn the progress view into the completed output page in-place.
+      liveResultRow.classList.remove('d-none');
+      liveResultMd.innerHTML = renderMdWithDOILinks(data.result_md);
+      ThermoIDLinks.linkify(liveResultMd);
+      if (liveHistoryMd && data.history_md) { liveHistoryMd.innerHTML = renderMd(data.history_md); ThermoIDLinks.linkify(liveHistoryMd); }
+      if (data.memory_md && liveMemoryMd) { liveMemoryMd.innerHTML = linkifyEntityIds(renderMdWithDOILinks(data.memory_md)); ThermoIDLinks.linkify(liveMemoryMd); }
+      if (liveStatsMd) { liveStatsMd.innerHTML = linkifyEntityIds(renderMd(data.stats_md)); ThermoIDLinks.linkify(liveStatsMd); }
+      const liveWorkflowPanel = document.getElementById('liveWorkflowPanel');
+      if (liveWorkflowPanel && window.ThermoMLWorkflowPanel) {
+        window.ThermoMLWorkflowPanel.render(liveWorkflowPanel, data.workflow, {
+          agentType: data.agent_type || getAgentType(),
+          dirName: data.dir_name || '', subRun: '', scope: 'all'
+        });
+      }
+      renderLiveArtifacts(data);
+      liveOutputSections.ensureVisible('result');
+      terminalLogDetails.parentNode.insertBefore(liveResultRow, terminalLogDetails);
+      terminalLogDetails.open = false;
+      liveResultRow.scrollIntoView({behavior: 'smooth', block: 'start'});
+    } else {
+      doneAlert.className = 'alert alert-danger';
+      doneAlert.innerHTML = '<i class="bi bi-x-circle-fill"></i> ' +
+        '<strong>Agent stopped</strong> — ' + esc(data.error || 'Unknown error');
+      appendLog('❌ ' + (data.error || ''), 'text-danger fw-bold');
+    }
+  }
+
+})();
+</script>
+{% endblock %}

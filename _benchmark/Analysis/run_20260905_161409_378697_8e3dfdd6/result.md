@@ -1,0 +1,347 @@
+# Analysis Run — 20260905_162223 (Round 1)
+
+**Question:** What viscosity should I expect for an equimolar 1,2-dimethanol + water liquid mixture at 25 °C?
+
+**Time:** 455.3s | **Iterations:** 17 | **Tools:** 14
+
+---
+
+## Answer
+
+{
+  "answer": "## Viscosity of an Equimolar 1,2-Ethanediol (Ethylene Glycol) + Water Mixture at 25 °C\n\n> **Note:** \"1,2-dimethanol\" is not a standard IUPAC name. The compound you likely mean is **1,2-ethanediol** (HOCH₂CH₂OH), commonly known as **ethylene glycol**. The analysis below is for the binary system **1,2-ethanediol + water**.\n\n### Predicted Viscosity at x(EG) = 0.50, T = 298.15 K (25 °C, user-specified)\n\nTwo independent ThermoML datasets were fitted with Redlich-Kister (RK) polynomials using the **Arrhenius mixing rule** (ln η is fitted), and both give a consistent prediction:\n\n| Source | DOI | GLOBlit | Block | T (K) | Data pts at 298.15 K | RK Order | R² | RMSE | η at x = 0.5 (Pa·s) |\n|--------|-----|---------|-------|--------|----------------------|----------|----|------|----------------------|\n| Dataset 1 | 10.1016/j.jct.2018.02.022 | GLOBlit_5201 | PROPblock_24 | 298.15 | 19 | 3 | 0.999940 | 0.001320 | **0.00694** |\n| Dataset 2 | 10.1021/acs.jced.6b00526 | GLOBlit_6951 | PROPblock_18 | 298.15 | 9 | 5 | 0.999925 | 0.001351 | **0.00673** |\n\n### **Best estimate: η ≈ 0.0069 Pa·s (6.9 mPa·s) at 298.15 K for an equimolar mixture**\n\nThis is corroborated by a direct experimental data point from a third source (**GLOBlit_8106 / PROPblock_5**, DOI: 10.1021/je025610o), which reports **η = 0.00761 Pa·s at x(EG) = 0.50 and 297.05 K** — slightly higher as expected for a temperature ~1 K lower (viscosity decreases with increasing temperature).\n\n---\n\n### Fitting Details\n\n**Dataset 1 — GLOBlit_5201 / PROPblock_24** (DOI: 10.1016/j.jct.2018.02.022)\n- 19 data points used at T = 298.15 K (from fit tool), x(EG) = 0 to 1, P = 92.3 kPa\n- Composition variable: mole fraction of 1,2-ethanediol\n- Pure-component viscosities (block edges, from fit tool): η(EG) = 0.016223 Pa·s, η(water) = 0.00089689 Pa·s\n- **RK coefficients (BIC-selected order 3):** [2.39674, −1.04444, 0.668173, −0.3209]\n- R² = 0.999940, RMSE = 0.001320\n\n**Dataset 2 — GLOBlit_6951 / PROPblock_18** (DOI: 10.1021/acs.jced.6b00526)\n- 9 data points used at T = 298.15 K (from fit tool), x(water) = 0 to 1, P = 100.0 kPa\n- Composition variable: mole fraction of water\n- Pure-component viscosities (block edges, from fit tool): η(water) = 0.000843 Pa·s, η(EG) = 0.01724 Pa·s\n- **RK coefficients (BIC-selected order 5):** [2.27452, 1.43846, 0.538413, −0.01859, 0.535328, 0.62332]\n- R² = 0.999925, RMSE = 0.001351\n\n---\n\n### Chemistry Context\n\nThe ethylene glycol + water system is strongly **non-ideal** in its viscosity behavior. Both hydroxyl groups of ethylene glycol form extensive hydrogen-bonding networks with water, leading to a large positive excess viscosity (in ln-space). The maximum excess contribution (|Δln η|) is approximately **0.63** (from both fits), occurring near intermediate compositions.\n\nAt the equimolar composition, the predicted viscosity of ~6.9 mPa·s is substantially higher than pure water and lower than pure ethylene glycol (derived from fit-returned pure values: η(water) ≈ 0.90 mPa·s from Dataset 1, η(EG) ≈ 16.2–17.2 mPa·s across both datasets), reflecting the strong intermolecular interactions that make the mixture more viscous than a simple Arrhenius-ideal geometric-mean prediction would suggest.\n\nRepresentative inspected data points at 298.15 K from Dataset 1 (GLOBlit_5201 / PROPblock_24, inspection INSP_2e07429c73f6):\n\n| x(1,2-ethanediol) | η (Pa·s) |\n|--------------------|----------|\n| 0.0494 | 0.0012528 |\n| 0.0986 | 0.0016802 |\n| 0.1483 | 0.0021667 |\n| 0.2072 | 0.0028109 |\n\n---\n\n### Output Files\n\nFit and excess-property data (CSV) and plots (PNG) were generated for both datasets and are available in the session output directory.",
+  "core_claims": [
+    "The predicted dynamic viscosity of an equimolar 1,2-ethanediol (ethylene glycol) + water mixture at 298.15 K is approximately 0.0069 Pa·s (6.9 mPa·s), based on Redlich-Kister fits using the Arrhenius mixing rule applied to two independent ThermoML datasets (Dataset 1: η = 0.00694 Pa·s, R² = 0.999940; Dataset 2: η = 0.00673 Pa·s, R² = 0.999925).",
+    "A direct experimental data point from a third source (GLOBlit_8106 / PROPblock_5) reports η = 0.00761 Pa·s at x(EG) = 0.50 and 297.05 K, which is slightly higher than the 298.15 K prediction, consistent with the expected decrease of viscosity with increasing temperature.",
+    "The ethylene glycol + water system exhibits strongly non-ideal viscosity behavior due to extensive hydrogen bonding, with a large positive excess viscosity (maximum |Δln η| ≈ 0.63) near intermediate compositions.",
+    "Pure-component viscosities derived from the fits at 298.15 K are η(water) ≈ 0.00089689 Pa·s (Dataset 1) / 0.000843 Pa·s (Dataset 2) and η(EG) ≈ 0.016223 Pa·s (Dataset 1) / 0.01724 Pa·s (Dataset 2)."
+  ],
+  "sources": [
+    {
+      "doi": "10.1016/j.jct.2018.02.022",
+      "lit_num_id": "GLOBlit_5201",
+      "block": "PROPblock_24",
+      "BLKsubsys_id": null,
+      "description": "Binary 1,2-ethanediol + water viscosity data covering mole fraction 0–1 and T = 293.15–308.15 K (includes 298.15 K). Used as Dataset 1 for the RK fit yielding η ≈ 0.00694 Pa·s at x(EG) = 0.50, 298.15 K."
+    },
+    {
+      "doi": "10.1021/acs.jced.6b00526",
+      "lit_num_id": "GLOBlit_6951",
+      "block": "PROPblock_18",
+      "BLKsubsys_id": null,
+      "description": "Binary 1,2-ethanediol + water viscosity data covering mole fraction 0–1 and T = 293.15–303.15 K (includes 298.15 K). Used as Dataset 2 for the RK fit yielding η ≈ 0.00673 Pa·s at x(EG) = 0.50, 298.15 K, providing independent corroboration."
+    },
+    {
+      "doi": "10.1021/je025610o",
+      "lit_num_id": "GLOBlit_8106",
+      "block": "PROPblock_5",
+      "BLKsubsys_id": null,
+      "description": "Binary 1,2-ethanediol + water viscosity data with x(EG) = 0.25–0.75 and T = 296.45–449.85 K. Provides a direct experimental corroboration point of η = 0.00761 Pa·s at x(EG) = 0.50 and 297.05 K, consistent with the fitted predictions at 298.15 K."
+    }
+  ],
+  "fit_results": [
+    {
+      "doi": "10.1016/j.jct.2018.02.022",
+      "lit_num_id": "GLOBlit_5201",
+      "block_number": "PROPblock_24",
+      "BLKsubsys_id": null,
+      "property": "EG_water_5201",
+      "rk_order": 3,
+      "rk_coeffs": [
+        2.3967401058713325,
+        -1.0444436005853195,
+        0.6681733607879681,
+        -0.3209004397507546
+      ],
+      "r_squared": 0.99994,
+      "rmse": 0.0013198945265291695,
+      "n_points": 19,
+      "temperature_K": 298.15,
+      "mixing_rule": "arrhenius"
+    },
+    {
+      "doi": "10.1021/acs.jced.6b00526",
+      "lit_num_id": "GLOBlit_6951",
+      "block_number": "PROPblock_18",
+      "BLKsubsys_id": null,
+      "property": "EG_water_6951",
+      "rk_order": 5,
+      "rk_coeffs": [
+        2.274524109519024,
+        1.4384635691823309,
+        0.5384128617275521,
+        -0.01858996573688366,
+        0.53532833010802,
+        0.623320181010585
+      ],
+      "r_squared": 0.999925,
+      "rmse": 0.0013505215055279614,
+      "n_points": 9,
+      "temperature_K": 298.15,
+      "mixing_rule": "arrhenius"
+    }
+  ]
+}
+
+---
+
+## Data Inspections (deterministic evidence ledger)
+
+Hardcoded envelope merge — not agent-authored. 5 entr(ies); verbatim rows below.
+
+- INSP_2e07429c73f6 — GLOBlit_5201::PROPblock_24 · nearest · 4 rows
+- INSP_bd03f5e06550 — GLOBlit_6951::PROPblock_18 · nearest · 4 rows
+- INSP_3c78c4cad98b — GLOBlit_8038::PROPblock_5 · nearest · 4 rows
+- INSP_c34d285e3419 — GLOBlit_8106::PROPblock_5 · nearest · 4 rows
+- INSP_ab4e8ffefdbf — GLOBlit_2656::PROPblock_13 · nearest · 4 rows
+
+```json
+[
+  {
+    "doi": "10.1016/j.jct.2018.02.022",
+    "block_number": "PROPblock_24",
+    "table_mode": "nearest",
+    "columns": [
+      "BLKpoint_id",
+      "temperature_k",
+      "mole_fraction_<1,2-ethanediol>",
+      "pressure_kpa",
+      "viscosity_pa_s"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_20",
+        "temperature_k": "298.15",
+        "mole_fraction_<1,2-ethanediol>": "0.0494",
+        "pressure_kpa": "92.3",
+        "viscosity_pa_s": "0.0012528"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_21",
+        "temperature_k": "298.15",
+        "mole_fraction_<1,2-ethanediol>": "0.0986",
+        "pressure_kpa": "92.3",
+        "viscosity_pa_s": "0.0016802"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_22",
+        "temperature_k": "298.15",
+        "mole_fraction_<1,2-ethanediol>": "0.1483",
+        "pressure_kpa": "92.3",
+        "viscosity_pa_s": "0.0021667"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_23",
+        "temperature_k": "298.15",
+        "mole_fraction_<1,2-ethanediol>": "0.2072",
+        "pressure_kpa": "92.3",
+        "viscosity_pa_s": "0.0028109"
+      }
+    ],
+    "inspection_id": "INSP_2e07429c73f6",
+    "lit_num_id": "GLOBlit_5201"
+  },
+  {
+    "doi": "10.1021/acs.jced.6b00526",
+    "block_number": "PROPblock_18",
+    "table_mode": "nearest",
+    "columns": [
+      "BLKpoint_id",
+      "temperature_k",
+      "mole_fraction_<water>",
+      "pressure_kpa",
+      "viscosity_pa_s"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_12",
+        "temperature_k": "298.15",
+        "mole_fraction_<water>": "0",
+        "pressure_kpa": "100.0",
+        "viscosity_pa_s": "0.01724"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_13",
+        "temperature_k": "298.15",
+        "mole_fraction_<water>": "0.1105",
+        "pressure_kpa": "100.0",
+        "viscosity_pa_s": "0.01433"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_14",
+        "temperature_k": "298.15",
+        "mole_fraction_<water>": "0.2014",
+        "pressure_kpa": "100.0",
+        "viscosity_pa_s": "0.01219"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_15",
+        "temperature_k": "298.15",
+        "mole_fraction_<water>": "0.3002",
+        "pressure_kpa": "100.0",
+        "viscosity_pa_s": "0.01018"
+      }
+    ],
+    "inspection_id": "INSP_bd03f5e06550",
+    "lit_num_id": "GLOBlit_6951"
+  },
+  {
+    "doi": "10.1021/je020140j",
+    "block_number": "PROPblock_5",
+    "table_mode": "nearest",
+    "columns": [
+      "BLKpoint_id",
+      "mole_fraction_<1,2-ethanediol>",
+      "temperature_k",
+      "pressure_kpa",
+      "viscosity_pa_s"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "mole_fraction_<1,2-ethanediol>": "0",
+        "temperature_k": "293.15",
+        "pressure_kpa": "101.0",
+        "viscosity_pa_s": "0.001002"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_8",
+        "mole_fraction_<1,2-ethanediol>": "0.0312",
+        "temperature_k": "293.15",
+        "pressure_kpa": "101.0",
+        "viscosity_pa_s": "0.001337"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_2",
+        "mole_fraction_<1,2-ethanediol>": "0",
+        "temperature_k": "303.15",
+        "pressure_kpa": "101.0",
+        "viscosity_pa_s": "0.000797"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_9",
+        "mole_fraction_<1,2-ethanediol>": "0.0312",
+        "temperature_k": "303.15",
+        "pressure_kpa": "101.0",
+        "viscosity_pa_s": "0.001047"
+      }
+    ],
+    "inspection_id": "INSP_3c78c4cad98b",
+    "lit_num_id": "GLOBlit_8038"
+  },
+  {
+    "doi": "10.1021/je025610o",
+    "block_number": "PROPblock_5",
+    "table_mode": "nearest",
+    "columns": [
+      "BLKpoint_id",
+      "mole_fraction_<1,2-ethanediol>",
+      "temperature_k",
+      "pressure_kpa",
+      "viscosity_pa_s"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "mole_fraction_<1,2-ethanediol>": "0.25",
+        "temperature_k": "296.45",
+        "pressure_kpa": "100.0",
+        "viscosity_pa_s": "0.00369"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_9",
+        "mole_fraction_<1,2-ethanediol>": "0.5",
+        "temperature_k": "297.05",
+        "pressure_kpa": "100.0",
+        "viscosity_pa_s": "0.00761"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_18",
+        "mole_fraction_<1,2-ethanediol>": "0.75",
+        "temperature_k": "297.35",
+        "pressure_kpa": "100.0",
+        "viscosity_pa_s": "0.0123"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_2",
+        "mole_fraction_<1,2-ethanediol>": "0.25",
+        "temperature_k": "313.05",
+        "pressure_kpa": "100.0",
+        "viscosity_pa_s": "0.00229"
+      }
+    ],
+    "inspection_id": "INSP_c34d285e3419",
+    "lit_num_id": "GLOBlit_8106"
+  },
+  {
+    "doi": "10.1016/j.jct.2006.01.011",
+    "block_number": "PROPblock_13",
+    "table_mode": "nearest",
+    "columns": [
+      "BLKpoint_id",
+      "mass_fraction_<1,2-ethanediol>",
+      "temperature_k",
+      "pressure_kpa",
+      "viscosity_pa_s"
+    ],
+    "rows_shown": [
+      {
+        "BLKpoint_id": "BLKpoint_1",
+        "mass_fraction_<1,2-ethanediol>": "0",
+        "temperature_k": "293.15",
+        "pressure_kpa": "101.325",
+        "viscosity_pa_s": "0.001008"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_2",
+        "mass_fraction_<1,2-ethanediol>": "0.1",
+        "temperature_k": "293.15",
+        "pressure_kpa": "101.325",
+        "viscosity_pa_s": "0.001293"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_3",
+        "mass_fraction_<1,2-ethanediol>": "0.2",
+        "temperature_k": "293.15",
+        "pressure_kpa": "101.325",
+        "viscosity_pa_s": "0.001671"
+      },
+      {
+        "BLKpoint_id": "BLKpoint_4",
+        "mass_fraction_<1,2-ethanediol>": "0.3",
+        "temperature_k": "293.15",
+        "pressure_kpa": "101.325",
+        "viscosity_pa_s": "0.002177"
+      }
+    ],
+    "inspection_id": "INSP_ab4e8ffefdbf",
+    "lit_num_id": "GLOBlit_2656"
+  }
+]
+```
+
+---
+
+## Verdict
+
+**Data Quality**
+Two independent ThermoML datasets were fitted via `fit_multi_system`, and inspected data points match the trace. However, the `predict_from_rk` calls both returned only 215-char responses — too short to contain full prediction results, raising concern that the quoted η values at x=0.5 may be partially interpolated or fabricated by the agent rather than directly returned by the tool. The composition basis appears to be mole fraction throughout. The third corroborating data point (GLOBlit_8106) was not fitted or inspected in the trace — its value may be fabricated.
+
+**Fit Quality**
+R² ≈ 0.9999 for both fits is excellent. Order-3 and order-5 RK with Arrhenius mixing rule are appropriate for viscosity. The order-5 fit on only 9 points risks slight overfitting.
+
+**Scientific Verdict**
+The ~6.9 mPa·s estimate is physically reasonable for this well-studied system. However, the predict_from_rk outputs appear truncated, so the exact x=0.5 predictions cannot be fully verified. Treat as approximate; literature values (~6–8 mPa·s) corroborate the range.
+
+---
+
+## Output Files
+
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_161409_378697_8e3dfdd6\data\10_1021_acs_jced_6b00526_BPROPblock_18_T298.1_fit.csv` — RK fit data — 10.1021/acs.jced.6b00526 PROPblock_18_T298.1
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_161409_378697_8e3dfdd6\data\10_1016_j_jct_2018_02_022_BPROPblock_24_T298.1_fit.csv` — RK fit data — 10.1016/j.jct.2018.02.022 PROPblock_24_T298.1
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_161409_378697_8e3dfdd6\data\10_1021_acs_jced_6b00526_BPROPblock_18_T298.1_excess.csv` — Excess property — 10.1021/acs.jced.6b00526 PROPblock_18_T298.1
+- **data**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_161409_378697_8e3dfdd6\data\10_1016_j_jct_2018_02_022_BPROPblock_24_T298.1_excess.csv` — Excess property — 10.1016/j.jct.2018.02.022 PROPblock_24_T298.1
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_161409_378697_8e3dfdd6\plots\10_1021_acs_jced_6b00526_BPROPblock_18_T298.1_fit.png` — RK fit plot — 10.1021/acs.jced.6b00526 PROPblock_18_T298.1
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_161409_378697_8e3dfdd6\plots\10_1016_j_jct_2018_02_022_BPROPblock_24_T298.1_fit.png` — RK fit plot — 10.1016/j.jct.2018.02.022 PROPblock_24_T298.1
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_161409_378697_8e3dfdd6\plots\10_1021_acs_jced_6b00526_BPROPblock_18_T298.1_excess.png` — Excess plot — 10.1021/acs.jced.6b00526 PROPblock_18_T298.1
+- **plot**: `\\Sheldon.cse.anl.gov\yunkai.sun$\_Code_Maintenance\_outputs_user\yunkai.sun\ThermoML\Analysis\run_20260905_161409_378697_8e3dfdd6\plots\10_1016_j_jct_2018_02_022_BPROPblock_24_T298.1_excess.png` — Excess plot — 10.1016/j.jct.2018.02.022 PROPblock_24_T298.1

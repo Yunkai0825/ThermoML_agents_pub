@@ -1,0 +1,14 @@
+key	label	kind	role	is_source	is_sink	value	n_ids	ids	blocks	order	provenance	args	meta
+Main:context	Main · agent context (dedup merge)	merge	context	0	0	3763	2	GLOBcomp_1;GLOBcomp_2		1			agent=MAIN;sid=Main
+grp:Main|support|SEED	Main · seed context (user question)	hardmeta	support	1	0	212	0			2	result.md::Question		
+grp:Main|support|WM_RENDER	Main · working-memory render	hardmeta	support	1	0	399	0			3	_working_memory.md::Main		
+grp:Main|utility|asis:src	Main · browse_subagent_tools · delivered as-is	agentic	asis	1	0	1695	0			10	run_history.md::Step 2 [main · c1]		
+grp:Main|support|EXPANSION:search	Main · stage rendering expansion (deterministic growth)	hardmeta	support	1	0	65	0			13			
+grp:Main|search|raw	Main · search_id_alignment (menu) · raw results (4×)	raw	raw	1	0	5772	10	GLOBcomp_1;GLOBcomp_2;GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905		20	run_history.md::Step 4 [main · c2] | run_history.md::Step 6 [main · c3] | run_history.md::Step 9 [main · c4] | run_history.md::Step 10 [main · c5]		
+Main:answer	Main · final answer	answer	answer	0	1	1451	2	GLOBcomp_1;GLOBcomp_2		20	result.md::run_20260905_050055_271432_708d49b4		
+grp:Main|search|hardcoded	Main · search_id_alignment (menu) · hardcoded compact (4×)	hardcoded	hardcoded	0	0	2815	10	GLOBcomp_1;GLOBcomp_2;GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905		21	run_history.md::Step 4 [main · c2] | run_history.md::Step 6 [main · c3] | run_history.md::Step 9 [main · c4] | run_history.md::Step 10 [main · c5]		
+grp:Main|search|agentic	Main · search_id_alignment (menu) · agentic kept (4×)	agentic	agentic	0	0	1457	2	GLOBcomp_1;GLOBcomp_2		22	run_history.md::Step 4 [main · c2] | run_history.md::Step 6 [main · c3] | run_history.md::Step 9 [main · c4] | run_history.md::Step 10 [main · c5]		
+grp:Main|sink|condensed_in_synthesis	Main · condensed away in synthesis	removed	sink	0	1	1913	0			22			
+grp:Main|sink|memory_uncited	Main · memory carry not cited (WM render / transient)	removed	sink	0	1	399	0			23			
+grp:Main|sink|hardcoded_cut	Main · hardcoded compaction cut	removed	sink	0	1	2957	0			25			
+grp:Main|sink|triage_cut	Main · agentic triage cut	removed	sink	0	1	1423	8	GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905		25			

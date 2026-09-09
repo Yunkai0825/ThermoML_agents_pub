@@ -1,0 +1,17 @@
+severity	check	subject	detail
+INFO	balance	detailed/chars	sources emit 678,741 / sinks absorb 678,741
+INFO	balance	detailed/ids	sources emit 762 / sinks absorb 762
+FAIL	orphan	detailed/ids:Main/Q1/L1#3:search_blocks#1:raw	'Q1 · L1#3 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/ids:Main/Q1/L1#3:search_blocks#2:raw	'Q1 · L1#3 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/ids:Main/Q1/L1#3:sink:hardcoded_cut	'Q1 · L1#3 · hardcoded compaction cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	detailed/blocks	sources emit 184 / sinks absorb 184
+INFO	balance	detailed/pts	sources emit 10,745 / sinks absorb 10,745
+INFO	balance	agentic/chars	sources emit 678,741 / sinks absorb 678,741
+INFO	balance	agentic/ids	sources emit 537 / sinks absorb 537
+INFO	balance	agentic/blocks	sources emit 131 / sinks absorb 131
+INFO	balance	agentic/pts	sources emit 7,857 / sinks absorb 7,857
+INFO	balance	pooled/chars	sources emit 678,741 / sinks absorb 678,741
+INFO	balance	pooled/ids	sources emit 355 / sinks absorb 355
+INFO	balance	pooled/blocks	sources emit 108 / sinks absorb 108
+INFO	balance	pooled/pts	sources emit 6,471 / sinks absorb 6,471
+FAIL	raw_coverage	Main/Q1/L1#2	72 evidence ids missing from ids-detailed: ['BLKpoint_102', 'BLKpoint_108', 'BLKpoint_109', 'BLKpoint_156', 'BLKpoint_162', 'BLKpoint_163', 'BLKpoint_199', 'BLKpoint_205']

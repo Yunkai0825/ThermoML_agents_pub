@@ -1,0 +1,25 @@
+severity	check	subject	detail
+INFO	balance	detailed/chars	sources emit 235,013 / sinks absorb 235,013
+INFO	balance	detailed/ids	sources emit 435 / sinks absorb 435
+INFO	balance	detailed/blocks	sources emit 47 / sinks absorb 47
+FAIL	orphan	detailed/blocks:A/L1#1:search_blocks#3:hardcoded	'L1#1 · search_blocks · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/blocks:A/L1#1:search_blocks#3:raw	'L1#1 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/blocks:A/L1#1:sink:triage_cut	'L1#1 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	detailed/pts	sources emit 3,195 / sinks absorb 3,195
+FAIL	orphan	detailed/pts:A/L1#1:search_blocks#3:hardcoded	'L1#1 · search_blocks · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:A/L1#1:search_blocks#3:raw	'L1#1 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:A/L1#1:sink:triage_cut	'L1#1 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	agentic/chars	sources emit 235,013 / sinks absorb 235,013
+INFO	balance	agentic/ids	sources emit 369 / sinks absorb 369
+INFO	balance	agentic/blocks	sources emit 41 / sinks absorb 41
+FAIL	orphan	agentic/blocks:grp:A/L1#1|search|hardcoded	'L1#1 · resolve_compound_ids · hardcoded compact (+4 merged)' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	agentic/blocks:grp:A/L1#1|search|raw	'L1#1 · resolve_compound_ids · raw results (+4 merged)' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	agentic/blocks:grp:A/L1#1|sink|triage_cut	'L1#1 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	agentic/pts	sources emit 2,547 / sinks absorb 2,547
+FAIL	orphan	agentic/pts:grp:A/L1#1|search|hardcoded	'L1#1 · resolve_compound_ids · hardcoded compact (+4 merged)' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	agentic/pts:grp:A/L1#1|search|raw	'L1#1 · resolve_compound_ids · raw results (+4 merged)' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	agentic/pts:grp:A/L1#1|sink|triage_cut	'L1#1 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	pooled/chars	sources emit 235,013 / sinks absorb 235,013
+INFO	balance	pooled/ids	sources emit 210 / sinks absorb 210
+INFO	balance	pooled/blocks	sources emit 28 / sinks absorb 28
+INFO	balance	pooled/pts	sources emit 1,356 / sinks absorb 1,356

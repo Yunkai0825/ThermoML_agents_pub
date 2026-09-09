@@ -1,0 +1,333 @@
+{
+  "meas_ID": "ac_calorimetry",
+  "identity": {
+    "name": "AC calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "AC calorimetry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 5,
+      "property_groups": [
+        "PhaseTransition",
+        "HeatCapacityAndDerivedProp"
+      ],
+      "n_papers": 3,
+      "per_group": {
+        "PhaseTransition": {
+          "instances": 3,
+          "papers": 2
+        },
+        "HeatCapacityAndDerivedProp": {
+          "instances": 2,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature oscillation amplitude (Tac)",
+          "phase lag between power input and temperature response (phi)",
+          "DC temperature offset (Tdc)"
+        ],
+        "derived_observables": [
+          "heat capacity at constant pressure (Cp)",
+          "complex heat capacity (Cp* = Cp' - iCp'')",
+          "real part of heat capacity (Cp', storage component)",
+          "imaginary part of heat capacity (Cp'', loss component)"
+        ],
+        "target_properties": [
+          "isobaric heat capacity (Cp)",
+          "phase transition temperatures",
+          "enthalpy of phase transitions (from Cp integration)",
+          "glass transition temperature (Tg)",
+          "frequency-dependent heat capacity"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous/glassy)",
+          "liquid",
+          "liquid crystal",
+          "soft matter near transitions"
+        ],
+        "supported_sample_types": [
+          "pure solids",
+          "pure liquids",
+          "alloys and metallic glasses",
+          "polymers and polymer blends",
+          "liquid crystals",
+          "thin films",
+          "single crystals",
+          "biological macromolecules (small quantities)",
+          "binary and multicomponent mixtures"
+        ],
+        "unsupported_sample_types": [
+          "gases",
+          "volatile liquids with high vapor pressure at measurement temperature",
+          "samples requiring sealed high-pressure cells (standard AC calorimeters)",
+          "highly exothermic reactive mixtures",
+          "large bulk samples (technique favors small samples)"
+        ],
+        "typical_output_formats": [
+          "Cp vs. T curve",
+          "Cp' and Cp'' vs. T at fixed frequency",
+          "Cp vs. frequency at fixed T",
+          "phase lag vs. T",
+          "Tac amplitude vs. T"
+        ],
+        "units": {
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "temperature": "K",
+          "temperature_oscillation_amplitude": "mK",
+          "frequency": "Hz or rad/s",
+          "power": "mW",
+          "phase_lag": "degrees or radians",
+          "enthalpy": "J/mol or J/g"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "oscillation_frequency",
+            "typical_range": "0.01 Hz to 100 Hz",
+            "hard_limits": "limited by thermal diffusion length; frequency must be high enough that thermal penetration depth is smaller than sample dimensions",
+            "notes": "frequencies of 0.1–10 Hz are most common; very low frequencies approach quasi-static DSC behavior"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "100 K to 1000 K",
+            "hard_limits": "depends on cryostat/furnace and heater/thermometer materials; specialized setups extend to 2 K or above 1500 K",
+            "notes": "standard laboratory setups often cover 150–700 K"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "0.1 K/min to 5 K/min (underlying DC ramp)",
+            "hard_limits": "must be slow enough that quasi-steady-state oscillation is maintained",
+            "notes": "slower ramps improve frequency-domain resolution but increase measurement time"
+          },
+          {
+            "parameter": "temperature_oscillation_amplitude",
+            "typical_range": "0.05 K to 2 K peak-to-peak",
+            "hard_limits": "must be small enough to ensure linear response; must be large enough for adequate signal-to-noise",
+            "notes": "amplitude chosen as a compromise between linearity and SNR"
+          }
+        ],
+        "variables": [
+          {
+            "name": "oscillation_frequency",
+            "role": "primary experimental variable",
+            "typical_values": "0.1 Hz to 10 Hz",
+            "effect": "determines thermal penetration depth and sensitivity to relaxation dynamics; higher frequencies probe shorter-range thermal diffusion"
+          },
+          {
+            "name": "temperature",
+            "role": "scanned variable",
+            "typical_values": "100 K to 1000 K",
+            "effect": "temperature scan reveals heat capacity anomalies and phase transitions"
+          },
+          {
+            "name": "power_amplitude",
+            "role": "controlled input variable",
+            "typical_values": "0.1 mW to 50 mW",
+            "effect": "sets the magnitude of temperature oscillation; must be adjusted to keep Tac in the linear regime"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "standard AC calorimetry is performed at ambient pressure; high-pressure variants exist but are uncommon"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "oscillating (AC) heater — thin-film resistive heater or Peltier element supplying periodic power P(t) = P0[1 + cos(ωt)]",
+          "temperature sensor — thermocouple (type E or K) or thin-film thermistor/resistance thermometer with fast response",
+          "lock-in amplifier — extracts amplitude and phase of temperature oscillation at the driving frequency",
+          "DC temperature controller — furnace or cryostat providing the slow underlying temperature ramp",
+          "thermal bath or heat sink — maintains stable baseline temperature",
+          "sample platform/holder — low thermal mass platform with well-defined thermal link to bath",
+          "data acquisition system — digitizer and computer for recording amplitude, phase, and DC temperature",
+          "vacuum or controlled-atmosphere chamber (optional) — reduces convective heat losses"
+        ],
+        "environmental_requirements": [
+          "vibration isolation to prevent microphonic noise in temperature signal",
+          "stable ambient temperature or temperature-controlled enclosure",
+          "electromagnetic shielding for low-noise lock-in detection",
+          "vacuum or inert gas atmosphere for high-temperature or air-sensitive samples"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "thin disk or plate (preferred for uniform thermal penetration)",
+            "thin film on substrate",
+            "small irregular piece (acceptable if thermal contact is good)"
+          ],
+          "size_limits": "typically 1–100 mg; optimized for small samples (< 50 mg)",
+          "thickness_limits": "should be less than or comparable to the thermal diffusion length at the operating frequency (typically 0.1–2 mm)",
+          "surface_requirements": [
+            "flat surface for good thermal contact with heater and sensor",
+            "clean surface free of oxide layers or contaminants that impede thermal coupling"
+          ],
+          "mounting_requirements": [
+            "intimate thermal contact between sample, heater, and thermometer",
+            "thermal grease or thin adhesive layer to reduce contact resistance",
+            "secure but non-constraining mounting to avoid mechanical stress artifacts"
+          ],
+          "preparation_requirements": [
+            "known mass (weighed to ±0.01 mg on analytical balance)",
+            "thickness measurement for thermal diffusion length verification",
+            "drying or degassing for hygroscopic or porous samples",
+            "encapsulation in sealed cell for volatile or reactive samples"
+          ]
+        },
+        "calibration_requirements": [
+          "frequency-dependent calibration to account for thermal impedance of heater-sample-sensor assembly",
+          "heat loss correction at each frequency (bath-link conductance Kb)",
+          "thermometer calibration against a certified reference thermometer",
+          "heater power calibration using a precision resistor and known current",
+          "empty-cell (addenda) measurement to subtract platform and sensor heat capacity"
+        ],
+        "reference_materials": [
+          "sapphire (α-Al2O3) — NIST SRM 720, standard for Cp calibration",
+          "copper — well-characterized Cp for metallic reference",
+          "indium — melting point standard (429.75 K) for temperature calibration",
+          "gallium — melting point standard (302.91 K)",
+          "benzoic acid — Cp and melting point reference"
+        ],
+        "consumables": [
+          "thermal grease (Apiezon N or H)",
+          "thin adhesive film or GE varnish for thermal contact",
+          "sample encapsulation pans (aluminum or gold)",
+          "inert gas supply (nitrogen, argon, or helium)"
+        ],
+        "safety_notes": [
+          "cryogenic liquids require standard cryogen handling precautions",
+          "high-temperature operation requires burn protection and proper furnace ventilation",
+          "vacuum systems require implosion shields or proper enclosure"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of detecting heat capacity changes as small as ~1 nJ/K for optimized nanocalorimeter implementations; typical bulk setups resolve ~10 µJ/K",
+        "detection_limit": "sample masses as low as ~1 µg for thin-film AC calorimetry; ~0.5 mg for conventional setups",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement); thin-film variants achieve ~100 µm lateral resolution",
+          "temporal": "set by oscillation period; typical time constants 0.01–10 s (frequencies 0.1–100 Hz)",
+          "spectral": "not applicable",
+          "energy": "heat capacity resolution ~0.1–1% of measured Cp for well-optimized systems"
+        },
+        "dynamic_range": "Cp from ~0.01 J/(g·K) to ~10 J/(g·K); temperature range 2 K to >1500 K with specialized setups",
+        "accuracy": "1–3% for absolute Cp after full calibration; 0.5–1% achievable with careful addenda subtraction and calibration",
+        "precision": "0.1–0.5% (repeatability of Cp measurement at a given T and frequency)",
+        "throughput": "single sample at a time; one full temperature scan takes minutes to hours depending on range and ramp rate",
+        "measurement_speed": "inherently slow for wide temperature sweeps (0.5–5 K/min ramp); individual Cp point acquisition is fast (~seconds per oscillation cycle)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "AC voltage from temperature sensor, demodulated by lock-in amplifier into in-phase (X) and quadrature (Y) components, yielding amplitude Tac and phase lag φ",
+        "preprocessing_steps": [
+          "lock-in demodulation to extract Tac amplitude and phase φ at driving frequency ω",
+          "subtraction of addenda (empty cell) contribution from raw Tac signal",
+          "correction for heat loss to bath (Kb correction)",
+          "correction for frequency-dependent thermal lag in heater-sample-thermometer assembly",
+          "DC temperature drift removal and baseline correction"
+        ],
+        "analysis_methods": [
+          "Sullivan-Seidel model: Cp = P0/(2ωTac) after heat loss and thermal lag corrections",
+          "complex Cp analysis: separate Cp into real (Cp') and imaginary (Cp'') from amplitude and phase",
+          "frequency scanning: measure Cp(ω) at fixed T to distinguish reversible and kinetic contributions",
+          "integration of Cp anomaly peak to obtain transition enthalpy ΔH",
+          "derivative analysis (dCp/dT) to locate transition onset and peak temperatures"
+        ],
+        "model_assumptions": [
+          "temperature oscillation amplitude is small enough that Cp is constant over the oscillation range (linear response approximation)",
+          "sample is thermally thin — thermal diffusion length at operating frequency exceeds sample thickness",
+          "heat exchange between sample and bath is characterized by a single thermal conductance Kb",
+          "heater power is purely sinusoidal at frequency ω (no significant harmonic content)",
+          "steady-state oscillation has been reached (transient effects have decayed)"
+        ],
+        "fit_parameters": [
+          "heat capacity Cp (or Cp' and Cp'')",
+          "thermal conductance to bath Kb",
+          "internal thermal relaxation time τint of sample-heater-sensor assembly",
+          "external thermal relaxation time τext = Cp/Kb"
+        ],
+        "common_artifacts": [
+          "thermal lag artifact: apparent shift of transition temperature due to finite heater-sensor distance",
+          "harmonic contamination: nonlinear thermal response at large oscillation amplitudes producing spurious 2ω, 3ω signals",
+          "bath coupling artifact: at very low frequencies, heat loss to bath dominates and Tac becomes frequency-independent, masking true Cp",
+          "sample thickness artifact: if sample is thermally thick, measured Cp is an apparent value reduced from the true Cp",
+          "contact resistance drift: degradation of thermal grease or bond over temperature cycling introduces slow systematic error"
+        ],
+        "quality_control_checks": [
+          "verify linearity: check that Cp is independent of oscillation amplitude over a range of power levels",
+          "frequency consistency: measure Cp at multiple frequencies to confirm convergence (thermally thin condition)",
+          "reproduce known Cp of reference material (sapphire) within stated accuracy",
+          "compare heating and cooling scans to verify reversibility and absence of thermal lag artifacts",
+          "inspect phase angle φ — should be near −90° for a purely capacitive (heat storing) sample"
+        ],
+        "failure_modes": [
+          "loss of thermal contact between sample and heater/sensor (sudden jump or noise in Tac)",
+          "sample decomposition or evaporation at elevated temperatures (irreversible Cp change)",
+          "lock-in amplifier overload or saturation at phase transitions with very large Cp anomalies",
+          "electromagnetic interference coupling into thermocouple leads (spurious frequency components)",
+          "mechanical vibration coupling into temperature signal (microphonic noise)"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 1–3% for absolute Cp; 0.1–0.5% for relative Cp changes",
+        "random_sources": [
+          "thermocouple/thermometer Johnson noise",
+          "amplifier input noise",
+          "temperature fluctuations from bath instability",
+          "mechanical vibrations (microphonics)",
+          "digitization noise in data acquisition"
+        ],
+        "systematic_sources": [
+          "addenda subtraction error (residual heat capacity of empty cell and grease)",
+          "heat loss correction (Kb) uncertainty",
+          "thermometer calibration offset",
+          "heater power calibration uncertainty",
+          "thermal contact resistance (unaccounted or variable)",
+          "sample mass uncertainty",
+          "frequency-dependent internal thermal lag correction"
+        ],
+        "operator_dependence": "moderate — sample mounting, thermal grease application quality, and contact geometry depend on operator skill",
+        "model_dependence": "moderate — accuracy depends on validity of thermally-thin assumption and single-Kb heat loss model; deviations require more complex thermal network models",
+        "dominant_error_sources": [
+          "addenda subtraction (especially for small samples where addenda is comparable to sample signal)",
+          "thermal contact resistance between sample and sensor/heater",
+          "heat loss correction accuracy at extreme temperatures"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(Cp) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of Cp",
+          "standard deviation from repeated measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "AC calorimetry is a thermal analysis technique that determines heat capacity by applying a periodic (alternating) power input to a sample and measuring the resulting temperature oscillation. Developed by Sullivan and Seidel in 1968, it is particularly valued for its high sensitivity to small heat capacity changes, making it ideal for studying phase transitions in small samples. The technique separates the reversible (thermodynamic) heat capacity from kinetic or irreversible thermal processes through frequency-dependent measurements, providing information inaccessible to conventional scanning calorimetry.",
+      "how_it_operates": "A thin-film or wire heater supplies sinusoidal power P(t) = P0[1 + cos(ωt)] to a sample mounted on a low-thermal-mass platform connected to a thermal bath. The sample temperature responds with a DC offset proportional to average power and an AC oscillation at frequency ω whose amplitude Tac is inversely proportional to the heat capacity. A lock-in amplifier referenced to the heater drive frequency extracts Tac and the phase lag φ from the thermometer signal. The DC temperature is simultaneously ramped slowly by an external controller, allowing Cp to be mapped as a function of temperature while maintaining quasi-steady-state oscillation conditions.",
+      "core_theory": "In the Sullivan-Seidel model, the sample is treated as a lumped thermal mass Cp connected to a heat bath through a thermal link of conductance Kb. For an applied oscillatory power P0·cos(ωt), the steady-state temperature oscillation amplitude is Tac = P0/(2ω) × 1/√(Cp² + (Kb/ω)²). When the operating frequency is chosen such that ω >> Kb/Cp (i.e., the oscillation period is much shorter than the external relaxation time τext = Cp/Kb), the expression simplifies to Cp = P0/(2ωTac). Internal thermal relaxation times τint of the sample-heater-sensor assembly introduce additional corrections, requiring that ωτint << 1 (thermally thin condition) for this simple relation to hold.",
+      "setup": "A typical AC calorimeter consists of a small resistive heater (thin-film or wire, ≤1 mm²) deposited on or bonded to a thermally insulating platform, with a miniature thermocouple or resistance thermometer positioned in intimate contact with the sample. The platform is weakly linked to a temperature-regulated bath via thin wires or a gas gap, defining the thermal conductance Kb. The assembly is housed in a vacuum or inert-gas chamber within a cryostat or furnace for temperature control. Signal conditioning uses a lock-in amplifier phase-locked to the heater drive, with output digitized by a computer-controlled data acquisition system.",
+      "suitable_for": "AC calorimetry excels at measuring heat capacity of small samples (milligram to microgram range) and is particularly powerful near phase transitions where Cp exhibits sharp anomalies. It is widely used for studying structural, magnetic, and superconducting transitions in single crystals and thin films, glass transitions and relaxation dynamics in polymers and metallic glasses, and liquid crystal phase sequences. The frequency-dependent measurement capability makes it uniquely suited for separating reversible thermodynamic heat capacity from slow kinetic processes such as enthalpy relaxation or crystallization.",
+      "core_limitations": "AC calorimetry requires that the sample be thermally thin at the operating frequency, which limits the maximum sample thickness and minimum frequency that can be used — typical samples must be thinner than ~1 mm. Absolute accuracy (1–3%) is generally lower than that of adiabatic calorimetry or high-precision drop calorimetry because of addenda subtraction and heat-loss correction uncertainties. The technique measures Cp only under isobaric conditions at or near ambient pressure in most implementations. Strongly first-order transitions with latent heat release can drive the system out of the linear oscillation regime, complicating quantitative analysis.",
+      "sample_preparation": "Samples should be prepared as thin, flat specimens with well-defined mass. Optimal thickness is determined by the thermal diffusion length at the chosen frequency: d < √(2κ/ω), where κ is the thermal diffusivity. The sample is weighed on a microbalance (±0.01 mg) and placed on the heater platform using a thin layer of thermal grease (Apiezon N/H) or GE varnish to ensure good thermal contact. For volatile or air-sensitive materials, the sample is sealed in a small pan or measured under inert atmosphere. Surface cleaning and drying are important to eliminate contaminants that could alter thermal contact.",
+      "calibration_and_references": "Calibration involves three essential steps: (1) an empty-cell (addenda) run to determine the heat capacity of the platform, heater, thermometer, and thermal grease, which is subtracted from subsequent sample measurements; (2) a reference material run using sapphire (α-Al2O3, NIST SRM 720) to establish the absolute Cp scale and verify the frequency-dependent correction factors; and (3) temperature calibration using melting-point standards such as indium (429.75 K) or gallium (302.91 K). The addenda run should be repeated whenever the thermal grease or platform configuration is changed, and the sapphire calibration should bracket the temperature range of interest.",
+      "data_interpretation": "Raw lock-in outputs (amplitude Tac and phase φ) are converted to Cp using the Sullivan-Seidel formula after corrections for addenda, heat loss (Kb), and internal thermal lag (τint). The complex heat capacity Cp* = Cp' − iCp'' is obtained from the in-phase and quadrature components, where Cp' represents the reversible storage component and Cp'' captures dissipative or kinetic processes. At phase transitions, the Cp anomaly is integrated over temperature to yield the transition enthalpy ΔH. Frequency-dependent measurements at fixed temperature reveal relaxation timescales through the ω-dependence of Cp'' and can identify glass transitions by the characteristic frequency-dependent shift of the Cp step.",
+      "common_pitfalls": "The most frequent pitfall is operating outside the thermally-thin regime — if the sample is too thick for the chosen frequency, the measured Cp underestimates the true value because the temperature sensor only sees the surface layer. Poor thermal contact due to inadequate grease application or air gaps between sample and platform produces irreproducible results and apparent hysteresis between heating and cooling scans. Using excessively large oscillation amplitudes violates the linear response assumption and introduces harmonic artifacts. Insufficient equilibration time at each temperature before data acquisition leads to transient artifacts in the demodulated signal.",
+      "artifacts_and_failure_modes": "Thermal lag artifacts shift apparent transition temperatures relative to the true thermodynamic values, with the shift scaling linearly with heating rate and frequency. Harmonic contamination appears when the temperature oscillation amplitude is too large, generating signals at 2ω, 3ω that can be misinterpreted as structure in Cp(T). Bath coupling artifacts dominate at very low frequencies where heat loss to the bath suppresses the temperature oscillation and the measured Cp becomes artificially large. Contact degradation over long temperature sweeps causes a slow drift in Tac that mimics a gradual Cp change. Loss of lock-in synchronization or electromagnetic interference can produce sudden spikes or baseline jumps in the Cp trace.",
+      "reporting_checklist": "Published AC calorimetry results should report: oscillation frequency (or frequencies) used, temperature oscillation amplitude, underlying DC heating/cooling rate, sample mass and geometry, method of thermal contact (grease type, varnish), addenda subtraction procedure, calibration reference material and temperature range, whether Cp reported is Cp' (real part) or total |Cp*|, corrections applied (heat loss, thermal lag), combined expanded uncertainty with confidence level, and any frequency-dependence observed near transitions. For ThermoML encoding, Cp values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

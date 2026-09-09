@@ -1,0 +1,1253 @@
+{
+  "$schema": "thermoml_systems_card_schema_v1",
+  "$id": "SCS_systems_card_schema",
+  "title": "ThermoML Systems Card Schema",
+  "description": "One card per unique chemical system (unique sorted set of components). The discovery layer: agents query SCS to answer 'what data exists for water + ethanol?' before loading any PCS cards. Systems are defined by the Component list in each PureOrMixtureData block, deduplicated by SMILES across all papers.",
+  "version": "1.0.0",
+  "database_stats": {
+    "note": "From full DB scan of 11,923 files / 122,481 PureOrMixtureData blocks / 2,690,357 data points",
+    "unique_systems": 44630,
+    "systems_with_multiple_papers": 7105,
+    "systems_by_type": {
+      "unary": 8502,
+      "binary": 28982,
+      "ternary": 7102
+    },
+    "blocks_by_type": {
+      "unary": 45821,
+      "binary": 58292,
+      "ternary": 18324
+    },
+    "missing_inchikey_compounds": 61,
+    "missing_inchikey_files": 57,
+    "note_smiles": "SMILES are derived from InChI via RDKit canonical SMILES. The 61 compounds missing InChI/InChIKey will also lack SMILES.",
+    "top_systems": [
+      "NaCl + water (192 blocks, 125 papers)",
+      "ethanol + water (126 blocks, 73 papers)",
+      "KCl + water (124 blocks, 91 papers)",
+      "glycine + water (124 blocks, 79 papers)",
+      "D-glucose + water (94 blocks, 48 papers)"
+    ]
+  },
+  "card_structure": {
+    "identity": {
+      "description": "Uniquely identifies this system. Primary key is sorted SMILES joined by '::' — a deterministic, canonical identifier derived from the component structures.",
+      "fields": {
+        "system_id": {
+          "type": "string",
+          "description": "Canonical system identifier. Sorted SMILES joined by '::'. Example: 'CCO::O' for ethanol + water. SMILES are canonical (RDKit-derived from InChI) to ensure deterministic deduplication."
+        },
+        "system_type": {
+          "type": "string",
+          "description": "Classification by number of components",
+          "allowed_values": [
+            "unary",
+            "binary",
+            "ternary",
+            "quaternary+"
+          ]
+        },
+        "n_components": {
+          "type": "integer",
+          "description": "Number of distinct compounds in this system (1, 2, 3, ...)"
+        }
+      }
+    },
+    "components": {
+      "description": "Ordered list of compounds in this system. Sorted by SMILES for canonical ordering. Each entry references the global compound registry.",
+      "type": "array",
+      "items": {
+        "fields": {
+          "comp_num_id": {
+            "type": "string",
+            "description": "Global compound registry ID. Format: 'GLOBcomp_<positive integer>'."
+          },
+          "SMILES": {
+            "type": "string",
+            "description": "Canonical SMILES — derived from InChI via RDKit during card generation. Primary structural identifier and CDS lookup key."
+          },
+          "name": {
+            "type": "string",
+            "description": "Most common name across all papers studying this system (first sCommonName from highest-frequency paper)"
+          },
+          "formula": {
+            "type": "string",
+            "description": "Molecular formula (sFormulaMolec)"
+          }
+        }
+      }
+    },
+    "data_coverage": {
+      "description": "Precomputed summary of all data available for this system across all papers. This is the primary discovery section — agents read this to decide whether to load PCS cards.",
+      "fields": {
+        "n_papers": {
+          "type": "integer",
+          "description": "Number of distinct papers (DOIs) that studied this system"
+        },
+        "n_blocks": {
+          "type": "integer",
+          "description": "Total measurement blocks across all papers"
+        },
+        "n_datapoints": {
+          "type": "integer",
+          "description": "Total data points across all blocks"
+        },
+        "property_groups": {
+          "type": "object",
+          "description": "Map of PropertyGroup name -> number of property instances. Example: {'VolumetricProp': 42, 'TransportProp': 18}",
+          "fields": {
+            "<group_name>": {
+              "type": "integer",
+              "description": "Count of property instances in this group for this system"
+            }
+          }
+        },
+        "property_names": {
+          "type": "array",
+          "description": "All distinct property names (ePropName) measured for this system",
+          "items": {
+            "type": "string"
+          }
+        },
+        "phases_observed": {
+          "type": "array",
+          "description": "All distinct phases (ePropPhase) observed across measurements",
+          "items": {
+            "type": "string"
+          }
+        },
+        "temperature_range_K": {
+          "type": "object|null",
+          "description": "Min/max temperature across all data points and constraints",
+          "fields": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        },
+        "pressure_range_kPa": {
+          "type": "object|null",
+          "description": "Min/max pressure across all data points and constraints",
+          "fields": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "papers": {
+      "description": "Papers that studied this system, sorted by n_blocks descending (most data first). For heavily-studied systems (>20 papers), truncated to top 20; use n_papers in data_coverage for the true count.",
+      "max_items_note": "Truncated to 20 when n_papers > 20 (affects 0.4% of systems). 84% of systems have exactly 1 paper; 99% have ≤10.",
+      "type": "array",
+      "items": {
+        "fields": {
+          "doi": {
+            "type": "string",
+            "description": "Paper DOI — key to RMS for full citation"
+          },
+          "n_blocks": {
+            "type": "integer",
+            "description": "Number of measurement blocks from this paper for this system"
+          },
+          "property_groups": {
+            "type": "array",
+            "description": "Which property groups this paper measured for this system",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "generation": {
+    "note": "SCS cards are generated ON DEMAND per chemical system; no materialized SCS database exists. The two generator views are search_system_registry (block-level rows for a system filter) and search_system_summary (aggregate statistics + top_papers for a compound/property slice; at least one of compound/property is required, so a whole-database dump is impossible).",
+    "generators": [
+      "card_db_search_tools/basic_search_tools/2_system_registry_search.py",
+      "card_db_search_tools/basic_search_tools/9_system_summary_search.py"
+    ]
+  },
+  "field_universe_audit": {
+    "generated": "2026-08-03",
+    "source": "live generator outputs (audit_scs_live.py): 4 representative calls incl. property filter and include_reactions",
+    "distinct_paths": 177,
+    "wildcards": "ID-grammar keys collapsed (<GLOBxxx_N>, <doi>, <n>); *_distribution maps collapsed to <name>",
+    "paths": {
+      "search_system_registry": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.n_results": {
+        "types": [
+          "integer"
+        ],
+        "example": "5"
+      },
+      "search_system_registry.query_params": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.query_params.compound": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_registry.query_params.compound[]": {
+        "types": [
+          "string"
+        ],
+        "example": "water"
+      },
+      "search_system_registry.query_params.include_reactions": {
+        "types": [
+          "boolean"
+        ],
+        "example": "False"
+      },
+      "search_system_registry.query_params.limit": {
+        "types": [
+          "integer"
+        ],
+        "example": "5"
+      },
+      "search_system_registry.query_params.system_scope": {
+        "types": [
+          "string"
+        ],
+        "example": "declared"
+      },
+      "search_system_registry.query_params.system_type": {
+        "types": [
+          "string"
+        ],
+        "example": "binary"
+      },
+      "search_system_registry.results": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].BLKsubsys_id": {
+        "types": [
+          "null"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].block_number": {
+        "types": [
+          "string"
+        ],
+        "example": "PROPblock_2"
+      },
+      "search_system_registry.results[].block_type": {
+        "types": [
+          "string"
+        ],
+        "example": "PureOrMixtureData"
+      },
+      "search_system_registry.results[].blocktype_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBblocktype_1"
+      },
+      "search_system_registry.results[].compact_md": {
+        "types": [
+          "string"
+        ],
+        "example": "# REG-PM | 10.1016/j.fluid.2004.11.019 | PROPblock_2\n\n**Literature:** …"
+      },
+      "search_system_registry.results[].compounds": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].compounds[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].compounds[].SMILES": {
+        "types": [
+          "null"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].compounds[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBcomp_2"
+      },
+      "search_system_registry.results[].compounds[].formula": {
+        "types": [
+          "string"
+        ],
+        "example": "C2H6O"
+      },
+      "search_system_registry.results[].compounds[].inchi_key": {
+        "types": [
+          "string"
+        ],
+        "example": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N"
+      },
+      "search_system_registry.results[].compounds[].name": {
+        "types": [
+          "string"
+        ],
+        "example": "ethanol"
+      },
+      "search_system_registry.results[].compounds[].org_num": {
+        "types": [
+          "string"
+        ],
+        "example": "DOIcomp_2"
+      },
+      "search_system_registry.results[].compounds[].sample_num": {
+        "types": [
+          "string"
+        ],
+        "example": "DOIcompSample_2_1"
+      },
+      "search_system_registry.results[].constraints": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].constraints[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].constraints[].BLKconstr_id": {
+        "types": [
+          "string"
+        ],
+        "example": "BLKconstr_1"
+      },
+      "search_system_registry.results[].constraints[].component_org_num": {
+        "types": [
+          "string"
+        ],
+        "example": "DOIcomp_2"
+      },
+      "search_system_registry.results[].constraints[].constr_id": {
+        "types": [
+          "string"
+        ],
+        "example": "mole_fraction_DOIcomp_2"
+      },
+      "search_system_registry.results[].constraints[].constr_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBconstr_3"
+      },
+      "search_system_registry.results[].constraints[].digits": {
+        "types": [
+          "integer"
+        ],
+        "example": "1"
+      },
+      "search_system_registry.results[].constraints[].name": {
+        "types": [
+          "string"
+        ],
+        "example": "Mole fraction"
+      },
+      "search_system_registry.results[].constraints[].phase": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].constraints[].phase.phase": {
+        "types": [
+          "string"
+        ],
+        "example": "Liquid"
+      },
+      "search_system_registry.results[].constraints[].phase.phase_id": {
+        "types": [
+          "string"
+        ],
+        "example": "liquid"
+      },
+      "search_system_registry.results[].constraints[].phase.phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBphase_1"
+      },
+      "search_system_registry.results[].constraints[].type": {
+        "types": [
+          "string"
+        ],
+        "example": "eComponentComposition"
+      },
+      "search_system_registry.results[].constraints[].value": {
+        "types": [
+          "number"
+        ],
+        "example": "0.0"
+      },
+      "search_system_registry.results[].declared_compounds": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].declared_compounds[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].declared_compounds[].SMILES": {
+        "types": [
+          "null"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].declared_compounds[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBcomp_2"
+      },
+      "search_system_registry.results[].declared_compounds[].formula": {
+        "types": [
+          "string"
+        ],
+        "example": "C2H6O"
+      },
+      "search_system_registry.results[].declared_compounds[].inchi_key": {
+        "types": [
+          "string"
+        ],
+        "example": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N"
+      },
+      "search_system_registry.results[].declared_compounds[].name": {
+        "types": [
+          "string"
+        ],
+        "example": "ethanol"
+      },
+      "search_system_registry.results[].declared_compounds[].org_num": {
+        "types": [
+          "string"
+        ],
+        "example": "DOIcomp_2"
+      },
+      "search_system_registry.results[].declared_compounds[].sample_num": {
+        "types": [
+          "string"
+        ],
+        "example": "DOIcompSample_2_1"
+      },
+      "search_system_registry.results[].declared_n_components": {
+        "types": [
+          "integer"
+        ],
+        "example": "2"
+      },
+      "search_system_registry.results[].declared_system_type": {
+        "types": [
+          "string"
+        ],
+        "example": "binary"
+      },
+      "search_system_registry.results[].doi": {
+        "types": [
+          "string"
+        ],
+        "example": "10.1016/j.fluid.2004.11.019"
+      },
+      "search_system_registry.results[].lit_id": {
+        "types": [
+          "string"
+        ],
+        "example": "2005-pec-dol-0"
+      },
+      "search_system_registry.results[].lit_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBlit_220"
+      },
+      "search_system_registry.results[].n_components": {
+        "types": [
+          "integer"
+        ],
+        "example": "2"
+      },
+      "search_system_registry.results[].n_datapoints": {
+        "types": [
+          "integer"
+        ],
+        "example": "810"
+      },
+      "search_system_registry.results[].notes": {
+        "types": [
+          "null"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].parent_n_datapoints": {
+        "types": [
+          "integer"
+        ],
+        "example": "810"
+      },
+      "search_system_registry.results[].phases": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].phases[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].phases[].owner_id": {
+        "types": [
+          "string"
+        ],
+        "example": "BLKprop_1"
+      },
+      "search_system_registry.results[].phases[].phase": {
+        "types": [
+          "string"
+        ],
+        "example": "Liquid"
+      },
+      "search_system_registry.results[].phases[].phase_id": {
+        "types": [
+          "string"
+        ],
+        "example": "liquid"
+      },
+      "search_system_registry.results[].phases[].phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBphase_1"
+      },
+      "search_system_registry.results[].phases[].role": {
+        "types": [
+          "string"
+        ],
+        "example": "property_phase"
+      },
+      "search_system_registry.results[].properties": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].properties[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].properties[].BLKprop_id": {
+        "types": [
+          "string"
+        ],
+        "example": "BLKprop_1"
+      },
+      "search_system_registry.results[].properties[].component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "example": "DOIcomp_2"
+      },
+      "search_system_registry.results[].properties[].group": {
+        "types": [
+          "string"
+        ],
+        "example": "VolumetricProp"
+      },
+      "search_system_registry.results[].properties[].meas_ID": {
+        "types": [
+          "string"
+        ],
+        "example": "vibtub_ufactor_2"
+      },
+      "search_system_registry.results[].properties[].meas_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBmeas_138"
+      },
+      "search_system_registry.results[].properties[].method_custom": {
+        "types": [
+          "string"
+        ],
+        "example": "VIBTUB:UFactor:2"
+      },
+      "search_system_registry.results[].properties[].method_standard": {
+        "types": [
+          "null"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].properties[].name": {
+        "types": [
+          "string"
+        ],
+        "example": "Mass density, kg/m3"
+      },
+      "search_system_registry.results[].properties[].prop_ID": {
+        "types": [
+          "string"
+        ],
+        "example": "mass_density_kg_m3"
+      },
+      "search_system_registry.results[].properties[].prop_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBprop_1"
+      },
+      "search_system_registry.results[].properties[].range": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].properties[].range.BLKprop_id": {
+        "types": [
+          "string"
+        ],
+        "example": "BLKprop_1"
+      },
+      "search_system_registry.results[].properties[].range.max": {
+        "types": [
+          "number"
+        ],
+        "example": "1012.7"
+      },
+      "search_system_registry.results[].properties[].range.mean": {
+        "types": [
+          "number"
+        ],
+        "example": "923.644444"
+      },
+      "search_system_registry.results[].properties[].range.min": {
+        "types": [
+          "number"
+        ],
+        "example": "739.4"
+      },
+      "search_system_registry.results[].properties[].range.n": {
+        "types": [
+          "integer"
+        ],
+        "example": "810"
+      },
+      "search_system_registry.results[].properties[].range.name": {
+        "types": [
+          "string"
+        ],
+        "example": "Mass density, kg/m3"
+      },
+      "search_system_registry.results[].properties[].range.std": {
+        "types": [
+          "number"
+        ],
+        "example": "66.683257"
+      },
+      "search_system_registry.results[].properties[].range_max": {
+        "types": [
+          "number"
+        ],
+        "example": "1012.7"
+      },
+      "search_system_registry.results[].properties[].range_min": {
+        "types": [
+          "number"
+        ],
+        "example": "739.4"
+      },
+      "search_system_registry.results[].properties[].uncertainty": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].properties[].uncertainty.assessment_num": {
+        "types": [
+          "string"
+        ],
+        "example": "BLKpropAssessment_1_1"
+      },
+      "search_system_registry.results[].properties[].uncertainty.confidence_level": {
+        "types": [
+          "integer"
+        ],
+        "example": "95"
+      },
+      "search_system_registry.results[].properties[].uncertainty.evaluation_method": {
+        "types": [
+          "string"
+        ],
+        "example": "Propagation of evaluated standard uncertainties"
+      },
+      "search_system_registry.results[].properties[].uncertainty.evaluator": {
+        "types": [
+          "string"
+        ],
+        "example": "Data file compiler"
+      },
+      "search_system_registry.results[].search_scope": {
+        "types": [
+          "string"
+        ],
+        "example": "declared"
+      },
+      "search_system_registry.results[].solvents": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].system_type": {
+        "types": [
+          "string"
+        ],
+        "example": "binary"
+      },
+      "search_system_registry.results[].variables": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].variables[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].variables[].BLKvar_id": {
+        "types": [
+          "string"
+        ],
+        "example": "BLKvar_1"
+      },
+      "search_system_registry.results[].variables[].component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "example": "DOIcomp_2"
+      },
+      "search_system_registry.results[].variables[].name": {
+        "types": [
+          "string"
+        ],
+        "example": "Temperature, K"
+      },
+      "search_system_registry.results[].variables[].phase": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].variables[].phase.phase": {
+        "types": [
+          "string"
+        ],
+        "example": "Liquid"
+      },
+      "search_system_registry.results[].variables[].phase.phase_id": {
+        "types": [
+          "string"
+        ],
+        "example": "liquid"
+      },
+      "search_system_registry.results[].variables[].phase.phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBphase_1"
+      },
+      "search_system_registry.results[].variables[].range": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_registry.results[].variables[].range.BLKvar_id": {
+        "types": [
+          "string"
+        ],
+        "example": "BLKvar_1"
+      },
+      "search_system_registry.results[].variables[].range.max": {
+        "types": [
+          "number"
+        ],
+        "example": "348.15"
+      },
+      "search_system_registry.results[].variables[].range.min": {
+        "types": [
+          "number"
+        ],
+        "example": "298.15"
+      },
+      "search_system_registry.results[].variables[].range.n_unique": {
+        "types": [
+          "integer"
+        ],
+        "example": "3"
+      },
+      "search_system_registry.results[].variables[].range.name": {
+        "types": [
+          "string"
+        ],
+        "example": "Temperature, K"
+      },
+      "search_system_registry.results[].variables[].range_max": {
+        "types": [
+          "number"
+        ],
+        "example": "348.15"
+      },
+      "search_system_registry.results[].variables[].range_min": {
+        "types": [
+          "number"
+        ],
+        "example": "298.15"
+      },
+      "search_system_registry.results[].variables[].type": {
+        "types": [
+          "string"
+        ],
+        "example": "eTemperature"
+      },
+      "search_system_registry.results[].variables[].var_id": {
+        "types": [
+          "string"
+        ],
+        "example": "temperature_k"
+      },
+      "search_system_registry.results[].variables[].var_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBvar_1"
+      },
+      "search_system_summary": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.compound_resolved": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_summary.compound_resolved[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.compound_resolved[].common_name": {
+        "types": [
+          "string"
+        ],
+        "example": "water"
+      },
+      "search_system_summary.compound_resolved[].comp_id": {
+        "types": [
+          "string"
+        ],
+        "example": "water"
+      },
+      "search_system_summary.compound_resolved[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBcomp_1"
+      },
+      "search_system_summary.compound_resolved[].formula": {
+        "types": [
+          "string"
+        ],
+        "example": "H2O"
+      },
+      "search_system_summary.compound_resolved[].inchi_key": {
+        "types": [
+          "string"
+        ],
+        "example": "XLYOFNOQVPJJNP-UHFFFAOYSA-N"
+      },
+      "search_system_summary.compound_resolved[].match_type": {
+        "types": [
+          "string"
+        ],
+        "example": "name_exact"
+      },
+      "search_system_summary.compound_resolved[].n_papers": {
+        "types": [
+          "integer"
+        ],
+        "example": "4690"
+      },
+      "search_system_summary.compound_resolved[].score": {
+        "types": [
+          "integer"
+        ],
+        "example": "100"
+      },
+      "search_system_summary.compound_resolved[].smiles": {
+        "types": [
+          "string"
+        ],
+        "example": "O"
+      },
+      "search_system_summary.compound_resolved[].standard_inchi": {
+        "types": [
+          "string"
+        ],
+        "example": "InChI=1S/H2O/h1H2"
+      },
+      "search_system_summary.property_resolved": {
+        "types": [
+          "null",
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.property_resolved.comp_id_linked": {
+        "types": [
+          "integer"
+        ],
+        "example": "0"
+      },
+      "search_system_summary.property_resolved.match_type": {
+        "types": [
+          "string"
+        ],
+        "example": "prop_id_exact"
+      },
+      "search_system_summary.property_resolved.n_blocks": {
+        "types": [
+          "integer"
+        ],
+        "example": "8475"
+      },
+      "search_system_summary.property_resolved.prop_group": {
+        "types": [
+          "string"
+        ],
+        "example": "TransportProp"
+      },
+      "search_system_summary.property_resolved.prop_id": {
+        "types": [
+          "string"
+        ],
+        "example": "viscosity_pa_s"
+      },
+      "search_system_summary.property_resolved.prop_name": {
+        "types": [
+          "string"
+        ],
+        "example": "Viscosity, Pa*s"
+      },
+      "search_system_summary.property_resolved.prop_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBprop_4"
+      },
+      "search_system_summary.property_resolved.score": {
+        "types": [
+          "integer"
+        ],
+        "example": "100"
+      },
+      "search_system_summary.query_params": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.query_params.compound": {
+        "types": [
+          "array",
+          "string"
+        ],
+        "example": "water"
+      },
+      "search_system_summary.query_params.compound[]": {
+        "types": [
+          "string"
+        ],
+        "example": "water"
+      },
+      "search_system_summary.query_params.include_reactions": {
+        "types": [
+          "boolean"
+        ],
+        "example": "False"
+      },
+      "search_system_summary.query_params.pressure_range": {
+        "types": [
+          "null"
+        ],
+        "example": null
+      },
+      "search_system_summary.query_params.property": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "example": "dynamic viscosity"
+      },
+      "search_system_summary.query_params.system_scope": {
+        "types": [
+          "string"
+        ],
+        "example": "declared"
+      },
+      "search_system_summary.query_params.system_type": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "example": "binary"
+      },
+      "search_system_summary.query_params.temperature_range": {
+        "types": [
+          "null"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary.compound_cooccurrence": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary.compound_cooccurrence[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary.compound_cooccurrence[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBcomp_81"
+      },
+      "search_system_summary.summary.compound_cooccurrence[].n_targets": {
+        "types": [
+          "integer"
+        ],
+        "example": "23"
+      },
+      "search_system_summary.summary.compound_cooccurrence[].name": {
+        "types": [
+          "string"
+        ],
+        "example": "N-methyldiethanolamine"
+      },
+      "search_system_summary.summary.method_distribution": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary.method_distribution.<name>": {
+        "types": [
+          "integer"
+        ],
+        "example": "14"
+      },
+      "search_system_summary.summary.n_blocks": {
+        "types": [
+          "integer"
+        ],
+        "example": "126"
+      },
+      "search_system_summary.summary.n_papers": {
+        "types": [
+          "integer"
+        ],
+        "example": "73"
+      },
+      "search_system_summary.summary.n_subsystems": {
+        "types": [
+          "integer"
+        ],
+        "example": "0"
+      },
+      "search_system_summary.summary.n_targets": {
+        "types": [
+          "integer"
+        ],
+        "example": "126"
+      },
+      "search_system_summary.summary.phase_distribution": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary.phase_distribution.<name>": {
+        "types": [
+          "integer"
+        ],
+        "example": "404"
+      },
+      "search_system_summary.summary.pressure_range_kPa": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary.pressure_range_kPa[]": {
+        "types": [
+          "number"
+        ],
+        "example": "13.15"
+      },
+      "search_system_summary.summary.property_distribution": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary.property_distribution.<name>": {
+        "types": [
+          "integer"
+        ],
+        "example": "29"
+      },
+      "search_system_summary.summary.system_type_distribution": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary.system_type_distribution.<name>": {
+        "types": [
+          "integer"
+        ],
+        "example": "126"
+      },
+      "search_system_summary.summary.temperature_range_K": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_summary.summary.temperature_range_K[]": {
+        "types": [
+          "number"
+        ],
+        "example": "268.1"
+      },
+      "search_system_summary.summary.total_matching_datapoints": {
+        "types": [
+          "integer"
+        ],
+        "example": "5163"
+      },
+      "search_system_summary.top_papers": {
+        "types": [
+          "array"
+        ],
+        "example": null
+      },
+      "search_system_summary.top_papers[]": {
+        "types": [
+          "object"
+        ],
+        "example": null
+      },
+      "search_system_summary.top_papers[].doi": {
+        "types": [
+          "string"
+        ],
+        "example": "10.1016/j.fluid.2004.11.019"
+      },
+      "search_system_summary.top_papers[].lit_id": {
+        "types": [
+          "string"
+        ],
+        "example": "2005-pec-dol-0"
+      },
+      "search_system_summary.top_papers[].lit_num_id": {
+        "types": [
+          "string"
+        ],
+        "example": "GLOBlit_220"
+      },
+      "search_system_summary.top_papers[].n_blocks": {
+        "types": [
+          "integer"
+        ],
+        "example": "1"
+      },
+      "search_system_summary.top_papers[].n_subsystems": {
+        "types": [
+          "integer"
+        ],
+        "example": "0"
+      },
+      "search_system_summary.top_papers[].n_targets": {
+        "types": [
+          "integer"
+        ],
+        "example": "1"
+      },
+      "search_system_summary.top_papers[].total_matching_datapoints": {
+        "types": [
+          "integer"
+        ],
+        "example": "810"
+      }
+    }
+  }
+}

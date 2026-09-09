@@ -1,0 +1,12 @@
+key	label	kind	role	is_source	is_sink	value	n_ids	ids	blocks	order	provenance	args	meta
+grp:main|context	main · agent context (dedup merge)	merge	context	0	0	3763	2	GLOBcomp_1;GLOBcomp_2		1			
+grp:support|content	supporting content (briefs · seeds · scaffolding · wrappers · utility/error returns · LLM additions) (3×)	hardmeta	support	1	0	1972	0			2	result.md::Question | run_history.md::Step 2 [main · c1]		
+grp:support|memory	memory carry (WM render · transient)	hardmeta	support	1	0	399	0			3	_working_memory.md::Main		
+grp:Main|main|search|raw	Main · search · raw results	raw	raw	1	0	5772	10	GLOBcomp_1;GLOBcomp_2;GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905		20	run_history.md::Step 4 [main · c2] | run_history.md::Step 6 [main · c3] | run_history.md::Step 9 [main · c4] | run_history.md::Step 10 [main · c5]		
+grp:main|answer	main · final answer	answer	answer	0	1	1451	2	GLOBcomp_1;GLOBcomp_2		20	result.md::run_20260905_050055_271432_708d49b4		
+grp:Main|main|search|hardcoded	Main · search · hardcoded compact	hardcoded	hardcoded	0	0	2815	10	GLOBcomp_1;GLOBcomp_2;GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905		21	run_history.md::Step 4 [main · c2] | run_history.md::Step 6 [main · c3] | run_history.md::Step 9 [main · c4] | run_history.md::Step 10 [main · c5]		
+grp:Main|main|search|agentic	Main · search · agentic kept	agentic	agentic	0	0	1457	2	GLOBcomp_1;GLOBcomp_2		22	run_history.md::Step 4 [main · c2] | run_history.md::Step 6 [main · c3] | run_history.md::Step 9 [main · c4] | run_history.md::Step 10 [main · c5]		
+grp:sink|condensed	condensed away in synthesis	removed	sink	0	1	1913	0			22			
+grp:sink|memory	retained only in memory (WM archive · uncited memory carry · uncited ledger)	removed	sink	0	1	399	0			23			
+grp:sink|hardcoded_cut	hardcoded compaction cut	removed	sink	0	1	2957	0			25			
+grp:sink|triage_cut	agentic triage cut	removed	sink	0	1	1423	8	GLOBcomp_3734;GLOBcomp_4158;GLOBcomp_4349;GLOBcomp_4617;GLOBcomp_4755;GLOBcomp_5092;GLOBcomp_6285;GLOBcomp_7905		25			

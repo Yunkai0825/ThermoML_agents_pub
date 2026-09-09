@@ -1,0 +1,828 @@
+{
+  "generated": "2026-09-05T04:50:48",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_4",
+      "block_number": "PROPblock_4",
+      "lit_id": null,
+      "literals": [
+        "-0.774"
+      ],
+      "detail": "-0.774 (near '…k` tool, not a directly measured database datum) is H^E ≈ **…') matches no inspected row/stat, database table, or other source of PROPblock_4",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_4\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": -0.774})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_4",
+      "block_number": "PROPblock_4",
+      "lit_id": null,
+      "literals": [
+        "-0.774"
+      ],
+      "detail": "-0.774 (near '…: -0.774 (near '…k` tool, not a directly measure…') matches no inspected row/stat, database table, or other source of PROPblock_4",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_4\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": -0.774})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_4",
+      "block_number": "PROPblock_4",
+      "lit_id": null,
+      "literals": [
+        "-0.774"
+      ],
+      "detail": "-0.774 (near '…it_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": …') matches no inspected row/stat, database table, or other source of PROPblock_4",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_4\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": -0.774})"
+    }
+  ],
+  "verified": [
+    {
+      "anchor": "GLOBlit_2574::PROPblock_4",
+      "values": [
+        "298.15",
+        "101.0",
+        "0.150",
+        "-0.770",
+        "0.500",
+        "-0.391",
+        "0.5"
+      ]
+    },
+    {
+      "anchor": "PROPblock_1",
+      "values": [
+        "-0.707",
+        "0.102",
+        "298.15"
+      ]
+    }
+  ],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_4",
+      "values": [
+        "0.0582",
+        "-0.492",
+        "0.1198",
+        "-0.747",
+        "0.150",
+        "-0.770",
+        "0.1837",
+        "-0.767",
+        "0.250",
+        "-0.702",
+        "0.500",
+        "-0.391",
+        "0.701",
+        "-0.271",
+        "0.900",
+        "-0.148",
+        "298.15",
+        "0.058"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_4": {
+        "lit_num_id": "GLOBlit_2574",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_8c41a7d1ffa1",
+          "INSP_6d19d0a7d0d6"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.jct.2005.06.018",
+          "n_rows": 27,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "mole_fraction_<ethanol>",
+            "pressure_kpa",
+            "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              298.15,
+              323.15
+            ],
+            "mole_fraction_<ethanol>": [
+              0.033,
+              0.968
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": [
+              -0.77,
+              -0.018
+            ]
+          }
+        }
+      },
+      "PROPblock_1": {
+        "lit_num_id": "GLOBlit_528",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_e0e7d5bc600c",
+          "INSP_b04400bcb35b"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2007.06.007",
+          "n_rows": 15,
+          "columns": [
+            "BLKpoint_id",
+            "mole_fraction_<ethanol>",
+            "temperature_k",
+            "pressure_kpa",
+            "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+          ],
+          "column_ranges": {
+            "mole_fraction_<ethanol>": [
+              0.000102,
+              0.001551
+            ],
+            "temperature_k": [
+              298.15,
+              298.15
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": [
+              -0.01537,
+              -0.00104
+            ]
+          }
+        }
+      },
+      "PROPblock_2": {
+        "lit_num_id": "GLOBlit_528",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_b146b18bf0c3"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2007.06.007",
+          "n_rows": 15,
+          "columns": [
+            "BLKpoint_id",
+            "mole_fraction_<water>",
+            "temperature_k",
+            "pressure_kpa",
+            "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+          ],
+          "column_ranges": {
+            "mole_fraction_<water>": [
+              0.001021,
+              0.015286
+            ],
+            "temperature_k": [
+              298.15,
+              298.15
+            ],
+            "pressure_kpa": [
+              101.0,
+              101.0
+            ],
+            "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": [
+              -0.02961,
+              -0.00212
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "298.15",
+        "region": "GLOBlit_2574::PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "101.0",
+        "region": "GLOBlit_2574::PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0582",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.492",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.1198",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.747",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.150",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.770",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.1837",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.767",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.250",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.702",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.500",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.391",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.701",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.271",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.900",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.148",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.774",
+        "region": "PROPblock_4",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "-0.770",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.150",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.707",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.102",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.150",
+        "region": "GLOBlit_2574::PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.770",
+        "region": "GLOBlit_2574::PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.500",
+        "region": "GLOBlit_2574::PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.391",
+        "region": "GLOBlit_2574::PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.150",
+        "region": "GLOBlit_2574::PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.150",
+        "region": "GLOBlit_2574::PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.5",
+        "region": "GLOBlit_2574::PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.058",
+        "region": "PROPblock_4",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.707",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.102",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_1",
+        "verdict": "verified"
+      },
+      {
+        "token": "-0.774",
+        "region": "PROPblock_4",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "-0.774",
+        "region": "PROPblock_4",
+        "verdict": "ungrounded"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1016/j.jct.2005.06.018",
+      "lit_num_id": "GLOBlit_2574",
+      "block_number": "PROPblock_4",
+      "BLKsubsys_id": null,
+      "table_mode": "rdp",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<ethanol>",
+        "pressure_kpa",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.0582",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.492"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_2",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.1198",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.747"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_4",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.1837",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.767"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.5",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.391"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_12",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.9",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.148"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_13",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.033",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.192"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_14",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.072",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.349"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_15",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.107",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.409"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_16",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.148",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.414"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_22",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.553",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.074"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_24",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.736",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.045"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_26",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.909",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.045"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_27",
+          "temperature_k": "323.15",
+          "mole_fraction_<ethanol>": "0.968",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.018"
+        }
+      ],
+      "inspection_id": "INSP_8c41a7d1ffa1",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.fluid.2007.06.007",
+      "lit_num_id": "GLOBlit_528",
+      "block_number": "PROPblock_1",
+      "BLKsubsys_id": null,
+      "table_mode": "rdp",
+      "columns": [
+        "BLKpoint_id",
+        "mole_fraction_<ethanol>",
+        "temperature_k",
+        "pressure_kpa",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "mole_fraction_<ethanol>": "0.000102",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00104"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_2",
+          "mole_fraction_<ethanol>": "0.000206",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00208"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_3",
+          "mole_fraction_<ethanol>": "0.000308",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00312"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_5",
+          "mole_fraction_<ethanol>": "0.000516",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00518"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_6",
+          "mole_fraction_<ethanol>": "0.000619",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00621"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "mole_fraction_<ethanol>": "0.000723",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00722"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "mole_fraction_<ethanol>": "0.000827",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00826"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_9",
+          "mole_fraction_<ethanol>": "0.000931",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00927"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_10",
+          "mole_fraction_<ethanol>": "0.001034",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.0103"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_12",
+          "mole_fraction_<ethanol>": "0.001241",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01233"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_13",
+          "mole_fraction_<ethanol>": "0.001345",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01334"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_15",
+          "mole_fraction_<ethanol>": "0.001551",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01537"
+        }
+      ],
+      "inspection_id": "INSP_e0e7d5bc600c",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.fluid.2007.06.007",
+      "lit_num_id": "GLOBlit_528",
+      "block_number": "PROPblock_2",
+      "BLKsubsys_id": null,
+      "table_mode": "rdp",
+      "columns": [
+        "BLKpoint_id",
+        "mole_fraction_<water>",
+        "temperature_k",
+        "pressure_kpa",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "mole_fraction_<water>": "0.001021",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00212"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_2",
+          "mole_fraction_<water>": "0.00205",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00424"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_4",
+          "mole_fraction_<water>": "0.004102",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.00835"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_6",
+          "mole_fraction_<water>": "0.006155",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01238"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "mole_fraction_<water>": "0.007179",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.01437"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_10",
+          "mole_fraction_<water>": "0.010239",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02023"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_11",
+          "mole_fraction_<water>": "0.011252",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02213"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_12",
+          "mole_fraction_<water>": "0.012264",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02405"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_13",
+          "mole_fraction_<water>": "0.013276",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.0259"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_14",
+          "mole_fraction_<water>": "0.014283",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02777"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_15",
+          "mole_fraction_<water>": "0.015286",
+          "temperature_k": "298.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.02961"
+        }
+      ],
+      "inspection_id": "INSP_b146b18bf0c3",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.jct.2005.06.018",
+      "lit_num_id": "GLOBlit_2574",
+      "block_number": "PROPblock_4",
+      "BLKsubsys_id": null,
+      "table_mode": "complete",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<ethanol>",
+        "pressure_kpa",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.0582",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.492"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_2",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.1198",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.747"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_3",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.15",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.77"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_4",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.1837",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.767"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_5",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.25",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.702"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_6",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.2981",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.649"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.4127",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.501"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.5",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.391"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_9",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.607",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.323"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_10",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.701",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.271"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_11",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.812",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.206"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_12",
+          "temperature_k": "298.15",
+          "mole_fraction_<ethanol>": "0.9",
+          "pressure_kpa": "101.0",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.148"
+        }
+      ],
+      "inspection_id": "INSP_6d19d0a7d0d6",
+      "markdown": ""
+    },
+    {
+      "doi": "10.1016/j.tca.2017.05.023",
+      "lit_num_id": "GLOBlit_6377",
+      "block_number": "PROPblock_1",
+      "BLKsubsys_id": null,
+      "table_mode": "complete",
+      "columns": [
+        "BLKpoint_id",
+        "mole_fraction_<ethanol>",
+        "pressure_kpa",
+        "temperature_k",
+        "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "mole_fraction_<ethanol>": "0.102",
+          "pressure_kpa": "100",
+          "temperature_k": "298.15",
+          "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol": "-0.70659"
+        }
+      ],
+      "inspection_id": "INSP_b04400bcb35b",
+      "markdown": ""
+    }
+  ]
+}

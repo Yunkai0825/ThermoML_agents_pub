@@ -1,0 +1,15 @@
+severity	check	subject	detail
+INFO	balance	detailed/chars	sources emit 890,191 / sinks absorb 890,191
+INFO	balance	detailed/ids	sources emit 866 / sinks absorb 866
+INFO	balance	detailed/blocks	sources emit 200 / sinks absorb 200
+INFO	balance	detailed/pts	sources emit 5,582 / sinks absorb 5,582
+FAIL	orphan	detailed/pts:Q/L1#4:search_blocks#5:raw	'L1#4 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:Q/L1#4:sink:hardcoded_cut	'L1#4 · hardcoded compaction cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	agentic/chars	sources emit 890,191 / sinks absorb 890,191
+INFO	balance	agentic/ids	sources emit 653 / sinks absorb 653
+INFO	balance	agentic/blocks	sources emit 167 / sinks absorb 167
+INFO	balance	agentic/pts	sources emit 5,293 / sinks absorb 5,293
+INFO	balance	pooled/chars	sources emit 890,191 / sinks absorb 890,191
+INFO	balance	pooled/ids	sources emit 476 / sinks absorb 476
+INFO	balance	pooled/blocks	sources emit 152 / sinks absorb 152
+INFO	balance	pooled/pts	sources emit 5,267 / sinks absorb 5,267

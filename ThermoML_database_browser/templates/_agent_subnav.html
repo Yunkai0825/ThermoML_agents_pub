@@ -1,0 +1,15 @@
+{% set ep = request.endpoint or '' %}
+<ul class="nav nav-pills mb-3">
+  <li class="nav-item">
+    <a class="nav-link {{ 'active' if ep == 'agents.agents_page' else '' }}"
+       href="{{ url_for('agents.agents_page') }}">
+      <i class="bi bi-robot"></i> Agents
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {{ 'active' if ep == 'agents.agents_history' else '' }}"
+       href="{{ url_for('agents.agents_history') }}">
+      <i class="bi bi-clock-history"></i> History
+    </a>
+  </li>
+</ul>

@@ -1,0 +1,343 @@
+{
+  "meas_ID": "chemical_equilibration_heterogeneous_equilibration",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Chemical equilibration / Heterogeneous equilibration",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Chemical equilibration / Heterogeneous equilibration",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Chromatography / Separation",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 17,
+      "property_groups": [
+        "ActivityFugacityOsmoticProp"
+      ],
+      "n_papers": 4,
+      "per_group": {
+        "ActivityFugacityOsmoticProp": {
+          "instances": 17,
+          "papers": 4
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "phase compositions (mole fractions, mass fractions, or volume fractions) of each coexisting phase",
+          "number and identity of coexisting phases at equilibrium",
+          "phase volumes or mass ratios after settling"
+        ],
+        "derived_observables": [
+          "tie-line data (conjugate phase compositions connected across a phase diagram)",
+          "distribution coefficients (Ki = xi(phase I)/xi(phase II)) for each component",
+          "partition coefficients (Kp = concentration in phase I / concentration in phase II)",
+          "selectivity (separation factor, α = K1/K2)",
+          "activity coefficients (from phase equilibrium relations and equation-of-state models)",
+          "excess Gibbs energy parameters (fitted from tie-line data)"
+        ],
+        "target_properties": [
+          "liquid-liquid equilibrium (LLE) phase compositions",
+          "solid-liquid equilibrium (SLE) solubility data",
+          "vapor-liquid equilibrium (VLE) compositions (when vapor phase is sampled)",
+          "activity coefficients at infinite dilution (extrapolated)",
+          "osmotic coefficients (derived via Gibbs-Duhem integration)",
+          "distribution coefficients and selectivities",
+          "phase boundary (binodal/cloud-point) curves",
+          "plait point (critical solution point) coordinates"
+        ],
+        "phases_measured": [
+          "liquid–liquid (two or more immiscible liquid phases)",
+          "solid–liquid (saturated solution in equilibrium with solid)",
+          "vapor–liquid (when combined with vapor-phase sampling)",
+          "liquid–liquid–vapor (three-phase equilibria)",
+          "solid–liquid–liquid (three-phase equilibria)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures with miscibility gaps",
+          "ternary and multicomponent liquid systems (e.g., solvent extraction systems)",
+          "ionic liquid–organic solvent–water systems",
+          "polymer–solvent systems (cloud-point and binodal determination)",
+          "salt–water–organic solvent systems",
+          "solid solutes in liquid solvents (SLE solubility)",
+          "electrolyte solutions with solid hydrate or salt phases",
+          "deep eutectic solvent systems"
+        ],
+        "unsupported_sample_types": [
+          "systems forming stable emulsions that resist phase separation",
+          "highly viscous or gel-forming mixtures that prevent sampling",
+          "systems with extremely slow equilibration kinetics (months-scale)",
+          "reactive systems where chemical reaction competes with equilibration timescale",
+          "supercritical single-phase fluids (no phase split to sample)"
+        ],
+        "typical_output_formats": [
+          "tie-line table: conjugate phase compositions at each T and P",
+          "binodal curve: phase boundary compositions vs. T or overall composition",
+          "distribution coefficient vs. T or composition plot",
+          "selectivity vs. solute concentration plot",
+          "ternary phase diagram (Gibbs triangle) with tie lines",
+          "solubility curve: solute concentration vs. T"
+        ],
+        "units": {
+          "composition_mole_fraction": "dimensionless (xi)",
+          "composition_mass_fraction": "dimensionless (wi)",
+          "composition_molality": "mol/kg",
+          "temperature": "K",
+          "pressure": "MPa",
+          "distribution_coefficient": "dimensionless",
+          "activity_coefficient": "dimensionless",
+          "selectivity": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "250 K to 500 K",
+            "hard_limits": "limited by thermal stability of components and cell materials; glass cells restricted to < 450 K; stainless steel or Hastelloy cells to ~600 K",
+            "notes": "most LLE studies conducted between 273 K and 373 K; SLE studies may extend to lower temperatures"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (atmospheric) for LLE/SLE; up to 20 MPa for high-pressure VLE/LLE",
+            "hard_limits": "determined by cell design; glass cells typically limited to < 1 MPa; high-pressure metal cells to ~100 MPa",
+            "notes": "most heterogeneous equilibration studies are performed at atmospheric pressure; pressure is controlled mainly for VLE or near-critical studies"
+          },
+          {
+            "parameter": "equilibration_time",
+            "typical_range": "30 min to 72 h",
+            "hard_limits": "must be long enough to reach thermodynamic equilibrium; verified by time-series sampling until compositions are constant",
+            "notes": "highly viscous systems or polymer solutions may require 24–72 h; low-viscosity organic–water systems equilibrate in 1–4 h"
+          },
+          {
+            "parameter": "settling_time",
+            "typical_range": "30 min to 24 h",
+            "hard_limits": "must allow complete phase disengagement; emulsion-prone systems may require centrifugation",
+            "notes": "settling time depends on density difference between phases and interfacial tension; near the plait point, settling can take days"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "273 K to 373 K",
+            "effect": "shifts phase boundary positions; UCST systems show increased miscibility with increasing T; LCST systems show decreased miscibility"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient; controlled variable for high-pressure studies",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "weak effect on LLE/SLE at low pressures; significant effect near critical solution points or for gas-expanded liquids"
+          },
+          {
+            "name": "overall_composition",
+            "role": "defines location within two-phase region; set by gravimetric preparation",
+            "typical_values": "varies across the miscibility gap",
+            "effect": "determines lever-rule phase ratio and which tie line is accessed; overall composition must lie within the two-phase region"
+          },
+          {
+            "name": "stirring_rate_and_duration",
+            "role": "process variable controlling approach to equilibrium",
+            "typical_values": "200–800 rpm for 1–24 h",
+            "effect": "vigorous stirring accelerates mass transfer and equilibration; excessive stirring can form persistent emulsions"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "equilibrium cell — jacketed glass cell (50–500 mL) or stainless steel autoclave with viewing windows, equipped with magnetic or mechanical stirrer and multiple sampling ports at different heights",
+          "temperature control system — circulating thermostat bath (water, silicone oil, or ethylene glycol) connected to cell jacket, with PID controller and calibrated thermometer (Pt100 or thermocouple) inside the cell",
+          "pressure control (if applicable) — pressure transducer, inert gas supply (N2 or Ar) for pressurization, back-pressure regulator",
+          "stirring system — magnetic stir bar or overhead mechanical stirrer with variable speed control for mixing phases",
+          "sampling system — PTFE- or stainless-steel-lined sampling valves or syringes at phase-specific heights, with heated or insulated sampling lines to prevent phase change during withdrawal",
+          "analytical instruments — gas chromatograph (GC), high-performance liquid chromatograph (HPLC), Karl Fischer titrator (water content), refractometer, densimeter, or titration apparatus for composition analysis",
+          "analytical balance — 0.1 mg resolution for gravimetric preparation of feed mixtures",
+          "centrifuge (optional) — for accelerating phase separation in emulsion-prone systems"
+        ],
+        "environmental_requirements": [
+          "temperature stability of ±0.05 K to ±0.1 K in the equilibrium cell during sampling",
+          "draft-free laboratory environment to minimize thermal gradients in the cell jacket",
+          "inert atmosphere (N2 or Ar blanket) for air-sensitive or oxidation-prone systems",
+          "fume hood or ventilated enclosure for work with volatile organic solvents"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid mixtures — no geometric constraints; prepared by mass in the equilibrium cell",
+            "solid samples for SLE — ground or sieved powder to accelerate dissolution equilibrium"
+          ],
+          "size_limits": "total cell charge typically 50–300 mL; sufficient volume to allow sampling of each phase (≥5 mL per phase per sample withdrawal)",
+          "thickness_limits": "not applicable (bulk liquid phases)",
+          "surface_requirements": [
+            "glass cell walls must be chemically clean to prevent preferential wetting or adsorption",
+            "internal surfaces should be inert to all components (PTFE-lined or borosilicate glass)"
+          ],
+          "mounting_requirements": [
+            "cell securely clamped in thermostat jacket with thermal paste or O-ring seals",
+            "sampling ports positioned to access each phase layer independently",
+            "thermometer probe immersed in the liquid without disturbing phase interface"
+          ],
+          "preparation_requirements": [
+            "components weighed gravimetrically on an analytical balance (±0.1 mg) to known overall composition",
+            "liquids degassed under vacuum or by ultrasonic treatment to prevent dissolved gas interference",
+            "solid components dried to constant weight if hygroscopic",
+            "all components and solvents of known, certified purity (≥99% for quantitative work)"
+          ]
+        },
+        "calibration_requirements": [
+          "GC or HPLC calibration curves constructed from gravimetrically prepared standard mixtures spanning the expected composition range",
+          "Karl Fischer titrator calibrated with certified water standards",
+          "refractometer calibrated with refractive index standards (e.g., NIST-traceable certified liquids)",
+          "thermometer calibrated against ITS-90 fixed points or a certified reference thermometer",
+          "pressure transducer calibrated against a dead-weight tester or certified reference gauge",
+          "densimeter calibrated with air and ultrapure water"
+        ],
+        "reference_materials": [
+          "water–1-butanol system — well-characterized LLE reference system with extensive literature data",
+          "cyclohexane–methanol system — UCST-type reference for binary LLE",
+          "water–acetic acid–1-butanol ternary — classic LLE reference system with published tie lines",
+          "naphthalene in various solvents — SLE solubility reference",
+          "NIST-traceable purity standards for GC/HPLC calibration"
+        ],
+        "consumables": [
+          "PTFE-lined septa and sampling valves",
+          "GC columns and carrier gas (He or N2)",
+          "HPLC columns and mobile phase solvents",
+          "Karl Fischer reagents (methanol-based or solvent-free)",
+          "calibration standard solutions",
+          "inert gas (N2, Ar) for atmosphere control",
+          "silicone vacuum grease for glass joints",
+          "GC syringes and vials"
+        ],
+        "safety_notes": [
+          "many organic solvents are flammable — work in well-ventilated areas with appropriate fire suppression",
+          "pressurized cells require proper engineering controls and burst disks",
+          "some solutes or solvents may be toxic — use appropriate PPE and consult SDS",
+          "glass equilibrium cells are fragile under thermal stress — avoid rapid temperature changes",
+          "hot thermostat fluid poses burn risk — use insulated lines and protective gloves"
+        ]
+      },
+      "performance": {
+        "sensitivity": "composition determination limited by the analytical method: GC typically resolves to 0.001 mole fraction; HPLC to 0.0005 mass fraction; Karl Fischer to 10 ppm water",
+        "detection_limit": "minimum detectable component concentration depends on analytical technique: GC-FID ~10 ppm; GC-MS ~1 ppm; Karl Fischer ~10 ppm water; refractometric methods ~0.1% mass fraction",
+        "resolution": {
+          "spatial": "not applicable (bulk phase sampling)",
+          "temporal": "not applicable (equilibrium method, not kinetic)",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "full composition range from trace solute (~0.001 mole fraction) to near-equimolar (~0.5 mole fraction); temperature range 250–500 K for standard cells",
+        "accuracy": "phase compositions accurate to ±0.002 to ±0.01 mole fraction (depending on analytical method); temperature accuracy ±0.05 to ±0.1 K; distribution coefficients accurate to ±2–5%",
+        "precision": "repeatability of phase compositions ±0.001 to ±0.005 mole fraction from replicate equilibrations; temperature reproducibility ±0.02 K",
+        "throughput": "low — typically 1–3 tie-line determinations per day; batch approach limits to one temperature per equilibration cycle",
+        "measurement_speed": "individual equilibration + settling: 2–48 h; sampling and analysis: 1–4 h per phase per replicate"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "chromatographic peak areas (GC or HPLC), coulometric titration values (Karl Fischer), refractive index readings, or density values — converted to phase compositions via calibration curves",
+        "preprocessing_steps": [
+          "conversion of GC/HPLC peak areas to mass or mole fractions via calibration curves",
+          "normalization of phase compositions to ensure mole fractions sum to unity",
+          "correction of Karl Fischer water content for solvent interference",
+          "blank subtraction for any analytical background",
+          "temperature correction of refractive index or density measurements to cell temperature"
+        ],
+        "analysis_methods": [
+          "construction of tie lines connecting conjugate phase compositions on a phase diagram",
+          "Othmer-Tobias or Hand correlation to test tie-line consistency",
+          "NRTL, UNIQUAC, or Wilson model regression to fit binary interaction parameters from tie-line data",
+          "Rachford-Rice flash calculation to verify material balance consistency",
+          "interpolation of binodal curve from measured phase boundary points",
+          "determination of plait point by extrapolation of tie-line conjugates"
+        ],
+        "model_assumptions": [
+          "thermodynamic equilibrium has been attained — verified by constant composition over successive sampling intervals",
+          "the withdrawn sample is representative of the bulk phase and not contaminated by the other phase",
+          "temperature and pressure are uniform throughout the cell during sampling",
+          "no chemical reaction occurs between components on the timescale of the experiment",
+          "analytical calibration is linear or accurately described by the fitted calibration function over the concentration range"
+        ],
+        "fit_parameters": [
+          "binary interaction parameters for activity coefficient models (NRTL: τ12, τ21, α12; UNIQUAC: Δu12, Δu21)",
+          "distribution coefficients (Ki) for each component between phases",
+          "Othmer-Tobias or Hand correlation slopes and intercepts for tie-line consistency",
+          "binodal curve polynomial or spline coefficients"
+        ],
+        "common_artifacts": [
+          "emulsion entrainment: fine droplets of one phase carried into the other during sampling, giving artificially mixed compositions",
+          "incomplete equilibration: compositions still drifting due to insufficient stirring time, yielding non-equilibrium tie lines",
+          "temperature gradient artifact: if cell jacket temperature is not uniform, local T differences shift phase boundary, producing inconsistent data",
+          "preferential adsorption: components adsorbing on glass or metal cell walls, depleting one phase of a minor component",
+          "volatility loss: evaporation of volatile components during sampling or transfer to analytical instrument"
+        ],
+        "quality_control_checks": [
+          "material balance closure: verify that overall feed composition lies on the tie line connecting the measured phase compositions (lever rule check)",
+          "time-series sampling: confirm compositions are constant over at least two successive sampling intervals separated by ≥30 min",
+          "replicate equilibrations: repeat at least 2–3 independent equilibrations at each temperature",
+          "analytical replicate injections: inject each phase sample at least 3 times on GC/HPLC to assess analytical precision",
+          "comparison with literature data for well-known reference systems (e.g., water–1-butanol) to validate the apparatus",
+          "Othmer-Tobias or Hand plot linearity as a consistency test for ternary tie-line data"
+        ],
+        "failure_modes": [
+          "persistent emulsion formation preventing clean phase separation (add coalescing aids or centrifuge)",
+          "leaking sampling valves introducing air or losing sample under pressure",
+          "GC column degradation or HPLC baseline drift causing calibration shift during a measurement campaign",
+          "thermostat failure leading to uncontrolled temperature excursion during equilibration",
+          "decomposition of a thermally unstable component at elevated equilibration temperatures"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty in phase composition: ±0.002 to ±0.01 mole fraction; temperature uncertainty: ±0.05 to ±0.1 K; distribution coefficients: ±2–5% relative",
+        "random_sources": [
+          "analytical noise in GC/HPLC peak integration",
+          "sampling variability between replicate withdrawals from the same phase",
+          "small temperature fluctuations in the thermostat during sampling",
+          "mass measurement uncertainty in gravimetric feed preparation",
+          "random entrainment of micro-droplets during sampling"
+        ],
+        "systematic_sources": [
+          "analytical calibration curve bias (nonlinearity or standard purity)",
+          "incomplete equilibration (compositions systematically shifted from true equilibrium)",
+          "thermometer calibration offset",
+          "cross-contamination during sampling (trace amount of wrong phase in sample)",
+          "adsorption of components on cell walls or sampling lines",
+          "dead-volume effects in sampling valves that carry over residual material from previous samples",
+          "volatile component loss during sample transfer from cell to analytical instrument"
+        ],
+        "operator_dependence": "high — sampling technique, stirring optimization, settling time judgment, and analytical instrument operation all depend strongly on operator experience and skill",
+        "model_dependence": "moderate — derived activity coefficients and interaction parameters depend on the chosen thermodynamic model (NRTL vs. UNIQUAC vs. Wilson); raw phase compositions are model-independent",
+        "dominant_error_sources": [
+          "sampling technique and potential cross-contamination between phases",
+          "analytical calibration accuracy (GC or HPLC response factor determination)",
+          "verification that true thermodynamic equilibrium has been reached"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(x) at 95% confidence (k=2) on mole fractions",
+          "standard deviation from replicate equilibrations",
+          "relative uncertainty as percentage for distribution coefficients"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Chemical equilibration, also termed heterogeneous equilibration, is a phase equilibrium method in which two or more phases are brought into intimate contact at controlled temperature and pressure, allowed to reach thermodynamic equilibrium, and then sampled and analyzed to determine the composition of each coexisting phase. The technique is among the most direct and widely used approaches for measuring liquid-liquid equilibrium (LLE), solid-liquid equilibrium (SLE), and, when combined with vapor-phase sampling, vapor-liquid equilibrium (VLE). It provides model-independent phase composition data — tie lines — that are fundamental to process design in extraction, crystallization, and distillation, and that serve as primary input for fitting activity coefficient models such as NRTL, UNIQUAC, and Wilson.",
+      "how_it_operates": "A known overall composition of the system (typically two to five components) is prepared gravimetrically and charged to a thermostated equilibrium cell. The cell contents are vigorously stirred or shaken at a controlled temperature to maximize interfacial area and accelerate mass transfer between phases. After a predetermined stirring period, agitation is stopped and the mixture is allowed to settle until the coexisting phases have separated into distinct layers. Samples are then withdrawn from each phase through dedicated sampling ports positioned at heights corresponding to each phase layer, using heated or insulated sampling lines to prevent phase change during withdrawal. The withdrawn samples are immediately analyzed using one or more analytical techniques — gas chromatography, HPLC, Karl Fischer titration, refractometry, or densimetry — to determine the composition of each phase. The procedure is repeated at multiple temperatures to map out the phase boundary (binodal curve) and the interior tie lines.",
+      "core_theory": "At thermodynamic equilibrium, the chemical potential (or equivalently, the fugacity) of each component is equal in all coexisting phases: μi(phase I) = μi(phase II) for all components i. For liquid-liquid equilibrium this translates to the iso-activity condition xi(I)·γi(I) = xi(II)·γi(II), where xi is the mole fraction and γi is the activity coefficient. The distribution coefficient Ki = xi(I)/xi(II) = γi(II)/γi(I) quantifies how a component partitions between phases. The Gibbs phase rule F = C − P + 2 determines the degrees of freedom: for a binary system with two liquid phases (C=2, P=2), F=2, meaning that at fixed T and P the compositions of both phases are uniquely determined. For ternary systems (C=3, P=2), F=3, so fixing T and P leaves one degree of freedom — the overall composition determines which tie line is accessed. The heterogeneous equilibration experiment directly measures these equilibrium compositions without assuming any thermodynamic model.",
+      "setup": "A typical equilibrium cell is a jacketed glass vessel (100–500 mL) with a PTFE-lined lid, multiple sampling ports at different heights, a port for a calibrated Pt100 thermometer, and either a magnetic stirrer or an overhead mechanical stirrer entering through a sealed bearing. The jacket is connected to a circulating thermostat bath providing temperature stability of ±0.05 K. For elevated-pressure work, stainless steel or Hastelloy autoclaves with sapphire viewing windows replace glass cells. Sampling valves are typically PTFE-body needle valves or HPLC-type six-port valves connected by short insulated capillary lines to the analytical instruments. The analytical bench typically includes a GC with FID or TCD detector for organic components, a Karl Fischer titrator for water determination, and optionally a refractometer or densimeter as a secondary composition check. An analytical balance (±0.1 mg) is used for gravimetric feed preparation.",
+      "suitable_for": "Heterogeneous equilibration is the method of choice for systems that form two or more fluid phases with moderate-to-fast mass transfer kinetics. It excels for ternary and multicomponent liquid-liquid extraction systems (e.g., water–organic solvent–solute), ionic liquid–solvent–water systems, polymer–solvent phase equilibria, and solid-liquid solubility studies. The method is especially valuable when direct, model-independent tie-line data are required for process simulation. It is well suited for systems where the phases separate cleanly by gravity within a few hours and where reliable analytical methods exist for all components. The technique handles a wide composition range, from trace solute concentrations to near-symmetric two-phase splits.",
+      "core_limitations": "The primary limitation is the requirement for complete phase separation and clean sampling — systems that form stable emulsions, microemulsions, or foams are difficult or impossible to study by this method without auxiliary separation (centrifugation). Equilibration times can be very long (days) for highly viscous systems, polymer solutions, or near the plait point where interfacial tension vanishes. Accuracy depends critically on the analytical methods available; components lacking a suitable detector or with overlapping elution profiles on GC/HPLC are hard to quantify. The method is labor-intensive and low-throughput (typically one to three tie-line determinations per day), making it impractical for rapid screening. Volatility losses during sampling can bias results for systems containing highly volatile components.",
+      "sample_preparation": "All components are obtained at known, documented purity (typically ≥99% mass fraction for quantitative phase equilibrium work) and are used as received or further purified (distillation, recrystallization, drying over molecular sieves) as needed. Feed mixtures are prepared by adding each component to the equilibrium cell by mass, using an analytical balance with ±0.1 mg resolution, to achieve a target overall composition lying within the anticipated two-phase region. Liquids are degassed by vacuum treatment or ultrasonication to remove dissolved air that could form gas bubbles and interfere with settling. Solid components for SLE studies are ground to a fine powder and sieved to a uniform particle size to accelerate dissolution equilibration. Hygroscopic materials are handled under dry inert atmosphere, and water content is verified by Karl Fischer titration before use.",
+      "calibration_and_references": "Analytical instruments are calibrated using gravimetrically prepared standard mixtures that span the expected composition range. For GC, at least five calibration points per component are measured with triplicate injections, and response factor linearity is verified. HPLC calibration follows an analogous multi-point, replicate-injection protocol. The Karl Fischer titrator is calibrated with certified water standards (e.g., Hydranal or Aquastar standards) before each measurement session. Temperature calibration of the equilibrium cell thermometer is verified against ITS-90 fixed points or a certified reference Pt100 sensor. The apparatus is validated by measuring a well-characterized reference system — the water–1-butanol binary or the water–acetic acid–1-butanol ternary — and comparing the results with published IUPAC or NIST reference data. This validation step checks the entire workflow: mixing, equilibration, sampling, and analysis.",
+      "data_interpretation": "Raw GC or HPLC chromatograms are integrated and peak areas converted to compositions via the pre-established calibration curves. Water content from Karl Fischer titration is combined with organic component analyses to obtain the full composition vector, which is then normalized so that all mole (or mass) fractions sum to unity. The compositions of the two phases define a tie line on the phase diagram. The overall feed composition should lie on this tie line (lever rule), and any deviation indicates incomplete equilibration, sampling error, or analytical bias. Tie-line consistency is assessed using the Othmer-Tobias or Hand correlations, which should be linear for well-determined data. Activity coefficient model parameters (NRTL, UNIQUAC) are regressed from the tie-line data by minimizing the difference between experimental and calculated phase compositions. Distribution coefficients and selectivities are calculated directly from the tie-line compositions.",
+      "common_pitfalls": "The most frequent mistake is insufficient equilibration time — withdrawing samples before the system has truly reached thermodynamic equilibrium leads to tie lines that depend on stirring duration and are not thermodynamically meaningful. This must be verified by time-series sampling. A second major pitfall is cross-contamination during sampling, where droplets of the adjacent phase are entrained into the sample through a poorly positioned or improperly flushed sampling port. Near the plait (critical solution) point, the two phases become nearly identical in density and composition, making separation extremely slow and sampling almost impossible without disturbance. Inadequate analytical calibration — using a calibration range that does not cover the measured concentrations, or neglecting nonlinearity — introduces systematic bias. Finally, neglecting to account for volatile component loss between sampling and analysis (e.g., by failing to seal sample vials immediately) can significantly affect reported compositions.",
+      "artifacts_and_failure_modes": "Emulsion entrainment is the most problematic artifact: fine droplets of one phase suspended in the other produce apparent compositions intermediate between the true equilibrium values, collapsing the tie lines toward the binodal curve. Temperature gradient artifacts arise when the cell jacket or interior has uneven temperature distribution, causing local regions to be in different equilibrium states. Volatility loss artifacts shift compositions of the lighter phase toward the heavier components. Preferential adsorption on cell walls or sampling lines can deplete trace components, particularly surfactants, polymers, or dyes that preferentially wet glass or metal surfaces. Dead-volume carryover in sampling valves, where residual liquid from a previous sample contaminates the current one, produces systematically biased compositions. Catastrophic failure modes include thermostat malfunction causing large temperature excursions, sampling line blockage by crystallized salt or polymer, and decomposition of thermally labile components during extended high-temperature equilibrations.",
+      "reporting_checklist": "Published heterogeneous equilibration results should report: (1) source and purity of all components (including purification method and water content); (2) equilibrium cell description (material, volume, mixing method); (3) temperature with uncertainty and stability over the equilibration period; (4) pressure (if other than atmospheric); (5) overall feed composition and method of preparation (gravimetric); (6) equilibration protocol — stirring rate, stirring duration, settling time, and method for verifying attainment of equilibrium; (7) sampling procedure — sampling port positions, line temperature, flush volume; (8) analytical method for each component, with calibration protocol and number of replicates; (9) phase compositions as mole or mass fractions with combined expanded uncertainties at 95% confidence (k=2); (10) material balance closure check (lever rule deviation); (11) tie-line consistency test applied; (12) any derived quantities (distribution coefficients, activity coefficient model parameters) with stated model and fitting statistics. For ThermoML encoding, compositions are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

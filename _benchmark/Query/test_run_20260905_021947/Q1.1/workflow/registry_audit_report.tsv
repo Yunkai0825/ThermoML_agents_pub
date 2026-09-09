@@ -1,0 +1,19 @@
+severity	check	subject	detail
+INFO	balance	detailed/chars	sources emit 170,491 / sinks absorb 170,491
+INFO	balance	detailed/ids	sources emit 194 / sinks absorb 194
+INFO	balance	detailed/blocks	sources emit 36 / sinks absorb 36
+FAIL	orphan	detailed/blocks:Q/L1#1:search_blocks#1:hardcoded	'L1#1 · search_blocks · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/blocks:Q/L1#1:search_blocks#1:raw	'L1#1 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/blocks:Q/L1#1:sink:triage_cut	'L1#1 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	detailed/pts	sources emit 5,006 / sinks absorb 5,006
+FAIL	orphan	detailed/pts:Q/L1#1:search_blocks#1:hardcoded	'L1#1 · search_blocks · hardcoded compact' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:Q/L1#1:search_blocks#1:raw	'L1#1 · search_blocks · raw results' is disconnected from the answer spine (severed fragment)
+FAIL	orphan	detailed/pts:Q/L1#1:sink:triage_cut	'L1#1 · agentic triage cut' is disconnected from the answer spine (severed fragment)
+INFO	balance	agentic/chars	sources emit 170,491 / sinks absorb 170,491
+INFO	balance	agentic/ids	sources emit 167 / sinks absorb 167
+INFO	balance	agentic/blocks	sources emit 32 / sinks absorb 32
+INFO	balance	agentic/pts	sources emit 3,624 / sinks absorb 3,624
+INFO	balance	pooled/chars	sources emit 170,491 / sinks absorb 170,491
+INFO	balance	pooled/ids	sources emit 153 / sinks absorb 153
+INFO	balance	pooled/blocks	sources emit 30 / sinks absorb 30
+INFO	balance	pooled/pts	sources emit 3,216 / sinks absorb 3,216

@@ -1,0 +1,358 @@
+{
+  "meas_ID": "nmr_spin_echo_technique",
+  "identity": {
+    "name": "NMR spin-echo technique",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "NMR spin-echo technique",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Diffusion",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 30,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 8,
+      "per_group": {
+        "TransportProp": {
+          "instances": 30,
+          "papers": 8
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "spin-echo signal amplitude as a function of gradient strength (S(g))",
+          "spin-echo signal attenuation ratio S/S0",
+          "echo decay curve as a function of diffusion time Δ"
+        ],
+        "derived_observables": [
+          "self-diffusion coefficient D (from Stejskal-Tanner fit)",
+          "mutual diffusion coefficients (via composition-dependent D measurements)",
+          "apparent diffusion coefficient Dapp (for polydisperse or multi-component systems)",
+          "distribution of diffusion coefficients P(D) (from inverse Laplace transform or multi-exponential fit)"
+        ],
+        "target_properties": [
+          "self-diffusion coefficient D",
+          "tracer diffusion coefficient",
+          "mutual (inter-) diffusion coefficient",
+          "ionic diffusion coefficients (cation and anion separately via nucleus selection)",
+          "diffusion activation energy (from Arrhenius analysis of D vs. T)"
+        ],
+        "phases_measured": [
+          "liquid (neat and solutions)",
+          "liquid mixtures",
+          "polymer solutions and melts",
+          "ionic liquids",
+          "gels and porous media (restricted diffusion)",
+          "emulsions and microemulsions"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "ionic liquids",
+          "polymer solutions and melts",
+          "surfactant solutions and micellar systems",
+          "biological fluids (proteins in solution)",
+          "supercritical fluids (with appropriate probe)",
+          "porous media saturated with liquid"
+        ],
+        "unsupported_sample_types": [
+          "gases with very fast diffusion (D > 10⁻⁵ m²/s) — signal attenuation too rapid for standard gradient hardware",
+          "solids with extremely slow diffusion (D < 10⁻¹⁵ m²/s) — insufficient attenuation at accessible gradient strengths",
+          "paramagnetic samples with very short T2 — echo decays before gradient encoding is complete",
+          "samples lacking NMR-active nuclei (e.g., pure CCl4 without ¹H or other observable nuclei)",
+          "highly heterogeneous solids with extreme susceptibility gradients"
+        ],
+        "typical_output_formats": [
+          "Stejskal-Tanner plot: ln(S/S0) vs. γ²g²δ²(Δ−δ/3)",
+          "diffusion coefficient D vs. temperature T",
+          "diffusion coefficient D vs. composition (mole fraction)",
+          "diffusion coefficient distribution P(D) from DOSY analysis",
+          "Arrhenius plot: ln(D) vs. 1/T"
+        ],
+        "units": {
+          "diffusion_coefficient": "m²/s (SI) or cm²/s (CGS, 1 cm²/s = 10⁻⁴ m²/s)",
+          "gradient_strength": "T/m or G/cm (1 T/m = 100 G/cm)",
+          "gradient_pulse_duration": "ms or s",
+          "diffusion_time": "ms or s",
+          "temperature": "K",
+          "frequency": "MHz (Larmor frequency)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "gradient_strength_g",
+            "typical_range": "0.01 T/m to 30 T/m (1 G/cm to 3000 G/cm)",
+            "hard_limits": "maximum determined by gradient coil and amplifier rating; ultra-high gradients up to 50 T/m available on specialized probes",
+            "notes": "higher gradient strength extends the measurable range toward smaller D values; standard liquid probes provide up to ~0.5 T/m, diffusion probes up to 30 T/m"
+          },
+          {
+            "parameter": "gradient_pulse_duration_delta",
+            "typical_range": "0.5 ms to 10 ms",
+            "hard_limits": "must be much shorter than diffusion time Δ for narrow-pulse approximation; limited by gradient rise/fall time and eddy current settling",
+            "notes": "shorter δ reduces eddy current artifacts but decreases signal attenuation; bipolar gradient pulses mitigate eddy currents"
+          },
+          {
+            "parameter": "diffusion_time_Delta",
+            "typical_range": "5 ms to 1000 ms",
+            "hard_limits": "lower limit set by gradient pulse duration and ring-down; upper limit set by T1 relaxation (signal loss) and convection onset",
+            "notes": "Δ must be long enough for molecular displacement to produce measurable attenuation but short enough to retain adequate SNR"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "250 K to 400 K",
+            "hard_limits": "determined by NMR probe specifications and sample stability; cryoprobes extend to ~200 K, heating units to ~450 K",
+            "notes": "temperature stability of ±0.1 K or better is required; convection becomes problematic above ~330 K in standard 5 mm tubes"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "0.3 mL to 0.6 mL (standard 5 mm NMR tube)",
+            "hard_limits": "minimum ~0.1 mL for adequate filling of detection coil; maximum constrained by tube diameter",
+            "notes": "reduced-volume tubes (Shigemi) improve filling factor; 10 mm tubes used for dilute samples"
+          }
+        ],
+        "variables": [
+          {
+            "name": "gradient_strength",
+            "role": "primary experimental variable (varied in diffusion experiment)",
+            "typical_values": "incremented linearly or quadratically from ~5% to 95% of maximum gradient",
+            "effect": "increasing gradient strength increases signal attenuation for diffusing species; the attenuation encodes the diffusion coefficient"
+          },
+          {
+            "name": "diffusion_time",
+            "role": "secondary experimental variable",
+            "typical_values": "20 ms to 500 ms",
+            "effect": "longer diffusion times increase sensitivity to slow diffusion but reduce SNR via T1 relaxation; also probes longer displacement scales for restricted diffusion"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled variable / scanned variable",
+            "typical_values": "273 K to 373 K",
+            "effect": "diffusion coefficient increases with temperature following Arrhenius or VTF behavior; temperature must be precisely controlled and measured"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable (for mixtures)",
+            "typical_values": "full mole fraction range 0 to 1",
+            "effect": "D depends on mixture composition; nucleus-selective measurement allows determination of component-specific D values"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "high-pressure NMR cells exist but are specialized; pressure affects D through viscosity changes"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "superconducting NMR magnet — provides static field B0 (typically 7–14 T, corresponding to 300–600 MHz ¹H frequency)",
+          "pulsed field gradient (PFG) coils — generate linear magnetic field gradients along the z-axis (or x, y for 3-axis gradient systems)",
+          "gradient amplifier — provides precisely controlled current pulses to gradient coils (typical max 10–60 A)",
+          "NMR probe with gradient capability — broadband or multinuclear probe equipped with gradient coil and temperature regulation",
+          "RF transmitter and receiver — generates excitation pulses and detects spin-echo signals",
+          "temperature control unit — variable-temperature (VT) gas flow system with ±0.1 K stability",
+          "digital console and pulse programmer — controls pulse sequence timing (gradient pulses, RF pulses, delays) with µs precision",
+          "data acquisition and processing workstation — digitizes FID/echo signals and performs Fourier transform and fitting"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature in magnet room (±1 °C) to maintain field homogeneity",
+          "vibration-free environment — floor vibrations affect shimming and gradient stability",
+          "low electromagnetic interference — shielded room or proper grounding to avoid RF noise",
+          "compressed air or nitrogen supply for VT gas flow temperature regulation",
+          "quench vent for superconducting magnet safety"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "standard 5 mm NMR tube (most common)",
+            "10 mm NMR tube (for dilute samples or low-γ nuclei)",
+            "3 mm NMR tube (for limited sample volume or conductive samples)",
+            "Shigemi tube with susceptibility-matched plug (reduced convection and better filling)"
+          ],
+          "size_limits": "typically 0.3–0.6 mL in a 5 mm tube; minimum ~50 µL with microcoil probes",
+          "thickness_limits": "not applicable — liquid column height should fill the RF coil detection region (~15–20 mm for standard probes)",
+          "surface_requirements": [
+            "clean NMR tube free of paramagnetic contaminants",
+            "tubes should be rinsed with appropriate solvents and dried before use"
+          ],
+          "mounting_requirements": [
+            "sample tube centered and positioned at the correct depth in the probe using a depth gauge or spinner turbine",
+            "tube must be straight (not curved) for proper spinning and shimming",
+            "secure tube cap or flame-sealed tube for volatile samples"
+          ],
+          "preparation_requirements": [
+            "sample degassed by freeze-pump-thaw cycles or nitrogen sparging if dissolved oxygen affects relaxation",
+            "addition of deuterated solvent for field-frequency lock (unless neat liquid with separate lock)",
+            "filtration to remove particulates that cause susceptibility artifacts",
+            "known composition (concentration verified by independent method for mixtures)",
+            "for ionic liquids or viscous samples — gentle heating to reduce viscosity and improve filling"
+          ]
+        },
+        "calibration_requirements": [
+          "gradient strength calibration using a sample of known diffusion coefficient (e.g., H2O: D = 2.299 × 10⁻⁹ m²/s at 25 °C, or trace HDO in D2O: D = 1.902 × 10⁻⁹ m²/s at 25 °C)",
+          "temperature calibration using a chemical shift thermometer (e.g., methanol or ethylene glycol standards) to determine actual sample temperature vs. thermocouple reading",
+          "pulse length calibration (90° and 180° RF pulses) for the observed nucleus",
+          "shimming of static field to achieve narrow linewidths (< 1 Hz for ¹H), ensuring field homogeneity",
+          "eddy current compensation and pre-emphasis calibration for gradient pulses",
+          "linearity check of gradient amplifier over the operating range"
+        ],
+        "reference_materials": [
+          "water (H2O) — D = 2.299 × 10⁻⁹ m²/s at 25.0 °C (widely accepted primary standard)",
+          "trace HDO in D2O — D = 1.902 × 10⁻⁹ m²/s at 25.0 °C (preferred for ¹H gradient calibration)",
+          "sucrose in D2O solutions — range of known D values at various concentrations",
+          "1% H2O in D2O doped with 0.1 mg/mL GdCl3 — provides short T1 for rapid calibration",
+          "cyclohexane — D = 1.475 × 10⁻⁹ m²/s at 25 °C (non-aqueous reference)"
+        ],
+        "consumables": [
+          "precision NMR tubes (Wilmad, Norell, or equivalent; 5 mm OD, 7-inch length)",
+          "deuterated solvents for lock signal (D2O, CDCl3, DMSO-d6, etc.)",
+          "tube caps or septa",
+          "NMR tube cleaners and drying apparatus",
+          "compressed nitrogen or dry air for VT operation"
+        ],
+        "safety_notes": [
+          "strong static magnetic field — projectile hazard from ferromagnetic objects; restricted access zone required",
+          "cryogenic hazard from liquid helium and nitrogen in superconducting magnet — asphyxiation risk in case of quench; oxygen monitoring required",
+          "RF radiation exposure — comply with SAR limits; interlocked probe chamber",
+          "high-voltage gradient amplifiers — proper electrical safety and grounding required",
+          "sample handling — standard chemical hygiene for handling solvents and chemical samples"
+        ]
+      },
+      "performance": {
+        "sensitivity": "can measure diffusion coefficients from ~10⁻¹⁴ m²/s (very slow diffusion in polymers/gels, with strong gradients) to ~10⁻⁸ m²/s (fast diffusion in low-viscosity liquids)",
+        "detection_limit": "minimum detectable concentration depends on nucleus and field strength; for ¹H at 400 MHz, ~1 mM in reasonable acquisition time; diffusion measurements require higher SNR than simple spectroscopy, typically > 50:1 for the echo at zero gradient",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement); MRI-based diffusion imaging achieves ~1 mm resolution",
+          "temporal": "diffusion time Δ sets the timescale probed: typically 5 ms to 1 s; time resolution for D(T) scans limited by thermal equilibration (~5–15 min per temperature point)",
+          "spectral": "chemical-shift resolution allows simultaneous measurement of D for multiple resolved species in solution (DOSY); resolution ~0.01 ppm at 400 MHz",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "diffusion coefficients spanning approximately 4–5 orders of magnitude (10⁻¹³ to 10⁻⁸ m²/s) accessible by varying gradient strength and diffusion time",
+        "accuracy": "1–5% for self-diffusion coefficients under well-calibrated conditions; 2–3% typical for routine measurements; limited primarily by gradient calibration accuracy and temperature uncertainty",
+        "precision": "0.5–2% (repeatability of D from replicate measurements at fixed conditions)",
+        "throughput": "one sample at a time; a single D measurement (one gradient series) takes 5–30 min depending on number of gradient steps and number of scans; temperature-dependent series may take several hours",
+        "measurement_speed": "individual echo acquisition is fast (seconds); a full Stejskal-Tanner decay curve with 10–16 gradient steps and 4–16 scans each takes 5–30 min"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "spin-echo NMR signal (time-domain FID or echo) acquired after pulsed field gradient encoding; Fourier transform yields frequency-domain spectrum whose peak intensity or integral is measured as a function of gradient strength",
+        "preprocessing_steps": [
+          "Fourier transformation of the time-domain echo signal to obtain frequency-domain spectrum",
+          "phasing and baseline correction of the NMR spectrum",
+          "integration or peak height extraction for the resonance(s) of interest at each gradient step",
+          "normalization of signal intensities to the zero-gradient (g = 0) reference spectrum: S/S0",
+          "correction for gradient non-uniformity if spatial encoding is significant",
+          "temperature stabilization check — discard points collected before thermal equilibrium"
+        ],
+        "analysis_methods": [
+          "Stejskal-Tanner equation fit: ln(S/S0) = −γ²g²δ²(Δ − δ/3)D, yielding D from the slope of ln(S/S0) vs. b-value where b = γ²g²δ²(Δ − δ/3)",
+          "mono-exponential fit: S/S0 = exp(−bD) for single-component diffusion",
+          "bi-exponential or multi-exponential fit for multi-component systems: S/S0 = Σ fi·exp(−bDi)",
+          "DOSY (Diffusion-Ordered Spectroscopy) processing: inverse Laplace transform or regularized fitting to produce 2D spectrum (chemical shift vs. D)",
+          "Arrhenius analysis: D(T) = D0·exp(−Ea/RT) to extract activation energy for diffusion",
+          "Vogel-Tammann-Fulcher (VTF) fit: D(T) = D0·exp(−B/(T − T0)) for glass-forming liquids",
+          "restricted diffusion analysis: D(Δ) dependence reveals confining geometry and compartment size"
+        ],
+        "model_assumptions": [
+          "molecular displacement follows Gaussian diffusion (free, unrestricted Brownian motion) over the observation time Δ",
+          "gradient pulses are short compared to diffusion time (narrow-pulse or short-gradient-pulse approximation: δ << Δ)",
+          "magnetic field gradient is spatially linear and temporally stable during the pulse",
+          "no convection currents in the sample during measurement (thermal equilibrium maintained)",
+          "T1 and T2 relaxation times are independent of position (no relaxation anisotropy affecting the echo amplitude)",
+          "cross-relaxation and chemical exchange are negligible on the timescale of the experiment"
+        ],
+        "fit_parameters": [
+          "diffusion coefficient D (primary fit parameter)",
+          "signal amplitude at zero gradient S0 (normalization parameter)",
+          "population fractions fi (for multi-component fits)",
+          "individual diffusion coefficients Di (for multi-component fits)",
+          "activation energy Ea (from temperature-dependent Arrhenius fits)",
+          "VTF parameters D0, B, T0 (for glass-forming systems)"
+        ],
+        "common_artifacts": [
+          "convection artifact: thermal convection in the sample (especially above ~330 K in standard tubes) causes apparent enhancement of D; detected by Δ-dependence of measured D or use of convection-compensated pulse sequences (double-stimulated echo)",
+          "eddy current artifact: residual eddy currents after gradient pulses distort lineshape and introduce phase errors; mitigated by LED (longitudinal eddy current delay) sequences or bipolar gradient pairs",
+          "J-modulation artifact: scalar (J) coupling evolution during echo delays causes signal oscillation and intensity anomalies for coupled spin systems; negligible for singlets, significant for multiplets",
+          "radiation damping artifact: in highly concentrated ¹H samples (e.g., neat water), radiation damping accelerates signal decay and distorts echo amplitudes",
+          "gradient non-linearity artifact: spatial non-uniformity of gradient field produces systematically curved Stejskal-Tanner plots and biased D values",
+          "background gradient artifact: static field inhomogeneity acts as a pseudo-gradient and cross-term with applied gradients; significant in heterogeneous or paramagnetic samples"
+        ],
+        "quality_control_checks": [
+          "verify mono-exponential decay: plot ln(S/S0) vs. b and check for linearity (R² > 0.999 for single-component systems)",
+          "measure D of a known reference (H2O or HDO in D2O) before and after sample runs to confirm gradient calibration stability",
+          "check D independence of diffusion time Δ (for free diffusion, D should not depend on Δ)",
+          "run convection check: compare D measured with stimulated echo (STE) and double-stimulated echo (DSTE) sequences; agreement indicates no convection",
+          "verify temperature accuracy using a chemical shift thermometer sample",
+          "assess SNR of the zero-gradient spectrum — should be > 50:1 for reliable fitting",
+          "repeat measurement at different gradient ramp profiles (linear vs. quadratic increment) to verify consistency"
+        ],
+        "failure_modes": [
+          "insufficient gradient strength to attenuate signal of fast-diffusing species (Stejskal-Tanner curve does not decay sufficiently)",
+          "excessive T2 relaxation decay for viscous samples — echo signal vanishes before adequate gradient encoding; switch to stimulated echo (T1-weighted instead of T2-weighted)",
+          "sample convection causes non-exponential or Δ-dependent decay — use convection-compensated sequences or capillary tube inserts",
+          "poor shimming produces broad lines that overlap in DOSY, preventing species-resolved D measurements",
+          "gradient amplifier instability or heating during extended experiments causes gradient drift and systematic D errors",
+          "probe arcing at very high gradient strengths — limits maximum achievable b-value"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 1–5% for D; 1–2% achievable with careful gradient calibration and temperature control",
+        "random_sources": [
+          "thermal noise in NMR receiver (limits SNR of echo signal)",
+          "gradient current noise and ripple",
+          "temperature fluctuations from VT gas flow instability",
+          "sample positioning variability between runs",
+          "baseline noise affecting peak integration"
+        ],
+        "systematic_sources": [
+          "gradient calibration uncertainty (typically the dominant source, 1–3%)",
+          "temperature measurement offset between thermocouple and actual sample temperature (can cause 1–2% error in D per 0.5 K offset)",
+          "convection contribution to apparent D (positive bias)",
+          "eddy current effects on effective gradient area",
+          "gradient non-linearity across the sample volume",
+          "radiation damping in concentrated ¹H samples",
+          "cross-term between applied gradient and background (B0 inhomogeneity) gradients"
+        ],
+        "operator_dependence": "low to moderate — shimming quality, temperature equilibration time, and pulse sequence parameter selection (δ, Δ, gradient range) depend on operator experience; automated gradient calibration and sequence libraries reduce variability",
+        "model_dependence": "low for simple single-component liquids (mono-exponential Stejskal-Tanner is well-justified); moderate for polydisperse or multi-component systems where the choice of fitting model (mono- vs. multi-exponential, regularized inversion) affects extracted D values",
+        "dominant_error_sources": [
+          "gradient strength calibration accuracy (1–3% contribution to D uncertainty)",
+          "sample temperature accuracy (Arrhenius sensitivity: ~2% change in D per 1 K for typical liquids near 25 °C)",
+          "convection at elevated temperatures (can bias D by 5–50% if uncompensated)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(D) at 95% confidence (k = 2)",
+          "relative uncertainty as percentage of D",
+          "standard deviation from replicate measurements",
+          "fitting uncertainty (standard error) from Stejskal-Tanner regression"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The NMR spin-echo technique, specifically pulsed-field gradient NMR (PFG-NMR), measures self-diffusion coefficients by encoding molecular spatial displacements into the amplitude of a nuclear magnetic resonance spin echo. Developed by Stejskal and Tanner in 1965, it exploits the sensitivity of nuclear spin phase to position in a magnetic field gradient: molecules that diffuse between two gradient pulses acquire incomplete phase refocusing, resulting in an attenuated echo signal whose magnitude directly encodes the diffusion coefficient. The technique is non-destructive, non-contact, and chemically selective — different molecular species can be distinguished by their NMR resonance frequencies, enabling simultaneous measurement of component-specific diffusion coefficients in complex mixtures.",
+      "how_it_operates": "A sample in a strong static magnetic field B0 is subjected to an RF pulse sequence that creates a spin echo (90°−τ−180°−τ−echo for Hahn echo, or 90°−τ1−90°−Δ−90°−τ2−echo for stimulated echo). During the sequence, two matched pulsed field gradient (PFG) pulses of strength g and duration δ are applied, separated by a diffusion time Δ. The first gradient pulse encodes molecular positions into spin phase; the second gradient pulse decodes them. For stationary molecules, phase encoding and decoding cancel perfectly, yielding full echo amplitude. For diffusing molecules, random displacement during Δ causes incomplete phase refocusing and the echo signal is attenuated. The attenuation is measured as a function of gradient strength g (typically 10–16 increments), and the diffusion coefficient D is extracted from the Stejskal-Tanner equation: S/S0 = exp(−γ²g²δ²(Δ − δ/3)D), where γ is the gyromagnetic ratio of the observed nucleus.",
+      "core_theory": "The Stejskal-Tanner equation governs signal attenuation in PFG-NMR diffusion experiments. For a spin echo acquired with bipolar or unipolar gradient pulses of amplitude g and duration δ, separated by a diffusion delay Δ, the normalized echo signal is S/S0 = exp(−bD), where the b-value (diffusion weighting factor) is b = γ²g²δ²(Δ − δ/3). This result assumes free isotropic Gaussian diffusion and the narrow-pulse approximation (δ << Δ). The factor (Δ − δ/3) accounts for diffusion occurring during the finite-width gradient pulses. For restricted diffusion (e.g., in pores or cells), D becomes an apparent diffusion coefficient Dapp(Δ) that depends on diffusion time and confining geometry. The mean-squared molecular displacement probed is <z²> = 2DΔ, typically ranging from ~1 µm to ~100 µm for liquids at accessible Δ values. Multi-component systems produce multi-exponential attenuation: S/S0 = Σ fi·exp(−bDi), where fi are population fractions.",
+      "setup": "A PFG-NMR diffusion measurement requires a high-field NMR spectrometer (typically 300–600 MHz ¹H frequency) equipped with a probe containing a pulsed field gradient coil and a gradient amplifier capable of delivering controlled current pulses. The sample (0.3–0.6 mL) is placed in a standard 5 mm NMR tube and inserted into the probe within the magnet bore. A variable-temperature (VT) system provides regulated gas flow around the sample for temperature control to ±0.1 K. Before measurement, the static field is shimmed to achieve narrow linewidths, and the gradient strength is calibrated against a reference standard (e.g., HDO in D2O). The pulse programmer executes a diffusion-weighted sequence (STE, BPLED, or DSTE) with automated gradient stepping, and the digitized echo signals are processed by Fourier transform and exponential fitting software.",
+      "suitable_for": "PFG-NMR spin-echo diffusion measurement is ideally suited for self-diffusion coefficients in liquids, liquid mixtures, electrolyte solutions, ionic liquids, polymer solutions and melts, surfactant systems, and biological fluids. Its chemical selectivity via the NMR spectrum makes it uniquely capable of measuring diffusion coefficients of individual components in multicomponent mixtures without tracers or labels — for example, independently determining cation and anion diffusion in ionic liquids by observing different nuclei (¹H, ¹⁹F, ⁷Li). The technique spans a D range of roughly 10⁻¹³ to 10⁻⁸ m²/s and operates non-destructively, making it suitable for precious or limited-quantity samples. It is also used to study restricted diffusion, droplet sizing in emulsions, and molecular association through changes in apparent D.",
+      "core_limitations": "The principal limitations of PFG-NMR diffusion measurements are: (1) maximum gradient strength limits the minimum measurable D — standard liquid probes (~0.5 T/m) can only measure D > ~10⁻¹⁰ m²/s, while specialized diffusion probes (~30 T/m) extend this to ~10⁻¹⁴ m²/s; (2) very short T2 relaxation times in viscous or paramagnetic samples cause echo loss before adequate gradient encoding, limiting applicability to highly viscous systems unless stimulated-echo sequences (T1-dependent) are used; (3) thermal convection in the sample at elevated temperatures biases D values upward and requires convection-compensated sequences or restricted sample geometry; (4) the technique requires NMR-active nuclei at sufficient concentration (typically > 1 mM for ¹H); (5) temperature must be known to ~0.1 K because D is strongly temperature-dependent; and (6) measurement throughput is limited to one sample at a time.",
+      "sample_preparation": "Samples are prepared in clean, high-quality NMR tubes (borosilicate or quartz, 5 mm OD). For solutions, the solvent is typically deuterated (D2O, CDCl3, DMSO-d6) to provide a field-frequency lock signal and to suppress the solvent ¹H signal that would otherwise dominate the spectrum. Neat liquids can be measured directly, with an external lock capillary if necessary. The sample volume should fill the RF coil detection region (~0.5 mL for a 5 mm tube); Shigemi tubes with susceptibility-matched plugs are preferred to restrict the sample volume to the active region and minimize convection. Dissolved gases (particularly paramagnetic O2) should be removed by freeze-pump-thaw cycles or nitrogen sparging, as they shorten T2 and reduce SNR. Particulates are removed by filtration through 0.45 µm filters. For temperature-dependent measurements, the sample temperature must be allowed to equilibrate for 5–15 min at each set point before acquisition.",
+      "calibration_and_references": "Gradient calibration is the most critical calibration step in PFG-NMR diffusion measurements. The gradient constant (conversion from DAC units or current to gradient strength in T/m) is determined by measuring a sample of accurately known D: the standard is trace HDO in D2O (D = 1.902 × 10⁻⁹ m²/s at 25.000 °C) or pure H2O (D = 2.299 × 10⁻⁹ m²/s at 25.0 °C). This calibration should be repeated whenever the probe or gradient amplifier is changed. Temperature calibration uses a chemical shift thermometer — a methanol sample (below 300 K) or ethylene glycol sample (above 300 K) — because the thermocouple reading may differ from the actual sample temperature by several kelvin due to gas flow dynamics. RF pulse calibration (90° pulse width) ensures proper echo formation. Eddy current compensation is adjusted using manufacturer-provided procedures to ensure clean gradient pulse shapes.",
+      "data_interpretation": "The primary data analysis is fitting the Stejskal-Tanner equation to the plot of normalized signal intensity S/S0 versus the b-value b = γ²g²δ²(Δ − δ/3). For a single diffusing species, a plot of ln(S/S0) vs. b yields a straight line with slope −D. Non-linearity indicates multiple diffusing populations, restricted diffusion, or artifacts (convection, eddy currents). Multi-component systems are analyzed by bi- or multi-exponential fitting, or by DOSY processing which produces a 2D map of chemical shift versus diffusion coefficient using inverse Laplace transform algorithms such as CONTIN or maximum-entropy methods. Temperature-dependent D data are commonly fitted to the Arrhenius equation D(T) = D0·exp(−Ea/RT) or, for glass-forming liquids, the Vogel-Tammann-Fulcher equation. For restricted diffusion studies, the Δ-dependence of Dapp is analyzed to extract compartment dimensions using analytical models for planar, cylindrical, or spherical confinement.",
+      "common_pitfalls": "The most common pitfall is thermal convection in the sample, which artificially enhances the apparent D — this is especially problematic above ~330 K in standard 5 mm tubes. Convection can be detected by measuring D at two or more values of Δ (D should be independent of Δ for free diffusion) or by comparing results from standard STE and convection-compensated DSTE sequences. A second frequent error is poor gradient calibration: even a small systematic error in the gradient constant propagates quadratically into D. Using an outdated or incorrect reference D value for the calibration standard is a related mistake. Inadequate temperature equilibration between measurement points leads to systematic curvature in Arrhenius plots. Selecting gradient parameters (δ, Δ, g_max) that do not produce sufficient attenuation (final S/S0 should be ~0.05 or less) leads to poorly determined D values. Finally, ignoring eddy current effects, J-modulation, or background gradients in heterogeneous samples can introduce significant systematic errors.",
+      "artifacts_and_failure_modes": "Convection artifacts are the most frequent problem: laminar or turbulent convective flow adds a coherent displacement that mimics fast diffusion, producing positive bias in D that can exceed 50% at elevated temperatures. Eddy current artifacts arise when residual currents induced in conductive components (probe body, magnet bore) after gradient switching produce time-dependent field offsets that distort lineshapes and corrupt phase-sensitive detection — these are mitigated by bipolar gradient pairs and longitudinal eddy current delay (LED) sequences. J-modulation artifacts occur in molecules with scalar couplings, where echo amplitudes oscillate with echo time, complicating intensity-based fitting. Gradient non-linearity across the sample volume causes systematic curvature in Stejskal-Tanner plots and position-dependent encoding errors. Radiation damping in concentrated proton samples (e.g., 90% H2O) accelerates magnetization recovery and distorts echo amplitudes. Hardware failure modes include gradient amplifier overheating during extended experiments (causing drift), probe arcing at high gradient strengths, and loss of field-frequency lock during long temperature series.",
+      "reporting_checklist": "Published PFG-NMR diffusion measurements should report: NMR spectrometer field strength and observed nucleus, pulse sequence used (STE, BPP-LED, DSTE, etc.), gradient probe type and maximum gradient strength, gradient calibration method and reference standard used (with reference D value and temperature), gradient pulse duration δ, diffusion time Δ, number and distribution of gradient steps, number of scans per increment, sample temperature (actual sample temperature, calibrated), temperature stability, sample composition and concentration, solvent (deuterated or neat), NMR tube type and diameter, whether convection compensation was employed, fitting model (mono-exponential, bi-exponential, DOSY), number of replicate measurements, and combined expanded uncertainty with confidence level and dominant uncertainty sources identified. For ThermoML encoding, D values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

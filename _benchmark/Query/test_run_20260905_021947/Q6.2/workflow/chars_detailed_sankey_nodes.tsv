@@ -1,0 +1,33 @@
+key	label	kind	role	is_source	is_sink	value	n_ids	ids	blocks	order	provenance	args	meta
+Q:context	Q · agent context (dedup merge)	merge	context	0	0	5058	0			1			agent=Q_L0;sid=Q
+Q:support:WM_RENDER	Q · working-memory render	hardmeta	support	1	0	2777	0			2	working_memory.md::Q		
+Q/L1#1:context	L1#1 · agent context (dedup merge)	merge	context	0	0	2519	0			3			agent=Q_L1;sid=Q/L1#1
+Q/L1#1:support:BRIEF	L1#1 · dispatch brief	delegated	support	1	0	375	0			4	run_history.md::Step 1 [Q · c4]	"{""purpose"": ""Find Gibbs free energy of formation for diamond at 1000 K"", ""instruction"": ""Search for any thermodynamic data related to diamond (carbon, diamond form). Look for Gibbs free energy of formation or any related thermodynamic properties. The compound is diamond (a form of carbon, C). Check if there are any entries for this substance and property in the database.""}"	
+Q/L1#1:resolve_compound_ids#1:raw	L1#1 · resolve_compound_ids · raw results	raw	raw	1	0	3177	10	GLOBcomp_1023;GLOBcomp_1687;GLOBcomp_199;GLOBcomp_2520;GLOBcomp_2943;GLOBcomp_358;GLOBcomp_547;GLOBcomp_600;GLOBcomp_633;GLOBcomp_838		10	run_history.md::Step 2 [Q - L1_1 · c1]	"{""queries"": [""diamond"", ""carbon"", ""C diamond""], ""min_score"": 40, ""limit"": 10, ""purpose"": ""Find compound ID for diamond (carbon in diamond form)"", ""tasks"": ""Resolve diamond/carbon compound identifiers""}"	menu=False;reexec_checked=True;status=ok;verdict=DISCARD
+Q/L1#1:expansion:search	L1#1 · stage rendering expansion (deterministic growth)	hardmeta	support	1	0	2144	0			10			note=DISCARD stub (triage-agent prose)
+Q/L1#1:resolve_compound_ids#1:hardcoded	L1#1 · resolve_compound_ids · hardcoded compact	hardcoded	hardcoded	0	0	980	10	GLOBcomp_1023;GLOBcomp_1687;GLOBcomp_199;GLOBcomp_2520;GLOBcomp_2943;GLOBcomp_358;GLOBcomp_547;GLOBcomp_600;GLOBcomp_633;GLOBcomp_838		11	run_history.md::Step 2 [Q - L1_1 · c1]		
+Q/L1#1:resolve_compound_ids#1:agentic	L1#1 · resolve_compound_ids · agentic kept	agentic	agentic	0	0	574	0			12	run_history.md::Step 2 [Q - L1_1 · c1]		
+Q/L1#1:sink:hardcoded_cut	L1#1 · hardcoded compaction cut	removed	sink	0	1	5598	0			15			
+Q/L1#1:sink:triage_cut	L1#1 · agentic triage cut	removed	sink	0	1	2754	26	GLOBcomp_1016;GLOBcomp_1023;GLOBcomp_103;GLOBcomp_1066;GLOBcomp_1687;GLOBcomp_199;GLOBcomp_214;GLOBcomp_226;GLOBcomp_234;GLOBcomp_2520;GLOBcomp_2943;GLOBcomp_3;GLOBcomp_312;GLOBcomp_358;GLOBcomp_51;GLOBcomp_547;GLOBcomp_600;GLOBcomp_62;GLOBcomp_633;GLOBcomp_708;GLOBcomp_811;GLOBcomp_838;GLOBcomp_904;GLOBcomp_927;GLOBcomp_937;GLOBcomp_993		15			
+Q/L1#1:answer	L1#1 · answer	answer	answer	0	0	864	0			17	run_history.md::Step 1 [Q · c4]		
+Q/L1#1:deliverable	L1#1 · result envelope to Q (deliverable)	envelope	deliverable	0	0	2281	0			18	run_history.md::Step 1 [Q · c4]		
+Q/L1#1:env:written	L1#1 · envelope · LLM-written fields	envelope	envelope_part	0	0	1194	0			19	run_history.md::Step 1 [Q · c4]		fields=['core_claims', 'summary']
+Q/L1#1:resolve_compound_ids#2:raw	L1#1 · resolve_compound_ids · raw results	raw	raw	1	0	4820	15	GLOBcomp_1016;GLOBcomp_103;GLOBcomp_1066;GLOBcomp_214;GLOBcomp_226;GLOBcomp_234;GLOBcomp_3;GLOBcomp_312;GLOBcomp_62;GLOBcomp_708;GLOBcomp_811;GLOBcomp_904;GLOBcomp_927;GLOBcomp_937;GLOBcomp_993		20	run_history.md::Step 3 [Q - L1_1 · c2]	"{""queries"": [""carbon"", ""graphite"", ""C"", ""carbon diamond""], ""min_score"": 30, ""limit"": 15, ""purpose"": ""Find compound ID for diamond or carbon allotropes"", ""tasks"": ""Resolve carbon/diamond/graphite to global compound IDs""}"	menu=False;reexec_checked=True;status=ok;verdict=DISCARD
+Q/L1#1:env:hydrated	L1#1 · envelope · DB-hydrated fields	envelope	envelope_part	0	0	4	0			20	run_history.md::Step 1 [Q · c4]		fields=['core_id_updates', 'core_blocks_found']
+Q/L1#1:resolve_compound_ids#2:hardcoded	L1#1 · resolve_compound_ids · hardcoded compact	hardcoded	hardcoded	0	0	1475	15	GLOBcomp_1016;GLOBcomp_103;GLOBcomp_1066;GLOBcomp_214;GLOBcomp_226;GLOBcomp_234;GLOBcomp_3;GLOBcomp_312;GLOBcomp_62;GLOBcomp_708;GLOBcomp_811;GLOBcomp_904;GLOBcomp_927;GLOBcomp_937;GLOBcomp_993		21	run_history.md::Step 3 [Q - L1_1 · c2]		
+Q/L1#1:hydration	L1#1 · DB hydration (workflow enrichment)	payload	support	1	0	4	0			21			
+Q/L1#1:resolve_compound_ids#2:agentic	L1#1 · resolve_compound_ids · agentic kept	agentic	agentic	0	0	658	0			22	run_history.md::Step 3 [Q - L1_1 · c2]		
+Q/L1#1:env:wm	L1#1 · envelope · WM-assembled fields	envelope	envelope_part	0	0	12	0			22	run_history.md::Step 1 [Q · c4]		fields=['status']
+Q/L1#1:env:ledger	L1#1 · envelope · inspection ledger (data_inspections)	envelope	envelope_part	0	0	2	0			23	run_history.md::Step 1 [Q · c4]		fields=['data_inspections']
+Q/L1#1:support:LEDGER	L1#1 · inspection ledger (data_inspections)	validation	support	1	0	2	0			24	run_history.md::Step 1 [Q · c4]		inspections=[]
+Q/L1#1:env:scaffold	L1#1 · envelope · JSON scaffolding	envelope	envelope_part	0	0	205	0			25	run_history.md::Step 1 [Q · c4]		fields=[]
+Q/L1#1:support:SCAFFOLD	L1#1 · envelope JSON scaffolding	hardmeta	support	1	0	205	0			26			
+Q/L1#1:sink:condensed_in_synthesis	L1#1 · condensed away in synthesis	removed	sink	0	1	449	0			27			
+Q:wm	Q · working-memory archive	payload	wm_archive	0	0	2236	0			28	working_memory.md::records		
+Q/L1#1:search_id_alignment#1:raw	L1#1 · search_id_alignment · raw results	raw	raw	1	0	355	1	GLOBcomp_51		30	run_history.md::Step 4 [Q - L1_1 · c3]	"{""entity_type"": ""compound"", ""query"": ""C diamond graphite carbon elemental"", ""limit"": 20, ""purpose"": ""Find elemental carbon (diamond) in compound registry"", ""tasks"": ""Search for any form of elemental carbon in the database""}"	menu=False;reexec_checked=True;status=ok;verdict=DISCARD
+Q/L1#1:search_id_alignment#1:hardcoded	L1#1 · search_id_alignment · hardcoded compact	hardcoded	hardcoded	0	0	299	1	GLOBcomp_51		31	run_history.md::Step 4 [Q - L1_1 · c3]		
+Q:sink:wm_retained	Q · payload retained only in working memory	removed	sink	0	1	2236	0			31			
+Q/L1#1:search_id_alignment#1:agentic	L1#1 · search_id_alignment · agentic kept	agentic	agentic	0	0	912	0			32	run_history.md::Step 4 [Q - L1_1 · c3]		
+Q:sink:condensed_in_synthesis	Q · condensed away in synthesis	removed	sink	0	1	43	0			32			
+Q:sink:memory_uncited	Q · memory carry not cited (WM render / transient)	removed	sink	0	1	2777	0			33			
+Q:sink:ledger_uncited	Q · ledger content not cited	removed	sink	0	1	2	0			34			

@@ -1,0 +1,345 @@
+{
+  "meas_ID": "solution_calorimetry",
+  "identity": {
+    "name": "Solution calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Solution calorimetry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "partially",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 137,
+      "property_groups": [
+        "ReactionStateChangeProp"
+      ],
+      "n_papers": 62,
+      "per_group": {
+        "ReactionStateChangeProp": {
+          "instances": 137,
+          "papers": 62
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature change ΔT of the calorimetric fluid (isoperibol mode)",
+          "compensating electrical power P to maintain isothermal conditions (isothermal mode)",
+          "sample mass dissolved (ms)",
+          "solvent volume or mass (Vsolv or msolv)",
+          "time–temperature or time–power curve during dissolution event"
+        ],
+        "derived_observables": [
+          "molar enthalpy of solution (ΔsolH)",
+          "molar enthalpy of dilution (ΔdilH)",
+          "integral enthalpy of solution",
+          "partial molar enthalpy at infinite dilution (ΔsolH∞)",
+          "enthalpy of formation via thermochemical cycle (indirect)",
+          "heat of mixing (from sequential dissolution experiments)"
+        ],
+        "target_properties": [
+          "molar enthalpy of solution (ΔsolH)",
+          "molar enthalpy of dilution (ΔdilH)",
+          "standard molar enthalpy of formation (ΔfH°, via Hess's law cycles)",
+          "partial molar enthalpy at infinite dilution",
+          "integral enthalpy of dissolution as a function of concentration"
+        ],
+        "phases_measured": [
+          "solid dissolving in liquid",
+          "liquid dissolving/mixing in liquid",
+          "crystalline solid → solution",
+          "amorphous solid → solution"
+        ],
+        "supported_sample_types": [
+          "crystalline inorganic salts (e.g., KCl, NaCl, THAM)",
+          "crystalline organic solids (acids, bases, pharmaceuticals)",
+          "amorphous solids (polymers, glasses)",
+          "ionic liquids",
+          "concentrated liquid solutes (acids, bases, surfactants)",
+          "biological molecules (amino acids, saccharides, proteins in dilute solution)",
+          "binary and multicomponent salt/solvent systems"
+        ],
+        "unsupported_sample_types": [
+          "gases dissolving in liquids (requires gas-absorption calorimetry)",
+          "samples that react vigorously or explosively with the solvent",
+          "highly volatile solutes that evaporate before dissolution completes",
+          "insoluble or very sparingly soluble materials (insufficient heat signal)",
+          "samples requiring temperatures above the solvent boiling point at ambient pressure"
+        ],
+        "typical_output_formats": [
+          "ΔsolH vs. final molality (or mole fraction) curve",
+          "time–temperature thermogram (isoperibol)",
+          "time–power compensation curve (isothermal)",
+          "ΔdilH vs. final concentration plot",
+          "tabulated ΔsolH at specified T and P with uncertainty"
+        ],
+        "units": {
+          "enthalpy_of_solution": "kJ/mol",
+          "enthalpy_of_dilution": "kJ/mol",
+          "temperature": "K",
+          "temperature_change": "mK or K",
+          "power": "mW",
+          "sample_mass": "mg or g",
+          "solvent_volume": "mL or cm³",
+          "concentration": "mol/kg (molality) or mol/L (molarity)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "288 K to 353 K",
+            "hard_limits": "limited by solvent boiling point (upper) and freezing point (lower); specialized pressure vessels extend range",
+            "notes": "most literature data collected at 298.15 K; precision work requires ±0.001 K bath stability"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (ambient)",
+            "hard_limits": "atmospheric for standard glass or Dewar calorimeters; up to 50 MPa with high-pressure cells",
+            "notes": "pressure correction negligible for condensed-phase dissolution at ambient"
+          },
+          {
+            "parameter": "solvent_amount",
+            "typical_range": "25 mL to 500 mL",
+            "hard_limits": "minimum set by sample signal-to-noise; maximum by vessel volume and stirring efficiency",
+            "notes": "large solvent volume ensures pseudo-infinite dilution conditions when needed"
+          },
+          {
+            "parameter": "sample_amount",
+            "typical_range": "10 mg to 5 g",
+            "hard_limits": "must produce a measurable thermal signal (>0.01 K for isoperibol); must not exceed solubility limit in the available solvent",
+            "notes": "optimal amount chosen so dissolution heat gives ΔT of 0.05–2 K in isoperibol mode"
+          },
+          {
+            "parameter": "final_concentration",
+            "typical_range": "0.001 mol/kg to saturation",
+            "hard_limits": "limited by solubility of solute in the chosen solvent at measurement temperature",
+            "notes": "for infinite-dilution enthalpies, concentration must be low enough that solute–solute interactions are negligible or extrapolation is used"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "fixed or scanned variable",
+            "typical_values": "298.15 K (most common); also 288.15, 308.15, 318.15 K",
+            "effect": "ΔsolH is temperature-dependent via Kirchhoff's equation; dissolution may shift from endothermic to exothermic with temperature"
+          },
+          {
+            "name": "final_molality",
+            "role": "primary experimental variable",
+            "typical_values": "0.001–1.0 mol/kg",
+            "effect": "integral ΔsolH varies with final concentration due to solute–solute and solute–solvent interactions; extrapolation to zero gives ΔsolH∞"
+          },
+          {
+            "name": "solvent_identity",
+            "role": "fixed variable",
+            "typical_values": "water (most common); DMSO, methanol, ethanol, or other organic solvents",
+            "effect": "solvent determines solvation thermodynamics, dissolution kinetics, and solubility limits"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa",
+            "effect": "negligible effect on condensed-phase dissolution enthalpies at ambient; significant only in high-pressure studies"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "calorimetric vessel — Dewar flask (isoperibol), precision reaction vessel with thermal jacket (isothermal), or twin-cell differential design",
+          "sample introduction system — sealed glass ampoule (broken by plunger), rotating sample cell, or motor-driven syringe/injection system",
+          "stirrer — propeller or magnetic stirrer providing rapid, uniform mixing of solute and solvent",
+          "temperature sensor — precision thermistor (100 kΩ type) or platinum resistance thermometer (PRT, 100 Ω) with ≤0.1 mK resolution",
+          "electrical calibration heater — precision resistor (manganin or Karma wire) immersed in calorimetric fluid for Joule-effect calibration",
+          "temperature-controlled bath or jacket — water thermostat (isoperibol) or Peltier/feedback-controlled jacket (isothermal) with ±0.001 K stability",
+          "data acquisition system — high-resolution ADC and computer for continuous recording of T(t) or P(t) curves",
+          "ampoule-breaking mechanism — push rod or rotating device that cracks sealed glass ampoule to release sample into solvent"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (±1 K ambient) to minimize baseline drift",
+          "vibration-free bench to avoid spurious heat generation from stirrer precession",
+          "draft-free enclosure around calorimeter to reduce convective heat exchange",
+          "clean, dust-free environment to avoid contamination of solvent"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "powder or small crystals (preferred for rapid and complete dissolution)",
+            "pellet or tablet (acceptable if dissolution time is tolerable)",
+            "liquid sample contained in sealed ampoule or injected via syringe"
+          ],
+          "size_limits": "typically 10 mg to 5 g; must fit inside glass ampoule (diameter 3–10 mm) or injection loop",
+          "thickness_limits": "not applicable — sample dissolves; particle size < 1 mm preferred for fast dissolution",
+          "surface_requirements": [
+            "dry surface (moisture introduces parasitic heat of wetting)",
+            "no surface contaminants or grease"
+          ],
+          "mounting_requirements": [
+            "solid samples sealed in thin-walled glass ampoule (wall thickness ~0.1 mm) for reproducible introduction",
+            "liquid samples loaded into gas-tight syringe or sealed micro-ampoule",
+            "ampoule sealed under dry nitrogen or vacuum to exclude moisture"
+          ],
+          "preparation_requirements": [
+            "known sample mass weighed to ±0.01 mg on analytical balance",
+            "known purity (>99.5% by mass for primary reference work; characterized impurity profile for routine measurements)",
+            "drying under vacuum or over desiccant for hygroscopic solids",
+            "characterization of crystalline form by XRPD if polymorphism is possible (dissolution enthalpy is polymorph-dependent)",
+            "degassing of liquid solutes by ultrasonication or vacuum"
+          ]
+        },
+        "calibration_requirements": [
+          "electrical calibration: known power pulse (I²R·t) delivered to immersed heater before and/or after each dissolution experiment to determine the energy equivalent (ε, J/K) of the calorimeter",
+          "chemical calibration: dissolution of a certified reference substance (KCl in water, THAM in HCl) to verify the calorimeter constant against accepted values",
+          "temperature sensor calibration against ITS-90 fixed points or certified thermometer",
+          "baseline stability check: record T(t) for 20–30 min before breaking ampoule to confirm thermal drift < 0.1 mK/min"
+        ],
+        "reference_materials": [
+          "KCl (NIST SRM 1655) dissolved in water — ΔsolH = 17.584 ± 0.017 kJ/mol at 298.15 K and infinite dilution (Parker, 1965)",
+          "THAM (tris(hydroxymethyl)aminomethane) dissolved in 0.1 mol/L HCl — ΔrxnH = −29.766 ± 0.003 kJ/mol (NIST recommended)",
+          "NaCl dissolved in water — ΔsolH = 3.880 ± 0.020 kJ/mol at 298.15 K (auxiliary check standard)",
+          "sucrose dissolved in water — used as an organic dissolution check standard"
+        ],
+        "consumables": [
+          "thin-walled glass ampoules (borosilicate, 1–5 mL capacity)",
+          "high-purity solvent (deionized water, HPLC-grade organics)",
+          "dry nitrogen or argon gas for ampoule sealing and blanketing",
+          "sealing wax or epoxy for ampoule closure"
+        ],
+        "safety_notes": [
+          "glass ampoule fragments remain in calorimetric fluid after breaking — handle with care during cleaning",
+          "exothermic dissolution of concentrated acids or reactive solutes may produce local boiling or splashing",
+          "HCl solutions used in THAM calibration are corrosive — use appropriate PPE",
+          "organic solvents require fume hood operation and fire precautions"
+        ]
+      },
+      "performance": {
+        "sensitivity": "isoperibol: detects dissolution heats producing ΔT ≥ 0.01 K (~0.5 J in a 50 mL water-filled vessel); isothermal power-compensation: detects power changes ≥ 0.01 mW (~0.05 J over 5 min dissolution)",
+        "detection_limit": "minimum measurable ΔsolH ≈ 0.05 kJ/mol for a 100 mg sample in 100 mL solvent (isoperibol); lower with isothermal titration designs",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "1–10 s time resolution in T(t) or P(t) recording; sufficient to follow most dissolution kinetics",
+          "spectral": "not applicable",
+          "energy": "isoperibol: ≈ 0.01 J per measurement; isothermal: ≈ 0.001 J with power-compensation designs"
+        },
+        "dynamic_range": "ΔsolH from ~0.1 kJ/mol (nearly athermal dissolution) to ~200 kJ/mol (highly exothermic acid–base neutralization); ΔT up to ~5 K (isoperibol, limited by heat-exchange correction accuracy)",
+        "accuracy": "0.1–2% for ΔsolH with electrical calibration and pure samples; 0.05% achievable in precision Dewar calorimeters with chemical calibration",
+        "precision": "0.05–0.5% (repeatability of ΔsolH from replicate ampoule-break experiments at the same conditions)",
+        "throughput": "one dissolution experiment per 30–90 min including baseline, dissolution, and post-dissolution calibration; ~8–15 measurements per day",
+        "measurement_speed": "dissolution event typically 1–30 min depending on solute particle size and stirring; total experiment cycle 30–90 min"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "time–temperature curve T(t) with pre-dissolution baseline, dissolution transient, and post-dissolution baseline (isoperibol); or time–power compensation curve P(t) (isothermal)",
+        "preprocessing_steps": [
+          "baseline fitting: linear or exponential extrapolation of pre- and post-dissolution T(t) baselines to the midpoint of the dissolution interval (Regnault-Pfaundler method or Dickinson extrapolation)",
+          "corrected temperature rise ΔTcorr = Tfinal(corrected) − Tinitial(corrected) after subtracting heat exchange with surroundings",
+          "conversion to heat: Q = ε × ΔTcorr, where ε is the energy equivalent from electrical calibration",
+          "correction for ampoule-breaking heat: subtract independently measured or calculated heat of breaking the glass ampoule",
+          "correction for solvent evaporation (if system is not sealed) or vapor-space heat effects",
+          "integration of power–time curve (isothermal mode): Q = ∫P(t)dt over the dissolution interval"
+        ],
+        "analysis_methods": [
+          "Regnault-Pfaundler or Dickinson method for corrected temperature rise in isoperibol calorimetry",
+          "direct integration of compensating power vs. time for isothermal calorimetry",
+          "calculation of molar enthalpy: ΔsolH = Q/n, where n = ms/M is the amount of substance dissolved",
+          "extrapolation of ΔsolH to infinite dilution by plotting ΔsolH vs. √m and fitting to Debye-Hückel limiting law (for electrolytes) or polynomial (for non-electrolytes)",
+          "Hess's law thermochemical cycle construction: combine ΔsolH values of reactants and products to derive ΔfH° or ΔrxnH",
+          "Kirchhoff equation correction: adjust ΔsolH to a reference temperature using ΔCp data"
+        ],
+        "model_assumptions": [
+          "calorimeter is a lumped thermal system with a single energy equivalent ε (valid when stirring is efficient and thermal equilibrium is rapid)",
+          "Newton's law of cooling describes heat exchange between calorimeter and surroundings (isoperibol mode)",
+          "dissolution is complete (all solute dissolves; no residual solid remains)",
+          "heat of ampoule breaking is small and reproducible (or measured independently)",
+          "no significant side reactions (e.g., hydrolysis, oxidation, CO2 absorption from air) occur during dissolution",
+          "vapor-space corrections are negligible (sealed vessel or low vapor pressure solvent)"
+        ],
+        "fit_parameters": [
+          "energy equivalent ε (J/K) from electrical calibration",
+          "heat-exchange coefficient κ (W/K) between calorimeter and surroundings",
+          "corrected temperature rise ΔTcorr (K)",
+          "infinite-dilution enthalpy ΔsolH∞ (from extrapolation fits)",
+          "Debye-Hückel slope parameter (for electrolyte extrapolation)"
+        ],
+        "common_artifacts": [
+          "incomplete dissolution: residual solid in vessel leads to underestimation of ΔsolH (detected by visual inspection or turbidity measurements)",
+          "ampoule-breaking artifact: heat of shattering glass adds a small exothermic contribution (~0.01–0.1 J); must be corrected",
+          "evaporative cooling: solvent evaporation into headspace absorbs heat, producing an apparent endothermic shift",
+          "stirrer heating: continuous stirring generates a small constant heat input that must be included in the baseline slope",
+          "metastable dissolution: amorphous or polymorphic samples may dissolve via a metastable intermediate, altering the observed ΔsolH",
+          "thermal drift: non-linear baseline drift from temperature gradients in the laboratory distorts the corrected ΔT"
+        ],
+        "quality_control_checks": [
+          "replicate measurements (n ≥ 3): coefficient of variation of ΔsolH should be < 1%",
+          "chemical calibration: dissolution of KCl or THAM must agree with certified values within ±0.3%",
+          "mass balance: confirm all sample dissolved (clear solution, no residue)",
+          "baseline quality: pre- and post-dissolution baselines should be linear and parallel within ±0.1 mK/min drift",
+          "ampoule blank: measure breaking heat of empty ampoule and verify it is < 1% of dissolution heat",
+          "verify energy equivalent ε from electrical calibration is reproducible to ±0.1% between pre- and post-dissolution calibrations"
+        ],
+        "failure_modes": [
+          "incomplete dissolution due to insufficient solvent, poor stirring, or sample exceeding solubility (systematic underestimation of ΔsolH)",
+          "ampoule fails to break cleanly (partial release of sample, irreproducible results)",
+          "moisture ingress into hygroscopic sample during loading (exothermic wetting heat contaminates measurement)",
+          "solute reacts with solvent (hydrolysis, protonation) producing additional heat beyond simple dissolution",
+          "stirrer malfunction (loss of mixing, localized temperature gradients, incomplete dissolution)",
+          "sensor drift or calibration heater failure producing incorrect energy equivalent"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.2–2% for ΔsolH; precision Dewar calorimetry can achieve 0.05–0.1%",
+        "random_sources": [
+          "variability in ampoule-breaking heat and mechanical event",
+          "temperature sensor noise (Johnson noise, ADC quantization)",
+          "stirring fluctuations producing variable viscous heating",
+          "thermal fluctuations from bath/jacket temperature instability",
+          "variability in sample mass loading between replicates"
+        ],
+        "systematic_sources": [
+          "energy equivalent (ε) calibration uncertainty from electrical standards",
+          "heat-exchange correction model error (Newton's law approximation)",
+          "ampoule-breaking heat correction (imperfect blank subtraction)",
+          "incomplete dissolution (undetected residual solid)",
+          "solvent purity and water content affecting solvation enthalpy",
+          "sample impurity contribution (co-dissolution of impurities)",
+          "sample mass measurement uncertainty (balance calibration)",
+          "molar mass uncertainty for conversion from J to kJ/mol"
+        ],
+        "operator_dependence": "moderate — ampoule sealing quality, sample loading technique, and judgment of dissolution completeness depend on operator skill; baseline selection in Dickinson method has a subjective component",
+        "model_dependence": "low to moderate — isoperibol heat-exchange correction relies on Newton's cooling law (adequate for small ΔT < 2 K); extrapolation to infinite dilution depends on the model chosen (Debye-Hückel, polynomial); Hess's law cycles propagate uncertainties from multiple measurements",
+        "dominant_error_sources": [
+          "energy equivalent calibration (especially if a single pre- or post-calibration is used rather than bracketing)",
+          "heat-exchange correction for large ΔT (>2 K) or long dissolution times (>10 min)",
+          "sample purity and complete dissolution verification",
+          "ampoule-breaking heat correction for small ΔsolH values"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔsolH) at 95% confidence level (k=2)",
+          "relative uncertainty as percentage of ΔsolH",
+          "standard deviation of the mean from replicate experiments"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Solution calorimetry is a thermal measurement technique that determines the enthalpy change when a solid or liquid solute dissolves in a solvent. The method captures the total heat effect of the dissolution process — including disruption of the solute crystal lattice or intermolecular structure, cavity formation in the solvent, and solute–solvent interaction — yielding the molar enthalpy of solution (ΔsolH). Through systematic variation of final concentration and extrapolation to infinite dilution, partial molar quantities are obtained. The technique is fundamental to chemical thermodynamics, providing data essential for thermochemical cycles (Hess's law), polymorph screening, formulation design, and validation of computational solvation models. In the ThermoML database, solution calorimetry accounts for 137 measurement instances across 62 papers, predominantly in the ReactionStateChangeProp property group.",
+      "how_it_operates": "In the isoperibol (constant-environment) design, a known mass of solute sealed in a thin-walled glass ampoule is submerged in a precisely thermostated solvent inside a Dewar vessel or precision calorimetric cell. A pre-dissolution baseline temperature T(t) is recorded for 20–30 minutes to establish the heat-exchange rate with the surroundings. The ampoule is then shattered by a mechanical plunger, releasing the solute into the stirred solvent. The dissolution event produces a temperature change ΔT that is recorded until a new steady post-dissolution baseline is established. The corrected temperature rise ΔTcorr is obtained by applying the Regnault–Pfaundler or Dickinson extrapolation method to account for heat exchange with the surroundings during the dissolution period. The total heat is then Q = ε × ΔTcorr, where ε (J/K) is the calorimeter's energy equivalent determined by electrical calibration. In the isothermal power-compensation design, a feedback-controlled heater (or Peltier element) continuously compensates for the heat of dissolution to maintain the calorimeter at a constant temperature; the compensating energy is obtained by integrating the power–time curve. The molar enthalpy of solution is ΔsolH = Q/n, where n is the amount of solute in moles.",
+      "core_theory": "The first law of thermodynamics governs solution calorimetry: at constant pressure, the heat exchanged equals the enthalpy change of the dissolution process, Q_p = ΔsolH × n. The enthalpy of solution encompasses three principal contributions: (1) the endothermic disruption of solute structure (lattice enthalpy for crystals, cohesive enthalpy for liquids), (2) the endothermic creation of a cavity in the solvent structure, and (3) the exothermic solute–solvent interaction (solvation enthalpy). The measured integral enthalpy of solution depends on the final concentration; for electrolytes, the concentration dependence follows the Debye–Hückel limiting law at low ionic strength: ΔsolH(m) = ΔsolH∞ + A_H √m, where A_H is the Debye–Hückel enthalpy coefficient and m is molality. For non-electrolytes, polynomial or Margules-type expansions describe the concentration dependence. Hess's law allows construction of thermochemical cycles: if the dissolution enthalpies of reactants and products are measured in a common solvent, the enthalpy of reaction ΔrxnH can be obtained as the difference, enabling indirect determination of enthalpies of formation (ΔfH°) for compounds that cannot be synthesized calorimetrically. The temperature dependence of ΔsolH is governed by Kirchhoff's equation: dΔsolH/dT = ΔCp, linking solution calorimetry data to heat capacity differences between solution and pure components.",
+      "setup": "A typical isoperibol solution calorimeter consists of a silvered Dewar vessel (100–500 mL capacity) or a precision stainless-steel reaction cell, immersed in a water thermostat controlled to ±0.001 K. Inside the vessel, a propeller or magnetic stirrer ensures rapid and uniform mixing (300–600 rpm). A precision thermistor (100 kΩ at 25 °C, sensitivity ~4%/K) or a four-wire PRT (Pt-100) measures the calorimetric fluid temperature with ≤0.1 mK resolution via a high-resolution bridge or DMM. A manganin-wire calibration heater (25–100 Ω) is wound on a glass former and immersed in the fluid for electrical energy-equivalent determination. The sample introduction system consists of a thin-walled borosilicate glass ampoule (0.5–5 mL) sealed under dry nitrogen, mounted below a spring-loaded plunger that shatters the ampoule tip on command. The vessel is closed with a PTFE lid that accommodates the stirrer shaft, thermometer, heater leads, and ampoule holder. For isothermal designs, a Peltier element or a precision feedback heater replaces the Dewar, and the jacket temperature is servo-controlled to match the calorimeter temperature. Modern automated instruments (e.g., TA Instruments TAM IV, Setaram C80) provide computer-controlled ampoule breaking, data acquisition at 0.1–1 Hz, and integrated electrical calibration.",
+      "suitable_for": "Solution calorimetry is ideally suited for measuring enthalpies of solution of crystalline salts, organic solids, and pharmaceuticals in water or organic solvents at temperatures near ambient (278–353 K). It is the primary method for determining standard enthalpies of formation via Hess's law thermochemical cycles, particularly for organometallic compounds, coordination complexes, and energetic materials where direct combustion calorimetry is impractical. The technique is widely used for polymorph discrimination — different crystal forms of the same compound yield distinct ΔsolH values, providing a thermodynamic ranking of polymorphic stability. Dilution calorimetry (a closely related variant) measures ΔdilH by injecting concentrated solution into pure solvent, enabling studies of solute–solute interactions and excess enthalpy. In pharmaceutical development, solution calorimetry supports salt screening, co-crystal characterization, and formulation optimization. For electrolyte thermodynamics, systematic ΔsolH measurements at multiple concentrations yield activity coefficient parameters through the Gibbs–Helmholtz relation.",
+      "core_limitations": "Solution calorimetry requires that the solute dissolve completely within a reasonable time (typically < 30 min) for the heat-exchange corrections to remain accurate; slowly dissolving samples produce large correction uncertainties. The technique is partially destructive — the dissolved sample cannot be recovered in its original form. Accuracy degrades for very small enthalpies of solution (|ΔsolH| < 0.5 kJ/mol) because the temperature change becomes comparable to baseline noise and ampoule-breaking artifacts. Measurements are restricted to temperatures where the solvent is liquid and the solute is soluble in sufficient quantity; high-temperature or high-pressure measurements require specialized sealed vessels. The isoperibol design assumes Newton's law heat exchange, which breaks down for large temperature excursions (ΔT > 3–5 K); the isothermal design avoids this but is more complex and expensive. Solute impurities directly affect measured ΔsolH because co-dissolving impurities contribute their own heat of dissolution, making sample purity a critical requirement for accurate work.",
+      "sample_preparation": "Solid samples should be finely ground (particle size < 500 µm, preferably < 100 µm) to ensure rapid and complete dissolution. Hygroscopic materials must be dried under vacuum or over P2O5 and handled in a dry box or glove bag during weighing and ampoule loading. The sample is weighed on an analytical microbalance (±0.01 mg) and transferred into a clean, dry thin-walled glass ampoule, which is then flame-sealed or capped with epoxy under dry nitrogen. For liquid solutes, a gas-tight micro-syringe or a sealed glass ampoule is used. The crystalline form should be verified by X-ray powder diffraction (XRPD) if the compound is known to be polymorphic, because different polymorphs give different ΔsolH values. Solvents are freshly degassed by helium sparging, ultrasonication, or vacuum filtration to prevent bubble formation during dissolution (which introduces spurious endothermic artifacts). For work at infinite dilution, multiple experiments with varying sample amounts are performed to generate a ΔsolH vs. √m data set for extrapolation.",
+      "calibration_and_references": "Electrical calibration is performed before and after each dissolution experiment by passing a known current through the immersed calibration heater for a precise duration, delivering a known energy Q_cal = I²Rt (typically 1–20 J). The resulting calibrated temperature rise yields the energy equivalent ε = Q_cal/ΔT_cal (J/K). Bracketing the dissolution with pre- and post-calibrations detects any drift in ε caused by changes in solvent composition after dissolution. Chemical (test) calibration uses the dissolution of KCl in water (Parker value: ΔsolH∞ = 17.584 ± 0.017 kJ/mol at 298.15 K for infinite dilution) or the reaction of THAM (tris(hydroxymethyl)aminomethane) with 0.1 mol/L HCl (ΔrxnH = −29.766 ± 0.003 kJ/mol), both traceable to primary calorimetric standards. The measured value must agree with the certified value within the stated uncertainty (±0.3% for well-maintained instruments). Temperature sensor calibration is verified against fixed points or a certified platinum resistance thermometer traceable to ITS-90. The baseline stability is checked by monitoring T(t) for 30 min without breaking an ampoule; drift should be < 0.1 mK/min for precision work.",
+      "data_interpretation": "The primary data product is the time–temperature curve T(t) spanning the pre-dissolution baseline, dissolution transient, and post-dissolution baseline. The corrected temperature rise ΔTcorr is determined by the Dickinson extrapolation method: pre- and post-baselines are extrapolated to the time at which 63% of the dissolution heat has been released (the Dickinson reference time), and ΔTcorr is the difference between the extrapolated values. The heat of dissolution is Q = ε × ΔTcorr, corrected for the ampoule-breaking blank and any evaporative losses. The molar enthalpy of solution is ΔsolH = Q/n = Q × M/ms, where M is the molar mass and ms is the sample mass. For extrapolation to infinite dilution, ΔsolH is plotted against √m (electrolytes) or m (non-electrolytes), and the intercept at m = 0 gives ΔsolH∞. In Hess's law applications, ΔsolH values for reactants and products dissolved in a common solvent are combined algebraically: ΔrxnH = Σ ΔsolH(reactants) − Σ ΔsolH(products). For isothermal calorimeters, the heat is obtained by direct integration of the compensating power curve: Q = ∫₀ᵗ [P_baseline − P(t)] dt, where P_baseline is the steady-state power before dissolution.",
+      "common_pitfalls": "The most frequent pitfall is incomplete dissolution, which leads to systematic underestimation of ΔsolH; this should be verified by visual inspection of the final solution (clear, no turbidity or residual solid) and by repeating the experiment with a smaller sample mass to confirm that ΔsolH is independent of sample size. Moisture contamination of hygroscopic samples during loading contributes an exothermic heat of wetting that contaminates the measurement — samples should be loaded in a glove box and ampoules sealed immediately. Using excessive sample amounts produces large ΔT values (>3 K) that exceed the range where Newton's law heat-exchange correction is accurate; multiple small experiments are preferred. Failing to account for the heat of ampoule breaking introduces a systematic error, especially for small ΔsolH values where the breaking heat becomes a significant fraction of the total signal. Polymer or waxy samples that form a film or gummy mass in solvent dissolve unpredictably and give irreproducible results — these require alternative dissolution media or techniques. Neglecting to verify the crystalline form of the sample before dissolution can invalidate Hess's law calculations if the intended polymorph has transformed during storage.",
+      "artifacts_and_failure_modes": "Incomplete dissolution is the dominant failure mode — residual solid biases ΔsolH low and produces a non-return of the post-dissolution baseline to the expected slope. Ampoule-breaking artifacts add a small exothermic contribution (0.01–0.1 J from fracture energy and elastic energy release) that must be quantified with blank experiments using empty ampoules. Evaporative cooling artifacts occur when the calorimeter is not sealed and volatile solvent evaporates into the headspace during the dissolution exotherm, producing an apparent endothermic shift of 0.1–1% for water at 298 K. Stirrer heating generates a constant power input (typically 1–10 mW) that appears as a linear baseline drift; if the stirrer speed changes during dissolution (e.g., due to viscosity increase), the drift rate changes and distorts ΔTcorr. Metastable dissolution occurs when a crystalline sample dissolves via a transient amorphous or polymorphic intermediate phase, yielding a ΔsolH that does not correspond to the starting polymorph — this is detectable by non-exponential kinetics in the dissolution curve. Sensor self-heating from the measurement current (for resistance thermometers) adds a bias that is constant during baseline but may change when solution composition alters thermal conductivity around the sensor.",
+      "reporting_checklist": "Published solution calorimetry results should report: (1) solute identity, purity, crystalline form, and source; (2) solvent identity and purity; (3) sample mass (with uncertainty) and molar mass used; (4) solvent mass or volume; (5) calorimeter type (isoperibol or isothermal) and model; (6) measurement temperature (with uncertainty and stability specification); (7) final concentration (molality or mole fraction) after dissolution; (8) number of replicate experiments; (9) calibration method (electrical, chemical, or both) and reference material used; (10) ΔsolH value with combined expanded uncertainty at 95% confidence level (k=2); (11) corrections applied (ampoule-breaking blank, evaporation, heat exchange); (12) method of extrapolation to infinite dilution if reported; (13) evidence of complete dissolution (visual or analytical). For ThermoML encoding, ΔsolH values are reported with nCombExpandUncertValue at the 95% confidence level and assigned to the ReactionStateChangeProp property group."
+    }
+  }
+}

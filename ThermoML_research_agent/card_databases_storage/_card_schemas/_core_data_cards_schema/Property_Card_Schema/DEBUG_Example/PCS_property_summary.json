@@ -1,0 +1,5504 @@
+{
+  "$schema": "thermoml_property_summary_v1",
+  "$id": "PCS_property_summary",
+  "title": "ThermoML Property Summary Catalog",
+  "description": "Global catalog of all 105 thermodynamic properties across 12 groups. Agent consults this to find which properties exist, their groups, instance counts, and key statistics. Analogous to MTDKS_meas_summary.json for techniques.",
+  "version": "1.0.0",
+  "database_stats": {
+    "total_properties": 105,
+    "total_property_groups": 12,
+    "total_block_property_instances": 130104,
+    "total_papers": 11923
+  },
+  "by_group": {
+    "ActivityFugacityOsmoticProp": {
+      "n_properties": 5,
+      "total_instances": 10634,
+      "properties": [
+        {
+          "name": "Activity coefficient",
+          "prop_ID": "activity_coefficient",
+          "count": 9696,
+          "n_papers": 261,
+          "top_methods": [
+            {
+              "name": "Chromatography",
+              "count": 8960
+            },
+            {
+              "name": "CHROM:UFactor:2",
+              "count": 120
+            },
+            {
+              "name": "calculated from henry's law constants",
+              "count": 72
+            },
+            {
+              "name": "OTHER",
+              "count": 66
+            },
+            {
+              "name": "dilutor technique",
+              "count": 62
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 9615
+            },
+            {
+              "name": "Mole fraction",
+              "count": 673
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 492
+            },
+            {
+              "name": "Solvent: Amount ratio of component to other component of binary solvent",
+              "count": 21
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 9
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 9501,
+            "ternary": 195,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 9696,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "(Relative) activity",
+          "prop_ID": "relative_activity",
+          "count": 496,
+          "n_papers": 102,
+          "top_methods": [
+            {
+              "name": "Chromatography",
+              "count": 120
+            },
+            {
+              "name": "ISOPIE",
+              "count": 110
+            },
+            {
+              "name": "isopiestic method",
+              "count": 41
+            },
+            {
+              "name": "Osmomat K-7000",
+              "count": 18
+            },
+            {
+              "name": "isopiestic",
+              "count": 17
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Molality, mol/kg",
+              "count": 410
+            },
+            {
+              "name": "Temperature, K",
+              "count": 219
+            },
+            {
+              "name": "Mole fraction",
+              "count": 45
+            },
+            {
+              "name": "Mass fraction",
+              "count": 34
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 9
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 328,
+            "ternary": 168,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 496,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Osmotic coefficient",
+          "prop_ID": "osmotic_coefficient",
+          "count": 299,
+          "n_papers": 69,
+          "top_methods": [
+            {
+              "name": "ISOPIE",
+              "count": 98
+            },
+            {
+              "name": "commercial osmometer Gonotec 070",
+              "count": 32
+            },
+            {
+              "name": "commercial osmometer Knauer K-7000",
+              "count": 25
+            },
+            {
+              "name": "vapor pressure osmometry",
+              "count": 14
+            },
+            {
+              "name": "omometer",
+              "count": 14
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Molality, mol/kg",
+              "count": 357
+            },
+            {
+              "name": "Temperature, K",
+              "count": 42
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 234,
+            "ternary": 65,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 299,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Mean ionic activity coefficient",
+          "prop_ID": "mean_ionic_activity_coefficient",
+          "count": 94,
+          "n_papers": 43,
+          "top_methods": [
+            {
+              "name": "Calculated from EMF cell potential",
+              "count": 56
+            },
+            {
+              "name": "?",
+              "count": 7
+            },
+            {
+              "name": "potentiometry",
+              "count": 6
+            },
+            {
+              "name": "Isopiestic method",
+              "count": 5
+            },
+            {
+              "name": "ion-selective electrode",
+              "count": 4
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Molality, mol/kg",
+              "count": 110
+            },
+            {
+              "name": "Temperature, K",
+              "count": 24
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 24
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 3
+            },
+            {
+              "name": "Mass fraction",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 49,
+            "ternary": 45,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 94,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Fugacity coefficient",
+          "prop_ID": "fugacity_coefficient",
+          "count": 49,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "Inverse liquid-gas chromatography",
+              "count": 36
+            },
+            {
+              "name": "Inverse gas-liquid chromatography",
+              "count": 13
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 49
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 49,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 49,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "CompositionAtPhaseEquilibrium": {
+      "n_properties": 22,
+      "total_instances": 31696,
+      "properties": [
+        {
+          "name": "Mole fraction",
+          "prop_ID": "mole_fraction",
+          "count": 20920,
+          "n_papers": 3413,
+          "top_methods": [
+            {
+              "name": "Chromatography",
+              "count": 9643
+            },
+            {
+              "name": "Titration method",
+              "count": 1463
+            },
+            {
+              "name": "gravimetric",
+              "count": 1130
+            },
+            {
+              "name": "Density calibration data",
+              "count": 950
+            },
+            {
+              "name": "OTHER",
+              "count": 654
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 15170
+            },
+            {
+              "name": "Mole fraction",
+              "count": 8928
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 3779
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 951
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 608
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 11867,
+            "ternary": 9053,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 20830,
+            "difference": 0,
+            "ratio": 90,
+            "other": 0
+          }
+        },
+        {
+          "name": "Mass fraction",
+          "prop_ID": "mass_fraction",
+          "count": 7072,
+          "n_papers": 811,
+          "top_methods": [
+            {
+              "name": "Titration method",
+              "count": 2247
+            },
+            {
+              "name": "Chromatography",
+              "count": 2146
+            },
+            {
+              "name": "OTHER",
+              "count": 392
+            },
+            {
+              "name": "Index of refraction calibration data",
+              "count": 229
+            },
+            {
+              "name": "Density calibration data",
+              "count": 222
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mass fraction",
+              "count": 5106
+            },
+            {
+              "name": "Temperature, K",
+              "count": 3903
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 1198
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 123
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 47
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 1291,
+            "ternary": 5781,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 7018,
+            "difference": 0,
+            "ratio": 54,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molality, mol/kg",
+          "prop_ID": "molality_mol_kg",
+          "count": 974,
+          "n_papers": 214,
+          "top_methods": [
+            {
+              "name": "titration",
+              "count": 147
+            },
+            {
+              "name": "gravimetric",
+              "count": 45
+            },
+            {
+              "name": "Titration",
+              "count": 40
+            },
+            {
+              "name": "Spectroscopy",
+              "count": 40
+            },
+            {
+              "name": "gravimetric method",
+              "count": 39
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 720
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 433
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 256
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 124
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 52
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 410,
+            "ternary": 564,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 972,
+            "difference": 0,
+            "ratio": 2,
+            "other": 0
+          }
+        },
+        {
+          "name": "Amount concentration (molarity), mol/dm3",
+          "prop_ID": "amount_concentration_molarity_mol_dm3",
+          "count": 755,
+          "n_papers": 91,
+          "top_methods": [
+            {
+              "name": "SPECTR",
+              "count": 343
+            },
+            {
+              "name": "gas chromatography",
+              "count": 44
+            },
+            {
+              "name": "chromatography",
+              "count": 42
+            },
+            {
+              "name": "Chromatography",
+              "count": 39
+            },
+            {
+              "name": "HPLC",
+              "count": 34
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 663
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 394
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 241
+            },
+            {
+              "name": "Mole fraction",
+              "count": 119
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 26
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 331,
+            "ternary": 424,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 415,
+            "difference": 0,
+            "ratio": 340,
+            "other": 0
+          }
+        },
+        {
+          "name": "Henry's Law constant (mole fraction scale), kPa",
+          "prop_ID": "henrys_law_constant_mole_fraction_scale_kpa",
+          "count": 549,
+          "n_papers": 46,
+          "top_methods": [
+            {
+              "name": "Chromatography",
+              "count": 218
+            },
+            {
+              "name": "gas stripping method",
+              "count": 84
+            },
+            {
+              "name": "OTHER",
+              "count": 65
+            },
+            {
+              "name": "Gas Stripping Method",
+              "count": 36
+            },
+            {
+              "name": "Pressure vs. solute Concentration measurements",
+              "count": 16
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 545
+            },
+            {
+              "name": "Mole fraction",
+              "count": 72
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 15
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 11
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 10
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 505,
+            "ternary": 44,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 549,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Mass ratio of solute to solvent",
+          "prop_ID": "mass_ratio_of_solute_to_solvent",
+          "count": 413,
+          "n_papers": 71,
+          "top_methods": [
+            {
+              "name": "conductometric",
+              "count": 71
+            },
+            {
+              "name": "electrical conductivity meter DDS-307 (DJS-1C platinum black electrode)",
+              "count": 43
+            },
+            {
+              "name": "gravimetric method",
+              "count": 37
+            },
+            {
+              "name": "electrical conductivity meter DDS-307 (DJS-1C platinum black elctrode)",
+              "count": 24
+            },
+            {
+              "name": "visual method",
+              "count": 22
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 371
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 203
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 60
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 15
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 13
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 296,
+            "ternary": 117,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 413,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Azeotropic composition: mole fraction",
+          "prop_ID": "azeotropic_composition_mole_fraction",
+          "count": 247,
+          "n_papers": 112,
+          "top_methods": [
+            {
+              "name": "By X=Y",
+              "count": 179
+            },
+            {
+              "name": "By T or P extreme",
+              "count": 51
+            },
+            {
+              "name": "calculated",
+              "count": 4
+            },
+            {
+              "name": "Spinning band column technique",
+              "count": 4
+            },
+            {
+              "name": "chromatography",
+              "count": 3
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 126
+            },
+            {
+              "name": "Temperature, K",
+              "count": 123
+            },
+            {
+              "name": "Mole fraction",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 240,
+            "ternary": 7,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 247,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Eutectic composition: mole fraction",
+          "prop_ID": "eutectic_composition_mole_fraction",
+          "count": 228,
+          "n_papers": 67,
+          "top_methods": [
+            {
+              "name": "Derived from phase diagram analysis",
+              "count": 162
+            },
+            {
+              "name": "PHASDIA:",
+              "count": 18
+            },
+            {
+              "name": "melting point device",
+              "count": 15
+            },
+            {
+              "name": "PHASDIA::",
+              "count": 8
+            },
+            {
+              "name": "X-ray diffraction",
+              "count": 7
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 22
+            },
+            {
+              "name": "Temperature, K",
+              "count": 6
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 225,
+            "ternary": 3,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 228,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Mass concentration, kg/m3",
+          "prop_ID": "mass_concentration_kg_m3",
+          "count": 204,
+          "n_papers": 39,
+          "top_methods": [
+            {
+              "name": "Chromatography",
+              "count": 114
+            },
+            {
+              "name": "gravimetric analysis",
+              "count": 14
+            },
+            {
+              "name": "UV/Vis spectrophotometry",
+              "count": 14
+            },
+            {
+              "name": "OTHER",
+              "count": 11
+            },
+            {
+              "name": "UV Spectrophotometry",
+              "count": 6
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 149
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 73
+            },
+            {
+              "name": "Mole fraction",
+              "count": 32
+            },
+            {
+              "name": "Solvent: Amount concentration (molarity), mol/dm3",
+              "count": 23
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 19
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 83,
+            "ternary": 121,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 174,
+            "difference": 0,
+            "ratio": 30,
+            "other": 0
+          }
+        },
+        {
+          "name": "Henry's Law constant (molality scale), kPa*kg/mol",
+          "prop_ID": "henrys_law_constant_molality_scale_kpa_kg_mol",
+          "count": 95,
+          "n_papers": 3,
+          "top_methods": [
+            {
+              "name": "Chromatography",
+              "count": 93
+            },
+            {
+              "name": "OTHER",
+              "count": 1
+            },
+            {
+              "name": "Derived from solubility data",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 95
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 95,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 95,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Henry's Law constant (amount concentration scale), kPa*dm3/mol",
+          "prop_ID": "henrys_law_constant_amount_concentration_scale_kpa_dm3_mol",
+          "count": 55,
+          "n_papers": 11,
+          "top_methods": [
+            {
+              "name": "Chromatography",
+              "count": 25
+            },
+            {
+              "name": "gas purge method",
+              "count": 11
+            },
+            {
+              "name": "OTHER",
+              "count": 7
+            },
+            {
+              "name": "molecular beam mass spectrometer",
+              "count": 4
+            },
+            {
+              "name": "Photoacoustic method",
+              "count": 3
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 55
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 35
+            },
+            {
+              "name": "Mass fraction",
+              "count": 5
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 3
+            },
+            {
+              "name": "Solvent: Amount concentration (molarity), mol/dm3",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 44,
+            "ternary": 11,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 55,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Amount ratio of solute to solvent",
+          "prop_ID": "amount_ratio_of_solute_to_solvent",
+          "count": 42,
+          "n_papers": 15,
+          "top_methods": [
+            {
+              "name": "HNMR",
+              "count": 16
+            },
+            {
+              "name": "phase equilibration",
+              "count": 9
+            },
+            {
+              "name": "HPLC",
+              "count": 3
+            },
+            {
+              "name": "gravimetric",
+              "count": 2
+            },
+            {
+              "name": "chromatography",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 34
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 30
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 4
+            },
+            {
+              "name": "Solvent: Amount concentration (molarity), mol/dm3",
+              "count": 2
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 24,
+            "ternary": 18,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 42,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Upper consolute composition: mole fraction",
+          "prop_ID": "upper_consolute_composition_mole_fraction",
+          "count": 41,
+          "n_papers": 24,
+          "top_methods": [
+            {
+              "name": "equal volume method",
+              "count": 8
+            },
+            {
+              "name": "method of \"equal volume\"",
+              "count": 5
+            },
+            {
+              "name": "Equal volume method",
+              "count": 4
+            },
+            {
+              "name": "Interpolated from cloud point data",
+              "count": 3
+            },
+            {
+              "name": "APPEAR",
+              "count": 3
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 12
+            },
+            {
+              "name": "Temperature, K",
+              "count": 2
+            },
+            {
+              "name": "Mass fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 40,
+            "ternary": 1,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 41,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Eutectic composition: mass fraction",
+          "prop_ID": "eutectic_composition_mass_fraction",
+          "count": 38,
+          "n_papers": 10,
+          "top_methods": [
+            {
+              "name": "Cooling curves method",
+              "count": 13
+            },
+            {
+              "name": "One component added until temperature minimum was detected for melting",
+              "count": 10
+            },
+            {
+              "name": "Derived from phase diagram analysis",
+              "count": 9
+            },
+            {
+              "name": "titration",
+              "count": 3
+            },
+            {
+              "name": "PHASDIA:UFactor:2",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 5
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 3
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 20,
+            "ternary": 18,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 38,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Partial pressure, kPa",
+          "prop_ID": "partial_pressure_kpa",
+          "count": 35,
+          "n_papers": 12,
+          "top_methods": [
+            {
+              "name": "gas chromatography",
+              "count": 10
+            },
+            {
+              "name": "Gas chromatography",
+              "count": 7
+            },
+            {
+              "name": "Phase Equilibrium",
+              "count": 3
+            },
+            {
+              "name": "IR Spectroscopy",
+              "count": 3
+            },
+            {
+              "name": "FTIR spectroscopy",
+              "count": 3
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 26
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 17
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 16
+            },
+            {
+              "name": "Mole fraction",
+              "count": 5
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 4
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 17,
+            "ternary": 18,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 35,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Ostwald coefficient",
+          "prop_ID": "ostwald_coefficient",
+          "count": 14,
+          "n_papers": 2,
+          "top_methods": [
+            {
+              "name": "gas volume change or dissolution",
+              "count": 8
+            },
+            {
+              "name": "isobaric saturation technique",
+              "count": 4
+            },
+            {
+              "name": "x",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 14
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 4
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 14,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 14,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Lower consolute composition: mole fraction",
+          "prop_ID": "lower_consolute_composition_mole_fraction",
+          "count": 4,
+          "n_papers": 2,
+          "top_methods": [
+            {
+              "name": "fitting scaling equation to heat capacity",
+              "count": 3
+            },
+            {
+              "name": "equal volume method",
+              "count": 1
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 4,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 4,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Volume fraction",
+          "prop_ID": "volume_fraction",
+          "count": 3,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "refractive index",
+              "count": 3
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Volume fraction",
+              "count": 3
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 3,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 3,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Ratio of amount of solute to mass of solution, mol/kg",
+          "prop_ID": "ratio_of_amount_of_solute_to_mass_of_solution_mol_kg",
+          "count": 2,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "gravimetric method",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 2
+            },
+            {
+              "name": "Ratio of amount of solute to mass of solution, mol/kg",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 2,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 2,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Monotectic composition: mole fraction",
+          "prop_ID": "monotectic_composition_mole_fraction",
+          "count": 2,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "gamma-ray attenuation technique",
+              "count": 2
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 2,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 2,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Mole fraction in LLG critical state",
+          "prop_ID": "mole_fraction_in_llg_critical_state",
+          "count": 2,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "cloud point",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 2
+            },
+            {
+              "name": "Mole fraction",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 2,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 2,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Lower consolute composition: mass fraction",
+          "prop_ID": "lower_consolute_composition_mass_fraction",
+          "count": 1,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "VISOBS",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 1,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 1,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "Criticals": {
+      "n_properties": 8,
+      "total_instances": 1526,
+      "properties": [
+        {
+          "name": "Critical temperature, K",
+          "prop_ID": "critical_temperature_k",
+          "count": 694,
+          "n_papers": 152,
+          "top_methods": [
+            {
+              "name": "Visual observation in an unstirred cell",
+              "count": 284
+            },
+            {
+              "name": "Visual observation in a stirred cell",
+              "count": 52
+            },
+            {
+              "name": "Capillary flow",
+              "count": 51
+            },
+            {
+              "name": "pulse-heating method",
+              "count": 38
+            },
+            {
+              "name": "Resistive pulse heating",
+              "count": 28
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 252
+            },
+            {
+              "name": "Mass fraction",
+              "count": 11
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 4
+            },
+            {
+              "name": "Solvent: Amount ratio of component to other component of binary solvent",
+              "count": 1
+            },
+            {
+              "name": "Amount ratio of solute to solvent",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 443,
+            "binary": 226,
+            "ternary": 25,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 694,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Critical pressure, kPa",
+          "prop_ID": "critical_pressure_kpa",
+          "count": 606,
+          "n_papers": 138,
+          "top_methods": [
+            {
+              "name": "Direct measurement",
+              "count": 234
+            },
+            {
+              "name": "Capillary flow",
+              "count": 51
+            },
+            {
+              "name": "pulse-heating method",
+              "count": 34
+            },
+            {
+              "name": "Resistive pulse heating",
+              "count": 28
+            },
+            {
+              "name": "pulse heating",
+              "count": 26
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 220
+            },
+            {
+              "name": "Temperature, K",
+              "count": 16
+            },
+            {
+              "name": "Mass fraction",
+              "count": 11
+            },
+            {
+              "name": "Solvent: Amount ratio of component to other component of binary solvent",
+              "count": 1
+            },
+            {
+              "name": "Amount ratio of solute to solvent",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 374,
+            "binary": 204,
+            "ternary": 28,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 606,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Critical density, kg/m3",
+          "prop_ID": "critical_density_kg_m3",
+          "count": 107,
+          "n_papers": 33,
+          "top_methods": [
+            {
+              "name": "OTHER",
+              "count": 36
+            },
+            {
+              "name": "Derived from PVT data",
+              "count": 33
+            },
+            {
+              "name": "Rectilinear diameter",
+              "count": 5
+            },
+            {
+              "name": "DSC",
+              "count": 5
+            },
+            {
+              "name": "visual observation in a variable volume cell:FP",
+              "count": 4
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 43
+            }
+          ],
+          "system_types": {
+            "unary": 65,
+            "binary": 41,
+            "ternary": 1,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 107,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Upper consolute temperature, K",
+          "prop_ID": "upper_consolute_temperature_k",
+          "count": 89,
+          "n_papers": 32,
+          "top_methods": [
+            {
+              "name": "VISOBS",
+              "count": 19
+            },
+            {
+              "name": "fit of experimental data",
+              "count": 17
+            },
+            {
+              "name": "from the extended scaling equation",
+              "count": 14
+            },
+            {
+              "name": "derived with scaling equation",
+              "count": 7
+            },
+            {
+              "name": "Equal volume method",
+              "count": 4
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 41
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 12
+            },
+            {
+              "name": "Solvent: Amount ratio of component to other component of binary solvent",
+              "count": 3
+            },
+            {
+              "name": "Volume fraction",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 83,
+            "ternary": 6,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 89,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Critical molar volume, m3/mol",
+          "prop_ID": "critical_molar_volume_m3_mol",
+          "count": 14,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "Visual",
+              "count": 14
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 14,
+            "binary": 0,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 14,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Lower consolute temperature, K",
+          "prop_ID": "lower_consolute_temperature_k",
+          "count": 11,
+          "n_papers": 6,
+          "top_methods": [
+            {
+              "name": "VISOBS",
+              "count": 5
+            },
+            {
+              "name": "fitting scalng equation to heat capacity",
+              "count": 3
+            },
+            {
+              "name": "equal volume method",
+              "count": 1
+            },
+            {
+              "name": "Light scattering",
+              "count": 1
+            },
+            {
+              "name": "APPEAR",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 1
+            },
+            {
+              "name": "Mass fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 10,
+            "ternary": 1,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 11,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Upper consolute pressure, kPa",
+          "prop_ID": "upper_consolute_pressure_kpa",
+          "count": 3,
+          "n_papers": 3,
+          "top_methods": [
+            {
+              "name": "Derived from LLE data",
+              "count": 2
+            },
+            {
+              "name": "Closed cell (Static) method",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 3,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 3,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Lower consolute pressure, kPa",
+          "prop_ID": "lower_consolute_pressure_kpa",
+          "count": 2,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "Closed cell (Static) method",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 2,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 2,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "ExcessPartialApparentEnergyProp": {
+      "n_properties": 9,
+      "total_instances": 4093,
+      "properties": [
+        {
+          "name": "Molar enthalpy of solution, kJ/mol",
+          "prop_ID": "molar_enthalpy_of_solution_kj_mol",
+          "count": 1970,
+          "n_papers": 263,
+          "top_methods": [
+            {
+              "name": "ISOPERIBOL",
+              "count": 500
+            },
+            {
+              "name": "Titration calorimetry",
+              "count": 465
+            },
+            {
+              "name": "Calvet calorimetry",
+              "count": 331
+            },
+            {
+              "name": "Power-compensation calorimetry",
+              "count": 257
+            },
+            {
+              "name": "Flow calorimetry",
+              "count": 97
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 1510
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 1330
+            },
+            {
+              "name": "Mole fraction",
+              "count": 1222
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 332
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 185
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 1627,
+            "ternary": 343,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 45,
+            "difference": 1925,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Excess molar enthalpy (molar enthalpy of mixing), kJ/mol",
+          "prop_ID": "excess_molar_enthalpy_molar_enthalpy_of_mixing_kj_mol",
+          "count": 1703,
+          "n_papers": 391,
+          "top_methods": [
+            {
+              "name": "Flow calorimetry",
+              "count": 592
+            },
+            {
+              "name": "Calvet calorimetry",
+              "count": 527
+            },
+            {
+              "name": "CALVET:UFactor:2",
+              "count": 174
+            },
+            {
+              "name": "FLOW:UFactor:2",
+              "count": 74
+            },
+            {
+              "name": "FLOW:UFactor:4",
+              "count": 40
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 1761
+            },
+            {
+              "name": "Temperature, K",
+              "count": 384
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 89
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 36
+            },
+            {
+              "name": "Solvent: Amount ratio of component to other component of binary solvent",
+              "count": 32
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 1542,
+            "ternary": 161,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 1703,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar enthalpy of dilution, kJ/mol",
+          "prop_ID": "molar_enthalpy_of_dilution_kj_mol",
+          "count": 246,
+          "n_papers": 55,
+          "top_methods": [
+            {
+              "name": "Flow calorimetry",
+              "count": 61
+            },
+            {
+              "name": "Calvet calorimetry",
+              "count": 43
+            },
+            {
+              "name": "ISOPERIBOL",
+              "count": 42
+            },
+            {
+              "name": "titration calorimetry",
+              "count": 29
+            },
+            {
+              "name": "isothermal titration calorimetry",
+              "count": 23
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Final molality of solute, mol/kg",
+              "count": 192
+            },
+            {
+              "name": "Initial molality of solute, mol/kg",
+              "count": 169
+            },
+            {
+              "name": "Temperature, K",
+              "count": 100
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 40
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 19
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 158,
+            "ternary": 88,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 246,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Apparent molar heat capacity, J/K/mol",
+          "prop_ID": "apparent_molar_heat_capacity_j_k_mol",
+          "count": 70,
+          "n_papers": 23,
+          "top_methods": [
+            {
+              "name": "Extra sensitive DSC",
+              "count": 42
+            },
+            {
+              "name": "XDSC:UFactor:0.5",
+              "count": 11
+            },
+            {
+              "name": "Differential flow calorimetry",
+              "count": 9
+            },
+            {
+              "name": "Flow calorimetry",
+              "count": 7
+            },
+            {
+              "name": "DIFFLOW:UFactor:0.5",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Molality, mol/kg",
+              "count": 81
+            },
+            {
+              "name": "Temperature, K",
+              "count": 67
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 56,
+            "ternary": 14,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 70,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Partial molar enthalpy, kJ/mol",
+          "prop_ID": "partial_molar_enthalpy_kj_mol",
+          "count": 41,
+          "n_papers": 15,
+          "top_methods": [
+            {
+              "name": "heat flow calorimeter",
+              "count": 12
+            },
+            {
+              "name": "Derived from infinite dilution activity coefficient data",
+              "count": 8
+            },
+            {
+              "name": "Drop calorimetry",
+              "count": 6
+            },
+            {
+              "name": "isoperibol calorimeter",
+              "count": 4
+            },
+            {
+              "name": "Isoperibol calorimeter",
+              "count": 3
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 37
+            },
+            {
+              "name": "Temperature, K",
+              "count": 13
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 9
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 3
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 33,
+            "ternary": 8,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 31,
+            "difference": 10,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar enthalpy of mixing with solvent, kJ/mol",
+          "prop_ID": "molar_enthalpy_of_mixing_with_solvent_kj_mol",
+          "count": 23,
+          "n_papers": 14,
+          "top_methods": [
+            {
+              "name": "Calvet calorimetry",
+              "count": 10
+            },
+            {
+              "name": "Flow calorimetry",
+              "count": 7
+            },
+            {
+              "name": "Power-compensation calorimetry",
+              "count": 4
+            },
+            {
+              "name": "Omega ITC microcalorimeter",
+              "count": 1
+            },
+            {
+              "name": "CALVET:UFactor:4",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 27
+            },
+            {
+              "name": "Temperature, K",
+              "count": 11
+            },
+            {
+              "name": "Solvent: Amount ratio of component to other component of binary solvent",
+              "count": 6
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 5
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 23,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 23,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Excess molar heat capacity, J/K/mol",
+          "prop_ID": "excess_molar_heat_capacity_j_k_mol",
+          "count": 23,
+          "n_papers": 7,
+          "top_methods": [
+            {
+              "name": "Small sample (50 mg) DSC",
+              "count": 13
+            },
+            {
+              "name": "FLOW:UFactor:0.5",
+              "count": 5
+            },
+            {
+              "name": "Flow calorimetry",
+              "count": 4
+            },
+            {
+              "name": "Large sample (1 g) DSC",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 24
+            },
+            {
+              "name": "Temperature, K",
+              "count": 14
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 22,
+            "ternary": 1,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 23,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Apparent molar enthalpy, kJ/mol",
+          "prop_ID": "apparent_molar_enthalpy_kj_mol",
+          "count": 12,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "CALVET:solid",
+              "count": 12
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 9
+            },
+            {
+              "name": "Temperature, K",
+              "count": 3
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 3
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 3
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 3,
+            "ternary": 9,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 12,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Excess molar Gibbs energy, kJ/mol",
+          "prop_ID": "excess_molar_gibbs_energy_kj_mol",
+          "count": 5,
+          "n_papers": 2,
+          "top_methods": [
+            {
+              "name": "Knudsen",
+              "count": 3
+            },
+            {
+              "name": "OTHER::sMethod:Knudsen",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 8
+            },
+            {
+              "name": "Temperature, K",
+              "count": 2
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 2,
+            "ternary": 3,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 5,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "HeatCapacityAndDerivedProp": {
+      "n_properties": 9,
+      "total_instances": 5036,
+      "properties": [
+        {
+          "name": "Molar heat capacity at constant pressure, J/K/mol",
+          "prop_ID": "molar_heat_capacity_at_constant_pressure_j_k_mol",
+          "count": 3113,
+          "n_papers": 750,
+          "top_methods": [
+            {
+              "name": "Small sample (50 mg) DSC",
+              "count": 1045
+            },
+            {
+              "name": "Vacuum adiabatic calorimetry",
+              "count": 340
+            },
+            {
+              "name": "Large sample (1 g) DSC",
+              "count": 303
+            },
+            {
+              "name": "Small (less than 1 g) adiabatic calorimetry",
+              "count": 280
+            },
+            {
+              "name": "DSC",
+              "count": 241
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 3041
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 345
+            },
+            {
+              "name": "Mole fraction",
+              "count": 294
+            },
+            {
+              "name": "Mass fraction",
+              "count": 96
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 84
+            }
+          ],
+          "system_types": {
+            "unary": 2633,
+            "binary": 384,
+            "ternary": 96,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 3097,
+            "difference": 8,
+            "ratio": 8,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar enthalpy, kJ/mol",
+          "prop_ID": "molar_enthalpy_kj_mol",
+          "count": 760,
+          "n_papers": 252,
+          "top_methods": [
+            {
+              "name": "Drop calorimetry",
+              "count": 272
+            },
+            {
+              "name": "Vacuum adiabatic calorimetry",
+              "count": 72
+            },
+            {
+              "name": "Small (less than 1 g) adiabatic calorimetry",
+              "count": 67
+            },
+            {
+              "name": "VADIAC:UFactor:2",
+              "count": 52
+            },
+            {
+              "name": "Flow calorimetry",
+              "count": 47
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 747
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 351
+            },
+            {
+              "name": "Mole fraction",
+              "count": 49
+            },
+            {
+              "name": "Upper temperature, K",
+              "count": 10
+            },
+            {
+              "name": "Lower temperature, K",
+              "count": 10
+            }
+          ],
+          "system_types": {
+            "unary": 699,
+            "binary": 61,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 0,
+            "difference": 760,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar entropy, J/K/mol",
+          "prop_ID": "molar_entropy_j_k_mol",
+          "count": 521,
+          "n_papers": 207,
+          "top_methods": [
+            {
+              "name": "Vacuum adiabatic calorimetry",
+              "count": 156
+            },
+            {
+              "name": "Small (less than 1 g) adiabatic calorimetry",
+              "count": 136
+            },
+            {
+              "name": "VADIAC:UFactor:2",
+              "count": 52
+            },
+            {
+              "name": "Small sample (50 mg) DSC",
+              "count": 42
+            },
+            {
+              "name": "RELAXCAL",
+              "count": 27
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 521
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 13
+            }
+          ],
+          "system_types": {
+            "unary": 520,
+            "binary": 1,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 309,
+            "difference": 212,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar heat capacity at saturation pressure, J/K/mol",
+          "prop_ID": "molar_heat_capacity_at_saturation_pressure_j_k_mol",
+          "count": 271,
+          "n_papers": 51,
+          "top_methods": [
+            {
+              "name": "Vacuum adiabatic calorimetry",
+              "count": 102
+            },
+            {
+              "name": "Small (less than 1 g) adiabatic calorimetry",
+              "count": 42
+            },
+            {
+              "name": "Small sample (50 mg) DSC",
+              "count": 31
+            },
+            {
+              "name": "VADIAC:UFactor:2",
+              "count": 22
+            },
+            {
+              "name": "Large sample (1 g) DSC",
+              "count": 17
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 271
+            },
+            {
+              "name": "Mole fraction",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 266,
+            "binary": 5,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 270,
+            "difference": 1,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar enthalpy function {Hm(T)-Hm(0)}/T, J/K/mol",
+          "prop_ID": "molar_enthalpy_function_hm_t_hm_0_t_j_k_mol",
+          "count": 210,
+          "n_papers": 73,
+          "top_methods": [
+            {
+              "name": "Small (less than 1 g) adiabatic calorimetry",
+              "count": 75
+            },
+            {
+              "name": "Vacuum adiabatic calorimetry",
+              "count": 74
+            },
+            {
+              "name": "Small sample (50 mg) DSC",
+              "count": 13
+            },
+            {
+              "name": "VADIAC:UFactor:0.5",
+              "count": 9
+            },
+            {
+              "name": "Large sample (1 g) DSC",
+              "count": 6
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 210
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 210,
+            "binary": 0,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 126,
+            "difference": 84,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Heat capacity at constant pressure per volume, J/K/m3",
+          "prop_ID": "heat_capacity_at_constant_pressure_per_volume_j_k_m3",
+          "count": 71,
+          "n_papers": 23,
+          "top_methods": [
+            {
+              "name": "Flow calorimetry",
+              "count": 34
+            },
+            {
+              "name": "DSC",
+              "count": 15
+            },
+            {
+              "name": "FLOW:UFactor:2",
+              "count": 9
+            },
+            {
+              "name": "Large sample (1 g) DSC",
+              "count": 4
+            },
+            {
+              "name": "Tian-Calvet differential microcalorimeter",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 40
+            },
+            {
+              "name": "Temperature, K",
+              "count": 30
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 10
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 1
+            },
+            {
+              "name": "Mass fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 3,
+            "binary": 65,
+            "ternary": 3,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 64,
+            "difference": 5,
+            "ratio": 0,
+            "other": 2
+          }
+        },
+        {
+          "name": "Molar heat capacity at constant volume, J/K/mol",
+          "prop_ID": "molar_heat_capacity_at_constant_volume_j_k_mol",
+          "count": 53,
+          "n_papers": 24,
+          "top_methods": [
+            {
+              "name": "Vacuum adiabatic calorimetry",
+              "count": 34
+            },
+            {
+              "name": "Small (less than 1 g) adiabatic calorimetry",
+              "count": 6
+            },
+            {
+              "name": "Cu2O-jacketed adiabatic calorimeter",
+              "count": 4
+            },
+            {
+              "name": "High-temperature High-pressure adiabatci calorimeter",
+              "count": 2
+            },
+            {
+              "name": "ADIACNV",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 53
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 19
+            },
+            {
+              "name": "Mass density, kg/m3",
+              "count": 15
+            },
+            {
+              "name": "Mole fraction",
+              "count": 8
+            },
+            {
+              "name": "Specific volume, m3/kg",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 37,
+            "binary": 16,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 53,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Specific heat capacity at constant pressure, J/K/kg",
+          "prop_ID": "specific_heat_capacity_at_constant_pressure_j_k_kg",
+          "count": 34,
+          "n_papers": 6,
+          "top_methods": [
+            {
+              "name": "Flow calorimetry",
+              "count": 9
+            },
+            {
+              "name": "FLOW:UFactor:4",
+              "count": 8
+            },
+            {
+              "name": "RELAXCAL",
+              "count": 6
+            },
+            {
+              "name": "Extra sensitive DSC",
+              "count": 6
+            },
+            {
+              "name": "heat flux microcalorimetry",
+              "count": 4
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 34
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 22
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 8
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 4
+            },
+            {
+              "name": "Mass fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 26,
+            "ternary": 8,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 17,
+            "difference": 9,
+            "ratio": 8,
+            "other": 0
+          }
+        },
+        {
+          "name": "Joule-Thomson coefficient, K/kPa",
+          "prop_ID": "joulethomson_coefficient_k_kpa",
+          "count": 3,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "Expansion technique",
+              "count": 3
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 3
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 2
+            },
+            {
+              "name": "Mass fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 2,
+            "binary": 1,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 3,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "PhaseTransition": {
+      "n_properties": 10,
+      "total_instances": 12805,
+      "properties": [
+        {
+          "name": "Molar enthalpy of transition or fusion, kJ/mol",
+          "prop_ID": "molar_enthalpy_of_transition_or_fusion_kj_mol",
+          "count": 2891,
+          "n_papers": 1015,
+          "top_methods": [
+            {
+              "name": "DSC",
+              "count": 2410
+            },
+            {
+              "name": "Adiabatic calorimetry",
+              "count": 170
+            },
+            {
+              "name": "DSC:UFactor:2",
+              "count": 30
+            },
+            {
+              "name": "DSC:FP",
+              "count": 30
+            },
+            {
+              "name": "Correlation gas chromatography",
+              "count": 29
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 122
+            }
+          ],
+          "system_types": {
+            "unary": 2891,
+            "binary": 0,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 2891,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Solid-liquid equilibrium temperature, K",
+          "prop_ID": "solidliquid_equilibrium_temperature_k",
+          "count": 2786,
+          "n_papers": 450,
+          "top_methods": [
+            {
+              "name": "VISOBS",
+              "count": 952
+            },
+            {
+              "name": "DTA",
+              "count": 887
+            },
+            {
+              "name": "VISOBS:UFactor:4",
+              "count": 135
+            },
+            {
+              "name": "VISOBS:UFactor:2",
+              "count": 109
+            },
+            {
+              "name": "VISOBS:UFactor:8",
+              "count": 102
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 2451
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 289
+            },
+            {
+              "name": "Mass fraction",
+              "count": 200
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 79
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 45
+            }
+          ],
+          "system_types": {
+            "unary": 114,
+            "binary": 2453,
+            "ternary": 219,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 2780,
+            "difference": 6,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Normal melting temperature, K",
+          "prop_ID": "normal_melting_temperature_k",
+          "count": 2756,
+          "n_papers": 1049,
+          "top_methods": [
+            {
+              "name": "DTA",
+              "count": 1971
+            },
+            {
+              "name": "VISOBS",
+              "count": 384
+            },
+            {
+              "name": "DTA:corrimp",
+              "count": 130
+            },
+            {
+              "name": "Heating/Cooling curves",
+              "count": 39
+            },
+            {
+              "name": "DTA:UFactor:2",
+              "count": 22
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 2756,
+            "binary": 0,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 2756,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Triple point temperature, K",
+          "prop_ID": "triple_point_temperature_k",
+          "count": 1963,
+          "n_papers": 589,
+          "top_methods": [
+            {
+              "name": "DTA",
+              "count": 818
+            },
+            {
+              "name": "DSC",
+              "count": 529
+            },
+            {
+              "name": "Adiabatic calorimetry",
+              "count": 180
+            },
+            {
+              "name": "DTA:corrimp",
+              "count": 110
+            },
+            {
+              "name": "VISOBS",
+              "count": 42
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 52
+            },
+            {
+              "name": "Mole fraction",
+              "count": 45
+            },
+            {
+              "name": "Mass fraction",
+              "count": 5
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 1
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 1867,
+            "binary": 85,
+            "ternary": 11,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 1963,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar enthalpy of vaporization or sublimation, kJ/mol",
+          "prop_ID": "molar_enthalpy_of_vaporization_or_sublimation_kj_mol",
+          "count": 903,
+          "n_papers": 221,
+          "top_methods": [
+            {
+              "name": "Correlation gas chromatography",
+              "count": 229
+            },
+            {
+              "name": "Derived by Second law",
+              "count": 168
+            },
+            {
+              "name": "Static calorimetry",
+              "count": 166
+            },
+            {
+              "name": "DSC",
+              "count": 67
+            },
+            {
+              "name": "Calvet microcalorimetry",
+              "count": 30
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 903
+            }
+          ],
+          "system_types": {
+            "unary": 903,
+            "binary": 0,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 903,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Liquid-liquid equilibrium temperature, K",
+          "prop_ID": "liquidliquid_equilibrium_temperature_k",
+          "count": 896,
+          "n_papers": 155,
+          "top_methods": [
+            {
+              "name": "VISOBS",
+              "count": 542
+            },
+            {
+              "name": "VISOBS:UFactor:4",
+              "count": 101
+            },
+            {
+              "name": "VISOBS:UFactor:16",
+              "count": 58
+            },
+            {
+              "name": "VISOBS:UFactor:8",
+              "count": 47
+            },
+            {
+              "name": "VISOBS:UFactor:2",
+              "count": 31
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 815
+            },
+            {
+              "name": "Mass fraction",
+              "count": 75
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 33
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 5
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 3
+            }
+          ],
+          "system_types": {
+            "unary": 1,
+            "binary": 856,
+            "ternary": 39,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 896,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Eutectic temperature, K",
+          "prop_ID": "eutectic_temperature_k",
+          "count": 518,
+          "n_papers": 159,
+          "top_methods": [
+            {
+              "name": "DTA",
+              "count": 322
+            },
+            {
+              "name": "Derived from phase diagram analysis",
+              "count": 69
+            },
+            {
+              "name": "PHASDIA:",
+              "count": 27
+            },
+            {
+              "name": "melting point device",
+              "count": 19
+            },
+            {
+              "name": "DTA:",
+              "count": 17
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 61
+            },
+            {
+              "name": "Mole fraction",
+              "count": 22
+            },
+            {
+              "name": "Mass fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 500,
+            "ternary": 18,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 518,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Quadruple (quintuple) point temperature, K",
+          "prop_ID": "quadruple_quintuple_point_temperature_k",
+          "count": 55,
+          "n_papers": 19,
+          "top_methods": [
+            {
+              "name": "visual",
+              "count": 25
+            },
+            {
+              "name": "DSC",
+              "count": 10
+            },
+            {
+              "name": "Visual observation",
+              "count": 5
+            },
+            {
+              "name": "OTHER::sMethod:phase diagram analysis",
+              "count": 4
+            },
+            {
+              "name": "visual observation",
+              "count": 3
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 54,
+            "ternary": 1,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 55,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Monotectic temperature, K",
+          "prop_ID": "monotectic_temperature_k",
+          "count": 29,
+          "n_papers": 8,
+          "top_methods": [
+            {
+              "name": "VISOBS",
+              "count": 25
+            },
+            {
+              "name": "Derived from phase diagram analysis",
+              "count": 2
+            },
+            {
+              "name": "From e.m.f. measurements",
+              "count": 1
+            },
+            {
+              "name": "DTA",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 29,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 29,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Peritectic temperature, K",
+          "prop_ID": "peritectic_temperature_k",
+          "count": 8,
+          "n_papers": 7,
+          "top_methods": [
+            {
+              "name": "DTA",
+              "count": 7
+            },
+            {
+              "name": "Titration and conductivity measurements",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 4
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 7,
+            "ternary": 1,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 8,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "ReactionEquilibriumProp": {
+      "n_properties": 3,
+      "total_instances": 100,
+      "properties": [
+        {
+          "name": "Thermodynamic equilibrium constant",
+          "prop_ID": "thermodynamic_equilibrium_constant",
+          "count": 79,
+          "n_papers": 16,
+          "top_methods": [
+            {
+              "name": "NMR spectrometry",
+              "count": 48
+            },
+            {
+              "name": "Chromatography",
+              "count": 23
+            },
+            {
+              "name": "Dynamic equilibration",
+              "count": 4
+            },
+            {
+              "name": "derived from Knudsen effusion and mass spectral data",
+              "count": 1
+            },
+            {
+              "name": "Static equilibration",
+              "count": 1
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 4,
+            "ternary": 55,
+            "quaternary_plus": 20
+          },
+          "presentations": {
+            "direct": 79,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Equilibrium constant in terms of mole fraction",
+          "prop_ID": "equilibrium_constant_in_terms_of_mole_fraction",
+          "count": 16,
+          "n_papers": 6,
+          "top_methods": [
+            {
+              "name": "Chromatography",
+              "count": 14
+            },
+            {
+              "name": "CHROM: :Method:CHROM",
+              "count": 2
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 2,
+            "ternary": 5,
+            "quaternary_plus": 9
+          },
+          "presentations": {
+            "direct": 16,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Equilibrium constant in terms of partial pressure, kPa^n",
+          "prop_ID": "equilibrium_constant_in_terms_of_partial_pressure_kpan",
+          "count": 5,
+          "n_papers": 3,
+          "top_methods": [
+            {
+              "name": "Static equilibration",
+              "count": 2
+            },
+            {
+              "name": "Dynamic equilibration",
+              "count": 2
+            },
+            {
+              "name": "Tensimetry",
+              "count": 1
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 4,
+            "quaternary_plus": 1
+          },
+          "presentations": {
+            "direct": 5,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "ReactionStateChangeProp": {
+      "n_properties": 5,
+      "total_instances": 1146,
+      "properties": [
+        {
+          "name": "Specific internal energy of reaction at constant volume, J/g",
+          "prop_ID": "specific_internal_energy_of_reaction_at_constant_volume_j_g",
+          "count": 639,
+          "n_papers": 303,
+          "top_methods": [
+            {
+              "name": "Static bomb calorimetry",
+              "count": 373
+            },
+            {
+              "name": "Rotating bomb calorimetry",
+              "count": 196
+            },
+            {
+              "name": "Micro-bomb calorimetry",
+              "count": 39
+            },
+            {
+              "name": "BOMBST:Method:BOMBST",
+              "count": 12
+            },
+            {
+              "name": "BOMBRT:Method:BOMBRT",
+              "count": 8
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 2,
+            "quaternary_plus": 637
+          },
+          "presentations": {
+            "direct": 639,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar enthalpy of reaction, kJ/mol",
+          "prop_ID": "molar_enthalpy_of_reaction_kj_mol",
+          "count": 376,
+          "n_papers": 166,
+          "top_methods": [
+            {
+              "name": "Solution calorimetry",
+              "count": 215
+            },
+            {
+              "name": "Static bomb calorimetry",
+              "count": 70
+            },
+            {
+              "name": "Rotating bomb calorimetry",
+              "count": 19
+            },
+            {
+              "name": "OTHER:Method:OTHER:sMethod:Solution calorimetry",
+              "count": 9
+            },
+            {
+              "name": "Micro-bomb calorimetry",
+              "count": 7
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 89,
+            "quaternary_plus": 287
+          },
+          "presentations": {
+            "direct": 376,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar Gibbs energy of reaction, kJ/mol",
+          "prop_ID": "molar_gibbs_energy_of_reaction_kj_mol",
+          "count": 68,
+          "n_papers": 21,
+          "top_methods": [
+            {
+              "name": "Calculated from EMF cell potential",
+              "count": 63
+            },
+            {
+              "name": "transpiration",
+              "count": 2
+            },
+            {
+              "name": "derived from knudsen effusion method",
+              "count": 1
+            },
+            {
+              "name": "derived from Knudsen effusion and mass spectral data",
+              "count": 1
+            },
+            {
+              "name": "Quadruple mass spectroscopy",
+              "count": 1
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 13,
+            "quaternary_plus": 55
+          },
+          "presentations": {
+            "direct": 68,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar internal energy of reaction at constant volume, kJ/mol",
+          "prop_ID": "molar_internal_energy_of_reaction_at_constant_volume_kj_mol",
+          "count": 62,
+          "n_papers": 27,
+          "top_methods": [
+            {
+              "name": "Static bomb calorimetry",
+              "count": 29
+            },
+            {
+              "name": "Rotating bomb calorimetry",
+              "count": 21
+            },
+            {
+              "name": "BOMBST:Method:BOMBST",
+              "count": 6
+            },
+            {
+              "name": "BOMBMI:Method:BOMBMI",
+              "count": 4
+            },
+            {
+              "name": "BOMBST:UFactor:100",
+              "count": 2
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 1,
+            "quaternary_plus": 61
+          },
+          "presentations": {
+            "direct": 62,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar entropy of reaction, J/K/mol",
+          "prop_ID": "molar_entropy_of_reaction_j_k_mol",
+          "count": 1,
+          "n_papers": 1,
+          "top_methods": [
+            {
+              "name": "Calculated from EMF cell potential",
+              "count": 1
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 0,
+            "binary": 0,
+            "ternary": 0,
+            "quaternary_plus": 1
+          },
+          "presentations": {
+            "direct": 1,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "RefractionSurfaceTensionSoundSpeed": {
+      "n_properties": 7,
+      "total_instances": 16119,
+      "properties": [
+        {
+          "name": "Refractive index (Na D-line)",
+          "prop_ID": "refractive_index_na_dline",
+          "count": 6772,
+          "n_papers": 1365,
+          "top_methods": [
+            {
+              "name": "Standard Abbe refractometry",
+              "count": 5963
+            },
+            {
+              "name": "ABBE:UFactor:4",
+              "count": 188
+            },
+            {
+              "name": "ABBE:UFactor:2",
+              "count": 184
+            },
+            {
+              "name": "ABBE::UFactor:2",
+              "count": 63
+            },
+            {
+              "name": "ABBE:monoch",
+              "count": 46
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 5869
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 3358
+            },
+            {
+              "name": "Mole fraction",
+              "count": 1459
+            },
+            {
+              "name": "Mass fraction",
+              "count": 715
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 167
+            }
+          ],
+          "system_types": {
+            "unary": 4592,
+            "binary": 1626,
+            "ternary": 554,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 6772,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Speed of sound, m/s",
+          "prop_ID": "speed_of_sound_m_s",
+          "count": 5781,
+          "n_papers": 1033,
+          "top_methods": [
+            {
+              "name": "Sing-around technique in a fixed-path interferometer",
+              "count": 2259
+            },
+            {
+              "name": "Linear variable-path acoustic interferometer",
+              "count": 905
+            },
+            {
+              "name": "Single path-length method",
+              "count": 732
+            },
+            {
+              "name": "Pulse-echo method",
+              "count": 702
+            },
+            {
+              "name": "FPINT:UFactor:2",
+              "count": 142
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 4896
+            },
+            {
+              "name": "Mole fraction",
+              "count": 1813
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 1300
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 951
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 250
+            }
+          ],
+          "system_types": {
+            "unary": 2529,
+            "binary": 2530,
+            "ternary": 722,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 5726,
+            "difference": 55,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Surface tension liquid-gas, N/m",
+          "prop_ID": "surface_tension_liquidgas_n_m",
+          "count": 2525,
+          "n_papers": 507,
+          "top_methods": [
+            {
+              "name": "Ring tensiometer",
+              "count": 707
+            },
+            {
+              "name": "Pendant drop shape",
+              "count": 545
+            },
+            {
+              "name": "Maximal bubble pressure",
+              "count": 286
+            },
+            {
+              "name": "Drop volume",
+              "count": 285
+            },
+            {
+              "name": "Capillary rise",
+              "count": 85
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 2071
+            },
+            {
+              "name": "Mole fraction",
+              "count": 725
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 191
+            },
+            {
+              "name": "Mass fraction",
+              "count": 162
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 44
+            }
+          ],
+          "system_types": {
+            "unary": 1367,
+            "binary": 907,
+            "ternary": 251,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 2525,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Refractive index (other wavelength)",
+          "prop_ID": "refractive_index_other_wavelength",
+          "count": 287,
+          "n_papers": 48,
+          "top_methods": [
+            {
+              "name": "Standard Abbe refractometry",
+              "count": 152
+            },
+            {
+              "name": "ellipsometry",
+              "count": 18
+            },
+            {
+              "name": "minimum deviation method",
+              "count": 10
+            },
+            {
+              "name": "minimum deviation angle method",
+              "count": 10
+            },
+            {
+              "name": "minimum deviation angle",
+              "count": 10
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 233
+            },
+            {
+              "name": "Mole fraction",
+              "count": 108
+            },
+            {
+              "name": "Wavelength, nm",
+              "count": 41
+            },
+            {
+              "name": "Mass fraction",
+              "count": 29
+            },
+            {
+              "name": "Solvent: Mass ratio of component to other component of binary solvent",
+              "count": 5
+            }
+          ],
+          "system_types": {
+            "unary": 95,
+            "binary": 168,
+            "ternary": 24,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 287,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Relative permittivity at various frequencies",
+          "prop_ID": "relative_permittivity_at_various_frequencies",
+          "count": 280,
+          "n_papers": 49,
+          "top_methods": [
+            {
+              "name": "Parallel plate capacitor",
+              "count": 119
+            },
+            {
+              "name": "Coaxial cylinder capacitor",
+              "count": 67
+            },
+            {
+              "name": "capacitance measurements at 1 MHz",
+              "count": 14
+            },
+            {
+              "name": "Wayne Kerr model 6425B Digibridge",
+              "count": 10
+            },
+            {
+              "name": "Reentrant cavity resonator",
+              "count": 8
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 206
+            },
+            {
+              "name": "Mole fraction",
+              "count": 132
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 61
+            },
+            {
+              "name": "Frequency, MHz",
+              "count": 46
+            },
+            {
+              "name": "Mass fraction",
+              "count": 8
+            }
+          ],
+          "system_types": {
+            "unary": 146,
+            "binary": 126,
+            "ternary": 8,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 280,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Relative permittivity at zero frequency",
+          "prop_ID": "relative_permittivity_at_zero_frequency",
+          "count": 264,
+          "n_papers": 47,
+          "top_methods": [
+            {
+              "name": "Parallel plate capacitor",
+              "count": 80
+            },
+            {
+              "name": "Coaxial cylinder capacitor",
+              "count": 59
+            },
+            {
+              "name": "PNA-N5227A Microwave Network Analyzer",
+              "count": 13
+            },
+            {
+              "name": "dielectric analyzer",
+              "count": 11
+            },
+            {
+              "name": "Dielectrometer",
+              "count": 10
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 211
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 94
+            },
+            {
+              "name": "Mole fraction",
+              "count": 84
+            },
+            {
+              "name": "Mass fraction",
+              "count": 7
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 6
+            }
+          ],
+          "system_types": {
+            "unary": 158,
+            "binary": 103,
+            "ternary": 3,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 264,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Interfacial tension, N/m",
+          "prop_ID": "interfacial_tension_n_m",
+          "count": 210,
+          "n_papers": 51,
+          "top_methods": [
+            {
+              "name": "Pendant drop shape",
+              "count": 47
+            },
+            {
+              "name": "Drop weight",
+              "count": 40
+            },
+            {
+              "name": "Drop volume",
+              "count": 26
+            },
+            {
+              "name": "Pendant drop method",
+              "count": 24
+            },
+            {
+              "name": "rotated drop method",
+              "count": 21
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 189
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 97
+            },
+            {
+              "name": "Mole fraction",
+              "count": 21
+            },
+            {
+              "name": "Mass fraction",
+              "count": 10
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 4
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 174,
+            "ternary": 36,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 210,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "TransportProp": {
+      "n_properties": 9,
+      "total_instances": 11474,
+      "properties": [
+        {
+          "name": "Viscosity, Pa*s",
+          "prop_ID": "viscosity_pa_s",
+          "count": 8475,
+          "n_papers": 1690,
+          "top_methods": [
+            {
+              "name": "Capillary tube (Ostwald; Ubbelohde) method",
+              "count": 3257
+            },
+            {
+              "name": "Falling or rolling sphere viscometry",
+              "count": 1241
+            },
+            {
+              "name": "Concentric cylinders viscometry",
+              "count": 1079
+            },
+            {
+              "name": "CAPTUB:UFactor:2",
+              "count": 561
+            },
+            {
+              "name": "CAPTUB:UFactor:4",
+              "count": 461
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 7657
+            },
+            {
+              "name": "Mole fraction",
+              "count": 2497
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 1276
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 1134
+            },
+            {
+              "name": "Mass fraction",
+              "count": 554
+            }
+          ],
+          "system_types": {
+            "unary": 4100,
+            "binary": 3294,
+            "ternary": 1081,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 8412,
+            "difference": 6,
+            "ratio": 57,
+            "other": 0
+          }
+        },
+        {
+          "name": "Electrical conductivity, S/m",
+          "prop_ID": "electrical_conductivity_s_m",
+          "count": 1162,
+          "n_papers": 288,
+          "top_methods": [
+            {
+              "name": "Alternating current cell with electrodes",
+              "count": 724
+            },
+            {
+              "name": "Direct current cell with electrodes",
+              "count": 112
+            },
+            {
+              "name": "MP522 conductivity instrument",
+              "count": 20
+            },
+            {
+              "name": "Dip Cell",
+              "count": 17
+            },
+            {
+              "name": "dipping-type conductivity cell",
+              "count": 15
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 911
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 358
+            },
+            {
+              "name": "Mole fraction",
+              "count": 185
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 115
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 95
+            }
+          ],
+          "system_types": {
+            "unary": 393,
+            "binary": 517,
+            "ternary": 252,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 1162,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Binary diffusion coefficient, m2/s",
+          "prop_ID": "binary_diffusion_coefficient_m2_s",
+          "count": 540,
+          "n_papers": 115,
+          "top_methods": [
+            {
+              "name": "Taylor dispersion method",
+              "count": 279
+            },
+            {
+              "name": "Open capillary",
+              "count": 30
+            },
+            {
+              "name": "pressure decay method",
+              "count": 22
+            },
+            {
+              "name": "Dispersion",
+              "count": 18
+            },
+            {
+              "name": "TAYLOR:UFactor:2",
+              "count": 17
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 368
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 185
+            },
+            {
+              "name": "Mole fraction",
+              "count": 94
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 87
+            },
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 57
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 436,
+            "ternary": 104,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 540,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Thermal conductivity, W/m/K",
+          "prop_ID": "thermal_conductivity_w_m_k",
+          "count": 484,
+          "n_papers": 120,
+          "top_methods": [
+            {
+              "name": "Hot wire method",
+              "count": 199
+            },
+            {
+              "name": "THOTW",
+              "count": 118
+            },
+            {
+              "name": "Coaxial cylinder method",
+              "count": 36
+            },
+            {
+              "name": "Parallel plate method",
+              "count": 34
+            },
+            {
+              "name": "Modified transient plane source method",
+              "count": 13
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 475
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 163
+            },
+            {
+              "name": "Mass fraction",
+              "count": 40
+            },
+            {
+              "name": "Mole fraction",
+              "count": 30
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 11
+            }
+          ],
+          "system_types": {
+            "unary": 382,
+            "binary": 88,
+            "ternary": 14,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 480,
+            "difference": 0,
+            "ratio": 4,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar conductivity, S*m2/mol",
+          "prop_ID": "molar_conductivity_s_m2_mol",
+          "count": 310,
+          "n_papers": 71,
+          "top_methods": [
+            {
+              "name": "Alternating current cell with electrodes",
+              "count": 182
+            },
+            {
+              "name": "Direct current cell with electrodes",
+              "count": 52
+            },
+            {
+              "name": "dip-type immersion conductivity cell",
+              "count": 13
+            },
+            {
+              "name": "Wayne-Kerr 6430B Auto Balance Bridge",
+              "count": 9
+            },
+            {
+              "name": "Precise Component Analyser type 6430B",
+              "count": 7
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Amount concentration (molarity), mol/dm3",
+              "count": 210
+            },
+            {
+              "name": "Temperature, K",
+              "count": 101
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 92
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 44
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 42
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 183,
+            "ternary": 127,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 310,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Kinematic viscosity, m2/s",
+          "prop_ID": "kinematic_viscosity_m2_s",
+          "count": 283,
+          "n_papers": 70,
+          "top_methods": [
+            {
+              "name": "Capillary tube (Ostwald; Ubbelohde) method",
+              "count": 150
+            },
+            {
+              "name": "CAPTUB:UFactor:2",
+              "count": 30
+            },
+            {
+              "name": "Surface laser light scattering (SLLS)",
+              "count": 25
+            },
+            {
+              "name": "CAPTUB:UFactor:4",
+              "count": 25
+            },
+            {
+              "name": "CAPTUB::UFactor:4",
+              "count": 14
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 270
+            },
+            {
+              "name": "Mole fraction",
+              "count": 92
+            },
+            {
+              "name": "Mass fraction",
+              "count": 38
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 17
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 9
+            }
+          ],
+          "system_types": {
+            "unary": 140,
+            "binary": 112,
+            "ternary": 31,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 283,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Thermal diffusivity, m2/s",
+          "prop_ID": "thermal_diffusivity_m2_s",
+          "count": 138,
+          "n_papers": 29,
+          "top_methods": [
+            {
+              "name": "Hot wire method",
+              "count": 45
+            },
+            {
+              "name": "Laser flash apparatus",
+              "count": 22
+            },
+            {
+              "name": "time dependent absorption data",
+              "count": 16
+            },
+            {
+              "name": "dynamic light scattering",
+              "count": 14
+            },
+            {
+              "name": "Optical interferometry",
+              "count": 11
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 127
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 27
+            },
+            {
+              "name": "Mole fraction",
+              "count": 21
+            },
+            {
+              "name": "Mass fraction",
+              "count": 4
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 108,
+            "binary": 26,
+            "ternary": 4,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 138,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Tracer diffusion coefficient, m2/s",
+          "prop_ID": "tracer_diffusion_coefficient_m2_s",
+          "count": 54,
+          "n_papers": 10,
+          "top_methods": [
+            {
+              "name": "OTHER::sMethod:Taylor dispersion",
+              "count": 16
+            },
+            {
+              "name": "Taylor dispersion",
+              "count": 12
+            },
+            {
+              "name": "transient thin film method",
+              "count": 6
+            },
+            {
+              "name": "chromatographic peak broadening method",
+              "count": 5
+            },
+            {
+              "name": "PFG NMR Spectroscopy",
+              "count": 4
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 34
+            },
+            {
+              "name": "Mole fraction",
+              "count": 32
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 26
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 11
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 39,
+            "ternary": 15,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 54,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Self diffusion coefficient, m2/s",
+          "prop_ID": "self_diffusion_coefficient_m2_s",
+          "count": 28,
+          "n_papers": 8,
+          "top_methods": [
+            {
+              "name": "NMR spin-echo technique",
+              "count": 22
+            },
+            {
+              "name": "PFG NMR Spectroscopy",
+              "count": 3
+            },
+            {
+              "name": "NMR",
+              "count": 2
+            },
+            {
+              "name": "Taylor dispersion method",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 28
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 5
+            }
+          ],
+          "system_types": {
+            "unary": 28,
+            "binary": 0,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 28,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "VaporPBoilingTAzeotropTandP": {
+      "n_properties": 5,
+      "total_instances": 11253,
+      "properties": [
+        {
+          "name": "Vapor or sublimation pressure, kPa",
+          "prop_ID": "vapor_or_sublimation_pressure_kpa",
+          "count": 8067,
+          "n_papers": 2176,
+          "top_methods": [
+            {
+              "name": "Closed cell (Static) method",
+              "count": 2721
+            },
+            {
+              "name": "Ebulliometric method (Recirculating still)",
+              "count": 1483
+            },
+            {
+              "name": "Transpiration method",
+              "count": 585
+            },
+            {
+              "name": "Calculated from knudsen effusion weight loss",
+              "count": 358
+            },
+            {
+              "name": "CCELL:UFactor:8",
+              "count": 230
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 7411
+            },
+            {
+              "name": "Mole fraction",
+              "count": 2839
+            },
+            {
+              "name": "Mass fraction",
+              "count": 220
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 127
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 20
+            }
+          ],
+          "system_types": {
+            "unary": 4869,
+            "binary": 2776,
+            "ternary": 422,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 8055,
+            "difference": 9,
+            "ratio": 3,
+            "other": 0
+          }
+        },
+        {
+          "name": "Boiling temperature at pressure P, K",
+          "prop_ID": "boiling_temperature_at_pressure_p_k",
+          "count": 2438,
+          "n_papers": 730,
+          "top_methods": [
+            {
+              "name": "Ebulliometric method (Recirculating still)",
+              "count": 1445
+            },
+            {
+              "name": "EBULLIO:UFactor:8",
+              "count": 208
+            },
+            {
+              "name": "EBULLIO:UFactor:4",
+              "count": 122
+            },
+            {
+              "name": "EBULLIO:UFactor:2",
+              "count": 100
+            },
+            {
+              "name": "EBULLIO:UFactor:32",
+              "count": 80
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 2027
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 832
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 111
+            },
+            {
+              "name": "Mass fraction",
+              "count": 98
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 23
+            }
+          ],
+          "system_types": {
+            "unary": 370,
+            "binary": 1831,
+            "ternary": 237,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 2438,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Normal boiling temperature, K",
+          "prop_ID": "normal_boiling_temperature_k",
+          "count": 590,
+          "n_papers": 167,
+          "top_methods": [
+            {
+              "name": "Ebulliometric method (Recirculating still)",
+              "count": 302
+            },
+            {
+              "name": "Distillation",
+              "count": 77
+            },
+            {
+              "name": "Closed cell (Static) method",
+              "count": 26
+            },
+            {
+              "name": "Temperature-Programmed Gas Chromatography",
+              "count": 20
+            },
+            {
+              "name": "gas chromatography",
+              "count": 18
+            }
+          ],
+          "top_variables": [],
+          "system_types": {
+            "unary": 590,
+            "binary": 0,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 590,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Azeotropic temperature, K",
+          "prop_ID": "azeotropic_temperature_k",
+          "count": 85,
+          "n_papers": 48,
+          "top_methods": [
+            {
+              "name": "By X=Y",
+              "count": 51
+            },
+            {
+              "name": "By T(X) extreme",
+              "count": 29
+            },
+            {
+              "name": "spinning band column",
+              "count": 3
+            },
+            {
+              "name": "TX:UFactor:2",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 63
+            },
+            {
+              "name": "Mole fraction",
+              "count": 22
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 83,
+            "ternary": 2,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 85,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Azeotropic pressure, kPa",
+          "prop_ID": "azeotropic_pressure_kpa",
+          "count": 73,
+          "n_papers": 48,
+          "top_methods": [
+            {
+              "name": "By X=Y",
+              "count": 35
+            },
+            {
+              "name": "By P(X) extreme",
+              "count": 25
+            },
+            {
+              "name": "calculated",
+              "count": 4
+            },
+            {
+              "name": "Spinning band column technique",
+              "count": 4
+            },
+            {
+              "name": "micro spinning band column",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 58
+            },
+            {
+              "name": "Mole fraction",
+              "count": 15
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 73,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 73,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    },
+    "VolumetricProp": {
+      "n_properties": 13,
+      "total_instances": 24222,
+      "properties": [
+        {
+          "name": "Mass density, kg/m3",
+          "prop_ID": "mass_density_kg_m3",
+          "count": 23070,
+          "n_papers": 4673,
+          "top_methods": [
+            {
+              "name": "Vibrating tube method",
+              "count": 13059
+            },
+            {
+              "name": "Pycnometric method",
+              "count": 2598
+            },
+            {
+              "name": "VIBTUB:UFactor:4",
+              "count": 1779
+            },
+            {
+              "name": "VIBTUB:UFactor:2",
+              "count": 793
+            },
+            {
+              "name": "VIBTUB:UFactor:8",
+              "count": 593
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 20081
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 7260
+            },
+            {
+              "name": "Mole fraction",
+              "count": 6150
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 3287
+            },
+            {
+              "name": "Mass fraction",
+              "count": 1511
+            }
+          ],
+          "system_types": {
+            "unary": 11956,
+            "binary": 8207,
+            "ternary": 2907,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 22850,
+            "difference": 220,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Excess molar volume, m3/mol",
+          "prop_ID": "excess_molar_volume_m3_mol",
+          "count": 546,
+          "n_papers": 121,
+          "top_methods": [
+            {
+              "name": "Calculated with densities of this investigation",
+              "count": 308
+            },
+            {
+              "name": "Direct dilatometry",
+              "count": 123
+            },
+            {
+              "name": "SAME:UFactor:2",
+              "count": 79
+            },
+            {
+              "name": "DIRDIL:UFactor:4",
+              "count": 24
+            },
+            {
+              "name": "SAME:UFactor:4",
+              "count": 7
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Mole fraction",
+              "count": 598
+            },
+            {
+              "name": "Temperature, K",
+              "count": 124
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 7
+            },
+            {
+              "name": "Volume fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 469,
+            "ternary": 77,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 546,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Molar volume, m3/mol",
+          "prop_ID": "molar_volume_m3_mol",
+          "count": 282,
+          "n_papers": 64,
+          "top_methods": [
+            {
+              "name": "Pycnometric method",
+              "count": 61
+            },
+            {
+              "name": "Vibrating tube method",
+              "count": 44
+            },
+            {
+              "name": "Other PVT measurement",
+              "count": 31
+            },
+            {
+              "name": "piezometer",
+              "count": 21
+            },
+            {
+              "name": "Volumetric Method",
+              "count": 18
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 244
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 127
+            },
+            {
+              "name": "Mole fraction",
+              "count": 81
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 15
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 3
+            }
+          ],
+          "system_types": {
+            "unary": 82,
+            "binary": 185,
+            "ternary": 15,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 265,
+            "difference": 0,
+            "ratio": 15,
+            "other": 2
+          }
+        },
+        {
+          "name": "Isobaric coefficient of expansion, 1/K",
+          "prop_ID": "isobaric_coefficient_of_expansion_1_k",
+          "count": 82,
+          "n_papers": 19,
+          "top_methods": [
+            {
+              "name": "DSC",
+              "count": 15
+            },
+            {
+              "name": "Calculated from Density-Temperature Data",
+              "count": 14
+            },
+            {
+              "name": "DSC with Pressure Shift",
+              "count": 11
+            },
+            {
+              "name": "vibrating tube densimeter",
+              "count": 7
+            },
+            {
+              "name": "calculated from measured densities",
+              "count": 6
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Pressure, kPa",
+              "count": 79
+            },
+            {
+              "name": "Temperature, K",
+              "count": 78
+            },
+            {
+              "name": "Mole fraction",
+              "count": 9
+            }
+          ],
+          "system_types": {
+            "unary": 73,
+            "binary": 9,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 82,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Apparent molar volume, m3/mol",
+          "prop_ID": "apparent_molar_volume_m3_mol",
+          "count": 77,
+          "n_papers": 20,
+          "top_methods": [
+            {
+              "name": "Calculated with densities of this investigation",
+              "count": 62
+            },
+            {
+              "name": "SAME:UFactor:2",
+              "count": 9
+            },
+            {
+              "name": "SAME:UFactor:0.5",
+              "count": 4
+            },
+            {
+              "name": "SAME:UFactor:16",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Molality, mol/kg",
+              "count": 79
+            },
+            {
+              "name": "Temperature, K",
+              "count": 64
+            },
+            {
+              "name": "Solvent: Molality, mol/kg",
+              "count": 12
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 12
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 9
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 43,
+            "ternary": 34,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 77,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Amount density, mol/m3",
+          "prop_ID": "amount_density_mol_m3",
+          "count": 62,
+          "n_papers": 30,
+          "top_methods": [
+            {
+              "name": "ISOCHOR",
+              "count": 28
+            },
+            {
+              "name": "Burnett expansion method",
+              "count": 14
+            },
+            {
+              "name": "Other PVT measurement",
+              "count": 12
+            },
+            {
+              "name": "Ampoule method",
+              "count": 3
+            },
+            {
+              "name": "Vibrating tube method",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 57
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 47
+            },
+            {
+              "name": "Mole fraction",
+              "count": 14
+            },
+            {
+              "name": "Solvent: Mole fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 33,
+            "binary": 18,
+            "ternary": 11,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 62,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Specific volume, m3/kg",
+          "prop_ID": "specific_volume_m3_kg",
+          "count": 48,
+          "n_papers": 20,
+          "top_methods": [
+            {
+              "name": "ISOCHOR",
+              "count": 14
+            },
+            {
+              "name": "Constant-volume piezometry",
+              "count": 14
+            },
+            {
+              "name": "Vibrating tube method",
+              "count": 5
+            },
+            {
+              "name": "Pycnometric method",
+              "count": 5
+            },
+            {
+              "name": "Bellows volumetry",
+              "count": 5
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 45
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 35
+            },
+            {
+              "name": "Mole fraction",
+              "count": 17
+            },
+            {
+              "name": "Solvent: Mass fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 26,
+            "binary": 21,
+            "ternary": 1,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 41,
+            "difference": 0,
+            "ratio": 0,
+            "other": 7
+          }
+        },
+        {
+          "name": "Partial molar volume, m3/mol",
+          "prop_ID": "partial_molar_volume_m3_mol",
+          "count": 25,
+          "n_papers": 6,
+          "top_methods": [
+            {
+              "name": "Derived analytically",
+              "count": 19
+            },
+            {
+              "name": "vibrating tube densimetry",
+              "count": 4
+            },
+            {
+              "name": "OTHER",
+              "count": 2
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 25
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 21
+            },
+            {
+              "name": "Molality, mol/kg",
+              "count": 6
+            }
+          ],
+          "system_types": {
+            "unary": 0,
+            "binary": 25,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 25,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Isothermal compressibility, 1/kPa",
+          "prop_ID": "isothermal_compressibility_1_kpa",
+          "count": 11,
+          "n_papers": 4,
+          "top_methods": [
+            {
+              "name": "calculate from equation",
+              "count": 4
+            },
+            {
+              "name": "TRIDEN Equation",
+              "count": 2
+            },
+            {
+              "name": "TRIDEN",
+              "count": 2
+            },
+            {
+              "name": "expansion method",
+              "count": 1
+            },
+            {
+              "name": "TRIDEN equation",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 11
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 11
+            },
+            {
+              "name": "Mole fraction",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 10,
+            "binary": 1,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 11,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "2nd virial coefficient, m3/mol",
+          "prop_ID": "2nd_virial_coefficient_m3_mol",
+          "count": 7,
+          "n_papers": 6,
+          "top_methods": [
+            {
+              "name": "Derived graphically",
+              "count": 3
+            },
+            {
+              "name": "DERIVED:3rdvir",
+              "count": 3
+            },
+            {
+              "name": "DERIVED:3rdvir:UFactor:0.5",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 7
+            },
+            {
+              "name": "Mole fraction",
+              "count": 3
+            }
+          ],
+          "system_types": {
+            "unary": 4,
+            "binary": 3,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 7,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "3rd virial coefficient, m6/mol2",
+          "prop_ID": "3rd_virial_coefficient_m6_mol2",
+          "count": 5,
+          "n_papers": 4,
+          "top_methods": [
+            {
+              "name": "Derived graphically",
+              "count": 5
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 5
+            },
+            {
+              "name": "Mole fraction",
+              "count": 2
+            }
+          ],
+          "system_types": {
+            "unary": 3,
+            "binary": 2,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 5,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Compressibility factor",
+          "prop_ID": "compressibility_factor",
+          "count": 4,
+          "n_papers": 4,
+          "top_methods": [
+            {
+              "name": "Burnett expansion method",
+              "count": 3
+            },
+            {
+              "name": "Other PVT measurement",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 4
+            },
+            {
+              "name": "Pressure, kPa",
+              "count": 4
+            },
+            {
+              "name": "Mole fraction",
+              "count": 3
+            }
+          ],
+          "system_types": {
+            "unary": 1,
+            "binary": 3,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 4,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        },
+        {
+          "name": "Thermal pressure coefficient, kPa/K",
+          "prop_ID": "thermal_pressure_coefficient_kpa_k",
+          "count": 3,
+          "n_papers": 2,
+          "top_methods": [
+            {
+              "name": "barogram technique",
+              "count": 2
+            },
+            {
+              "name": "quasistatic thermogram and barogram",
+              "count": 1
+            }
+          ],
+          "top_variables": [
+            {
+              "name": "Temperature, K",
+              "count": 3
+            },
+            {
+              "name": "Mass density, kg/m3",
+              "count": 1
+            }
+          ],
+          "system_types": {
+            "unary": 2,
+            "binary": 1,
+            "ternary": 0,
+            "quaternary_plus": 0
+          },
+          "presentations": {
+            "direct": 3,
+            "difference": 0,
+            "ratio": 0,
+            "other": 0
+          }
+        }
+      ]
+    }
+  }
+}

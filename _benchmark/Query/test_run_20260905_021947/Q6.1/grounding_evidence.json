@@ -1,0 +1,683 @@
+{
+  "generated": "2026-09-05T16:26:40",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_3",
+      "block_number": "PROPblock_3",
+      "lit_id": null,
+      "literals": [
+        "44"
+      ],
+      "detail": "44 (near '…— 44 data points spanning 283.15–313.15 K ac…') matches no inspected row/stat, database table, or other source of PROPblock_3",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_3\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 44.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_3",
+      "block_number": "PROPblock_3",
+      "lit_id": null,
+      "literals": [
+        "19"
+      ],
+      "detail": "19 (near '…kg/m3 at 283.15 K to 1248 kg/m3 at 313.15 K (a decrease of ~…') matches no inspected row/stat, database table, or other source of PROPblock_3",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_3\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 19.0})"
+    },
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_3",
+      "block_number": "PROPblock_3",
+      "lit_id": null,
+      "literals": [
+        "30"
+      ],
+      "detail": "30 (near '…5 K to 1248 kg/m3 at 313.15 K (a decrease of ~19 kg/m3 over …') matches no inspected row/stat, database table, or other source of PROPblock_3",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_3\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 30.0})"
+    }
+  ],
+  "verified": [],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_3",
+      "values": [
+        "283.15",
+        "313.15",
+        "1267",
+        "0.4042",
+        "1236",
+        "0.7003",
+        "1183",
+        "0.7999",
+        "1148",
+        "0.9024",
+        "1091",
+        "1000",
+        "293.15",
+        "1261",
+        "1230",
+        "0.6011",
+        "1201",
+        "1177",
+        "1143",
+        "1087",
+        "998",
+        "303.15",
+        "1255",
+        "1224",
+        "1172",
+        "1083",
+        "996",
+        "1248",
+        "1218",
+        "1166",
+        "1078",
+        "992"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_3": {
+        "lit_num_id": "GLOBlit_4951",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_b3d29a662be8"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.jct.2017.01.011",
+          "n_rows": 44,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "mole_fraction_<water>",
+            "pressure_kpa",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              283.15,
+              313.15
+            ],
+            "mole_fraction_<water>": [
+              0.0,
+              1.0
+            ],
+            "pressure_kpa": [
+              100.0,
+              100.0
+            ],
+            "mass_density_kg_m3": [
+              992.0,
+              1267.0
+            ]
+          }
+        }
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "44",
+        "region": "PROPblock_3",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1267",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.4042",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1236",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.7003",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1183",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.7999",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1148",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.9024",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1091",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1000",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1261",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.4042",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1230",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.6011",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1201",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.7003",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1177",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.7999",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1143",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.9024",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1087",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "998",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1255",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.4042",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1224",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.7003",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1172",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.9024",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1083",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "303.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "996",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1248",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.4042",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1218",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.7003",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1166",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.9024",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1078",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "992",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1267",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1000",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1267",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "283.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1248",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "19",
+        "region": "PROPblock_3",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "30",
+        "region": "PROPblock_3",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "1000",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "992",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1016/j.jct.2017.01.011",
+      "lit_num_id": "GLOBlit_4951",
+      "block_number": "PROPblock_3",
+      "BLKsubsys_id": null,
+      "table_mode": "rdp",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<water>",
+        "pressure_kpa",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "283.15",
+          "mole_fraction_<water>": "0",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1267"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_5",
+          "temperature_k": "283.15",
+          "mole_fraction_<water>": "0.4042",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1236"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "temperature_k": "283.15",
+          "mole_fraction_<water>": "0.7003",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1183"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_9",
+          "temperature_k": "283.15",
+          "mole_fraction_<water>": "0.7999",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1148"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_10",
+          "temperature_k": "283.15",
+          "mole_fraction_<water>": "0.9024",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1091"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_11",
+          "temperature_k": "283.15",
+          "mole_fraction_<water>": "1",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1000"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_12",
+          "temperature_k": "293.15",
+          "mole_fraction_<water>": "0",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1261"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_16",
+          "temperature_k": "293.15",
+          "mole_fraction_<water>": "0.4042",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1230"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_18",
+          "temperature_k": "293.15",
+          "mole_fraction_<water>": "0.6011",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1201"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_19",
+          "temperature_k": "293.15",
+          "mole_fraction_<water>": "0.7003",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1177"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_20",
+          "temperature_k": "293.15",
+          "mole_fraction_<water>": "0.7999",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1143"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_21",
+          "temperature_k": "293.15",
+          "mole_fraction_<water>": "0.9024",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1087"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_22",
+          "temperature_k": "293.15",
+          "mole_fraction_<water>": "1",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "998"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_23",
+          "temperature_k": "303.15",
+          "mole_fraction_<water>": "0",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1255"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_27",
+          "temperature_k": "303.15",
+          "mole_fraction_<water>": "0.4042",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1224"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_30",
+          "temperature_k": "303.15",
+          "mole_fraction_<water>": "0.7003",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1172"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_32",
+          "temperature_k": "303.15",
+          "mole_fraction_<water>": "0.9024",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1083"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_33",
+          "temperature_k": "303.15",
+          "mole_fraction_<water>": "1",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "996"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_34",
+          "temperature_k": "313.15",
+          "mole_fraction_<water>": "0",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1248"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_38",
+          "temperature_k": "313.15",
+          "mole_fraction_<water>": "0.4042",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1218"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_41",
+          "temperature_k": "313.15",
+          "mole_fraction_<water>": "0.7003",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1166"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_43",
+          "temperature_k": "313.15",
+          "mole_fraction_<water>": "0.9024",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "1078"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_44",
+          "temperature_k": "313.15",
+          "mole_fraction_<water>": "1",
+          "pressure_kpa": "100.0",
+          "mass_density_kg_m3": "992"
+        }
+      ],
+      "inspection_id": "INSP_b3d29a662be8",
+      "markdown": ""
+    }
+  ]
+}

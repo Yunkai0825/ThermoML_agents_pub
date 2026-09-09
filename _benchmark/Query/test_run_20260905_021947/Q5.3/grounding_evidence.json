@@ -1,0 +1,746 @@
+{
+  "generated": "2026-09-05T06:02:24",
+  "gate_ok": false,
+  "violations": [
+    {
+      "kind": "UNGROUNDED_LITERAL",
+      "anchor": "PROPblock_3",
+      "block_number": "PROPblock_3",
+      "lit_id": null,
+      "literals": [
+        "35"
+      ],
+      "detail": "35 (near '…), containing **35 data points** measured via vibrating tu…') matches no inspected row/stat, database table, or other source of PROPblock_3",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_3\", literature=\"<GLOBlit_N or DOI>\", nearest={\"column\": \"temperature_k\", \"value\": 35.0})"
+    },
+    {
+      "kind": "UNINSPECTED_BLOCK",
+      "anchor": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+      "block_number": "PROPblock_1",
+      "lit_id": null,
+      "literals": [
+        "0.02",
+        "0.04",
+        "293.15",
+        "313.15",
+        "1006.1",
+        "1026.7",
+        "0.005",
+        "0.03",
+        "293.15",
+        "1001.78",
+        "1019.58",
+        "39",
+        "1.0",
+        "4.0",
+        "298.15",
+        "323.15",
+        "1023.15",
+        "1146.3"
+      ],
+      "detail": "PROPblock_1 + PROPblock_5 + PROPblock_6 is quoted with data values (0.02, 0.04, 293.15, 313.15, …) but was never inspected in this run",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_1\", literature=\"<GLOBlit_N or DOI>\"); inspect_block_table(block_number=\"PROPblock_5\", literature=\"<GLOBlit_N or DOI>\"); inspect_block_table(block_number=\"PROPblock_6\", literature=\"<GLOBlit_N or DOI>\")"
+    },
+    {
+      "kind": "UNINSPECTED_BLOCK",
+      "anchor": "PROPblock_6",
+      "block_number": "PROPblock_6",
+      "lit_id": null,
+      "literals": [
+        "20",
+        "298.15",
+        "1019.6",
+        "0.0099",
+        "1142.4",
+        "0.0654",
+        "0.0654",
+        "1147.1",
+        "288.15",
+        "1132.2",
+        "318.15",
+        "15",
+        "30"
+      ],
+      "detail": "PROPblock_6 is quoted with data values (20, 298.15, 1019.6, 0.0099, …) but was never inspected in this run",
+      "suggested_call": "inspect_block_table(block_number=\"PROPblock_6\", literature=\"<GLOBlit_N or DOI>\")"
+    }
+  ],
+  "verified": [],
+  "partially_grounded": [
+    {
+      "anchor": "PROPblock_3",
+      "values": [
+        "288.15",
+        "318.15",
+        "0.0099",
+        "0.0654",
+        "1012.1",
+        "1147.1",
+        "1022.2",
+        "0.0196",
+        "1044.7",
+        "293.15",
+        "1021.0",
+        "1043.2",
+        "1144.8",
+        "298.15",
+        "1019.6",
+        "1041.6",
+        "0.0385",
+        "1082.8",
+        "1142.4",
+        "308.15",
+        "1016.2",
+        "1037.8",
+        "1078.5",
+        "1137.4",
+        "1033.5",
+        "1073.7",
+        "1132.2"
+      ]
+    }
+  ],
+  "evidence": {
+    "fit_artifacts": [],
+    "cited_blocks": {
+      "PROPblock_3": {
+        "lit_num_id": "GLOBlit_2114",
+        "inspected": true,
+        "inspection_ids": [
+          "INSP_23511c266e26"
+        ],
+        "authoritative": {
+          "doi": "10.1016/j.fluid.2017.10.034",
+          "n_rows": 35,
+          "columns": [
+            "BLKpoint_id",
+            "temperature_k",
+            "mole_fraction_<sodium chloride>",
+            "mass_density_kg_m3"
+          ],
+          "column_ranges": {
+            "temperature_k": [
+              288.15,
+              318.15
+            ],
+            "mole_fraction_<sodium chloride>": [
+              0.0099,
+              0.0654
+            ],
+            "mass_density_kg_m3": [
+              1012.1,
+              1147.1
+            ]
+          }
+        }
+      },
+      "PROPblock_1": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_5": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      },
+      "PROPblock_6": {
+        "lit_num_id": null,
+        "inspected": false,
+        "inspection_ids": [],
+        "authoritative": null
+      }
+    },
+    "literal_verdicts": [
+      {
+        "token": "35",
+        "region": "PROPblock_3",
+        "verdict": "ungrounded"
+      },
+      {
+        "token": "288.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "318.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0099",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0654",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1012.1",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1147.1",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "288.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0099",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1022.2",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "288.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0196",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1044.7",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "288.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0654",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1147.1",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0099",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1021.0",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0196",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1043.2",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0654",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1144.8",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0099",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1019.6",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0196",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1041.6",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0385",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1082.8",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0654",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1142.4",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "308.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0099",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1016.2",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "308.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0196",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1037.8",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "308.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0385",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1078.5",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "308.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0654",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1137.4",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "318.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0099",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1012.1",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "318.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0196",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1033.5",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "318.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0385",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1073.7",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "318.15",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.0654",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "1132.2",
+        "region": "PROPblock_3",
+        "verdict": "verified"
+      },
+      {
+        "token": "0.02",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "0.04",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "313.15",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1006.1",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1026.7",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "0.005",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "0.03",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "293.15",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1001.78",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1019.58",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "39",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1.0",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "4.0",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "323.15",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1023.15",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1146.3",
+        "region": "PROPblock_1 + PROPblock_5 + PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "20",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "298.15",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1019.6",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "0.0099",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1142.4",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "0.0654",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "0.0654",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1147.1",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "288.15",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "1132.2",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "318.15",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "15",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      },
+      {
+        "token": "30",
+        "region": "PROPblock_6",
+        "verdict": "uninspected_block"
+      }
+    ]
+  },
+  "inspections": [
+    {
+      "doi": "10.1016/j.fluid.2017.10.034",
+      "lit_num_id": "GLOBlit_2114",
+      "block_number": "PROPblock_3",
+      "BLKsubsys_id": null,
+      "table_mode": "rdp",
+      "columns": [
+        "BLKpoint_id",
+        "temperature_k",
+        "mole_fraction_<sodium chloride>",
+        "mass_density_kg_m3"
+      ],
+      "rows_shown": [
+        {
+          "BLKpoint_id": "BLKpoint_1",
+          "temperature_k": "288.15",
+          "mole_fraction_<sodium chloride>": "0.0099",
+          "mass_density_kg_m3": "1022.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_2",
+          "temperature_k": "288.15",
+          "mole_fraction_<sodium chloride>": "0.0196",
+          "mass_density_kg_m3": "1044.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_7",
+          "temperature_k": "288.15",
+          "mole_fraction_<sodium chloride>": "0.0654",
+          "mass_density_kg_m3": "1147.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_8",
+          "temperature_k": "293.15",
+          "mole_fraction_<sodium chloride>": "0.0099",
+          "mass_density_kg_m3": "1021"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_9",
+          "temperature_k": "293.15",
+          "mole_fraction_<sodium chloride>": "0.0196",
+          "mass_density_kg_m3": "1043.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_14",
+          "temperature_k": "293.15",
+          "mole_fraction_<sodium chloride>": "0.0654",
+          "mass_density_kg_m3": "1144.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_15",
+          "temperature_k": "298.15",
+          "mole_fraction_<sodium chloride>": "0.0099",
+          "mass_density_kg_m3": "1019.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_16",
+          "temperature_k": "298.15",
+          "mole_fraction_<sodium chloride>": "0.0196",
+          "mass_density_kg_m3": "1041.6"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_18",
+          "temperature_k": "298.15",
+          "mole_fraction_<sodium chloride>": "0.0385",
+          "mass_density_kg_m3": "1082.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_21",
+          "temperature_k": "298.15",
+          "mole_fraction_<sodium chloride>": "0.0654",
+          "mass_density_kg_m3": "1142.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_22",
+          "temperature_k": "308.15",
+          "mole_fraction_<sodium chloride>": "0.0099",
+          "mass_density_kg_m3": "1016.2"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_23",
+          "temperature_k": "308.15",
+          "mole_fraction_<sodium chloride>": "0.0196",
+          "mass_density_kg_m3": "1037.8"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_25",
+          "temperature_k": "308.15",
+          "mole_fraction_<sodium chloride>": "0.0385",
+          "mass_density_kg_m3": "1078.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_28",
+          "temperature_k": "308.15",
+          "mole_fraction_<sodium chloride>": "0.0654",
+          "mass_density_kg_m3": "1137.4"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_29",
+          "temperature_k": "318.15",
+          "mole_fraction_<sodium chloride>": "0.0099",
+          "mass_density_kg_m3": "1012.1"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_30",
+          "temperature_k": "318.15",
+          "mole_fraction_<sodium chloride>": "0.0196",
+          "mass_density_kg_m3": "1033.5"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_32",
+          "temperature_k": "318.15",
+          "mole_fraction_<sodium chloride>": "0.0385",
+          "mass_density_kg_m3": "1073.7"
+        },
+        {
+          "BLKpoint_id": "BLKpoint_35",
+          "temperature_k": "318.15",
+          "mole_fraction_<sodium chloride>": "0.0654",
+          "mass_density_kg_m3": "1132.2"
+        }
+      ],
+      "inspection_id": "INSP_23511c266e26",
+      "markdown": ""
+    }
+  ]
+}
