@@ -1,0 +1,331 @@
+{
+  "meas_ID": "rate_of_evaporation",
+  "identity": {
+    "name": "Rate of evaporation",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Rate of evaporation",
+    "thermoml_custom_codes": [
+      "RATEVAP"
+    ],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "no",
+      "destructive": "partially",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 78,
+      "property_groups": [
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 20,
+      "per_group": {
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 78,
+          "papers": 20
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "mass loss as a function of time (dm/dt)",
+          "sample temperature (T)",
+          "exposed surface area of sample (A)",
+          "total elapsed time of evaporation"
+        ],
+        "derived_observables": [
+          "vapor pressure (P) via Langmuir or Hertz-Knudsen equation",
+          "enthalpy of vaporization or sublimation (ΔvapH or ΔsubH) from Clausius-Clapeyron analysis of P(T)",
+          "vaporization coefficient (α)",
+          "evaporation flux (J, mol/(m²·s))"
+        ],
+        "target_properties": [
+          "vapor pressure of low-volatility substances",
+          "enthalpy of vaporization",
+          "enthalpy of sublimation",
+          "vaporization coefficient",
+          "vapor pressure as a function of temperature"
+        ],
+        "phases_measured": [
+          "solid (sublimation into vacuum or carrier gas)",
+          "liquid (evaporation into vacuum or carrier gas)",
+          "supercooled liquid"
+        ],
+        "supported_sample_types": [
+          "low-volatility pure solids",
+          "low-volatility pure liquids",
+          "ionic liquids",
+          "metal-organic compounds",
+          "pharmaceuticals and organic crystals",
+          "polymers and oligomers (volatility of additives or degradation products)",
+          "inorganic salts with measurable sublimation",
+          "waxes, fatty acids, and long-chain organics"
+        ],
+        "unsupported_sample_types": [
+          "highly volatile liquids with vapor pressure > 10 kPa (evaporation too fast for controlled measurement)",
+          "gases",
+          "samples that decompose before measurable evaporation occurs",
+          "mixtures where preferential evaporation of one component alters surface composition unpredictably",
+          "hygroscopic samples in non-inert atmospheres (water uptake confounds mass loss)"
+        ],
+        "typical_output_formats": [
+          "mass loss (Δm) vs. time curve at constant T (isothermal TGA)",
+          "dm/dt vs. T curve (non-isothermal TGA)",
+          "ln(P) vs. 1/T (Clausius-Clapeyron plot)",
+          "vapor pressure vs. temperature table",
+          "Arrhenius-type plot of evaporation rate"
+        ],
+        "units": {
+          "mass_loss_rate": "mg/min or µg/s",
+          "vapor_pressure": "Pa or kPa",
+          "temperature": "K",
+          "enthalpy_of_vaporization": "kJ/mol",
+          "surface_area": "m² or cm²",
+          "molar_mass": "g/mol",
+          "evaporation_flux": "mol/(m²·s) or kg/(m²·s)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "300 K to 900 K",
+            "hard_limits": "limited by furnace capability and sample decomposition temperature; lower bound set by detectability of mass loss rate",
+            "notes": "isothermal experiments at 3–10 discrete temperatures are most common; non-isothermal ramps (1–10 K/min) also used"
+          },
+          {
+            "parameter": "pressure_environment",
+            "typical_range": "10⁻⁴ Pa to 10⁵ Pa (vacuum to atmospheric)",
+            "hard_limits": "Langmuir equation strictly applies only in free molecular flow (mean free path >> orifice/surface dimension), requiring P < ~1 Pa in chamber",
+            "notes": "measurements at atmospheric pressure in carrier gas require mass-transport corrections (not true Langmuir conditions)"
+          },
+          {
+            "parameter": "mass_loss_rate",
+            "typical_range": "0.1 µg/min to 100 mg/min",
+            "hard_limits": "lower limit set by balance sensitivity and baseline drift; upper limit set by ability to maintain isothermal conditions during rapid evaporation",
+            "notes": "optimal rate depends on balance resolution and desired measurement duration"
+          },
+          {
+            "parameter": "sample_surface_area",
+            "typical_range": "0.1 cm² to 5 cm²",
+            "hard_limits": "must be well-defined and remain constant during measurement; liquid samples require flat meniscus in known-geometry crucible",
+            "notes": "for solids, surface area estimation is a major uncertainty source; powders have ill-defined effective area"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable (isothermal mode) or scanned variable (non-isothermal mode)",
+            "typical_values": "350 K to 800 K in 10–25 K steps (isothermal); 1–10 K/min ramp (non-isothermal)",
+            "effect": "exponentially increases evaporation rate and derived vapor pressure via Clausius-Clapeyron relation"
+          },
+          {
+            "name": "chamber_pressure",
+            "role": "controlled environmental parameter",
+            "typical_values": "10⁻³ Pa (high vacuum) or 10⁵ Pa (atmospheric with N₂ or He carrier)",
+            "effect": "determines whether free-surface (Langmuir) or diffusion-limited evaporation regime applies; vacuum is required for Langmuir equation validity"
+          },
+          {
+            "name": "carrier_gas_flow_rate",
+            "role": "controlled variable (atmospheric TGA mode)",
+            "typical_values": "20–200 mL/min of N₂ or He",
+            "effect": "sweeps away vapor to prevent saturation above sample surface; flow rate must be high enough to maintain near-zero partial pressure of evaporant"
+          },
+          {
+            "name": "sample_mass",
+            "role": "initial condition",
+            "typical_values": "5–50 mg",
+            "effect": "determines total measurement duration; smaller samples limit number of isothermal steps before depletion"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "thermogravimetric analyzer (TGA) or high-sensitivity microbalance (resolution ≤ 0.1 µg)",
+          "furnace with precise isothermal temperature control (±0.5 K or better)",
+          "thermocouple or platinum resistance thermometer positioned close to sample",
+          "vacuum system (turbomolecular or diffusion pump) for Langmuir-mode measurements, achieving < 10⁻³ Pa",
+          "carrier gas flow controller (mass flow controller) for atmospheric-mode TGA measurements",
+          "open crucible or Langmuir cup with known orifice geometry",
+          "data acquisition system recording mass, temperature, and time continuously",
+          "temperature programmer for isothermal hold or controlled ramp profiles"
+        ],
+        "environmental_requirements": [
+          "high vacuum (< 10⁻³ Pa) for true Langmuir free-surface evaporation measurements",
+          "inert atmosphere (N₂, Ar, or He) to prevent oxidation or decomposition side reactions",
+          "stable laboratory temperature to minimize balance drift",
+          "vibration isolation for microbalance sensitivity"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "flat liquid surface in cylindrical crucible of known diameter (liquid samples)",
+            "flat pellet or disk with measurable surface area (solid samples)",
+            "thin film on substrate (thin-film evaporation variant)"
+          ],
+          "size_limits": "typically 5–50 mg; must be sufficient to sustain measurable mass loss over the planned temperature program",
+          "thickness_limits": "liquid depth should be > 1 mm to maintain flat meniscus; solid pellets typically 0.5–3 mm thick",
+          "surface_requirements": [
+            "smooth, well-defined surface area for accurate flux calculation",
+            "for liquids: flat meniscus achieved by appropriate crucible wetting",
+            "for solids: polished or pressed flat surface to provide reproducible evaporating area"
+          ],
+          "mounting_requirements": [
+            "sample placed in open crucible (Pt, Al₂O₃, or quartz) on TGA balance arm",
+            "crucible geometry must be documented (inner diameter, depth) for surface area calculation",
+            "no lid or cover — free surface must be exposed to vacuum or gas stream"
+          ],
+          "preparation_requirements": [
+            "accurate initial mass determination (±0.01 mg)",
+            "drying under vacuum or inert gas to remove adsorbed moisture",
+            "for solids: pressing into pellet or polishing a flat surface of known area",
+            "for liquids: loading into pre-weighed crucible with known inner diameter",
+            "purity verification (impurities alter vapor pressure)"
+          ]
+        },
+        "calibration_requirements": [
+          "temperature calibration of TGA using melting-point standards (In, Sn, Zn, Al) or Curie-point standards (Ni, Fe, Co)",
+          "mass calibration with certified reference weights spanning the measurement range",
+          "baseline (buoyancy) correction using empty crucible runs under identical gas flow and temperature profile",
+          "validation against known vapor pressure data for a reference compound (e.g., ferrocene, naphthalene, benzoic acid)"
+        ],
+        "reference_materials": [
+          "ferrocene — well-characterized sublimation vapor pressure, widely used TGA-VP benchmark",
+          "naphthalene — vapor pressure reference for sublimation measurements at moderate temperatures",
+          "benzoic acid — sublimation and vapor pressure standard",
+          "mercury — liquid-phase vapor pressure reference (historical, restricted use)",
+          "zinc — Curie-point and melting-point standard for TGA temperature calibration"
+        ],
+        "consumables": [
+          "open platinum or alumina crucibles",
+          "inert carrier gas (N₂, He, or Ar)",
+          "calibration reference compounds (ferrocene, naphthalene)",
+          "certified reference weights for balance verification"
+        ],
+        "safety_notes": [
+          "vacuum systems require proper implosion shielding and pressure relief",
+          "toxic or volatile samples may require fume extraction or cold trapping at vacuum pump exhaust",
+          "high-temperature furnace operation requires burn protection",
+          "mercury reference material requires special handling under mercury hygiene protocols"
+        ]
+      },
+      "performance": {
+        "sensitivity": "modern TGA instruments resolve mass changes of ~0.1 µg, enabling detection of evaporation rates as low as ~0.01 µg/min",
+        "detection_limit": "vapor pressures down to ~10⁻⁵ Pa can be determined from very slow mass loss rates with long integration times (hours)",
+        "resolution": {
+          "spatial": "not applicable (bulk average measurement over exposed surface area)",
+          "temporal": "mass readings typically at 0.1–1 s intervals; rate resolution depends on data smoothing window",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "vapor pressures from ~10⁻⁵ Pa to ~10³ Pa; upper limit set by excessive evaporation causing non-isothermal conditions",
+        "accuracy": "10–30% for absolute vapor pressure (dominated by vaporization coefficient uncertainty); enthalpy of vaporization accuracy typically ±5 kJ/mol or ±3–10% (from slope of ln P vs 1/T, where α cancels)",
+        "precision": "2–5% repeatability for mass loss rate at fixed temperature; ≤ 2 kJ/mol repeatability for ΔvapH from replicate Clausius-Clapeyron analyses",
+        "throughput": "one sample per run; isothermal step program with 5–10 temperature points requires 4–24 hours",
+        "measurement_speed": "each isothermal step requires 30–120 min to establish steady-state mass loss rate; non-isothermal ramp scans can be completed in 1–3 hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "continuous mass reading (thermogravimetric signal) and temperature as functions of time; mass loss appears as a monotonically decreasing m(t) curve during isothermal holds",
+        "preprocessing_steps": [
+          "buoyancy correction: subtract baseline mass drift measured in empty-crucible run under identical conditions",
+          "smoothing or differentiation of m(t) to obtain steady-state dm/dt at each isothermal temperature",
+          "exclusion of initial transient period after temperature step (wait for thermal equilibrium)",
+          "correction for surface area changes if sample shape evolves during evaporation (liquids: meniscus recession; solids: surface roughening)"
+        ],
+        "analysis_methods": [
+          "Langmuir equation: P = (dm/dt) × √(2πRT/M) / (αA), solved for P at each temperature",
+          "Clausius-Clapeyron plot: ln(P) vs. 1/T yields slope = −ΔvapH/R, eliminating α if it is temperature-independent",
+          "Knudsen effusion variant: if crucible has a defined orifice, Hertz-Knudsen equation with Clausing factor correction is used",
+          "non-isothermal (Arrhenius-type) analysis: continuous dm/dt from a temperature ramp fitted to extract activation energy (≈ΔvapH)",
+          "iterative α estimation: compare TGA-derived P with reference data for a calibrant to back-calculate α for the apparatus"
+        ],
+        "model_assumptions": [
+          "evaporation follows the Langmuir (free-surface) mechanism: molecules leave the surface at equilibrium vapor pressure rate",
+          "vaporization coefficient α is unity or constant over the temperature range studied",
+          "surface area A is known and constant throughout the measurement",
+          "no re-condensation of evaporated molecules onto the sample (free molecular flow or sufficient carrier gas sweeping)",
+          "sample temperature is uniform (no thermal gradients across sample during evaporation)",
+          "no chemical decomposition competing with physical evaporation"
+        ],
+        "fit_parameters": [
+          "vapor pressure P at each temperature (from Langmuir equation)",
+          "enthalpy of vaporization or sublimation ΔvapH (slope of Clausius-Clapeyron plot)",
+          "entropy of vaporization ΔvapS (intercept of Clausius-Clapeyron plot)",
+          "vaporization coefficient α (if independently calibrated or fitted)"
+        ],
+        "common_artifacts": [
+          "non-unity vaporization coefficient: most substances have α < 1, causing systematic underestimation of true vapor pressure",
+          "surface area change during evaporation: liquid meniscus recedes or solid surface develops pits, altering effective A",
+          "buoyancy drift: gas density changes with temperature produce apparent mass changes unrelated to evaporation",
+          "thermal decomposition overlap: concurrent chemical degradation inflates mass loss beyond true evaporation",
+          "vapor saturation above sample surface: insufficient vacuum or gas flow leads to back-pressure that suppresses net evaporation",
+          "sample creep or spreading in crucible: liquid wetting up crucible walls increases surface area uncontrollably"
+        ],
+        "quality_control_checks": [
+          "verify steady-state mass loss rate at each isothermal step (constant dm/dt over ≥ 15 minutes)",
+          "check linearity of ln(P) vs. 1/T (Clausius-Clapeyron plot): R² > 0.995 expected for single vaporization process",
+          "validate against published vapor pressures for at least one reference compound (ferrocene or naphthalene) under identical conditions",
+          "repeat measurements at same temperature to confirm reproducibility within 5%",
+          "compare results from different sample masses to rule out surface-area-dependent systematic errors",
+          "inspect residue after measurement for evidence of decomposition (discoloration, residual mass)"
+        ],
+        "failure_modes": [
+          "sample decomposition during measurement (mass loss from chemical degradation, not evaporation)",
+          "loss of sample from crucible due to bumping, spattering, or boiling at too-high temperature",
+          "balance drift or malfunction producing noisy or non-monotonic mass traces",
+          "vacuum leak causing uncontrolled atmospheric contamination and invalidating Langmuir conditions",
+          "sample depletion before completing all planned isothermal steps"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 10–30% for absolute vapor pressure; 3–10% for enthalpy of vaporization from Clausius-Clapeyron slope",
+        "random_sources": [
+          "balance noise and short-term mass fluctuations",
+          "temperature fluctuations during isothermal hold (±0.5–2 K)",
+          "carrier gas flow rate fluctuations affecting vapor removal efficiency",
+          "vibration-induced noise in microbalance reading"
+        ],
+        "systematic_sources": [
+          "vaporization coefficient α not equal to unity (dominant systematic error for absolute P)",
+          "surface area measurement uncertainty (especially for solids with irregular surfaces)",
+          "temperature measurement offset between thermocouple and true sample surface temperature",
+          "buoyancy correction residual error",
+          "concurrent thermal decomposition inflating apparent evaporation rate",
+          "sample mass uncertainty",
+          "molar mass uncertainty for complex or polymeric substances"
+        ],
+        "operator_dependence": "moderate — results depend on crucible loading technique (surface flatness for liquids), choice of steady-state time window, and data smoothing parameters",
+        "model_dependence": "high — absolute vapor pressure depends critically on assumed α value (typically set to 1 in absence of independent data); enthalpy determination is less model-dependent because α cancels in Clausius-Clapeyron slope if α is temperature-independent",
+        "dominant_error_sources": [
+          "vaporization coefficient uncertainty (factor of 2–10× error possible if α deviates significantly from unity)",
+          "surface area estimation for solid samples",
+          "temperature measurement accuracy (1 K error at 400 K causes ~2% vapor pressure error)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(P) at 95% confidence (k=2)",
+          "standard uncertainty of ΔvapH from linear regression statistics",
+          "relative uncertainty as percentage of P"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Rate-of-evaporation measurement is a thermogravimetric technique that determines vapor pressure by monitoring the mass loss rate of a sample evaporating from a free surface into vacuum or a flowing inert carrier gas. The method relies on the Langmuir equation, which relates the evaporation flux from a surface to the equilibrium vapor pressure through kinetic gas theory. Originally formulated by Langmuir in 1913 for tungsten filament evaporation, the technique has been widely adopted for measuring vapor pressures of low-volatility solids and liquids in the range 10⁻⁵ to 10³ Pa, with particular utility for thermally stable organic crystals, pharmaceuticals, ionic liquids, and metal-organic compounds where conventional manometric methods lack sensitivity.",
+      "how_it_operates": "A sample of known surface area is placed in an open crucible on the balance arm of a thermogravimetric analyzer or a precision vacuum microbalance. The system is evacuated to high vacuum (< 10⁻³ Pa) for Langmuir-mode measurements or purged with a flowing inert carrier gas for atmospheric-mode TGA. The furnace heats the sample to a series of isothermal temperatures, and at each temperature the steady-state mass loss rate dm/dt is recorded once thermal equilibrium is established (typically after 15–30 minutes). The continuous mass-versus-time trace shows a linear decrease during steady-state evaporation. The measured dm/dt, together with the known surface area A, molar mass M, temperature T, and an assumed or calibrated vaporization coefficient α, is inserted into the Langmuir equation to compute the vapor pressure P at each temperature.",
+      "core_theory": "The Langmuir equation derives from the kinetic theory of gases applied to a surface in equilibrium with its vapor. At equilibrium the rate of molecular departure from the surface equals the rate of arrival from the vapor phase. For a surface evaporating into perfect vacuum (no return flux), the mass evaporation rate per unit area is dm/(A·dt) = αP√(M/(2πRT)), where P is the equilibrium vapor pressure, M is the molar mass, R is the gas constant, T is the absolute temperature, and α is the vaporization (accommodation) coefficient representing the fraction of molecules that successfully desorb versus those reflected back. Rearranging gives P = (dm/dt)·√(2πRT/M)/(αA). By measuring P at multiple temperatures and plotting ln(P) versus 1/T, the Clausius-Clapeyron equation yields the enthalpy of vaporization (or sublimation) from the slope: d(ln P)/d(1/T) = −ΔvapH/R. A key advantage of this Clausius-Clapeyron analysis is that α cancels from the slope if it is temperature-independent, making ΔvapH determinable with much better accuracy than absolute P.",
+      "setup": "The standard apparatus is a thermogravimetric analyzer equipped with a furnace capable of stable isothermal operation (±0.5 K) over the range of interest, typically 300–900 K. For Langmuir-mode measurements, the TGA balance head is coupled to a vacuum system (turbomolecular or diffusion pump) achieving 10⁻³ to 10⁻⁵ Pa, with the sample in an open platinum or alumina crucible of precisely known inner diameter. For atmospheric-mode TGA, a carrier gas (N₂ or He) flows over the sample at a controlled rate (20–200 mL/min) to sweep away vapor and maintain near-zero partial pressure above the surface. A thermocouple positioned immediately adjacent to or beneath the crucible measures the sample temperature. The data acquisition system records mass, temperature, and time at 0.1–1 s intervals.",
+      "suitable_for": "Rate-of-evaporation measurements are ideally suited for low-volatility solids and high-boiling liquids with vapor pressures in the 10⁻⁵ to 10³ Pa range, where direct manometric methods (static or ebulliometric) have insufficient sensitivity. The technique is particularly valuable for pharmaceuticals (assessing shelf-life-related sublimation), ionic liquids, metal-organic precursors for chemical vapor deposition, energetic materials, pesticides, and polycyclic aromatic hydrocarbons. It is also useful for determining enthalpies of sublimation or vaporization from the temperature dependence of the evaporation rate, which can be obtained with ±5 kJ/mol accuracy even when absolute vapor pressure accuracy is limited by α uncertainty.",
+      "core_limitations": "The dominant limitation is the vaporization coefficient α, which is rarely exactly unity and is generally unknown for a given substance. Setting α = 1 introduces a systematic error that can underestimate the true vapor pressure by a factor of 2–10 for some materials. Surface area measurement, particularly for irregularly shaped solids or powders, contributes additional uncertainty. Concurrent thermal decomposition is a critical interference: if mass loss includes degradation products, the apparent vapor pressure is overestimated. The technique assumes no re-condensation of vapor near the surface, requiring either high vacuum or sufficient carrier gas flow. For liquids, the meniscus geometry changes as the sample evaporates, altering the effective surface area. Accuracy for absolute vapor pressure (10–30%) is substantially lower than that of Knudsen effusion or static methods.",
+      "sample_preparation": "Liquid samples are loaded into a pre-weighed, clean, open crucible (typically platinum or alumina) of precisely known inner diameter (commonly 5–10 mm), filling to a depth of 1–3 mm to provide a flat, well-defined meniscus. Solid samples are either pressed into flat-topped pellets using a hydraulic press and die set, or cut and polished to expose a flat surface of measurable area. Powdered samples should be avoided or used only with acknowledged surface-area uncertainty. All samples must be weighed to ±0.01 mg before loading. Pre-drying under vacuum or inert gas at a temperature well below the measurement range removes adsorbed moisture or solvent. Purity should be verified (e.g., by DSC or HPLC) because even small impurity levels can alter vapor pressure significantly.",
+      "calibration_and_references": "Temperature calibration of the TGA is performed using Curie-point magnetic standards (nickel, iron) or melting-point standards (indium at 429.75 K, tin at 505.08 K, zinc at 692.68 K) under the same gas environment and heating program as measurements. Mass calibration uses certified reference weights. The most critical validation step is measuring the vapor pressure of a well-characterized reference compound under identical conditions and comparing with literature values. Ferrocene is the most widely used benchmark for sublimation vapor pressure by TGA, with thoroughly evaluated reference data available. Naphthalene and benzoic acid serve as secondary standards. If the apparatus consistently yields P values low by a fixed factor relative to the reference compound, that factor can be used to estimate an effective α for the instrumental geometry.",
+      "data_interpretation": "At each isothermal temperature, the mass-versus-time trace is examined for a linear steady-state region (constant dm/dt), excluding the initial transient period after the temperature step. The slope dm/dt is determined by linear regression over the steady-state interval. This rate is inserted into the Langmuir equation P = (dm/dt)·√(2πRT/M)/(αA) to obtain the vapor pressure. The resulting P(T) data are plotted as ln(P) versus 1/T. A linear fit yields ΔvapH/R from the slope and ΔvapS/R from the intercept. Curvature in the Clausius-Clapeyron plot may indicate a phase transition (e.g., solid-to-liquid), temperature-dependent α, or onset of decomposition. For non-isothermal (ramp) experiments, continuous dm/dt is obtained by numerical differentiation of the mass trace, and an Arrhenius-type analysis is applied, although isothermal methods are generally preferred for accuracy.",
+      "common_pitfalls": "The most frequent pitfall is assuming α = 1 without justification, which can introduce order-of-magnitude errors in absolute vapor pressure for substances with low vaporization coefficients (e.g., hydrogen-bonded solids, polymeric liquids). Failing to wait for true steady-state evaporation after a temperature change leads to transient dm/dt values that are not representative of equilibrium vapor pressure. Using powdered samples without accounting for their much larger (and evolving) effective surface area compared to the geometric crucible cross-section produces erroneous results. Neglecting buoyancy corrections, particularly in flowing-gas TGA, introduces systematic baseline offsets. Operating at temperatures where thermal decomposition competes with evaporation contaminates the mass loss signal; this can often be detected by examining the residue after measurement or by comparing TGA curves in different atmospheres.",
+      "artifacts_and_failure_modes": "Buoyancy artifacts arise from gas density changes with temperature, producing a small apparent mass gain on heating that must be subtracted using an empty-crucible baseline run. Decomposition overlap is the most insidious artifact: mass loss from chemical degradation is indistinguishable from evaporation in the raw TGA trace, and can only be identified by residue analysis, mass spectrometry of evolved gases, or comparison with sealed-pan DSC experiments. Vapor saturation above the sample surface occurs if the vacuum is inadequate or carrier gas flow is insufficient, causing the measured evaporation rate to understate the true equilibrium value. Sample creep in liquid measurements — where the liquid wets and climbs the crucible walls — increases the evaporating surface area beyond the geometric cross-section, leading to erroneously high apparent vapor pressure. Balance drift over long isothermal holds (hours) can introduce a false trend in dm/dt that mimics a slowly changing vapor pressure.",
+      "reporting_checklist": "Published rate-of-evaporation vapor pressure results should report: instrument type and model (TGA or microbalance), measurement mode (vacuum Langmuir or flowing-gas), chamber pressure or carrier gas identity and flow rate, sample purity and source, sample mass and crucible geometry (inner diameter, material), number and duration of isothermal temperature steps, method used to determine steady-state dm/dt, assumed or calibrated vaporization coefficient α, molar mass used in Langmuir equation, derived vapor pressures with temperatures, Clausius-Clapeyron plot with ΔvapH and regression statistics, buoyancy and baseline corrections applied, evidence for or against decomposition (residue analysis, TGA-MS), validation against reference compound data, and combined expanded uncertainty at 95% confidence level. For ThermoML encoding, vapor pressure values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

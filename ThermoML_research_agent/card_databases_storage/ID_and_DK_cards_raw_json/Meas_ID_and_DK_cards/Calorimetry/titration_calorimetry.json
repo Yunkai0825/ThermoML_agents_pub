@@ -1,0 +1,373 @@
+{
+  "meas_ID": "titration_calorimetry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Titration calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Titration calorimetry",
+    "thermoml_custom_codes": [
+      "TITR"
+    ],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "partially",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 456,
+      "property_groups": [
+        "ExcessPartialApparentEnergyProp"
+      ],
+      "n_papers": 30,
+      "per_group": {
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 456,
+          "papers": 30
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "differential power vs. time trace (thermogram)",
+          "injection heat pulse (µW or µcal/s) per injection event",
+          "integrated heat per injection (µJ or µcal)",
+          "injection volume per aliquot (µL)",
+          "baseline power offset between sample and reference cells"
+        ],
+        "derived_observables": [
+          "molar enthalpy of binding (ΔH_bind, kJ/mol)",
+          "association constant (Ka, M⁻¹)",
+          "binding stoichiometry (n)",
+          "molar enthalpy of mixing (ΔH_mix, kJ/mol)",
+          "molar enthalpy of dilution (ΔH_dil, kJ/mol)",
+          "excess molar enthalpy (H^E, J/mol)",
+          "partial molar enthalpy at infinite dilution",
+          "Gibbs energy of binding (ΔG = −RT ln Ka)",
+          "entropy of binding (ΔS = (ΔH − ΔG)/T)"
+        ],
+        "target_properties": [
+          "excess molar enthalpy of mixing",
+          "partial molar excess enthalpy",
+          "apparent molar enthalpy",
+          "enthalpy of dilution",
+          "enthalpy of binding/association",
+          "association constant (Ka)",
+          "binding stoichiometry (n)"
+        ],
+        "phases_measured": [
+          "liquid (aqueous solutions)",
+          "liquid (organic solutions)",
+          "liquid (mixed solvent systems)",
+          "micellar / surfactant solutions",
+          "macromolecular solutions (protein, polymer)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "ternary and multicomponent liquid mixtures",
+          "aqueous electrolyte solutions",
+          "surfactant and micellar solutions",
+          "protein–ligand systems",
+          "polymer solutions",
+          "ionic liquid mixtures",
+          "macrocyclic host–guest systems",
+          "dilute solute solutions (dilution experiments)"
+        ],
+        "unsupported_sample_types": [
+          "gases or vapors",
+          "solid–solid reactions (no dissolution)",
+          "highly viscous or gelling systems that block syringe injection",
+          "volatile liquids with significant vapor pressure above sample cell",
+          "samples requiring sealed high-pressure cells (standard ITC)",
+          "heterogeneous slurries with particles that clog the injection needle"
+        ],
+        "typical_output_formats": [
+          "raw thermogram: differential power (µW) vs. time (s)",
+          "integrated isotherm: heat per injection (kJ/mol of injectant) vs. molar ratio",
+          "cumulative enthalpy vs. composition (for mixing enthalpies)",
+          "excess molar enthalpy vs. mole fraction"
+        ],
+        "units": {
+          "differential_power": "µW or µcal/s",
+          "integrated_heat": "µJ or µcal per injection",
+          "molar_enthalpy": "kJ/mol or J/mol",
+          "association_constant": "M⁻¹ (L/mol)",
+          "concentration": "mol/L (M) or mmol/L (mM)",
+          "injection_volume": "µL",
+          "temperature": "K or °C",
+          "stoichiometry": "dimensionless (n)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "cell_temperature",
+            "typical_range": "278 K to 353 K (5 °C to 80 °C)",
+            "hard_limits": "limited by aqueous solution stability and instrument Peltier range; extended-range instruments reach 2 °C to 100 °C",
+            "notes": "most ITC experiments in ThermoML are performed at 298.15 K"
+          },
+          {
+            "parameter": "injection_volume",
+            "typical_range": "1 µL to 15 µL per injection",
+            "hard_limits": "minimum ~0.1 µL (nanocalorimeters); maximum limited by syringe volume (typically 40–350 µL total)",
+            "notes": "smaller injections give better resolution of the binding isotherm but lower signal-to-noise per injection"
+          },
+          {
+            "parameter": "titrant_concentration",
+            "typical_range": "1–50 mM (binding); 0.01–neat (mixing)",
+            "hard_limits": "must yield measurable heat per injection (typically > 0.5 µJ); upper limit set by solubility",
+            "notes": "c-value (c = n·Ka·[M]_cell) should be 1–1000 for reliable Ka determination; 5–500 is optimal"
+          },
+          {
+            "parameter": "cell_volume",
+            "typical_range": "190 µL (MicroCal ITC200) to 1400 µL (VP-ITC)",
+            "hard_limits": "fixed by instrument design; nano-ITC instruments use ~170–1000 µL",
+            "notes": "smaller cells require less sample but have lower total signal"
+          },
+          {
+            "parameter": "stirring_speed",
+            "typical_range": "100–400 rpm",
+            "hard_limits": "too slow: poor mixing; too fast: frictional heat artifact and bubble entrainment",
+            "notes": "typically 250–307 rpm for MicroCal instruments; optimized per solvent viscosity"
+          },
+          {
+            "parameter": "injection_spacing",
+            "typical_range": "120–300 s between injections",
+            "hard_limits": "must allow baseline to fully return between injections",
+            "notes": "slow kinetic processes (e.g., protein conformational changes) require longer spacing"
+          },
+          {
+            "parameter": "reference_power",
+            "typical_range": "5–20 µcal/s (MicroCal instruments)",
+            "hard_limits": "must exceed the largest exothermic heat to maintain active feedback control",
+            "notes": "higher reference power improves dynamic range for exothermic reactions but increases noise"
+          }
+        ],
+        "variables": [
+          {
+            "name": "molar_ratio",
+            "role": "primary scanned variable",
+            "typical_values": "0 to 2–4 (titrant/macromolecule)",
+            "effect": "progressive saturation of binding sites; isotherm shape encodes Ka, n, and ΔH"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled variable (fixed per experiment)",
+            "typical_values": "278–353 K",
+            "effect": "temperature changes reveal ΔCp of binding from slope of ΔH vs. T"
+          },
+          {
+            "name": "titrant_concentration",
+            "role": "controlled input variable",
+            "typical_values": "1–50 mM (binding); up to neat liquid (mixing)",
+            "effect": "sets heat per injection magnitude and c-value for binding experiments"
+          },
+          {
+            "name": "cell_concentration",
+            "role": "controlled input variable",
+            "typical_values": "0.05–5 mM (binding); variable (mixing)",
+            "effect": "determines c-value and the shape of the binding isotherm"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "standard ITC operates at atmospheric pressure; high-pressure ITC variants exist but are rare"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "matched twin cells (sample cell and reference cell) — coin-shaped or cylindrical, typically gold-plated or Hastelloy, connected by a thermopile",
+          "precision injection syringe — long-needle syringe (typically 40–350 µL) with paddle-tip for simultaneous stirring and injection",
+          "syringe drive motor — programmable stepper motor delivering precise injection volumes (±0.1 µL)",
+          "power-compensation feedback system — heater on each cell maintains ΔT = 0 between sample and reference cells",
+          "Peltier thermostat or water-bath jacket — maintains constant cell temperature (±0.001 K stability)",
+          "thermopile or semiconductor sensor — measures differential temperature between sample and reference cells",
+          "data acquisition and control electronics — records differential power, controls injection sequence, timing, and stirring",
+          "degassing station — vacuum or helium-purge system to remove dissolved gases from solutions before loading"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled room (±1 °C) to minimize thermal drift on cell exterior",
+          "vibration-free bench or isolation table to prevent mechanical noise in power signal",
+          "absence of drafts or air currents near the instrument head",
+          "clean laboratory environment to avoid particulate contamination of cells"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid solution loaded via syringe into coin-shaped or cylindrical cell",
+            "no solid geometry constraints — sample must be fully dissolved or uniformly dispersed"
+          ],
+          "size_limits": "cell volumes 170–1400 µL depending on instrument; overfill volume required (~10–20% excess) for complete filling without bubbles",
+          "thickness_limits": "not applicable (liquid in cell)",
+          "surface_requirements": [
+            "cell interior must be chemically clean (rinsed with water, detergent, ethanol, then dried)",
+            "no protein or surfactant residue from prior experiments"
+          ],
+          "mounting_requirements": [
+            "solution loaded bubble-free using a long Hamilton syringe or loading syringe",
+            "syringe tip must reach the bottom of the cell to displace air completely",
+            "reference cell filled with buffer or matching solvent (not water, unless aqueous)"
+          ],
+          "preparation_requirements": [
+            "accurate concentration determination (gravimetric or spectrophotometric) — concentration errors propagate directly into ΔH and Ka",
+            "dialysis equilibration: both titrant and cell solutions should be in identical buffer (especially for protein-ligand ITC)",
+            "thorough degassing under mild vacuum (5–10 min) to prevent bubble formation during experiment",
+            "pH matching of titrant and cell solutions to avoid heats of protonation being conflated with binding heat",
+            "temperature equilibration: load solutions and allow 15–30 min stabilization before starting injections"
+          ]
+        },
+        "calibration_requirements": [
+          "electrical (Joule) calibration: known power pulse applied to cell heater to verify µW-to-heat conversion",
+          "chemical calibration: standard reaction with known ΔH (e.g., BaCl₂ + 18-crown-6 in water, ΔH ≈ −31.42 kJ/mol)",
+          "water–water injection blank to verify minimal heat of friction/dilution artifact",
+          "verification of injection volume accuracy using gravimetric method (weigh syringe before and after titration)"
+        ],
+        "reference_materials": [
+          "BaCl₂ + 18-crown-6 ether in water — standard binding reaction (ΔH = −31.42 kJ/mol, Ka ~5900 M⁻¹ at 298.15 K)",
+          "protonation of Tris buffer — well-characterized ΔH of protonation",
+          "RNase A + 2'-CMP binding — protein-ligand reference (widely published ITC benchmark)",
+          "dilution of concentrated sucrose solution — enthalpy of dilution reference"
+        ],
+        "consumables": [
+          "Hamilton loading syringes (various gauges for cell and injection syringe loading)",
+          "injection syringe needles and paddle tips (instrument-specific replacements)",
+          "cleaning detergent (14% Decon-90 or 5% Contrad-70)",
+          "degassing tubes or micro-cups",
+          "pH buffers for solution preparation",
+          "ultrapure water (Milli-Q, ≥ 18.2 MΩ·cm)"
+        ],
+        "safety_notes": [
+          "organic solvents in the cell require proper ventilation and compatibility check with cell material",
+          "concentrated acids/bases used for cell cleaning require PPE",
+          "biological samples (proteins, pathogens) require BSL-appropriate handling",
+          "vacuum degassing station requires care to avoid implosion of glass vessels"
+        ]
+      },
+      "performance": {
+        "sensitivity": "heat detection limit ~0.1 µJ per injection (MicroCal ITC200); ~0.4 µJ (VP-ITC); enables measurement of ΔH as small as ~0.5 kJ/mol for typical concentrations",
+        "detection_limit": "binding constants Ka from ~10² to ~10⁹ M⁻¹ (direct measurement); extended to ~10¹² M⁻¹ with competitive displacement protocols",
+        "resolution": {
+          "spatial": "not applicable (bulk solution measurement)",
+          "temporal": "injection peak response time ~10–30 s; baseline recovery 60–300 s depending on kinetics",
+          "spectral": "not applicable",
+          "energy": "differential power noise ~0.01 µcal/s (10 nW) for modern instruments"
+        },
+        "dynamic_range": "enthalpy from ~0.5 kJ/mol to ~200 kJ/mol per injection; Ka from ~10² to ~10⁹ M⁻¹ in a single experiment",
+        "accuracy": "1–5% for ΔH (dominated by concentration accuracy); 5–20% for Ka (depends on c-value and isotherm shape); mixing enthalpies typically 1–3%",
+        "precision": "0.5–2% (repeatability of ΔH from replicate runs with identical solutions)",
+        "throughput": "one titration takes 30–90 min; automated multi-sample ITC (auto-ITC) can run 10–50 experiments per day",
+        "measurement_speed": "single experiment: 20–50 injections over 30–90 min; data reduction ~minutes"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "differential power (µW or µcal/s) applied to the sample cell to maintain ΔT = 0 between sample and reference cells, recorded as a function of time; each injection produces a transient power excursion (exothermic peak downward, endothermic peak upward in power-compensation mode)",
+        "preprocessing_steps": [
+          "baseline determination and subtraction — fit baseline between injection peaks using linear or cubic spline interpolation",
+          "peak integration — integrate each injection peak (area under the differential power curve) to obtain heat per injection (qi in µcal or µJ)",
+          "dilution/blank correction — subtract heats from control experiments (titrant-into-buffer and buffer-into-cell solution) from raw heats",
+          "concentration normalization — divide qi by moles of injectant to obtain molar enthalpy per injection (kJ/mol)",
+          "manual inspection and removal of anomalous first injection (often discarded due to diffusion effects at syringe tip)"
+        ],
+        "analysis_methods": [
+          "independent binding sites model: fit integrated isotherm (q vs. molar ratio) to Wiseman isotherm → Ka, ΔH, n",
+          "sequential binding sites model: for macromolecules with multiple non-equivalent sites",
+          "competitive binding / displacement model: for tight binders (Ka > 10⁸ M⁻¹) measured via competition with a weaker ligand",
+          "model-free integration: cumulative sum of injection heats gives total enthalpy of mixing as a function of composition",
+          "Redlich-Kister or Margules polynomial fit to excess enthalpy vs. mole fraction data",
+          "van't Hoff analysis: ΔH(T) from ITC at multiple temperatures yields ΔCp of binding"
+        ],
+        "model_assumptions": [
+          "independent and equivalent binding sites (standard one-site model) — all n sites have identical Ka and ΔH",
+          "instantaneous equilibration after each injection (no slow kinetic effects within the injection spacing)",
+          "dilution heat is composition-independent and can be subtracted as a constant from the tail of the isotherm",
+          "concentrations in syringe and cell are accurately known (no adsorption to surfaces, no aggregation)",
+          "solution ideality corrections are negligible or explicitly accounted for in the model",
+          "for mixing enthalpies: volumetric mixing is ideal (volumes are additive) or corrected for excess volume"
+        ],
+        "fit_parameters": [
+          "binding enthalpy (ΔH, kJ/mol)",
+          "association constant (Ka, M⁻¹)",
+          "stoichiometry (n, sites per macromolecule)",
+          "for mixing: excess molar enthalpy at each composition point (H^E, J/mol)",
+          "Redlich-Kister coefficients (A0, A1, A2, …) for H^E(x) curves"
+        ],
+        "common_artifacts": [
+          "first-injection anomaly: diffusion of titrant across syringe tip during equilibration gives an erroneously small or large first heat; routinely discarded",
+          "bubble artifact: air or gas bubble in the cell produces erratic, irreproducible injection heats and drifting baseline",
+          "heat of dilution artifact: if control subtraction is inadequate, residual heats in the post-saturation region bias Ka and n",
+          "syringe leakage or clogging: produces systematically reduced injection volumes and incorrect molar ratios",
+          "aggregation artifact: protein aggregation during titration produces extraneous heat that distorts the isotherm",
+          "buffer mismatch artifact: heats of proton exchange between mismatched buffers superimpose on binding heat"
+        ],
+        "quality_control_checks": [
+          "verify c-value (c = n·Ka·[M]) is in the range 1–1000 (ideally 5–500) for reliable parameter extraction",
+          "inspect raw thermogram for stable flat baseline between injections and symmetric peak shapes",
+          "compare duplicate titrations (replicate runs) — ΔH should agree within 2% and Ka within 10%",
+          "check that post-saturation injection heats match the dilution control experiment",
+          "verify stoichiometry n is near the expected integer value (deviations indicate concentration error or partial activity)",
+          "for mixing enthalpies: verify symmetry of H^E(x) curve and closure (H^E → 0 at x = 0 and x = 1)"
+        ],
+        "failure_modes": [
+          "bubble trapped in sample cell (erratic baseline, irreproducible peaks)",
+          "syringe motor malfunction (missed or partial injections)",
+          "precipitation or phase separation of sample during titration (sudden baseline shift, anomalous heats)",
+          "thermal drift due to ambient temperature fluctuation (sloping baseline that obscures small injection heats)",
+          "cell contamination from previous experiment (background heat signal, apparent binding where none exists)",
+          "concentration error in stock solutions (systematic bias in all derived parameters)"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: 1–5% for ΔH; 5–20% for Ka; 1–3% for excess enthalpy of mixing",
+        "random_sources": [
+          "baseline noise in differential power signal",
+          "injection volume irreproducibility (±0.1–0.5 µL)",
+          "solution handling variability (pipetting, cell loading)",
+          "thermal noise from the feedback control loop",
+          "temperature fluctuations from ambient environment"
+        ],
+        "systematic_sources": [
+          "concentration determination error — typically 1–3%, propagates linearly into ΔH and quadratically into Ka",
+          "injection volume calibration offset",
+          "incomplete heat of dilution correction",
+          "heat loss to atmosphere through the cell access port",
+          "active-site fraction (fraction of protein that is correctly folded/active)",
+          "buffer mismatch protonation heat (systematic offset in measured ΔH)",
+          "adsorption of titrant to syringe or cell walls reducing effective concentration"
+        ],
+        "operator_dependence": "moderate — critical steps include solution preparation (concentration accuracy), degassing thoroughness, cell loading without bubbles, and appropriate choice of c-value and injection parameters",
+        "model_dependence": "moderate to high — Ka and n depend strongly on the chosen binding model (one-site, two-site, sequential, cooperative); ΔH is less model-dependent. Mixing enthalpy is model-free for direct integration but model-dependent if parametrized (Redlich-Kister order selection).",
+        "dominant_error_sources": [
+          "concentration uncertainty in titrant and cell solutions (dominates ΔH error)",
+          "c-value outside optimal range (c < 5: Ka poorly defined; c > 500: n poorly defined)",
+          "incomplete dilution correction for high-concentration experiments"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k=2) for ΔH and Ka",
+          "standard deviation from replicate experiments",
+          "fitting error (asymptotic standard error from nonlinear least-squares regression)",
+          "relative uncertainty as percentage of ΔH or Ka"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Titration calorimetry, most commonly implemented as isothermal titration calorimetry (ITC), is a thermodynamic technique that directly measures the heat released or absorbed when small aliquots of a titrant solution are sequentially injected into a sample cell at constant temperature. A power-compensation feedback system maintains zero temperature difference between sample and reference cells, and the compensating power trace constitutes the primary experimental signal. The technique is unique among calorimetric methods in its ability to determine the complete thermodynamic signature of a binding or mixing process — enthalpy (ΔH), association constant (Ka), and stoichiometry (n) — from a single experiment without any labeling or immobilization of the reactants. In the ThermoML context, ITC is predominantly used to measure excess molar enthalpies, partial molar enthalpies, and enthalpies of dilution for binary and multicomponent liquid mixtures, although it is also the gold-standard technique in biochemistry for protein–ligand binding thermodynamics.",
+      "how_it_operates": "The ITC instrument contains two matched cells — a sample cell and a reference cell — housed in an adiabatic or semi-adiabatic jacket held at a precisely controlled temperature. A sensitive thermopile monitors the temperature difference between the cells, and a power-compensation heater on the sample cell maintains ΔT = 0. A motorized precision syringe with a long needle terminating in a paddle-shaped tip is inserted into the sample cell, serving both as the injector and as a stirrer. During an experiment, the syringe delivers a programmed series of small-volume injections (typically 1–15 µL) at fixed time intervals (120–300 s). Each injection introduces titrant into the cell solution, and the resulting binding, mixing, or dilution event releases or absorbs heat. For an exothermic process, the feedback system reduces the compensating power to keep ΔT = 0, producing a downward deflection in the power trace; for an endothermic process, extra power is applied, producing an upward deflection. Each injection generates a transient peak in the differential power vs. time trace (the thermogram), which returns to baseline as thermal equilibrium is re-established. The area under each peak, obtained by integration, gives the heat evolved or absorbed for that injection.",
+      "core_theory": "The fundamental quantity measured in ITC is the heat qi released or absorbed upon the i-th injection. For a simple 1:1 binding reaction (M + L ⇌ ML) with n identical, independent sites on the macromolecule, the Wiseman isotherm relates qi to the fractional saturation Θ: qi = V_cell · ΔH_bind · d[ML]/d[L_total] · Δ[L_total]_i, where V_cell is the cell volume, ΔH_bind is the molar enthalpy of binding, and d[ML]/d[L_total] is determined by Ka and the total concentrations. The dimensionless c-value, c = n · Ka · [M]_total, governs the shape of the titration isotherm: c < 1 gives a featureless curve with poorly determined Ka, c between 5 and 500 gives a well-defined sigmoidal isotherm, and c > 1000 yields a nearly step-function shape where Ka is poorly constrained but ΔH is accurately determined. For mixing or dilution experiments, the heat per injection is related directly to the partial molar excess enthalpy at the instantaneous composition of the cell. The cumulative heat gives the integral molar enthalpy of mixing H^E(x) as a function of mole fraction x by accounting for the progressive dilution of the cell contents with each injection.",
+      "setup": "A modern ITC instrument (e.g., MicroCal VP-ITC, MicroCal ITC200, TA Instruments Nano ITC, or Malvern MicroCal PEAQ-ITC) comprises the twin-cell assembly, a Peltier-based or water-bath thermostat, a precision syringe drive, and a computer running instrument control and data-fitting software (e.g., Origin-ITC, NanoAnalyze, or NITPIC/SEDPHAT). The sample cell (190–1400 µL depending on model) and reference cell are connected by a thermopile with sensitivity in the nanowatt range. The injection syringe (40–350 µL total volume) is loaded with the titrant solution and inserted so the paddle-tip sits at the center of the cell, rotating at 100–400 rpm for efficient mixing. Before loading, both solutions are thoroughly degassed under mild vacuum to prevent bubble formation. The reference cell is filled with the matching buffer or solvent. A pre-experiment equilibration period of 15–30 minutes allows the baseline to stabilize before injections begin. Automated ITC systems include sample-changers and robotic plate loaders for high-throughput operation.",
+      "suitable_for": "ITC is the technique of choice for measuring enthalpies of mixing and dilution of liquid mixtures over a wide composition range, which constitutes its primary use in ThermoML. It is applied to binary organic mixtures, aqueous electrolyte solutions, ionic liquid systems, surfactant solutions (including critical micelle concentration determination), and polymer–solvent systems. In the broader literature, ITC is the gold standard for characterizing biomolecular binding interactions — protein–ligand, protein–protein, protein–DNA, antibody–antigen, enzyme–inhibitor, and host–guest supramolecular systems — because it provides Ka, ΔH, and n simultaneously without labeling. The technique works well for reactions with |ΔH| > 2 kJ/mol and Ka in the range 10³–10⁹ M⁻¹ (extended to ~10¹² M⁻¹ by competitive displacement). It is also useful for measuring enthalpies of protonation, micellization, and aggregation processes.",
+      "core_limitations": "The primary limitation of ITC is its requirement for relatively large amounts of material compared to spectroscopic methods: a typical experiment requires 0.2–1.5 mL of cell solution at 0.05–5 mM concentration and 40–350 µL of titrant at 1–50 mM, which can be prohibitive for precious proteins or rare compounds. The technique is partially destructive — once mixed, the sample cannot be recovered in its original state. The accessible Ka range in a single experiment is limited to approximately 10³–10⁹ M⁻¹; very tight binding (Ka > 10⁹) gives a featureless step-function isotherm from which Ka cannot be extracted without competitive displacement protocols. For mixing enthalpies, very small heats near the dilute ends of the composition range approach the detection limit and may be unreliable. The measurement is performed at one temperature per experiment, so obtaining ΔCp requires multiple runs at different temperatures. High viscosity solutions can cause poor mixing and syringe delivery artifacts.",
+      "sample_preparation": "Precise sample preparation is critical for ITC accuracy, as concentration errors propagate directly into ΔH and Ka. For binding experiments, both macromolecule and ligand solutions should be prepared in identical buffer — ideally by dialyzing the macromolecule against buffer and using the dialysate to prepare the ligand solution, ensuring matched buffer composition, pH, and ionic strength. Concentrations are determined by UV-Vis spectrophotometry (using extinction coefficients), amino acid analysis, or gravimetric methods. For mixing-enthalpy experiments, pure liquid components are degassed and their densities verified. All solutions must be thoroughly degassed by stirring under mild vacuum (5–10 min at 25 °C) or by gentle helium sparging to prevent bubble nucleation in the cell during the experiment. The cell is loaded using a long-needle Hamilton syringe, introducing solution slowly from the bottom to displace air without trapping bubbles. A slight overfill (10–20% excess) is used, and the excess is expelled via the cell access port.",
+      "calibration_and_references": "ITC instruments are calibrated by electrical (Joule) calibration, in which a known power pulse is delivered to the cell heater and the integrated area is compared with the known energy input. This verifies the µW-to-heat conversion factor. Chemical calibration provides an end-to-end validation: the standard reaction of BaCl₂ (in water) titrated into 18-crown-6 ether yields a well-characterized exothermic enthalpy of ΔH = −31.42 ± 0.2 kJ/mol and Ka ≈ 5900 M⁻¹ at 298.15 K, serving as a benchmark for both ΔH accuracy and Ka recovery. Injection-volume accuracy is verified gravimetrically by weighing the syringe before and after a series of injections into a tared vessel. A water-into-water (or buffer-into-buffer) blank titration is run regularly to quantify the baseline heat of friction and mechanical mixing, which should be < 0.5 µcal per injection. Control experiments of titrant-into-buffer and buffer-into-cell-solution are required for each new system to obtain dilution corrections.",
+      "data_interpretation": "The raw ITC thermogram (differential power vs. time) is processed in two stages. First, each injection peak is integrated after baseline correction to yield the heat qi for each injection. Common integration methods include manual peak-by-peak integration, automatic integration with linear or sigmoidal baseline assignment, or global baseline fitting (as in NITPIC). The first injection is routinely discarded owing to the first-injection anomaly caused by titrant diffusion during equilibration. The corrected heats (qi minus dilution control heats) are plotted as a function of molar ratio (moles of titrant added / moles of cell species). For binding experiments, this integrated isotherm is fitted by nonlinear least-squares regression to a binding model (typically the Wiseman one-site model) parameterized by Ka, ΔH, and n. For mixing enthalpies, the cumulative corrected heats are normalized by cell composition to obtain H^E(x) directly — no model is required, though the H^E(x) curve may be parametrized by Redlich-Kister polynomials for smooth representation. Thermodynamic completeness (ΔG, ΔS) is obtained via ΔG = −RT ln Ka and TΔS = ΔH − ΔG.",
+      "common_pitfalls": "The most frequent pitfall is inaccurate concentration determination: a 5% error in macromolecule concentration translates to a 5% error in ΔH and a much larger error in Ka. Failing to match buffers between titrant and cell solutions introduces spurious heats of proton exchange that add to or subtract from the true binding enthalpy, biasing ΔH by as much as 10–50 kJ/mol depending on the buffer ionization enthalpy and the number of protons transferred. Inadequate degassing leads to bubble formation mid-experiment, producing erratic injection heats and an irreparable dataset. Operating at a c-value outside the optimal range (5–500) yields poorly determined parameters: too low (< 1) produces a nearly linear isotherm where Ka and ΔH are correlated; too high (> 1000) produces a step-function where Ka cannot be extracted. Loading the cell with bubbles, typically caused by injecting too fast or using a short loading syringe, creates a systematic volume error and distorts all subsequent heats.",
+      "artifacts_and_failure_modes": "The first-injection anomaly is the most ubiquitous artifact — during the equilibration period, a small amount of titrant diffuses from the syringe tip into the cell, so the effective volume of the first injection is less than the programmed value. This produces an erroneously small exothermic or large endothermic heat for the first point. The standard remedy is to use a small first injection (0.5–1 µL) and discard it from analysis. Bubble artifacts present as erratic, non-reproducible injection heats, often accompanied by a drifting or oscillating baseline; they require aborting and reloading the experiment. Syringe clogging by precipitated sample causes progressively diminished injection peaks and failure of the isotherm to reach saturation. Thermal drift artifacts appear as a monotonically sloping baseline that causes systematic integration errors; they result from ambient temperature fluctuations or incomplete thermal equilibration. Protein aggregation manifests as anomalous exothermic heats at high molar ratios where the isotherm should be flat, or as a failure of the data to fit any simple binding model.",
+      "reporting_checklist": "Published ITC results should include: instrument make and model, cell volume and type (coin-shaped, cylindrical), injection volume and number of injections, injection spacing, stirring speed, cell temperature, reference power setting, concentrations of both titrant and cell solutions with the method of determination, buffer composition (including pH and ionic strength), degassing procedure, binding model used for fitting, fitted parameters (Ka, ΔH, n) with uncertainties, dilution/blank correction procedure, whether the first injection was discarded, c-value for the experiment, Gibbs energy and entropy (calculated from Ka and ΔH), raw thermogram figure and integrated isotherm figure. For mixing enthalpies: composition range, number of compositions measured, whether data is from forward and reverse titrations, Redlich-Kister coefficients if fitted. In ThermoML encoding, enthalpy values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

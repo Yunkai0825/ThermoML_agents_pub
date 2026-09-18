@@ -1,0 +1,320 @@
+{
+  "meas_ID": "ring_tensiometer",
+  "identity": {
+    "name": "Ring tensiometer",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Ring tensiometer",
+    "thermoml_custom_codes": [
+      "RINGTE"
+    ],
+    "measurement_family": "Surface Tension",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 719,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 129,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 719,
+          "papers": 129
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "maximum detachment force (F_max) on the ring as it is pulled through the liquid surface",
+          "ring circumference and wire radius (geometric parameters R and r)",
+          "temperature of the liquid sample"
+        ],
+        "derived_observables": [
+          "surface tension γ (from F_max, ring geometry, and Harkins-Jordan or Huh-Mason correction factor)",
+          "interfacial tension γ_12 (for liquid-liquid interfaces using the same force-balance approach)"
+        ],
+        "target_properties": [
+          "surface tension of pure liquids",
+          "surface tension of liquid mixtures and solutions",
+          "interfacial tension between two immiscible liquids",
+          "critical micelle concentration (CMC) from surface tension isotherms",
+          "temperature dependence of surface tension"
+        ],
+        "phases_measured": [
+          "liquid-vapor interface",
+          "liquid-liquid interface (immiscible or partially miscible pairs)"
+        ],
+        "supported_sample_types": [
+          "pure liquids (organic solvents, water, ionic liquids)",
+          "binary and multicomponent liquid mixtures",
+          "aqueous and non-aqueous solutions",
+          "surfactant solutions",
+          "polymer solutions",
+          "molten salts (with high-temperature setup)",
+          "liquid metals (with specialized ring material)"
+        ],
+        "unsupported_sample_types": [
+          "highly viscous liquids or gels (ring cannot detach cleanly)",
+          "volatile liquids with rapid evaporation at measurement temperature",
+          "corrosive liquids that attack the Pt-Ir ring",
+          "liquid-solid or solid-vapor interfaces",
+          "dynamic surface tension on sub-second timescales"
+        ],
+        "typical_output_formats": [
+          "surface tension γ vs. temperature curve",
+          "surface tension γ vs. composition (mole fraction) isotherm",
+          "surface tension γ vs. surfactant concentration (for CMC determination)",
+          "interfacial tension γ_12 vs. temperature or composition"
+        ],
+        "units": {
+          "surface_tension": "mN/m (equivalent to dyn/cm in CGS)",
+          "force": "mN or mg-force",
+          "temperature": "K or °C",
+          "ring_radius": "mm or cm",
+          "wire_radius": "mm",
+          "density": "kg/m³ or g/cm³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "288 K to 353 K (15 °C to 80 °C)",
+            "hard_limits": "limited by thermostating capability and ring material; specialized setups extend to cryogenic or molten-salt temperatures (>600 K)",
+            "notes": "temperature must be stable to ±0.05 K during measurement to avoid convection-driven force fluctuations"
+          },
+          {
+            "parameter": "ring_pull_rate",
+            "typical_range": "0.5 mm/min to 5 mm/min",
+            "hard_limits": "must be slow enough to maintain quasi-static meniscus; too fast introduces viscous drag errors",
+            "notes": "automated instruments use motorized stage with controlled pull speed"
+          },
+          {
+            "parameter": "liquid_depth",
+            "typical_range": "≥10 mm above ring immersion level",
+            "hard_limits": "must be deep enough that bottom-wall effects do not influence meniscus shape",
+            "notes": "vessel diameter should be at least 5× the ring diameter to avoid wall effects"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "ambient (0.1 MPa)",
+            "hard_limits": "standard du Noüy method operates at ambient pressure; pressurized variants are rare",
+            "notes": "for volatile liquids, measurements may be performed in a closed chamber to suppress evaporation"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "293.15 K to 323.15 K",
+            "effect": "surface tension generally decreases with increasing temperature; temperature control is essential for reproducibility"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable (for mixtures)",
+            "typical_values": "full mole-fraction range 0 to 1",
+            "effect": "surface tension varies nonlinearly with composition; preferential surface adsorption of lower-γ component"
+          },
+          {
+            "name": "surfactant_concentration",
+            "role": "sample variable (for surfactant solutions)",
+            "typical_values": "sub-CMC to several × CMC",
+            "effect": "surface tension decreases with increasing surfactant concentration until CMC plateau"
+          },
+          {
+            "name": "ring_pull_rate",
+            "role": "controlled instrument variable",
+            "typical_values": "1 mm/min to 3 mm/min",
+            "effect": "slower pull rate approaches true equilibrium surface tension; faster rates may overestimate γ slightly"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "du Noüy ring — circular ring made of Pt-Ir (90:10) wire, typical ring circumference ~60 mm (R ≈ 9.55 mm), wire diameter ~0.3–0.4 mm",
+          "force sensor — torsion wire balance (classical), electronic microbalance, or strain-gauge force transducer with resolution ≤0.01 mN",
+          "sample vessel — glass or PTFE dish, diameter ≥45 mm, chemically inert",
+          "motorized stage or platform — raises the liquid vessel at controlled speed toward and away from the ring",
+          "thermostated jacket or water-circulating bath — maintains sample temperature within ±0.05 K",
+          "temperature sensor — Pt100 RTD or thermocouple immersed near (but not touching) the ring position",
+          "leveling platform — ensures horizontal alignment of ring and liquid surface",
+          "data acquisition system — records force vs. displacement or time, extracts F_max automatically"
+        ],
+        "environmental_requirements": [
+          "vibration-free surface or anti-vibration table to prevent meniscus disturbance",
+          "draft-free enclosure or shield around the sample to minimize evaporation and convective currents",
+          "clean laboratory environment — dust and airborne contaminants adsorb at the surface and alter γ",
+          "stable ambient temperature to reduce thermal gradients in the sample"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "bulk liquid in open dish (free liquid surface required)",
+            "for interfacial tension: two-layer liquid system with denser phase below"
+          ],
+          "size_limits": "minimum sample volume ~25 mL for standard vessel; micro-vessels allow ~5 mL",
+          "thickness_limits": "liquid depth must be at least 10 mm above the ring immersion level",
+          "surface_requirements": [
+            "liquid surface must be clean and free of dust, films, or surface-active contaminants",
+            "no foam or bubbles at the surface"
+          ],
+          "mounting_requirements": [
+            "ring must hang perfectly horizontal — checked by visual alignment with liquid surface",
+            "ring must be centered in the vessel to avoid asymmetric meniscus"
+          ],
+          "preparation_requirements": [
+            "liquids should be freshly prepared or degassed if dissolved gases affect surface behavior",
+            "solutions must be thoroughly mixed and equilibrated at measurement temperature",
+            "ring must be flame-cleaned (briefly heated to red glow in a Bunsen flame) before each measurement to remove organic residues",
+            "vessel must be cleaned with chromic acid or detergent, rinsed with distilled water, and dried"
+          ]
+        },
+        "calibration_requirements": [
+          "zero-point calibration of the force sensor (tare with ring hanging in air)",
+          "force sensor calibration with certified calibration weights traceable to national standards",
+          "verification of ring dimensions (R, r) using optical microscopy or calibrated gauge",
+          "temperature sensor calibration against NIST-traceable reference thermometer",
+          "validation measurement with certified reference liquid (ultrapure water) at 25 °C — expected γ = 71.97 ± 0.05 mN/m"
+        ],
+        "reference_materials": [
+          "ultrapure water (Millipore, 18.2 MΩ·cm) — γ = 71.97 mN/m at 25 °C, primary reference",
+          "n-hexane — γ = 17.89 mN/m at 25 °C, low surface tension reference",
+          "toluene — γ = 27.93 mN/m at 25 °C",
+          "ethanol — γ = 21.97 mN/m at 25 °C",
+          "NIST-traceable calibration weights for force sensor verification"
+        ],
+        "consumables": [
+          "Pt-Ir du Noüy ring (replaced when deformed or corroded; typical lifetime hundreds of measurements if properly cleaned)",
+          "sample vessels (glass or PTFE)",
+          "ultrapure water for reference and cleaning",
+          "cleaning solvents (chromic acid solution, acetone, ethanol)",
+          "Bunsen burner or micro-torch for flame cleaning the ring"
+        ],
+        "safety_notes": [
+          "flame cleaning requires open flame — observe standard fire safety precautions",
+          "chromic acid cleaning solution is a carcinogen and strong oxidizer — use appropriate PPE and fume hood",
+          "hot thermostated liquids and heated baths pose burn risk",
+          "organic solvents used as samples or for cleaning are flammable — ensure adequate ventilation"
+        ]
+      },
+      "performance": {
+        "sensitivity": "force resolution of ~0.01 mN corresponds to surface tension sensitivity of ~0.01 mN/m for a standard ring",
+        "detection_limit": "surface tension values as low as ~1 mN/m can be measured; practical lower limit set by buoyancy corrections and meniscus stability",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement)",
+          "temporal": "single measurement takes 30–120 s depending on pull rate; not suited for sub-second dynamic measurements",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "surface tension from ~1 mN/m (light hydrocarbons) to ~500 mN/m (molten metals with specialized setup); common range 15–75 mN/m",
+        "accuracy": "0.1–0.5 mN/m (absolute) after application of Harkins-Jordan correction; ~0.1–0.5% relative for well-characterized systems",
+        "precision": "0.05–0.2 mN/m (repeatability from replicate pulls on the same sample)",
+        "throughput": "5–15 measurements per hour for a single sample at one temperature; automated instruments can sequence temperature ramps",
+        "measurement_speed": "individual pull-to-detachment cycle: 30–120 seconds; temperature equilibration between set points adds 5–15 minutes"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "force (or apparent mass) vs. vertical displacement of the ring as it is pulled upward through the liquid surface; F_max is the peak force recorded at the point of meniscus detachment",
+        "preprocessing_steps": [
+          "subtract buoyancy force of immersed ring and wire (weight of ring in air minus apparent weight when dipping into liquid)",
+          "identify F_max from the force-displacement curve (maximum before meniscus snap-off)",
+          "correct ring dimensions for thermal expansion if operating far from calibration temperature",
+          "apply Harkins-Jordan correction factor f(R/r, V) or Huh-Mason correction to convert F_max to true surface tension"
+        ],
+        "analysis_methods": [
+          "du Noüy equation: γ = F_max / (4πR) as the uncorrected first approximation",
+          "Harkins-Jordan correction: γ_true = γ_apparent / f, where f = f(R³/V, R/r) is a tabulated or polynomial correction factor accounting for the volume V of liquid lifted by the ring",
+          "Huh-Mason correction: an alternative empirical correlation for the correction factor valid over a wider parameter range",
+          "Zuidema-Waters method: simplified correction factor for interfacial tension measurements between two liquids",
+          "linear or polynomial regression of γ vs. T for temperature-dependent surface tension analysis"
+        ],
+        "model_assumptions": [
+          "the liquid perfectly wets the Pt-Ir ring (contact angle θ = 0°), so that the meniscus is attached around the full ring perimeter",
+          "the pull is quasi-static — viscous and inertial forces are negligible compared to surface tension forces",
+          "the ring is a perfect torus with circular cross-section of known R and r",
+          "the liquid surface is flat and undisturbed far from the ring (no vibration, no evaporation-driven Marangoni flows)",
+          "correction factors (Harkins-Jordan tables) are valid for the specific R/r ratio and liquid volume involved"
+        ],
+        "fit_parameters": [
+          "maximum detachment force F_max",
+          "correction factor f (from R/r ratio and liquid density or volume lifted)",
+          "surface tension γ = F_max / (4πRf)"
+        ],
+        "common_artifacts": [
+          "incomplete wetting of the ring: if θ > 0° due to contamination, measured γ is lower than the true value",
+          "ring deformation: a bent or oval ring changes the effective perimeter and biases F_max",
+          "buoyancy error: failure to account for ring immersion depth produces a systematic offset in F_max",
+          "evaporation artifact: volatile samples lose material during measurement, altering surface composition and γ",
+          "surface contamination film: adventitious adsorption of airborne organics lowers measured γ progressively with time",
+          "meniscus asymmetry: tilted ring or off-center positioning produces uneven detachment and noisy F_max"
+        ],
+        "quality_control_checks": [
+          "verify γ of ultrapure water at 25 °C falls within 71.97 ± 0.2 mN/m before and after sample measurements",
+          "perform at least 3–5 replicate detachment pulls per sample and check standard deviation < 0.2 mN/m",
+          "inspect the ring under magnification for deformation, deposits, or corrosion before use",
+          "confirm the force-displacement curve shows a clean single maximum without shoulders or double peaks",
+          "check that successive measurements at the same conditions converge (no drift from contamination or evaporation)"
+        ],
+        "failure_modes": [
+          "ring contamination: organic residue prevents complete wetting, causing irreproducible low γ values",
+          "ring deformation: mechanical damage from handling changes the effective ring circumference and wire radius",
+          "meniscus instability: vibrations cause premature detachment yielding erroneously low F_max",
+          "surface-active impurities: trace contaminants in sample or vessel progressively lower γ over repeated measurements",
+          "thermal gradient: non-uniform temperature across the liquid surface generates Marangoni convection and unstable meniscus"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5 mN/m for absolute surface tension; 0.1–0.3% relative for well-controlled measurements",
+        "random_sources": [
+          "variability in meniscus detachment point from pull to pull",
+          "force sensor electrical noise and drift",
+          "temperature fluctuations during measurement",
+          "micro-vibrations transmitted through the support structure",
+          "small bubbles or dust particles at the liquid surface"
+        ],
+        "systematic_sources": [
+          "Harkins-Jordan correction factor uncertainty (depends on accuracy of R, r, and liquid density)",
+          "ring dimension uncertainty (R and r tolerances from manufacturing)",
+          "incomplete wetting of the ring (θ > 0° due to residual contamination)",
+          "force sensor calibration offset",
+          "temperature sensor calibration offset",
+          "buoyancy correction error from inaccurate liquid density",
+          "sample purity — trace surface-active impurities lower γ systematically"
+        ],
+        "operator_dependence": "moderate — flame-cleaning technique, ring handling, liquid surface preparation, and visual verification of ring horizontality depend on operator skill and experience",
+        "model_dependence": "low to moderate — the Harkins-Jordan correction is empirical and well-validated, but assumes perfect wetting (θ = 0°), ideal ring geometry, and quasi-static conditions; deviations from these ideals propagate into systematic error",
+        "dominant_error_sources": [
+          "ring cleanliness (incomplete wetting is the most common source of error)",
+          "sample purity and surface contamination",
+          "accuracy of the Harkins-Jordan correction factor (sensitive to ring dimensions)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(γ) at 95% confidence (k=2)",
+          "standard deviation from replicate measurements",
+          "relative uncertainty as percentage of γ"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The ring tensiometer, based on the du Noüy ring method, is one of the most widely used techniques for measuring the surface tension of liquids and the interfacial tension between immiscible liquid pairs. Introduced by Pierre Lecomte du Noüy in 1919, the method measures the maximum force required to pull a thin platinum-iridium ring upward through a liquid-air or liquid-liquid interface. The maximum detachment force is directly related to the surface tension through the ring geometry and an empirical correction factor. With 719 instances across 129 papers in the ThermoML database, the ring tensiometer is a workhorse technique in the RefractionSurfaceTensionSoundSpeed property group, valued for its simplicity, reliability, and relatively straightforward data analysis.",
+      "how_it_operates": "A horizontal ring made of Pt-Ir wire (typically 90% Pt, 10% Ir for mechanical rigidity without sacrificing wettability) is suspended from a sensitive force sensor — historically a torsion-wire balance, now typically an electronic microbalance or strain-gauge transducer. The ring is first immersed just below the liquid surface, then the liquid vessel is slowly lowered (or the ring is raised) at a controlled rate. As the ring moves upward through the interface, it drags a meniscus of liquid that exerts a downward force on the ring. The force increases, passes through a maximum F_max just before the meniscus detaches from the ring, and then drops abruptly when the liquid film breaks. The instrument records force continuously and identifies F_max, which is the key measured quantity. Modern automated tensiometers detect F_max digitally and perform the correction factor calculation internally.",
+      "core_theory": "The uncorrected surface tension is given by γ_apparent = F_max / (4πR), where R is the mean radius of the ring and the factor 4πR represents the total contact perimeter (inner and outer circumference). Because the ring lifts a finite volume of liquid as it detaches, the actual force balance involves the weight of this liquid meniscus, which depends on the ring-wire radius ratio R/r, the liquid density, and the surface tension itself. The Harkins-Jordan correction factor f accounts for this effect: γ_true = F_max / (4πR × f), where f is obtained from empirical tables or polynomial fits as a function of R³/V (ring curvature relative to liquid volume lifted) and R/r. Alternative corrections by Huh and Mason (1975) extend the valid parameter range using a simpler empirical formula. For interfacial tension measurements between two liquids, the Zuidema-Waters correction replaces the single-liquid correction. In all cases, perfect wetting of the ring (contact angle θ = 0°) is assumed, which is ensured by the use of clean platinum.",
+      "setup": "A standard ring tensiometer consists of the following components: (1) a du Noüy ring, typically made from drawn Pt-Ir wire of ~0.37 mm diameter bent into a circle of ~19.1 mm mean diameter (R ≈ 9.55 mm), suspended by a thin stirrup from the force sensor; (2) a force measurement device — either a classical torsion balance with a calibrated wire and angular scale, or a modern electronic balance with ~0.01 mN resolution; (3) a glass or PTFE sample vessel of ≥45 mm diameter filled with at least 10 mm depth of liquid above the ring immersion level; (4) a motorized platform that raises or lowers the vessel at a controlled rate (typically 1–3 mm/min); (5) a thermostated water jacket surrounding the vessel, connected to a circulating bath maintaining temperature within ±0.05 K; and (6) a Pt100 temperature sensor positioned near the ring. Automated instruments enclose the entire assembly in a draft shield and include software for automated multi-pull measurements, correction factor application, and statistical analysis.",
+      "suitable_for": "The ring tensiometer is suitable for measuring the equilibrium surface tension of a wide range of pure liquids and liquid mixtures, including aqueous and organic solvents, ionic liquids, surfactant solutions, polymer solutions, and biological fluids. It is particularly well-established for determining the temperature and composition dependence of surface tension across full mole-fraction ranges of binary systems. The method is routinely used for quality control in chemical and pharmaceutical manufacturing, for determining critical micelle concentrations of surfactants via γ vs. concentration curves, and for measuring interfacial tensions between pairs of immiscible liquids (e.g., water/hydrocarbon systems). Its simplicity and the availability of well-characterized correction factors make it an excellent choice for routine laboratory surface tension measurements where highest accuracy (~0.1 mN/m) is desired with minimal complexity.",
+      "core_limitations": "The primary limitation of the du Noüy ring method is that it measures only the equilibrium (or quasi-static) surface tension — it is not suitable for dynamic surface tension measurements on sub-second timescales because the ring pull cycle takes 30–120 seconds. The technique requires a correction factor (Harkins-Jordan or Huh-Mason) that introduces a model-dependent uncertainty of ~0.1–0.3%, and the correction is most accurate for ring dimensions close to those used in the original empirical studies. Highly viscous liquids (>500 mPa·s) may not allow clean meniscus detachment, leading to irreproducible results. Very low surface tension systems (<5 mN/m) approach the sensitivity limit where buoyancy and weight corrections become comparable to the surface tension force. The ring must be perfectly wetted (θ = 0°), which requires scrupulous cleaning; any contamination on the ring directly biases the result downward. For surfactant solutions, the finite time to establish adsorption equilibrium at the fresh surface created during the pull may cause the measured γ to differ from the true equilibrium value.",
+      "sample_preparation": "Liquid samples must be freshly prepared, thoroughly mixed, and equilibrated at the measurement temperature. For solutions, all components should be of high purity, as trace surface-active impurities dramatically affect surface tension — even parts-per-million levels of surfactant contaminants in a nominally pure solvent can lower γ by several mN/m. All glassware (vessel, pipettes, volumetric flasks) must be rigorously cleaned: a standard protocol involves soaking in chromic acid or 2% Hellmanex solution, thorough rinsing with distilled water followed by ultrapure water (18.2 MΩ·cm), and drying in a dust-free environment. The Pt-Ir ring is flame-cleaned by briefly passing it through a Bunsen burner flame until it glows red, then allowed to cool in clean air — this pyrolyzes any organic residue. The sample is poured gently into the vessel to avoid entraining bubbles, and allowed to thermally equilibrate for 10–15 minutes with the thermostated jacket before measurement begins.",
+      "calibration_and_references": "Calibration encompasses four elements: (1) force sensor zeroing with the clean ring hanging in air (tare); (2) force sensor span calibration using NIST-traceable calibration weights spanning the expected measurement range; (3) ring dimension verification — the mean ring radius R and wire radius r are measured by optical microscopy or calibrated gauge and compared to the manufacturer's specifications, since the correction factor depends critically on R/r; and (4) validation with a reference liquid. Ultrapure water at 25.00 °C is the primary reference (γ = 71.97 ± 0.05 mN/m, IAPWS recommended value); the measured value should agree within 0.2 mN/m. Additional verification with a low-γ reference such as n-hexane (17.89 mN/m at 25 °C) or toluene (27.93 mN/m at 25 °C) confirms linearity across the range. Calibration is checked at the start and end of each measurement session, and whenever the ring is replaced or cleaned.",
+      "data_interpretation": "The raw output is a force-displacement (or force-time) curve showing the force on the ring as it is pulled upward. The critical datum is F_max, the maximum force before meniscus snap-off. After subtracting the weight of the ring in air and any buoyancy correction for the immersed wire, the uncorrected surface tension is computed as γ_apparent = F_max / (4πR). The Harkins-Jordan correction factor f is then looked up from published tables (or computed from polynomial approximations) using the ratio R/r and knowledge of the liquid density (which determines the volume of liquid lifted). The corrected surface tension is γ = γ_apparent / f, with f typically in the range 0.75–1.05. For interfacial tension between two immiscible liquids, the density difference Δρ replaces the single-liquid density in the correction. Results from multiple replicate pulls (typically 3–10) are averaged and the standard deviation is reported. Temperature-dependent data are often fitted to the Eötvös relation or the Guggenheim-Katayama equation for thermodynamic analysis.",
+      "common_pitfalls": "The most common source of error is an inadequately cleaned ring — even invisible organic films on the Pt-Ir surface reduce wettability and systematically lower the measured surface tension. Operators should flame-clean the ring before every measurement or series and verify wetting visually (the liquid should spread completely on the ring without beading). A second frequent pitfall is contamination of the sample itself: fingerprints on glassware, detergent residues, or use of insufficiently pure solvents introduce surfactant impurities that lower γ. Failure to allow thermal equilibration after changing the bath set point can result in measurements at an incorrect temperature. Using a vessel that is too small creates wall effects where the meniscus from the ring interacts with the vessel walls, elevating the apparent F_max. Pulling the ring too quickly introduces viscous drag, artificially increasing the measured force. Finally, reusing the sample liquid for many successive pulls without replacing it can accumulate surface contamination from dust settling onto the open surface.",
+      "artifacts_and_failure_modes": "Incomplete wetting is the dominant artifact: if the contact angle exceeds zero on any portion of the ring, the effective detachment perimeter is reduced and γ is underestimated. This manifests as irreproducible values that are consistently below the literature value for reference liquids. Ring deformation — bending during handling or from collision with the vessel — changes the ring perimeter non-uniformly, producing asymmetric meniscus detachment and noisy or biased F_max values; a deformed ring should be replaced. The force-displacement curve should show a single clean maximum; a double peak or shoulder indicates meniscus instability from vibration, tilted ring, or surface contamination. Evaporation artifacts appear as a slow upward drift in successive γ readings for volatile samples, because evaporative cooling locally lowers the surface temperature and raises γ. In surfactant solutions, time-dependent surfactant adsorption can cause the measured γ to depend on pull rate and wait time between pulls, reflecting non-equilibrium surface coverage rather than true static surface tension. Catastrophic failure occurs when the ring breaks free from its stirrup mount (typically due to mechanical fatigue of the thin suspension wire) or when the ring is irreversibly contaminated by reaction with aggressive liquids.",
+      "reporting_checklist": "Published ring tensiometer results should report: instrument manufacturer and model (or description if custom-built), ring material and dimensions (mean ring radius R, wire radius r, and R/r ratio), force sensor type and resolution, correction factor method used (Harkins-Jordan tables, Huh-Mason polynomial, or other), sample identity and purity, measurement temperature and stability (±0.05 K or better), number of replicate pulls and statistical treatment (mean ± standard deviation), temperature equilibration time, sample vessel dimensions, cleaning protocol for ring and glassware, validation result with reference liquid (water γ at 25 °C), combined expanded uncertainty U(γ) at 95% confidence with identification of dominant uncertainty contributions, and any observed time dependence of γ. For ThermoML encoding, surface tension values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

@@ -1,0 +1,649 @@
+{% extends "base.html" %}
+{% from "_raw_json_panel.html" import raw_json_panel with context %}
+{% block title %}ThermoML — Advanced Search{% endblock %}
+{% block content %}
+
+<div class="row">
+  {# ═══════════════════════════════════════════════════════════════════════
+     LEFT PANEL — Smart bar + Filter panels
+     ═══════════════════════════════════════════════════════════════════════ #}
+  <div class="col-lg-4">
+    <h4 class="mb-3">
+      <i class="bi bi-search"></i> Advanced Search
+      <a href="{{ url_for('search.search_page') }}" class="btn btn-sm btn-outline-secondary float-end">Clear</a>
+    </h4>
+
+    <form method="get" action="{{ url_for('search.search_page') }}" id="searchForm">
+
+      {# ── Smart Search (agentic free-text) ── #}
+      <div class="card search-panel mb-2">
+        <div class="card-header py-2 panel-toggle" data-bs-toggle="collapse" data-bs-target="#panelSmart">
+          <strong><i class="bi bi-stars"></i> Smart Search</strong>
+          {% if q.smart_q %}
+            <span class="badge bg-info rounded-pill float-end">active</span>
+          {% endif %}
+        </div>
+        <div class="collapse show" id="panelSmart">
+          <div class="card-body py-2">
+            <div class="mb-1">
+              <div class="position-relative">
+                <i class="bi bi-search smart-bar-icon-sm"></i>
+                <input type="text" class="form-control form-control-sm smart-bar-input-sm" name="smart_q"
+                       value="{{ q.smart_q }}"
+                       placeholder="ethanol + viscosity + binary ; water + density 2010-2020"
+                       autocomplete="off" spellcheck="false">
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="smart-bar-hints"><code>+</code>=AND &nbsp;<code>;</code>=OR</span>
+              <div class="ms-auto d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-1" id="agenticSettingsGroup"
+                     style="display: none !important">
+                  <label for="agenticLimit" class="form-label mb-0" style="font-size:0.68rem;white-space:nowrap"
+                         title="Max entries the agent should resolve">Entries:</label>
+                  <select class="form-select form-select-sm py-0" id="agenticLimit" name="agentic_limit"
+                          style="font-size:0.68rem;width:auto;min-width:60px">
+                    <option value="10" {{ 'selected' if q.agentic_limit == '10' }}>10</option>
+                    <option value="20" {{ 'selected' if q.agentic_limit == '20' or not q.agentic_limit }}>20</option>
+                    <option value="100" {{ 'selected' if q.agentic_limit == '100' }}>100</option>
+                    <option value="all" {{ 'selected' if q.agentic_limit == 'all' }}>All</option>
+                  </select>
+                  <label for="maxWaitSeconds" class="form-label mb-0 ms-1" style="font-size:0.68rem;white-space:nowrap"
+                         title="Max seconds the agent is allowed to run">Wait:</label>
+                  <select class="form-select form-select-sm py-0" id="maxWaitSeconds" name="max_wait_seconds"
+                          style="font-size:0.68rem;width:auto;min-width:60px">
+                    <option value="30" {{ 'selected' if q.max_wait_seconds == '30' }}>30s</option>
+                    <option value="60" {{ 'selected' if q.max_wait_seconds == '60' or not q.max_wait_seconds }}>60s</option>
+                    <option value="120" {{ 'selected' if q.max_wait_seconds == '120' }}>2m</option>
+                    <option value="300" {{ 'selected' if q.max_wait_seconds == '300' }}>5m</option>
+                  </select>
+                </div>
+                <div class="form-check form-switch mb-0">
+                  <input class="form-check-input" type="checkbox" id="agenticToggle" name="agentic"
+                         value="1" {{ 'checked' if q.agentic }}>
+                  <label class="form-check-label" for="agenticToggle" style="font-size:0.72rem"
+                         title="Use AI to interpret ambiguous natural-language queries">
+                    <i class="bi bi-robot"></i> Agentic
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {# ── Resolution chips (resolved + unresolved IDs) ── #}
+            {% if resolution_info %}
+            <div class="resolution-inline mt-1">
+              {% if resolution_info.argo_iterations is defined %}
+              <div class="text-muted mb-1" style="font-size:0.65rem">
+                <i class="bi bi-robot"></i> Argo agent: {{ resolution_info.argo_iterations }} iterations, {{ resolution_info.argo_elapsed }}s
+              </div>
+              {% elif resolution_info.deterministic is defined and resolution_info.deterministic %}
+              <div class="text-muted mb-1" style="font-size:0.65rem">
+                <i class="bi bi-lightning-charge"></i> Deterministic: {{ resolution_info.elapsed }}s
+              </div>
+              {% endif %}
+              <div class="d-flex flex-wrap gap-1">
+                {% for chip in resolution_info.chips %}
+                <span class="res-chip res-chip-{{ chip.type }}" title="{{ chip.type_label }}: {{ chip.text }}{% if chip.global_id %} (global_id={{ chip.global_id }}){% endif %}">
+                  <span class="res-chip-label">{{ chip.type_label }}</span>
+                  {{ chip.text }}
+                  {% if chip.global_id %}<span class="res-chip-id">{{ chip.global_id }}</span>{% endif %}
+                  {% if chip.score %}<span class="res-chip-score">{{ chip.score }}%</span>{% endif %}
+                </span>
+                {% endfor %}
+                {% for u in resolution_info.unresolved %}
+                <span class="res-chip res-chip-unknown" title="Could not resolve">
+                  <span class="res-chip-label">?</span> {{ u }}
+                </span>
+                {% endfor %}
+              </div>
+              {% if resolution_info.log %}
+              <details class="mt-1">
+                <summary class="text-muted" style="font-size:0.68rem;cursor:pointer">Resolution details</summary>
+                <ul class="mb-0 ps-3 mt-1" style="font-size:0.68rem;color:#888">
+                  {% for line in resolution_info.log %}
+                  <li>{{ line }}</li>
+                  {% endfor %}
+                </ul>
+              </details>
+              {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="form-text" style="font-size:0.68em">
+              Type freely — compounds, properties, methods, years. The parser resolves
+              canonical IDs automatically. Toggle <strong>Agentic</strong> for natural-language queries.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Search Agent Settings ── #}
+      <div class="card search-panel mb-2">
+        <div class="card-header py-2 panel-toggle" data-bs-toggle="collapse" data-bs-target="#panelAgentSettings">
+          <strong><i class="bi bi-gear"></i> Search Agent Settings</strong>
+        </div>
+        <div class="collapse" id="panelAgentSettings">
+          <div class="card-body py-2">
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" id="agenticAllFields"
+                     name="agentic_all_fields" value="1" {{ 'checked' if q.agentic_all_fields }}>
+              <label class="form-check-label small" for="agenticAllFields"
+                     title="Use the agentic ID alignment agent to resolve and fill all detailed filter fields below">
+                <i class="bi bi-robot"></i> Agentic ID alignment for all fields
+              </label>
+            </div>
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" id="allowQueryAgent"
+                     name="allow_query_agent" value="1" {{ 'checked' if q.allow_query_agent }}>
+              <label class="form-check-label small" for="allowQueryAgent"
+                     title="Allow the alignment agent to escalate to the ThermoML Query Agent when it cannot resolve canonical IDs">
+                <i class="bi bi-send"></i> Allow escalation to Query Agent
+              </label>
+            </div>
+            <div class="form-text" style="font-size:0.68em">
+              <strong>Agentic all fields:</strong> the alignment agent will try to resolve and fill
+              every filter panel (bibliography, chemistry, properties) using the smart search input.<br>
+              <strong>Query Agent escalation:</strong> when IDs can't be resolved, the alignment agent
+              can call the full ThermoML Query Agent (uses more time/tokens).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Bibliography ── #}
+      <div class="card search-panel mb-2">
+        <div class="card-header py-2 panel-toggle" data-bs-toggle="collapse" data-bs-target="#panelBib">
+          <strong>Bibliography</strong>
+          {% if q.doi or q.authors or q.journal or q.year_min or q.year_max or q.title %}
+            <span class="badge bg-primary rounded-pill float-end">active</span>
+          {% endif %}
+        </div>
+        <div class="collapse show" id="panelBib">
+          <div class="card-body py-2">
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">DOI</label>
+              <input type="text" class="form-control form-control-sm" name="doi"
+                     value="{{ q.doi }}" placeholder="10.1021/je060271a">
+            </div>
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Authors</label>
+              <input type="text" class="form-control form-control-sm" name="authors"
+                     value="{{ q.authors }}" placeholder="Author surname(s)">
+            </div>
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Title Keywords</label>
+              <input type="text" class="form-control form-control-sm" name="title"
+                     value="{{ q.title }}" placeholder="Words in paper title">
+            </div>
+            <div class="row mb-2">
+              <div class="col-6">
+                <label class="form-label form-label-sm mb-0">Journal</label>
+                <select class="form-select form-select-sm" name="journal">
+                  <option value="">Any</option>
+                  {% for j in journals %}
+                  <option value="{{ j }}" {{ 'selected' if q.journal == j }}>{{ j }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-3">
+                <label class="form-label form-label-sm mb-0">Year &ge;</label>
+                <input type="number" class="form-control form-control-sm" name="year_min"
+                       value="{{ q.year_min }}" placeholder="1990">
+              </div>
+              <div class="col-3">
+                <label class="form-label form-label-sm mb-0">Year &le;</label>
+                <input type="number" class="form-control form-control-sm" name="year_max"
+                       value="{{ q.year_max }}" placeholder="2025">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Chemistry / Compounds + Structural Similarity ── #}
+      <div class="card search-panel mb-2">
+        <div class="card-header py-2 panel-toggle" data-bs-toggle="collapse" data-bs-target="#panelChem">
+          <strong>Chemistry</strong>
+          {% if q.compounds or q.formula or q.n_components or q.system_type or q.sim_query %}
+            <span class="badge bg-primary rounded-pill float-end">active</span>
+          {% endif %}
+        </div>
+        <div class="collapse show" id="panelChem">
+          <div class="card-body py-2">
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Compounds</label>
+              <input type="text" class="form-control form-control-sm" name="compounds"
+                     value="{{ q.compounds }}" placeholder="ethanol; water (semicolon-separated)">
+              <div class="form-text" style="font-size:0.72em">Fuzzy name matching. Use semicolons (;) to separate multiple compounds.</div>
+            </div>
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Molecular Formula</label>
+              <input type="text" class="form-control form-control-sm" name="formula"
+                     value="{{ q.formula }}" placeholder="C2H6O">
+            </div>
+            <div class="row mb-2">
+              <div class="col-6">
+                <label class="form-label form-label-sm mb-0">System Type</label>
+                <select class="form-select form-select-sm" name="system_type">
+                  <option value="">Any</option>
+                  <option value="pure" {{ 'selected' if q.system_type == 'pure' }}>Pure</option>
+                  <option value="binary" {{ 'selected' if q.system_type == 'binary' }}>Binary</option>
+                  <option value="ternary" {{ 'selected' if q.system_type == 'ternary' }}>Ternary</option>
+                  <option value="quaternary+" {{ 'selected' if q.system_type == 'quaternary+' }}>Quaternary+</option>
+                </select>
+              </div>
+              <div class="col-6">
+                <label class="form-label form-label-sm mb-0"># Components</label>
+                <input type="number" class="form-control form-control-sm" name="n_components"
+                       value="{{ q.n_components }}" min="1" max="10" placeholder="Exact">
+              </div>
+            </div>
+
+            {# -- Structural Similarity (collapsed sub-section) -- #}
+            <hr class="my-2">
+            <div class="d-flex align-items-center mb-1">
+              <small class="fw-semibold text-muted" style="font-size:0.78em">
+                <i class="bi bi-diagram-3"></i> Structural Similarity
+              </small>
+              {% if q.sim_query %}
+              <span class="badge bg-success rounded-pill ms-auto" style="font-size:0.65em">active</span>
+              {% endif %}
+            </div>
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Query Compound(s)</label>
+              <input type="text" class="form-control form-control-sm" name="sim_query"
+                     value="{{ q.sim_query }}" placeholder="ethanol; water (semicolons for multi)">
+            </div>
+            <div class="row mb-1">
+              <div class="col-6">
+                <label class="form-label form-label-sm mb-0">Min Similarity</label>
+                <input type="number" class="form-control form-control-sm" name="sim_threshold"
+                       value="{{ q.sim_threshold or '0.5' }}" min="0" max="1" step="0.05">
+              </div>
+              <div class="col-6">
+                <label class="form-label form-label-sm mb-0">Top K</label>
+                <input type="number" class="form-control form-control-sm" name="sim_topk"
+                       value="{{ q.sim_topk or '20' }}" min="1" max="100">
+              </div>
+            </div>
+            <div class="form-text" style="font-size:0.72em">
+              Morgan fingerprint Tanimoto similarity (8,500+ compounds).
+              Use semicolons (;) for multi-compound queries — results are
+              ranked by the mean similarity across all query compounds.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Properties / Measurements ── #}
+      <div class="card search-panel mb-2">
+        <div class="card-header py-2 panel-toggle" data-bs-toggle="collapse" data-bs-target="#panelProp">
+          <strong>Properties</strong>
+          {% if q.property or q.property_kw or q.phase or q.block_type %}
+            <span class="badge bg-primary rounded-pill float-end">active</span>
+          {% endif %}
+        </div>
+        <div class="collapse show" id="panelProp">
+          <div class="card-body py-2">
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Property</label>
+              <select class="form-select form-select-sm" name="property">
+                <option value="">Any</option>
+                {% for p in top_properties %}
+                <option value="{{ p[0] }}" {{ 'selected' if q.property == p[0] }}>{{ p[0] }} ({{ "{:,}".format(p[1]) }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Or type property keyword</label>
+              <input type="text" class="form-control form-control-sm" name="property_kw"
+                     value="{{ q.property_kw }}" placeholder="viscosity; density…">
+            </div>
+            <div class="row mb-2">
+              <div class="col-6">
+                <label class="form-label form-label-sm mb-0">Phase</label>
+                <select class="form-select form-select-sm" name="phase">
+                  <option value="">Any</option>
+                  {% for ph in phases %}
+                  <option value="{{ ph }}" {{ 'selected' if q.phase == ph }}>{{ ph }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-6">
+                <label class="form-label form-label-sm mb-0">Block Type</label>
+                <select class="form-select form-select-sm" name="block_type">
+                  <option value="">Any</option>
+                  <option value="PureOrMixtureData" {{ 'selected' if q.block_type == 'PureOrMixtureData' }}>Pure/Mixture</option>
+                  <option value="ReactionData" {{ 'selected' if q.block_type == 'ReactionData' }}>Reaction</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Variables ── #}
+      <div class="card search-panel mb-2">
+        <div class="card-header py-2 panel-toggle" data-bs-toggle="collapse" data-bs-target="#panelVar">
+          <strong>Variables</strong>
+          {% if q.variable or q.var_kw %}
+            <span class="badge bg-primary rounded-pill float-end">active</span>
+          {% endif %}
+        </div>
+        <div class="collapse {{ 'show' if q.variable or q.var_kw else '' }}" id="panelVar">
+          <div class="card-body py-2">
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Variable</label>
+              <select class="form-select form-select-sm" name="variable">
+                <option value="">Any</option>
+                {% for v in top_variables %}
+                <option value="{{ v[0] }}" {{ 'selected' if q.variable == v[0] }}>{{ v[0] }} ({{ "{:,}".format(v[1]) }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-1">
+              <label class="form-label form-label-sm mb-0">Or type variable keyword</label>
+              <input type="text" class="form-control form-control-sm" name="var_kw"
+                     value="{{ q.var_kw }}" placeholder="temperature; mole fraction…">
+            </div>
+            <div class="form-text" style="font-size:0.72em">Filter blocks by independent variable type (e.g. Temperature, Mole fraction, Pressure).</div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Measurements ── #}
+      <div class="card search-panel mb-2">
+        <div class="card-header py-2 panel-toggle" data-bs-toggle="collapse" data-bs-target="#panelMeas">
+          <strong>Measurements</strong>
+          {% if q.measurement or q.meas_kw %}
+            <span class="badge bg-primary rounded-pill float-end">active</span>
+          {% endif %}
+        </div>
+        <div class="collapse {{ 'show' if q.measurement or q.meas_kw else '' }}" id="panelMeas">
+          <div class="card-body py-2">
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Method</label>
+              <select class="form-select form-select-sm" name="measurement">
+                <option value="">Any</option>
+                {% for m in top_measurements %}
+                <option value="{{ m[0] }}" {{ 'selected' if q.measurement == m[0] }}>{{ m[0] }} ({{ "{:,}".format(m[1]) }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-1">
+              <label class="form-label form-label-sm mb-0">Or type method keyword</label>
+              <input type="text" class="form-control form-control-sm" name="meas_kw"
+                     value="{{ q.meas_kw }}" placeholder="chromatography; DSC…">
+            </div>
+            <div class="form-text" style="font-size:0.72em">Filter blocks by experimental method (e.g. Vibrating tube, Chromatography, DSC).</div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Constraints ── #}
+      <div class="card search-panel mb-2">
+        <div class="card-header py-2 panel-toggle" data-bs-toggle="collapse" data-bs-target="#panelConstr">
+          <strong>Constraints</strong>
+          {% if q.constraint or q.constr_kw %}
+            <span class="badge bg-primary rounded-pill float-end">active</span>
+          {% endif %}
+        </div>
+        <div class="collapse {{ 'show' if q.constraint or q.constr_kw else '' }}" id="panelConstr">
+          <div class="card-body py-2">
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Constraint</label>
+              <select class="form-select form-select-sm" name="constraint">
+                <option value="">Any</option>
+                {% for c in top_constraints %}
+                <option value="{{ c[0] }}" {{ 'selected' if q.constraint == c[0] }}>{{ c[0] }} ({{ "{:,}".format(c[1]) }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-1">
+              <label class="form-label form-label-sm mb-0">Or type constraint keyword</label>
+              <input type="text" class="form-control form-control-sm" name="constr_kw"
+                     value="{{ q.constr_kw }}" placeholder="pressure; wavelength…">
+            </div>
+            <div class="form-text" style="font-size:0.72em">Filter blocks by fixed constraint (e.g. Pressure, Temperature, Frequency).</div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Data Ranges ── #}
+      <div class="card search-panel mb-2">
+        <div class="card-header py-2 panel-toggle" data-bs-toggle="collapse" data-bs-target="#panelRange">
+          <strong>Data Ranges</strong>
+          {% if q.min_datapoints %}
+            <span class="badge bg-primary rounded-pill float-end">active</span>
+          {% endif %}
+        </div>
+        <div class="collapse" id="panelRange">
+          <div class="card-body py-2">
+            <div class="mb-2">
+              <label class="form-label form-label-sm mb-0">Min Data Points</label>
+              <input type="number" class="form-control form-control-sm" name="min_datapoints"
+                     value="{{ q.min_datapoints }}" min="1" placeholder="e.g. 10">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Action buttons ── #}
+      <div class="d-grid gap-2 mb-3">
+        <button type="submit" name="action" value="count" class="btn btn-outline-primary">
+          <i class="bi bi-hash"></i> Count Results
+        </button>
+        <button type="submit" name="action" value="search" class="btn btn-primary">
+          <i class="bi bi-search"></i> Search
+        </button>
+      </div>
+    </form>
+  </div>
+
+  {# ═══════════════════════════════════════════════════════════════════════
+     RIGHT PANEL — Results
+     ═══════════════════════════════════════════════════════════════════════ #}
+  <div class="col-lg-8">
+    {% if count_only %}
+      <div class="alert alert-info">
+        <strong>{{ "{:,}".format(total) }}</strong> blocks match your query
+        ({{ "{:,}".format(n_papers) }} papers, {{ "{:,}".format(total_points) }} data points).
+        <br><small>Click <strong>Search</strong> to see results.</small>
+      </div>
+    {% endif %}
+
+    {% if sim_results %}
+      <div class="card mb-3 border-success">
+        <div class="card-header bg-success bg-opacity-10 text-success py-2 d-flex align-items-center">
+          <i class="bi bi-diagram-3 me-2"></i>
+          <strong>Structural Similarity</strong>
+          <span class="ms-auto small text-muted">{{ sim_results|length }} compounds similar to "{{ q.sim_query }}"</span>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width:90px">Score</th>
+                  <th>Compound</th>
+                  <th>Formula</th>
+                  <th style="max-width:180px">SMILES</th>
+                  <th>Best Match</th>
+                  <th class="text-end" style="width:70px">Papers</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for s in sim_results %}
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-1">
+                      <div class="sim-bar" style="width:{{ (s.similarity * 60)|int }}px"></div>
+                      <span class="small fw-bold"
+                            {% if s.per_query is defined %}
+                            title="{% for qn, sc in s.per_query.items() %}{{ qn }}: {{ sc }}{% if not loop.last %}  |  {% endif %}{% endfor %}"
+                            {% endif %}
+                      >{{ "%.3f"|format(s.similarity) }}</span>
+                    </div>
+                  </td>
+                  <td class="fw-medium">{{ s.name }}</td>
+                  <td class="text-muted small">{{ s.formula }}</td>
+                  <td class="text-muted small text-truncate" style="max-width:180px" title="{{ s.smiles }}">{{ s.smiles }}</td>
+                  <td class="small">
+                    {% if s.matched_query is defined %}{{ s.matched_query }}{% endif %}
+                  </td>
+                  <td class="text-end">
+                    {% if s.inchikey %}
+                    <a href="{{ url_for('compound_page', inchikey=s.inchikey) }}" class="fw-bold">{{ s.n_papers }}</a>
+                    {% else %}
+                    {{ s.n_papers }}
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if results %}
+      <h5>
+        Search Results
+        <small class="text-muted">
+          &mdash; showing {{ results|length }} of {{ "{:,}".format(total) }} blocks
+          ({{ "{:,}".format(n_papers) }} papers, {{ "{:,}".format(total_points) }} data points)
+        </small>
+      </h5>
+
+      <div class="table-responsive">
+        <table class="table table-sm table-hover result-table">
+          <thead class="table-light">
+            <tr>
+              <th style="width:50px">#</th>
+              <th>DOI</th>
+              <th>Compounds</th>
+              <th>Properties</th>
+              <th>System</th>
+              <th class="text-end">Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in results %}
+            <tr>
+              <td class="text-muted small">{{ loop.index + offset }}</td>
+              <td>
+                <a href="{{ url_for('paper_detail', doi=r.doi) }}">{{ r.doi }}</a>
+                <br><small class="text-muted">Block {{ r.block_number }} ({{ r.block_type }})</small>
+                {{ raw_json_panel(r.doi) }}
+              </td>
+              <td>
+                {% for c in r.compound_names %}
+                <span class="badge bg-light text-dark border me-1">{{ c }}</span>
+                {% endfor %}
+              </td>
+              <td>
+                {% for p in r.property_names %}
+                <span class="small">{{ p }}</span>{% if not loop.last %}<br>{% endif %}
+                {% endfor %}
+              </td>
+              <td>
+                <span class="badge bg-secondary">{{ r.system_type }}</span>
+              </td>
+              <td class="text-end fw-bold">{{ r.n_datapoints }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {# ── Pagination ── #}
+      {% if total_pages > 1 %}
+      {% macro page_url(pg) %}{{ url_for('search.search_page',
+          smart_q=q.smart_q, agentic=q.agentic, agentic_limit=q.agentic_limit,
+          doi=q.doi, authors=q.authors, title=q.title, journal=q.journal,
+          year_min=q.year_min, year_max=q.year_max,
+          compounds=q.compounds, formula=q.formula,
+          system_type=q.system_type, n_components=q.n_components,
+          sim_query=q.sim_query, sim_threshold=q.sim_threshold, sim_topk=q.sim_topk,
+          property=q.property, property_kw=q.property_kw,
+          phase=q.phase, block_type=q.block_type,
+          variable=q.variable, var_kw=q.var_kw,
+          measurement=q.measurement, meas_kw=q.meas_kw,
+          constraint=q.constraint, constr_kw=q.constr_kw,
+          min_datapoints=q.min_datapoints,
+          action='search', page=pg) }}{% endmacro %}
+      <nav>
+        <ul class="pagination pagination-sm justify-content-center">
+          {% if page > 1 %}
+          <li class="page-item">
+            <a class="page-link" href="{{ page_url(page-1) }}">&lsaquo;</a>
+          </li>
+          {% endif %}
+          {% for p in range(1, total_pages+1) %}
+            {% if p == page %}
+            <li class="page-item active"><span class="page-link">{{ p }}</span></li>
+            {% elif p <= 3 or p >= total_pages-2 or (p >= page-2 and p <= page+2) %}
+            <li class="page-item">
+              <a class="page-link" href="{{ page_url(p) }}">{{ p }}</a>
+            </li>
+            {% elif p == 4 or p == total_pages-3 %}
+            <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+            {% endif %}
+          {% endfor %}
+          {% if page < total_pages %}
+          <li class="page-item">
+            <a class="page-link" href="{{ page_url(page+1) }}">&rsaquo;</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% endif %}
+
+    {% elif not count_only and not sim_results and request.args.get('action') %}
+      <div class="alert alert-warning">
+        No results found. Try broadening your search criteria.
+      </div>
+    {% elif not request.args.get('action') %}
+      <div class="text-center text-muted py-5">
+        <h1 style="font-size:4rem">🔬</h1>
+        <h5>ThermoML Advanced Search</h5>
+        <p>
+          Use the filters on the left to search across
+          <strong>{{ "{:,}".format(stats.papers) }}</strong> papers,
+          <strong>{{ "{:,}".format(stats.compounds) }}</strong> compounds, and
+          <strong>{{ "{:,}".format(stats.blocks) }}</strong> measurement blocks.
+        </p>
+        <p class="small">
+          Combine any filters: compound + property + temperature range + phase…<br>
+          Use <strong>Smart Search</strong> to type freely, or <strong>Structural Similarity</strong> to find similar compounds.
+        </p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('.panel-toggle').forEach(el => {
+  el.style.cursor = 'pointer';
+});
+// Show/hide agentic settings based on toggle
+(function() {
+  const toggle = document.getElementById('agenticToggle');
+  const settings = document.getElementById('agenticSettingsGroup');
+  function updateVisibility() {
+    if (toggle && settings) {
+      settings.style.display = toggle.checked ? 'flex' : 'none';
+      settings.style.setProperty('display', toggle.checked ? 'flex' : 'none', 'important');
+    }
+  }
+  if (toggle) {
+    toggle.addEventListener('change', updateVisibility);
+    updateVisibility();
+  }
+})();
+</script>
+{% endblock %}

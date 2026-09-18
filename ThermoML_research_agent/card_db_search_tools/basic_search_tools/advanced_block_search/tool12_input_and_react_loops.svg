@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1152" viewBox="0 0 2048 1152">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#8f238b"/>
+    </marker>
+    <marker id="back" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#c33b35"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial,sans-serif;fill:#222}
+      .subtitle{font:20px Arial,sans-serif;fill:#444}
+      .head{font:700 25px Arial,sans-serif;fill:#183247}
+      .body{font:19px Arial,sans-serif;fill:#202020}
+      .small{font:17px Arial,sans-serif;fill:#333}
+      .token{font:700 17px Consolas,monospace;fill:#5f145a}
+      .call{font:700 18px Arial,sans-serif;fill:#fff}
+      .arrow{stroke:#8f238b;stroke-width:7;fill:none;marker-end:url(#arrow)}
+      .back{stroke:#c33b35;stroke-width:5;fill:none;marker-end:url(#back)}
+      .thin{stroke:#55707f;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="2048" height="1152" fill="#fbfbfc"/>
+  <text x="1024" y="52" text-anchor="middle" class="title">Tool 12 input structure and hierarchical pre-execution ReAct loops</text>
+  <text x="1024" y="85" text-anchor="middle" class="subtitle">The agent supplies flat GLOB-ID arguments; the tool constructs composite identities, verifies real PCS bindings, and only then opens raw ThermoML rows.</text>
+
+  <!-- Input -->
+  <rect x="28" y="118" width="430" height="760" rx="24" fill="#f4e2f2" stroke="#6d1765" stroke-width="4"/>
+  <rect x="64" y="97" width="355" height="50" rx="14" fill="#8f238b"/>
+  <text x="241" y="130" text-anchor="middle" class="call">FLAT AGENT INPUT</text>
+
+  <text x="54" y="185" class="head">1. Resolve names first</text>
+  <text x="66" y="218" class="body">Typed global IDs only:</text>
+  <text x="66" y="247" class="token">GLOBcomp · GLOBprop · GLOBvar</text>
+  <text x="66" y="274" class="token">GLOBconstr · GLOBphase · GLOBlit</text>
+
+  <rect x="52" y="300" width="382" height="92" rx="12" fill="#fff" stroke="#a05b9c" stroke-width="2"/>
+  <text x="70" y="333" class="head">Required</text>
+  <text x="70" y="365" class="body">targets · explanation</text>
+
+  <rect x="52" y="409" width="382" height="138" rx="12" fill="#fff" stroke="#a05b9c" stroke-width="2"/>
+  <text x="70" y="442" class="head">Chemical scope</text>
+  <text x="70" y="475" class="body">compounds · system type / scope / size</text>
+  <text x="70" y="505" class="body">phases · literature (GLOBlit + DOI)</text>
+  <text x="70" y="533" class="small">BLKsubsys search is opt-in via system_scope</text>
+
+  <rect x="52" y="564" width="382" height="176" rx="12" fill="#fff" stroke="#a05b9c" stroke-width="2"/>
+  <text x="70" y="597" class="head">Argument location selects role</text>
+  <text x="70" y="630" class="body">parameters → BLKvar</text>
+  <text x="70" y="660" class="body">targets → BLKprop</text>
+  <text x="70" y="690" class="body">fixed_constraints → BLKconstr</text>
+  <text x="70" y="720" class="body">inline_state → target-linked state</text>
+
+  <rect x="52" y="757" width="382" height="96" rx="12" fill="#fff" stroke="#a05b9c" stroke-width="2"/>
+  <text x="70" y="790" class="head">Operations</text>
+  <text x="70" y="821" class="small">where · common points · calculate · select</text>
+  <text x="70" y="845" class="small">having · order_by · limit · tokens omitted</text>
+
+  <!-- Parser -->
+  <path d="M458 480 H520" class="arrow"/>
+  <polygon points="590,395 665,480 590,565 515,480" fill="#fff3cd" stroke="#9a6b00" stroke-width="4"/>
+  <text x="590" y="452" text-anchor="middle" class="head">Hard parser</text>
+  <text x="590" y="480" text-anchor="middle" class="small">grammar, IDs,</text>
+  <text x="590" y="506" text-anchor="middle" class="small">units, AST</text>
+  <text x="590" y="532" text-anchor="middle" class="small">allowlist</text>
+  <path d="M590 565 V925 H245 V878" class="back"/>
+  <text x="405" y="952" text-anchor="middle" class="small" fill="#a52d28">syntax/ID error → repair flat input</text>
+
+  <!-- Gate 1 -->
+  <path d="M665 480 H718" class="arrow"/>
+  <rect x="718" y="150" width="360" height="535" rx="24" fill="#dceff8" stroke="#155d7b" stroke-width="4"/>
+  <rect x="753" y="126" width="292" height="50" rx="14" fill="#20779b"/>
+  <text x="899" y="159" text-anchor="middle" class="call">CALL 1 · LOWEST LOOP</text>
+  <text x="899" y="216" text-anchor="middle" class="head">Composite ID enrichment</text>
+  <text x="750" y="258" class="body">Catalog-only interpretation:</text>
+  <text x="770" y="292" class="small">• canonical quantity and source role</text>
+  <text x="770" y="322" class="small">• compound alias and component</text>
+  <text x="770" y="352" class="small">• phase and phase-component</text>
+  <text x="770" y="382" class="small">• units, conditions and expressions</text>
+  <text x="770" y="412" class="small">• cardinality and coverage thresholds</text>
+  <rect x="755" y="444" width="286" height="78" rx="11" fill="#fff" stroke="#20779b" stroke-width="2"/>
+  <text x="898" y="477" text-anchor="middle" class="small">Tool constructs—not agent guesses—</text>
+  <text x="898" y="507" text-anchor="middle" class="token">ADVselector_hash</text>
+  <text x="899" y="562" text-anchor="middle" class="small">No PCS bindings · no raw rows</text>
+  <text x="899" y="614" text-anchor="middle" class="token">composite_confirmation_token</text>
+  <text x="899" y="651" text-anchor="middle" class="small">Agent checks quantity · role · component</text>
+  <text x="899" y="676" text-anchor="middle" class="small">phase · unit · predicate</text>
+
+  <!-- Gate 2 -->
+  <path d="M1078 480 H1130" class="arrow"/>
+  <rect x="1130" y="150" width="360" height="535" rx="24" fill="#dceff8" stroke="#155d7b" stroke-width="4"/>
+  <rect x="1162" y="126" width="296" height="50" rx="14" fill="#20779b"/>
+  <text x="1310" y="159" text-anchor="middle" class="call">CALL 2 · MIDDLE LOOP</text>
+  <text x="1310" y="216" text-anchor="middle" class="head">Real database ID intent</text>
+  <text x="1160" y="258" class="body">Registry + PCS identity search:</text>
+  <text x="1180" y="292" class="small">• GLOBlit with DOI</text>
+  <text x="1180" y="322" class="small">• PROPblock / RXNblock</text>
+  <text x="1180" y="352" class="small">• optional BLKsubsys</text>
+  <text x="1180" y="382" class="small">• actual BLKvar / BLKprop / BLKconstr</text>
+  <text x="1180" y="412" class="small">• component, phase and method</text>
+  <text x="1180" y="442" class="small">• presentation / reference state</text>
+  <text x="1180" y="472" class="small">• range, distinct count and coverage</text>
+  <text x="1310" y="526" text-anchor="middle" class="small">Raw NumValues remain closed</text>
+  <text x="1310" y="582" text-anchor="middle" class="token">database_intent_confirmation_token</text>
+  <text x="1310" y="626" text-anchor="middle" class="small">Agent checks literature · system · block</text>
+  <text x="1310" y="651" text-anchor="middle" class="small">occurrence · observand · no-data warnings</text>
+
+  <!-- Gate 3 -->
+  <path d="M1490 480 H1542" class="arrow"/>
+  <rect x="1542" y="150" width="340" height="535" rx="24" fill="#dceff8" stroke="#155d7b" stroke-width="4"/>
+  <rect x="1570" y="126" width="284" height="50" rx="14" fill="#20779b"/>
+  <text x="1712" y="159" text-anchor="middle" class="call">CALL 3 · HIGHEST LOOP</text>
+  <text x="1712" y="216" text-anchor="middle" class="head">Final intent and syntax</text>
+  <text x="1572" y="263" class="body">Complete restatement:</text>
+  <text x="1592" y="299" class="small">• compounds and system scope</text>
+  <text x="1592" y="329" class="small">• all roles and qualifiers</text>
+  <text x="1592" y="359" class="small">• WHERE / fixed / inline conditions</text>
+  <text x="1592" y="389" class="small">• calculations and aggregates</text>
+  <text x="1592" y="419" class="small">• HAVING, ordering and limits</text>
+  <text x="1592" y="449" class="small">• canonical executable AST</text>
+  <text x="1592" y="479" class="small">• remaining chemistry warnings</text>
+  <text x="1712" y="536" text-anchor="middle" class="small">Still no raw rows</text>
+  <text x="1712" y="588" text-anchor="middle" class="token">execution_confirmation_token</text>
+  <text x="1712" y="632" text-anchor="middle" class="small">Agent checks the exact operation</text>
+  <text x="1712" y="657" text-anchor="middle" class="small">that will be executed</text>
+
+  <!-- Execute -->
+  <path d="M1712 685 V746" class="arrow"/>
+  <rect x="1542" y="746" width="340" height="132" rx="20" fill="#dff2d8" stroke="#2f6b24" stroke-width="4"/>
+  <text x="1712" y="786" text-anchor="middle" class="head">UNCHANGED CALL 4</text>
+  <text x="1712" y="820" text-anchor="middle" class="body">All three tokens → open raw rows</text>
+  <text x="1712" y="851" text-anchor="middle" class="small">align · filter · calculate · aggregate</text>
+
+  <path d="M1712 878 V908" class="thin"/>
+  <rect x="1542" y="908" width="340" height="68" rx="16" fill="#eef5ea" stroke="#557b4b" stroke-width="3"/>
+  <text x="1712" y="937" text-anchor="middle" class="head">RESULT JSON</text>
+  <text x="1712" y="963" text-anchor="middle" class="small">hardcoded compactor → concise agent evidence</text>
+
+  <!-- Feedback arrows -->
+  <path d="M899 685 V1015 H245 V878" class="back"/>
+  <path d="M1310 685 V1048 H245 V878" class="back"/>
+  <path d="M1542 715 H1460 V1080 H245 V878" class="back"/>
+  <text x="1060" y="1002" text-anchor="middle" class="small" fill="#a52d28">If any evidence is wrong: change the flat chemistry arguments, discard old tokens, and restart Gate 1</text>
+
+  <!-- Footer -->
+  <rect x="500" y="1092" width="1450" height="44" rx="14" fill="#eee8f4" stroke="#8f238b" stroke-width="2"/>
+  <text x="1225" y="1121" text-anchor="middle" class="body">Correct evidence → resubmit the otherwise identical call alone with the returned token. Any semantic input change invalidates the hierarchy.</text>
+</svg>

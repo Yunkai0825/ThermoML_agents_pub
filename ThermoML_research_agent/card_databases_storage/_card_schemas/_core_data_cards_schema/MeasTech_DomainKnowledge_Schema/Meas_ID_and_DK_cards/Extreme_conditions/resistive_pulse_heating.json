@@ -1,0 +1,373 @@
+{
+  "meas_ID": "resistive_pulse_heating",
+  "identity": {
+    "name": "Resistive pulse heating",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Resistive pulse heating",
+    "thermoml_custom_codes": [
+      "PULSEH"
+    ],
+    "measurement_family": "Extreme Conditions",
+    "modality": {
+      "contact": "yes",
+      "destructive": "partially",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 66,
+      "property_groups": [
+        "Criticals",
+        "PhaseTransition",
+        "HeatCapacityAndDerivedProp",
+        "TransportProp"
+      ],
+      "n_papers": 10,
+      "per_group": {
+        "Criticals": {
+          "instances": 56,
+          "papers": 7
+        },
+        "PhaseTransition": {
+          "instances": 4,
+          "papers": 2
+        },
+        "HeatCapacityAndDerivedProp": {
+          "instances": 4,
+          "papers": 1
+        },
+        "TransportProp": {
+          "instances": 2,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "electric current through specimen I(t)",
+          "voltage drop across specimen V(t)",
+          "specimen surface temperature T(t) from high-speed pyrometry",
+          "specimen diameter or cross-section from shadowgraphy or streak photography",
+          "elapsed time from pulse initiation"
+        ],
+        "derived_observables": [
+          "specific enthalpy h(T) from integrated electrical energy input",
+          "isobaric heat capacity Cp(T) = dh/dT",
+          "electrical resistivity ρ_e(T) from V, I, and specimen geometry",
+          "thermal expansion and volume V(T) from shadowgraph diameter evolution",
+          "density ρ(T) from mass conservation and measured volume",
+          "normal spectral emissivity (from radiance comparison at multiple wavelengths)"
+        ],
+        "target_properties": [
+          "isobaric heat capacity Cp of solid and liquid metals",
+          "specific enthalpy h(T) up to and beyond melting",
+          "enthalpy of fusion ΔH_fus",
+          "melting temperature T_m",
+          "electrical resistivity ρ_e of solid and liquid metals",
+          "thermal expansion coefficient",
+          "density of liquid metals near and above melting",
+          "critical-point temperature and density (in extreme experiments)",
+          "normal spectral emissivity"
+        ],
+        "phases_measured": [
+          "solid (crystalline, high-temperature)",
+          "liquid metal",
+          "solid-liquid two-phase region during melting",
+          "expanded liquid approaching the critical point (extreme pulse experiments)"
+        ],
+        "supported_sample_types": [
+          "pure metallic elements (refractory metals, transition metals, noble metals)",
+          "metallic alloys",
+          "electrically conducting ceramics and carbides",
+          "any material that can be fabricated as a thin wire or strip and conducts electricity"
+        ],
+        "unsupported_sample_types": [
+          "electrical insulators and most polymers",
+          "ionic liquids and aqueous solutions",
+          "gases",
+          "materials that cannot be formed into wire or thin strip geometry",
+          "semiconductors with negative temperature coefficient of resistance (thermal runaway risk)",
+          "highly reactive metals that ignite in available atmospheres before reaching target temperature"
+        ],
+        "typical_output_formats": [
+          "h(T) specific enthalpy vs. temperature curve",
+          "Cp(T) heat capacity vs. temperature curve",
+          "ρ_e(T) electrical resistivity vs. temperature curve",
+          "density ρ(T) curve",
+          "V(t), I(t), T(t) raw time traces"
+        ],
+        "units": {
+          "heat_capacity": "J/(mol·K) or J/(kg·K)",
+          "specific_enthalpy": "kJ/mol or kJ/kg",
+          "temperature": "K",
+          "electrical_resistivity": "µΩ·m or µΩ·cm",
+          "density": "kg/m³",
+          "thermal_expansion": "K⁻¹",
+          "current": "A (typically kA)",
+          "voltage": "V",
+          "time": "µs or ms",
+          "emissivity": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "pulse_duration",
+            "typical_range": "1 µs to 10 ms",
+            "hard_limits": "must be short enough that inertial confinement prevents specimen disintegration before measurement is complete; must be long enough for pyrometer temporal resolution",
+            "notes": "microsecond pulses reach higher heating rates but demand faster diagnostics; millisecond pulses are more common for routine property measurement"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "1500 K to 5000 K",
+            "hard_limits": "lower limit set by pyrometer sensitivity (typically >1200 K for spectral pyrometry); upper limit set by specimen vaporization and plasma formation",
+            "notes": "room-temperature to ~1200 K gap is covered by preheating or by combining with conventional methods"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "10³ K/s to 10⁸ K/s",
+            "hard_limits": "must exceed ~10³ K/s to prevent mechanical failure by thermal stress before melting; extremely high rates (>10⁹ K/s) cause departures from local thermodynamic equilibrium",
+            "notes": "10⁴–10⁶ K/s is the most common range for thermophysical property work"
+          },
+          {
+            "parameter": "specimen_current",
+            "typical_range": "100 A to 50 kA",
+            "hard_limits": "peak current limited by capacitor bank energy and circuit impedance; minimum current must produce sufficient Joule heating",
+            "notes": "current waveform is typically a damped half-sine or critically damped pulse from a capacitor discharge"
+          },
+          {
+            "parameter": "ambient_atmosphere",
+            "typical_range": "inert gas at 0.1 to 0.3 MPa or moderate vacuum",
+            "hard_limits": "reactive atmospheres (air, oxygen) cause surface oxidation; vacuum below ~10 Pa permits excessive evaporation at high T",
+            "notes": "nitrogen or argon overpressure (0.1–0.3 MPa) is standard to suppress vaporization while remaining inert"
+          }
+        ],
+        "variables": [
+          {
+            "name": "pulse_energy",
+            "role": "primary controlled variable",
+            "typical_values": "0.1 kJ to 50 kJ stored in capacitor bank",
+            "effect": "determines peak temperature reached; higher energy yields access to higher temperatures and longer liquid-phase measurement windows"
+          },
+          {
+            "name": "specimen_geometry",
+            "role": "controlled specimen parameter",
+            "typical_values": "wire diameter 0.3–1.0 mm, length 30–100 mm; strip thickness 0.05–0.5 mm",
+            "effect": "thinner specimens heat more uniformly through the cross-section; thicker specimens provide longer measurement times before explosion but with greater radial temperature gradients"
+          },
+          {
+            "name": "heating_rate",
+            "role": "dependent variable set by pulse energy and specimen mass",
+            "typical_values": "10⁴–10⁶ K/s",
+            "effect": "faster rates improve inertial confinement but increase demands on temporal resolution of all diagnostics"
+          },
+          {
+            "name": "gas_overpressure",
+            "role": "environmental control variable",
+            "typical_values": "0.1–0.3 MPa of argon or nitrogen",
+            "effect": "suppresses surface vaporization and extends the accessible liquid temperature range; too high a pressure introduces convective heat losses"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "capacitor bank or pulse power supply — stores electrical energy (typically 0.5–100 kJ) for rapid discharge through the specimen",
+          "high-current switching system — ignitron, thyristor stack, or spark gap to initiate the discharge with microsecond timing",
+          "specimen clamps and electrodes — low-inductance, water-cooled copper clamps providing electrical contact and mechanical support to the wire or strip",
+          "high-speed pyrometer — single-wavelength or multi-wavelength spectral pyrometer with sub-microsecond response for non-contact T(t) measurement",
+          "current transducer — Rogowski coil or precision current shunt for measuring I(t) with nanosecond bandwidth",
+          "voltage probes — Kelvin (four-point) voltage taps spot-welded or knife-edge contacted to the specimen gauge section",
+          "high-speed shadowgraph or streak camera — for time-resolved imaging of specimen diameter to determine volume expansion",
+          "fast data acquisition system — transient digitizers with ≥10 MS/s sampling rate, synchronously triggering all channels",
+          "pressure vessel or containment chamber — with optical windows for pyrometry and shadowgraphy, rated for gas overpressure and specimen-fragment containment",
+          "inert gas supply and pressure control system — for maintaining argon or nitrogen atmosphere at controlled overpressure"
+        ],
+        "environmental_requirements": [
+          "inert gas atmosphere (argon or nitrogen) at slight overpressure (0.1–0.3 MPa) to suppress evaporation",
+          "containment chamber rated for fragment impact from exploding wire specimens",
+          "optical access windows transparent at pyrometer wavelength(s), kept clean and free of metallic spatter deposits",
+          "electromagnetic shielding and careful cable routing to protect sensitive voltage and pyrometer signals from EMI generated by the high-current discharge",
+          "dedicated high-current grounding system separate from signal ground"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "straight wire with uniform circular cross-section (most common)",
+            "thin strip or foil with uniform rectangular cross-section",
+            "tube geometry (specialized; rare)"
+          ],
+          "size_limits": "wire length 30–100 mm (gauge section 10–50 mm between voltage taps); strip specimens of similar length and 2–10 mm width",
+          "thickness_limits": "wire diameter 0.3–1.0 mm; strip thickness 0.05–0.5 mm; thinner specimens achieve more uniform radial heating",
+          "surface_requirements": [
+            "oxide-free surface for reproducible emissivity (electropolish, acid etch, or mechanical polish before experiment)",
+            "uniform surface finish along the gauge length",
+            "surface free of scratches, notches, or necked regions that could localize heating"
+          ],
+          "mounting_requirements": [
+            "straight, taut mounting between clamps with minimal slack (prevents whipping during pulse)",
+            "low-inductance connection geometry — clamp leads kept short, parallel, and close together",
+            "voltage tap attachment by spot-welding fine thermocouple wire or knife-edge contacts pressed against specimen"
+          ],
+          "preparation_requirements": [
+            "high-purity specimen material (typically ≥99.9%) with known composition",
+            "precise measurement of specimen dimensions — diameter by micrometer (±1 µm) at multiple points along the length, and total length between voltage taps",
+            "specimen mass weighed on analytical balance (±0.01 mg)",
+            "surface cleaning: degreasing with solvent, followed by electropolishing or chemical etching",
+            "annealing of the wire or strip to remove cold-work texture and achieve uniform grain structure"
+          ]
+        },
+        "calibration_requirements": [
+          "pyrometer calibration against a blackbody source with NIST-traceable temperature, including emissivity correction for the target metal at the operating wavelength",
+          "current transducer calibration against precision shunt or reference Rogowski coil",
+          "voltage measurement system calibration including cable attenuation and probe frequency response",
+          "timing and trigger synchronization verification using common reference pulse",
+          "shadowgraph magnification calibration using a target of known diameter at the specimen plane"
+        ],
+        "reference_materials": [
+          "NIST-certified niobium wire — enthalpy and Cp reference for refractory metals (NIST SRM proposed; literature consensus data by Cezairliyan and colleagues)",
+          "tungsten wire — well-characterized Cp, ρ_e, and emissivity up to 3600 K, de facto primary reference",
+          "molybdenum wire — secondary reference with known h(T) and ρ_e(T)",
+          "copper wire — reference for moderate temperatures (Cp, ρ_e well known to melting point)",
+          "platinum wire — melting point standard (2041.3 K) and resistivity reference"
+        ],
+        "consumables": [
+          "specimen wires or strips (consumed each pulse — typically 1 wire per experiment)",
+          "inert gas (argon or nitrogen, research grade ≥99.999%)",
+          "optical windows (periodically replaced after spatter contamination)",
+          "spot-welding wire for thermocouple/voltage tap attachment"
+        ],
+        "safety_notes": [
+          "capacitor bank stores lethal energy (hundreds to thousands of joules at kilovolt potentials) — requires interlocked safety enclosure, grounding hooks, and bleeder resistors",
+          "specimen explosion produces high-velocity metal fragments — containment vessel with blast-rated walls and shrapnel screens mandatory",
+          "high-intensity optical emission during pulse — protective eyewear and/or remote operation required",
+          "electromagnetic pulse from discharge may interfere with facility electronics — shielded enclosure and warning system advisable",
+          "pressurized containment vessel requires periodic inspection and pressure relief valve"
+        ]
+      },
+      "performance": {
+        "sensitivity": "resolves enthalpy increments of ~1 kJ/kg; Cp changes of ~5% are clearly detectable above noise",
+        "detection_limit": "minimum specimen mass ~5 mg (thin wire); practical lower limit determined by pyrometer signal-to-noise and specimen uniformity",
+        "resolution": {
+          "spatial": "not applicable (1-D axial geometry assumed uniform); radial gradients are minimized by skin-depth considerations and thin specimens",
+          "temporal": "0.1–10 µs depending on pyrometer and digitizer bandwidth; determines minimum resolvable temperature interval at a given heating rate",
+          "spectral": "pyrometer operating wavelength 650 nm (visible) or 900–1550 nm (near-IR); spectral bandwidth 10–50 nm for monochromatic pyrometers",
+          "energy": "enthalpy resolution ~0.5–1% of measured h; Cp resolution ~2–5%"
+        },
+        "dynamic_range": "temperature from ~1200 K (pyrometer threshold) to >5000 K; heating rate 10³ to 10⁸ K/s; electrical resistivity from ~1 µΩ·cm to >500 µΩ·cm",
+        "accuracy": "2–5% for Cp; 1–3% for specific enthalpy h(T); 1–2% for electrical resistivity ρ_e; 2–4% for liquid density; 0.5–1% for melting temperature",
+        "precision": "1–3% (run-to-run repeatability for Cp from nominally identical specimen wires)",
+        "throughput": "one experiment per specimen; specimen loading and chamber preparation take 10–30 minutes; the actual heating pulse lasts microseconds to milliseconds",
+        "measurement_speed": "microseconds to milliseconds per experiment (the pulse itself); repetition limited by specimen replacement and chamber conditioning"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "simultaneous time-series of current I(t), voltage V(t), pyrometer radiance signal L(t), and shadowgraph image sequence, all digitized at ≥10 MS/s with common trigger",
+        "preprocessing_steps": [
+          "trigger alignment and time-base synchronization of all channels",
+          "current I(t) integration from Rogowski coil dI/dt signal (if Rogowski coil used)",
+          "pyrometer signal conversion to true temperature T(t) using calibration curve and emissivity correction ε(λ,T)",
+          "voltage correction for resistive and inductive drops in leads outside the gauge section",
+          "shadowgraph image analysis: edge detection to extract specimen diameter d(t) as a function of time",
+          "electrical power computation P(t) = V(t)·I(t)",
+          "specific enthalpy calculation h(t) = (1/m) ∫₀ᵗ P(t') dt', where m is the specimen mass between voltage taps",
+          "conversion of h(t) and T(t) time series to h(T) by eliminating time"
+        ],
+        "analysis_methods": [
+          "numerical differentiation Cp(T) = dh/dT from the h(T) curve (often smoothed with Savitzky-Golay or spline before differentiation)",
+          "electrical resistivity calculation ρ_e(T) = V(t)·A(t)/(I(t)·L), where A(t) is the time-dependent cross-sectional area from shadowgraphy and L is the gauge length",
+          "density computation ρ(T) = m/(A(t)·L) using measured expansion",
+          "identification of the melting plateau as a region of constant T with increasing h, yielding T_m and ΔH_fus",
+          "polynomial or Padé fits to h(T) or Cp(T) over single-phase regions for tabulation"
+        ],
+        "model_assumptions": [
+          "specimen is in local thermodynamic equilibrium despite rapid heating (valid for heating rates below ~10⁸ K/s for metals)",
+          "Joule heating is volumetrically uniform across the specimen cross-section (requires skin depth δ >> wire radius at the pulse frequency)",
+          "axial symmetry: temperature and expansion are radially uniform (valid when Biot number based on specimen radius is small)",
+          "heat losses (radiation, convection, conduction to clamps) are negligible during the short pulse duration",
+          "normal spectral emissivity is known or simultaneously measured; error in emissivity directly affects T and therefore h and Cp",
+          "specimen mass between voltage taps is constant during the measurement (no significant vaporization loss before end of useful data window)"
+        ],
+        "fit_parameters": [
+          "specific enthalpy h(T) polynomial coefficients",
+          "heat capacity Cp(T) as derivative of fitted h(T)",
+          "melting temperature T_m (from onset of the enthalpy plateau)",
+          "enthalpy of fusion ΔH_fus (from the step in h at the melting plateau)",
+          "electrical resistivity ρ_e(T) polynomial coefficients",
+          "normal spectral emissivity ε(T) (if multi-wavelength pyrometry is used)"
+        ],
+        "common_artifacts": [
+          "emissivity artifact: incorrect or temperature-dependent emissivity produces systematic error in T(t), propagating into h(T) and Cp(T)",
+          "skin effect artifact: at very high current slew rates, current concentrates at the specimen surface, causing non-uniform radial heating and overestimating surface temperature",
+          "magnetohydrodynamic (MHD) instabilities: in the liquid phase, the Lorentz force (J×B) can cause visible surface undulations or constrictions that distort shadowgraph diameter readings",
+          "voltage induction artifact: changing magnetic flux from the high di/dt induces spurious EMF in the voltage tap loop, adding error to V(t)",
+          "evaporation artifact: surface vaporization at temperatures above ~0.6 T_c removes mass, producing an opaque vapor cloud that corrupts pyrometer and shadowgraph signals",
+          "radial temperature gradient artifact: for thick specimens or very rapid pulses, the center-to-surface temperature difference is non-negligible, and the pyrometer reads only the surface temperature"
+        ],
+        "quality_control_checks": [
+          "verify Ohmic consistency: compare integrated electrical energy (∫V·I dt / m) with the enthalpy increment from pyrometry — they must agree to within stated uncertainty",
+          "repeat experiments on 3–5 nominally identical specimens to assess run-to-run reproducibility",
+          "validate against known reference data (e.g., tungsten Cp at 2000 K) before measuring unknown materials",
+          "check for current skin depth: compute δ = √(2ρ_e / μ₀ω) and verify δ >> specimen radius at the dominant pulse frequency",
+          "inspect the melting plateau: T_m should agree with literature values within ±0.5–1% to confirm pyrometer calibration and emissivity assumptions",
+          "examine the shadowgraph for MHD instabilities (necking, sausage instability) that would invalidate the uniform-diameter assumption"
+        ],
+        "failure_modes": [
+          "premature specimen rupture before reaching target temperature (defect or notch on wire surface acting as stress concentrator)",
+          "pyrometer signal saturation or loss due to vapor cloud obscuring the specimen surface",
+          "arc discharge between clamps or across cracked specimen creating a plasma bypass path",
+          "data acquisition trigger failure or channel desynchronization causing misalignment of I, V, T, and diameter time traces",
+          "window contamination from spatter depositing on optical ports, altering pyrometer calibration mid-experiment",
+          "specimen blowout damaging voltage taps or pyrometer optics"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 2–5% for Cp; 1–3% for specific enthalpy h(T); 1–2% for electrical resistivity",
+        "random_sources": [
+          "specimen-to-specimen variability in wire diameter, purity, and grain structure",
+          "pyrometer noise (photon statistics, detector dark current, preamplifier noise)",
+          "digitizer quantization noise on I(t) and V(t) channels",
+          "shadowgraph edge detection uncertainty from image noise and diffraction",
+          "timing jitter in the trigger and acquisition system"
+        ],
+        "systematic_sources": [
+          "emissivity uncertainty — typically the single largest contributor; a 5% error in ε produces ~1–2% error in T and ~3–5% error in Cp at 3000 K",
+          "voltage lead inductive pickup correction",
+          "current transducer calibration offset",
+          "heat loss correction (radiation loss during pulse, conduction to clamps) — small for fast pulses but grows with pulse duration",
+          "specimen geometry measurement uncertainty (diameter, length) propagating into ρ_e and density",
+          "specimen mass determination within the gauge section",
+          "skin effect — non-uniform current density biasing the effective heating rate"
+        ],
+        "operator_dependence": "moderate — specimen mounting tension, voltage tap placement, pyrometer aiming, and surface preparation quality depend on operator skill and experience",
+        "model_dependence": "significant — accuracy depends critically on the assumed spectral emissivity model and its temperature dependence; also on the assumption of uniform radial heating and negligible heat loss during the pulse",
+        "dominant_error_sources": [
+          "emissivity uncertainty (affects temperature and all temperature-dependent derived quantities)",
+          "numerical differentiation noise amplification when computing Cp = dh/dT from discrete data",
+          "specimen geometry measurement for resistivity and density determination"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U (k=2, 95% confidence)",
+          "relative uncertainty as percentage of measured property value",
+          "standard deviation from replicate experiments on multiple specimens"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Resistive pulse heating (also called exploding wire or rapid ohmic pulse heating) is an extreme-conditions technique for measuring thermophysical properties of electrically conducting materials — predominantly metals — at temperatures far above their melting points, where conventional steady-state methods are physically impossible. A large current pulse from a capacitor bank is discharged through a thin wire or strip specimen, raising its temperature at rates of 10³ to 10⁸ K/s from solid through the liquid phase to temperatures exceeding 5000 K. During the few microseconds to milliseconds of the pulse, direct observables — current I(t), voltage V(t), temperature T(t) by pyrometry, and specimen diameter by shadowgraphy — are recorded simultaneously, enabling the determination of specific enthalpy h(T), heat capacity Cp(T), electrical resistivity ρ_e(T), density, and thermal expansion of metals in thermodynamic states inaccessible to any equilibrium measurement technique.",
+      "how_it_operates": "A capacitor bank charged to kilovolt potential is rapidly switched (via ignitron, thyristor, or spark gap) to discharge through a thin metallic wire or strip clamped between massive copper electrodes inside a pressurized inert-gas containment vessel. The resulting current pulse — typically a damped half-sine of peak amplitude 1–50 kA and duration 1 µs to 10 ms — deposits Joule energy volumetrically in the specimen at a rate far exceeding radiative and conductive losses. A high-speed spectral pyrometer aligned to the specimen's mid-section surface records the radiance signal at one or more wavelengths, which is converted to true temperature T(t) via emissivity correction. Simultaneously, a Rogowski coil records dI/dt (integrated to obtain I(t)), and Kelvin voltage taps spot-welded to the specimen gauge section record V(t). A shadowgraph or high-speed streak camera images the specimen silhouette to track diameter expansion d(t). The electrical energy input per unit mass, h(t) = (1/m) ∫ V·I dt, combined with T(t), yields the specific enthalpy vs. temperature curve h(T) from which Cp = dh/dT is obtained by differentiation.",
+      "core_theory": "The technique rests on the first law of thermodynamics applied to a resistively heated conductor: the rate of enthalpy increase equals the electrical power input minus heat losses. For a specimen of mass m between the voltage taps, dh/dt = V(t)·I(t)/m − q_loss, where q_loss includes radiative, convective, and clamp-conduction losses. Because the pulse duration (microseconds to milliseconds) is orders of magnitude shorter than the thermal relaxation time of the system, q_loss is negligible during the measurement window (verified by order-of-magnitude estimates showing radiative loss < 0.1% of input power for µs pulses). Under this adiabatic assumption, specific enthalpy is h(T) = (1/m) ∫₀ᵗ V·I dt′, and isobaric heat capacity follows as Cp(T) = dh/dT. Electrical resistivity is obtained from ρ_e(T) = V·A(T) / (I·L), where A(T) is the cross-sectional area (from shadowgraphy) and L is the gauge length. The melting point appears as a temperature plateau at T_m with increasing h, and the enthalpy of fusion ΔH_fus equals the enthalpy step across that plateau. Accurate temperature determination requires knowledge of the specimen's normal spectral emissivity ε(λ,T), since the pyrometer measures spectral radiance and converts it via Planck's law; this is the single most critical quantity in the data reduction chain.",
+      "setup": "A typical resistive pulse heating facility centers on a capacitor bank (0.5–100 kJ stored energy, charged to 1–20 kV) connected through a low-inductance transmission line to a specimen chamber. The specimen — a high-purity wire (0.3–1 mm diameter, 30–100 mm long) or thin strip — is clamped vertically between water-cooled copper electrodes with four-point voltage taps spot-welded to define a central gauge section of 10–50 mm. The chamber is a stainless steel pressure vessel with sapphire or fused silica optical windows, filled with argon or nitrogen at 0.1–0.3 MPa to suppress evaporation. A fast pyrometer (sub-microsecond response, operating at 650 nm or in the near-IR) views the specimen mid-section through one window. A backlighting source and lens train project the specimen's shadow onto a high-speed streak camera or digital framing camera through the opposite window, yielding time-resolved diameter data. Signal conditioning electronics (Rogowski coil integrator, differential voltage amplifier, pyrometer transimpedance amplifier) feed into multichannel transient digitizers sampling at 10–500 MS/s, all triggered from a common timing generator.",
+      "suitable_for": "Resistive pulse heating is uniquely suited for measuring thermophysical properties of refractory and high-melting-point metals (tungsten, molybdenum, niobium, tantalum, titanium, zirconium, hafnium, rhenium, iridium, platinum) and their alloys at temperatures from 1500 K to well above their melting points (3000–5000+ K). It is the primary method for determining specific enthalpy, heat capacity, electrical resistivity, and density of liquid metals in temperature regimes inaccessible to steady-state container-based methods, where no crucible material can survive. The technique is also applied to transition metals, actinides, and metallic carbides. In the ThermoML database it is heavily used for critical-point property measurements (56 of 66 instances), phase transition enthalpies, and liquid-state transport properties. It is valuable whenever the property of interest must be measured faster than the specimen can structurally disintegrate.",
+      "core_limitations": "The technique is partially destructive — each pulse consumes one specimen wire, making it relatively expensive in material and preparation time compared to reusable-sample methods. Specimens must be electrically conducting and fabricable into wire or strip form, excluding insulators, most ceramics, and many brittle intermetallics. The pyrometer-based temperature measurement has a practical lower bound of ~1200 K, leaving a gap between ambient and the pyrometer threshold that must be bridged by other methods. Accuracy is fundamentally limited by the uncertainty in the specimen's spectral emissivity and its temperature dependence; a 5% error in emissivity at 3000 K propagates to ~1.5% in temperature and ~3–5% in Cp. Numerical differentiation of h(T) to obtain Cp amplifies noise, requiring careful smoothing that can obscure narrow phase-transition features. Radial temperature gradients become significant for thick specimens or extremely rapid pulses (heating rate > 10⁸ K/s), violating the uniform-temperature assumption.",
+      "sample_preparation": "Specimens are prepared from high-purity (≥99.9%) stock by drawing into wire or rolling into strip. The final wire diameter (typically 0.3–1.0 mm) is measured by micrometer at 5–10 points along the length to verify uniformity to ±1 µm. Strips are measured for thickness and width similarly. The wire or strip is then annealed in vacuum or inert gas at a temperature sufficient to relieve cold-work stresses and achieve a uniform, reproducible microstructure — this also stabilizes the initial electrical resistivity and ensures reproducible emissivity. After annealing, the surface is cleaned by degreasing with acetone or ethanol, followed by light electropolishing or chemical etching to remove oxide and produce a smooth, defect-free surface. The specimen is then weighed on an analytical balance (±0.01 mg), cut to length, and voltage taps (fine thermocouple wire, 25–50 µm diameter) are spot-welded at precisely measured locations to define the gauge section. The prepared wire is stored in a desiccator or inert atmosphere until mounting in the specimen chamber.",
+      "calibration_and_references": "Temperature calibration relies on the pyrometer being referenced to a NIST-traceable blackbody radiation source across the 1500–4000 K range, with spectral emissivity corrections applied for the target metal. The melting-point plateau observed during each experiment serves as an in-situ temperature checkpoint — the measured T_m should agree with the accepted literature value (e.g., IUPAC/CODATA recommendations) to within 0.5–1%. Current is calibrated using a NIST-traceable current probe or by comparison against a precision manganin shunt. Voltage is verified by injecting known signals through the leads and measuring attenuation and phase shift. The shadowgraph imaging system is calibrated by imaging a target of known diameter at the specimen plane. Primary reference materials for validating the complete measurement chain are tungsten (Cp and ρ_e well-characterized to 3600 K by Cezairliyan et al. at NIST), molybdenum, and niobium (extensive pulse-heating reference datasets exist from the Graz University of Technology and NIST groups). All experiments should reproduce these reference datasets within stated uncertainty bounds before measurements on new materials are accepted.",
+      "data_interpretation": "The raw time-series I(t), V(t), L(t) (pyrometer radiance), and d(t) (shadowgraph diameter) are first synchronized using the common trigger timestamp. The pyrometer signal is converted to temperature T(t) using the pre-calibrated radiance-temperature relation corrected by the metal's spectral emissivity ε(λ,T). The instantaneous electrical power P(t) = V(t)·I(t) is integrated over time to yield the total specific enthalpy h(t) = (1/m) ∫₀ᵗ P dt'. The h(t) and T(t) curves are then combined to produce h(T) by parametric elimination of time. The melting region appears as a horizontal plateau on the T(t) plot (and a vertical step in h(T) at constant T_m); the plateau width in enthalpy gives ΔH_fus. Heat capacity Cp(T) = dh/dT is computed by numerical differentiation, typically after fitting h(T) with smoothing splines or high-order polynomials to suppress noise amplification. Electrical resistivity is computed point-by-point as ρ_e(T) = V(t)·π[d(t)/2]² / (I(t)·L_gauge). Density follows from ρ(T) = 4m / (π·d(t)²·L_gauge), assuming isotropic expansion along the gauge length.",
+      "common_pitfalls": "The most prevalent pitfall is using an incorrect or temperature-independent emissivity for the pyrometer correction, which introduces a systematic temperature error that propagates multiplicatively into enthalpy and heat capacity. Operators unfamiliar with the technique may fail to ensure that the skin depth at the dominant current frequency exceeds the wire radius, leading to non-uniform radial heating and artificially high surface temperatures. Voltage tap loops that enclose significant area pick up inductive EMF from the rapidly changing current (dI/dt can exceed 10⁹ A/s), corrupting V(t) readings; the remedy is to twist the voltage leads tightly and route them perpendicular to the current flow. Shadowgraph misalignment or defocus causes systematic errors in diameter measurement, directly affecting density and resistivity. Operating at insufficient gas overpressure allows an evaporating vapor cloud to form around the specimen, which obscures both the pyrometer target and the shadowgraph silhouette, truncating the useful measurement window. Finally, applying heavy numerical smoothing to h(T) before differentiating to obtain Cp can inadvertently broaden or suppress the melting anomaly, leading to underestimates of the true Cp peak or even missing narrow solid-solid transitions.",
+      "artifacts_and_failure_modes": "The principal artifacts are: (1) emissivity artifact — systematic over- or underestimate of T at all points, shifting the entire h(T) curve horizontally and distorting Cp; (2) inductive voltage artifact — spurious EMF superimposed on V(t) during the high-dI/dt leading edge of the pulse, producing an apparent energy overshoot at early times; (3) skin-effect artifact — current crowding at the surface in the opening microseconds of the pulse, causing a transient radial temperature gradient that the pyrometer reads as a higher temperature than the volume average; (4) MHD instability artifact — the Lorentz force from the self-magnetic field interacting with the axial current drives sausage-type surface instabilities in the liquid phase, creating periodic diameter oscillations that introduce scatter in the shadowgraph-derived volume and density; (5) vapor shielding — once the specimen surface exceeds ~0.6 T_c, evaporated material forms an optically thick vapor shell that decouples the pyrometer from the true specimen surface. Failure modes include premature fracture of the solid wire due to surface defects or thermal shock, arc formation through the residual atmosphere after the wire fragments, and window damage from high-velocity metal fragments.",
+      "reporting_checklist": "Published resistive pulse heating results should include: specimen material, purity, and supplier; specimen geometry (wire/strip dimensions, mass); annealing conditions and surface preparation; capacitor bank energy and peak current; pulse duration and approximate heating rate; gas atmosphere and pressure; pyrometer type, operating wavelength, bandwidth, and temporal resolution; emissivity values used (with source/method); current and voltage measurement methods and calibration references; shadowgraph configuration and magnification calibration; data reduction procedure including smoothing method and parameters used for Cp derivation; tabulated h(T), Cp(T), ρ_e(T), and ρ(T) data over the measured range with stated combined expanded uncertainties (k=2, 95% confidence); number of replicate experiments and specimen-to-specimen scatter; comparison with reference data (e.g., tungsten) for validation; and any corrections applied for heat loss, skin effect, or inductive pickup. For ThermoML encoding, property values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

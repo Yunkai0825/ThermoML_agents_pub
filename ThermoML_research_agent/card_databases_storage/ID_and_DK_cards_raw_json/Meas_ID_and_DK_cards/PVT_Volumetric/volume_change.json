@@ -1,0 +1,336 @@
+{
+  "meas_ID": "volume_change",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Volume change",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Volume change",
+    "thermoml_custom_codes": [],
+    "measurement_family": "PVT / Volumetric",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 5,
+      "property_groups": [
+        "PhaseTransition"
+      ],
+      "n_papers": 2,
+      "per_group": {
+        "PhaseTransition": {
+          "instances": 5,
+          "papers": 2
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "meniscus displacement in capillary (Δh)",
+          "capillary bore cross-sectional area (A)",
+          "temperature of thermostatted bath (T)",
+          "masses or volumes of individual components loaded",
+          "atmospheric or applied pressure (P)"
+        ],
+        "derived_observables": [
+          "volume change on mixing (ΔV_mix = A·Δh)",
+          "excess molar volume (V^E)",
+          "partial molar volumes of components",
+          "volume change of phase transition (ΔV_tr)",
+          "molar volume of mixture",
+          "apparent molar volume of solute"
+        ],
+        "target_properties": [
+          "excess molar volume (V^E)",
+          "volume change on mixing (ΔV_mix)",
+          "volume change of phase transition (ΔV_tr)",
+          "partial molar volumes",
+          "apparent molar volume",
+          "molar volume of solution"
+        ],
+        "phases_measured": [
+          "liquid mixtures",
+          "liquid–liquid systems",
+          "solid (crystalline) undergoing phase transitions",
+          "solid–liquid equilibrium (melting/freezing)",
+          "polymer melts and blends"
+        ],
+        "supported_sample_types": [
+          "binary and multicomponent liquid mixtures",
+          "aqueous electrolyte solutions",
+          "organic solvent mixtures",
+          "polymer solutions and blends",
+          "ionic liquid mixtures",
+          "molten salts",
+          "crystalline solids undergoing solid-state transitions (mercury dilatometry)",
+          "waxes, fats, and lipids"
+        ],
+        "unsupported_sample_types": [
+          "gases or gas mixtures",
+          "highly volatile liquids that flash in open dilatometers",
+          "strongly exothermic reactive mixtures (risk of boiling or explosion in sealed capillary)",
+          "highly viscous systems where mixing is incomplete (e.g., uncured thermoset resins)",
+          "samples requiring extreme pressures beyond dilatometer rating"
+        ],
+        "typical_output_formats": [
+          "V^E vs. mole fraction (x) curve at fixed T",
+          "ΔV_mix vs. composition",
+          "V^E vs. T at fixed composition",
+          "volume–temperature curve through a phase transition",
+          "Redlich–Kister polynomial fit coefficients for V^E(x)"
+        ],
+        "units": {
+          "volume_change": "cm³ or mL",
+          "excess_molar_volume": "cm³/mol",
+          "partial_molar_volume": "cm³/mol",
+          "meniscus_displacement": "cm or mm",
+          "temperature": "K",
+          "pressure": "MPa or kPa",
+          "mass": "g",
+          "capillary_bore_area": "cm² or mm²"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 373 K",
+            "hard_limits": "lower limit set by freezing of components; upper limit set by boiling point of most volatile component or thermal stability of dilatometer seals",
+            "notes": "mercury dilatometers for solid samples can operate to ~600 K; aqueous systems typically 278–353 K"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (atmospheric)",
+            "hard_limits": "standard glass dilatometers limited to near-ambient; high-pressure dilatometers with metal cells can reach ~100 MPa",
+            "notes": "most excess volume measurements at atmospheric pressure; higher pressures require specialized piston-type dilatometers"
+          },
+          {
+            "parameter": "composition_range",
+            "typical_range": "x = 0 to x = 1 (full mole fraction range)",
+            "hard_limits": "limited by ability to measure very small ΔV at dilute ends of composition range",
+            "notes": "typically 8–15 compositions across the full range; more points near extrema of V^E"
+          },
+          {
+            "parameter": "capillary_bore_diameter",
+            "typical_range": "0.5 mm to 2 mm inner diameter",
+            "hard_limits": "too narrow: meniscus sticking and capillary rise corrections dominate; too wide: poor sensitivity to small ΔV",
+            "notes": "bore selected as compromise between sensitivity (narrow bore) and ease of reading (wider bore)"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled variable (thermostatted)",
+            "typical_values": "288.15 K to 328.15 K in 5 K or 10 K steps",
+            "effect": "V^E is temperature-dependent; thermal expansion changes sign and magnitude of excess volume"
+          },
+          {
+            "name": "composition",
+            "role": "primary scanned variable",
+            "typical_values": "mole fractions from 0.05 to 0.95 in steps of 0.05–0.10",
+            "effect": "V^E varies with composition; curve shape (symmetric, skewed) reveals molecular interactions"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa",
+            "effect": "higher pressures compress free volume and shift V^E values; pressure derivative gives excess isothermal compressibility"
+          },
+          {
+            "name": "stirring_or_mixing_rate",
+            "role": "procedural variable",
+            "typical_values": "magnetic stirrer or manual inversion",
+            "effect": "insufficient mixing leads to incomplete equilibration and erroneously low ΔV; over-vigorous stirring introduces heat from friction"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "dilatometer flask — calibrated glass bulb (10–50 cm³) with ground-glass or mercury-sealed stopper and graduated capillary stem",
+          "precision-bore capillary — uniform-bore glass capillary (0.5–2 mm ID) graduated in 0.01 cm divisions, fused to the flask",
+          "thermostat — constant-temperature water or oil bath with stability ±0.005 K to ±0.01 K",
+          "cathetometer or travelling microscope — optical instrument reading meniscus position to ±0.001 cm",
+          "mixing mechanism — magnetic stirrer bar inside the flask, or a device to invert and rock the dilatometer",
+          "analytical balance — for weighing components to ±0.0001 g",
+          "calibrated mercury (for mercury dilatometers) — high-purity confining liquid for solid-sample dilatometry",
+          "temperature measurement — calibrated platinum resistance thermometer or precision thermometer in the bath"
+        ],
+        "environmental_requirements": [
+          "thermostatted bath with temperature stability ±0.01 K or better",
+          "vibration-free environment to avoid disturbing the meniscus",
+          "consistent ambient lighting or monochromatic light source for cathetometer readings",
+          "draft-free surroundings to prevent bath temperature fluctuations"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid components — no geometric constraint; poured or injected into dilatometer",
+            "solid samples (mercury dilatometry) — granular, powder, or small pieces that fit inside the dilatometer bulb"
+          ],
+          "size_limits": "total liquid volume typically 10–50 cm³; individual component volumes measured by mass and density",
+          "thickness_limits": "not applicable for liquids; solid pieces should be small enough for mercury to fill all interstices",
+          "surface_requirements": [
+            "components must be miscible (for mixing experiments) or wetted by confining mercury (for solid dilatometry)",
+            "capillary bore must be clean and uniformly wetted to avoid meniscus sticking"
+          ],
+          "mounting_requirements": [
+            "dilatometer oriented vertically with capillary stem upward",
+            "immersed in thermostat bath up to the graduated capillary region",
+            "secure clamping to prevent movement during mixing or inversion"
+          ],
+          "preparation_requirements": [
+            "components degassed under vacuum or by ultrasonication to remove dissolved air (air bubbles cause volume errors)",
+            "components dried over molecular sieves or by distillation if hygroscopic",
+            "known masses of each component weighed to ±0.1 mg",
+            "purity verified (typically ≥ 99.5 mol%) since impurities shift V^E",
+            "dilatometer cleaned with chromic acid or detergent, rinsed with distilled water, and dried"
+          ]
+        },
+        "calibration_requirements": [
+          "capillary bore calibration by weighing mercury threads of known length to determine cross-sectional area A as a function of position",
+          "dilatometer bulb volume calibration with distilled water or mercury at a reference temperature",
+          "thermometer calibration against ITS-90 fixed points or a NIST-traceable standard",
+          "cathetometer calibration against a certified length standard (e.g., gauge block or stage micrometer)",
+          "verification with a well-characterized reference system (e.g., cyclohexane + hexane or benzene + cyclohexane)"
+        ],
+        "reference_materials": [
+          "cyclohexane + hexane — well-studied system with tabulated V^E for validation",
+          "benzene + cyclohexane — classic reference system with positive V^E",
+          "methanol + water — reference system exhibiting large negative V^E",
+          "toluene + cyclohexane — moderate V^E system for intermediate validation",
+          "NIST-traceable mercury — density standard for mercury dilatometry calibration"
+        ],
+        "consumables": [
+          "degassed sample liquids",
+          "high-purity mercury (for mercury-filled dilatometers)",
+          "silicone oil or paraffin oil for thermostat bath",
+          "cleaning solvents (acetone, ethanol, chromic acid solution)",
+          "Teflon stoppers or ground-glass grease for sealing"
+        ],
+        "safety_notes": [
+          "mercury is toxic — mercury dilatometry requires fume hood, spill containment, and proper mercury waste disposal",
+          "glass dilatometers are fragile and under slight positive pressure from thermal expansion — handle with care to avoid implosion",
+          "organic solvents are flammable — ensure no ignition sources near open vessels",
+          "pressurized dilatometers at elevated temperatures pose burst risk — use safety shields"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of detecting volume changes as small as ~0.001 cm³ with precision-bore capillary and cathetometer; best instruments resolve ~0.0002 cm³",
+        "detection_limit": "minimum detectable V^E approximately 0.001 cm³/mol for a 20 cm³ total sample volume",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "equilibrium technique — each measurement point requires 15–60 minutes for thermal equilibration and mixing",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "V^E from approximately −3 cm³/mol (e.g., acetone–chloroform) to +3 cm³/mol (e.g., hexane–ethanol); ΔV_tr from 0.01 to 10 cm³/mol for phase transitions",
+        "accuracy": "0.001 to 0.01 cm³/mol for V^E (high-quality work); ~0.5–2% relative uncertainty for moderate precision",
+        "precision": "±0.002 cm³/mol or better for replicate measurements on the same system at the same conditions",
+        "throughput": "one composition point per 30–60 minutes including equilibration; full V^E(x) curve of 10–15 points takes one working day per isotherm",
+        "measurement_speed": "inherently slow — thermal equilibration dominates; batch-mode measurement (one dilatometer per composition point is common for high accuracy)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "meniscus position h (cm) read on the graduated capillary via cathetometer before and after mixing or transition, yielding Δh",
+        "preprocessing_steps": [
+          "convert meniscus displacement Δh to volume change: ΔV = A(h)·Δh, using local capillary bore calibration",
+          "correct for thermal expansion of glass dilatometer and capillary between calibration and measurement temperatures",
+          "correct for meniscus curvature and capillary rise if capillary is not fully wetted",
+          "subtract volume change due to mercury thermal expansion in mercury dilatometry",
+          "account for evaporation losses or dissolved gas evolution if visible"
+        ],
+        "analysis_methods": [
+          "excess molar volume: V^E = ΔV_mix / n_total, where n_total is total moles of mixture",
+          "Redlich–Kister polynomial fit: V^E(x) = x(1−x) Σ A_k (2x−1)^k, with coefficients A_k determined by least-squares regression",
+          "partial molar volume extraction: V̄_i = V^E + (1−x_i)(dV^E/dx_i) from the fitted V^E(x) curve",
+          "integration of volume–temperature curve through a phase transition to obtain ΔV_tr",
+          "Clausius–Clapeyron relation: dP/dT = ΔH_tr / (T·ΔV_tr) to relate volume and enthalpy of transition"
+        ],
+        "model_assumptions": [
+          "mixing is complete and components are fully equilibrated at the bath temperature",
+          "no chemical reaction occurs between components during the measurement",
+          "the capillary bore is uniform over the displacement range (or local calibration is applied)",
+          "thermal expansion of the glass dilatometer is small and can be corrected using known glass expansion coefficients",
+          "the meniscus shape is reproducible and meniscus corrections are adequate"
+        ],
+        "fit_parameters": [
+          "Redlich–Kister coefficients A_0, A_1, A_2, ... (typically 3–5 parameters)",
+          "standard deviation of fit σ(V^E)",
+          "partial molar volumes at infinite dilution (V̄_i^∞)",
+          "volume of transition ΔV_tr (for phase-transition measurements)"
+        ],
+        "common_artifacts": [
+          "incomplete mixing — gives systematically low ΔV; identifiable by asymmetric approach to equilibrium",
+          "dissolved air or gas evolution — bubbles in capillary cause erratic meniscus jumps and artifactual volume increases",
+          "meniscus sticking in capillary — hysteresis between readings taken on rising vs. falling meniscus",
+          "thermal lag — meniscus drift if dilatometer has not fully equilibrated to the bath temperature",
+          "evaporation loss — volatile component escaping through imperfect seal reduces observed ΔV over time"
+        ],
+        "quality_control_checks": [
+          "verify V^E = 0 for a pure component control measurement (no mixing partner)",
+          "reproduce V^E of a reference system (e.g., cyclohexane + hexane) within ±0.003 cm³/mol",
+          "check symmetry: V^E at x = 0.3 and x = 0.7 should bracket values consistent with fitted curve",
+          "repeat measurement at selected compositions to confirm precision within stated uncertainty",
+          "inspect for systematic drift in meniscus readings over repeated equilibration cycles"
+        ],
+        "failure_modes": [
+          "cracked or chipped dilatometer flask — mercury or sample leakage, void capillary readings",
+          "contaminated capillary bore — lodged air bubble or solid particle causing meniscus to stick or jump",
+          "faulty thermostat — temperature instability producing meniscus drift that obscures true ΔV",
+          "loss of mercury seal (mercury dilatometry) — loss of confining liquid renders volume change unmeasurable",
+          "component degradation — oxidation or hydrolysis of sample changing composition during prolonged measurement"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.003–0.01 cm³/mol for V^E; best practice achieves 0.001–0.003 cm³/mol",
+        "random_sources": [
+          "cathetometer reading uncertainty (±0.001 cm per reading, propagates to ±A×0.001 cm³)",
+          "meniscus shape variability between readings",
+          "temperature fluctuations in thermostat bath",
+          "weighing reproducibility of components",
+          "mixing incompleteness variability"
+        ],
+        "systematic_sources": [
+          "capillary bore non-uniformity (if calibration is inadequate)",
+          "thermal expansion correction for glass dilatometer",
+          "thermometer calibration offset",
+          "component purity — impurities shift V^E systematically",
+          "evaporation loss of volatile component",
+          "dissolved gas contributing to apparent volume",
+          "meniscus contact angle hysteresis"
+        ],
+        "operator_dependence": "moderate to high — cathetometer alignment, meniscus reading technique, quality of degassing, and mixing thoroughness are operator-dependent",
+        "model_dependence": "low for raw ΔV measurement; moderate for derived quantities that depend on Redlich–Kister fit order or density values used to convert mass to moles",
+        "dominant_error_sources": [
+          "cathetometer meniscus reading precision",
+          "completeness of mixing and thermal equilibration",
+          "accuracy of capillary bore calibration"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(V^E) at 95% confidence (k=2)",
+          "standard deviation of Redlich–Kister fit σ(V^E)",
+          "relative uncertainty as percentage of V^E"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Volume change measurement by dilatometry is a classical volumetric technique that directly determines the volume change (ΔV) accompanying the mixing of two or more fluids or occurring during a phase transition. A calibrated glass dilatometer — a flask connected to a precision-bore capillary — is the central instrument. When components are mixed inside the flask, any expansion or contraction of the total volume is observed as a displacement of the liquid meniscus in the capillary. The technique provides excess molar volume (V^E) without requiring separate density measurements of each pure component and the mixture, making it a direct and conceptually simple approach to studying volumetric non-ideality in liquid systems.",
+      "how_it_operates": "The procedure begins by loading weighed amounts of the first liquid component into the dilatometer bulb and sealing the system so that the liquid fills the capillary stem to a readable level. After thermal equilibration in a thermostatted bath, the initial meniscus position h₁ is recorded with a cathetometer. The second component, pre-equilibrated at the same temperature, is then introduced through a side arm, injection septum, or by breaking a thin glass partition. Thorough mixing is achieved by magnetic stirring or gentle inversion of the dilatometer. The system is allowed to re-equilibrate to the bath temperature, and the new meniscus position h₂ is read. The volume change is ΔV = A·(h₂ − h₁), where A is the capillary bore cross-sectional area. For mercury dilatometry of solids, the solid sample is immersed in mercury inside the dilatometer, and volume changes upon heating through a phase transition are tracked by the mercury meniscus displacement.",
+      "core_theory": "The fundamental relation is ΔV_mix = A·Δh, connecting the capillary bore area A and meniscus displacement Δh to the volume change upon mixing. The excess molar volume is V^E = ΔV_mix/(n₁ + n₂), where n₁ and n₂ are the moles of each component. V^E quantifies deviations from ideal mixing, where V^E_ideal = 0. Negative V^E indicates contraction (strong unlike interactions, hydrogen bonding, interstitial accommodation), while positive V^E indicates expansion (disruption of ordered structures, steric effects). The composition dependence is commonly fitted to a Redlich–Kister polynomial: V^E(x) = x(1−x)·Σ Aₖ(2x−1)^k. Partial molar volumes are obtained by differentiation: V̄₁ = V^E + (1−x)(dV^E/dx). For phase transitions, ΔV_tr relates to the Clausius–Clapeyron slope: dP/dT = ΔS_tr/ΔV_tr = ΔH_tr/(T·ΔV_tr).",
+      "setup": "A standard dilatometric setup comprises a glass dilatometer flask (10–50 cm³ volume) with a precision-bore capillary tube (0.5–2 mm ID) fused to its top. The capillary is graduated or used in conjunction with a cathetometer that reads meniscus positions to ±0.001 cm. The dilatometer is clamped vertically in a temperature-controlled water or oil bath (stability ±0.005–0.01 K), with the capillary protruding above the bath surface. A magnetic stirrer bar inside the flask ensures homogeneous mixing. Component introduction may use a ground-glass side arm, a mercury-sealed injection port, or a frangible glass ampoule that is broken to initiate mixing. For mercury dilatometry, high-purity mercury fills the flask and capillary, confining the solid sample, and temperature is ramped slowly while meniscus position is monitored.",
+      "suitable_for": "Dilatometric volume change measurement is well suited for binary and multicomponent liquid mixtures where excess molar volume V^E is the target property. It handles aqueous and organic systems, electrolyte solutions, ionic liquid mixtures, and polymer solutions. Mercury dilatometry extends the technique to solid-state transitions including melting, polymorphic transitions, and glass transitions in polymers and waxes. The method is particularly advantageous when very small V^E values (< 0.01 cm³/mol) are expected, since direct measurement avoids the propagation of errors inherent in computing V^E from the difference of mixture and pure-component densities obtained separately.",
+      "core_limitations": "The technique is inherently slow: each composition point requires 15–60 minutes for injection, mixing, and thermal equilibration. Volatile liquids pose difficulties because evaporation into any headspace in the capillary or side arm introduces systematic volume errors. The measurement is restricted to near-ambient pressures unless a specialized high-pressure dilatometer is used. Highly viscous systems may not mix completely within the dilatometer, leading to underestimated ΔV. The accuracy depends critically on the quality of the capillary bore calibration and the operator's skill in reading the meniscus with the cathetometer. Mercury dilatometry introduces mercury toxicity hazards and requires careful handling and disposal.",
+      "sample_preparation": "Each liquid component must be purified to at least 99.5 mol% and thoroughly degassed under vacuum or by ultrasonication, since dissolved gases form bubbles in the capillary upon mixing or slight warming, producing spurious volume changes. Component masses are measured on an analytical balance to ±0.1 mg. The dilatometer is meticulously cleaned with chromic acid or detergent solution, rinsed with distilled water and then with the first component, and dried if needed. The first component is loaded into the flask, filling the capillary to a readable level that leaves room for the expected displacement. The second component is pre-equilibrated to the bath temperature in a separate vessel before introduction. For mercury dilatometry, the solid sample is weighed, placed in the clean flask, and mercury is added under vacuum to eliminate trapped air.",
+      "calibration_and_references": "The capillary bore area A is calibrated by drawing a mercury thread of known length into the capillary, weighing it, and computing A from the mercury density at the calibration temperature. This is repeated at multiple positions along the capillary to map any bore non-uniformity. The dilatometer bulb volume is calibrated with distilled water at a reference temperature. The thermostat temperature is checked against a calibrated platinum resistance thermometer traceable to ITS-90. The complete system is validated by measuring V^E for a well-characterized reference system — cyclohexane + hexane (positive V^E, well tabulated) or methanol + water (large negative V^E) — and comparing results to literature values. Agreement within ±0.003 cm³/mol confirms reliable operation.",
+      "data_interpretation": "The primary data are pairs of meniscus readings (h₁, h₂) at each composition, from which ΔV = A·Δh is computed. After correcting for glass thermal expansion and any meniscus curvature effects, the excess molar volume is V^E = ΔV/(n₁ + n₂). The set of V^E values across compositions is fitted to a Redlich–Kister polynomial V^E = x(1−x)·Σ Aₖ(2x−1)^k by weighted least squares; the number of terms (typically 3–5) is selected by the F-test or Akaike criterion. Partial molar volumes V̄₁ and V̄₂ are derived analytically from the polynomial. For phase transitions, the volume–temperature curve is analyzed to extract ΔV_tr at the transition temperature, often by extrapolating the pre- and post-transition baselines to the transition point.",
+      "common_pitfalls": "The most common pitfall is incomplete degassing of the liquid components: even a single small air bubble trapped in the capillary can mimic a volume expansion of ~0.01 cm³, comparable to V^E itself for weakly non-ideal systems. Poor mixing due to insufficient stirring time leads to a gradual drift in meniscus position rather than a clean equilibrium plateau, systematically underestimating ΔV. Meniscus sticking (especially in narrow capillaries that are not perfectly clean) causes hysteresis between readings and irreproducible results. Failure to allow adequate thermal equilibration before reading the meniscus introduces thermal expansion artifacts that are particularly insidious because they mimic real excess volume changes. Operating with a capillary bore that is too wide sacrifices sensitivity, while too narrow a bore amplifies meniscus sticking and capillary rise corrections.",
+      "artifacts_and_failure_modes": "Dissolved gas evolution is the most common artifact: bubbles nucleating in the capillary after mixing produce sudden upward jumps in meniscus position that are easily mistaken for positive V^E. Meniscus contact-angle hysteresis creates a systematic offset between measurements where the meniscus advances versus retreats, producing apparent asymmetry in V^E(x) curves. Thermal lag artifacts arise when the dilatometer has not fully equilibrated; the meniscus continues to drift, and a premature reading gives a biased ΔV. Evaporation losses are significant for volatile components (boiling point < 340 K): progressive loss of the more volatile component shifts the effective composition and reduces the observed ΔV. In mercury dilatometry, mercury oxidation or amalgamation with the solid sample contaminates the confining liquid and alters its density and wetting behavior. Cracked capillaries leak, producing a steadily falling meniscus independent of mixing.",
+      "reporting_checklist": "Published dilatometric volume change results should include: dilatometer type and bulb volume, capillary bore diameter and calibration method, thermostat type and temperature stability, cathetometer or meniscus reading precision, source and purity of all components with drying/degassing procedure, masses and mole fractions of each component at each data point, measured ΔV or V^E with combined expanded uncertainty at 95% confidence (k=2), Redlich–Kister fit coefficients and standard deviation of fit, temperature and pressure of measurement, reference system validation results, and any corrections applied (glass expansion, meniscus curvature). For ThermoML encoding, V^E values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

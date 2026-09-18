@@ -1,0 +1,262 @@
+{
+  "key": {
+    "doi": "10.1007/s10765-011-0987-x",
+    "lit_id": "2011-li-zha-3",
+    "lit_num_id": "GLOBlit_118"
+  },
+  "paper": {
+    "doi": "10.1007/s10765-011-0987-x",
+    "title": "Thermodynamic Properties of Matrine in Ethanol"
+  },
+  "blocks_summary": {
+    "n_blocks": 1,
+    "n_pure_or_mixture": 1,
+    "n_reaction": 0,
+    "property_names": [
+      "Molar enthalpy of solution, kJ/mol"
+    ],
+    "property_groups": [
+      "ExcessPartialApparentEnergyProp"
+    ],
+    "compound_names": [
+      "ethanol",
+      "matridin-15-one"
+    ],
+    "system_types": [
+      "binary"
+    ],
+    "methods": [
+      "Calvet calorimetry"
+    ],
+    "temperature_range_K": {
+      "min": 309.65,
+      "max": 309.65
+    },
+    "pressure_range_kPa": {
+      "min": 101.0,
+      "max": 101.0
+    },
+    "total_datapoints": 1,
+    "block_index": [
+      {
+        "block_number": "PROPblock_1",
+        "block_type": "PureOrMixtureData",
+        "property_names": [
+          "Molar enthalpy of solution, kJ/mol"
+        ],
+        "property_group": "ExcessPartialApparentEnergyProp",
+        "system_type": "binary",
+        "blocktype_num_id": "GLOBblocktype_1",
+        "n_points": 1,
+        "method": "Calvet calorimetry"
+      }
+    ]
+  },
+  "blocks": [
+    {
+      "block_number": "PROPblock_1",
+      "block_type": "PureOrMixtureData",
+      "system_type": "binary",
+      "blocktype_num_id": "GLOBblocktype_1",
+      "compounds": [
+        {
+          "org_num": "DOIcomp_2",
+          "comp_num_id": "GLOBcomp_2",
+          "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+          "name": "ethanol",
+          "formula": "C2H6O",
+          "InChI": "InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3",
+          "SMILES": null,
+          "sample_num": "DOIcompSample_2_1"
+        },
+        {
+          "org_num": "DOIcomp_1",
+          "comp_num_id": "GLOBcomp_8466",
+          "inchi_key": "ZSBXGIUJOOQZMP-JLNYLFASSA-N",
+          "name": "matridin-15-one",
+          "formula": "C15H24N2O",
+          "InChI": "InChI=1S/C15H24N2O/c18-14-7-1-6-13-12-5-3-9-16-8-2-4-11(15(12)16)10-17(13)14/h11-13,15H,1-10H2/t11-,12+,13+,15-/m0/s1",
+          "SMILES": null,
+          "sample_num": "DOIcompSample_1_1"
+        }
+      ],
+      "properties": [
+        {
+          "BLKprop_id": "BLKprop_1",
+          "prop_num_id": "GLOBprop_15",
+          "prop_ID": "molar_enthalpy_of_solution_kj_mol",
+          "name": "Molar enthalpy of solution, kJ/mol",
+          "group": "ExcessPartialApparentEnergyProp",
+          "method_standard": "Calvet calorimetry",
+          "method_custom": null,
+          "meas_num_id": "GLOBmeas_13",
+          "meas_ID": "calvet_calorimetry",
+          "presentation": "Difference with the reference state, X-X(REF)",
+          "standard_state": null,
+          "ref_state_type": "Pure solute at the same temperature and pressure",
+          "ref_temperature_K": null,
+          "ref_temperature_digits": null,
+          "ref_pressure_kPa": null,
+          "ref_pressure_digits": null,
+          "temperature_K": null,
+          "temperature_digits": null,
+          "pressure_kPa": null,
+          "pressure_digits": null,
+          "property_phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "ref_phase": null,
+          "component_org_num": null,
+          "uncertainty": {
+            "evaluation_method": "Propagation of evaluated standard uncertainties",
+            "confidence_level": 95,
+            "evaluator": "Data file compiler",
+            "assessment_num": "BLKpropAssessment_1_1"
+          }
+        }
+      ],
+      "solvents": [
+        {
+          "component_org_num": "DOIcomp_2",
+          "comp_num_id": "GLOBcomp_2",
+          "solvent_num_id": "GLOBsolvent_2",
+          "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N"
+        }
+      ],
+      "variables": [
+        {
+          "BLKvar_id": "BLKvar_1",
+          "var_num_id": "GLOBvar_2",
+          "var_id": "mole_fraction_DOIcomp_1",
+          "type": "eComponentComposition",
+          "name": "Mole fraction",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": "DOIcomp_1"
+        },
+        {
+          "BLKvar_id": "BLKvar_2",
+          "var_num_id": "GLOBvar_1",
+          "var_id": "temperature_k",
+          "type": "eTemperature",
+          "name": "Temperature, K",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        },
+        {
+          "BLKvar_id": "BLKvar_3",
+          "var_num_id": "GLOBvar_3",
+          "var_id": "pressure_kpa",
+          "type": "ePressure",
+          "name": "Pressure, kPa",
+          "phase": {
+            "phase": "Liquid",
+            "phase_num_id": "GLOBphase_1",
+            "phase_id": "liquid"
+          },
+          "component_org_num": null
+        }
+      ],
+      "constraints": [],
+      "data_summary": {
+        "property_names": [
+          "Molar enthalpy of solution, kJ/mol"
+        ],
+        "property_group": "ExcessPartialApparentEnergyProp",
+        "methods": [
+          "Calvet calorimetry"
+        ],
+        "system_type": "binary",
+        "compound_names": [
+          "ethanol",
+          "matridin-15-one"
+        ],
+        "phases": [
+          "Liquid"
+        ],
+        "constraints_summary": {},
+        "n_points": 1,
+        "property_stats": {
+          "BLKprop_1": {
+            "BLKprop_id": "BLKprop_1",
+            "name": "Molar enthalpy of solution, kJ/mol",
+            "min": -12.36,
+            "max": -12.36,
+            "mean": -12.36,
+            "std": 0,
+            "n": 1
+          }
+        },
+        "variable_ranges": {
+          "BLKvar_1": {
+            "BLKvar_id": "BLKvar_1",
+            "name": "Mole fraction",
+            "min": 0.0,
+            "max": 0.0,
+            "n_unique": 1
+          },
+          "BLKvar_2": {
+            "BLKvar_id": "BLKvar_2",
+            "name": "Temperature, K",
+            "min": 309.65,
+            "max": 309.65,
+            "n_unique": 1
+          },
+          "BLKvar_3": {
+            "BLKvar_id": "BLKvar_3",
+            "name": "Pressure, kPa",
+            "min": 101.0,
+            "max": 101.0,
+            "n_unique": 1
+          }
+        }
+      },
+      "data_points": [
+        {
+          "variable_values": {
+            "BLKvar_1": {
+              "value": 0.0,
+              "digits": 2
+            },
+            "BLKvar_2": {
+              "value": 309.65,
+              "digits": 5
+            },
+            "BLKvar_3": {
+              "value": 101.0,
+              "digits": 3
+            }
+          },
+          "property_values": {
+            "BLKprop_1": {
+              "value": -12.36,
+              "digits": 4,
+              "point_uncertainty": {
+                "expanded_value": 0.73,
+                "assessment_num": "BLKpropAssessment_1_1"
+              }
+            }
+          }
+        }
+      ],
+      "reaction": null,
+      "auxiliary": null,
+      "equation": null,
+      "provenance": {
+        "date_added": "6/21/2011",
+        "compiler": "RDC",
+        "contributor": "XXX",
+        "experimental_purpose": "Principal objective of the work"
+      }
+    }
+  ]
+}

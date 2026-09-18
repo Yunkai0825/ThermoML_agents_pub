@@ -1,0 +1,1 @@
+Solvent-specific context for compounds (when they are used as solvents in the ThermoML, and in general), in addition to the compound domain knowledge cards.

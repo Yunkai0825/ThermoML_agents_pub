@@ -1,0 +1,321 @@
+{
+  "meas_ID": "derived_analytically",
+  "identity": {
+    "name": "Derived analytically",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Derived analytically",
+    "thermoml_custom_codes": [],
+    "measurement_family": "PVT / Volumetric",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 19,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 4,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 19,
+          "papers": 4
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "experimentally measured primary quantities used as input (e.g., density ρ(T,P), speed of sound u(T,P), vapor pressure Psat(T), excess enthalpy HE, PVT data)",
+          "fitted equation-of-state parameters or correlation coefficients derived from primary data",
+          "composition-dependent properties from mixture measurements (mole fractions, activity coefficients from phase equilibrium data)"
+        ],
+        "derived_observables": [
+          "isothermal compressibility κT = −(1/V)(∂V/∂P)T from density-pressure data or equations of state",
+          "isobaric expansivity αP = (1/V)(∂V/∂T)P from density-temperature data",
+          "isobaric heat capacity Cp from speed of sound, density, and isobaric expansivity via Cp = u²ρ/(1 − Tu²ραP²/Cp) or from Cv + TVαP²/κT",
+          "isochoric heat capacity Cv from Cp, αP, and κT via Cv = Cp − TVαP²/κT",
+          "excess molar volume VE from mixture and pure-component densities",
+          "excess Gibbs energy GE and activity coefficients γi from vapor-liquid equilibrium data via Barker's method or similar reduction",
+          "partial molar properties from composition derivatives of integral properties",
+          "fugacity coefficients from equations of state",
+          "Joule-Thomson coefficient μJT = (1/Cp)(T·αP/ρ − 1/ρ)",
+          "internal pressure Pint = T(∂P/∂T)V − P from PVT data"
+        ],
+        "target_properties": [
+          "isothermal compressibility",
+          "isobaric expansivity",
+          "isobaric and isochoric heat capacities",
+          "excess thermodynamic properties (VE, HE, GE, SE)",
+          "partial molar quantities",
+          "activity coefficients",
+          "fugacity coefficients",
+          "speed of sound (when derived from compressibility and density)",
+          "Joule-Thomson coefficient",
+          "internal pressure",
+          "second and third virial coefficients from PVT fitting",
+          "osmotic coefficients"
+        ],
+        "phases_measured": [
+          "liquid (most common)",
+          "gas / vapor",
+          "supercritical fluid",
+          "solid (when appropriate thermodynamic relations and input data are available)",
+          "liquid mixtures and solutions"
+        ],
+        "supported_sample_types": [
+          "pure compounds (with sufficient primary data)",
+          "binary liquid mixtures",
+          "multicomponent liquid mixtures",
+          "electrolyte solutions (with appropriate models)",
+          "gas mixtures",
+          "supercritical fluids",
+          "polymer solutions (dilute regime with suitable models)"
+        ],
+        "unsupported_sample_types": [
+          "heterogeneous multiphase systems where thermodynamic identities do not apply to the bulk average",
+          "systems with insufficient or unreliable primary experimental input data",
+          "reacting systems where composition changes during the derivation period",
+          "systems near critical points where classical thermodynamic relations may require non-analytic scaling corrections"
+        ],
+        "typical_output_formats": [
+          "tabulated derived property vs. T and/or P",
+          "derived property vs. composition (mole fraction) at fixed T, P",
+          "fitted correlation coefficients (Redlich-Kister, Margules, NRTL parameters)",
+          "polynomial or rational-function representations of derived quantities",
+          "partial molar property vs. composition curves"
+        ],
+        "units": {
+          "compressibility": "Pa⁻¹ or GPa⁻¹",
+          "expansivity": "K⁻¹",
+          "heat_capacity": "J/(mol·K) or J/(kg·K)",
+          "excess_volume": "cm³/mol",
+          "excess_enthalpy": "J/mol",
+          "excess_gibbs_energy": "J/mol",
+          "activity_coefficient": "dimensionless",
+          "fugacity_coefficient": "dimensionless",
+          "joule_thomson_coefficient": "K/MPa",
+          "internal_pressure": "MPa",
+          "speed_of_sound": "m/s"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "input_data_quality",
+            "typical_range": "primary data uncertainty 0.01–1% depending on property and technique",
+            "hard_limits": "derived property uncertainty is always ≥ input data uncertainty; propagation often amplifies errors, especially for higher-order derivatives",
+            "notes": "the accuracy ceiling of any analytically derived property is set by the weakest input measurement"
+          },
+          {
+            "parameter": "thermodynamic_state_coverage",
+            "typical_range": "T and P ranges must match or exceed the domain over which derivation is performed",
+            "hard_limits": "extrapolation beyond the measured T-P-x range of input data is unreliable",
+            "notes": "interpolation within well-sampled state-space is acceptable; extrapolation introduces model-dependent error"
+          },
+          {
+            "parameter": "equation_of_state_validity",
+            "typical_range": "applicable in the single-phase region away from critical point",
+            "hard_limits": "classical EoS may fail near the critical point; scaling-law corrections required within the critical region",
+            "notes": "crossover equations of state (e.g., crossover SAFT) extend validity closer to the critical point"
+          },
+          {
+            "parameter": "composition_range",
+            "typical_range": "full mole fraction range 0–1 for binary mixtures",
+            "hard_limits": "dilute-limit derivatives (partial molar properties at infinite dilution) require careful extrapolation",
+            "notes": "Redlich-Kister or similar polynomial fits should not be extrapolated beyond the measured composition range"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "independent thermodynamic variable",
+            "typical_values": "200 K to 500 K (liquid-phase derivations); broader for gas-phase",
+            "effect": "temperature enters thermodynamic identities explicitly (e.g., TVαP² terms); derivatives with respect to T are needed for many derived quantities"
+          },
+          {
+            "name": "pressure",
+            "role": "independent thermodynamic variable",
+            "typical_values": "0.1 MPa to 200 MPa (depends on input data availability)",
+            "effect": "pressure derivatives of volume or density are required for compressibility; high-pressure data are needed for derived properties at elevated pressures"
+          },
+          {
+            "name": "composition",
+            "role": "independent variable for mixture properties",
+            "typical_values": "mole fraction x = 0 to 1",
+            "effect": "composition derivatives yield partial molar properties; accuracy of composition measurement directly affects derived excess and partial molar quantities"
+          },
+          {
+            "name": "thermodynamic_model_choice",
+            "role": "methodological variable",
+            "typical_values": "Tait equation, cubic EoS (PR, SRK), SAFT variants, Redlich-Kister polynomials, Margules/van Laar/Wilson/NRTL/UNIQUAC models",
+            "effect": "choice of model determines functional form of derived expressions and can introduce systematic bias if the model is inadequate for the system"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "no physical instrument — this is a computational derivation method",
+          "numerical computing environment (spreadsheet, MATLAB, Python/SciPy, Mathematica, or dedicated thermodynamic software)",
+          "thermodynamic property database or literature source providing primary experimental data",
+          "equation-of-state or correlation software for fitting input data (optional but common)",
+          "symbolic algebra system for verifying analytical derivative expressions (optional)"
+        ],
+        "environmental_requirements": [
+          "not applicable — derivation is performed computationally, independent of laboratory environment"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "not applicable — no physical sample is handled during the derivation step"
+          ],
+          "size_limits": "not applicable",
+          "thickness_limits": "not applicable",
+          "surface_requirements": [
+            "not applicable"
+          ],
+          "mounting_requirements": [
+            "not applicable"
+          ],
+          "preparation_requirements": [
+            "high-quality primary experimental data covering the T, P, and composition ranges of interest",
+            "consistent thermodynamic state definitions (same reference states, same purity basis) across all input data sets",
+            "sufficient data density to support reliable differentiation or fitting"
+          ]
+        },
+        "calibration_requirements": [
+          "internal consistency check: verify that independently derived properties satisfy known thermodynamic identities (e.g., Cp − Cv = TVαP²/κT)",
+          "comparison of derived results with directly measured values where available (cross-validation)",
+          "sensitivity analysis: perturb input data within stated uncertainties and observe effect on derived quantities",
+          "verification that fitted EoS or correlation reproduces the input experimental data within its uncertainty"
+        ],
+        "reference_materials": [
+          "NIST/TRC recommended reference data for validation (e.g., water IAPWS-95, n-heptane, toluene)",
+          "CODATA key values for thermodynamic quantities",
+          "published benchmark derivations in literature for the same system and conditions"
+        ],
+        "consumables": [
+          "not applicable — no physical consumables required"
+        ],
+        "safety_notes": [
+          "not applicable — no physical hazards associated with the derivation step itself"
+        ]
+      },
+      "performance": {
+        "sensitivity": "depends entirely on the sensitivity and resolution of the input experimental data; analytical derivation introduces no additional sensitivity floor",
+        "detection_limit": "not applicable as a concept for a derivation method; the smallest resolvable derived quantity is limited by input data precision and numerical differentiation noise",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "inherits the dynamic range of the input measurements; derived properties can span many orders of magnitude (e.g., compressibility from 10⁻¹¹ Pa⁻¹ for solids to 10⁻⁵ Pa⁻¹ for gases)",
+        "accuracy": "typically 0.5–10% for derived properties, depending on the order of differentiation and input data quality; first derivatives inherit roughly 2–5× the input uncertainty, second derivatives 5–20×",
+        "precision": "determined by repeatability and scatter of input data; smoothing or fitting before differentiation improves precision at the cost of potential bias",
+        "throughput": "high — once input data are available, derivation of many properties is rapid (seconds to minutes computationally)",
+        "measurement_speed": "essentially instantaneous relative to experimental measurement; computation time is negligible"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "tabulated or correlated primary experimental data (density, speed of sound, vapor pressure, heat capacity, PVT, VLE compositions, etc.)",
+        "preprocessing_steps": [
+          "assessment and selection of input data quality (outlier removal, consistency checks between data sources)",
+          "fitting of primary data to analytical functions (polynomials, Tait equation, EoS, Redlich-Kister, etc.) to enable differentiation",
+          "smoothing of scattered data to suppress amplification of noise during differentiation",
+          "verification that fitted function reproduces measured points within experimental uncertainty",
+          "conversion of units and reference states to a consistent basis"
+        ],
+        "analysis_methods": [
+          "exact analytical differentiation of fitted correlations or equations of state",
+          "application of rigorous thermodynamic identities (Maxwell relations, Gibbs-Duhem, Gibbs-Helmholtz)",
+          "Barker's method: reduction of isothermal VLE data to obtain GE and activity coefficients by minimizing difference between calculated and experimental total pressures",
+          "numerical differentiation with Richardson extrapolation when closed-form derivatives are impractical",
+          "propagation of uncertainty through the analytical chain using Taylor-series (GUM) or Monte Carlo methods",
+          "Redlich-Kister polynomial fitting of excess properties followed by analytical differentiation for partial molar quantities"
+        ],
+        "model_assumptions": [
+          "the underlying thermodynamic identities (Maxwell relations, etc.) are exact for equilibrium systems",
+          "the system is in thermodynamic equilibrium at each state point used as input",
+          "the analytical correlation or EoS adequately represents the true P-V-T-x surface within the range of interest",
+          "composition variables are accurate and refer to the equilibrium composition (no kinetic trapping or metastability)",
+          "the continuum thermodynamic description is valid (not near a critical fluctuation regime where scaling corrections are needed)"
+        ],
+        "fit_parameters": [
+          "EoS parameters (e.g., Tait C and B(T), cubic EoS a and b, SAFT segment parameters)",
+          "Redlich-Kister or Margules polynomial coefficients for excess property correlations",
+          "activity coefficient model parameters (Wilson Λij, NRTL τij and αij, UNIQUAC r, q, uij)",
+          "polynomial or rational-function coefficients for density-temperature-pressure surfaces",
+          "virial coefficients B(T), C(T) from PVT data fitting"
+        ],
+        "common_artifacts": [
+          "oscillatory artifacts (Runge phenomenon) from high-order polynomial fits used for differentiation",
+          "edge effects: unreliable derived values near the boundaries of the fitted T, P, or composition range",
+          "amplification of random scatter in input data through differentiation, producing noisy or physically implausible results",
+          "systematic bias from an inadequate correlation function (e.g., using a simple polynomial when the true behavior has a singularity near a phase boundary)",
+          "inconsistency between derived properties when different input data sets or fitting functions are used for different routes to the same property"
+        ],
+        "quality_control_checks": [
+          "thermodynamic consistency test: verify Cp − Cv = TVαP²/κT using independently derived values",
+          "Gibbs-Duhem consistency check for activity coefficients derived from VLE data (e.g., Herington or Van Ness test)",
+          "compare derived property values obtained from independent thermodynamic routes (e.g., Cp from speed of sound vs. Cp from calorimetry)",
+          "residual analysis: inspect deviations between fitted correlation and input data for systematic patterns",
+          "verify physical plausibility: derived quantities must have correct sign and order of magnitude (e.g., κT > 0, αP typically > 0 for liquids away from density maximum)",
+          "check limiting behavior: derived properties should approach correct ideal-gas or infinite-dilution limits"
+        ],
+        "failure_modes": [
+          "insufficient input data density leading to poorly constrained fits and unreliable derivatives",
+          "use of an EoS or correlation outside its valid range (extrapolation failure)",
+          "numerical instability in differentiation of noisy or sparse data",
+          "inconsistent reference states or unit conventions across multiple input data sets",
+          "critical-region anomalies: classical EoS give qualitatively incorrect derivative properties near the critical point"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical expanded uncertainty 1–10% for derived properties; can be <1% for first-order derivations from high-quality input data, or >20% for second-order derivatives from scattered data",
+        "random_sources": [
+          "scatter and random uncertainty in the primary experimental input data",
+          "numerical noise introduced by differentiation of discrete or noisy data",
+          "random fitting residuals from the correlation used to represent input data"
+        ],
+        "systematic_sources": [
+          "bias in primary experimental measurements propagated through the derivation",
+          "model inadequacy of the EoS or correlation used to fit input data (functional form bias)",
+          "neglected contributions (e.g., ignoring the imaginary part of compressibility, neglecting non-ideal gas corrections)",
+          "inconsistent reference states between data sets from different sources",
+          "truncation of polynomial or series expansions at insufficient order"
+        ],
+        "operator_dependence": "moderate to high — the choice of correlation function, fitting range, data weighting, and smoothing strategy are subjective decisions that affect derived results",
+        "model_dependence": "high — derived properties are strongly influenced by the choice of thermodynamic model or EoS; different models fitted to the same input data can yield significantly different derivative properties",
+        "dominant_error_sources": [
+          "amplification of input data uncertainty through differentiation (especially for second and higher derivatives)",
+          "inadequacy of the fitted correlation to capture the true curvature of the property surface",
+          "extrapolation beyond the range of primary input data"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty at 95% confidence level (k=2) propagated from input data uncertainties",
+          "relative deviation from reference or benchmark values",
+          "comparison of results from multiple independent derivation routes"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "'Derived analytically' is not a physical measurement technique but a computational derivation method in which secondary thermodynamic properties are obtained from primary experimental data through exact, closed-form mathematical expressions rooted in classical thermodynamics. Rather than measuring a target property directly with an instrument, the researcher applies rigorous thermodynamic identities — Maxwell relations, Gibbs-Helmholtz equations, Gibbs-Duhem relations, and exact differential relationships — to experimentally measured quantities such as density, speed of sound, vapor pressure, or PVT data to calculate properties that are difficult or impossible to measure directly. This derivation method is distinguished in the NIST ThermoML database from 'Derived graphically' (which uses graphical interpolation or reading from plots) and 'Derived from PVT data' (which specifies PVT measurements as the specific input source). In the ThermoML corpus, 'Derived analytically' appears in 19 instances across 4 papers, primarily associated with volumetric properties.",
+      "how_it_operates": "The analyst begins with a set of experimentally measured primary quantities — for example, density as a function of temperature and pressure, or speed of sound as a function of temperature — and fits these data to a suitable analytical correlation or equation of state. The fitted function provides a smooth, differentiable representation of the primary property surface. The desired secondary property is then obtained by applying the appropriate thermodynamic identity, which typically involves partial derivatives of the fitted function with respect to temperature, pressure, or composition. For instance, isothermal compressibility is obtained as κT = (1/ρ)(∂ρ/∂P)T from a density correlation, isobaric heat capacity can be derived from speed of sound and density via the relation Cp = u²ρκT/(κT − TVαP²/Cp), and activity coefficients are extracted from vapor-liquid equilibrium pressure data using Barker's reduction method. The analytical character of this approach means the derivation uses exact algebraic manipulation of known thermodynamic relationships rather than numerical simulation, graphical reading, or empirical interpolation.",
+      "core_theory": "The theoretical foundation rests on the mathematical structure of equilibrium thermodynamics. The fundamental relation dG = VdP − SdT, combined with the fact that G is a state function with exact differentials, generates the four Maxwell relations that interrelate partial derivatives of P, V, T, and S. For example, (∂V/∂T)P = −(∂S/∂P)T connects volumetric and entropic properties. The relation between heat capacities, Cp − Cv = TVαP²/κT, provides an exact route from volumetric derivative properties to caloric properties. The Gibbs-Duhem equation, Σxi·dμi = 0 at constant T and P, constrains activity coefficients in multicomponent systems and underpins consistency tests for VLE-derived quantities. Barker's method reduces isothermal total vapor pressure data by minimizing (Pcalc − Pexp)² where Pcalc is computed from an assumed GE model (Margules, NRTL, etc.) to extract activity coefficients analytically. The Gibbs-Helmholtz equation, [∂(G/T)/∂(1/T)]P = H, connects temperature-dependent Gibbs energies to enthalpies. These identities are exact at equilibrium, so the derivation introduces no approximation beyond the quality of the input data and the adequacy of the fitted correlation.",
+      "setup": "No physical experimental setup is required. The 'instrument' is a computational workflow comprising: (1) a curated dataset of primary experimental measurements with documented uncertainties, covering the temperature, pressure, and composition ranges of interest; (2) a fitting or regression tool capable of representing the primary data with a suitable analytical function — common choices include the Tait equation for liquid densities, cubic equations of state (Peng-Robinson, Soave-Redlich-Kwong), SAFT-type molecular EoS, or empirical polynomials; (3) a symbolic or numerical differentiation capability for computing the required partial derivatives; and (4) an uncertainty propagation framework (Taylor-series/GUM approach or Monte Carlo simulation) to translate input data uncertainties into derived-property uncertainties. The workflow is typically implemented in software environments such as Python with NumPy/SciPy, MATLAB, Mathematica, or dedicated thermodynamic packages (e.g., ThermoFluids, REFPROP, Aspen).",
+      "suitable_for": "Analytical derivation is appropriate whenever the target thermodynamic property is related to a measurable primary quantity through an exact thermodynamic identity and when high-quality primary data are available. It is especially valuable for properties that are difficult or expensive to measure directly — isothermal compressibility, isobaric expansivity, internal pressure, Joule-Thomson coefficient, and partial molar quantities in mixtures are frequently obtained this way. The method is standard practice for extracting excess thermodynamic properties (VE, GE, HE, SE) from mixture measurements, for deriving heat capacities from speed-of-sound data (which are often more precise than direct calorimetric measurements for liquids), and for computing activity coefficients from vapor-liquid equilibrium data. It is applicable to pure compounds, binary and multicomponent mixtures, electrolyte solutions, and gas-phase systems, provided the requisite input data and valid thermodynamic relations exist.",
+      "core_limitations": "The fundamental limitation is that the accuracy of any analytically derived property can never exceed that of the input experimental data, and differentiation systematically amplifies input uncertainties — a first derivative roughly doubles relative uncertainty, and second derivatives can amplify it by an order of magnitude. The choice of fitting function introduces model dependence: different correlations fitted to the same data set can yield significantly different derivative properties, especially in regions of high curvature or near phase boundaries. Near the vapor-liquid critical point, classical thermodynamic relations based on analytic equations of state give quantitatively and sometimes qualitatively incorrect results because the true property surface is non-analytic (governed by critical scaling exponents). Extrapolation beyond the T-P-x range covered by input data is unreliable and a frequent source of error. For mixtures, the method requires accurate knowledge of composition, and small composition errors can propagate dramatically into partial molar and excess properties.",
+      "sample_preparation": "No physical sample preparation is involved in the derivation step itself. However, the quality of the derivation depends critically on the quality of the upstream experimental measurements that serve as input. The primary data used must come from samples of known purity, prepared and measured according to best practice for the relevant experimental technique. When combining data from multiple literature sources, the analyst must verify that all data sets refer to the same substance purity, use consistent reference states, and have compatible uncertainty levels. Data sets with conflicting values should be reconciled or the most reliable selected based on documented quality criteria. The input data should be screened for outliers and assessed for internal thermodynamic consistency before fitting.",
+      "calibration_and_references": "Calibration of the derivation method is performed through internal and external consistency checks rather than instrument calibration. Internal consistency involves verifying that derived properties satisfy the thermodynamic identities from which they originate — for example, checking that Cp derived from speed of sound and density is consistent with Cp − Cv = TVαP²/κT using independently derived αP, κT, and Cv values. External validation compares derived results against directly measured values of the same property where such measurements exist (e.g., comparing speed-of-sound-derived Cp with calorimetric Cp). Reference data from NIST-recommended correlations (IAPWS-95 for water, reference equations for n-alkanes, toluene, and other benchmark substances) serve as validation targets. For activity coefficient derivations from VLE data, the Gibbs-Duhem consistency test (e.g., the Herington area test or the Van Ness direct test) provides a necessary-condition check on the thermodynamic self-consistency of the derived coefficients.",
+      "data_interpretation": "Interpretation begins with fitting the primary experimental data to an appropriate analytical correlation, chosen based on theoretical considerations and goodness-of-fit criteria. Residual plots are inspected to ensure the fit captures the data's structure without systematic bias. The required partial derivatives are then computed analytically (symbolically) from the fitted function, which is preferred over numerical differentiation to avoid discretization noise. The derived property values are tabulated at the desired T, P, and x conditions. For excess and partial molar properties, the integral excess property (e.g., VE) is first correlated as a function of composition using a Redlich-Kister or similar model, and partial molar excess properties are obtained as V̄iE = VE + (1 − xi)(∂VE/∂xi)T,P. Uncertainty propagation from input data through the analytical chain provides uncertainty estimates for each derived value. Results derived from multiple independent thermodynamic routes are compared as a consistency check — agreement within propagated uncertainties strengthens confidence in the derivation.",
+      "common_pitfalls": "The most common pitfall is differentiating poorly fitted or noisy data, which amplifies scatter and produces derived values with large, sometimes unphysical, oscillations. Using high-order polynomials for fitting exacerbates this through the Runge phenomenon, generating oscillatory artifacts especially near the edges of the data range. A second frequent error is applying correlations outside their valid range — extrapolating a Tait equation calibrated at 0.1–50 MPa to 200 MPa, or extending a low-pressure EoS into the supercritical region. Inconsistency between data sets used for different input quantities (e.g., density from one source and speed of sound from another, measured on samples of different purity) introduces hidden systematic errors. Neglecting to propagate uncertainties gives a false impression of precision. For VLE-derived activity coefficients, using an inadequate GE model (e.g., symmetric Margules for a highly asymmetric system) produces systematically biased results that may nonetheless pass superficial consistency tests.",
+      "artifacts_and_failure_modes": "Oscillatory artifacts from high-order polynomial fits are the most recognizable computational artifact — derived properties display unphysical wiggles that are absent from the underlying data. Edge effects produce unreliable values near the boundaries of the fitted T, P, or composition range, where the correlation is constrained by fewer data points. Derivative amplification artifacts manifest as anomalously large scatter or sign changes in second-derivative properties (e.g., ∂²ρ/∂T², which enters Cp calculations) when input data scatter is significant. Model-selection artifacts arise when the chosen EoS or correlation imposes an incorrect functional form — for example, a cubic EoS predicts a specific shape for κT near the critical point that may not match reality. Failure modes include: (1) numerical instability when fitting data with near-collinear parameters (ill-conditioned regression), (2) extrapolation failure producing negative compressibilities or heat capacities, (3) thermodynamic inconsistency where Cp and Cv derived independently violate Cp − Cv = TVαP²/κT, indicating a fitting or data quality problem, and (4) Gibbs-Duhem inconsistency in VLE-derived activity coefficients, signaling that the GE model or the pressure data are flawed.",
+      "reporting_checklist": "Publications reporting analytically derived properties should include: (1) the specific thermodynamic identity or derivation route used (e.g., 'Cp derived from speed of sound and density via the exact relation'); (2) the source, reference, and stated uncertainty of all primary input data; (3) the analytical correlation or EoS used to fit the primary data, including all fitted parameter values and their uncertainties; (4) the fitting method and goodness-of-fit statistics (AAD, RMSD, maximum deviation); (5) the T, P, and composition ranges over which the derivation is valid; (6) the uncertainty propagation method (GUM, Monte Carlo) and the resulting combined expanded uncertainty of the derived property at 95% confidence; (7) comparison with directly measured values or alternative derivation routes where available; (8) any thermodynamic consistency tests performed (Maxwell relation checks, Gibbs-Duhem tests) and their results; (9) software and numerical methods used; and (10) clear identification that the reported values are derived rather than directly measured. For ThermoML encoding, derived values carry nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

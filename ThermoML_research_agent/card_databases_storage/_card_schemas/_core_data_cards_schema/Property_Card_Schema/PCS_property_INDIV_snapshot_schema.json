@@ -1,0 +1,4539 @@
+{
+  "$schema": "thermoml_property_INDIV_snapshot_schema_v5",
+  "$id": "PCS_property_INDIV_snapshot_schema",
+  "title": "ThermoML Property INDIV Snapshot — Per-DOI Measurement Card Schema",
+  "description": "Defines the structure for per-DOI measurement cards. One card per paper (DOI), containing ALL experimental blocks from that paper. Each block may contain 1–6 measured properties sharing the same compounds, variables, constraints, and data points. This is the actual data layer — what agents load when they need measured values. Follows the universal INDIV pattern: CCS sample → per-DOI, MTDKS methods → per-DOI, RMS → per-DOI, PCS data → per-DOI.",
+  "version": "5.0.0",
+  "generated": "2026-07-26",
+  "lineage": "Evolved from _base_card_schema v1.0.0 (per-property, 1 card per property per block) → _block_card_schema v2.0.0 (per-block, 1 card per block) → PCS_property_INDIV_snapshot v3.0.0 (per-DOI, 1 card per paper, all blocks inside) → v4.0.0 (card-embedded block_search_adv identity permutations and uncapped statistics) → v5.0.0 (deterministic point IDs and composition-subsystem projections without duplicating parent blocks)",
+  "design_notes": {
+    "why_per_doi": "All other INDIV cards are per-DOI (CCS sample, MTDKS methods, RMS metadata). PCS follows the same pattern: one card per paper, containing all experimental blocks. This keeps the agent's lookup pattern uniform — given a DOI, load one card per schema type.",
+    "blocks_inside_card": "Each card contains a blocks[] array. Each block is a self-contained measurement unit with its own compounds, properties, variables, constraints, data_summary, and data_points. Blocks within a paper share the same DOI and paper metadata but have independent experimental setups.",
+    "block_level_design": "Within each block, the design preserves the ThermoML block as the natural unit of measurement. All properties in a block share the same compounds, variables, constraints, and data points.",
+    "multi_property_blocks": "2.5% of blocks have 3–6 properties (always the same property group, never mixed). Each data point carries property values for ALL properties in the block. 97.5% have exactly 1 property.",
+    "reaction_blocks": "ReactionData blocks always have exactly 1 property. Reaction-specific fields (reaction_type, participants) only appear for block_type='ReactionData'.",
+    "relationship_to_ID_and_DK": "Each property in blocks[].properties[] references a PCS ID_and_DK card via prop_ID. Agents load the ID_and_DK card to understand WHAT the property is, then use this INDIV card for the actual VALUES.",
+    "cross_references": "Lightweight pointers to other card types: key.lit_num_id → RMS, blocks[].compounds[].comp_num_id → CCS, blocks[].properties[].meas_num_id → MTDKS, blocks[].properties[].prop_num_id → PCS ID_and_DK.",
+    "derived_block_index": "blocks_summary.derived_indexes contains block_search_adv plus composition_subsystems. The latter records exact-zero-supported unary/binary projections of higher-component PureOrMixtureData blocks and references existing point rows; it creates no additional card, parent block, or copied measurement.",
+    "token_budget": "The human-facing block_index remains small, but raw blocks_summary now also contains a potentially large machine-facing derived_indexes payload. Ordinary agents should consume the registered compact Markdown, which ignores derived_indexes. Per-block data_summary costs ~150-400 tokens. Full raw cards can be substantially larger and should be loaded only by deterministic query code."
+  },
+  "database_stats": {
+    "total_cards": 11923,
+    "total_blocks": 123727,
+    "pure_or_mixture_blocks": 122481,
+    "reaction_blocks": 1246,
+    "single_property_blocks": 120656,
+    "multi_property_blocks": 3071,
+    "multi_property_distribution": {
+      "3_properties": 2983,
+      "4_properties": 6,
+      "5_properties": 17,
+      "6_properties": 65
+    },
+    "blocks_per_paper": {
+      "median": 5,
+      "mean": 10.4,
+      "max": 614,
+      "p10": 1,
+      "p90": 22
+    },
+    "property_groups": 12,
+    "unique_property_names": 105,
+    "total_datapoints": 2692934,
+    "identity_occurrence_statistics": 402269,
+    "identity_alias_permutations": 842716,
+    "system_type_distribution": {
+      "unary": 45855,
+      "binary": 58308,
+      "ternary": 18493,
+      "quaternary": 420,
+      "quinary_plus": 651
+    }
+  },
+  "card_structure": {
+    "key": {
+      "description": "Primary key — one card per paper. Matches RMS, CCS sample, and MTDKS INDIV keying.",
+      "fields": {
+        "doi": {
+          "type": "string",
+          "description": "Digital Object Identifier of the source paper. Primary key. Links to RMS."
+        },
+        "lit_id": {
+          "type": "string",
+          "description": "TRC literature identifier (e.g., '2017-dom-wla-1'). 1:1 with DOI. Human-readable secondary key."
+        },
+        "lit_num_id": {
+          "type": "string",
+          "description": "Global literature registry ID. Format: 'GLOBlit_<positive integer>'."
+        }
+      }
+    },
+    "paper": {
+      "description": "Lightweight paper reference. Full citation lives in RMS keyed by DOI.",
+      "fields": {
+        "doi": {
+          "type": "string",
+          "description": "DOI of the source paper (sDOI). Key to RMS card."
+        },
+        "title": {
+          "type": "string",
+          "description": "Paper title (sTitle) — for human readability and agent context."
+        }
+      }
+    },
+    "blocks_summary": {
+      "description": "Paper-level digest of all blocks. Agent reads this FIRST to identify which blocks are relevant before drilling into individual blocks. Costs ~100-500 tokens.",
+      "fields": {
+        "n_blocks": {
+          "type": "integer",
+          "description": "Total number of experimental blocks in this paper."
+        },
+        "n_pure_or_mixture": {
+          "type": "integer",
+          "description": "Number of PureOrMixtureData blocks."
+        },
+        "n_reaction": {
+          "type": "integer",
+          "description": "Number of ReactionData blocks."
+        },
+        "property_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Distinct property names across all blocks in this paper."
+        },
+        "property_groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Distinct property groups across all blocks."
+        },
+        "compound_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "All compound names appearing across blocks."
+        },
+        "system_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Distinct system types (unary, binary, ternary, ...) across blocks."
+        },
+        "methods": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Distinct measurement methods used across all blocks."
+        },
+        "temperature_range_K": {
+          "type": "object|null",
+          "fields": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        },
+        "pressure_range_kPa": {
+          "type": "object|null",
+          "fields": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        },
+        "total_datapoints": {
+          "type": "integer",
+          "description": "Sum of data points across all blocks in this paper."
+        },
+        "block_index": {
+          "type": "array",
+          "description": "Quick-scan index: one entry per block showing key identifiers so agent can jump to the right block without reading full block data.",
+          "items": {
+            "type": "object",
+            "fields": {
+              "block_number": {
+                "type": "string",
+                "description": "DOI-scoped typed block ID. Format: 'PROPblock_<n>' or 'RXNblock_<n>'."
+              },
+              "block_type": {
+                "type": "string"
+              },
+              "property_names": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "property_group": {
+                "type": "string"
+              },
+              "system_type": {
+                "type": "string"
+              },
+              "n_points": {
+                "type": "integer"
+              },
+              "method": {
+                "type": "string|null",
+                "description": "Primary method for this block."
+              },
+              "effective_system_types": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Effective arities represented by composition_subsystems; does not replace declared system_type."
+              },
+              "n_composition_subsystems": {
+                "type": "integer"
+              },
+              "subsystem_matching_points": {
+                "type": "integer",
+                "description": "Unique raw points referenced by at least one subsystem."
+              },
+              "blocktype_num_id": {
+                "type": "string",
+                "description": "[audited] Present in 100.0% of cards. Example: GLOBblocktype_2"
+              }
+            }
+          }
+        },
+        "derived_indexes": {
+          "type": "object",
+          "description": "Machine-facing derived indexes embedded in this existing DOI card. Ordinary compactors omit this namespace.",
+          "fields": {
+            "block_search_adv": {
+              "type": "object",
+              "description": "Map keyed by every existing typed block_number. The key set must exactly equal blocks[].block_number; no extra card or block record is created.",
+              "fields": {
+                "<PROPblock_n|RXNblock_n>": {
+                  "type": "object",
+                  "fields": {
+                    "schema_version": {
+                      "type": "string",
+                      "allowed_values": [
+                        "pcs-block-identity-index-v2"
+                      ],
+                      "not_observed_in_current_build": true
+                    },
+                    "n_occurrences": {
+                      "type": "integer",
+                      "description": "Exact length of statistics.",
+                      "not_observed_in_current_build": true
+                    },
+                    "n_key_permutations": {
+                      "type": "integer",
+                      "description": "Sum of all occurrence-key list lengths in key_permutations.",
+                      "not_observed_in_current_build": true
+                    },
+                    "source_role_counts": {
+                      "type": "object",
+                      "description": "Counts of authoritative ThermoML source roles across statistics.",
+                      "fields": {
+                        "property": {
+                          "type": "integer",
+                          "not_observed_in_current_build": true
+                        },
+                        "variable": {
+                          "type": "integer",
+                          "not_observed_in_current_build": true
+                        },
+                        "constraint": {
+                          "type": "integer",
+                          "not_observed_in_current_build": true
+                        },
+                        "inline_state": {
+                          "type": "integer",
+                          "not_observed_in_current_build": true
+                        }
+                      }
+                    },
+                    "statistics": {
+                      "type": "array",
+                      "description": "One entry per declared property, variable, constraint, or supported ReactionData inline-state occurrence. Numeric statistics use all raw NumValues rows, not the 50-point display cap.",
+                      "items": {
+                        "type": "object",
+                        "fields": {
+                          "occurrence_key": {
+                            "type": "string",
+                            "description": "Block-unique role/local key, for example property|BLKprop_1.",
+                            "not_observed_in_current_build": true
+                          },
+                          "quantity_key": {
+                            "type": "string",
+                            "description": "Role-neutral exact canonical template.",
+                            "not_observed_in_current_build": true
+                          },
+                          "source_role": {
+                            "type": "string",
+                            "allowed_values": [
+                              "property",
+                              "variable",
+                              "constraint",
+                              "inline_state"
+                            ],
+                            "description": "Authoritative source declaration; never inferred from observed constancy.",
+                            "not_observed_in_current_build": true
+                          },
+                          "source_global_id": {
+                            "type": "string|null",
+                            "description": "Source-role GLOBprop/GLOBvar/GLOBconstr ID; null only for inline_state.",
+                            "not_observed_in_current_build": true
+                          },
+                          "source_local_key": {
+                            "type": "string",
+                            "description": "BLKprop_N, BLKvar_N, or BLKconstr_N owner; inline state uses its linked BLKprop_N.",
+                            "not_observed_in_current_build": true
+                          },
+                          "source_instance_key": {
+                            "type": "string|null",
+                            "description": "Exact resolved prop_ID/var_id/constr_id, or inline field name.",
+                            "not_observed_in_current_build": true
+                          },
+                          "component_org_num": {
+                            "type": "string|null",
+                            "description": "DOIcomp_N that owns a component-linked quantity.",
+                            "not_observed_in_current_build": true
+                          },
+                          "comp_num_id": {
+                            "type": "string|null",
+                            "description": "Global compound ID for component_org_num.",
+                            "not_observed_in_current_build": true
+                          },
+                          "phase_num_id": {
+                            "type": "string|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "phase_component_org_num": {
+                            "type": "string|null",
+                            "description": "DOIcomp_N to which the phase annotation applies; distinct from quantity ownership.",
+                            "not_observed_in_current_build": true
+                          },
+                          "phase_component_comp_num_id": {
+                            "type": "string|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "data_group": {
+                            "type": "string",
+                            "allowed_values": [
+                              "data_points",
+                              "property_inline_state"
+                            ],
+                            "not_observed_in_current_build": true
+                          },
+                          "applies_to_occurrence_key": {
+                            "type": "string|null",
+                            "description": "Property occurrence linked to inline state; otherwise null.",
+                            "not_observed_in_current_build": true
+                          },
+                          "n_limit_values": {
+                            "type": "integer",
+                            "description": "Censored PropLimit observations, excluded from ordinary numeric statistics.",
+                            "not_observed_in_current_build": true
+                          },
+                          "n_rows": {
+                            "type": "integer",
+                            "description": "Block point-row capacity for property/variable; one declaration row for constraint/inline_state.",
+                            "not_observed_in_current_build": true
+                          },
+                          "n_values": {
+                            "type": "integer",
+                            "description": "Finite exact numeric observations.",
+                            "not_observed_in_current_build": true
+                          },
+                          "n_missing": {
+                            "type": "integer",
+                            "description": "Absent observations after excluding finite, nonfinite, and limit observations.",
+                            "not_observed_in_current_build": true
+                          },
+                          "n_nonfinite": {
+                            "type": "integer",
+                            "not_observed_in_current_build": true
+                          },
+                          "n_unique": {
+                            "type": "integer",
+                            "description": "Exact number of unique finite parsed values.",
+                            "not_observed_in_current_build": true
+                          },
+                          "minimum": {
+                            "type": "number|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "maximum": {
+                            "type": "number|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "sum": {
+                            "type": "number|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "mean": {
+                            "type": "number|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "stddev_sample": {
+                            "type": "number|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "coverage_fraction": {
+                            "type": "number|null",
+                            "description": "n_values / n_rows, or null when n_rows is zero.",
+                            "not_observed_in_current_build": true
+                          },
+                          "n_applicable_points": {
+                            "type": "integer",
+                            "description": "Finite row-aligned support for property/variable, block rows for a valid constraint, or finite linked-property rows for inline state.",
+                            "not_observed_in_current_build": true
+                          },
+                          "is_varied": {
+                            "type": "boolean",
+                            "description": "True exactly when n_unique > 1; never changes source_role.",
+                            "not_observed_in_current_build": true
+                          }
+                        }
+                      }
+                    },
+                    "key_permutations": {
+                      "type": "object",
+                      "description": "Map from every exact GLOBprop/GLOBvar/GLOBconstr alias to block occurrence_key values. Complete template-equivalent alias families only.",
+                      "fields": {
+                        "<search_global_id>": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "<PROPblock_id>": {
+                  "type": "object",
+                  "description": "[audited] Present in 99.2% of cards.",
+                  "fields": {
+                    "key_permutations": {
+                      "type": "object",
+                      "description": "[audited] Present in 99.2% of cards.",
+                      "fields": {
+                        "<GLOBconstr_id>": {
+                          "type": "array",
+                          "description": "[audited] Present in 97.78% of cards.",
+                          "items": {}
+                        },
+                        "<GLOBprop_id>": {
+                          "type": "array",
+                          "description": "[audited] Present in 99.2% of cards.",
+                          "items": {}
+                        },
+                        "<GLOBvar_id>": {
+                          "type": "array",
+                          "description": "[audited] Present in 97.78% of cards.",
+                          "items": {}
+                        }
+                      }
+                    },
+                    "n_key_permutations": {
+                      "type": "integer",
+                      "description": "[audited] Present in 99.2% of cards. Example: 5"
+                    },
+                    "n_occurrences": {
+                      "type": "integer",
+                      "description": "[audited] Present in 99.2% of cards. Example: 3"
+                    },
+                    "schema_version": {
+                      "type": "string",
+                      "description": "[audited] Present in 99.2% of cards. Example: pcs-block-identity-index-v2"
+                    },
+                    "source_role_counts": {
+                      "type": "object",
+                      "description": "[audited] Present in 99.2% of cards.",
+                      "fields": {
+                        "constraint": {
+                          "type": "integer",
+                          "description": "[audited] Present in 73.21% of cards. Example: 1"
+                        },
+                        "property": {
+                          "type": "integer",
+                          "description": "[audited] Present in 99.2% of cards. Example: 1"
+                        },
+                        "variable": {
+                          "type": "integer",
+                          "description": "[audited] Present in 97.74% of cards. Example: 2"
+                        }
+                      }
+                    },
+                    "statistics": {
+                      "type": "array",
+                      "description": "[audited] Present in 99.2% of cards.",
+                      "items": {
+                        "fields": {
+                          "applies_to_occurrence_key": {
+                            "type": "null",
+                            "description": "[audited] Present in 99.2% of cards."
+                          },
+                          "comp_num_id": {
+                            "type": "string|null",
+                            "description": "[audited] Present in 99.2% of cards. Example: GLOBcomp_51"
+                          },
+                          "component_org_num": {
+                            "type": "string|null",
+                            "description": "[audited] Present in 99.2% of cards. Example: DOIcomp_1"
+                          },
+                          "coverage_fraction": {
+                            "type": "number",
+                            "description": "[audited] Present in 99.2% of cards. Example: 1.0"
+                          },
+                          "data_group": {
+                            "type": "string",
+                            "description": "[audited] Present in 99.2% of cards. Example: data_points"
+                          },
+                          "is_varied": {
+                            "type": "boolean",
+                            "description": "[audited] Present in 99.2% of cards. Example: True"
+                          },
+                          "maximum": {
+                            "type": "number",
+                            "description": "[audited] Present in 99.2% of cards. Example: 0.04175"
+                          },
+                          "mean": {
+                            "type": "number",
+                            "description": "[audited] Present in 99.2% of cards. Example: 0.02638896103896104"
+                          },
+                          "minimum": {
+                            "type": "number",
+                            "description": "[audited] Present in 99.2% of cards. Example: 0.01712"
+                          },
+                          "n_applicable_points": {
+                            "type": "integer",
+                            "description": "[audited] Present in 99.2% of cards. Example: 77"
+                          },
+                          "n_limit_values": {
+                            "type": "integer",
+                            "description": "[audited] Present in 99.2% of cards. Example: 0"
+                          },
+                          "n_missing": {
+                            "type": "integer",
+                            "description": "[audited] Present in 99.2% of cards. Example: 0"
+                          },
+                          "n_nonfinite": {
+                            "type": "integer",
+                            "description": "[audited] Present in 99.2% of cards. Example: 0"
+                          },
+                          "n_rows": {
+                            "type": "integer",
+                            "description": "[audited] Present in 99.2% of cards. Example: 77"
+                          },
+                          "n_unique": {
+                            "type": "integer",
+                            "description": "[audited] Present in 99.2% of cards. Example: 77"
+                          },
+                          "n_values": {
+                            "type": "integer",
+                            "description": "[audited] Present in 99.2% of cards. Example: 77"
+                          },
+                          "occurrence_key": {
+                            "type": "string",
+                            "description": "[audited] Present in 99.2% of cards. Example: property|BLKprop_1"
+                          },
+                          "phase_component_comp_num_id": {
+                            "type": "string|null",
+                            "description": "[audited] Present in 99.2% of cards. Example: GLOBcomp_1916"
+                          },
+                          "phase_component_org_num": {
+                            "type": "string|null",
+                            "description": "[audited] Present in 99.2% of cards. Example: DOIcomp_5"
+                          },
+                          "phase_num_id": {
+                            "type": "string",
+                            "description": "[audited] Present in 99.2% of cards. Example: GLOBphase_3"
+                          },
+                          "quantity_key": {
+                            "type": "string",
+                            "description": "[audited] Present in 99.2% of cards. Example: thermal_conductivity_w_m_k"
+                          },
+                          "source_global_id": {
+                            "type": "string",
+                            "description": "[audited] Present in 99.2% of cards. Example: GLOBprop_34"
+                          },
+                          "source_instance_key": {
+                            "type": "string",
+                            "description": "[audited] Present in 99.2% of cards. Example: thermal_conductivity_w_m_k"
+                          },
+                          "source_local_key": {
+                            "type": "string",
+                            "description": "[audited] Present in 99.2% of cards. Example: BLKprop_1"
+                          },
+                          "source_role": {
+                            "type": "string",
+                            "description": "[audited] Present in 99.2% of cards. Example: property"
+                          },
+                          "stddev_sample": {
+                            "type": "number|null",
+                            "description": "[audited] Present in 99.2% of cards. Example: 0.005719408688707432"
+                          },
+                          "sum": {
+                            "type": "number",
+                            "description": "[audited] Present in 99.2% of cards. Example: 2.03195"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "<RXNblock_id>": {
+                  "type": "object",
+                  "description": "[audited] Present in 4.18% of cards.",
+                  "fields": {
+                    "key_permutations": {
+                      "type": "object",
+                      "description": "[audited] Present in 4.18% of cards.",
+                      "fields": {
+                        "<GLOBconstr_id>": {
+                          "type": "array",
+                          "description": "[audited] Present in 3.93% of cards.",
+                          "items": {}
+                        },
+                        "<GLOBprop_id>": {
+                          "type": "array",
+                          "description": "[audited] Present in 4.18% of cards.",
+                          "items": {}
+                        },
+                        "<GLOBvar_id>": {
+                          "type": "array",
+                          "description": "[audited] Present in 3.93% of cards.",
+                          "items": {}
+                        }
+                      }
+                    },
+                    "n_key_permutations": {
+                      "type": "integer",
+                      "description": "[audited] Present in 4.18% of cards. Example: 5"
+                    },
+                    "n_occurrences": {
+                      "type": "integer",
+                      "description": "[audited] Present in 4.18% of cards. Example: 3"
+                    },
+                    "schema_version": {
+                      "type": "string",
+                      "description": "[audited] Present in 4.18% of cards. Example: pcs-block-identity-index-v2"
+                    },
+                    "source_role_counts": {
+                      "type": "object",
+                      "description": "[audited] Present in 4.18% of cards.",
+                      "fields": {
+                        "inline_state": {
+                          "type": "integer",
+                          "description": "[audited] Present in 3.93% of cards. Example: 2"
+                        },
+                        "property": {
+                          "type": "integer",
+                          "description": "[audited] Present in 4.18% of cards. Example: 1"
+                        }
+                      }
+                    },
+                    "statistics": {
+                      "type": "array",
+                      "description": "[audited] Present in 4.18% of cards.",
+                      "items": {
+                        "fields": {
+                          "applies_to_occurrence_key": {
+                            "type": "string|null",
+                            "description": "[audited] Present in 4.18% of cards. Example: property|BLKprop_1"
+                          },
+                          "comp_num_id": {
+                            "type": "null",
+                            "description": "[audited] Present in 4.18% of cards."
+                          },
+                          "component_org_num": {
+                            "type": "null",
+                            "description": "[audited] Present in 4.18% of cards."
+                          },
+                          "coverage_fraction": {
+                            "type": "number",
+                            "description": "[audited] Present in 4.18% of cards. Example: 1.0"
+                          },
+                          "data_group": {
+                            "type": "string",
+                            "description": "[audited] Present in 4.18% of cards. Example: data_points"
+                          },
+                          "is_varied": {
+                            "type": "boolean",
+                            "description": "[audited] Present in 4.18% of cards. Example: False"
+                          },
+                          "maximum": {
+                            "type": "number",
+                            "description": "[audited] Present in 4.18% of cards. Example: -610.94"
+                          },
+                          "mean": {
+                            "type": "number",
+                            "description": "[audited] Present in 4.18% of cards. Example: -610.94"
+                          },
+                          "minimum": {
+                            "type": "number",
+                            "description": "[audited] Present in 4.18% of cards. Example: -610.94"
+                          },
+                          "n_applicable_points": {
+                            "type": "integer",
+                            "description": "[audited] Present in 4.18% of cards. Example: 1"
+                          },
+                          "n_limit_values": {
+                            "type": "integer",
+                            "description": "[audited] Present in 4.18% of cards. Example: 0"
+                          },
+                          "n_missing": {
+                            "type": "integer",
+                            "description": "[audited] Present in 4.18% of cards. Example: 0"
+                          },
+                          "n_nonfinite": {
+                            "type": "integer",
+                            "description": "[audited] Present in 4.18% of cards. Example: 0"
+                          },
+                          "n_rows": {
+                            "type": "integer",
+                            "description": "[audited] Present in 4.18% of cards. Example: 1"
+                          },
+                          "n_unique": {
+                            "type": "integer",
+                            "description": "[audited] Present in 4.18% of cards. Example: 1"
+                          },
+                          "n_values": {
+                            "type": "integer",
+                            "description": "[audited] Present in 4.18% of cards. Example: 1"
+                          },
+                          "occurrence_key": {
+                            "type": "string",
+                            "description": "[audited] Present in 4.18% of cards. Example: property|BLKprop_1"
+                          },
+                          "phase_component_comp_num_id": {
+                            "type": "null",
+                            "description": "[audited] Present in 4.18% of cards."
+                          },
+                          "phase_component_org_num": {
+                            "type": "null",
+                            "description": "[audited] Present in 4.18% of cards."
+                          },
+                          "phase_num_id": {
+                            "type": "null",
+                            "description": "[audited] Present in 4.18% of cards."
+                          },
+                          "quantity_key": {
+                            "type": "string",
+                            "description": "[audited] Present in 4.18% of cards. Example: molar_enthalpy_of_reaction_kj_mol"
+                          },
+                          "source_global_id": {
+                            "type": "string|null",
+                            "description": "[audited] Present in 4.18% of cards. Example: GLOBprop_36"
+                          },
+                          "source_instance_key": {
+                            "type": "string",
+                            "description": "[audited] Present in 4.18% of cards. Example: molar_enthalpy_of_reaction_kj_mol"
+                          },
+                          "source_local_key": {
+                            "type": "string",
+                            "description": "[audited] Present in 4.18% of cards. Example: BLKprop_1"
+                          },
+                          "source_role": {
+                            "type": "string",
+                            "description": "[audited] Present in 4.18% of cards. Example: property"
+                          },
+                          "stddev_sample": {
+                            "type": "number|null",
+                            "description": "[audited] Present in 4.18% of cards. Example: 0.017427946905282123"
+                          },
+                          "sum": {
+                            "type": "number",
+                            "description": "[audited] Present in 4.18% of cards. Example: -610.94"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "composition_subsystems": {
+              "type": "object",
+              "description": "Map keyed by every typed block_number. ReactionData and blocks without exact composition subsets map to empty arrays.",
+              "fields": {
+                "<PROPblock_n|RXNblock_n>": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "fields": {
+                      "BLKsubsys_id": {
+                        "type": "string",
+                        "description": "Stable block-local projection ID. Format: BLKsubsys_<n>.",
+                        "not_observed_in_current_build": true
+                      },
+                      "relationship": {
+                        "type": "string",
+                        "allowed_values": [
+                          "composition_subset_of_declared_system"
+                        ],
+                        "not_observed_in_current_build": true
+                      },
+                      "scope": {
+                        "type": "object",
+                        "fields": {
+                          "composition_domain": {
+                            "type": "string",
+                            "allowed_values": [
+                              "eComponentComposition",
+                              "eSolventComposition"
+                            ],
+                            "not_observed_in_current_build": true
+                          },
+                          "basis": {
+                            "type": "string",
+                            "not_observed_in_current_build": true
+                          },
+                          "phase_num_id": {
+                            "type": "string|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "phase_id": {
+                            "type": "string|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "phase_component_org_num": {
+                            "type": "string|null",
+                            "not_observed_in_current_build": true
+                          },
+                          "solvent_component_org_nums": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "effective_system_type": {
+                        "type": "string",
+                        "allowed_values": [
+                          "unary",
+                          "binary"
+                        ],
+                        "not_observed_in_current_build": true
+                      },
+                      "n_retained_components": {
+                        "type": "integer",
+                        "not_observed_in_current_build": true
+                      },
+                      "retained_components": {
+                        "type": "array",
+                        "description": "DOI and global IDs plus name and InChIKey for components on this face.",
+                        "not_observed_in_current_build": true
+                      },
+                      "excluded_components": {
+                        "type": "array",
+                        "description": "Parent-block components proven absent in this scoped projection.",
+                        "not_observed_in_current_build": true
+                      },
+                      "point_membership": {
+                        "type": "object",
+                        "fields": {
+                          "encoding": {
+                            "type": "string",
+                            "allowed_values": [
+                              "one_based_inclusive_runs"
+                            ],
+                            "not_observed_in_current_build": true
+                          },
+                          "runs": {
+                            "type": "array",
+                            "description": "Inclusive one-based raw NumValues ordinal pairs; may reference rows beyond the preview cap.",
+                            "not_observed_in_current_build": true
+                          }
+                        }
+                      },
+                      "n_points": {
+                        "type": "integer",
+                        "not_observed_in_current_build": true
+                      },
+                      "point_arity_counts": {
+                        "type": "object",
+                        "not_observed_in_current_build": true
+                      },
+                      "evidence_quality": {
+                        "type": "string",
+                        "allowed_values": [
+                          "exact_reported_zero"
+                        ],
+                        "not_observed_in_current_build": true
+                      },
+                      "evidence_sources": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "search_eligible": {
+                        "type": "boolean",
+                        "not_observed_in_current_build": true
+                      },
+                      "path_class": {
+                        "type": "string",
+                        "allowed_values": [
+                          "unary_endpoint",
+                          "binary_face",
+                          "endpoint_only_binary_face"
+                        ],
+                        "not_observed_in_current_build": true
+                      },
+                      "property_support": {
+                        "type": "array",
+                        "description": "Per-property IDs, role (bulk_property or limiting_probe), phase compatibility, and property-specific solvent scope.",
+                        "not_observed_in_current_build": true
+                      },
+                      "condition_ranges": {
+                        "type": "array",
+                        "description": "Full-row finite ranges for non-composition variables on member points.",
+                        "not_observed_in_current_build": true
+                      },
+                      "quality_flags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "<PROPblock_id>": {
+                  "type": "array",
+                  "description": "[audited] Present in 99.2% of cards.",
+                  "items": {
+                    "fields": {
+                      "BLKsubsys_id": {
+                        "type": "string",
+                        "description": "[audited] Present in 37.99% of cards. Example: BLKsubsys_1"
+                      },
+                      "condition_ranges": {
+                        "type": "array",
+                        "description": "[audited] Present in 37.99% of cards.",
+                        "items": {
+                          "fields": {
+                            "BLKvar_id": {
+                              "type": "string",
+                              "description": "[audited] Present in 27.6% of cards. Example: BLKvar_1"
+                            },
+                            "max": {
+                              "type": "number",
+                              "description": "[audited] Present in 27.6% of cards. Example: 101.325"
+                            },
+                            "min": {
+                              "type": "number",
+                              "description": "[audited] Present in 27.6% of cards. Example: 101.325"
+                            },
+                            "n": {
+                              "type": "integer",
+                              "description": "[audited] Present in 27.6% of cards. Example: 3"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "[audited] Present in 27.6% of cards. Example: Pressure, kPa"
+                            },
+                            "var_id": {
+                              "type": "string",
+                              "description": "[audited] Present in 27.6% of cards. Example: pressure_kpa"
+                            },
+                            "var_num_id": {
+                              "type": "string",
+                              "description": "[audited] Present in 27.6% of cards. Example: GLOBvar_3"
+                            }
+                          }
+                        }
+                      },
+                      "effective_system_type": {
+                        "type": "string",
+                        "description": "[audited] Present in 37.99% of cards. Example: unary"
+                      },
+                      "evidence_quality": {
+                        "type": "string",
+                        "description": "[audited] Present in 37.99% of cards. Example: exact_reported_zero"
+                      },
+                      "evidence_sources": {
+                        "type": "array",
+                        "description": "[audited] Present in 37.99% of cards.",
+                        "items": {}
+                      },
+                      "excluded_components": {
+                        "type": "array",
+                        "description": "[audited] Present in 37.99% of cards.",
+                        "items": {
+                          "fields": {
+                            "comp_num_id": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: GLOBcomp_595"
+                            },
+                            "inchi_key": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: FJBFPHVGVWTDIP-UHFFFAOYSA-N"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: dibromomethane"
+                            },
+                            "org_num": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: DOIcomp_2"
+                            }
+                          }
+                        }
+                      },
+                      "n_points": {
+                        "type": "integer",
+                        "description": "[audited] Present in 37.99% of cards. Example: 3"
+                      },
+                      "n_retained_components": {
+                        "type": "integer",
+                        "description": "[audited] Present in 37.99% of cards. Example: 1"
+                      },
+                      "path_class": {
+                        "type": "string",
+                        "description": "[audited] Present in 37.99% of cards. Example: unary_endpoint"
+                      },
+                      "point_arity_counts": {
+                        "type": "object",
+                        "description": "[audited] Present in 37.99% of cards.",
+                        "fields": {
+                          "binary": {
+                            "type": "integer",
+                            "description": "[audited] Present in 15.76% of cards. Example: 6"
+                          },
+                          "unary": {
+                            "type": "integer",
+                            "description": "[audited] Present in 24.87% of cards. Example: 3"
+                          }
+                        }
+                      },
+                      "point_membership": {
+                        "type": "object",
+                        "description": "[audited] Present in 37.99% of cards.",
+                        "fields": {
+                          "encoding": {
+                            "type": "string",
+                            "description": "[audited] Present in 37.99% of cards. Example: one_based_inclusive_runs"
+                          },
+                          "runs": {
+                            "type": "array",
+                            "description": "[audited] Present in 37.99% of cards.",
+                            "items": {
+                              "items": {},
+                              "type": "array"
+                            }
+                          }
+                        }
+                      },
+                      "property_support": {
+                        "type": "array",
+                        "description": "[audited] Present in 37.99% of cards.",
+                        "items": {
+                          "fields": {
+                            "BLKprop_id": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: BLKprop_1"
+                            },
+                            "component_org_num": {
+                              "type": "string|null",
+                              "description": "[audited] Present in 37.99% of cards. Example: DOIcomp_1"
+                            },
+                            "phase_compatible": {
+                              "type": "boolean",
+                              "description": "[audited] Present in 37.99% of cards. Example: True"
+                            },
+                            "prop_ID": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: mass_density_kg_m3"
+                            },
+                            "prop_num_id": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: GLOBprop_1"
+                            },
+                            "role": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: bulk_property"
+                            },
+                            "solvent_component_org_nums": {
+                              "type": "array",
+                              "description": "[audited] Present in 37.99% of cards.",
+                              "items": {}
+                            }
+                          }
+                        }
+                      },
+                      "quality_flags": {
+                        "type": "array",
+                        "description": "[audited] Present in 37.99% of cards.",
+                        "items": {}
+                      },
+                      "relationship": {
+                        "type": "string",
+                        "description": "[audited] Present in 37.99% of cards. Example: composition_subset_of_declared_system"
+                      },
+                      "retained_components": {
+                        "type": "array",
+                        "description": "[audited] Present in 37.99% of cards.",
+                        "items": {
+                          "fields": {
+                            "comp_num_id": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: GLOBcomp_10"
+                            },
+                            "inchi_key": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: XEKOWRVHYACXOJ-UHFFFAOYSA-N"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: ethyl acetate"
+                            },
+                            "org_num": {
+                              "type": "string",
+                              "description": "[audited] Present in 37.99% of cards. Example: DOIcomp_1"
+                            }
+                          }
+                        }
+                      },
+                      "scope": {
+                        "type": "object",
+                        "description": "[audited] Present in 37.99% of cards.",
+                        "fields": {
+                          "basis": {
+                            "type": "string",
+                            "description": "[audited] Present in 37.99% of cards. Example: mole fraction"
+                          },
+                          "composition_domain": {
+                            "type": "string",
+                            "description": "[audited] Present in 37.99% of cards. Example: eComponentComposition"
+                          },
+                          "phase_component_org_num": {
+                            "type": "string|null",
+                            "description": "[audited] Present in 37.99% of cards. Example: DOIcomp_2"
+                          },
+                          "phase_id": {
+                            "type": "string",
+                            "description": "[audited] Present in 37.99% of cards. Example: liquid"
+                          },
+                          "phase_num_id": {
+                            "type": "string",
+                            "description": "[audited] Present in 37.99% of cards. Example: GLOBphase_1"
+                          },
+                          "solvent_component_org_nums": {
+                            "type": "array",
+                            "description": "[audited] Present in 37.99% of cards.",
+                            "items": {}
+                          }
+                        }
+                      },
+                      "search_eligible": {
+                        "type": "boolean",
+                        "description": "[audited] Present in 37.99% of cards. Example: True"
+                      }
+                    }
+                  }
+                },
+                "<RXNblock_id>": {
+                  "type": "array",
+                  "description": "[audited] Present in 4.18% of cards."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "blocks": {
+      "description": "Array of all experimental blocks from this paper. Each block is a self-contained measurement unit.",
+      "type": "array",
+      "items": {
+        "description": "One experimental block (PureOrMixtureData or ReactionData).",
+        "fields": {
+          "block_number": {
+            "type": "string",
+            "description": "DOI-scoped typed block ID. Format: 'PROPblock_<n>' for PureOrMixtureData or 'RXNblock_<n>' for ReactionData."
+          },
+          "block_type": {
+            "type": "string",
+            "description": "Type of data block.",
+            "allowed_values": [
+              "PureOrMixtureData",
+              "ReactionData"
+            ]
+          },
+          "system_type": {
+            "type": "string",
+            "description": "System arity/type within this block."
+          },
+          "blocktype_num_id": {
+            "type": "string",
+            "description": "Global block-type registry ID. Format: 'GLOBblocktype_<positive integer>'."
+          },
+          "compounds": {
+            "description": "Lightweight compound identity references in component order. Full details live in CCS.",
+            "type": "array",
+            "items": {
+              "fields": {
+                "org_num": {
+                  "type": "string",
+                  "description": "DOI-scoped source component ID. Format: 'DOIcomp_<positive integer>'."
+                },
+                "comp_num_id": {
+                  "type": "string",
+                  "description": "Global compound registry ID. Format: 'GLOBcomp_<positive integer>'."
+                },
+                "inchi_key": {
+                  "type": "string",
+                  "description": "Canonical global compound structure key."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Primary common name."
+                },
+                "formula": {
+                  "type": "string",
+                  "description": "Molecular formula."
+                },
+                "InChI": {
+                  "type": "string|null",
+                  "description": "IUPAC Standard InChI."
+                },
+                "SMILES": {
+                  "type": "string|null",
+                  "description": "Canonical SMILES derived from InChI via RDKit."
+                },
+                "sample_num": {
+                  "type": "string|null",
+                  "description": "DOI compound-scoped sample ID. Format: 'DOIcompSample_<component>_<sample>'."
+                }
+              }
+            }
+          },
+          "properties": {
+            "description": "Array of 1–6 properties measured in this block. All share the same property_group.",
+            "type": "array",
+            "items": {
+              "fields": {
+                "BLKprop_id": {
+                  "type": "string",
+                  "description": "Block-local property ID. Format: 'BLKprop_<positive integer>'. Key into data_points.property_values."
+                },
+                "prop_num_id": {
+                  "type": "string",
+                  "description": "Global property registry ID. Format: 'GLOBprop_<positive integer>'."
+                },
+                "prop_ID": {
+                  "type": "string",
+                  "description": "Links to PCS ID_and_DK card. Slugified property name."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Property name (ePropName)."
+                },
+                "group": {
+                  "type": "string",
+                  "description": "PropertyGroup classification.",
+                  "allowed_values": [
+                    "ActivityFugacityOsmoticProp",
+                    "CompositionAtPhaseEquilibrium",
+                    "Criticals",
+                    "ExcessPartialApparentEnergyProp",
+                    "HeatCapacityAndDerivedProp",
+                    "PhaseTransition",
+                    "ReactionEquilibriumProp",
+                    "ReactionStateChangeProp",
+                    "RefractionSurfaceTensionSoundSpeed",
+                    "TransportProp",
+                    "VaporPBoilingTAzeotropTandP",
+                    "VolumetricProp"
+                  ]
+                },
+                "method_standard": {
+                  "type": "string|null",
+                  "description": "Standard method name (eMethodName). Links to MTDKS technique card."
+                },
+                "method_custom": {
+                  "type": "string|null",
+                  "description": "Free-text method description (sMethodName)."
+                },
+                "meas_ID": {
+                  "type": "string|null",
+                  "description": "Link to MTDKS technique card. Slugified from method name."
+                },
+                "meas_num_id": {
+                  "type": "string|null",
+                  "description": "Global measurement registry ID. Format: 'GLOBmeas_<positive integer>' when present."
+                },
+                "presentation": {
+                  "type": "string|null",
+                  "description": "How the property value is presented.",
+                  "allowed_values": [
+                    "Direct value, X",
+                    "Difference with the reference state, X-X(REF)",
+                    "Ratio with the reference state, X/X(REF)",
+                    "Ratio of difference with ref state to ref state, [X-X(REF)]/X(REF)",
+                    "Difference between upper and lower temperature, X(T2)-X(T1)"
+                  ]
+                },
+                "standard_state": {
+                  "type": "string|null",
+                  "description": "Standard state definition (ActivityFugacityOsmoticProp only).",
+                  "allowed_values": [
+                    "Pure compound",
+                    "Infinite dilution solute",
+                    "Pure liquid solute"
+                  ]
+                },
+                "ref_state_type": {
+                  "type": "string|null",
+                  "description": "Reference state type (when presentation is difference or ratio).",
+                  "allowed_values": [
+                    "Pure components in the same proportion at the same temperature and pressure",
+                    "Pure solvent at the same temperature and pressure",
+                    "Pure solvent at the temperature of the same phase equilibrium",
+                    "Pure solute at the same temperature and pressure",
+                    "Phase in equilibrium with primary phase at the same temperature and pressure",
+                    "Reference phase with the same composition, temperature and pressure",
+                    "Reference phase with the same composition at fixed temperature and pressure"
+                  ]
+                },
+                "ref_temperature_K": {
+                  "type": "number|null"
+                },
+                "ref_temperature_digits": {
+                  "type": "integer|null"
+                },
+                "ref_pressure_kPa": {
+                  "type": "number|null"
+                },
+                "ref_pressure_digits": {
+                  "type": "integer|null"
+                },
+                "temperature_K": {
+                  "type": "number|null",
+                  "description": "Direct temperature for this property in Kelvin."
+                },
+                "temperature_digits": {
+                  "type": "integer|null"
+                },
+                "pressure_kPa": {
+                  "type": "number|null",
+                  "description": "Direct pressure for this property in kPa."
+                },
+                "pressure_digits": {
+                  "type": "integer|null"
+                },
+                "crystal_lattice_type": {
+                  "type": "string|null",
+                  "not_observed_in_current_build": true
+                },
+                "catalyst": {
+                  "type": "object|null",
+                  "not_observed_in_current_build": true
+                },
+                "property_phase": {
+                  "type": "object|null",
+                  "fields": {
+                    "phase": {
+                      "type": "string"
+                    },
+                    "phase_num_id": {
+                      "type": "string",
+                      "description": "Global phase registry ID: GLOBphase_<n>."
+                    },
+                    "phase_id": {
+                      "type": "string"
+                    },
+                    "component_org_num": {
+                      "type": "string|null"
+                    }
+                  }
+                },
+                "ref_phase": {
+                  "type": "object|null",
+                  "fields": {
+                    "phase": {
+                      "type": "string",
+                      "not_observed_in_current_build": true
+                    },
+                    "phase_num_id": {
+                      "type": "string",
+                      "description": "Global phase registry ID: GLOBphase_<n>.",
+                      "not_observed_in_current_build": true
+                    },
+                    "phase_id": {
+                      "type": "string",
+                      "not_observed_in_current_build": true
+                    },
+                    "component_org_num": {
+                      "type": "string|null",
+                      "not_observed_in_current_build": true
+                    }
+                  }
+                },
+                "component_org_num": {
+                  "type": "string|null",
+                  "description": "DOI-scoped component tied to the property. Format: 'DOIcomp_<positive integer>'."
+                },
+                "uncertainty": {
+                  "type": "object|null",
+                  "fields": {
+                    "evaluation_method": {
+                      "type": "string|null"
+                    },
+                    "confidence_level": {
+                      "type": "number|null"
+                    },
+                    "evaluator": {
+                      "type": "string|null"
+                    },
+                    "assessment_num": {
+                      "type": "string|null"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "solvents": {
+            "type": "array",
+            "description": "Zero or more DOI-scoped solvent-component references.",
+            "items": {
+              "type": "object",
+              "fields": {
+                "component_org_num": {
+                  "type": "string",
+                  "description": "DOIcomp_<n>."
+                },
+                "solvent_num_id": {
+                  "type": "string",
+                  "description": "GLOBsolvent_<n>."
+                },
+                "comp_num_id": {
+                  "type": "string",
+                  "description": "GLOBcomp_<n>."
+                },
+                "inchi_key": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "variables": {
+            "description": "Conditions varied across data points.",
+            "type": "array",
+            "items": {
+              "fields": {
+                "BLKvar_id": {
+                  "type": "string",
+                  "description": "Block-local variable ID. Format: 'BLKvar_<n>'."
+                },
+                "var_num_id": {
+                  "type": "string",
+                  "description": "Global variable type ID. Format: 'GLOBvar_<n>'."
+                },
+                "var_id": {
+                  "type": "string",
+                  "description": "Canonical variable ID; component templates use '{DOIcomp_id}'."
+                },
+                "type": {
+                  "type": "string",
+                  "allowed_values": [
+                    "eTemperature",
+                    "ePressure",
+                    "eComponentComposition",
+                    "eSolventComposition",
+                    "eMiscellaneous"
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "phase": {
+                  "type": "object|null",
+                  "fields": {
+                    "phase": {
+                      "type": "string"
+                    },
+                    "phase_num_id": {
+                      "type": "string",
+                      "description": "GLOBphase_<n>."
+                    },
+                    "phase_id": {
+                      "type": "string"
+                    },
+                    "component_org_num": {
+                      "type": "string|null"
+                    }
+                  }
+                },
+                "component_org_num": {
+                  "type": "string|null"
+                }
+              }
+            }
+          },
+          "constraints": {
+            "description": "Fixed experimental conditions for ALL data points in this block.",
+            "type": "array",
+            "items": {
+              "fields": {
+                "BLKconstr_id": {
+                  "type": "string",
+                  "description": "Block-local constraint ID. Format: 'BLKconstr_<n>'."
+                },
+                "constr_num_id": {
+                  "type": "string",
+                  "description": "Global constraint type ID. Format: 'GLOBconstr_<n>'."
+                },
+                "constr_id": {
+                  "type": "string",
+                  "description": "Canonical constraint ID; component templates use '{DOIcomp_id}'."
+                },
+                "type": {
+                  "type": "string",
+                  "allowed_values": [
+                    "eTemperature",
+                    "ePressure",
+                    "eComponentComposition",
+                    "eSolventComposition",
+                    "eMiscellaneous"
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "digits": {
+                  "type": "integer|null"
+                },
+                "phase": {
+                  "type": "object|null",
+                  "fields": {
+                    "phase": {
+                      "type": "string"
+                    },
+                    "phase_num_id": {
+                      "type": "string",
+                      "description": "GLOBphase_<n>."
+                    },
+                    "phase_id": {
+                      "type": "string"
+                    },
+                    "component_org_num": {
+                      "type": "string|null"
+                    }
+                  }
+                },
+                "component_org_num": {
+                  "type": "string|null"
+                }
+              }
+            }
+          },
+          "data_summary": {
+            "$ref": "STAT_PCS_data_summary_schema.json",
+            "description": "Self-contained block digest (~150-400 tokens). Agent reads FIRST for relevance filtering.",
+            "fields": {
+              "compound_names": {
+                "type": "array",
+                "description": "[audited] Present in 100.0% of cards.",
+                "items": {}
+              },
+              "constraints_summary": {
+                "type": "object",
+                "description": "[audited] Present in 100.0% of cards.",
+                "fields": {
+                  "<BLKconstr_id>": {
+                    "type": "object",
+                    "description": "[audited] Present in 73.21% of cards.",
+                    "fields": {
+                      "component_org_num": {
+                        "type": "string|null",
+                        "description": "[audited] Present in 73.21% of cards. Example: DOIcomp_1"
+                      },
+                      "digits": {
+                        "type": "integer",
+                        "description": "[audited] Present in 73.21% of cards. Example: 6"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "[audited] Present in 73.21% of cards. Example: Pressure, kPa"
+                      },
+                      "phase": {
+                        "type": "object",
+                        "description": "[audited] Present in 73.21% of cards.",
+                        "fields": {
+                          "component_org_num": {
+                            "type": "string",
+                            "description": "[audited] Present in 0.37% of cards. Example: DOIcomp_1"
+                          },
+                          "phase": {
+                            "type": "string",
+                            "description": "[audited] Present in 73.21% of cards. Example: Liquid"
+                          },
+                          "phase_id": {
+                            "type": "string",
+                            "description": "[audited] Present in 73.21% of cards. Example: liquid"
+                          },
+                          "phase_num_id": {
+                            "type": "string",
+                            "description": "[audited] Present in 73.21% of cards. Example: GLOBphase_1"
+                          }
+                        }
+                      },
+                      "value": {
+                        "type": "number",
+                        "description": "[audited] Present in 73.21% of cards. Example: 101.325"
+                      }
+                    }
+                  }
+                }
+              },
+              "effective_system_summary": {
+                "type": "object",
+                "description": "[audited] Present in 100.0% of cards.",
+                "fields": {
+                  "n_search_eligible": {
+                    "type": "integer",
+                    "description": "[audited] Present in 100.0% of cards. Example: 0"
+                  },
+                  "n_subsystems": {
+                    "type": "integer",
+                    "description": "[audited] Present in 100.0% of cards. Example: 0"
+                  },
+                  "n_unique_points": {
+                    "type": "integer",
+                    "description": "[audited] Present in 100.0% of cards. Example: 0"
+                  },
+                  "system_types": {
+                    "type": "array",
+                    "description": "[audited] Present in 100.0% of cards.",
+                    "items": {}
+                  }
+                }
+              },
+              "methods": {
+                "type": "array",
+                "description": "[audited] Present in 100.0% of cards.",
+                "items": {}
+              },
+              "n_points": {
+                "type": "integer",
+                "description": "[audited] Present in 100.0% of cards. Example: 77"
+              },
+              "phases": {
+                "type": "array",
+                "description": "[audited] Present in 100.0% of cards.",
+                "items": {}
+              },
+              "property_group": {
+                "type": "string",
+                "description": "[audited] Present in 100.0% of cards. Example: TransportProp"
+              },
+              "property_names": {
+                "type": "array",
+                "description": "[audited] Present in 100.0% of cards.",
+                "items": {}
+              },
+              "property_stats": {
+                "type": "object",
+                "description": "[audited] Present in 100.0% of cards.",
+                "fields": {
+                  "<BLKprop_id>": {
+                    "type": "object",
+                    "description": "[audited] Present in 100.0% of cards.",
+                    "fields": {
+                      "BLKprop_id": {
+                        "type": "string",
+                        "description": "[audited] Present in 100.0% of cards. Example: BLKprop_1"
+                      },
+                      "max": {
+                        "type": "number",
+                        "description": "[audited] Present in 100.0% of cards. Example: 0.04175"
+                      },
+                      "mean": {
+                        "type": "number",
+                        "description": "[audited] Present in 100.0% of cards. Example: 0.026389"
+                      },
+                      "min": {
+                        "type": "number",
+                        "description": "[audited] Present in 100.0% of cards. Example: 0.01712"
+                      },
+                      "n": {
+                        "type": "integer",
+                        "description": "[audited] Present in 100.0% of cards. Example: 77"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "[audited] Present in 100.0% of cards. Example: Thermal conductivity, W/m/K"
+                      },
+                      "std": {
+                        "type": "integer|number",
+                        "description": "[audited] Present in 100.0% of cards. Example: 0.005719"
+                      }
+                    }
+                  }
+                }
+              },
+              "system_type": {
+                "type": "string",
+                "description": "[audited] Present in 100.0% of cards. Example: unary"
+              },
+              "variable_ranges": {
+                "type": "object",
+                "description": "[audited] Present in 100.0% of cards.",
+                "fields": {
+                  "<BLKvar_id>": {
+                    "type": "object",
+                    "description": "[audited] Present in 97.74% of cards.",
+                    "fields": {
+                      "BLKvar_id": {
+                        "type": "string",
+                        "description": "[audited] Present in 97.74% of cards. Example: BLKvar_1"
+                      },
+                      "max": {
+                        "type": "number",
+                        "description": "[audited] Present in 97.74% of cards. Example: 428.047"
+                      },
+                      "min": {
+                        "type": "number",
+                        "description": "[audited] Present in 97.74% of cards. Example: 298.893"
+                      },
+                      "n_unique": {
+                        "type": "integer",
+                        "description": "[audited] Present in 97.74% of cards. Example: 77"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "[audited] Present in 97.74% of cards. Example: Temperature, K"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "data_points": {
+            "description": "Array of measured data points.",
+            "type": "array",
+            "items": {
+              "fields": {
+                "BLKpoint_id": {
+                  "type": "string",
+                  "description": "Stable block-local ID based on the one-based raw NumValues row ordinal. Format: BLKpoint_<n>."
+                },
+                "BLKsubsys_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Composition subsystem IDs that reference this preview point. Detailed memberships can extend beyond the preview cap through point runs."
+                },
+                "variable_values": {
+                  "type": "object",
+                  "description": "Map of BLKvar_<n> → {value, digits}.",
+                  "fields": {
+                    "<BLKvar_id>": {
+                      "type": "object",
+                      "fields": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer|null"
+                        }
+                      }
+                    }
+                  }
+                },
+                "property_values": {
+                  "type": "object",
+                  "description": "Map of BLKprop_<n> → {value, digits, point_uncertainty}.",
+                  "fields": {
+                    "<BLKprop_id>": {
+                      "type": "object",
+                      "fields": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer|null"
+                        },
+                        "point_uncertainty": {
+                          "type": "object|null",
+                          "fields": {
+                            "expanded_value": {
+                              "type": "number"
+                            },
+                            "assessment_num": {
+                              "type": "string|null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "reaction": {
+            "description": "Reaction-specific fields. Only present for block_type='ReactionData'.",
+            "type": "object|null",
+            "fields": {
+              "reaction_type": {
+                "type": "string|null",
+                "allowed_values": [
+                  "Combustion with O2",
+                  "Combustion with other oxidizer",
+                  "Formation",
+                  "Structural isomerization",
+                  "Other reaction"
+                ]
+              },
+              "rxn_type_num_id": {
+                "type": "string|null",
+                "description": "Global reaction-type registry ID. Format: 'GLOBrxntype_<n>'."
+              },
+              "rxn_type_id": {
+                "type": "string|null",
+                "description": "Canonical reaction-type slug."
+              },
+              "participants": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "fields": {
+                    "org_num": {
+                      "type": "string",
+                      "description": "DOIcomp_<n>."
+                    },
+                    "comp_num_id": {
+                      "type": "string",
+                      "description": "GLOBcomp_<n>."
+                    },
+                    "phase": {
+                      "type": "string|null"
+                    },
+                    "phase_num_id": {
+                      "type": "string|null",
+                      "description": "GLOBphase_<n>."
+                    },
+                    "phase_id": {
+                      "type": "string|null"
+                    },
+                    "sample_num": {
+                      "type": "string|null"
+                    },
+                    "stoichiometric_coef": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "source_reaction_type": {
+                "type": "string|null",
+                "description": "[audited] Present in 4.18% of cards. Example: Formation of a compound from elements in their stable state"
+              }
+            }
+          },
+          "auxiliary": {
+            "type": "object|null"
+          },
+          "equation": {
+            "type": "object|null"
+          },
+          "provenance": {
+            "type": "object",
+            "fields": {
+              "date_added": {
+                "type": "string|null"
+              },
+              "compiler": {
+                "type": "string|null"
+              },
+              "contributor": {
+                "type": "string|null"
+              },
+              "experimental_purpose": {
+                "type": "string|null",
+                "allowed_values": [
+                  "Principal objective of the work",
+                  "Secondary, supporting data of the work",
+                  "Obtained from experiment or predicted for comparison with literature"
+                ]
+              },
+              "md5_checksum": {
+                "type": "string|null",
+                "not_observed_in_current_build": true
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "agent_workflow": {
+    "description": "Recommended agent workflow for using PCS INDIV cards",
+    "steps": [
+      "1. Agent receives query about a property/compound/paper",
+      "2. Agent loads PCS ID_and_DK card for the property to understand what it measures",
+      "3. Agent finds relevant INDIV card by DOI (one card per paper, same as RMS/CCS/MTDKS)",
+      "4. Agent reads registered compact Markdown or blocks_summary.block_index to identify relevant blocks; ordinary agent context omits derived_indexes",
+      "5. Deterministic advanced-search code reads blocks_summary.derived_indexes.block_search_adv only after registry narrowing",
+      "6. Agent reads data_summary per block (~150-400 tokens) to assess relevance",
+      "7. If relevant, agent loads data_points for actual values",
+      "8. If method context needed, agent loads MTDKS card via properties[].meas_num_id",
+      "9. If purity context needed, agent loads CCS sample card via compounds[].comp_num_id + sample_num",
+      "10. If citation context needed, agent loads RMS card via key.doi"
+    ],
+    "cross_reference_map": {
+      "key.doi": "→ RMS_reference_metadata (full citation, abstract, keywords)",
+      "key.lit_num_id": "→ RMS_reference_metadata global literature identity",
+      "blocks[].compounds[].comp_num_id": "→ CCS_compound_identity (SMILES, InChI, names)",
+      "blocks[].compounds[].comp_num_id + sample_num": "→ CCS_compound_sample (purity, source, purification)",
+      "blocks[].properties[].prop_num_id": "→ PCS_property_ID_and_DK (property domain knowledge)",
+      "blocks[].properties[].meas_num_id": "→ MTDKS_meas_ID_and_DK (technique domain knowledge)",
+      "blocks_summary.derived_indexes.block_search_adv.<block_number>": "→ exact card-local physical-quantity aliases and uncapped block occurrence statistics"
+    }
+  },
+  "global_enumerations": {
+    "property_groups": [
+      "ActivityFugacityOsmoticProp",
+      "CompositionAtPhaseEquilibrium",
+      "Criticals",
+      "ExcessPartialApparentEnergyProp",
+      "HeatCapacityAndDerivedProp",
+      "PhaseTransition",
+      "ReactionEquilibriumProp",
+      "ReactionStateChangeProp",
+      "RefractionSurfaceTensionSoundSpeed",
+      "TransportProp",
+      "VaporPBoilingTAzeotropTandP",
+      "VolumetricProp"
+    ],
+    "all_phases": [
+      "Air at 1 atmosphere",
+      "Cholesteric liquid crystal",
+      "Crystal",
+      "Crystal 1",
+      "Crystal 2",
+      "Crystal 3",
+      "Crystal 4",
+      "Crystal 5",
+      "Crystal of intercomponent compound 1",
+      "Crystal of intercomponent compound 2",
+      "Crystal of intercomponent compound 3",
+      "Crystal of unknown type",
+      "Fluid (supercritical or subcritical phases)",
+      "Gas",
+      "Glass",
+      "Ideal gas",
+      "Liquid",
+      "Liquid crystal of unknown type",
+      "Liquid mixture 1",
+      "Liquid mixture 2",
+      "Liquid mixture 3",
+      "Metastable crystal",
+      "Metastable liquid",
+      "Nematic liquid crystal",
+      "Smectic liquid crystal"
+    ],
+    "block_types": [
+      "PureOrMixtureData",
+      "ReactionData"
+    ]
+  },
+  "field_universe_audit": {
+    "generated": "2026-08-03",
+    "source": "full scan of every card in the database (audit_card_fields.py)",
+    "rows_scanned": 11923,
+    "distinct_paths": 361,
+    "wildcards": "ID-grammar keys collapsed: <GLOBxxx_N>, <PROPblock_N>, <BLKxxx_N>, <DOIcomp_N>, <doi>, <n>",
+    "paths": {
+      "blocks": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].auxiliary": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].block_number": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "PROPblock_1"
+      },
+      "blocks[].block_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "PureOrMixtureData"
+      },
+      "blocks[].blocktype_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBblocktype_2"
+      },
+      "blocks[].compounds": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].compounds[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].compounds[].InChI": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "InChI=1S/CO2/c2-1-3"
+      },
+      "blocks[].compounds[].SMILES": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].compounds[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBcomp_3"
+      },
+      "blocks[].compounds[].formula": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "CO2"
+      },
+      "blocks[].compounds[].inchi_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "CURLTUGMZLYLDI-UHFFFAOYSA-N"
+      },
+      "blocks[].compounds[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "carbon dioxide"
+      },
+      "blocks[].compounds[].org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "DOIcomp_2"
+      },
+      "blocks[].compounds[].sample_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "DOIcompSample_2_1"
+      },
+      "blocks[].constraints": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].constraints[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 73.21,
+        "example": null
+      },
+      "blocks[].constraints[].BLKconstr_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "BLKconstr_1"
+      },
+      "blocks[].constraints[].component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "DOIcomp_1"
+      },
+      "blocks[].constraints[].constr_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "pressure_kpa"
+      },
+      "blocks[].constraints[].constr_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "GLOBconstr_1"
+      },
+      "blocks[].constraints[].digits": {
+        "types": [
+          "integer"
+        ],
+        "pct": 73.21,
+        "example": "6"
+      },
+      "blocks[].constraints[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "Pressure, kPa"
+      },
+      "blocks[].constraints[].phase": {
+        "types": [
+          "object"
+        ],
+        "pct": 73.21,
+        "example": null
+      },
+      "blocks[].constraints[].phase.component_org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 0.37,
+        "example": "DOIcomp_1"
+      },
+      "blocks[].constraints[].phase.phase": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "Liquid"
+      },
+      "blocks[].constraints[].phase.phase_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "liquid"
+      },
+      "blocks[].constraints[].phase.phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "GLOBphase_1"
+      },
+      "blocks[].constraints[].type": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "ePressure"
+      },
+      "blocks[].constraints[].value": {
+        "types": [
+          "number"
+        ],
+        "pct": 73.21,
+        "example": "101.325"
+      },
+      "blocks[].data_points": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_points[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_points[].BLKpoint_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "BLKpoint_1"
+      },
+      "blocks[].data_points[].BLKsubsys_refs": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_points[].BLKsubsys_refs[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.34,
+        "example": "BLKsubsys_1"
+      },
+      "blocks[].data_points[].property_values": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_points[].property_values.<BLKprop_N>": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_points[].property_values.<BLKprop_N>.digits": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "4"
+      },
+      "blocks[].data_points[].property_values.<BLKprop_N>.point_uncertainty": {
+        "types": [
+          "null",
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_points[].property_values.<BLKprop_N>.point_uncertainty.assessment_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.95,
+        "example": "BLKpropAssessment_1_1"
+      },
+      "blocks[].data_points[].property_values.<BLKprop_N>.point_uncertainty.expanded_value": {
+        "types": [
+          "number"
+        ],
+        "pct": 99.95,
+        "example": "0.00059"
+      },
+      "blocks[].data_points[].property_values.<BLKprop_N>.value": {
+        "types": [
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "0.03312"
+      },
+      "blocks[].data_points[].variable_values": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_points[].variable_values.<BLKvar_N>": {
+        "types": [
+          "object"
+        ],
+        "pct": 97.74,
+        "example": null
+      },
+      "blocks[].data_points[].variable_values.<BLKvar_N>.digits": {
+        "types": [
+          "integer"
+        ],
+        "pct": 97.74,
+        "example": "6"
+      },
+      "blocks[].data_points[].variable_values.<BLKvar_N>.value": {
+        "types": [
+          "number"
+        ],
+        "pct": 97.74,
+        "example": "298.893"
+      },
+      "blocks[].data_summary": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.compound_names": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.compound_names[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "carbon dioxide"
+      },
+      "blocks[].data_summary.constraints_summary": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>": {
+        "types": [
+          "object"
+        ],
+        "pct": 73.21,
+        "example": null
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>.component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "DOIcomp_1"
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>.digits": {
+        "types": [
+          "integer"
+        ],
+        "pct": 73.21,
+        "example": "6"
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>.name": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "Pressure, kPa"
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>.phase": {
+        "types": [
+          "object"
+        ],
+        "pct": 73.21,
+        "example": null
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>.phase.component_org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 0.37,
+        "example": "DOIcomp_1"
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>.phase.phase": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "Liquid"
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>.phase.phase_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "liquid"
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>.phase.phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 73.21,
+        "example": "GLOBphase_1"
+      },
+      "blocks[].data_summary.constraints_summary.<BLKconstr_N>.value": {
+        "types": [
+          "number"
+        ],
+        "pct": 73.21,
+        "example": "101.325"
+      },
+      "blocks[].data_summary.effective_system_summary": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.effective_system_summary.n_search_eligible": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "blocks[].data_summary.effective_system_summary.n_subsystems": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "blocks[].data_summary.effective_system_summary.n_unique_points": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "blocks[].data_summary.effective_system_summary.system_types": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.effective_system_summary.system_types[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "binary"
+      },
+      "blocks[].data_summary.methods": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.methods[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Hot wire method"
+      },
+      "blocks[].data_summary.n_points": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "77"
+      },
+      "blocks[].data_summary.phases": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.phases[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "Gas"
+      },
+      "blocks[].data_summary.property_group": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "TransportProp"
+      },
+      "blocks[].data_summary.property_names": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.property_names[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Thermal conductivity, W/m/K"
+      },
+      "blocks[].data_summary.property_stats": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.property_stats.<BLKprop_N>": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.property_stats.<BLKprop_N>.BLKprop_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "BLKprop_1"
+      },
+      "blocks[].data_summary.property_stats.<BLKprop_N>.max": {
+        "types": [
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "0.04175"
+      },
+      "blocks[].data_summary.property_stats.<BLKprop_N>.mean": {
+        "types": [
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "0.026389"
+      },
+      "blocks[].data_summary.property_stats.<BLKprop_N>.min": {
+        "types": [
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "0.01712"
+      },
+      "blocks[].data_summary.property_stats.<BLKprop_N>.n": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "77"
+      },
+      "blocks[].data_summary.property_stats.<BLKprop_N>.name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Thermal conductivity, W/m/K"
+      },
+      "blocks[].data_summary.property_stats.<BLKprop_N>.std": {
+        "types": [
+          "integer",
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "0.005719"
+      },
+      "blocks[].data_summary.system_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "unary"
+      },
+      "blocks[].data_summary.variable_ranges": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].data_summary.variable_ranges.<BLKvar_N>": {
+        "types": [
+          "object"
+        ],
+        "pct": 97.74,
+        "example": null
+      },
+      "blocks[].data_summary.variable_ranges.<BLKvar_N>.BLKvar_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "BLKvar_1"
+      },
+      "blocks[].data_summary.variable_ranges.<BLKvar_N>.max": {
+        "types": [
+          "number"
+        ],
+        "pct": 97.74,
+        "example": "428.047"
+      },
+      "blocks[].data_summary.variable_ranges.<BLKvar_N>.min": {
+        "types": [
+          "number"
+        ],
+        "pct": 97.74,
+        "example": "298.893"
+      },
+      "blocks[].data_summary.variable_ranges.<BLKvar_N>.n_unique": {
+        "types": [
+          "integer"
+        ],
+        "pct": 97.74,
+        "example": "77"
+      },
+      "blocks[].data_summary.variable_ranges.<BLKvar_N>.name": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "Temperature, K"
+      },
+      "blocks[].equation": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].properties": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].properties[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].properties[].BLKprop_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "BLKprop_1"
+      },
+      "blocks[].properties[].component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "DOIcomp_1"
+      },
+      "blocks[].properties[].group": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "TransportProp"
+      },
+      "blocks[].properties[].meas_ID": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "hot_wire_method"
+      },
+      "blocks[].properties[].meas_num_id": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBmeas_41"
+      },
+      "blocks[].properties[].method_custom": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "VIBTUB:UFactor:4"
+      },
+      "blocks[].properties[].method_standard": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Hot wire method"
+      },
+      "blocks[].properties[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Thermal conductivity, W/m/K"
+      },
+      "blocks[].properties[].presentation": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Direct value, X"
+      },
+      "blocks[].properties[].pressure_digits": {
+        "types": [
+          "integer",
+          "null"
+        ],
+        "pct": 100.0,
+        "example": "1"
+      },
+      "blocks[].properties[].pressure_kPa": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "200.0"
+      },
+      "blocks[].properties[].prop_ID": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "thermal_conductivity_w_m_k"
+      },
+      "blocks[].properties[].prop_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBprop_34"
+      },
+      "blocks[].properties[].property_phase": {
+        "types": [
+          "null",
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].properties[].property_phase.component_org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 1.35,
+        "example": "DOIcomp_5"
+      },
+      "blocks[].properties[].property_phase.phase": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "Gas"
+      },
+      "blocks[].properties[].property_phase.phase_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "gas"
+      },
+      "blocks[].properties[].property_phase.phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "GLOBphase_3"
+      },
+      "blocks[].properties[].ref_phase": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].properties[].ref_pressure_digits": {
+        "types": [
+          "integer",
+          "null"
+        ],
+        "pct": 100.0,
+        "example": "3"
+      },
+      "blocks[].properties[].ref_pressure_kPa": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "101.0"
+      },
+      "blocks[].properties[].ref_state_type": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Pure solvent at the temperature of the same phase equilibrium"
+      },
+      "blocks[].properties[].ref_temperature_K": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "365.8"
+      },
+      "blocks[].properties[].ref_temperature_digits": {
+        "types": [
+          "integer",
+          "null"
+        ],
+        "pct": 100.0,
+        "example": "4"
+      },
+      "blocks[].properties[].standard_state": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Pure compound"
+      },
+      "blocks[].properties[].temperature_K": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 100.0,
+        "example": "298.15"
+      },
+      "blocks[].properties[].temperature_digits": {
+        "types": [
+          "integer",
+          "null"
+        ],
+        "pct": 100.0,
+        "example": "5"
+      },
+      "blocks[].properties[].uncertainty": {
+        "types": [
+          "null",
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].properties[].uncertainty.assessment_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.94,
+        "example": "BLKpropAssessment_1_1"
+      },
+      "blocks[].properties[].uncertainty.confidence_level": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.94,
+        "example": "95"
+      },
+      "blocks[].properties[].uncertainty.evaluation_method": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.94,
+        "example": "Propagation of evaluated standard uncertainties"
+      },
+      "blocks[].properties[].uncertainty.evaluator": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.94,
+        "example": "Data file compiler"
+      },
+      "blocks[].provenance": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].provenance.compiler": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "JCE"
+      },
+      "blocks[].provenance.contributor": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "JCE"
+      },
+      "blocks[].provenance.date_added": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "9/21/2005"
+      },
+      "blocks[].provenance.experimental_purpose": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Principal objective of the work"
+      },
+      "blocks[].reaction": {
+        "types": [
+          "null",
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].reaction.participants": {
+        "types": [
+          "array"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks[].reaction.participants[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks[].reaction.participants[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "GLOBcomp_7883"
+      },
+      "blocks[].reaction.participants[].org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "DOIcomp_5"
+      },
+      "blocks[].reaction.participants[].phase": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "Crystal"
+      },
+      "blocks[].reaction.participants[].phase_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "crystal"
+      },
+      "blocks[].reaction.participants[].phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "GLOBphase_2"
+      },
+      "blocks[].reaction.participants[].sample_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "DOIcompSample_5_1"
+      },
+      "blocks[].reaction.participants[].stoichiometric_coef": {
+        "types": [
+          "number"
+        ],
+        "pct": 4.18,
+        "example": "1.0"
+      },
+      "blocks[].reaction.reaction_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "Formation of a compound from elements in their stable state"
+      },
+      "blocks[].reaction.rxn_type_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "formation_of_a_compound_from_elements_in_their_stable_state"
+      },
+      "blocks[].reaction.rxn_type_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "GLOBrxntype_2"
+      },
+      "blocks[].reaction.source_reaction_type": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "Formation of a compound from elements in their stable state"
+      },
+      "blocks[].solvents": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].solvents[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 24.77,
+        "example": null
+      },
+      "blocks[].solvents[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 24.77,
+        "example": "GLOBcomp_1"
+      },
+      "blocks[].solvents[].component_org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 24.77,
+        "example": "DOIcomp_2"
+      },
+      "blocks[].solvents[].inchi_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 24.77,
+        "example": "XLYOFNOQVPJJNP-UHFFFAOYSA-N"
+      },
+      "blocks[].solvents[].solvent_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 24.77,
+        "example": "GLOBsolvent_1"
+      },
+      "blocks[].system_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "unary"
+      },
+      "blocks[].variables": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks[].variables[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 97.74,
+        "example": null
+      },
+      "blocks[].variables[].BLKvar_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "BLKvar_1"
+      },
+      "blocks[].variables[].component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "DOIcomp_1"
+      },
+      "blocks[].variables[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "Temperature, K"
+      },
+      "blocks[].variables[].phase": {
+        "types": [
+          "object"
+        ],
+        "pct": 97.74,
+        "example": null
+      },
+      "blocks[].variables[].phase.component_org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 0.33,
+        "example": "DOIcomp_3"
+      },
+      "blocks[].variables[].phase.phase": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "Gas"
+      },
+      "blocks[].variables[].phase.phase_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "gas"
+      },
+      "blocks[].variables[].phase.phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "GLOBphase_3"
+      },
+      "blocks[].variables[].type": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "eTemperature"
+      },
+      "blocks[].variables[].var_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "temperature_k"
+      },
+      "blocks[].variables[].var_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.74,
+        "example": "GLOBvar_1"
+      },
+      "blocks_summary": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.block_index": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.block_index[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.block_index[].block_number": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "PROPblock_1"
+      },
+      "blocks_summary.block_index[].block_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "PureOrMixtureData"
+      },
+      "blocks_summary.block_index[].blocktype_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBblocktype_2"
+      },
+      "blocks_summary.block_index[].effective_system_types": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.block_index[].effective_system_types[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "binary"
+      },
+      "blocks_summary.block_index[].method": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Hot wire method"
+      },
+      "blocks_summary.block_index[].n_composition_subsystems": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "blocks_summary.block_index[].n_points": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "77"
+      },
+      "blocks_summary.block_index[].property_group": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "TransportProp"
+      },
+      "blocks_summary.block_index[].property_names": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.block_index[].property_names[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Thermal conductivity, W/m/K"
+      },
+      "blocks_summary.block_index[].subsystem_matching_points": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "blocks_summary.block_index[].system_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "unary"
+      },
+      "blocks_summary.compound_names": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.compound_names[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "carbon dioxide"
+      },
+      "blocks_summary.derived_indexes": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>": {
+        "types": [
+          "object"
+        ],
+        "pct": 99.2,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.key_permutations": {
+        "types": [
+          "object"
+        ],
+        "pct": 99.2,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.key_permutations.<GLOBconstr_N>": {
+        "types": [
+          "array"
+        ],
+        "pct": 97.78,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.key_permutations.<GLOBconstr_N>[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.78,
+        "example": "variable|BLKvar_2"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.key_permutations.<GLOBprop_N>": {
+        "types": [
+          "array"
+        ],
+        "pct": 99.2,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.key_permutations.<GLOBprop_N>[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "property|BLKprop_1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.key_permutations.<GLOBvar_N>": {
+        "types": [
+          "array"
+        ],
+        "pct": 97.78,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.key_permutations.<GLOBvar_N>[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 97.78,
+        "example": "variable|BLKvar_1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.n_key_permutations": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "5"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.n_occurrences": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "3"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.schema_version": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "pcs-block-identity-index-v2"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.source_role_counts": {
+        "types": [
+          "object"
+        ],
+        "pct": 99.2,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.source_role_counts.constraint": {
+        "types": [
+          "integer"
+        ],
+        "pct": 73.21,
+        "example": "1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.source_role_counts.property": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.source_role_counts.variable": {
+        "types": [
+          "integer"
+        ],
+        "pct": 97.74,
+        "example": "2"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics": {
+        "types": [
+          "array"
+        ],
+        "pct": 99.2,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 99.2,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].applies_to_occurrence_key": {
+        "types": [
+          "null"
+        ],
+        "pct": 99.2,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].comp_num_id": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "GLOBcomp_51"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "DOIcomp_1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].coverage_fraction": {
+        "types": [
+          "number"
+        ],
+        "pct": 99.2,
+        "example": "1.0"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].data_group": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "data_points"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].is_varied": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 99.2,
+        "example": "True"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].maximum": {
+        "types": [
+          "number"
+        ],
+        "pct": 99.2,
+        "example": "0.04175"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].mean": {
+        "types": [
+          "number"
+        ],
+        "pct": 99.2,
+        "example": "0.02638896103896104"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].minimum": {
+        "types": [
+          "number"
+        ],
+        "pct": 99.2,
+        "example": "0.01712"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].n_applicable_points": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "77"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].n_limit_values": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "0"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].n_missing": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "0"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].n_nonfinite": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "0"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].n_rows": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "77"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].n_unique": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "77"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].n_values": {
+        "types": [
+          "integer"
+        ],
+        "pct": 99.2,
+        "example": "77"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].occurrence_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "property|BLKprop_1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].phase_component_comp_num_id": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "GLOBcomp_1916"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].phase_component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "DOIcomp_5"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "GLOBphase_3"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].quantity_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "thermal_conductivity_w_m_k"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].source_global_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "GLOBprop_34"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].source_instance_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "thermal_conductivity_w_m_k"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].source_local_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "BLKprop_1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].source_role": {
+        "types": [
+          "string"
+        ],
+        "pct": 99.2,
+        "example": "property"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].stddev_sample": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 99.2,
+        "example": "0.005719408688707432"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<PROPblock_N>.statistics[].sum": {
+        "types": [
+          "number"
+        ],
+        "pct": 99.2,
+        "example": "2.03195"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>": {
+        "types": [
+          "object"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.key_permutations": {
+        "types": [
+          "object"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.key_permutations.<GLOBconstr_N>": {
+        "types": [
+          "array"
+        ],
+        "pct": 3.93,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.key_permutations.<GLOBconstr_N>[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 3.93,
+        "example": "inline_state|BLKprop_1|pressure_kPa"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.key_permutations.<GLOBprop_N>": {
+        "types": [
+          "array"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.key_permutations.<GLOBprop_N>[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "property|BLKprop_1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.key_permutations.<GLOBvar_N>": {
+        "types": [
+          "array"
+        ],
+        "pct": 3.93,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.key_permutations.<GLOBvar_N>[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 3.93,
+        "example": "inline_state|BLKprop_1|temperature_K"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.n_key_permutations": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "5"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.n_occurrences": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "3"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.schema_version": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "pcs-block-identity-index-v2"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.source_role_counts": {
+        "types": [
+          "object"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.source_role_counts.inline_state": {
+        "types": [
+          "integer"
+        ],
+        "pct": 3.93,
+        "example": "2"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.source_role_counts.property": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics": {
+        "types": [
+          "array"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].applies_to_occurrence_key": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "property|BLKprop_1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].comp_num_id": {
+        "types": [
+          "null"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].component_org_num": {
+        "types": [
+          "null"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].coverage_fraction": {
+        "types": [
+          "number"
+        ],
+        "pct": 4.18,
+        "example": "1.0"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].data_group": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "data_points"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].is_varied": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 4.18,
+        "example": "False"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].maximum": {
+        "types": [
+          "number"
+        ],
+        "pct": 4.18,
+        "example": "-610.94"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].mean": {
+        "types": [
+          "number"
+        ],
+        "pct": 4.18,
+        "example": "-610.94"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].minimum": {
+        "types": [
+          "number"
+        ],
+        "pct": 4.18,
+        "example": "-610.94"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].n_applicable_points": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].n_limit_values": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "0"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].n_missing": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "0"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].n_nonfinite": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "0"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].n_rows": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].n_unique": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].n_values": {
+        "types": [
+          "integer"
+        ],
+        "pct": 4.18,
+        "example": "1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].occurrence_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "property|BLKprop_1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].phase_component_comp_num_id": {
+        "types": [
+          "null"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].phase_component_org_num": {
+        "types": [
+          "null"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].phase_num_id": {
+        "types": [
+          "null"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].quantity_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "molar_enthalpy_of_reaction_kj_mol"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].source_global_id": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "GLOBprop_36"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].source_instance_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "molar_enthalpy_of_reaction_kj_mol"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].source_local_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "BLKprop_1"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].source_role": {
+        "types": [
+          "string"
+        ],
+        "pct": 4.18,
+        "example": "property"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].stddev_sample": {
+        "types": [
+          "null",
+          "number"
+        ],
+        "pct": 4.18,
+        "example": "0.017427946905282123"
+      },
+      "blocks_summary.derived_indexes.block_search_adv.<RXNblock_N>.statistics[].sum": {
+        "types": [
+          "number"
+        ],
+        "pct": 4.18,
+        "example": "-610.94"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>": {
+        "types": [
+          "array"
+        ],
+        "pct": 99.2,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].BLKsubsys_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "BLKsubsys_1"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].condition_ranges": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].condition_ranges[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 27.6,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].condition_ranges[].BLKvar_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 27.6,
+        "example": "BLKvar_1"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].condition_ranges[].max": {
+        "types": [
+          "number"
+        ],
+        "pct": 27.6,
+        "example": "101.325"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].condition_ranges[].min": {
+        "types": [
+          "number"
+        ],
+        "pct": 27.6,
+        "example": "101.325"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].condition_ranges[].n": {
+        "types": [
+          "integer"
+        ],
+        "pct": 27.6,
+        "example": "3"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].condition_ranges[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 27.6,
+        "example": "Pressure, kPa"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].condition_ranges[].var_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 27.6,
+        "example": "pressure_kpa"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].condition_ranges[].var_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 27.6,
+        "example": "GLOBvar_3"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].effective_system_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "unary"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].evidence_quality": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "exact_reported_zero"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].evidence_sources": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].evidence_sources[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "BLKvar_3"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].excluded_components": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].excluded_components[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].excluded_components[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "GLOBcomp_595"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].excluded_components[].inchi_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "FJBFPHVGVWTDIP-UHFFFAOYSA-N"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].excluded_components[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "dibromomethane"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].excluded_components[].org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "DOIcomp_2"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].n_points": {
+        "types": [
+          "integer"
+        ],
+        "pct": 37.99,
+        "example": "3"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].n_retained_components": {
+        "types": [
+          "integer"
+        ],
+        "pct": 37.99,
+        "example": "1"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].path_class": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "unary_endpoint"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].point_arity_counts": {
+        "types": [
+          "object"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].point_arity_counts.binary": {
+        "types": [
+          "integer"
+        ],
+        "pct": 15.76,
+        "example": "6"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].point_arity_counts.unary": {
+        "types": [
+          "integer"
+        ],
+        "pct": 24.87,
+        "example": "3"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].point_membership": {
+        "types": [
+          "object"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].point_membership.encoding": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "one_based_inclusive_runs"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].point_membership.runs": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].point_membership.runs[]": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].point_membership.runs[][]": {
+        "types": [
+          "integer"
+        ],
+        "pct": 37.99,
+        "example": "1"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support[].BLKprop_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "BLKprop_1"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support[].component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "DOIcomp_1"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support[].phase_compatible": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 37.99,
+        "example": "True"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support[].prop_ID": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "mass_density_kg_m3"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support[].prop_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "GLOBprop_1"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support[].role": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "bulk_property"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support[].solvent_component_org_nums": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].property_support[].solvent_component_org_nums[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 12.35,
+        "example": "DOIcomp_4"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].quality_flags": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].quality_flags[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 24.68,
+        "example": "no_full_arity_point"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].relationship": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "composition_subset_of_declared_system"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].retained_components": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].retained_components[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].retained_components[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "GLOBcomp_10"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].retained_components[].inchi_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "XEKOWRVHYACXOJ-UHFFFAOYSA-N"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].retained_components[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "ethyl acetate"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].retained_components[].org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "DOIcomp_1"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].scope": {
+        "types": [
+          "object"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].scope.basis": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "mole fraction"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].scope.composition_domain": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "eComponentComposition"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].scope.phase_component_org_num": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "DOIcomp_2"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].scope.phase_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "liquid"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].scope.phase_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 37.99,
+        "example": "GLOBphase_1"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].scope.solvent_component_org_nums": {
+        "types": [
+          "array"
+        ],
+        "pct": 37.99,
+        "example": null
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].scope.solvent_component_org_nums[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 12.35,
+        "example": "DOIcomp_4"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<PROPblock_N>[].search_eligible": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 37.99,
+        "example": "True"
+      },
+      "blocks_summary.derived_indexes.composition_subsystems.<RXNblock_N>": {
+        "types": [
+          "array"
+        ],
+        "pct": 4.18,
+        "example": null
+      },
+      "blocks_summary.methods": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.methods[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Hot wire method"
+      },
+      "blocks_summary.n_blocks": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "2"
+      },
+      "blocks_summary.n_pure_or_mixture": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "2"
+      },
+      "blocks_summary.n_reaction": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "blocks_summary.pressure_range_kPa": {
+        "types": [
+          "null",
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.pressure_range_kPa.max": {
+        "types": [
+          "number"
+        ],
+        "pct": 86.81,
+        "example": "15010.0"
+      },
+      "blocks_summary.pressure_range_kPa.min": {
+        "types": [
+          "number"
+        ],
+        "pct": 86.81,
+        "example": "497.0"
+      },
+      "blocks_summary.property_groups": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.property_groups[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "TransportProp"
+      },
+      "blocks_summary.property_names": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.property_names[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Thermal conductivity, W/m/K"
+      },
+      "blocks_summary.system_types": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.system_types[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "binary"
+      },
+      "blocks_summary.temperature_range_K": {
+        "types": [
+          "null",
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "blocks_summary.temperature_range_K.max": {
+        "types": [
+          "number"
+        ],
+        "pct": 94.77,
+        "example": "428.05"
+      },
+      "blocks_summary.temperature_range_K.min": {
+        "types": [
+          "number"
+        ],
+        "pct": 94.77,
+        "example": "298.89"
+      },
+      "blocks_summary.total_datapoints": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "257"
+      },
+      "key": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "key.doi": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "10.1007/s10765-005-5566-6"
+      },
+      "key.lit_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "2005-pat-klo-0"
+      },
+      "key.lit_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBlit_1"
+      },
+      "paper": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "paper.doi": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "10.1007/s10765-005-5566-6"
+      },
+      "paper.title": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Thermal Conductivity of Carbon Dioxide Methane Mixtures at Temperatures Between …"
+      }
+    }
+  }
+}

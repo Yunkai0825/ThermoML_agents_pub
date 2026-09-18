@@ -1,0 +1,337 @@
+{
+  "meas_ID": "gamma_attenuation_method",
+  "identity": {
+    "name": "Gamma attenuation method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Gamma attenuation method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Densimetry",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "yes",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 4,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 2,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 4,
+          "papers": 2
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "transmitted gamma-ray count rate (I)",
+          "incident (unattenuated) gamma-ray count rate (I₀)",
+          "counting time"
+        ],
+        "derived_observables": [
+          "fluid density (ρ)",
+          "void fraction (α) in two-phase flow",
+          "liquid level or liquid holdup fraction"
+        ],
+        "target_properties": [
+          "mass density of liquid",
+          "mass density of compressed liquid at high T and high P",
+          "void fraction in two-phase (gas–liquid) systems",
+          "liquid level in closed vessels"
+        ],
+        "phases_measured": [
+          "liquid",
+          "compressed liquid",
+          "supercritical fluid",
+          "two-phase (liquid + vapor) mixtures"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "opaque or dark-colored fluids",
+          "high-temperature melts (metals, salts, slags)",
+          "high-pressure compressed liquids",
+          "two-phase gas–liquid systems",
+          "supercritical fluids",
+          "slurries and suspensions"
+        ],
+        "unsupported_sample_types": [
+          "low-density gases at ambient pressure (insufficient attenuation contrast)",
+          "samples with path lengths too short for measurable attenuation (<1 mm for low-Z fluids)",
+          "samples with very high atomic number absorbers that fully attenuate the beam",
+          "systems requiring sub-millimeter spatial resolution without tomographic setup"
+        ],
+        "typical_output_formats": [
+          "density vs. temperature at fixed pressure",
+          "density vs. pressure at fixed temperature",
+          "void fraction vs. position along flow channel",
+          "time-averaged density profile",
+          "count rate vs. time for transient measurements"
+        ],
+        "units": {
+          "density": "kg/m³ or g/cm³",
+          "count_rate": "counts/s (cps)",
+          "path_length": "mm or cm",
+          "attenuation_coefficient": "cm²/g (mass attenuation coefficient) or cm⁻¹ (linear)",
+          "void_fraction": "dimensionless (0 to 1)",
+          "temperature": "K",
+          "pressure": "MPa"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "gamma_source_energy",
+            "typical_range": "60 keV to 662 keV",
+            "hard_limits": "energy must be high enough to penetrate cell walls and fluid, but low enough for sufficient attenuation contrast in the fluid",
+            "notes": "¹³⁷Cs (662 keV) for thick/dense samples; ²⁴¹Am (59.5 keV) for thin cells and low-density fluids"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "250 K to 2000 K",
+            "hard_limits": "limited by sample cell material and pressure vessel design; not by the gamma technique itself",
+            "notes": "technique is inherently temperature-independent; cell and window materials set practical limits"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 200 MPa",
+            "hard_limits": "limited by pressure cell design, not by the measurement principle",
+            "notes": "gamma rays penetrate thick-walled pressure vessels easily; high-pressure density measurements are a key application"
+          },
+          {
+            "parameter": "path_length",
+            "typical_range": "5 mm to 100 mm",
+            "hard_limits": "must provide measurable attenuation (typically 5–95% absorption); too short gives poor contrast, too long gives count-rate-starved statistics",
+            "notes": "optimum path length gives ~50% transmission (ρμL ≈ 0.7) for best statistical precision"
+          },
+          {
+            "parameter": "counting_time",
+            "typical_range": "10 s to 3600 s per point",
+            "hard_limits": "must be long enough to accumulate sufficient counts for target statistical precision (N > 10⁴ for ~1% precision)",
+            "notes": "longer counting reduces random uncertainty as 1/√N; typical 60–600 s for 0.1% precision"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "scanned or fixed variable",
+            "typical_values": "250 K to 2000 K",
+            "effect": "density varies with temperature; primary independent variable in density-vs-T measurements"
+          },
+          {
+            "name": "pressure",
+            "role": "scanned or fixed variable",
+            "typical_values": "0.1 MPa to 200 MPa",
+            "effect": "density varies with pressure; primary independent variable in density-vs-P measurements"
+          },
+          {
+            "name": "gamma_source_activity",
+            "role": "controlled parameter (fixed for a given source)",
+            "typical_values": "0.1 GBq to 10 GBq",
+            "effect": "determines incident count rate I₀ and hence counting statistics; higher activity improves precision or reduces counting time"
+          },
+          {
+            "name": "collimator_geometry",
+            "role": "fixed design parameter",
+            "typical_values": "1–10 mm beam diameter",
+            "effect": "defines spatial averaging volume through the sample; narrow beams give better spatial resolution but lower count rate"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "gamma-ray source — sealed radioactive source, typically ¹³⁷Cs (662 keV, t₁/₂ = 30.2 yr) or ²⁴¹Am (59.5 keV, t₁/₂ = 432 yr), housed in a lead-shielded container with collimating aperture",
+          "source collimator — lead or tungsten collimator producing a well-defined pencil beam (1–10 mm diameter) directed through the sample",
+          "sample cell — cylindrical or rectangular cell with known internal path length (L), made of low-attenuation material (e.g., stainless steel, Inconel, or beryllium for low energies) with entrance and exit windows aligned with the beam",
+          "detector collimator — lead or tungsten collimator on detector side to reject scattered radiation and define the acceptance angle",
+          "gamma-ray detector — NaI(Tl) scintillation detector with photomultiplier tube (most common), or HPGe semiconductor detector for better energy resolution",
+          "pulse-height analyzer / multichannel analyzer (MCA) — selects the photopeak window to discriminate against Compton-scattered photons and background",
+          "counting electronics — preamplifier, amplifier, single-channel analyzer (SCA) or MCA, and scaler/timer for pulse counting",
+          "temperature control system — furnace, cryostat, or thermostatted bath for sample temperature regulation",
+          "pressure control system — high-pressure pump and pressure transducer for measurements at elevated pressure",
+          "data acquisition system — computer for recording count rates, temperatures, pressures, and timing"
+        ],
+        "environmental_requirements": [
+          "radiation shielding — lead or concrete shielding around source and beam path to limit personnel exposure to below regulatory limits",
+          "stable ambient temperature for detector and electronics (gain stability of scintillator and PMT is temperature-sensitive)",
+          "low-vibration environment to maintain beam alignment through narrow collimators",
+          "compliance with national radiation safety regulations — licensed facility, personal dosimeters, radiation survey instruments"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid contained in a cell with well-defined, precisely measured internal path length (L)",
+            "cell windows must be parallel and aligned perpendicular to the gamma beam",
+            "cylindrical geometry preferred for uniform path length"
+          ],
+          "size_limits": "cell internal volume typically 1–500 mL; path length 5–100 mm",
+          "thickness_limits": "path length optimized for ~50% transmission at the working gamma energy and expected fluid density (ρμL ≈ 0.7)",
+          "surface_requirements": [
+            "cell windows must be free of deposits, scale, or bubbles that would alter attenuation",
+            "inner wall cleanliness required to prevent buildup affecting path length"
+          ],
+          "mounting_requirements": [
+            "rigid mounting of source, cell, and detector on a common optical rail or frame to maintain alignment",
+            "cell positioned reproducibly in the beam path to within ±0.1 mm"
+          ],
+          "preparation_requirements": [
+            "fluid must be homogeneous within the beam volume (no bubbles, sediment, or stratification unless measuring void fraction)",
+            "degassing of liquid samples to avoid bubble formation during measurement",
+            "precise measurement of cell internal path length (L) by mechanical gauging or calibration with reference fluids"
+          ]
+        },
+        "calibration_requirements": [
+          "empty-cell (evacuated) count rate measurement to determine I₀ corrected for cell wall attenuation",
+          "filled-cell measurement with one or more reference fluids of precisely known density to determine the effective mass attenuation coefficient (μ) or to calibrate the ρ-vs-ln(I₀/I) relationship",
+          "background count rate measurement with beam blocked to subtract ambient and detector background",
+          "source decay correction — apply half-life correction if measurements span weeks to months relative to a calibration date",
+          "detector dead-time correction at high count rates (typically above ~10⁵ cps)"
+        ],
+        "reference_materials": [
+          "distilled/deionized water — primary density reference (well-known ρ(T,P) from IAPWS-95)",
+          "mercury — high-density calibration reference for high-energy gamma applications",
+          "n-hexane or n-heptane — low-density organic liquid reference",
+          "NaCl solutions of known concentration — intermediate density calibration points",
+          "air or vacuum — zero-density (I₀) reference for empty cell"
+        ],
+        "consumables": [
+          "replacement gamma sources (when activity decays below useful level; ¹³⁷Cs every ~30+ years, ²⁴¹Am ~400+ years)",
+          "NaI(Tl) scintillation crystals (if damaged by moisture ingress or radiation damage)",
+          "O-rings and seals for high-pressure sample cells",
+          "personal dosimetry badges (TLD or OSL)"
+        ],
+        "safety_notes": [
+          "sealed radioactive source — strict compliance with radiation protection regulations (ALARA principle)",
+          "source must be stored in approved shielded containers when not in use",
+          "beam shutters or physical interlocks required on source housing",
+          "personal dosimeters mandatory for all operators; area monitors recommended",
+          "high-pressure cells require burst-pressure testing and appropriate safety enclosures",
+          "high-temperature cells require burn protection and thermal shielding",
+          "disposal of spent sealed sources must follow national radioactive waste regulations"
+        ]
+      },
+      "performance": {
+        "sensitivity": "can resolve density differences of ~0.5–2 kg/m³ in typical liquid samples with optimized counting statistics",
+        "detection_limit": "minimum measurable density change depends on counting statistics; ~0.05% of ρ achievable with long counting times (~1000 s) and optimized geometry",
+        "resolution": {
+          "spatial": "defined by collimator beam diameter, typically 1–10 mm; tomographic variants achieve ~1 mm resolution",
+          "temporal": "set by counting time per point; 1–60 s for ~0.1–1% precision; faster for transient two-phase flow measurements",
+          "spectral": "not applicable (single-energy or broad photopeak window)",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "density from ~0.5 kg/m³ (low-pressure gas, with low-energy source) to ~14,000 kg/m³ (liquid mercury); practical range for liquids 500–3000 kg/m³",
+        "accuracy": "0.1–1% in density for well-calibrated single-beam systems; 0.05% achievable in precision laboratory densitometers with dual-beam or reference-beam configurations",
+        "precision": "0.05–0.5% (repeatability), limited primarily by counting statistics (∝ 1/√N) and temperature/pressure stability",
+        "throughput": "one sample cell at a time; each density point requires 10 s to 600 s of counting; temperature or pressure scans take minutes to hours",
+        "measurement_speed": "individual density point in 10–600 s depending on source activity and required precision; fast transient measurements at ~1 s resolution possible with high-activity sources"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "gamma-ray photon count rate in the photopeak energy window, recorded as counts per unit time (cps) for transmitted beam (I) and reference beam or empty-cell beam (I₀)",
+        "preprocessing_steps": [
+          "background subtraction — subtract ambient and detector background count rate measured with beam fully blocked",
+          "dead-time correction — correct for detector/electronics dead time at high count rates using τ·I correction formula",
+          "source decay correction — normalize count rates to a reference date using the source half-life",
+          "photopeak window selection — energy discrimination via SCA or MCA to accept only unscattered photopeak photons",
+          "cell wall attenuation correction — account for beam attenuation in cell windows (determined from empty-cell measurement)"
+        ],
+        "analysis_methods": [
+          "Beer-Lambert law: ρ = −ln(I/I₀) / (μ·L), where μ is the mass attenuation coefficient and L is the path length",
+          "calibration curve method: fit ln(I₀/I) vs. known ρ for reference fluids to determine effective μ·L product, then interpolate for unknowns",
+          "dual-energy method: use two gamma energies to separately determine density and composition in binary mixtures",
+          "void fraction determination: α = ln(I_liquid/I_measured) / ln(I_liquid/I_gas) for two-phase systems",
+          "time-series analysis of count rate fluctuations to characterize two-phase flow regimes"
+        ],
+        "model_assumptions": [
+          "beam is monoenergetic or effectively monoenergetic after photopeak selection (narrow-beam geometry)",
+          "attenuation follows Beer-Lambert law (exponential attenuation, no beam hardening for monoenergetic source)",
+          "sample is homogeneous within the beam cross-section (no density gradients perpendicular to beam)",
+          "scattered photons are fully rejected by detector collimation and energy discrimination",
+          "mass attenuation coefficient μ is constant for a given fluid composition and gamma energy (independent of T and P to first approximation)",
+          "cell path length L is accurately known and does not change significantly with temperature or pressure"
+        ],
+        "fit_parameters": [
+          "mass attenuation coefficient μ (cm²/g) — determined from calibration or tabulated values (e.g., NIST XCOM database)",
+          "effective path length L (cm) — measured mechanically or calibrated with reference fluids",
+          "background count rate B (cps)",
+          "empty-cell transmitted count rate I₀ (cps)"
+        ],
+        "common_artifacts": [
+          "beam hardening — if source emits multiple energies or Compton-scattered photons are incompletely rejected, the effective μ shifts with density, causing nonlinear response",
+          "build-up factor — scattered photons reaching the detector despite collimation produce a systematically higher I (lower apparent density)",
+          "wall deposit artifact — material depositing on cell windows changes the effective I₀ over time",
+          "bubble or void artifact — gas bubbles trapped in the beam path reduce measured density below the true liquid density",
+          "source decay artifact — uncorrected source decay causes progressive apparent density drift over long measurement campaigns",
+          "temperature drift of detector gain — NaI(Tl) scintillator light output varies ~0.3%/K; gain shifts move photopeak relative to energy window"
+        ],
+        "quality_control_checks": [
+          "verify I₀ stability by periodic empty-cell or reference-fluid checks throughout measurement campaign",
+          "cross-check measured density of water or other standard fluids against NIST/IAPWS reference values",
+          "monitor detector photopeak centroid and resolution for drift during measurements",
+          "confirm linearity of ln(I₀/I) vs. ρ over calibration range",
+          "check for counting dead-time effects at high count rates by halving source-to-detector distance and verifying ratio",
+          "compare heating and cooling scans for hysteresis (indicates thermal equilibration issues, not technique artifact)"
+        ],
+        "failure_modes": [
+          "source shutter failure — beam remains on or off, producing erroneous or zero count rates",
+          "detector failure (PMT gain loss, crystal cracking, moisture ingress into NaI crystal) — sudden drop in count rate or resolution",
+          "loss of beam alignment due to thermal expansion or vibration — measured I no longer represents the proper path through the sample",
+          "sample cell leak at high pressure — density changes abruptly as fluid escapes or external fluid enters",
+          "electronics failure (SCA threshold drift, cable degradation) — systematic shift in photopeak window acceptance",
+          "excessive source decay without correction — all measured densities systematically shift upward over time"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–1% for density of liquids; 0.05% achievable in precision setups",
+        "random_sources": [
+          "counting statistics (Poisson-distributed; σ_N = √N, giving relative uncertainty 1/√N on count rate)",
+          "temperature fluctuations in sample during counting interval",
+          "pressure fluctuations in high-pressure systems",
+          "detector noise and electronic baseline fluctuations",
+          "short-term source intensity fluctuations (negligible for sealed sources)"
+        ],
+        "systematic_sources": [
+          "uncertainty in mass attenuation coefficient μ (from tabulated values or calibration fit)",
+          "uncertainty in cell path length L (mechanical measurement or thermal expansion correction)",
+          "incomplete scatter rejection — build-up factor biases density low",
+          "beam hardening in broad-spectrum or poorly collimated configurations",
+          "dead-time correction uncertainty at high count rates",
+          "source decay correction error if half-life or reference date is imprecise",
+          "cell window attenuation changes due to corrosion or deposits"
+        ],
+        "operator_dependence": "low — once the system is aligned and calibrated, measurements are largely automated; main operator-dependent factors are beam alignment verification and sample loading (absence of bubbles)",
+        "model_dependence": "low to moderate — Beer-Lambert law is well-established for monoenergetic narrow-beam geometry; deviations from ideal narrow-beam conditions (scatter, beam hardening) introduce model-dependent corrections",
+        "dominant_error_sources": [
+          "counting statistics (dominant for short counting times or weak sources)",
+          "path length uncertainty (dominant for precision measurements)",
+          "mass attenuation coefficient uncertainty (dominant when using tabulated rather than calibrated values)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ρ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of ρ",
+          "standard deviation from repeated independent measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The gamma attenuation method is a non-invasive densimetry technique that determines fluid density by measuring the attenuation of a collimated gamma-ray beam passing through a sample of known path length. Based on the Beer-Lambert law of radiation absorption, the transmitted intensity decreases exponentially with the product of fluid density, mass attenuation coefficient, and path length. The method is valued for its ability to measure density in situ under extreme conditions — high temperatures, high pressures, and in opaque or corrosive fluids — where conventional densimeters cannot operate. It is also widely used in two-phase flow measurements for determining void fraction and liquid holdup.",
+      "how_it_operates": "A sealed radioactive source (typically ¹³⁷Cs at 662 keV or ²⁴¹Am at 59.5 keV) emits gamma-ray photons that are collimated into a narrow pencil beam directed through the sample cell. The beam traverses the cell windows and the fluid, and the surviving (unscattered, unabsorbed) photons are detected by a NaI(Tl) scintillation detector on the opposite side, also collimated to reject scattered radiation. A pulse-height analyzer selects only photopeak events, discriminating against Compton-scattered photons. The transmitted count rate I is compared to the reference count rate I₀ (measured with the cell evacuated or filled with a known reference), and the fluid density is calculated from ρ = −ln(I/I₀) / (μ·L), where μ is the mass attenuation coefficient of the fluid at the source energy and L is the internal path length of the cell.",
+      "core_theory": "Gamma-ray attenuation in matter follows the Beer-Lambert law: I = I₀·exp(−μρL), where I₀ is the incident photon intensity (after passing through cell walls), I is the transmitted intensity, μ (cm²/g) is the mass attenuation coefficient of the fluid at the photon energy, ρ (g/cm³) is the fluid density, and L (cm) is the path length through the fluid. Rearranging gives ρ = −ln(I/I₀)/(μ·L). The mass attenuation coefficient μ depends on the photon energy and the elemental composition of the fluid, and is obtained from tabulated values (NIST XCOM database) or from calibration with reference fluids of known density. For a two-phase mixture, the time-averaged void fraction is α = ln(I_liq/I_meas)/ln(I_liq/I_gas), obtained by comparing the measured transmission to single-phase liquid and gas reference values. The statistical precision of density is governed by Poisson counting statistics: σ_ρ/ρ = 1/(μρL·√N), where N is the total number of detected photopeak counts.",
+      "setup": "A typical gamma densitometer consists of a sealed radioactive source housed in a lead-shielded container with a beam port and adjustable lead or tungsten collimator (1–10 mm aperture). The collimated beam passes through the sample cell — a pressure-rated cylindrical or rectangular vessel with precisely known internal path length, positioned on a rigid optical rail. On the far side, a second collimator precedes a NaI(Tl) scintillation crystal coupled to a photomultiplier tube. The detector signal passes through a preamplifier and spectroscopy amplifier to a single-channel analyzer (SCA) or multichannel analyzer (MCA) that selects the photopeak window. A scaler/timer accumulates counts over a preset interval. The sample cell is connected to a thermostatted bath, furnace, or cryostat for temperature control and to a high-pressure pump with a calibrated pressure transducer for elevated-pressure work. A computer-based data acquisition system records count rates, temperatures, and pressures for each measurement point.",
+      "suitable_for": "The gamma attenuation method is ideally suited for density measurements under conditions that challenge or preclude other techniques: high temperatures (molten metals, salts, slags up to 2000 K), high pressures (compressed liquids to 200+ MPa), opaque or dark fluids where optical methods fail, corrosive fluids that would damage vibrating-tube or float densimeters, and in-situ measurements in process piping or pressure vessels without requiring sample extraction. It excels in two-phase flow metrology for determining void fraction, liquid holdup, and flow regime in gas–liquid systems. The non-contact nature of the measurement (beam passes through the vessel wall) makes it applicable to sealed or hazardous systems where physical access to the fluid is impossible or undesirable.",
+      "core_limitations": "Accuracy is fundamentally limited by counting statistics, requiring long counting times (minutes) for precision below 0.1%, which precludes rapid transient measurements unless high-activity sources are used. The technique provides path-averaged density — it cannot resolve density gradients within the beam cross-section without tomographic scanning. For fluids of unknown or variable composition, the mass attenuation coefficient μ must be independently known or calibrated, introducing additional uncertainty. Low-density gases at ambient pressure produce insufficient attenuation contrast for precise measurements. The use of sealed radioactive sources requires regulatory licensing, radiation safety infrastructure, personnel monitoring, and trained operators, which adds logistical complexity and cost. Spatial resolution is limited by collimator geometry (typically 1–10 mm), inferior to optical or acoustic methods.",
+      "sample_preparation": "The primary requirement is a sample cell with precisely known internal path length (measured mechanically, typically to ±0.01 mm). The cell material must be compatible with the sample fluid at the measurement temperature and pressure, and must not introduce excessive gamma attenuation (stainless steel, Inconel, or Hastelloy for most applications; beryllium or aluminum windows for low-energy sources). Liquid samples must be thoroughly degassed to prevent bubble formation in the beam path, which would reduce the apparent density. For high-temperature measurements, the cell is preheated and the sample loaded at temperature or carefully brought to temperature at controlled rate. The cell windows and internal surfaces must be clean — deposits or corrosion products alter the effective path length and wall attenuation. For two-phase measurements, no special preparation is needed beyond establishing the desired flow conditions.",
+      "calibration_and_references": "Calibration proceeds in three steps: (1) background measurement — the beam is fully blocked (source shutter closed) and the detector background count rate B is recorded; (2) empty-cell reference — the evacuated cell is placed in the beam and the transmitted count rate I₀ is measured, establishing the reference intensity after cell wall attenuation; (3) reference fluid measurement — the cell is filled with one or more fluids of precisely known density (distilled water at known temperature is the primary standard, using IAPWS-95 density values) and the transmitted count rate is recorded. The effective μ·L product is determined from −ln(I_ref/I₀)/ρ_ref. For improved accuracy, multiple reference fluids spanning the expected density range (e.g., n-hexane, water, NaCl solutions) are used to verify linearity and determine μ·L by least-squares fit. The calibration must be repeated if the cell, source–cell–detector alignment, or beam collimation is changed. Source decay correction is applied using the known half-life from the calibration date.",
+      "data_interpretation": "For each measurement point, the net transmitted count rate I is obtained by subtracting the background B from the raw photopeak count rate and applying dead-time correction. The density is then calculated as ρ = −ln(I/I₀)/(μ·L), where I₀ is the corrected empty-cell count rate (also decay-corrected to the measurement date). If the calibration-curve approach is used, ρ is interpolated from the ln(I₀/I) vs. ρ calibration fit. For two-phase systems, the void fraction α is calculated from α = ln(I_liq/I_meas)/ln(I_liq/I_gas), where I_liq and I_gas are count rates for single-phase liquid and gas reference states. Time-averaged density in fluctuating two-phase flow is obtained from the mean of the logarithm of count rates, not the logarithm of mean count rates, to avoid Jensen's inequality bias. The standard uncertainty on ρ from counting statistics is propagated as u(ρ) = 1/(μ·L) × √(1/(N·t) + 1/(N₀·t₀)), combining photon-counting uncertainties from both sample and reference measurements.",
+      "common_pitfalls": "The most frequent error is neglecting to correct for source decay, leading to a progressive upward drift in measured density as the true I₀ decreases over time. Using tabulated mass attenuation coefficients without validating them against a reference fluid can introduce systematic bias of 1–5%, especially if the fluid composition differs from the assumed elemental makeup. Failing to reject Compton-scattered photons (wide energy window or poor collimation) violates the narrow-beam condition and produces artificially low apparent density due to the build-up factor. Bubbles or gas pockets in the beam path from inadequate degassing cause the measured density to underestimate the true liquid density. Poor beam alignment — even 1–2 mm offset in a narrow sample cell — can cause the beam to clip the cell wall, drastically altering the measured attenuation. Temperature-induced detector gain drift shifts the photopeak relative to the SCA window, changing the effective count rate and producing spurious density changes.",
+      "artifacts_and_failure_modes": "Beam hardening artifacts occur when scattered or secondary photons circumvent energy discrimination, causing a nonlinear relationship between ln(I₀/I) and ρ that underestimates density at high attenuation. Wall deposit artifacts appear as a slow drift in I₀ when corrosion products, scale, or precipitates accumulate on cell windows, producing a systematic increase in apparent density. Detector gain drift from temperature changes causes the photopeak to shift partially out of the SCA energy window, leading to count rate loss and apparent density increase. Counting dead-time saturation at very high count rates (>10⁵ cps) causes undercounting and apparent density increase unless corrected. Source shutter malfunction — if the shutter fails to close fully during background measurement, the background is overestimated, biasing all density values downward. Mechanical misalignment from thermal expansion of the mounting frame at high temperatures can move the beam off the optimal path through the cell, introducing path-length errors and possible wall clipping.",
+      "reporting_checklist": "Published gamma attenuation density measurements should report: gamma source isotope and nominal energy, source activity and reference calibration date, collimator geometry (beam diameter), sample cell material and internal path length with uncertainty, detector type and energy window settings, counting time per measurement point, background count rate, calibration procedure and reference fluids used with their reference density values, source decay correction method, dead-time correction method if applicable, density results with combined expanded uncertainty at 95% confidence (k=2), temperature and pressure at each measurement point with uncertainties, and any corrections applied (build-up factor, beam hardening, thermal expansion of cell). For ThermoML encoding, density values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

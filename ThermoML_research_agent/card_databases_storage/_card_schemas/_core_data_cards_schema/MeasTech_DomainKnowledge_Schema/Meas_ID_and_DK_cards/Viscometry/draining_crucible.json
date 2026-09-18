@@ -1,0 +1,321 @@
+{
+  "meas_ID": "draining_crucible",
+  "identity": {
+    "name": "Draining crucible",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Draining crucible",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Viscometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 2,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "TransportProp": {
+          "instances": 2,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "efflux time (time for crucible to drain through orifice)",
+          "mass flow rate of molten sample through orifice",
+          "temperature of melt during drainage"
+        ],
+        "derived_observables": [
+          "dynamic (shear) viscosity η",
+          "kinematic viscosity ν (if density is known or measured separately)"
+        ],
+        "target_properties": [
+          "dynamic viscosity η",
+          "kinematic viscosity ν",
+          "viscosity–temperature relationship (Arrhenius or VFT parameters)"
+        ],
+        "phases_measured": [
+          "liquid (molten metals)",
+          "liquid (molten salts)",
+          "liquid (glass melts and oxide melts)",
+          "liquid (molten slags)"
+        ],
+        "supported_sample_types": [
+          "molten metals and alloys",
+          "molten salts and salt mixtures",
+          "glass melts (silicate, borate, phosphate)",
+          "molten slags (metallurgical)",
+          "molten oxides",
+          "other high-temperature liquids that can be contained in a crucible"
+        ],
+        "unsupported_sample_types": [
+          "room-temperature liquids (standard capillary viscometers are preferable)",
+          "highly volatile liquids that evaporate before drainage completes",
+          "suspensions with large solid particles that can clog the orifice",
+          "extremely low-viscosity melts where drainage is too rapid to time accurately",
+          "reactive melts that attack all available crucible materials"
+        ],
+        "typical_output_formats": [
+          "η vs. T curve",
+          "efflux time vs. T",
+          "ln η vs. 1/T (Arrhenius plot)",
+          "log η vs. T (VFT or Angell plot)"
+        ],
+        "units": {
+          "dynamic_viscosity": "Pa·s or mPa·s (= cP)",
+          "kinematic_viscosity": "m²/s or mm²/s (= cSt)",
+          "temperature": "K or °C",
+          "efflux_time": "s",
+          "mass_flow_rate": "g/s or kg/s",
+          "orifice_diameter": "mm"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "800 °C to 1700 °C",
+            "hard_limits": "lower bound set by melting point of sample; upper bound set by crucible material stability (graphite ~2500 °C in inert atmosphere, alumina ~1900 °C, platinum ~1750 °C)",
+            "notes": "most commonly used above 1000 °C where conventional viscometers are impractical"
+          },
+          {
+            "parameter": "orifice_diameter",
+            "typical_range": "1 mm to 5 mm",
+            "hard_limits": "must be large enough to prevent clogging by melt impurities or crystallization yet small enough to produce measurable efflux times",
+            "notes": "optimal diameter depends on expected viscosity range; larger orifices for high-viscosity melts"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "10 mL to 200 mL (depending on crucible size)",
+            "hard_limits": "sufficient to produce a measurable drainage event; head height must be adequate for gravimetric flow",
+            "notes": "larger volumes improve reproducibility by extending efflux time"
+          },
+          {
+            "parameter": "atmosphere",
+            "typical_range": "inert gas (argon, nitrogen) or vacuum",
+            "hard_limits": "oxidizing atmospheres may alter melt composition and viscosity; graphite crucibles require inert or reducing atmosphere",
+            "notes": "atmosphere control is critical for reactive melts and graphite crucibles"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary experimental variable",
+            "typical_values": "800 °C to 1700 °C",
+            "effect": "viscosity of molten materials decreases strongly with temperature; Arrhenius or VFT behavior is typical"
+          },
+          {
+            "name": "orifice_diameter",
+            "role": "fixed geometric parameter",
+            "typical_values": "1–5 mm",
+            "effect": "controls flow rate and measurement sensitivity; smaller orifices increase efflux time and improve timing precision"
+          },
+          {
+            "name": "hydrostatic_head",
+            "role": "variable during drainage (decreasing)",
+            "typical_values": "20–100 mm initial height",
+            "effect": "driving pressure decreases as the crucible drains, requiring correction or use of averaged flow rate"
+          },
+          {
+            "name": "atmosphere_composition",
+            "role": "controlled environmental parameter",
+            "typical_values": "argon, nitrogen, or vacuum",
+            "effect": "prevents oxidation of melt and crucible material; partial oxygen pressure can alter slag viscosity"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "crucible with calibrated orifice at the bottom — graphite, alumina (Al2O3), or platinum depending on temperature and melt chemistry",
+          "high-temperature furnace — resistance-heated (MoSi2 or SiC elements) or induction furnace capable of reaching 1700 °C+",
+          "thermocouple — type B (Pt-Rh), type S, or type R positioned near the melt for accurate temperature measurement",
+          "timing system — electronic timer, photogate, or load cell for recording efflux time or mass vs. time",
+          "load cell or balance — positioned below the crucible to record mass of drained melt as a function of time",
+          "atmosphere control system — gas supply lines, flow controllers, and sealed furnace chamber for inert gas or vacuum operation",
+          "temperature controller — PID-controlled furnace power supply for maintaining stable melt temperature",
+          "data acquisition system — computer logging temperature, mass, and time signals"
+        ],
+        "environmental_requirements": [
+          "inert or controlled atmosphere (argon, nitrogen, or vacuum) to prevent oxidation of melt and crucible",
+          "stable furnace temperature with minimal gradients across the crucible",
+          "fume extraction and ventilation for handling molten metals and slags",
+          "heat shielding to protect balance/load cell and timing electronics from furnace radiation"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "bulk solid pieces or powder that will melt into a liquid pool in the crucible",
+            "pre-melted ingot or granular feedstock sized to fit the crucible"
+          ],
+          "size_limits": "typically 20–500 g depending on crucible volume; enough to fill crucible above the orifice to a defined head height",
+          "thickness_limits": "not directly applicable — liquid head height of 20–100 mm above orifice is typical",
+          "surface_requirements": [
+            "sample should be free of moisture and volatile contaminants to avoid spattering",
+            "pre-dried or pre-calcined if hygroscopic (e.g., oxide powders)"
+          ],
+          "mounting_requirements": [
+            "sample loaded into the crucible prior to heating; orifice sealed with a plug, stopper, or sacrificial disk during initial melting",
+            "crucible positioned securely in the furnace hot zone with the orifice aligned above the collection vessel"
+          ],
+          "preparation_requirements": [
+            "weigh sample mass accurately before loading (±0.1 g on analytical balance)",
+            "pre-melt or pre-fuse sample to ensure homogeneous composition",
+            "dry or degas sample if it contains volatiles or adsorbed moisture",
+            "verify chemical composition (e.g., by XRF) for slags and oxide mixtures"
+          ]
+        },
+        "calibration_requirements": [
+          "calibration with a reference liquid of known viscosity at operating temperature (e.g., NIST SRM glass standards or well-characterized glass melts)",
+          "determination of the orifice discharge coefficient by drainage of a reference fluid",
+          "verification of orifice dimensions before and after each experiment (thermal expansion and erosion corrections)",
+          "thermocouple calibration against the melting point of a certified reference (e.g., gold 1064.18 °C, nickel 1455 °C)"
+        ],
+        "reference_materials": [
+          "NIST SRM 710a (soda-lime-silica glass) — viscosity standard for glass-melt measurements",
+          "NIST SRM 717a (borosilicate glass) — viscosity reference",
+          "DGG-1 standard glass (Deutsche Glastechnische Gesellschaft) — widely used high-temperature viscosity standard",
+          "pure metals with well-characterized viscosity (e.g., liquid tin, copper, iron) for metallic melt calibration"
+        ],
+        "consumables": [
+          "crucibles (graphite, alumina, platinum, or zirconia) — often single-use due to erosion or contamination",
+          "orifice plugs or sacrificial disks (graphite or ceramic) to seal the orifice during initial melting",
+          "inert gas supply (high-purity argon or nitrogen)",
+          "thermocouples — may degrade at high temperature and require periodic replacement",
+          "collection vessels or molds for the drained melt"
+        ],
+        "safety_notes": [
+          "extreme burn hazard from molten metals and slags at >1000 °C — full PPE including face shield, heat-resistant gloves, and apron required",
+          "fume and gas hazards from vaporized metals or decomposition products — use fume hood or extraction system",
+          "risk of crucible failure and melt spillage — containment tray and sand bed beneath the apparatus",
+          "inert gas asphyxiation risk in enclosed furnace environments — ensure adequate ventilation and gas monitoring",
+          "thermal shock may fracture ceramic crucibles — follow controlled heating and cooling ramps"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of distinguishing viscosity differences of approximately 10–20% of the measured value; limited by timing resolution and flow non-idealities",
+        "detection_limit": "lower viscosity limit ~0.5 mPa·s (very fluid melts drain too quickly for accurate timing); upper limit ~10⁴ Pa·s (extremely viscous melts do not drain through the orifice)",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement)",
+          "temporal": "efflux timing resolution ~0.01–0.1 s with electronic timer; mass-vs-time recording at 1–10 Hz with load cell",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "viscosity range approximately 0.5 mPa·s to 10⁴ Pa·s, adjustable by orifice diameter selection",
+        "accuracy": "5–20% for absolute viscosity; 5–10% achievable with careful calibration using reference glass standards; lower accuracy than rotational or oscillating-body viscometers",
+        "precision": "3–10% repeatability between successive runs at the same temperature, limited by irreproducible flow startup and head-height variation",
+        "throughput": "one measurement per drainage event; multiple temperature points require reloading and remelting the sample",
+        "measurement_speed": "single drainage event takes seconds to minutes depending on viscosity; total experiment including heating, equilibration, and drainage takes 1–4 hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "mass of drained melt vs. time recorded by a load cell or balance, or total efflux time measured by electronic timer/photogate; temperature recorded by thermocouple",
+        "preprocessing_steps": [
+          "convert raw mass vs. time data to volumetric or mass flow rate Q(t)",
+          "correct for decreasing hydrostatic head during drainage (time-averaged head or integrate over drainage period)",
+          "subtract taring and buoyancy contributions from mass signal",
+          "apply temperature correction for thermal expansion of orifice dimensions",
+          "remove initial transient (startup flow) data before steady-state drainage is established"
+        ],
+        "analysis_methods": [
+          "Hagen-Poiseuille-type analysis adapted for short orifice: η = (ρ g h π r⁴ t_eff) / (8 V L_eff), where L_eff accounts for orifice length and end corrections",
+          "Torricelli-type analysis for thin-orifice draining: efflux time related to viscosity through a calibrated discharge coefficient",
+          "empirical calibration curve: η = K · t_efflux, where K is determined from reference liquid measurements",
+          "Arrhenius or VFT fit to η(T) data: ln η = A + B/T or ln η = A + B/(T − T₀)",
+          "numerical integration of mass flow rate over drainage period for improved accuracy"
+        ],
+        "model_assumptions": [
+          "flow through the orifice is laminar (Reynolds number Re << 1 for viscous melts)",
+          "melt is a Newtonian fluid (shear-rate-independent viscosity)",
+          "temperature is uniform throughout the melt volume during drainage",
+          "orifice geometry is cylindrical and does not change during the experiment (no erosion or blocking)",
+          "surface tension effects at the orifice are negligible compared to gravitational driving force",
+          "no-slip boundary condition at the orifice wall"
+        ],
+        "fit_parameters": [
+          "dynamic viscosity η at each temperature",
+          "orifice discharge coefficient Cd",
+          "effective orifice length L_eff (including end corrections, typically Hagenbach correction)",
+          "Arrhenius or VFT parameters (A, B, and T₀) for viscosity–temperature dependence"
+        ],
+        "common_artifacts": [
+          "entrance and exit effects at the orifice producing apparent viscosity different from true value",
+          "non-uniform temperature in the melt causing viscosity gradients and non-ideal flow",
+          "partial crystallization or phase separation during drainage altering flow behavior",
+          "orifice erosion or partial clogging by solidified material or impurities",
+          "surface tension plug at the orifice preventing flow initiation (especially for high-surface-tension metallic melts)",
+          "air entrainment or bubble formation in the draining stream"
+        ],
+        "quality_control_checks": [
+          "reproduce viscosity of a certified reference glass or well-characterized melt within stated accuracy",
+          "verify orifice dimensions (diameter, length) before and after each run using calibrated gauges",
+          "check temperature uniformity in the melt using multiple thermocouple positions",
+          "confirm laminar flow conditions by estimating Reynolds number at the orifice",
+          "compare results from multiple orifice diameters to verify consistency (detect non-Newtonian effects or geometry-dependent artifacts)"
+        ],
+        "failure_modes": [
+          "orifice clogging by solidified melt, crystalline phases, or foreign particles (no drainage or intermittent flow)",
+          "crucible failure or cracking during thermal cycling (loss of melt containment)",
+          "melt reacting with crucible material (changes composition and viscosity over time)",
+          "thermocouple failure at extreme temperature (loss of temperature data)",
+          "surface tension blockage preventing drainage initiation in metallic melts",
+          "excessive orifice erosion invalidating the calibration (systematic shift in apparent viscosity)"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 5–20% for absolute dynamic viscosity; 3–10% for relative viscosity comparisons at different temperatures",
+        "random_sources": [
+          "variability in drainage initiation (startup transient)",
+          "temperature fluctuations during the drainage event",
+          "timing uncertainty (manual or photogate triggering)",
+          "vibration and turbulence effects on flow",
+          "small variations in sample loading and head height"
+        ],
+        "systematic_sources": [
+          "orifice dimension uncertainty (diameter and length, including thermal expansion)",
+          "discharge coefficient calibration uncertainty",
+          "entrance and exit (end) correction uncertainty",
+          "temperature measurement offset or thermocouple drift",
+          "melt density uncertainty (required for viscosity calculation)",
+          "non-isothermal conditions in the melt volume",
+          "orifice erosion during the experiment"
+        ],
+        "operator_dependence": "high — results depend on sample loading technique, orifice sealing/opening procedure, visual judgment of flow onset, and temperature stabilization practice",
+        "model_dependence": "moderate to high — accuracy depends on validity of laminar flow assumption, Newtonian fluid model, and end-correction formulas for the specific orifice geometry",
+        "dominant_error_sources": [
+          "orifice geometry uncertainties (diameter, length, and end corrections)",
+          "non-ideal flow conditions (entrance effects, partial turbulence)",
+          "temperature non-uniformity in the melt",
+          "decreasing hydrostatic head during drainage (time-dependent driving pressure)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(η) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of dynamic viscosity",
+          "standard deviation from repeated drainage runs"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The draining crucible method is a high-temperature viscometry technique used to measure the dynamic viscosity of molten metals, slags, glasses, and other refractory liquids. The principle is analogous to capillary efflux viscometry but adapted for extreme temperatures (typically >1000 °C) where conventional glass capillary viscometers cannot operate. A crucible containing the molten sample is fitted with a calibrated orifice at its base; upon opening the orifice, the melt drains under gravity and the efflux time or mass flow rate is recorded. Viscosity is extracted from the drainage data using Hagen-Poiseuille-type flow equations or empirical calibration against reference liquids. Although its accuracy (5–20%) is lower than that of rotational or oscillating-body viscometers, the draining crucible method is valued for its simplicity, robustness, and ability to operate at temperatures that preclude most other viscometry techniques.",
+      "how_it_operates": "A known mass of sample material is loaded into a crucible whose base contains a precision-machined orifice (typically 1–5 mm diameter). The crucible is placed in a high-temperature furnace and heated until the sample is fully molten and thermally equilibrated at the target temperature. The orifice, initially sealed by a plug, stopper, or sacrificial disk, is then opened and the molten sample drains under gravity into a collection vessel below. A load cell or balance beneath the collection vessel records the accumulated drained mass as a function of time, while an electronic timer or photogate provides precise efflux timing. The thermocouple positioned near the melt monitors continuous temperature. From the measured efflux time (or mass-vs-time profile), the known orifice geometry, and the hydrostatic head, the dynamic viscosity is calculated using fluid mechanics relations appropriate for orifice flow.",
+      "core_theory": "The theoretical basis combines Hagen-Poiseuille laminar flow through a short cylindrical orifice with corrections for entrance and exit effects. For a melt of density ρ and viscosity η draining through an orifice of radius r and effective length L_eff under hydrostatic head h, the volume flow rate is Q = (π r⁴ ρ g h) / (8 η L_eff). The effective length L_eff includes the physical orifice length plus Hagenbach-type end corrections (typically ~1.1r at each end) that account for the kinetic energy losses at the entrance and exit. For a crucible that drains from initial height h₀ to empty, integration over the decreasing head yields a relationship between total efflux time t and viscosity. In practice, a discharge coefficient Cd determined from calibration absorbs residual deviations from ideal Poiseuille flow. The method assumes laminar, Newtonian flow at low Reynolds numbers, conditions generally satisfied for viscous high-temperature melts.",
+      "setup": "A typical draining crucible apparatus consists of a refractory crucible (graphite for metallic melts in inert atmosphere, alumina or zirconia for oxide melts, platinum for glass melts) with a precision-bored orifice at the bottom, suspended in the hot zone of a vertical tube furnace. The furnace is resistance-heated using MoSi₂ or SiC elements and is capable of reaching temperatures in excess of 1700 °C. A sealed furnace tube allows atmosphere control via flowing high-purity argon or nitrogen. Below the crucible, a refractory collection vessel sits on a load cell shielded from radiant heat. A type-B or type-S thermocouple, protected by a ceramic sheath, is positioned adjacent to the melt. The orifice is sealed prior to drainage by a graphite or ceramic plug that can be withdrawn remotely. Data acquisition hardware logs the mass signal, thermocouple output, and timer signal at rates of 1–10 Hz.",
+      "suitable_for": "The draining crucible method is most appropriate for measuring the viscosity of high-temperature liquids where other viscometry techniques are impractical due to temperature limitations or aggressive melt chemistry. Primary applications include molten metals and alloys (iron, steel, copper, aluminum at their processing temperatures), metallurgical slags and fluxes encountered in steelmaking and smelting, silicate and borate glass melts in ceramic and glass manufacturing, molten salts for nuclear and solar energy applications, and geological magmas and lavas studied in volcanology. The technique is particularly useful for rapid screening measurements where high accuracy is not required, or for extremely corrosive melts that would destroy the spindles or oscillating bodies used in rotational viscometers.",
+      "core_limitations": "The principal limitation is relatively low accuracy (5–20%) compared to rotational, oscillating-body, or falling-sphere viscometers, arising from non-ideal flow conditions in the short orifice, uncertainty in end corrections, and the continuously decreasing hydrostatic head during drainage. The method provides only a single viscosity value per drainage event at one temperature; mapping viscosity over a temperature range requires reloading and remelting the sample for each point, which is time-consuming and may introduce composition changes through evaporation or crucible contamination. The orifice is susceptible to erosion by aggressive melts and to clogging by crystallizing phases or solid impurities. Flow through the orifice is assumed to be laminar and Newtonian, which may not hold for very low-viscosity melts (onset of turbulence) or for melts containing suspended particles (non-Newtonian behavior). Surface tension effects at the orifice can prevent drainage initiation in high-surface-tension metallic melts.",
+      "sample_preparation": "The sample material — typically in the form of pieces, granules, or powder — is weighed to ±0.1 g and loaded into the crucible. For oxide melts and slags, the powder may need to be pre-calcined to remove adsorbed moisture and CO₂, or pre-fused in a separate step to ensure a homogeneous glass. The chemical composition should be verified by X-ray fluorescence (XRF) or other elemental analysis, as viscosity is extremely sensitive to composition in multicomponent melts. For metallic samples, surface oxide should be removed and the sample stored and loaded under inert atmosphere. The orifice is sealed before heating by inserting a graphite or ceramic plug. The crucible assembly is placed into the furnace and heated at a controlled rate (typically 5–10 °C/min) to above the liquidus temperature. An equilibration hold of 15–60 minutes at the target temperature ensures complete melting, thermal homogeneity, and dissolution of any remaining solid phases.",
+      "calibration_and_references": "Calibration is performed by draining a reference liquid of known viscosity through the same crucible and orifice under identical conditions. Standard reference glasses such as NIST SRM 710a (soda-lime-silica) or DGG-1 (Deutsche Glastechnische Gesellschaft standard) provide certified viscosity values over a range of temperatures and are the most commonly used calibration materials for glass-melt measurements. For metallic melts, well-characterized pure metals (e.g., liquid tin or copper) with literature viscosity values serve as references. The calibration determines the effective discharge coefficient Cd for the specific orifice geometry, absorbing end corrections and other non-ideal effects. Orifice dimensions should be measured before and after each calibration run with a calibrated pin gauge to check for erosion. Thermocouple calibration is verified against the melting point of a certified standard (e.g., gold at 1064.18 °C or nickel at 1455 °C).",
+      "data_interpretation": "The primary data are either the total efflux time for complete drainage or a continuous mass-vs-time curve from the load cell. For total efflux time, viscosity is calculated as η = K · t_efflux, where K is the apparatus constant determined from the calibration run. For mass-vs-time data, the instantaneous flow rate Q(t) is obtained by numerical differentiation, and viscosity is extracted using the Hagen-Poiseuille equation corrected for the instantaneous hydrostatic head h(t). The decreasing-head correction is essential: as the crucible drains, h decreases and the flow rate slows, so the raw efflux time overpredicts viscosity if treated as constant-head flow. An alternative approach integrates the Poiseuille equation over the entire drainage event to relate total efflux time directly to viscosity and initial head height. The resulting η(T) data are typically fitted to an Arrhenius model (ln η = A + E_a/RT) or the Vogel-Fulcher-Tammann (VFT) equation (ln η = A + B/(T − T₀)) to parameterize the temperature dependence.",
+      "common_pitfalls": "The most common pitfall is neglecting the decreasing hydrostatic head during drainage, which leads to systematic overestimation of viscosity when a constant-head formula is used. Inadequate temperature equilibration before opening the orifice produces a temperature gradient in the melt, causing non-uniform viscosity and unreliable efflux times. Orifice erosion by corrosive melts changes the effective diameter between calibration and measurement runs, introducing a systematic bias that scales as r⁴ (a 10% increase in radius produces a ~46% decrease in apparent viscosity). Failing to check for air bubbles or surface-tension plugging at the orifice can result in interrupted or delayed flow onset. Using a plug material that contaminates the melt near the orifice (e.g., graphite particles in an oxide melt) alters the local viscosity and flow characteristics. Assuming Newtonian behavior without verification is problematic for melts containing suspended crystals or immiscible phases.",
+      "artifacts_and_failure_modes": "Orifice clogging is the most frequent failure mode, caused by partial crystallization of the melt near the cooler orifice exit, solid impurity particles, or undissolved raw material. The signature is either no drainage at all or a sharply interrupted flow. Crucible cracking due to thermal shock during rapid heating or cooling causes catastrophic melt leakage and loss of the experiment. Orifice erosion produces a progressive decrease in apparent viscosity across successive runs with the same crucible. Non-isothermal artifacts arise when the melt near the orifice is cooler than the bulk, increasing local viscosity and reducing the flow rate — the measured viscosity then reflects a temperature lower than the thermocouple reading. Surface tension artifacts are significant for metallic melts with high surface tension (e.g., liquid iron ~1.8 N/m): the melt may refuse to initiate drainage until the head pressure overcomes the capillary pressure at the orifice, after which flow begins suddenly. Melt–crucible reactions (e.g., reduction of silica slag by graphite) change both the melt composition and the orifice geometry over time.",
+      "reporting_checklist": "Published draining crucible viscosity results should report: crucible material and dimensions (internal diameter, orifice diameter, orifice length), sample composition and mass, sample preparation and pre-fusion procedure, furnace atmosphere and gas flow rate, temperature measurement method and thermocouple type and position, temperature equilibration time, method of orifice sealing and opening, whether efflux time or mass-vs-time data were used, calibration reference material and its certified viscosity values, discharge coefficient or apparatus constant, corrections applied (decreasing head, end effects, thermal expansion of orifice), number of replicate drainage runs, and combined expanded uncertainty with confidence level. For ThermoML encoding, viscosity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

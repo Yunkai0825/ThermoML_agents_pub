@@ -1,0 +1,49 @@
+# Repository-local generated files and machine settings only.
+# Source and saved outputs are published; seven large originals use release assets.
+
+# Python caches and local build products
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.egg-info/
+/.eggs/
+/build/
+/dist/
+
+# Local environments and editor state
+/.venv/
+/venv/
+/.conda/
+/.vscode/
+/.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local credentials; example configuration stays publishable
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pfx
+
+# Temporary workspace checks and SQLite runtime sidecars
+/__tmp__/
+*.db-shm
+*.db-wal
+
+# Original files published as GitHub Release assets (approved; no LFS).
+# Exact paths and SHA-256 checksums: docs/RELEASE_ASSETS.json.
+/ThermoML_research_agent/ThermoML.v2020-09-30.db/thermoml_raw.db
+/ThermoML_research_agent/card_databases_storage/Individual_cards_dbs/PCS_INDIV.db
+/_benchmark/Main/test_run_ledgered_20260905.zip
+/ThermoML_research_agent/card_databases_storage/PureOrMixtureData_registry.db
+/ThermoML_research_agent/card_databases_storage/ThermoML_index.db
+/ThermoML_research_agent/ThermoML.v2020-09-30.db/thermoml_raw_corpus.db
+/_benchmark/Analysis/test_run_ledgered_20260905.zip

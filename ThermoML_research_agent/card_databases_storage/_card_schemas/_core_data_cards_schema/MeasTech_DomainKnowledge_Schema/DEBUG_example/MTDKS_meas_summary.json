@@ -1,0 +1,499 @@
+{
+  "$schema": "thermoml_mdks_schema_v3",
+  "$id": "MDKS_meas_ID_and_DK",
+  "title": "MDKS Measurement Technique IDs and Domain Knowledge",
+  "description": "Static reference card: catalog of all measurement techniques (instruments/methods) used in ThermoML. Covers 160 standard methods from the controlled vocabulary, 97 custom abbreviation codes with UFactor encoding, and 2,647 unique custom method strings. The agent consults this card to understand WHAT techniques are available, HOW they work, and WHICH property groups they serve. NOT per-paper — this is global domain knowledge about instrumentation.",
+  "version": "3.0.0",
+  "database_stats": {
+    "note": "Counts from full DB scan of 11,923 papers / 130,104 block_properties entries",
+    "total_block_property_instances": 130104,
+    "standard_method_instances": 76184,
+    "custom_method_instances": 53919,
+    "unique_standard_methods": 160,
+    "unique_custom_abbreviation_codes": 97,
+    "unique_custom_method_strings": 2647,
+    "cross_group_standard_methods": 20,
+    "methods_per_paper": {"avg": 2.3, "max": 18}
+  },
+  "standard_methods": {
+    "description": "All 160 standard methods from the ThermoML controlled vocabulary (eMethodName). Organized by the property group(s) they serve. These are curated instrument/technique names with fixed semantics.",
+    "by_group": {
+      "ActivityFugacityOsmoticProp": {
+        "n_standard": 9148, "n_custom": 1486,
+        "methods": [
+          {"name": "Chromatography", "count": 9080, "principle": "Separation-based composition analysis; activity coefficients derived from retention data"},
+          {"name": "Differential ebulliometry", "count": 29, "principle": "Boiling point elevation measurement to determine activity coefficients"},
+          {"name": "Chemical equilibration / Heterogeneous equilibration", "count": 17, "principle": "Equilibrium partitioning across phases to infer activities"},
+          {"name": "Static method", "count": 16, "principle": "Static equilibrium cell measurement"},
+          {"name": "Mass-spectrometry", "count": 6, "principle": "Mass-spectrometric detection of vapor composition for fugacity"}
+        ]
+      },
+      "CompositionAtPhaseEquilibrium": {
+        "n_standard": 15187, "n_custom": 16509,
+        "methods": [
+          {"name": "Chromatography", "count": 12275, "principle": "GC/HPLC analysis of equilibrium phase compositions"},
+          {"name": "Density calibration data", "count": 1157, "principle": "Composition determined from density vs composition calibration curves"},
+          {"name": "Phase equilibration", "count": 795, "principle": "Direct sampling after phase equilibrium is reached"},
+          {"name": "Index of refraction calibration data", "count": 520, "principle": "Composition from refractive index vs composition calibration"},
+          {"name": "By X=Y", "count": 179, "principle": "Azeotropic point where liquid and vapor compositions are equal"},
+          {"name": "Derived from phase diagram analysis", "count": 171, "principle": "Compositions extracted from phase diagram construction"},
+          {"name": "By T or P extreme", "count": 51, "principle": "Composition at temperature or pressure extrema on phase boundary"},
+          {"name": "Static method", "count": 18, "principle": "Static cell equilibration"},
+          {"name": "Speed of sound calibration data", "count": 11, "principle": "Composition from speed of sound calibration"},
+          {"name": "X-ray diffraction", "count": 7, "principle": "Crystal composition from diffraction pattern"},
+          {"name": "Photoacoustic method", "count": 3, "principle": "Photoacoustic spectroscopy for trace composition"}
+        ]
+      },
+      "Criticals": {
+        "n_standard": 704, "n_custom": 822,
+        "methods": [
+          {"name": "Visual observation in an unstirred cell", "count": 284, "principle": "Observing critical opalescence/meniscus disappearance in a sealed tube"},
+          {"name": "Direct measurement", "count": 234, "principle": "Direct P/T/density measurement at the critical point"},
+          {"name": "Derived from PVT data", "count": 70, "principle": "Critical constants extracted from PVT equation of state fitting"},
+          {"name": "Resistive pulse heating", "count": 56, "principle": "Rapid ohmic heating to access critical/metastable states"},
+          {"name": "Visual observation in a stirred cell", "count": 52, "principle": "Critical point observation with agitation for better equilibration"},
+          {"name": "Rectilinear diameter", "count": 5, "principle": "Critical density from rectilinear diameter law extrapolation"},
+          {"name": "Extrapolated vapor pressure", "count": 3, "principle": "Critical pressure from vapor pressure curve extrapolation"}
+        ]
+      },
+      "ExcessPartialApparentEnergyProp": {
+        "n_standard": 2539, "n_custom": 1554,
+        "methods": [
+          {"name": "Calvet calorimetry", "count": 911, "principle": "Twin heat-flux calorimeter measuring mixing/dissolution enthalpy"},
+          {"name": "Flow calorimetry", "count": 768, "principle": "Continuous-flow mixing of streams with heat measurement"},
+          {"name": "Titration calorimetry", "count": 456, "principle": "Incremental addition of one component with heat measurement (ITC)"},
+          {"name": "Power-compensation calorimetry", "count": 289, "principle": "Maintaining constant temperature by compensating heat released/absorbed"},
+          {"name": "Extra sensitive DSC", "count": 42, "principle": "High-sensitivity differential scanning calorimetry for dilute solutions"},
+          {"name": "Isoperibol calorimetry", "count": 28, "principle": "Calorimeter with constant-temperature surroundings measuring temperature rise"},
+          {"name": "Isothermal displacement", "count": 22, "principle": "Isothermal volume change measurement for enthalpy determination"},
+          {"name": "Small sample (50 mg) DSC", "count": 13, "principle": "Standard DSC with ~50 mg sample pans"},
+          {"name": "Differential flow calorimetry", "count": 9, "principle": "Differential heat measurement between sample and reference flow streams"},
+          {"name": "Large sample (1 g) DSC", "count": 1, "principle": "DSC with ~1 g sample for improved sensitivity"}
+        ]
+      },
+      "HeatCapacityAndDerivedProp": {
+        "n_standard": 3545, "n_custom": 1491,
+        "methods": [
+          {"name": "Small sample (50 mg) DSC", "count": 1160, "principle": "Standard DSC: heat flow difference between sample and reference pans during scanning"},
+          {"name": "Vacuum adiabatic calorimetry", "count": 778, "principle": "Low-temperature adiabatic calorimetry under vacuum, highest accuracy for Cp"},
+          {"name": "Small (less than 1 g) adiabatic calorimetry", "count": 606, "principle": "Small-sample adiabatic calorimetry for limited material availability"},
+          {"name": "Large sample (1 g) DSC", "count": 342, "principle": "DSC with larger sample for improved signal-to-noise"},
+          {"name": "Drop calorimetry", "count": 339, "principle": "Dropping a heated sample into a calorimeter to measure enthalpy increment"},
+          {"name": "Flow calorimetry", "count": 231, "principle": "Flowing liquid through a heater with precise power and flow rate measurement"},
+          {"name": "Extra sensitive DSC", "count": 50, "principle": "High-sensitivity DSC for detecting small thermal events"},
+          {"name": "Thin-film microcalorimeter", "count": 8, "principle": "Micro-fabricated calorimeter for thin-film/nanoscale samples"},
+          {"name": "Static calorimetry", "count": 6, "principle": "Batch calorimetry with sample sealed in a cell"},
+          {"name": "Drop ice or diphenyl ether calorimetry", "count": 5, "principle": "Classic isothermal calorimetry using phase change of reference substance"},
+          {"name": "Resistive pulse heating", "count": 4, "principle": "Microsecond resistive heating for extreme-condition Cp"},
+          {"name": "Laser pulse heating", "count": 4, "principle": "Laser-heated sample for very high temperature Cp"},
+          {"name": "Closed cup calorimetry", "count": 4, "principle": "Sealed-cup calorimetry for volatile samples"},
+          {"name": "Levitation methods", "count": 3, "principle": "Containerless high-T measurement (electromagnetic/electrostatic levitation)"},
+          {"name": "Expansion technique", "count": 3, "principle": "Volume expansion measurement for Cv determination"},
+          {"name": "AC calorimetry", "count": 2, "principle": "Oscillating heat input for frequency-dependent Cp measurement"}
+        ]
+      },
+      "PhaseTransition": {
+        "n_standard": 1222, "n_custom": 11582,
+        "methods": [
+          {"name": "Adiabatic calorimetry", "count": 355, "principle": "Adiabatic shield calorimetry detecting latent heat at transition"},
+          {"name": "Correlation gas chromatography", "count": 258, "principle": "Sublimation/vaporization enthalpy from GC retention time correlations"},
+          {"name": "Derived by Second law", "count": 189, "principle": "Transition enthalpy derived from Clausius-Clapeyron / van't Hoff analysis"},
+          {"name": "Static calorimetry", "count": 176, "principle": "Batch calorimetry measuring latent heat of transition"},
+          {"name": "Derived from phase diagram analysis", "count": 71, "principle": "Transition temperatures extracted from phase diagram construction"},
+          {"name": "Heating/Cooling curves", "count": 57, "principle": "Temperature vs time curves identifying plateaus at transitions"},
+          {"name": "Large-sample thermal analysis", "count": 55, "principle": "Thermal analysis with large samples for industrial materials"},
+          {"name": "Ebulliometric method (Recirculating still)", "count": 14, "principle": "Boiling point measurement in recirculating equilibrium still"},
+          {"name": "Phase equilibration", "count": 9, "principle": "Direct equilibrium observation for transition temperature"},
+          {"name": "Chromatography", "count": 9, "principle": "GC-based determination of sublimation/vaporization properties"},
+          {"name": "Volume change", "count": 5, "principle": "Detecting phase transition by abrupt volume change"},
+          {"name": "Resistive pulse heating", "count": 4, "principle": "Rapid resistive heating through transition for metastable phases"},
+          {"name": "Flow calorimetry", "count": 4, "principle": "Flow calorimetry for transition enthalpy"},
+          {"name": "Drop calorimetry", "count": 4, "principle": "Drop method for high-T transition enthalpy"},
+          {"name": "X-ray diffraction", "count": 3, "principle": "Crystal structure change detection at phase transition"},
+          {"name": "Laser pulse heating", "count": 3, "principle": "Laser pulse for extreme-T transition detection"},
+          {"name": "Drop ice or diphenyl ether calorimetry", "count": 3, "principle": "Classic isothermal method for transition enthalpy"},
+          {"name": "AC calorimetry", "count": 3, "principle": "AC calorimetry for continuous-transition Cp anomaly detection"}
+        ]
+      },
+      "ReactionEquilibriumProp": {
+        "n_standard": 94, "n_custom": 6,
+        "methods": [
+          {"name": "NMR spectrometry", "count": 48, "principle": "NMR peak integration for equilibrium composition"},
+          {"name": "Chromatography", "count": 37, "principle": "GC/HPLC analysis of reaction mixture equilibrium"},
+          {"name": "Dynamic equilibration", "count": 6, "principle": "Dynamic flow reactor with equilibrium conversion analysis"},
+          {"name": "Static equilibration", "count": 3, "principle": "Sealed reactor equilibrium composition measurement"}
+        ]
+      },
+      "ReactionStateChangeProp": {
+        "n_standard": 892, "n_custom": 254,
+        "methods": [
+          {"name": "Static bomb calorimetry", "count": 472, "principle": "Combustion in a sealed oxygen bomb calorimeter"},
+          {"name": "Rotating bomb calorimetry", "count": 236, "principle": "Rotating bomb for reactions producing corrosive/viscous products"},
+          {"name": "Solution calorimetry", "count": 137, "principle": "Enthalpy of reaction measured by dissolving reactants/products"},
+          {"name": "Micro-bomb calorimetry", "count": 46, "principle": "Miniaturized bomb calorimetry for small samples"},
+          {"name": "Flame calorimetry", "count": 1, "principle": "Combustion in a flame jet with calorimetric measurement"}
+        ]
+      },
+      "RefractionSurfaceTensionSoundSpeed": {
+        "n_standard": 13152, "n_custom": 2967,
+        "methods": [
+          {"name": "Standard Abbe refractometry", "count": 6115, "principle": "Critical angle measurement on Abbe refractometer for refractive index"},
+          {"name": "Sing-around technique in a fixed-path interferometer", "count": 2259, "principle": "Repeated pulse transit in fixed-path cell for speed of sound"},
+          {"name": "Linear variable-path acoustic interferometer", "count": 905, "principle": "Standing wave detection with moveable reflector for sound speed"},
+          {"name": "Single path-length method", "count": 732, "principle": "Single-distance time-of-flight for speed of sound"},
+          {"name": "Ring tensiometer", "count": 719, "principle": "Du Noüy ring method for surface/interfacial tension"},
+          {"name": "Pulse-echo method", "count": 702, "principle": "Ultrasonic pulse reflection timing for speed of sound"},
+          {"name": "Pendant drop shape", "count": 592, "principle": "Drop profile analysis for surface/interfacial tension"},
+          {"name": "Drop volume", "count": 311, "principle": "Detachment volume of drops from capillary tip for surface tension"},
+          {"name": "Maximal bubble pressure", "count": 286, "principle": "Maximum pressure to form a bubble in liquid for surface tension"},
+          {"name": "Parallel plate capacitor", "count": 199, "principle": "Capacitance measurement for relative permittivity"},
+          {"name": "Coaxial cylinder capacitor", "count": 126, "principle": "Coaxial capacitor cell for relative permittivity"},
+          {"name": "Capillary rise", "count": 85, "principle": "Capillary height measurement for surface tension"},
+          {"name": "Drop weight", "count": 56, "principle": "Weight of detaching drops for surface tension"},
+          {"name": "Reentrant cavity resonator", "count": 14, "principle": "Microwave cavity resonance for permittivity"},
+          {"name": "Light diffraction method", "count": 14, "principle": "Diffraction grating on liquid surface for capillary wave speed"},
+          {"name": "Spherical resonator", "count": 9, "principle": "Acoustic resonance in a sphere for speed of sound"},
+          {"name": "Cylindrical cavity resonance method", "count": 8, "principle": "Acoustic resonance in cylindrical cavity"},
+          {"name": "Dual path-length method", "count": 7, "principle": "Two-distance pulse transit for differential sound speed"},
+          {"name": "Spherical cavity resonance method", "count": 6, "principle": "Resonance modes in a spherical cavity for sound speed"},
+          {"name": "Sessile Drop", "count": 5, "principle": "Contact angle / drop shape analysis on a substrate"},
+          {"name": "Multiple path-length method", "count": 1, "principle": "Multiple distances for high-accuracy sound speed"},
+          {"name": "Dipping refractometry (monochromatic)", "count": 1, "principle": "Dipping prism refractometer with monochromatic light"}
+        ]
+      },
+      "TransportProp": {
+        "n_standard": 8039, "n_custom": 3435,
+        "methods": [
+          {"name": "Capillary tube (Ostwald; Ubbelohde) method", "count": 3407, "principle": "Gravity-driven flow through calibrated capillary for kinematic viscosity"},
+          {"name": "Falling or rolling sphere viscometry", "count": 1243, "principle": "Terminal velocity of a sphere in fluid for high-viscosity measurement"},
+          {"name": "Concentric cylinders viscometry", "count": 1082, "principle": "Couette flow between coaxial cylinders; torque measurement for shear viscosity"},
+          {"name": "Alternating current cell with electrodes", "count": 906, "principle": "AC impedance measurement for ionic electrical conductivity"},
+          {"name": "Cone and plate viscometry", "count": 291, "principle": "Uniform shear rate between cone and plate for viscosity"},
+          {"name": "Taylor dispersion method", "count": 264, "principle": "Peak broadening of a tracer plug in laminar flow for diffusion coefficient"},
+          {"name": "Hot wire method", "count": 244, "principle": "Transient hot wire for thermal conductivity"},
+          {"name": "Direct current cell with electrodes", "count": 164, "principle": "DC conductivity measurement"},
+          {"name": "Vibrating wire viscometry", "count": 141, "principle": "Damping of a vibrating wire in fluid for viscosity"},
+          {"name": "Moving piston method", "count": 55, "principle": "Falling/rising piston viscometer for high-pressure viscosity"},
+          {"name": "Oscillating disk viscometry", "count": 43, "principle": "Damping of oscillating disk in fluid for gas viscosity"},
+          {"name": "Coaxial cylinder method", "count": 36, "principle": "Coaxial cylinder thermal conductivity cell"},
+          {"name": "Parallel plate method", "count": 34, "principle": "Thermal conductivity between parallel plates"},
+          {"name": "Open capillary", "count": 30, "principle": "Open-ended capillary for diffusion coefficient measurement"},
+          {"name": "NMR spin-echo technique", "count": 30, "principle": "Pulsed-field gradient NMR for self-diffusion coefficient"},
+          {"name": "Dispersion", "count": 18, "principle": "Dispersion method for diffusion coefficient"},
+          {"name": "Optical interferometry", "count": 11, "principle": "Interference fringe analysis for diffusion coefficient"},
+          {"name": "Hot disk method", "count": 11, "principle": "Transient plane source for thermal conductivity"},
+          {"name": "Voltage change across transformer (no electrode)", "count": 9, "principle": "Inductive conductivity measurement without electrode contact"},
+          {"name": "Optical method", "count": 8, "principle": "Optical techniques for transport property measurement"},
+          {"name": "Levitation methods", "count": 6, "principle": "Containerless technique for high-T transport properties"},
+          {"name": "Resistive pulse heating", "count": 2, "principle": "Microsecond electrical heating for extreme-condition transport"},
+          {"name": "Draining crucible", "count": 2, "principle": "Drain rate from crucible for kinematic viscosity of melts"},
+          {"name": "Oscillating viscometer", "count": 1, "principle": "Damped oscillation method for viscosity"},
+          {"name": "Laser pulse heating", "count": 1, "principle": "Laser-heated wire/foil for extreme-T thermal diffusivity"}
+        ]
+      },
+      "VaporPBoilingTAzeotropTandP": {
+        "n_standard": 4581, "n_custom": 6672,
+        "methods": [
+          {"name": "Ebulliometric method (Recirculating still)", "count": 3230, "principle": "Recirculating vapor-liquid equilibrium still; equilibrium boiling T at set P"},
+          {"name": "Transpiration method", "count": 585, "principle": "Carrier gas saturation: gas swept over sample, condensed, weighed for vapor pressure"},
+          {"name": "Gas chromatography", "count": 185, "principle": "GC retention data correlated to vapor pressure"},
+          {"name": "Distillation", "count": 128, "principle": "Distillation curve for boiling temperature vs composition"},
+          {"name": "By X=Y", "count": 86, "principle": "Azeotropic point identification where x = y"},
+          {"name": "Rate of evaporation", "count": 78, "principle": "Knudsen effusion or TGA weight loss rate for vapor pressure"},
+          {"name": "Manometric method", "count": 77, "principle": "Direct pressure measurement with calibrated manometer"},
+          {"name": "Diaphragm manometer", "count": 51, "principle": "Differential pressure across a membrane for low vapor pressures"},
+          {"name": "Twin ebulliometer", "count": 42, "principle": "Comparative boiling in twin ebulliometers (sample vs standard)"},
+          {"name": "By T(X) extreme", "count": 29, "principle": "Azeotropic T from temperature extremum on T-x curve"},
+          {"name": "Torsion effusion method", "count": 26, "principle": "Torsion measurement of effusing vapor for sublimation pressure"},
+          {"name": "By P(X) extreme", "count": 25, "principle": "Azeotropic P from pressure extremum on P-x curve"},
+          {"name": "Inclined piston gauge", "count": 13, "principle": "Free piston at angle for absolute pressure measurement"},
+          {"name": "Chromatography", "count": 12, "principle": "Chromatographic retention for vapor pressure estimation"},
+          {"name": "Isoteniscope", "count": 5, "principle": "Smith-Menzies isoteniscope for direct vapor pressure"},
+          {"name": "Derived from phase diagram analysis", "count": 4, "principle": "Vapor pressure extracted from phase diagram"},
+          {"name": "Phase equilibration", "count": 2, "principle": "Vapor pressure from direct phase equilibrium"},
+          {"name": "Index of refraction calibration data", "count": 2, "principle": "Composition via refractive index calibration in VLE"},
+          {"name": "Derived from PVT data", "count": 1, "principle": "Vapor pressure from PVT equation of state"}
+        ]
+      },
+      "VolumetricProp": {
+        "n_standard": 17081, "n_custom": 7141,
+        "methods": [
+          {"name": "Vibrating tube method", "count": 13110, "principle": "Resonance frequency of a U-tube filled with sample related to density"},
+          {"name": "Pycnometric method", "count": 2664, "principle": "Mass of known volume of liquid in calibrated pycnometer"},
+          {"name": "Calculated with densities of this investigation", "count": 370, "principle": "Derived volumetric property from measured density"},
+          {"name": "X-ray diffraction", "count": 203, "principle": "Unit cell volume from crystal structure determination"},
+          {"name": "Buoyancy - hydrostatic balance with magnetic suspension - one sinker", "count": 151, "principle": "Magnetic suspension densimeter with single sinker for wide T/P range"},
+          {"name": "Buoyancy - hydrostatic balance", "count": 125, "principle": "Archimedes buoyancy of calibrated sinker for density"},
+          {"name": "Direct dilatometry", "count": 123, "principle": "Volume change measurement in a dilatometer (mercury or other)"},
+          {"name": "Other PVT measurement", "count": 93, "principle": "Other pressure-volume-temperature apparatus"},
+          {"name": "Bellows volumetry", "count": 65, "principle": "Metal bellows cell for volume measurement at high pressure"},
+          {"name": "Constant-volume piezometry", "count": 64, "principle": "Pressure measurement at constant volume for PVT data"},
+          {"name": "Buoyancy - hydrostatic balance with magnetic suspension - two sinkers", "count": 38, "principle": "Two-sinker magnetic suspension densimeter eliminating adsorption errors"},
+          {"name": "Burnett expansion method", "count": 31, "principle": "Successive gas expansions between calibrated volumes for PVT/compressibility"},
+          {"name": "Derived analytically", "count": 19, "principle": "Thermodynamic derivation from other measured properties"},
+          {"name": "Derived from speed of sound", "count": 9, "principle": "Density derived from speed of sound via Newton-Laplace equation"},
+          {"name": "Derived graphically", "count": 8, "principle": "Graphical construction from experimental curves"},
+          {"name": "Gamma attenuation method", "count": 4, "principle": "Gamma-ray absorption proportional to density"},
+          {"name": "Vibrating wire densiometer", "count": 3, "principle": "Resonance frequency of vibrating wire in fluid for density"},
+          {"name": "Levitation methods", "count": 1, "principle": "Containerless density measurement at extreme temperatures"}
+        ]
+      }
+    }
+  },
+  "cross_group_methods": {
+    "description": "20 standard methods that serve multiple property groups. These are versatile techniques whose measured quantity depends on the property group context.",
+    "items": [
+      {"name": "Chromatography", "n_groups": 5, "groups": ["CompositionAtPhaseEquilibrium", "ActivityFugacityOsmoticProp", "VaporPBoilingTAzeotropTandP", "PhaseTransition", "ReactionEquilibriumProp"]},
+      {"name": "Resistive pulse heating", "n_groups": 4, "groups": ["HeatCapacityAndDerivedProp", "Criticals", "PhaseTransition", "TransportProp"]},
+      {"name": "Derived from phase diagram analysis", "n_groups": 3, "groups": ["CompositionAtPhaseEquilibrium", "PhaseTransition", "VaporPBoilingTAzeotropTandP"]},
+      {"name": "Flow calorimetry", "n_groups": 3, "groups": ["HeatCapacityAndDerivedProp", "ExcessPartialApparentEnergyProp", "PhaseTransition"]},
+      {"name": "Laser pulse heating", "n_groups": 3, "groups": ["PhaseTransition", "HeatCapacityAndDerivedProp", "TransportProp"]},
+      {"name": "Levitation methods", "n_groups": 3, "groups": ["VolumetricProp", "TransportProp", "HeatCapacityAndDerivedProp"]},
+      {"name": "Phase equilibration", "n_groups": 3, "groups": ["CompositionAtPhaseEquilibrium", "PhaseTransition", "VaporPBoilingTAzeotropTandP"]},
+      {"name": "X-ray diffraction", "n_groups": 3, "groups": ["PhaseTransition", "VolumetricProp", "CompositionAtPhaseEquilibrium"]},
+      {"name": "AC calorimetry", "n_groups": 2, "groups": ["HeatCapacityAndDerivedProp", "PhaseTransition"]},
+      {"name": "By X=Y", "n_groups": 2, "groups": ["VaporPBoilingTAzeotropTandP", "CompositionAtPhaseEquilibrium"]},
+      {"name": "Derived from PVT data", "n_groups": 2, "groups": ["Criticals", "VaporPBoilingTAzeotropTandP"]},
+      {"name": "Drop calorimetry", "n_groups": 2, "groups": ["HeatCapacityAndDerivedProp", "PhaseTransition"]},
+      {"name": "Drop ice or diphenyl ether calorimetry", "n_groups": 2, "groups": ["PhaseTransition", "HeatCapacityAndDerivedProp"]},
+      {"name": "Ebulliometric method (Recirculating still)", "n_groups": 2, "groups": ["VaporPBoilingTAzeotropTandP", "PhaseTransition"]},
+      {"name": "Extra sensitive DSC", "n_groups": 2, "groups": ["ExcessPartialApparentEnergyProp", "HeatCapacityAndDerivedProp"]},
+      {"name": "Index of refraction calibration data", "n_groups": 2, "groups": ["CompositionAtPhaseEquilibrium", "VaporPBoilingTAzeotropTandP"]},
+      {"name": "Large sample (1 g) DSC", "n_groups": 2, "groups": ["HeatCapacityAndDerivedProp", "ExcessPartialApparentEnergyProp"]},
+      {"name": "Small sample (50 mg) DSC", "n_groups": 2, "groups": ["HeatCapacityAndDerivedProp", "ExcessPartialApparentEnergyProp"]},
+      {"name": "Static calorimetry", "n_groups": 2, "groups": ["PhaseTransition", "HeatCapacityAndDerivedProp"]},
+      {"name": "Static method", "n_groups": 2, "groups": ["ActivityFugacityOsmoticProp", "CompositionAtPhaseEquilibrium"]}
+    ]
+  },
+  "custom_method_encoding": {
+    "description": "Custom methods (method_type='custom') are free-text strings authored by experimentalists. Two major patterns exist: structured abbreviation codes (often with UFactor suffix) and plain free-text descriptions.",
+    "total_custom_instances": 53919,
+    "total_unique_custom_strings": 2647,
+    "ufactor_pattern": {
+      "description": "Pattern: ABBREV:UFactor:N — where ABBREV is a short code for the technique and N is an integer uncertainty multiplier. Some variants include intermediate qualifiers (e.g., 'VIBTUB:FP:UFactor:4', 'SMALLAD:dCP:0.2:UFactor:2'). The UFactor value scales the base uncertainty of the method.",
+      "n_ufactor_instances": 16800,
+      "n_unique_base_codes": 97,
+      "format": "<technique_abbrev>[:<qualifier>]*:UFactor:<integer>",
+      "examples": [
+        "VIBTUB:UFactor:4  → Vibrating tube method, uncertainty factor 4",
+        "CAPTUB:UFactor:2  → Capillary tube viscometry, uncertainty factor 2",
+        "ABBE:UFactor:4    → Abbe refractometry, uncertainty factor 4",
+        "EBULLIO:UFactor:8 → Ebulliometric method, uncertainty factor 8",
+        "SMALLAD:dCP:0.2%:UFactor:2 → Small adiabatic calorimetry with 0.2% Cp uncertainty, factor 2"
+      ]
+    },
+    "abbreviation_to_standard_mapping": {
+      "description": "Mapping of the 97 custom abbreviation base codes to their corresponding standard method names (where a clear mapping exists). Codes without a standard counterpart are technique-specific shorthand.",
+      "items": [
+        {"abbrev": "ABBE", "standard": "Standard Abbe refractometry", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "ADIACA", "standard": "Adiabatic calorimetry", "group": "PhaseTransition"},
+        {"abbrev": "ANNULAR", "standard": null, "group": "TransportProp", "note": "Annular geometry viscometer"},
+        {"abbrev": "BELLOWS", "standard": "Bellows volumetry", "group": "VolumetricProp"},
+        {"abbrev": "BOMBST", "standard": "Static bomb calorimetry", "group": "ReactionStateChangeProp"},
+        {"abbrev": "BUBBLEP", "standard": "Maximal bubble pressure", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "BUOYAN", "standard": "Buoyancy - hydrostatic balance", "group": "VolumetricProp"},
+        {"abbrev": "CALVET", "standard": "Calvet calorimetry", "group": "ExcessPartialApparentEnergyProp"},
+        {"abbrev": "CAPRISE", "standard": "Capillary rise", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "CAPTUB", "standard": "Capillary tube (Ostwald; Ubbelohde) method", "group": "TransportProp"},
+        {"abbrev": "CCDM", "standard": "Cylindrical cavity resonance method", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "CCELL", "standard": null, "group": "VaporPBoilingTAzeotropTandP", "note": "Closed cell (static) vapor pressure method"},
+        {"abbrev": "CHROM", "standard": "Chromatography", "group": "CompositionAtPhaseEquilibrium"},
+        {"abbrev": "CONCYL", "standard": "Concentric cylinders viscometry", "group": "TransportProp"},
+        {"abbrev": "CONPLT", "standard": "Cone and plate viscometry", "group": "TransportProp"},
+        {"abbrev": "DCELL", "standard": "Direct current cell with electrodes", "group": "TransportProp"},
+        {"abbrev": "DERIVED", "standard": null, "group": "VolumetricProp", "note": "Derived from other measurements (e.g., virial coefficients)"},
+        {"abbrev": "DIFFLOW", "standard": "Differential flow calorimetry", "group": "ExcessPartialApparentEnergyProp"},
+        {"abbrev": "DIRECT", "standard": "Direct measurement", "group": "Criticals"},
+        {"abbrev": "DIRDIL", "standard": "Direct dilatometry", "group": "VolumetricProp"},
+        {"abbrev": "DISPS", "standard": "Dispersion", "group": "TransportProp"},
+        {"abbrev": "DISTILL", "standard": "Distillation", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "DROPSH", "standard": "Drop calorimetry", "group": "HeatCapacityAndDerivedProp"},
+        {"abbrev": "DROPV", "standard": "Drop volume", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "DROPW", "standard": "Drop weight", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "DSC", "standard": "Small sample (50 mg) DSC", "group": "PhaseTransition", "note": "Generic DSC; may map to Small or Large sample DSC"},
+        {"abbrev": "DTA", "standard": null, "group": "PhaseTransition", "note": "Differential Thermal Analysis — custom only, no standard equivalent"},
+        {"abbrev": "EBULLIO", "standard": "Ebulliometric method (Recirculating still)", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "FLOW", "standard": "Flow calorimetry", "group": "ExcessPartialApparentEnergyProp"},
+        {"abbrev": "FPINT", "standard": "Sing-around technique in a fixed-path interferometer", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "HGMAN", "standard": "Diaphragm manometer", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "HOTW", "standard": "Hot wire method", "group": "TransportProp"},
+        {"abbrev": "HYBAL", "standard": "Buoyancy - hydrostatic balance", "group": "VolumetricProp"},
+        {"abbrev": "INCPIST", "standard": "Inclined piston gauge", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "ISOPERIBOL", "standard": "Isoperibol calorimetry", "group": "ExcessPartialApparentEnergyProp"},
+        {"abbrev": "ISOTEN", "standard": "Isoteniscope", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "KNUDSEN", "standard": null, "group": "VaporPBoilingTAzeotropTandP", "note": "Knudsen effusion weight loss for sublimation pressure"},
+        {"abbrev": "LDSC", "standard": "Large sample (1 g) DSC", "group": "HeatCapacityAndDerivedProp"},
+        {"abbrev": "LSTA", "standard": "Large-sample thermal analysis", "group": "PhaseTransition"},
+        {"abbrev": "LVPAI", "standard": "Linear variable-path acoustic interferometer", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "MANOM", "standard": "Manometric method", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "MSONE", "standard": "Buoyancy - hydrostatic balance with magnetic suspension - one sinker", "group": "VolumetricProp"},
+        {"abbrev": "MSTWO", "standard": "Buoyancy - hydrostatic balance with magnetic suspension - two sinkers", "group": "VolumetricProp"},
+        {"abbrev": "OPENCP", "standard": "Open capillary", "group": "TransportProp"},
+        {"abbrev": "OSDISK", "standard": "Oscillating disk viscometry", "group": "TransportProp"},
+        {"abbrev": "OTHER", "standard": null, "group": "multiple", "note": "Unspecified method"},
+        {"abbrev": "OTHPVT", "standard": "Other PVT measurement", "group": "VolumetricProp"},
+        {"abbrev": "PHASDIA", "standard": "Derived from phase diagram analysis", "group": "PhaseTransition"},
+        {"abbrev": "PHEQ", "standard": "Phase equilibration", "group": "CompositionAtPhaseEquilibrium"},
+        {"abbrev": "PIEZOM", "standard": "Constant-volume piezometry", "group": "VolumetricProp"},
+        {"abbrev": "POWC", "standard": "Power-compensation calorimetry", "group": "ExcessPartialApparentEnergyProp"},
+        {"abbrev": "PULSEH", "standard": "Resistive pulse heating", "group": "Criticals"},
+        {"abbrev": "PYCNOM", "standard": "Pycnometric method", "group": "VolumetricProp"},
+        {"abbrev": "RATEVAP", "standard": "Rate of evaporation", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "RECTID", "standard": "Rectilinear diameter", "group": "Criticals"},
+        {"abbrev": "RELAXCAL", "standard": null, "group": "HeatCapacityAndDerivedProp", "note": "Relaxation calorimetry"},
+        {"abbrev": "RINGTE", "standard": "Ring tensiometer", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "SAME", "standard": null, "group": "multiple", "note": "Same method as another block in the paper"},
+        {"abbrev": "SDSC", "standard": "Small sample (50 mg) DSC", "group": "HeatCapacityAndDerivedProp"},
+        {"abbrev": "SECLAW", "standard": "Derived by Second law", "group": "PhaseTransition"},
+        {"abbrev": "SMALLAD", "standard": "Small (less than 1 g) adiabatic calorimetry", "group": "HeatCapacityAndDerivedProp"},
+        {"abbrev": "SPECTR", "standard": null, "group": "CompositionAtPhaseEquilibrium", "note": "Spectroscopic method (UV-Vis, IR, etc.)"},
+        {"abbrev": "SPHERE", "standard": "Spherical resonator", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "SPRES", "standard": "Spherical cavity resonance method", "group": "RefractionSurfaceTensionSoundSpeed"},
+        {"abbrev": "TAYLOR", "standard": "Taylor dispersion method", "group": "TransportProp"},
+        {"abbrev": "TITR", "standard": "Titration calorimetry", "group": "ExcessPartialApparentEnergyProp"},
+        {"abbrev": "TITRC", "standard": null, "group": "CompositionAtPhaseEquilibrium", "note": "Titration for composition analysis"},
+        {"abbrev": "TOREFF", "standard": "Torsion effusion method", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "TRANSPIR", "standard": "Transpiration method", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "TWINEBU", "standard": "Twin ebulliometer", "group": "VaporPBoilingTAzeotropTandP"},
+        {"abbrev": "VADIAC", "standard": "Vacuum adiabatic calorimetry", "group": "HeatCapacityAndDerivedProp"},
+        {"abbrev": "VDN", "standard": null, "group": "VolumetricProp", "note": "Vibrating displacer/densimeter variant"},
+        {"abbrev": "VIBTUB", "standard": "Vibrating tube method", "group": "VolumetricProp"},
+        {"abbrev": "VIBWIR", "standard": "Vibrating wire densiometer", "group": "VolumetricProp"},
+        {"abbrev": "VISOBS", "standard": "Visual observation in an unstirred cell", "group": "Criticals"},
+        {"abbrev": "VISOBSS", "standard": "Visual observation in a stirred cell", "group": "Criticals"},
+        {"abbrev": "VISOBSU", "standard": "Visual observation in an unstirred cell", "group": "Criticals"},
+        {"abbrev": "XDSC", "standard": "Extra sensitive DSC", "group": "HeatCapacityAndDerivedProp"}
+      ]
+    },
+    "top_free_text_methods": {
+      "description": "Most common free-text custom methods (no UFactor code). These are plain English descriptions used by experimentalists when no standard or abbreviation applies.",
+      "items": [
+        {"name": "DTA", "count": 4038, "group": "PhaseTransition"},
+        {"name": "Titration method", "count": 3717, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "DSC", "count": 3437, "group": "PhaseTransition"},
+        {"name": "Closed cell (Static) method", "count": 2833, "group": "VaporPBoilingTAzeotropTandP"},
+        {"name": "VISOBS", "count": 1971, "group": "PhaseTransition"},
+        {"name": "OTHER", "count": 1464, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "gravimetric", "count": 1353, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "ISOPERIBOL", "count": 542, "group": "ExcessPartialApparentEnergyProp"},
+        {"name": "gravimetric method", "count": 530, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "Gravimetric", "count": 423, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "Calculated from knudsen effusion weight loss", "count": 358, "group": "VaporPBoilingTAzeotropTandP"},
+        {"name": "SPECTR", "count": 343, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "ISOPIE", "count": 208, "group": "ActivityFugacityOsmoticProp"},
+        {"name": "titration", "count": 205, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "ISOCHOR", "count": 182, "group": "VolumetricProp"},
+        {"name": "Gravimetric method", "count": 163, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "volumetric method", "count": 160, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "Calculated from EMF cell potential", "count": 144, "group": "ActivityFugacityOsmoticProp"},
+        {"name": "Turbidity method", "count": 132, "group": "CompositionAtPhaseEquilibrium"},
+        {"name": "Karl Fischer titration", "count": 116, "group": "CompositionAtPhaseEquilibrium"}
+      ]
+    }
+  },
+  "technique_families": {
+    "description": "Grouping of methods by measurement principle/instrument family. Helps the agent recognize that different named methods may use the same underlying physical principle.",
+    "families": [
+      {
+        "family": "Calorimetry",
+        "principle": "Measuring heat exchange during a process (mixing, reaction, phase transition, temperature scanning)",
+        "standard_methods": ["Calvet calorimetry", "Flow calorimetry", "Titration calorimetry", "Power-compensation calorimetry", "Isoperibol calorimetry", "Vacuum adiabatic calorimetry", "Small (less than 1 g) adiabatic calorimetry", "Adiabatic calorimetry", "Static calorimetry", "Drop calorimetry", "Drop ice or diphenyl ether calorimetry", "Closed cup calorimetry", "Thin-film microcalorimeter", "AC calorimetry", "Solution calorimetry", "Differential flow calorimetry", "Static bomb calorimetry", "Rotating bomb calorimetry", "Micro-bomb calorimetry", "Flame calorimetry"],
+        "custom_codes": ["CALVET", "FLOW", "TITR", "POWC", "ISOPERIBOL", "VADIAC", "SMALLAD", "ADIACA", "DROPSH", "BOMBST", "DIFFLOW", "RELAXCAL"]
+      },
+      {
+        "family": "Differential Scanning Calorimetry (DSC/DTA)",
+        "principle": "Temperature-scanning heat flow measurement between sample and reference; DTA measures temperature difference",
+        "standard_methods": ["Small sample (50 mg) DSC", "Large sample (1 g) DSC", "Extra sensitive DSC", "Large-sample thermal analysis", "Heating/Cooling curves"],
+        "custom_codes": ["DSC", "SDSC", "LDSC", "XDSC", "DTA", "LSTA"]
+      },
+      {
+        "family": "Densimetry",
+        "principle": "Measuring mass, volume, or buoyancy to determine density",
+        "standard_methods": ["Vibrating tube method", "Pycnometric method", "Buoyancy - hydrostatic balance", "Buoyancy - hydrostatic balance with magnetic suspension - one sinker", "Buoyancy - hydrostatic balance with magnetic suspension - two sinkers", "Direct dilatometry", "Vibrating wire densiometer", "Gamma attenuation method"],
+        "custom_codes": ["VIBTUB", "PYCNOM", "BUOYAN", "HYBAL", "MSONE", "MSTWO", "DIRDIL", "VIBWIR", "VDN"]
+      },
+      {
+        "family": "Viscometry",
+        "principle": "Measuring resistance to flow or shear deformation",
+        "standard_methods": ["Capillary tube (Ostwald; Ubbelohde) method", "Falling or rolling sphere viscometry", "Concentric cylinders viscometry", "Cone and plate viscometry", "Vibrating wire viscometry", "Moving piston method", "Oscillating disk viscometry", "Oscillating viscometer", "Draining crucible"],
+        "custom_codes": ["CAPTUB", "CONCYL", "CONPLT", "VIBWIR", "OSDISK"]
+      },
+      {
+        "family": "Chromatography / Separation",
+        "principle": "Component separation and quantification by partitioning between mobile and stationary phases",
+        "standard_methods": ["Chromatography", "Gas chromatography", "Correlation gas chromatography", "NMR spectrometry"],
+        "custom_codes": ["CHROM", "SPECTR"]
+      },
+      {
+        "family": "Vapor Pressure / Volatility",
+        "principle": "Measuring equilibrium vapor pressure or boiling behavior",
+        "standard_methods": ["Ebulliometric method (Recirculating still)", "Transpiration method", "Manometric method", "Diaphragm manometer", "Isoteniscope", "Twin ebulliometer", "Inclined piston gauge", "Torsion effusion method", "Rate of evaporation"],
+        "custom_codes": ["EBULLIO", "TRANSPIR", "MANOM", "HGMAN", "ISOTEN", "TWINEBU", "INCPIST", "CCELL", "TOREFF", "RATEVAP", "KNUDSEN"]
+      },
+      {
+        "family": "Acoustic / Speed of Sound",
+        "principle": "Measuring propagation speed or resonance of sound waves in fluid",
+        "standard_methods": ["Sing-around technique in a fixed-path interferometer", "Linear variable-path acoustic interferometer", "Single path-length method", "Pulse-echo method", "Dual path-length method", "Multiple path-length method", "Spherical resonator", "Spherical cavity resonance method", "Cylindrical cavity resonance method"],
+        "custom_codes": ["FPINT", "LVPAI", "SPHERE", "SPRES", "CCDM"]
+      },
+      {
+        "family": "Surface Tension",
+        "principle": "Measuring force or shape at liquid-gas or liquid-liquid interfaces",
+        "standard_methods": ["Ring tensiometer", "Pendant drop shape", "Drop volume", "Maximal bubble pressure", "Capillary rise", "Drop weight", "Sessile Drop", "Light diffraction method"],
+        "custom_codes": ["RINGTE", "DROPV", "DROPW", "BUBBLEP", "CAPRISE"]
+      },
+      {
+        "family": "Optical / Refractometry",
+        "principle": "Measuring refractive index or permittivity via electromagnetic wave interaction",
+        "standard_methods": ["Standard Abbe refractometry", "Dipping refractometry (monochromatic)", "Parallel plate capacitor", "Coaxial cylinder capacitor", "Reentrant cavity resonator"],
+        "custom_codes": ["ABBE"]
+      },
+      {
+        "family": "Conductivity / Electrochemistry",
+        "principle": "Measuring ionic conductance or electrode potentials",
+        "standard_methods": ["Alternating current cell with electrodes", "Direct current cell with electrodes", "Voltage change across transformer (no electrode)"],
+        "custom_codes": ["DCELL"]
+      },
+      {
+        "family": "Diffusion",
+        "principle": "Measuring mass transport by molecular motion",
+        "standard_methods": ["Taylor dispersion method", "Open capillary", "NMR spin-echo technique", "Dispersion", "Optical interferometry", "Optical method"],
+        "custom_codes": ["TAYLOR", "OPENCP", "DISPS"]
+      },
+      {
+        "family": "Thermal Conductivity",
+        "principle": "Measuring heat transport through a material",
+        "standard_methods": ["Hot wire method", "Hot disk method", "Coaxial cylinder method", "Parallel plate method"],
+        "custom_codes": ["HOTW"]
+      },
+      {
+        "family": "PVT / Volumetric",
+        "principle": "Measuring pressure-volume-temperature relationships",
+        "standard_methods": ["Constant-volume piezometry", "Bellows volumetry", "Burnett expansion method", "Other PVT measurement", "Expansion technique"],
+        "custom_codes": ["PIEZOM", "BELLOWS", "OTHPVT"]
+      },
+      {
+        "family": "Extreme Conditions",
+        "principle": "Rapid heating or containerless methods for high-T / metastable states",
+        "standard_methods": ["Resistive pulse heating", "Laser pulse heating", "Levitation methods"],
+        "custom_codes": ["PULSEH"]
+      },
+      {
+        "family": "Visual / Direct Observation",
+        "principle": "Human or camera observation of phase boundaries, meniscus, or turbidity",
+        "standard_methods": ["Visual observation in an unstirred cell", "Visual observation in a stirred cell", "Direct measurement"],
+        "custom_codes": ["VISOBS", "VISOBSS", "VISOBSU", "DIRECT"]
+      }
+    ]
+  },
+  "uncertainty_model": {
+    "description": "How measurement uncertainty is encoded in ThermoML. Tied to the technique used: experimentalists estimate expanded uncertainty for each data point based on their method's error budget.",
+    "evaluation_method": "Propagation of evaluated standard uncertainties",
+    "evaluator": "Data file compiler",
+    "assessment_number": 1,
+    "confidence_level_percent": 95,
+    "per_datapoint_field": "nCombExpandUncertValue — the expanded uncertainty for each data point",
+    "digits_fields": "nPropDigits, nVarDigits, nConstrDigits — significant figures of the reported numeric value",
+    "ufactor_note": "Custom methods with :UFactor:N suffix encode a multiplier on the base uncertainty of the technique abbreviation. Higher N means the author assigned proportionally larger uncertainty."
+  }
+}

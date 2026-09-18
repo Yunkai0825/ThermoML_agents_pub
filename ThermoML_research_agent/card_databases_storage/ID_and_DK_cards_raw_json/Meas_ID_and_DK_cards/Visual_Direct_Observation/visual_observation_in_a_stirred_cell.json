@@ -1,0 +1,331 @@
+{
+  "meas_ID": "visual_observation_in_a_stirred_cell",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Visual observation in a stirred cell",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Visual observation in a stirred cell",
+    "thermoml_custom_codes": [
+      "VISOBSS"
+    ],
+    "measurement_family": "Visual / Direct Observation",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "yes",
+      "imaging": "yes"
+    },
+    "db_usage": {
+      "instance_count": 52,
+      "property_groups": [
+        "Criticals"
+      ],
+      "n_papers": 25,
+      "per_group": {
+        "Criticals": {
+          "instances": 52,
+          "papers": 25
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature at onset of turbidity (cloud point)",
+          "temperature at disappearance of turbidity (clear point)",
+          "temperature at onset of bubble formation (bubble point)",
+          "temperature or pressure at dew point (condensation onset)",
+          "temperature at first crystal appearance or last crystal dissolution",
+          "system pressure at phase transition (in pressurized cells)"
+        ],
+        "derived_observables": [
+          "cloud-point curve (T vs. composition at fixed P)",
+          "bubble-point and dew-point curves",
+          "upper critical solution temperature (UCST)",
+          "lower critical solution temperature (LCST)",
+          "solid-liquid phase boundary (liquidus/solidus)",
+          "three-phase equilibrium loci",
+          "solubility as a function of temperature"
+        ],
+        "target_properties": [
+          "liquid-liquid equilibrium phase boundary temperature",
+          "cloud-point temperature",
+          "bubble-point temperature or pressure",
+          "dew-point temperature or pressure",
+          "UCST and LCST",
+          "solid-liquid equilibrium temperature (liquidus)",
+          "critical solution composition",
+          "mutual solubility as a function of temperature"
+        ],
+        "phases_measured": [
+          "liquid-liquid equilibrium (LLE)",
+          "vapor-liquid equilibrium (VLE, bubble/dew point)",
+          "solid-liquid equilibrium (SLE, crystal appearance/disappearance)",
+          "liquid-liquid-vapor three-phase regions"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "ternary and multicomponent liquid mixtures",
+          "polymer solutions",
+          "surfactant and micellar solutions",
+          "ionic liquid mixtures",
+          "aqueous electrolyte solutions",
+          "hydrocarbon and fuel blends",
+          "solutions of gases dissolved in liquids (bubble point)"
+        ],
+        "unsupported_sample_types": [
+          "opaque or deeply colored samples that prevent visual observation",
+          "highly viscous systems where stirring is ineffective and phase separation is kinetically hindered",
+          "reactive mixtures that decompose near the phase boundary temperature",
+          "systems at pressures exceeding the cell rating (standard glass cells limited to ~5 MPa)",
+          "extremely volatile or toxic samples without proper containment"
+        ],
+        "typical_output_formats": [
+          "phase boundary temperature vs. mole fraction (T-x diagram)",
+          "cloud-point temperature vs. composition at fixed pressure",
+          "bubble-point pressure vs. temperature at fixed composition",
+          "tabulated (T, P, x) at each observed phase transition"
+        ],
+        "units": {
+          "temperature": "K or °C",
+          "pressure": "MPa or kPa",
+          "composition": "mole fraction, mass fraction, or molality",
+          "heating_or_cooling_rate": "K/min or K/h"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "250 K to 450 K",
+            "hard_limits": "limited by glass cell integrity and coolant/heating bath capacity; specialized metal cells extend to higher temperatures",
+            "notes": "standard jacketed glass cells operate comfortably between 260 K and 420 K with common circulating baths"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "atmospheric to ~5 MPa",
+            "hard_limits": "standard borosilicate glass cells rated to ~2 MPa; sapphire or metal windowed cells to ~20 MPa",
+            "notes": "most cloud-point LLE work is performed at atmospheric pressure; VLE bubble-point work requires pressure capability"
+          },
+          {
+            "parameter": "heating_or_cooling_rate",
+            "typical_range": "0.05 K/min to 1 K/min",
+            "hard_limits": "must be slow enough for the system to approach equilibrium; too fast yields kinetic overshoot of phase boundary",
+            "notes": "0.1–0.2 K/min is standard for high-accuracy cloud-point determination; some protocols use stepwise isothermal approach"
+          },
+          {
+            "parameter": "stirring_speed",
+            "typical_range": "200 to 800 rpm",
+            "hard_limits": "must be vigorous enough to ensure compositional and thermal homogeneity but gentle enough to avoid vortex or foam formation",
+            "notes": "magnetic stir bar is standard; overhead stirring used for high-viscosity systems"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "5 mL to 50 mL",
+            "hard_limits": "minimum volume must be sufficient to submerge thermometer tip and stir bar; maximum set by cell volume",
+            "notes": "smaller cells (~2 mL) are used when sample is scarce; larger cells (~100 mL) improve visual clarity"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "scanned variable (primary)",
+            "typical_values": "250 K to 450 K",
+            "effect": "temperature scan crosses the phase boundary; the transition temperature is the measurand"
+          },
+          {
+            "name": "composition",
+            "role": "controlled variable (set before measurement)",
+            "typical_values": "full composition range from dilute to concentrated",
+            "effect": "each composition yields one phase boundary temperature; mapping across compositions builds the phase diagram"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed (atmospheric) or scanned in VLE work",
+            "typical_values": "0.1 MPa for LLE; variable for VLE",
+            "effect": "pressure shifts the phase boundary; constant pressure is assumed unless explicitly varied"
+          },
+          {
+            "name": "heating_or_cooling_rate",
+            "role": "controlled procedural variable",
+            "typical_values": "0.1 to 0.5 K/min",
+            "effect": "slower rates reduce kinetic overshoot and improve accuracy of phase boundary temperature"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "jacketed glass cell (borosilicate or quartz, 10–100 mL volume) with transparent walls for visual observation",
+          "magnetic stirrer with PTFE-coated stir bar (or overhead stirrer for viscous systems)",
+          "precision thermometer — platinum resistance thermometer (PRT, ±0.01 K) or calibrated thermocouple immersed in solution",
+          "circulating thermostat bath connected to cell jacket for slow programmed heating/cooling",
+          "external illumination source (fiber optic cold light or LED panel) to enhance visibility of turbidity onset",
+          "pressure transducer (for pressurized cells)",
+          "syringe or septum port for composition adjustment or degassing",
+          "optional: CCD camera or photodetector for semi-automated turbidity detection"
+        ],
+        "environmental_requirements": [
+          "well-lit laboratory with dark or contrasting background behind the cell to detect turbidity onset",
+          "temperature-stable room to minimize bath fluctuations",
+          "fume hood or ventilation for volatile organic solvents",
+          "vibration-free bench to avoid disturbing meniscus or turbidity observation"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample filling the cell to an adequate level above the stir bar and thermometer tip"
+          ],
+          "size_limits": "5–50 mL typical; minimum ~2 mL for micro-cells",
+          "thickness_limits": "not applicable (bulk liquid measurement)",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "cell must be sealed or capped to prevent evaporation and composition change",
+            "thermometer positioned away from cell wall and stir bar to avoid localized effects"
+          ],
+          "preparation_requirements": [
+            "components weighed gravimetrically on an analytical balance (±0.1 mg) to prepare known composition",
+            "thorough mixing and degassing before measurement to remove dissolved air that could nucleate false bubble points",
+            "drying of hygroscopic components to ensure accurate composition",
+            "filtration through 0.2 µm filter if particulate contamination could mimic turbidity"
+          ]
+        },
+        "calibration_requirements": [
+          "PRT or thermocouple calibrated against ITS-90 fixed points or a certified reference thermometer",
+          "circulating bath programmed ramp rate verified against an independent thermometer",
+          "pressure transducer calibrated against a dead-weight gauge (for pressurized measurements)",
+          "validate technique by measuring a well-characterized reference binary system with known cloud-point curve"
+        ],
+        "reference_materials": [
+          "n-hexane + nitrobenzene binary — well-characterized UCST cloud-point curve (UCST ~293 K), widely used validation system",
+          "cyclohexane + methanol — UCST system with well-known phase boundary",
+          "water + 2-butoxyethanol — LCST system (LCST ~322 K) for lower critical solution temperature validation",
+          "water + triethylamine — LCST reference system"
+        ],
+        "consumables": [
+          "PTFE-coated magnetic stir bars",
+          "glass cell sealing caps and O-rings",
+          "precision syringes for composition adjustment",
+          "solvent for cleaning cells between runs",
+          "inert gas (nitrogen or argon) for atmosphere control"
+        ],
+        "safety_notes": [
+          "glass cells under pressure can fail explosively — use polycarbonate shields and never exceed rated pressure",
+          "organic solvents require fume hood use and appropriate PPE",
+          "heating baths with flammable fluids require temperature limiters and proper ventilation",
+          "cryogenic coolants in bath require standard cold-hazard precautions"
+        ]
+      },
+      "performance": {
+        "sensitivity": "human eye detects turbidity onset at droplet sizes ~1 µm; photodetector-assisted systems detect lower turbidity levels corresponding to ~0.1% transmitted intensity change",
+        "detection_limit": "phase boundary detection requires at least micro-scale phase separation; systems with very low interfacial tension near a critical point may show gradual turbidity onset that is difficult to pinpoint visually",
+        "resolution": {
+          "spatial": "not applicable (bulk observation)",
+          "temporal": "limited by thermal equilibration time (seconds to minutes) and operator reaction time (~1 s); automated camera systems achieve ~0.1 s time resolution",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "covers the full composition range from dilute to equimolar to concentrated; temperature range limited by cell construction (typically 250–450 K)",
+        "accuracy": "0.1–0.5 K in phase boundary temperature for well-controlled slow scans; 0.5–2 K for faster surveys; composition accuracy depends on gravimetric preparation (typically ±0.001 mole fraction)",
+        "precision": "0.05–0.2 K repeatability for cloud-point temperature from replicate heating/cooling cycles on the same sample",
+        "throughput": "one composition per run; a full T-x phase diagram (10–20 compositions) requires 1–3 days of work",
+        "measurement_speed": "single cloud-point determination takes 30 min to 2 h depending on heating rate and equilibration protocol"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "visual observation of turbidity onset (cloud point) or disappearance (clear point) correlated with simultaneously recorded temperature (and pressure if applicable)",
+        "preprocessing_steps": [
+          "record temperature at first visible turbidity (cloud point on cooling) or clearing (clear point on heating)",
+          "average cloud-point and clear-point temperatures to reduce kinetic hysteresis — the equilibrium phase boundary is taken as the mean",
+          "correct for thermometer sensor lag if heating/cooling rate is not negligibly slow",
+          "verify composition by re-weighing or back-calculating from initial preparation masses"
+        ],
+        "analysis_methods": [
+          "plot T_cloud or T_clear vs. mole fraction x to construct the binodal (cloud-point curve)",
+          "fit cloud-point curve with scaling law T - Tc ∝ |x - xc|^β near the critical point (β ≈ 0.325 for Ising universality)",
+          "apply Flory-Huggins or NRTL models to correlate and interpolate the phase boundary",
+          "determine UCST or LCST as the extremum of the T-x cloud-point curve",
+          "for VLE bubble points, plot P vs. T or P vs. x and compare with equation-of-state predictions"
+        ],
+        "model_assumptions": [
+          "system is at or near thermodynamic equilibrium at the moment of observation (scan rate is slow enough)",
+          "turbidity onset corresponds to the true binodal (not the spinodal or a metastable state)",
+          "composition remains uniform due to effective stirring (no concentration gradients)",
+          "temperature is spatially uniform within the cell (no hot/cold spots exceeding measurement uncertainty)",
+          "pressure is constant during the scan (for isobaric measurements)"
+        ],
+        "fit_parameters": [
+          "critical solution temperature (UCST or LCST)",
+          "critical composition (xc)",
+          "interaction parameter (χ in Flory-Huggins, or τ12/τ21 in NRTL)",
+          "scaling exponent β near the critical point"
+        ],
+        "common_artifacts": [
+          "kinetic hysteresis: cloud-point temperature on cooling lies below clear-point temperature on heating due to nucleation/growth kinetics",
+          "false turbidity from dust, air bubbles, or surface condensation on the outer cell wall",
+          "composition drift from evaporation through imperfect seals, especially for volatile components",
+          "incomplete mixing producing localized phase separation that does not represent the bulk equilibrium state",
+          "thermal gradient between jacket-cooled wall and bulk liquid causing premature wall turbidity"
+        ],
+        "quality_control_checks": [
+          "repeat heating/cooling cycles (≥3) on same sample — cloud and clear points should converge within 0.2 K",
+          "reduce scan rate by half and verify that phase boundary temperature does not shift by more than the stated uncertainty",
+          "prepare duplicate samples gravimetrically and compare results to check composition accuracy",
+          "validate by measuring a reference system (e.g., n-hexane + nitrobenzene) and comparing with literature UCST",
+          "inspect cell for condensation, bubbles, or particulates before each observation"
+        ],
+        "failure_modes": [
+          "cell cracking or seal failure under pressure, causing sample loss and safety hazard",
+          "stir bar decoupling or seizing, resulting in inadequate mixing and temperature/composition inhomogeneity",
+          "thermometer displacement from liquid into vapor space, yielding incorrect temperature readings",
+          "sample decomposition during prolonged heating, altering composition irreversibly",
+          "fogging of cell exterior obscuring interior observation, especially near the dew point of room air"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5 K for phase boundary temperature; 0.001–0.005 in mole fraction for composition",
+        "random_sources": [
+          "operator variability in judging the exact moment of turbidity onset or disappearance",
+          "temperature fluctuations from bath oscillations (±0.01–0.05 K)",
+          "stochastic nature of nucleation near the phase boundary",
+          "weighing precision in gravimetric sample preparation"
+        ],
+        "systematic_sources": [
+          "kinetic undershoot/overshoot: finite cooling/heating rate causes the observed cloud/clear point to deviate from the equilibrium value",
+          "thermometer calibration offset",
+          "composition error from impurity in starting materials or adsorbed moisture",
+          "thermal gradient between thermometer position and the region where turbidity first appears",
+          "evaporation losses shifting true composition from intended value"
+        ],
+        "operator_dependence": "high — the moment of turbidity onset is a subjective visual judgment; trained operators typically agree within 0.1–0.3 K, but untrained operators may differ by >1 K; automated camera/photodetector systems reduce operator dependence substantially",
+        "model_dependence": "low to moderate — the raw phase boundary temperature is a direct observation with minimal model dependence; model dependence enters when fitting the full binodal curve or extracting critical parameters using scaling laws or solution theories",
+        "dominant_error_sources": [
+          "kinetic hysteresis between cloud and clear points (dominant unless very slow scan rates are used)",
+          "operator subjectivity in turbidity detection",
+          "composition uncertainty from gravimetric preparation and possible evaporation"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(T) at 95% confidence (k=2)",
+          "half the difference between cloud and clear point temperatures as an estimate of kinetic uncertainty",
+          "standard deviation from replicate measurements",
+          "composition uncertainty u(x) from error propagation of weighing uncertainties"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Visual observation in a stirred cell is a direct phase boundary detection method in which a liquid mixture of known composition is placed in a transparent glass cell equipped with magnetic stirring and precise temperature measurement. The temperature is slowly scanned while an operator watches for the onset or disappearance of turbidity (cloud/clear point), bubble formation, or crystal appearance, marking the crossing of a phase boundary. This classical technique is the most widely used method for mapping liquid-liquid equilibrium (LLE) cloud-point curves, and is also applied to vapor-liquid and solid-liquid phase boundary determination. Its conceptual simplicity, broad applicability, and minimal equipment requirements have made it a workhorse in thermodynamic laboratories worldwide.",
+      "how_it_operates": "A sample of accurately known composition is loaded into a jacketed glass cell and sealed. A PTFE-coated magnetic stir bar ensures continuous mixing for thermal and compositional homogeneity. The cell jacket is connected to a programmable circulating thermostat bath that ramps the temperature at a controlled slow rate, typically 0.1–0.5 K/min. A calibrated platinum resistance thermometer immersed directly in the liquid records the temperature continuously. The operator, aided by fiber-optic illumination and a dark background, visually monitors the solution for the first sign of turbidity onset (cloud point on cooling) or the last trace of turbidity disappearing (clear point on heating). The temperature at each event is recorded. For VLE measurements, the observer watches for the first bubble or last bubble; for SLE, the appearance or disappearance of solid crystals. By repeating the experiment at multiple compositions, the complete phase boundary is mapped.",
+      "core_theory": "The technique relies on the thermodynamic principle that a homogeneous single-phase mixture becomes unstable (or metastable) when the temperature crosses the binodal curve on a T-x phase diagram. At the cloud point, the single liquid phase begins to separate into two immiscible liquid phases, scattering visible light and producing turbidity. The observed cloud-point temperature corresponds to the binodal temperature for the given composition and pressure. Near a critical solution point (UCST or LCST), the phase boundary follows the scaling relation T − Tc ∝ |x − xc|^β with the Ising critical exponent β ≈ 0.325. For VLE bubble points, nucleation of the vapor phase occurs when the liquid pressure drops below the saturation pressure or the temperature exceeds the boiling point at system pressure. Visual detection is possible because the phase transition creates a macroscopic change in optical properties — turbidity, bubbles, or crystals — that the human eye or a camera can detect.",
+      "setup": "The apparatus consists of a cylindrical jacketed glass cell (typically 20–50 mL capacity, borosilicate or quartz) with flat or round windows for clear viewing. A tight-fitting cap accommodates a calibrated PRT (±0.01 K), a syringe septum or addition port, and optionally a pressure transducer. A magnetic stirrer plate sits beneath the cell, driving a PTFE stir bar inside. A programmable circulating thermostat (stability ±0.01 K) circulates heat transfer fluid through the jacket to scan temperature slowly. A fiber-optic cold light source provides strong, non-heating illumination angled to maximize contrast of turbidity onset. A matte black background or screen behind the cell enhances visibility. For pressurized measurements, the cell is a thick-walled sapphire or metal-windowed vessel with pressure rating. Optionally, a CCD camera with image-processing software or a laser turbidity detector replaces or supplements the human observer for automated or semi-automated detection.",
+      "suitable_for": "This technique is the method of choice for determining liquid-liquid miscibility gaps and cloud-point curves across the full composition range at moderate temperatures and pressures. It is routinely applied to aqueous and organic binary mixtures, polymer solutions, ionic liquid systems, surfactant formulations, and petroleum-related hydrocarbon blends. It is also used for VLE bubble-point measurements in pressurized cells and for solid-liquid equilibrium (liquidus curve) determination. The method is particularly appropriate when: the sample is optically transparent (or translucent) in the single-phase state; the phase transition produces a visible change; and the system is not too viscous for effective stirring. It provides the simplest and most direct route to mapping coexistence curves without requiring sophisticated analytical instruments.",
+      "core_limitations": "The principal limitation is the subjective nature of visual detection — the operator must judge the exact moment of turbidity onset, introducing an irreducible human element. This limits reproducibility to ~0.1–0.5 K even for trained operators. Kinetic hysteresis between cloud and clear points is inherent because nucleation of a new phase requires some degree of supersaturation, so the observed transition temperature depends on the scan direction and rate. Opaque, deeply colored, or highly fluorescent samples cannot be measured because turbidity is not visually detectable. Highly viscous systems (>1 Pa·s) resist effective stirring, leading to temperature and composition gradients that broaden the apparent transition. Standard glass cells limit pressure to ~2–5 MPa, restricting high-pressure applications. The method yields only the phase boundary temperature at a set composition — it does not directly provide the compositions of the coexisting phases (tie-line data) without additional analytical sampling.",
+      "sample_preparation": "Sample preparation centers on accurate gravimetric composition control. The less volatile component is weighed first into the dried glass cell on an analytical balance (±0.1 mg), followed by the second (or additional) component(s) delivered by weight using a syringe or pipette. All masses are recorded to calculate the exact mole fraction. For hygroscopic or air-sensitive components, preparation is performed under dry inert gas (nitrogen or argon) or in a glove box. The mixture is stirred thoroughly and, for VLE work, degassed by brief sonication or freeze-pump-thaw cycling to remove dissolved air that could cause false bubble nucleation. The cell is sealed immediately after preparation. For systems with solid components, the solid is weighed directly and dissolved by gentle warming and stirring before beginning the measurement. Filtration through a 0.2 µm PTFE filter is recommended to remove particulate contaminants that could serve as heterogeneous nucleation sites or mimic turbidity.",
+      "calibration_and_references": "Temperature calibration is performed by calibrating the PRT or thermocouple against ITS-90 fixed points or a certified reference thermometer traceable to national standards; a two- or three-point calibration with ice point (273.15 K) and verified against a gallium or indium melting standard is typical. The programmed temperature ramp rate of the circulating bath is verified by independently logging the thermometer over a calibration run. The overall measurement procedure is validated by determining the cloud-point curve of a well-characterized reference system such as n-hexane + nitrobenzene (UCST ~293 K) or cyclohexane + methanol, and comparing results with accepted literature values. Agreement within the stated uncertainty (0.2–0.5 K) confirms proper instrument function and operator technique. For pressurized systems, the pressure transducer is calibrated against a dead-weight tester.",
+      "data_interpretation": "For each experimental composition, the cloud-point temperature (on cooling) and clear-point temperature (on heating) are recorded from multiple replicate cycles. The equilibrium phase boundary temperature is estimated as the mean of the cloud and clear points, since kinetic effects cause the cloud point to lie below and the clear point to lie above the true equilibrium binodal. The averaged phase boundary temperatures are plotted vs. mole fraction to construct the T-x binodal curve. Near the critical composition, the curve is flat, and the UCST (or LCST) is identified as the maximum (or minimum) of the binodal by fitting the data with a polynomial or the Ising scaling law. Thermodynamic models such as NRTL, UNIQUAC, or Flory-Huggins can be regressed to the cloud-point data to obtain interaction parameters for predictive use. For VLE, bubble-point T or P is plotted against composition and compared with equation-of-state predictions (e.g., Peng-Robinson with mixing rules).",
+      "common_pitfalls": "The most common pitfall is scanning temperature too quickly, which widens the hysteresis between cloud and clear points beyond acceptable limits and introduces kinetic bias toward lower cloud-point (on cooling) or higher clear-point (on heating) values. Another frequent error is inadequate stirring, which produces temperature and composition gradients — particularly near cell walls cooled by the jacket — causing premature local phase separation that does not represent the bulk. Operator fatigue during long measurement sessions degrades the precision of turbidity detection. Sample contamination with dust, fibers, or moisture shifts the cloud-point temperature and can mimic turbidity before true phase separation occurs. Evaporation of a volatile component through a poor seal systematically shifts the composition over time, yielding a drifting cloud-point temperature. Near the UCST or LCST, critical opalescence can cause gradually intensifying turbidity rather than a sharp onset, making it difficult to assign a precise phase boundary without supplemental turbidimetry.",
+      "artifacts_and_failure_modes": "Kinetic hysteresis is the dominant artifact: the cloud point on cooling lies systematically below the clear point on heating because the new phase must nucleate and grow to a size detectable by the eye (~1 µm droplets), which requires finite supersaturation. This artifact is minimized but never eliminated by reducing the scan rate. False cloud points arise from condensation of humid air on the outer cell wall (fogging), dust particles or air bubbles suspended in the mixture, or accidental scratching of the glass producing light scattering. Seal failure during pressurized runs leads to abrupt loss of volatile component, a sudden composition shift, and an erroneous phase boundary. Stir bar decoupling (loss of magnetic coupling) causes mixing to stop, resulting in thermal stratification and delayed, broadened phase transitions. Operator bias — the tendency to report the transition at a psychologically expected temperature — is a subtle but documented artifact, mitigated by blinding protocols or automated camera detection. Thermal degradation during extended heating cycles, particularly for thermally labile polymers or biological solutes, can irreversibly alter the sample and make successive measurements non-reproducible.",
+      "reporting_checklist": "Published cloud-point or phase boundary data from visual observation in a stirred cell should report: cell type and material (glass, sapphire, metal window) with volume; stirring method and speed; thermometer type, calibration, and placement; method of composition preparation (gravimetric) with stated component purities and water content; scanning protocol (heating, cooling, or both) with rate in K/min; criterion for phase transition (turbidity onset, last trace of turbidity, first bubble, etc.); number of replicate cycles and whether cloud or clear point or their average is reported; ambient or controlled pressure; combined expanded uncertainty in temperature U(T) with coverage factor k=2 at 95% confidence level; composition uncertainty u(x) from propagated weighing errors; whether the observation was purely visual or camera/detector assisted; reference system validation results; and any corrections applied for thermometer lag or pressure effects. For ThermoML encoding, phase boundary temperatures are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

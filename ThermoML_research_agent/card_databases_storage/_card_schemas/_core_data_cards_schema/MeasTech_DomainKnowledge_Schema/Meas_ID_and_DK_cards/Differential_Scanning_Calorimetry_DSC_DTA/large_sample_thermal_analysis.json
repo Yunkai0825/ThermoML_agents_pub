@@ -1,0 +1,340 @@
+{
+  "meas_ID": "large_sample_thermal_analysis",
+  "identity": {
+    "name": "Large-sample thermal analysis",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Large-sample thermal analysis",
+    "thermoml_custom_codes": [
+      "LSTA"
+    ],
+    "measurement_family": "Differential Scanning Calorimetry (DSC/DTA)",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 55,
+      "property_groups": [
+        "PhaseTransition"
+      ],
+      "n_papers": 12,
+      "per_group": {
+        "PhaseTransition": {
+          "instances": 55,
+          "papers": 12
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature difference between sample and reference (ΔT)",
+          "sample temperature as a function of time T(t)",
+          "reference temperature as a function of time Tref(t)",
+          "heating/cooling curve slope (dT/dt)"
+        ],
+        "derived_observables": [
+          "phase transition onset temperature",
+          "phase transition peak temperature",
+          "molar enthalpy of fusion (ΔfusH)",
+          "molar enthalpy of solid-solid transition",
+          "heat capacity at constant pressure (Cp) via scanning method",
+          "degree of conversion (for decomposition reactions)"
+        ],
+        "target_properties": [
+          "phase transition temperature (solid–liquid, solid–solid)",
+          "molar enthalpy of fusion",
+          "molar enthalpy of solid-solid phase transition",
+          "heat capacity (Cp) from enthalpy method",
+          "liquidus and solidus temperatures for multicomponent systems"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (polycrystalline/heterogeneous)",
+          "liquid",
+          "solid–liquid two-phase region",
+          "glass"
+        ],
+        "supported_sample_types": [
+          "geological minerals and rocks",
+          "construction materials (concrete, cement, gypsum)",
+          "food products and agricultural materials",
+          "waste and refuse-derived fuels",
+          "coarse-grained heterogeneous mixtures",
+          "pharmaceutical granules and tablets",
+          "salts and salt hydrates (phase-change materials)",
+          "slag and metallurgical samples",
+          "polymer composites with fillers",
+          "soil and sediment samples"
+        ],
+        "unsupported_sample_types": [
+          "gases",
+          "highly volatile liquids",
+          "explosives or strongly exothermic reactive materials (uncontrolled energy release at large scale)",
+          "samples requiring sub-milligram quantities (use standard DSC instead)",
+          "materials demanding rapid heating rates > 10 K/min (thermal lag becomes excessive)"
+        ],
+        "typical_output_formats": [
+          "ΔT vs. T thermogram (DTA-style curve)",
+          "T vs. time heating/cooling curve",
+          "dT/dt vs. T derivative plot",
+          "enthalpy vs. T plot (from integrated ΔT signal)"
+        ],
+        "units": {
+          "temperature": "K or °C",
+          "temperature_difference": "K or mV (thermocouple output)",
+          "enthalpy": "J/mol or kJ/mol",
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "heating_rate": "K/min",
+          "sample_mass": "g",
+          "time": "min or s"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "sample_mass",
+            "typical_range": "5 g to 50 g",
+            "hard_limits": "lower bound ~2 g (below this use standard DSC); upper bound ~100 g for largest custom cells",
+            "notes": "mass chosen to ensure representative sampling of heterogeneous materials; larger masses require slower heating rates"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "0.1 K/min to 2 K/min",
+            "hard_limits": "maximum ~5 K/min before thermal gradients within the sample become unacceptable",
+            "notes": "slower rates improve thermal equilibrium within the large sample; 0.5 K/min is a common compromise"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 1300 K",
+            "hard_limits": "limited by furnace capability and crucible material; Setaram BT2.15 operates to ~1000 °C",
+            "notes": "high-temperature operation requires refractory crucibles (alumina, platinum) and inert atmosphere"
+          },
+          {
+            "parameter": "atmosphere",
+            "typical_range": "flowing N2 or Ar at 20–100 mL/min",
+            "hard_limits": "air atmosphere acceptable for inert samples; reducing atmosphere (H2/Ar) for metals above 500 K",
+            "notes": "flow rate must be sufficient to purge evolved gases without disturbing sample temperature"
+          }
+        ],
+        "variables": [
+          {
+            "name": "heating_rate",
+            "role": "primary experimental variable",
+            "typical_values": "0.1, 0.5, 1.0, 2.0 K/min",
+            "effect": "slower rates improve resolution of closely spaced transitions but increase experiment duration; faster rates amplify ΔT signal but degrade temperature accuracy due to thermal gradients"
+          },
+          {
+            "name": "sample_mass",
+            "role": "controlled variable",
+            "typical_values": "5–50 g",
+            "effect": "larger masses improve representativeness for heterogeneous samples but increase thermal lag and broaden transition peaks"
+          },
+          {
+            "name": "temperature",
+            "role": "scanned variable",
+            "typical_values": "ambient to 1300 K",
+            "effect": "temperature ramp reveals phase transitions as endothermic or exothermic events in the ΔT signal"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "standard operation at ambient pressure; elevated pressures shift transition temperatures according to Clausius-Clapeyron relation"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "large-volume DTA/calorimetric cell — twin cylindrical crucibles (sample and reference) with volumes of 5–100 mL",
+          "programmable furnace — resistance-wound tube or muffle furnace surrounding the cell assembly, capable of controlled ramps from 0.1 to 5 K/min",
+          "thermocouples — multiple type K or type S thermocouples; at least one embedded directly in the sample bulk and one in or on the reference",
+          "reference material — inert material of matched thermal mass (α-Al2O3, calcined alumina, or sand)",
+          "temperature programmer/controller — PID controller with resolution ≤ 0.1 K for linear ramp programs",
+          "data acquisition system — multi-channel thermocouple logger or digitizer with ≥ 0.1 K resolution and ≥ 1 Hz sampling rate",
+          "atmosphere control system — gas inlet/outlet with flow controller for inert or reactive gas supply",
+          "crucibles — alumina, stainless steel, or platinum depending on temperature range and sample reactivity"
+        ],
+        "environmental_requirements": [
+          "inert or controlled atmosphere (N2, Ar) for oxidation-sensitive samples",
+          "adequate ventilation and fume extraction for samples that decompose or release volatiles",
+          "stable laboratory temperature to minimize baseline drift",
+          "vibration-free mounting for the furnace assembly"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "coarsely ground or crushed to fill crucible uniformly (particle size < crucible diameter/5)",
+            "bulk piece or multiple pieces packed into crucible",
+            "powdered to improve packing homogeneity (if appropriate for the material)"
+          ],
+          "size_limits": "5–50 g typical; up to 100 g for largest cells; crucible volume 5–100 mL",
+          "thickness_limits": "sample bed height typically 10–50 mm; limited by thermal equilibration distance at chosen heating rate",
+          "surface_requirements": [
+            "no specific surface finish required — technique is tolerant of rough, irregular, and heterogeneous samples"
+          ],
+          "mounting_requirements": [
+            "sample placed directly in crucible with thermocouple inserted to center of sample bed",
+            "reference crucible filled with matched mass of inert reference material",
+            "crucibles positioned symmetrically in furnace hot zone"
+          ],
+          "preparation_requirements": [
+            "weigh sample to ±0.01 g on analytical balance",
+            "crush or grind if needed for representative sub-sampling",
+            "dry hygroscopic samples at 105 °C before measurement to remove adsorbed water (unless water content is of interest)",
+            "record particle size distribution if heterogeneity is a concern",
+            "pre-condition by thermal cycling if prior thermal history affects results"
+          ]
+        },
+        "calibration_requirements": [
+          "temperature calibration with certified melting point standards (In 429.75 K, Sn 505.08 K, Zn 692.68 K, Al 933.47 K) at the same heating rate as measurements",
+          "enthalpy calibration using a material with well-known ΔfusH (e.g., indium 28.66 J/g, tin 60.46 J/g) at the operating mass scale",
+          "baseline calibration with both crucibles containing matched reference material to quantify baseline curvature",
+          "thermocouple offset correction between sample and reference thermocouples by running both in identical inert fill"
+        ],
+        "reference_materials": [
+          "calcined alumina (α-Al2O3) — primary inert reference for DTA baseline (matched thermal mass and conductivity)",
+          "indium — low-temperature melting/enthalpy standard (429.75 K, 28.66 J/g)",
+          "tin — melting/enthalpy standard (505.08 K, 60.46 J/g)",
+          "zinc — melting standard (692.68 K)",
+          "aluminum — high-temperature melting standard (933.47 K)",
+          "quartz sand — alternative inert reference for geological sample matrices"
+        ],
+        "consumables": [
+          "crucibles (alumina, stainless steel, platinum) — may degrade with use at high temperatures",
+          "thermocouples — subject to drift and must be replaced periodically",
+          "inert gas supply (N2 or Ar cylinders)",
+          "ceramic wool or fiber inserts for crucible lids",
+          "alumina cement for thermocouple sheathing repair"
+        ],
+        "safety_notes": [
+          "large sample masses mean greater energy release during exothermic events — ensure furnace is rated for maximum expected enthalpy release",
+          "high-temperature operation (>800 K) requires heat-resistant gloves, face protection, and furnace cool-down protocols",
+          "decomposing samples may release toxic or flammable gases — operate with fume extraction and gas monitoring",
+          "avoid tightly sealed crucibles with decomposing samples to prevent pressure buildup and rupture"
+        ]
+      },
+      "performance": {
+        "sensitivity": "ΔT sensitivity ~0.1 K; enthalpy detection limit ~1 J/g of sample (substantially less sensitive per unit mass than standard DSC due to large sample thermal inertia)",
+        "detection_limit": "minimum detectable transition enthalpy ~0.5 J/g for well-resolved peaks at slow heating rates (0.5 K/min)",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement of entire sample volume)",
+          "temporal": "limited by thermal diffusion time through sample bed; effective time constant 10–120 s depending on sample mass and packing",
+          "spectral": "not applicable",
+          "energy": "temperature resolution of transition onset: ±0.5–2 K depending on heating rate and sample mass"
+        },
+        "dynamic_range": "temperature range 200–1300 K; enthalpy range from ~1 J/g to >500 J/g; sample mass 2–100 g",
+        "accuracy": "transition temperature: ±1–3 K after calibration; enthalpy of transition: ±3–10% depending on baseline quality and calibration",
+        "precision": "transition temperature repeatability: ±0.5–1.5 K; enthalpy repeatability: ±2–5% for replicate runs on same material",
+        "throughput": "one sample at a time; a full heating-cooling cycle at 0.5 K/min over 500 K range requires ~17 hours",
+        "measurement_speed": "inherently slow; typical experiment duration 4–24 hours depending on temperature range and heating rate"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "thermocouple EMF (mV) from sample and reference thermocouples, converted to temperature difference ΔT = Tsample − Treference as a function of time or reference temperature",
+        "preprocessing_steps": [
+          "convert thermocouple voltages to temperatures using polynomial calibration curves",
+          "compute ΔT = Tsample − Treference at each time point",
+          "smooth ΔT signal with moving average or Savitzky-Golay filter to reduce thermocouple noise",
+          "subtract baseline obtained from inert-inert reference run to correct for cell asymmetry",
+          "correct for thermocouple drift by applying offset determined from isothermal holds"
+        ],
+        "analysis_methods": [
+          "onset temperature determination from intersection of baseline tangent and leading-edge tangent of transition peak",
+          "peak temperature identification for transition characterization",
+          "peak area integration (∫ΔT dt or ∫ΔT dT) for enthalpy determination, calibrated against reference standard",
+          "derivative thermogram (dΔT/dT) for resolving overlapping transitions",
+          "Kissinger or Ozawa-Flynn-Wall methods for kinetic analysis using multiple heating rates",
+          "comparison of heating and cooling curves to assess transition reversibility and supercooling"
+        ],
+        "model_assumptions": [
+          "sample and reference are in thermal equilibrium with their respective thermocouples (Biot number consideration)",
+          "temperature gradients within the sample are small compared to transition width (achieved by slow heating rates)",
+          "heat transfer is dominated by conduction within the sample and between sample and furnace wall",
+          "reference material is inert and has no thermal events in the temperature range of interest",
+          "heat losses are symmetric between sample and reference sides, so they cancel in ΔT"
+        ],
+        "fit_parameters": [
+          "transition onset temperature (Tonset)",
+          "transition peak temperature (Tpeak)",
+          "transition enthalpy (ΔH) from calibrated peak area",
+          "baseline curvature parameters (polynomial coefficients for baseline correction)",
+          "kinetic parameters (activation energy Ea, pre-exponential factor) from multi-rate methods"
+        ],
+        "common_artifacts": [
+          "thermal lag: transition temperature appears shifted to higher values on heating (lower on cooling) due to finite thermal conductivity through the large sample",
+          "peak broadening: transition peaks are inherently broader than in standard DSC due to temperature gradients across the sample",
+          "asymmetric baseline drift: imperfect matching of sample and reference thermal masses produces a sloping baseline",
+          "crucible reaction: sample may react with crucible material at high temperatures, producing spurious exothermic/endothermic events",
+          "gas evolution artifact: release of volatiles (moisture, CO2, SO2) produces apparent endotherms that overlap with true phase transitions",
+          "supercooling on cooling runs: nucleation delay in large volumes can shift apparent freezing points several degrees below equilibrium"
+        ],
+        "quality_control_checks": [
+          "verify transition temperature of a certified standard (e.g., indium) at the operational heating rate before sample runs",
+          "run duplicate measurements on independent sub-samples to assess sampling representativeness",
+          "compare transition temperatures from heating and cooling to quantify thermal lag and supercooling",
+          "verify enthalpy calibration factor stability by periodic standard runs interspersed with samples",
+          "inspect baseline before and after transition for evidence of sample decomposition or crucible reaction",
+          "check thermocouple integrity by measuring a known melting point at start and end of experimental campaign"
+        ],
+        "failure_modes": [
+          "thermocouple failure or detachment from sample (sudden noise, signal dropout, or steady-state offset)",
+          "sample sintering or melting causing thermocouple encapsulation and altered thermal contact",
+          "crucible cracking at high temperature from thermal shock or reactive samples",
+          "furnace controller oscillation producing periodic temperature fluctuations superimposed on ramp",
+          "atmospheric contamination (air ingress into inert atmosphere) causing sample oxidation",
+          "complete sample decomposition before target temperature is reached"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: ±1–3 K for transition temperatures; ±5–10% for transition enthalpies",
+        "random_sources": [
+          "thermocouple noise (Johnson noise and electromagnetic pickup)",
+          "sample heterogeneity — different sub-samples may yield different transition behavior",
+          "irreproducible packing geometry in crucible between runs",
+          "furnace temperature fluctuations from PID controller noise",
+          "ambient temperature variations affecting baseline"
+        ],
+        "systematic_sources": [
+          "thermal lag through large sample mass — systematic shift of transition temperature in direction of heating/cooling",
+          "temperature calibration offset from drifted or inadequately calibrated thermocouples",
+          "enthalpy calibration error from mismatch between calibrant and sample thermal properties",
+          "baseline curvature from imperfect thermal mass matching between sample and reference",
+          "heat losses through crucible lid or thermocouple leads not accounted for in calibration",
+          "sample mass error (weighing uncertainty, volatile loss during loading)"
+        ],
+        "operator_dependence": "high — sample packing density, thermocouple placement depth, crucible loading reproducibility, and particle size preparation all depend on operator technique",
+        "model_dependence": "moderate — onset vs. peak temperature choice affects reported transition temperature; baseline construction method affects integrated enthalpy; assumption of symmetric heat losses may not hold for all cell designs",
+        "dominant_error_sources": [
+          "thermal lag through the sample (largest single systematic error, directly proportional to sample mass and heating rate)",
+          "sample heterogeneity (for geological, waste, or composite samples, sub-sampling variance may exceed instrumental uncertainty)",
+          "baseline construction for enthalpy integration (choice of tangent lines or interpolation strongly affects peak area)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k=2) for transition temperature",
+          "relative expanded uncertainty as percentage for enthalpy values",
+          "standard deviation from replicate measurements for heterogeneous samples",
+          "uncertainty range reflecting heating/cooling hysteresis bounds"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Large-sample thermal analysis (LSTA) is a thermal analysis technique designed for characterizing bulk samples in the 5–50 g mass range, far exceeding the milligram-scale samples used in conventional DSC or DTA. The technique combines principles of differential thermal analysis and calorimetry at a larger physical scale, using thermocouples embedded directly in or adjacent to the sample and an inert reference material of matched thermal mass. LSTA is specifically employed when sample heterogeneity is high and representative sub-sampling at DSC scale is impractical — common situations with geological specimens, construction materials, food products, and waste streams. By analyzing multi-gram quantities, LSTA averages over compositional variability and provides thermal data that are genuinely representative of the bulk material.",
+      "how_it_operates": "The sample (5–50 g) is placed in a large cylindrical crucible with one or more thermocouples inserted directly into the bulk of the material, typically at or near the center. An identical crucible is filled with an inert reference material (calcined alumina or quartz sand) of matched mass and thermal conductivity, also instrumented with thermocouples. Both crucibles are placed symmetrically inside a programmable furnace that applies a slow linear temperature ramp, typically 0.1–2 K/min. As the furnace temperature increases, any thermal event in the sample — melting, solid-solid phase transformation, decomposition — produces a deviation of the sample temperature from the reference temperature. This temperature difference ΔT = Tsample − Treference is recorded continuously. Endothermic events (melting, dehydration) produce negative ΔT excursions, while exothermic events (crystallization, oxidation) produce positive excursions. The area under each ΔT peak, when calibrated against a standard of known enthalpy, yields the transition enthalpy.",
+      "core_theory": "The theoretical basis is shared with standard DTA: during a thermal event, the sample absorbs or releases enthalpy at rate dH/dt that creates a temperature difference between sample and reference. For a first-order transition, ΔT is proportional to the heat flux into the sample, and the integral of ΔT over the transition yields a quantity proportional to the total enthalpy change ΔH. The proportionality constant (the calibration factor K) depends on the thermal resistance between sample and furnace, the thermocouple placement, and the heating rate. In LSTA, the large sample mass introduces a substantial internal thermal resistance, so the Biot number (Bi = hL/k, where h is the surface heat transfer coefficient, L is the characteristic sample dimension, and k is the sample thermal conductivity) is significantly greater than in standard DTA. This means temperature gradients within the sample are non-negligible, and the effective calibration factor becomes heating-rate and sample-mass dependent. Transition temperatures measured by LSTA are therefore systematically shifted relative to equilibrium values by an amount proportional to the product of heating rate and sample thermal time constant.",
+      "setup": "A typical LSTA setup consists of a twin-crucible assembly housed within a programmable tube or muffle furnace. The crucibles are cylindrical vessels of 20–100 mL capacity, fabricated from alumina, stainless steel, or platinum depending on the maximum temperature and sample reactivity. The sample crucible is loaded with 5–50 g of material, and a type K (up to ~1250 °C) or type S (up to ~1600 °C) thermocouple is inserted through the lid and positioned at the geometric center of the sample bed. The reference crucible contains an equal mass of calcined alumina (α-Al2O3) with its own thermocouple similarly positioned. Both crucibles are placed in a symmetric arrangement within the furnace hot zone. A PID temperature controller drives the furnace at programmed ramp rates (0.1–5 K/min), while a multi-channel data logger records all thermocouple readings at 0.5–2 Hz. Inert gas (N2 or Ar) flows through the furnace at 20–100 mL/min to prevent sample oxidation when required. Commercial instruments such as the Setaram BT2.15 accommodate this configuration with sample volumes up to 100 mL.",
+      "suitable_for": "LSTA is the technique of choice when sample heterogeneity precludes representative analysis at conventional DSC scale. It is widely applied to geological minerals and rocks where grain-scale compositional variation means that a 10 mg DSC sample may not represent the bulk. Construction materials — including concrete, cement paste, gypsum board, and phase-change material composites — benefit from large-sample analysis because their thermal behavior depends on the interaction of multiple phases distributed over centimeter-scale heterogeneity. Food science applications include melting and crystallization studies of fats, chocolate, and wax blends where multiple polymorphs and variable composition require large-volume averaging. Waste characterization for incineration plants uses LSTA to determine calorific value and decomposition profiles of refuse-derived fuels. The technique is also applied to salt hydrates and paraffin wax composites used as thermal energy storage (phase-change) materials, where segregation and volume changes during cycling necessitate bulk-scale measurement.",
+      "core_limitations": "The primary limitation is the inherent trade-off between sample representativeness and thermal resolution. The large thermal mass of multi-gram samples imposes significant thermal lag, broadening transition peaks and shifting apparent transition temperatures by 1–5 K relative to equilibrium values, even at the slowest practical heating rates. Temperature resolution is therefore inferior to standard DSC by roughly an order of magnitude. Closely spaced transitions that are easily resolved by DSC may overlap and merge in LSTA thermograms. Absolute enthalpy accuracy (±5–10%) is lower than for DSC (±1–3%) because of greater uncertainty in baseline construction and calibration factor reproducibility at large scale. Experiment duration is long — a single heating run over 500 K at 0.5 K/min requires approximately 17 hours — limiting throughput. The technique cannot accommodate rapid quenching or flash heating experiments, and it is restricted to near-ambient pressure in most implementations.",
+      "sample_preparation": "Samples are prepared to be as representative as possible of the bulk material. For heterogeneous solids (rocks, concrete, waste), the material is typically crushed or ground to a particle size smaller than one-fifth of the crucible diameter to ensure reasonably uniform packing. Particle size distribution should be recorded. The prepared material is weighed to ±0.01 g and loaded into the crucible, gently tapping to achieve reproducible packing density without excessive compression. For hygroscopic materials, samples are dried at 105 °C to constant mass before loading (unless moisture content is itself the subject of study). The thermocouple is inserted through the crucible lid and pushed to the center of the sample bed, ensuring it is surrounded by sample material rather than resting against the crucible wall. The reference crucible is filled with an equal mass of calcined alumina powder with the same particle size range, packed to similar density. For molten-phase studies, the crucible may be pre-lined with an inert coating to prevent wetting and reaction with the crucible walls.",
+      "calibration_and_references": "Temperature calibration is performed using certified melting-point standards measured at the same heating rate and sample mass scale as actual experiments. Indium (429.75 K), tin (505.08 K), zinc (692.68 K), and aluminum (933.47 K) cover the most common operating range. Because thermal lag in LSTA is heating-rate dependent, separate calibration curves must be established for each heating rate used. Enthalpy calibration uses a standard with well-known fusion enthalpy — typically indium (28.66 J/g) or tin (60.46 J/g) — weighed to the same precision as samples. A known mass of the standard is loaded into the sample crucible, and the integrated peak area (∫ΔT dt) is compared to the known enthalpy to determine the instrument calibration factor K (in J per K·s). A baseline run with both crucibles containing matched inert reference material establishes the instrumental baseline curvature and asymmetry correction. Calibration should be validated at the start of each measurement campaign and after any change to crucible configuration, thermocouple replacement, or furnace maintenance.",
+      "data_interpretation": "The raw ΔT vs. temperature (or time) thermogram is first corrected by subtracting the baseline obtained from the inert-inert reference run. Transition onset temperature is determined as the intersection of the pre-transition baseline tangent with the tangent to the steepest portion of the leading edge of the transition peak. Peak temperature identifies the point of maximum rate of enthalpy absorption or release. For enthalpy determination, the corrected ΔT peak is integrated between onset and completion temperatures, and the peak area is multiplied by the calibration factor K to yield ΔH in J/g or J/mol. For overlapping transitions, peak deconvolution using Gaussian or asymmetric peak functions may be applied. Derivative thermograms (dΔT/dT or dΔT/dt) can sharpen overlapping features and clarify the number of distinct thermal events. Comparison of heating and cooling thermograms reveals the extent of supercooling and transition reversibility. When multiple heating rates are available, Kissinger analysis of peak temperature shift with heating rate provides activation energy for kinetically controlled processes.",
+      "common_pitfalls": "The most critical pitfall is using a heating rate that is too fast for the sample mass, creating large temperature gradients across the sample that distort transition temperatures and artificially broaden or split transition peaks. A useful guideline is to maintain the product of heating rate (K/min) and sample mass (g) below ~25 K·g/min. Poor thermocouple placement — resting against the crucible wall rather than embedded in the sample center — produces data dominated by the crucible/furnace temperature rather than the sample's true thermal behavior. Inadequate matching of sample and reference thermal masses causes a sloping or curved baseline that complicates peak integration and can introduce systematic enthalpy errors exceeding 10%. Using a reference material with thermal transitions in the measurement range (e.g., quartz sand undergoing the α–β transition at 573 °C) creates spurious features in the thermogram. Failing to account for the heating-rate dependence of the thermal lag correction leads to discrepancies when comparing results obtained at different scan rates.",
+      "artifacts_and_failure_modes": "Thermal lag is the dominant artifact: all transition features appear shifted by ΔTlag ≈ β·τ, where β is the heating rate and τ is the sample's thermal time constant (proportional to mass). This shift is typically 1–5 K at standard operating conditions and must be corrected by calibrating at the same heating rate. Peak broadening from internal temperature gradients cannot be fully corrected and represents an intrinsic resolution limitation. Baseline curvature artifacts arise from asymmetric heat exchange between sample and reference sides, producing apparent gentle exothermic or endothermic trends unrelated to real thermal events. Gas evolution (dehydration, decarboxylation, decomposition) in the sample produces endothermic signals that can overlap with and obscure phase transitions. Crucible-sample reactions at elevated temperatures generate spurious signals and may damage the thermocouple. Supercooling artifacts on cooling runs shift crystallization temperatures below equilibrium, with the degree of supercooling typically larger in LSTA than in DSC due to longer nucleation induction times at slower cooling rates. Thermocouple drift during long experiments (>10 hours) introduces a slow systematic error in ΔT.",
+      "reporting_checklist": "Published LSTA results should report: (1) sample identity, source, and preparation (particle size, drying conditions); (2) sample mass and reference material mass; (3) crucible material and volume; (4) thermocouple type, number, and placement positions; (5) heating and/or cooling rate(s) used; (6) atmosphere type and flow rate; (7) temperature and enthalpy calibration standards, masses used, and heating rate of calibration; (8) baseline correction procedure; (9) method for determining onset, peak, and completion temperatures; (10) enthalpy determination method (integration limits, baseline tangent construction); (11) number of replicate measurements and standard deviation for heterogeneous samples; (12) combined expanded uncertainty for transition temperature and enthalpy at stated confidence level. For ThermoML encoding, values are reported with nCombExpandUncertValue at the 95% confidence level. Note explicitly whether reported transition temperatures have been corrected for thermal lag."
+    }
+  }
+}

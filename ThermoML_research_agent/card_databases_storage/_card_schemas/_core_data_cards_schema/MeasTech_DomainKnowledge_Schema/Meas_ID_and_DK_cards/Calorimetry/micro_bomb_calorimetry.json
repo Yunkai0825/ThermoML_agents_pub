@@ -1,0 +1,349 @@
+{
+  "meas_ID": "micro_bomb_calorimetry",
+  "identity": {
+    "name": "Micro-bomb calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Micro-bomb calorimetry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "yes",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 46,
+      "property_groups": [
+        "ReactionStateChangeProp"
+      ],
+      "n_papers": 18,
+      "per_group": {
+        "ReactionStateChangeProp": {
+          "instances": 46,
+          "papers": 18
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature rise of calorimeter (ΔT)",
+          "sample mass before combustion",
+          "fuse wire energy (ignition energy correction)",
+          "mass of combustion aids (if used)",
+          "final bomb gas analysis (CO2, H2O verification)"
+        ],
+        "derived_observables": [
+          "energy of combustion per gram (−Δcu)",
+          "molar internal energy of combustion (ΔcU°)",
+          "molar enthalpy of combustion (ΔcH°)",
+          "molar enthalpy of formation (ΔfH°, via Hess's law)",
+          "Washburn corrections (reduction to standard-state conditions)"
+        ],
+        "target_properties": [
+          "standard molar enthalpy of combustion (ΔcH°)",
+          "standard molar enthalpy of formation (ΔfH°)",
+          "standard molar internal energy of combustion (ΔcU°)",
+          "massic energy of combustion (−Δcu)"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous)",
+          "liquid",
+          "solid or liquid samples burned to gaseous CO2 and liquid H2O"
+        ],
+        "supported_sample_types": [
+          "pure organic compounds (CHNO-containing)",
+          "organometallic compounds",
+          "energetic materials and explosives (small quantities)",
+          "pharmaceutical compounds",
+          "rare or expensive compounds available only in small quantities",
+          "ionic liquids",
+          "biomass and biochemical compounds",
+          "synthetic polymers (small samples)",
+          "organofluorine and organochlorine compounds (with appropriate bomb lining)"
+        ],
+        "unsupported_sample_types": [
+          "gases (require specialized gas-handling micro-bomb)",
+          "metals and purely inorganic compounds that do not combust in oxygen",
+          "compounds that form refractory oxides instead of volatile combustion products",
+          "highly volatile liquids that evaporate before ignition (unless sealed in ampoules)",
+          "samples that produce corrosive combustion products attacking the bomb vessel (e.g., high-sulfur compounds without platinum lining)",
+          "samples larger than ~50 mg (exceeds micro-bomb capacity)"
+        ],
+        "typical_output_formats": [
+          "temperature–time trace (thermogram) showing fore, main, and after periods",
+          "corrected temperature rise ΔTcorr vs. experiment number",
+          "energy equivalent of the calorimeter (ε) from calibration runs",
+          "tabulated massic energy of combustion with uncertainty"
+        ],
+        "units": {
+          "energy_of_combustion": "J/g or kJ/mol",
+          "enthalpy_of_combustion": "kJ/mol",
+          "enthalpy_of_formation": "kJ/mol",
+          "internal_energy_of_combustion": "kJ/mol",
+          "temperature_rise": "K",
+          "sample_mass": "mg",
+          "energy_equivalent": "J/K",
+          "oxygen_pressure": "MPa"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "oxygen_pressure",
+            "typical_range": "2.5 MPa to 3.5 MPa",
+            "hard_limits": "must not exceed bomb rated pressure (~20 MPa including combustion pressure rise); minimum ~2 MPa for complete combustion",
+            "notes": "standard practice is 3.04 MPa (30 atm); excess pressure ensures complete oxidation"
+          },
+          {
+            "parameter": "sample_mass",
+            "typical_range": "5 mg to 50 mg",
+            "hard_limits": "lower limit set by balance sensitivity and heat measurement resolution; upper limit set by bomb volume (~20 mL) and safe oxygen-to-fuel ratio",
+            "notes": "optimal mass chosen so that ΔT is 0.5–2.0 K for good signal-to-noise while staying within bomb capacity"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "293 K to 303 K (initial calorimeter temperature near 298.15 K)",
+            "hard_limits": "initial temperature must be within ±2 K of 298.15 K for standard-state corrections to remain small",
+            "notes": "temperature rise ΔT is typically 0.5–2 K for micro-bomb; the calorimeter operates near isothermal conditions"
+          },
+          {
+            "parameter": "bomb_volume",
+            "typical_range": "18 mL to 22 mL",
+            "hard_limits": "fixed by bomb construction; much smaller than standard bomb (~340 mL)",
+            "notes": "smaller volume means less oxygen gas, restricting maximum sample mass"
+          }
+        ],
+        "variables": [
+          {
+            "name": "sample_mass",
+            "role": "primary experimental variable",
+            "typical_values": "5–50 mg",
+            "effect": "determines magnitude of temperature rise; must be precisely known for energy-per-gram calculation"
+          },
+          {
+            "name": "oxygen_pressure",
+            "role": "controlled condition",
+            "typical_values": "3.0 MPa",
+            "effect": "must be sufficient to ensure complete combustion; influences Washburn corrections"
+          },
+          {
+            "name": "initial_calorimeter_temperature",
+            "role": "controlled condition",
+            "typical_values": "298.15 K (±1 K)",
+            "effect": "defines the reference temperature for standard-state thermochemistry; deviations require ΔT correction using heat capacity data"
+          },
+          {
+            "name": "fuse_wire_mass",
+            "role": "measured auxiliary variable",
+            "typical_values": "2–10 mg of cotton thread or platinum wire",
+            "effect": "contributes a known energy correction; must be weighed before and after combustion"
+          },
+          {
+            "name": "combustion_aid_mass",
+            "role": "optional auxiliary variable",
+            "typical_values": "0–20 mg of benzoic acid or paraffin oil",
+            "effect": "assists ignition and complete combustion of refractory samples; its energy contribution is subtracted"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "micro-bomb vessel — small (~20 mL) stainless-steel or nickel-alloy pressure vessel rated for >15 MPa, with gas inlet/outlet valves and electrode feedthroughs",
+          "ignition system — electrically heated fuse wire (Pt or Ni-Cr) or cotton thread in contact with sample pellet; external firing circuit with known energy output",
+          "precision thermometer — quartz-crystal thermometer, platinum resistance thermometer (PRT), or calibrated thermistor with resolution ≤0.0001 K",
+          "calorimeter jacket — isothermal water jacket or thermostatted metal block surrounding the bomb to define thermal boundary conditions",
+          "calorimetric vessel — water bucket or metal block in which the bomb is immersed; known heat capacity",
+          "stirrer — motor-driven paddle stirrer to ensure uniform water temperature (for water-jacket designs)",
+          "oxygen supply — high-purity oxygen (≥99.99%) with pressure regulator and filling line",
+          "analytical balance — microbalance with ±0.001 mg resolution for sample and fuse wire weighing",
+          "pellet press — small die press to compact powdered samples into pellets",
+          "data acquisition system — computer with high-resolution A/D converter for continuous temperature recording"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (±1 K stability) to minimize heat exchange drift",
+          "vibration-free benchtop to prevent stirrer and temperature measurement noise",
+          "absence of drafts near the calorimeter jacket",
+          "adequate ventilation for oxygen handling"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "compressed pellet (most common for powders and crystalline solids)",
+            "small piece or crystal (if mechanically stable)",
+            "liquid in sealed polyethylene ampoule or gelatin capsule"
+          ],
+          "size_limits": "5 mg to 50 mg; optimal ~10–30 mg depending on enthalpy of combustion",
+          "thickness_limits": "pellets typically 1–3 mm thick, 3–5 mm diameter; must fit in micro-bomb crucible",
+          "surface_requirements": [
+            "pellets should be compact without cracks to ensure uniform combustion front",
+            "no surface moisture or adsorbed contaminants"
+          ],
+          "mounting_requirements": [
+            "sample placed in platinum or quartz crucible inside bomb",
+            "fuse wire or cotton thread in physical contact with pellet surface",
+            "crucible positioned reproducibly on bomb support ring"
+          ],
+          "preparation_requirements": [
+            "dried to constant mass (vacuum desiccator or oven drying at appropriate temperature)",
+            "weighed on microbalance to ±0.001 mg",
+            "pressed into pellet for powdered samples to ensure complete and uniform combustion",
+            "purity verified (elemental analysis or other assay) — impurities invalidate stoichiometric combustion correction",
+            "liquid samples sealed in ampoules with known mass and combustion energy of ampoule material"
+          ]
+        },
+        "calibration_requirements": [
+          "energy equivalent (ε, J/K) of the calorimeter determined by combustion of benzoic acid (NIST SRM 39j) under identical conditions",
+          "at least 6–10 calibration runs to establish ε with standard deviation ≤0.02%",
+          "thermometer calibration against ITS-90 fixed points or certified reference thermometer",
+          "fuse wire energy calibration (energy per unit length consumed)",
+          "recalibration after any change to bomb, crucible, water amount, or thermometer",
+          "Washburn correction verification using a compound with well-known standard enthalpy of combustion"
+        ],
+        "reference_materials": [
+          "benzoic acid (NIST SRM 39j) — primary calorimetric standard, ΔcU° = −26434 ± 3 J/g under certificate conditions",
+          "succinic acid — secondary reference material for verification of organic combustion results",
+          "naphthalene — additional verification standard with well-established ΔcH°",
+          "hippuric acid — secondary reference for nitrogen-containing compounds"
+        ],
+        "consumables": [
+          "high-purity oxygen gas (≥99.99%)",
+          "fuse wire (platinum or Ni-Cr) or cotton thread fuse",
+          "platinum or quartz crucibles",
+          "polyethylene ampoules or gelatin capsules (for liquid samples)",
+          "combustion aids (benzoic acid or paraffin oil) when needed",
+          "distilled water for bomb washing and solution analysis"
+        ],
+        "safety_notes": [
+          "micro-bomb operates under high oxygen pressure (>3 MPa) — risk of explosion if bomb is overfilled, damaged, or exceeds pressure rating",
+          "never exceed the rated sample mass for the bomb volume to avoid dangerous pressure spikes",
+          "energetic materials must be handled with appropriate protocols and minimum quantities",
+          "oxygen-enriched environment creates extreme fire risk — keep all hydrocarbon contaminants away from filling lines",
+          "allow bomb to cool and depressurize completely before opening",
+          "inspect bomb threads, seals, and valve seats regularly for wear or corrosion"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of measuring combustion energies from samples as small as 5 mg; detectable ΔT as low as ~0.1 K with precision thermometry",
+        "detection_limit": "minimum sample mass ~2–5 mg depending on compound's energy of combustion; compounds with ΔcU > 15 kJ/g can be measured at lower masses",
+        "resolution": {
+          "spatial": "not applicable (bulk combustion measurement)",
+          "temporal": "temperature sampling at 0.1–1 s intervals during combustion; main period ~10–20 min",
+          "spectral": "not applicable",
+          "energy": "thermometer resolution ≤0.0001 K corresponds to energy resolution ~0.001 J for a typical ε of ~1000 J/K"
+        },
+        "dynamic_range": "measurable energy of combustion range: ~10 kJ/mol (low-energy compounds with combustion aids) to ~15,000 kJ/mol (large hydrocarbon molecules)",
+        "accuracy": "0.05–0.5% in massic energy of combustion; best results (0.05%) for well-behaved CHNO compounds; 0.2–0.5% for halogenated or heterocyclic compounds",
+        "precision": "0.02–0.1% relative standard deviation from replicate combustion experiments (6–10 runs)",
+        "throughput": "1–3 combustion experiments per day including calibration, preparation, and analysis",
+        "measurement_speed": "single combustion run: ~5 min fore period, ~20 min main+after period; total experimental time ~45–60 min per run including preparation"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "temperature as a function of time T(t), recorded as a thermogram with three regions: fore period (pre-ignition baseline), main period (rapid temperature rise during combustion), and after period (post-combustion cooling baseline)",
+        "preprocessing_steps": [
+          "fore and after period baseline fitting (linear or exponential) to establish heat exchange rate with jacket",
+          "corrected temperature rise ΔTcorr calculation using Regnault-Pfaundler or Dickinson extrapolation method",
+          "subtraction of ignition (fuse wire) energy contribution: qfuse = Δmfuse × efuse",
+          "subtraction of combustion aid energy if used: qaid = maid × (−Δcu,aid)",
+          "correction for nitric acid formation from atmospheric nitrogen traces: qHNO3 = n(HNO3) × 59.7 kJ/mol",
+          "correction for carbonic acid (CO2 dissolved in bomb water)"
+        ],
+        "analysis_methods": [
+          "energy equivalent method: ΔcU = −[ε × ΔTcorr − qfuse − qaid − qHNO3 − qCO2(aq)] / msample",
+          "Washburn corrections: convert bomb-process energy to standard-state internal energy of combustion ΔcU°(298.15 K)",
+          "enthalpy-energy conversion: ΔcH° = ΔcU° + ΔnRT, where Δn is the change in moles of gas in the combustion reaction",
+          "Hess's law calculation of standard enthalpy of formation ΔfH° from ΔcH° and formation enthalpies of CO2(g) and H2O(l)",
+          "statistical analysis of replicate runs: mean, standard deviation, and confidence interval"
+        ],
+        "model_assumptions": [
+          "combustion is complete — all carbon converts to CO2(g) and all hydrogen to H2O(l)",
+          "no side reactions produce significant unmeasured products (e.g., CO, soot)",
+          "the bomb process is adiabatic during the main period after correction for heat exchange",
+          "Washburn correction formalism adequately accounts for non-ideality of gases and dissolution of CO2 in bomb water",
+          "sample purity is sufficient that impurity combustion energy is negligible or correctable",
+          "the energy equivalent ε is constant over the small temperature range of the experiment"
+        ],
+        "fit_parameters": [
+          "energy equivalent of calorimeter (ε, J/K)",
+          "corrected temperature rise (ΔTcorr)",
+          "heat exchange coefficient with jacket (Newton's law cooling constant)",
+          "fore-period and after-period baseline slopes"
+        ],
+        "common_artifacts": [
+          "incomplete combustion: soot or unburned residue in crucible indicates sample did not fully combust, biasing ΔcU low",
+          "fuse wire residue miscounting: inaccurate determination of consumed fuse length leads to incorrect energy subtraction",
+          "bomb leakage: slow oxygen leak during filling or combustion reduces pressure and compromises complete combustion",
+          "water adsorption on sample: hygroscopic samples gain mass between weighing and combustion, diluting the true specific energy",
+          "nitric acid overcorrection: assuming all nitrogen in bomb water is from atmospheric N2 when some derives from the sample"
+        ],
+        "quality_control_checks": [
+          "verify complete combustion by visual inspection of crucible for soot, unburned material, or carbon residue",
+          "analyze bomb washings for total carbon (as CO2) to confirm stoichiometric conversion",
+          "compare measured ΔcU of benzoic acid calibrant against certificate value — accept if within ±0.01%",
+          "check that replicate combustion runs agree within 0.05–0.1% relative standard deviation",
+          "verify CO2 recovery matches theoretical yield from sample stoichiometry",
+          "examine fore and after period baselines for anomalous drift indicating jacket temperature instability"
+        ],
+        "failure_modes": [
+          "ignition failure: fuse wire does not ignite sample — no temperature rise observed; rewire and repeat",
+          "incomplete combustion: sample partially burns leaving carbonaceous residue — result must be discarded",
+          "bomb seal failure: O-ring or valve leak causes oxygen loss during or after filling — anomalously low ΔT",
+          "sample ejection: explosive ignition scatters sample out of crucible — incomplete combustion and contamination of bomb interior",
+          "crucible fracture: thermal shock cracks quartz crucible — fragments interfere with residue analysis",
+          "thermometer malfunction: drift or noise in temperature sensor during run — thermogram shows erratic baseline"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.05–0.5% for standard molar enthalpy of combustion; best results ~0.01% (relative) for well-optimized systems with CHNO compounds",
+        "random_sources": [
+          "sample weighing precision (±0.001 mg contributes ~0.01% for 10 mg sample)",
+          "fuse wire mass and contact variability between runs",
+          "thermometer noise and digitization uncertainty",
+          "stirrer speed fluctuations causing variable heat exchange",
+          "incomplete mixing of combustion gases in bomb headspace"
+        ],
+        "systematic_sources": [
+          "energy equivalent calibration uncertainty (from benzoic acid standard)",
+          "purity of sample (impurities shift ΔcU systematically)",
+          "Washburn correction model uncertainty (~0.01–0.05% for standard organic compounds)",
+          "thermometer calibration offset",
+          "heat of decomposition of any combustion aids",
+          "nitric acid and carbonic acid correction uncertainty",
+          "oxygen purity (traces of combustible impurities)"
+        ],
+        "operator_dependence": "moderate — pellet preparation, fuse wire attachment, bomb assembly, and post-combustion residue inspection all depend on operator skill and care",
+        "model_dependence": "low to moderate — Washburn corrections depend on equations of state for gas mixtures and activity coefficients in bomb solution; these are well-established but contribute systematic uncertainty for unusual elemental compositions",
+        "dominant_error_sources": [
+          "sample mass determination (dominant for small samples <10 mg)",
+          "completeness of combustion (single largest risk of gross error)",
+          "energy equivalent calibration (sets the absolute accuracy floor)",
+          "sample purity (systematic bias if impurity content is underestimated)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔcH°) at 95% confidence level (k=2)",
+          "relative standard deviation from replicate runs",
+          "standard uncertainty of the mean for N replicate experiments"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Micro-bomb calorimetry is a miniaturized variant of oxygen bomb combustion calorimetry designed for measuring the energy and enthalpy of combustion of small samples (5–50 mg). The technique uses a scaled-down bomb vessel (~20 mL internal volume, compared to ~340 mL for a standard Parr-type bomb) in which the sample is burned completely in a high-pressure oxygen atmosphere. The resulting temperature rise of the surrounding calorimetric medium (water or metal block) is precisely measured, and the energy of combustion is calculated from the product of the calibrated energy equivalent and the corrected temperature rise. Micro-bomb calorimetry is particularly valuable when only milligram quantities of material are available — as with newly synthesized compounds, pharmaceuticals, or rare natural products — yet retains accuracy of 0.05–0.5% in the enthalpy of combustion, sufficient for reliable derivation of standard enthalpies of formation via Hess's law.",
+      "how_it_operates": "A precisely weighed sample (5–50 mg), typically compressed into a small pellet, is placed in a platinum or quartz crucible inside the micro-bomb. A fuse wire or cotton thread is arranged in contact with the pellet to serve as the ignition source. The bomb is sealed, purged of residual air, and charged with high-purity oxygen to approximately 3.0 MPa. The sealed bomb is then placed in the calorimetric vessel — either immersed in a known mass of water inside an isothermal jacket, or inserted into a precision metal-block calorimeter. After a fore-period of ~5 minutes to establish the thermal baseline drift rate, the fuse is electrically fired, igniting the sample. The combustion releases heat that raises the temperature of the bomb-plus-calorimeter assembly. Temperature is recorded continuously through the main period of rapid rise and the subsequent after-period until a new steady drift rate is established. The corrected temperature rise ΔTcorr is extracted from the thermogram using the Regnault-Pfaundler or Dickinson method, and the energy of combustion is computed after subtracting the fuse energy, acid formation corrections, and any combustion aid energy.",
+      "core_theory": "The fundamental measurement equation is −ΔcU(bomb) = ε × ΔTcorr − qfuse − qaid − qHNO3 − qother, where ε is the energy equivalent of the calorimeter (J/K, determined from benzoic acid calibration), ΔTcorr is the corrected adiabatic temperature rise, and the q terms are auxiliary energy corrections. The massic energy of combustion is obtained by dividing by sample mass: −Δcu = −ΔcU(bomb)/m. Washburn corrections reduce the bomb-process energy to the standard-state internal energy of combustion, ΔcU°(298.15 K), accounting for deviations due to non-ideal gas behavior, dissolution of CO2 in bomb water, and energy associated with compressing reactants and products to their standard states. The standard molar enthalpy of combustion is then ΔcH° = ΔcU° + ΔnRT, where Δn is the change in moles of gaseous species in the balanced combustion reaction. Standard enthalpies of formation are calculated from ΔcH° by Hess's law using the known formation enthalpies of CO2(g) and H2O(l).",
+      "setup": "A micro-bomb calorimetric system consists of a small stainless-steel or Hastelloy bomb vessel (~20 mL) fitted with a screw cap, O-ring seal, gas inlet and outlet needle valves, and insulated electrode feedthroughs for the ignition circuit. Inside the bomb, a small platinum crucible sits on a support ring to hold the sample pellet, with the fuse wire connected between the electrodes and draped over the pellet. The bomb is placed in a calorimetric vessel — either a small Dewar-type water bucket (50–200 mL water) equipped with a precision stirrer, or an isoperibol metal-block calorimeter with machined cavity. An isothermal water jacket or thermostatted enclosure surrounds the calorimetric vessel to provide a constant-temperature heat sink. Temperature is measured by a quartz-crystal thermometer or calibrated PRT inserted into the calorimetric medium, with output digitized at 0.1–1 s intervals. The oxygen supply line includes a high-purity regulator and a filling manifold that allows slow pressurization to avoid scattering the sample.",
+      "suitable_for": "Micro-bomb calorimetry is the technique of choice when standard oxygen bomb calorimetry is not feasible due to limited sample availability. It excels for newly synthesized organic compounds, pharmaceutical intermediates, energetic materials, and natural products where only 5–50 mg can be spared. The technique is well-suited for CHNO compounds that burn cleanly to CO2(g), H2O(l), and N2(g). It can also handle organohalogens and organosulfur compounds when appropriately lined bombs and post-combustion solution analysis are used. The smaller bomb volume enables faster thermal equilibration, making it an efficient choice for laboratories with high sample throughput needs. The technique directly provides standard enthalpies of combustion and, through Hess's law, standard enthalpies of formation — fundamental thermochemical properties used in chemical engineering design, computational chemistry benchmarking, and pharmaceutical stability assessment.",
+      "core_limitations": "The primary limitation is the requirement for complete combustion: any soot, unburned residue, or carbon monoxide formation invalidates the result, and achieving complete combustion is more challenging with very small samples where the fuse-to-sample energy ratio is large. The small bomb volume limits sample mass to ~50 mg, which restricts the measurable temperature rise and consequently increases the relative uncertainty compared to standard bomb calorimetry (which uses 0.5–1.0 g samples with ΔT of 2–3 K). Samples must be non-volatile at room temperature or sealed in ampoules, since premature evaporation prevents accurate mass determination and combustion. Compounds containing metals that form refractory oxides (e.g., silicon, boron) or that produce corrosive acids (HF from fluorine compounds) require specialized bomb linings and are problematic. The smaller calorimeter has a lower energy equivalent, making it more sensitive to parasitic heat effects from stirring, lead wires, and environmental temperature fluctuations.",
+      "sample_preparation": "Solid samples are dried to constant mass in a vacuum desiccator or gentle oven (below decomposition temperature), then weighed on a microbalance with ±0.001 mg resolution. Powders are compressed into uniform pellets of 1–3 mm thickness using a small die press to promote even combustion and prevent scattering by the ignition flash. Crystalline samples may be used as small intact pieces if they are mechanically stable. Liquid samples are sealed in pre-weighed thin-walled polyethylene ampoules or gelatin capsules, whose combustion energy is independently determined and subtracted. The fuse wire (typically Pt, ~2 mm length, or cotton thread, ~10 mg) is weighed before use and arranged to make reliable contact with the sample surface. Combustion aids such as a small benzoic acid spike or drop of paraffin oil may be added for compounds that are difficult to ignite; the aid mass and its energy contribution are precisely measured. Sample purity must be verified by elemental analysis or another assay, because even 0.5% impurity can bias the combustion energy by an amount comparable to the measurement precision.",
+      "calibration_and_references": "The energy equivalent ε of the calorimeter is determined by combustion of benzoic acid certified reference material (NIST SRM 39j, ΔcU° = −26434 ± 3 J/g under certificate conditions). At least six, preferably ten, calibration runs are performed under the same conditions (bomb, oxygen pressure, water amount, initial temperature) as the sample runs, and their mean and standard deviation establish ε and its uncertainty. The calibration must be repeated whenever the bomb, crucible, water volume, thermometer, or stirring rate is changed. Fuse wire energy is determined either from the manufacturer's certified value per unit mass or by independent calibration. Temperature accuracy is verified against ITS-90 fixed points or a certified reference thermometer. Secondary reference materials — succinic acid, naphthalene, or hippuric acid — are combusted periodically as control experiments to confirm the accuracy of the entire measurement chain, with acceptable agreement within ±0.02–0.05% of literature values.",
+      "data_interpretation": "The raw thermogram T(t) is divided into three periods: the fore period (5–10 min) establishing the initial heat-exchange drift rate, the main period (~5–15 min) encompassing the rapid temperature rise from combustion, and the after period (5–10 min) showing the post-combustion return to a stable drift rate. The corrected temperature rise ΔTcorr is computed using the Regnault-Pfaundler method (which integrates the heat exchange correction continuously) or the simpler Dickinson method (which identifies a single mid-point correction). The gross energy from combustion is ε × ΔTcorr, from which fuse energy, acid corrections, and any combustion aid contributions are subtracted to yield the net energy of the bomb process. Washburn corrections are then applied to convert from the bomb-process energy to the standard-state internal energy of combustion ΔcU°(298.15 K), following the procedures codified by Hubbard, Scott, and Waddington. The enthalpy of combustion ΔcH° follows from ΔcU° + ΔnRT, and the enthalpy of formation ΔfH° is calculated via Hess's law. All corrections and the final result are typically tabulated in a detailed thermochemical balance sheet.",
+      "common_pitfalls": "The most frequent pitfall is incomplete combustion, evidenced by soot or unburned material in the crucible after the experiment. This occurs when the sample pellet is too loosely packed, the fuse wire does not make adequate contact, or the sample has inherently poor ignitability. Using too little combustion aid or insufficiently high oxygen pressure exacerbates the problem. A second common error is inaccurate sample mass determination for hygroscopic compounds — mass gain between weighing and bomb sealing introduces systematic bias. Failure to correct for nitric acid formed from trace nitrogen in the bomb (either from the sample or residual air) causes a positive bias in the combustion energy. Reusing a poorly cleaned bomb allows residual carbon or acid films from previous experiments to contribute parasitic energy. Over-pressurizing the bomb (e.g., exceeding 4 MPa for organic compounds) risks mechanical failure but under-pressurizing risks incomplete combustion — the oxygen stoichiometry must be verified before each run.",
+      "artifacts_and_failure_modes": "Ignition failure occurs when the fuse wire breaks without igniting the sample, yielding a flat thermogram — this is more common with high-density pellets or inorganic-rich compounds and is resolved by improving fuse-sample contact or adding a small combustion aid. Sample ejection from the crucible during ignition results from explosive decomposition or gas evolution, scattering the sample inside the bomb and making mass accounting impossible — the run must be discarded and sample mass reduced or pellet compaction improved. Carbon residue (soot) on the crucible or bomb walls signals incomplete combustion; any such run is invalid. Bomb leakage, detected by failure to hold pressure during the pre-fill check or by anomalously low ΔT, is caused by degraded O-ring seals or damaged valve seats. Thermometer baseline anomalies — erratic fore or after period slopes — indicate jacket temperature instability or stirrer malfunction and compromise the ΔTcorr extraction. For sulfur- or halogen-containing compounds, corrosion of the bomb interior between runs can alter the bomb's thermal properties and introduce metallic combustion artifacts.",
+      "reporting_checklist": "Published micro-bomb calorimetry results should include: (1) sample description — chemical name, formula, molar mass, purity, purification method, and source; (2) calorimeter specifications — bomb volume, bomb material, calorimeter type (isoperibol or isothermal), thermometer type and resolution; (3) experimental conditions — oxygen pressure, initial temperature, water mass (if applicable), fuse material and mass; (4) calibration — benzoic acid standard used, certified value applied, number of calibration runs, mean ε and its standard deviation; (5) combustion data — number of replicate experiments, individual and mean ΔTcorr, individual auxiliary energy corrections (fuse, HNO3, combustion aid), completeness of combustion verification (CO2 recovery or crucible inspection); (6) Washburn corrections and ancillary data; (7) final reported values — −Δcu (J/g), ΔcU°(298.15 K), ΔcH°(298.15 K), and ΔfH°(298.15 K) with combined expanded uncertainty at 95% confidence level (k=2); (8) uncertainty budget specifying dominant contributions. For ThermoML encoding, enthalpy values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

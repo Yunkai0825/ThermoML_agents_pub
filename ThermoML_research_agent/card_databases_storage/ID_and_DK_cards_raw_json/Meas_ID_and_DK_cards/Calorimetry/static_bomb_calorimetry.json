@@ -1,0 +1,351 @@
+{
+  "meas_ID": "static_bomb_calorimetry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Static bomb calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Static bomb calorimetry",
+    "thermoml_custom_codes": [
+      "BOMBST"
+    ],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "yes",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 472,
+      "property_groups": [
+        "ReactionStateChangeProp"
+      ],
+      "n_papers": 220,
+      "per_group": {
+        "ReactionStateChangeProp": {
+          "instances": 472,
+          "papers": 220
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "corrected temperature rise of calorimeter water (ΔT)",
+          "sample mass before combustion",
+          "fuse wire energy (ignition wire consumed)",
+          "bomb solution analysis (HNO3, H2SO4 formed)"
+        ],
+        "derived_observables": [
+          "gross heat of combustion at constant volume (ΔcU, bomb process)",
+          "standard molar internal energy of combustion (ΔcU°)",
+          "standard molar enthalpy of combustion (ΔcH° = ΔcU° + ΔnRT)",
+          "standard molar enthalpy of formation (ΔfH°, via Hess's law)"
+        ],
+        "target_properties": [
+          "standard molar enthalpy of combustion (ΔcH°)",
+          "standard molar internal energy of combustion (ΔcU°)",
+          "standard molar enthalpy of formation (ΔfH°)",
+          "energy equivalent of the calorimeter (ε, J/K)",
+          "massic energy of combustion (Δcu°, J/g)"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous)",
+          "liquid (non-volatile or sealed in ampoule)"
+        ],
+        "supported_sample_types": [
+          "pure organic compounds (CHON)",
+          "organometallic compounds",
+          "ionic liquids",
+          "polymers (pelletized)",
+          "amino acids and biomolecules",
+          "pharmaceuticals",
+          "energetic materials (with specialized precautions)",
+          "fuels and hydrocarbons",
+          "binary and multicomponent solid mixtures"
+        ],
+        "unsupported_sample_types": [
+          "gases (require specialized gas-handling bombs)",
+          "highly volatile liquids without sealed ampoule containment",
+          "compounds containing halogens, sulfur, or heavy metals (require rotating-bomb technique for complete absorption of products)",
+          "inorganic salts that do not combust in O2",
+          "samples that detonate rather than deflagrate under O2 pressure"
+        ],
+        "typical_output_formats": [
+          "temperature–time trace (fore, main, after periods)",
+          "corrected temperature rise ΔTcorr (K)",
+          "massic energy of combustion (J/g)",
+          "molar enthalpy of combustion (kJ/mol)",
+          "Washburn correction breakdown table"
+        ],
+        "units": {
+          "temperature_rise": "K",
+          "energy_equivalent": "J/K",
+          "massic_energy_of_combustion": "J/g",
+          "molar_internal_energy_of_combustion": "kJ/mol",
+          "molar_enthalpy_of_combustion": "kJ/mol",
+          "molar_enthalpy_of_formation": "kJ/mol",
+          "sample_mass": "g",
+          "oxygen_pressure": "MPa",
+          "fuse_energy": "J"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "oxygen_fill_pressure",
+            "typical_range": "3.0 MPa (30 atm)",
+            "hard_limits": "2.5–3.5 MPa; bomb design pressure rating not to be exceeded",
+            "notes": "standard is 3.04 MPa (30 atm); higher pressures ensure complete combustion but increase bomb stress"
+          },
+          {
+            "parameter": "sample_mass",
+            "typical_range": "0.5–1.5 g",
+            "hard_limits": "limited so that ΔT ≈ 2–3 K to remain within calibration range and avoid excessive pressure rise",
+            "notes": "high-energy materials require smaller masses; low-energy materials may need auxiliary combustion aids"
+          },
+          {
+            "parameter": "water_in_bomb",
+            "typical_range": "1.0 mL pipetted into bomb before sealing",
+            "hard_limits": "must be present to absorb gaseous products (CO2, HNO3, H2SO4)",
+            "notes": "ensures quantitative absorption of acidic combustion products for Washburn corrections"
+          },
+          {
+            "parameter": "calorimeter_water_mass",
+            "typical_range": "2000–2500 g (precisely weighed or volumetrically delivered)",
+            "hard_limits": "must fully immerse bomb; mass known to ±0.05 g",
+            "notes": "defines the bulk of the energy equivalent; temperature uniformity is critical"
+          },
+          {
+            "parameter": "jacket_temperature",
+            "typical_range": "25 °C (isothermal jacket) or tracking (adiabatic jacket)",
+            "hard_limits": "isothermal jacket must be stable to ±0.001 K; adiabatic jacket must track bucket within ±0.005 K",
+            "notes": "choice of jacket type determines the heat exchange correction method"
+          }
+        ],
+        "variables": [
+          {
+            "name": "sample_mass",
+            "role": "primary experimental variable",
+            "typical_values": "0.5–1.5 g",
+            "effect": "determines the magnitude of temperature rise; adjusted so ΔT falls within the calibrated range"
+          },
+          {
+            "name": "oxygen_pressure",
+            "role": "controlled constant",
+            "typical_values": "3.0 MPa",
+            "effect": "ensures complete combustion; insufficient pressure leads to soot formation and incomplete reaction"
+          },
+          {
+            "name": "initial_calorimeter_temperature",
+            "role": "controlled initial condition",
+            "typical_values": "~24.5 °C (set so final T ≈ 25 °C reference)",
+            "effect": "determines the temperature range over which the energy equivalent is applicable"
+          },
+          {
+            "name": "fuse_wire_length",
+            "role": "controlled ignition parameter",
+            "typical_values": "10 cm cotton thread or iron wire (Parr 45C10)",
+            "effect": "contributes a known ignition energy that must be subtracted (cotton ~16.7 J/cm, iron ~6.7 J/cm)"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "stainless-steel oxygen bomb (Parr 1108 type, ~340 mL internal volume, rated to 20 MPa)",
+          "precision calorimeter bucket (2 L capacity, polished metal to minimize radiative exchange)",
+          "outer jacket (isothermal water jacket or servo-controlled adiabatic shield)",
+          "precision thermometer — quartz-crystal oscillator thermometer (±0.0001 K) or platinum resistance thermometer (PRT)",
+          "motorized stirrer for calorimeter water (constant-speed to ensure thermal equilibrium)",
+          "ignition unit — capacitor discharge or continuous-current source delivering ~20 J through fuse wire",
+          "oxygen supply with high-purity O2 (≥99.95%) and filling station with pressure gauge",
+          "sample crucible — platinum, quartz, or stainless-steel cup (~1 mL capacity)",
+          "fuse wire or cotton thread connection between electrode terminals and sample",
+          "analytical balance (±0.01 mg) for sample and fuse mass determination",
+          "data acquisition system — computer recording temperature vs. time at ≥0.1 Hz"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (±1 °C ambient stability)",
+          "vibration-free bench to prevent disturbance of thermometer readings",
+          "absence of drafts near the calorimeter jacket",
+          "adequate ventilation for oxygen handling"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "pellet (compressed in a pellet press, 13 mm diameter typical)",
+            "thin disk or wafer",
+            "powder (must be pelleted or placed in gelatin capsule or polyethylene bag as combustion aid)"
+          ],
+          "size_limits": "0.2–2.0 g; optimized so that ΔT = 2–3 K",
+          "thickness_limits": "pellet thickness ≤ 5 mm to ensure complete combustion throughout",
+          "surface_requirements": [
+            "dry and free of adsorbed moisture",
+            "no surface contamination with oils or greite that would contribute uncharacterized energy"
+          ],
+          "mounting_requirements": [
+            "sample placed in crucible resting on the bomb support ring",
+            "fuse wire in direct contact with sample surface or threaded through pellet",
+            "crucible must not contact bomb walls to prevent heat shunting"
+          ],
+          "preparation_requirements": [
+            "weighed on analytical balance to ±0.01 mg",
+            "dried to constant mass if hygroscopic (vacuum desiccator or oven)",
+            "pelleted to increase density and ensure complete combustion",
+            "volatile liquids sealed in polyethylene ampoules or glass bulbs of known combustion energy",
+            "elemental composition (CHON) must be known for Washburn corrections"
+          ]
+        },
+        "calibration_requirements": [
+          "energy equivalent (ε) determined by combustion of certified benzoic acid (NIST SRM 39j)",
+          "at least 6–10 calibration burns to establish ε with standard deviation of the mean",
+          "calibration repeated whenever bomb components, crucible, thermometer, or water volume change",
+          "temperature scale verified against ITS-90 fixed points or certified thermometer",
+          "fuse wire energy verified by burning known lengths without sample"
+        ],
+        "reference_materials": [
+          "benzoic acid, NIST Standard Reference Material 39j — ΔcU° = −26434 ± 3 J/g under certificate conditions",
+          "succinic acid — secondary reference for validation (ΔcU° = −12679 J/g)",
+          "naphthalene — secondary reference for validation (ΔcU° = −40298 J/g)",
+          "thianthrene / 4-fluorobenzoic acid — reference materials for sulfur- and fluorine-containing bomb calorimetry"
+        ],
+        "consumables": [
+          "fuse wire (iron wire Parr 45C10 or cotton thread)",
+          "sample crucibles (platinum for reuse, stainless-steel disposable)",
+          "polyethylene combustion bags or gelatin capsules (for powders and liquids)",
+          "high-purity oxygen (≥99.95%)",
+          "distilled/deionized water for bomb and bucket",
+          "0.0725 mol/L Na2CO3 solution for bomb washings titration"
+        ],
+        "safety_notes": [
+          "bomb must be rated for the maximum pressure developed (typically ~15 MPa at combustion peak); never exceed rated pressure",
+          "release valve and proper venting procedures for depressurizing the bomb after each experiment",
+          "wear safety glasses and gloves when handling pressurized oxygen",
+          "never fill bomb with O2 in presence of hydrocarbons or grease on fittings (explosion risk)",
+          "energetic/explosive compounds require reduced sample size, remote ignition, and blast shielding",
+          "ensure bomb is fully immersed in water before firing to absorb energy safely"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of measuring combustion energies to ≤ 0.01% for 1 g samples producing ΔT ≈ 2–3 K",
+        "detection_limit": "meaningful combustion measurements require ΔT ≥ 0.5 K; minimum sample mass ~0.1 g for organic compounds",
+        "resolution": {
+          "spatial": "not applicable (bulk destructive measurement)",
+          "temporal": "temperature recorded at 0.1–1 Hz during fore, main, and after periods (total ~30 min per run)",
+          "spectral": "not applicable",
+          "energy": "~0.01% of total combustion energy for well-characterized CHON compounds with state-of-the-art instruments"
+        },
+        "dynamic_range": "combustion energies from ~5 kJ/mol (marginal) to ~15000 kJ/mol; ΔT typically 1.5–3.5 K",
+        "accuracy": "0.01–0.03% for CHON compounds (corresponding to ΔcU° uncertainty of ~0.5–2 kJ/mol); 0.05–0.1% for compounds requiring Washburn corrections for S, N products",
+        "precision": "0.005–0.02% (repeatability of energy equivalent calibration and replicate combustion runs)",
+        "throughput": "4–8 runs per day with a single calorimeter (including bomb washing, recharging, and equilibration)",
+        "measurement_speed": "each run: ~10 min fore period, ~10 min main period, ~10 min after period; total ~30–45 min per measurement"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "temperature vs. time trace recorded over three periods: fore (pre-ignition equilibrium), main (combustion and temperature rise), and after (post-combustion equilibrium approach)",
+        "preprocessing_steps": [
+          "fit linear or exponential temperature–time drift in fore and after periods to determine heat exchange correction",
+          "calculate corrected temperature rise ΔTcorr using Regnault-Pfaundler or Dickinson extrapolation method",
+          "subtract fuse wire energy contribution (mass of wire consumed × specific energy of wire)",
+          "subtract energy from formation of HNO3 in bomb solution (determined by titration of bomb washings with Na2CO3)",
+          "subtract energy from formation of H2SO4 if sulfur present (determined by BaSO4 gravimetry or ion chromatography)",
+          "subtract or correct for any combustion aid (polyethylene bag, gelatin capsule)"
+        ],
+        "analysis_methods": [
+          "Washburn corrections: convert bomb-process energy to standard-state internal energy of combustion ΔcU° at 298.15 K and 0.1 MPa",
+          "Hubbard-Scott-Waddington procedure for reducing bomb calorimetric data",
+          "ΔcH° = ΔcU° + Δn·R·T where Δn = moles of gaseous products minus moles of gaseous reactants",
+          "ΔfH° derived from ΔcH° via Hess's law using formation enthalpies of CO2(g) and H2O(l)",
+          "statistical analysis of replicate burns to compute mean, standard deviation, and expanded uncertainty"
+        ],
+        "model_assumptions": [
+          "combustion is complete — all carbon converts to CO2(g), all hydrogen to H2O(l), all nitrogen to N2(g)",
+          "bomb process is isothermal at the reference temperature (298.15 K) after corrections",
+          "the energy equivalent ε is constant over the 2–3 K temperature rise interval",
+          "side-reaction energies (HNO3, H2SO4 formation from trace N2 and S) are fully accounted for",
+          "the real gas and solution thermodynamic corrections (Washburn) adequately reduce the bomb process to the standard-state ideal process"
+        ],
+        "fit_parameters": [
+          "energy equivalent of calorimeter (ε, J/K)",
+          "corrected temperature rise (ΔTcorr, K)",
+          "heat exchange correction parameters (cooling constant k, convergence temperature T∞)",
+          "mass of fuse wire consumed (g)",
+          "mass of HNO3 formed (mmol, from titration)"
+        ],
+        "common_artifacts": [
+          "incomplete combustion — soot deposits on bomb walls or crucible indicate carbon not fully oxidized, biasing ΔcU° low",
+          "CO2 dissolved in bomb water — reduces observed gaseous CO2 if collected, but is accounted for in Washburn corrections",
+          "pre-ignition volatilization — volatile samples partially evaporate during oxygen filling, reducing effective sample mass",
+          "crucible reaction — sample reacts with crucible material (especially stainless steel with sulfur or halogens) adding extraneous energy",
+          "water adsorption on pellet — hygroscopic samples gain mass between weighing and firing, altering the effective composition"
+        ],
+        "quality_control_checks": [
+          "verify energy equivalent ε by combustion of benzoic acid (must agree with certified value within ±0.02%)",
+          "inspect bomb interior after each run for soot — any soot indicates incomplete combustion and run is rejected",
+          "CO2 recovery test: compare mass of CO2 collected to theoretical yield from sample mass and composition (should be ≥99.95%)",
+          "check bomb washings for unexpected ions indicating side reactions",
+          "replicate measurements (minimum 6) with standard deviation of the mean ≤ 0.01–0.02%",
+          "mass balance: weigh crucible before and after to confirm no residue beyond ash from mineral content"
+        ],
+        "failure_modes": [
+          "ignition failure — fuse wire fails to ignite sample (insufficient contact, damp fuse, or inadequate energy)",
+          "incomplete combustion — evidenced by soot, low ΔT, or CO2 recovery < 99.9%",
+          "bomb seal failure — O-ring leak causes pressure loss, invalidating the measurement",
+          "thermometer malfunction — noise, drift, or calibration shift in temperature sensor",
+          "auxiliary substance combustion failure — polyethylene bag or gelatin capsule fails to burn completely",
+          "excessive pressure — detonation-like combustion of energetic materials can exceed bomb pressure rating"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.03% for ΔcU° of CHON compounds; 0.05–0.1% for compounds with heteroatoms requiring additional corrections",
+        "random_sources": [
+          "irreproducibility of combustion completeness between runs",
+          "variation in fuse wire–sample contact geometry",
+          "thermometer noise and reading precision",
+          "stirring and thermal equilibration variations",
+          "titration endpoint uncertainty for HNO3 determination"
+        ],
+        "systematic_sources": [
+          "certified energy of calibrant benzoic acid (±3 J/g for NIST SRM 39j)",
+          "impurity in sample (uncharacterized non-combustible or differently-combustible fraction)",
+          "Washburn correction model uncertainty (real-gas and solution thermodynamic parameters)",
+          "heat exchange correction method (Regnault-Pfaundler vs. Dickinson extrapolation)",
+          "energy equivalent temperature dependence over the 2–3 K measurement interval",
+          "sample mass on analytical balance (calibration of balance weights)",
+          "moisture content of sample at time of firing"
+        ],
+        "operator_dependence": "low to moderate — pelleting technique, fuse attachment, oxygen filling procedure, and bomb washings analysis require trained technique; experienced operators achieve better reproducibility",
+        "model_dependence": "moderate — Washburn corrections depend on solution thermodynamic models for dissolved gases and acids; for simple CHON compounds the corrections are small (~0.01–0.05% of ΔcU°) and well-characterized; for S, halogen compounds corrections are larger and more uncertain",
+        "dominant_error_sources": [
+          "impurity in sample (the single largest source for real-world measurements)",
+          "completeness of combustion (especially for refractory or low-volatility compounds)",
+          "energy equivalent calibration uncertainty",
+          "Washburn correction uncertainty for compounds with heteroatoms"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔcU°) at 95% confidence level (k=2)",
+          "standard deviation of the mean from replicate burns",
+          "overall uncertainty budget broken down by source (impurity, calibration, corrections)"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Static bomb calorimetry is the most established and precise method for measuring the energy of combustion of condensed-phase substances. A weighed sample is burned in excess high-pressure oxygen (~3 MPa) inside a sealed stainless-steel vessel (the 'bomb'), which is immersed in a known mass of water contained in a calorimeter bucket. The temperature rise of the water is measured with a high-precision thermometer and, combined with the previously calibrated energy equivalent of the calorimeter, yields the internal energy of combustion at constant volume. Through well-defined thermodynamic corrections (Washburn corrections), the bomb-process energy is reduced to the standard molar enthalpy of combustion ΔcH° at 298.15 K and 0.1 MPa. This technique has been the primary source of formation enthalpy data for organic and organometallic compounds for over a century, underpinning most thermochemical databases worldwide.",
+      "how_it_operates": "The sample (typically 0.5–1.5 g, pelleted) is placed in a small crucible inside the bomb, connected to the ignition electrodes by a fuse wire or cotton thread. A small volume of water (~1 mL) is pipetted into the bomb to absorb acidic gaseous products. The bomb is sealed, purged, and pressurized with pure oxygen to ~3 MPa. It is then placed in the calorimeter bucket containing a precisely known mass of water (~2 kg), and the assembly equilibrates with the surrounding isothermal (or adiabatic) jacket. After the fore period establishes the temperature drift baseline, the sample is ignited electrically. The combustion raises the calorimeter temperature by 2–3 K over a few minutes. The after period records the post-combustion drift. The corrected temperature rise ΔTcorr is determined by extrapolation techniques (Dickinson or Regnault-Pfaundler), and ΔcU(bomb) = ε × ΔTcorr minus auxiliary energy inputs (fuse, acid formation). The entire measurement takes approximately 30–45 minutes per run.",
+      "core_theory": "The fundamental equation is ΔcU(bomb) = −ε·ΔTcorr + Σ(auxiliary energies), where ε is the energy equivalent of the calorimeter (J/K) determined from calibration with benzoic acid. The energy equivalent encapsulates the combined heat capacity of the bomb, water, bucket, stirrer, and thermometer. Because the combustion occurs at constant volume inside the bomb, the directly measured quantity is the internal energy change ΔU, not the enthalpy change ΔH. Conversion to enthalpy uses ΔcH° = ΔcU° + Δn·R·T, where Δn is the change in moles of gas during the idealized standard-state reaction. Washburn corrections adjust the bomb-process energy to the standard-state idealized process: they account for the dissolution of CO2 and O2 in bomb water, the formation of aqueous HNO3 from atmospheric N2 residual in the bomb, the non-ideal behavior of gases at 3 MPa initial O2 pressure, and the evaporation/compression of water. For a typical CHON compound these corrections total 0.01–0.05% of ΔcU°.",
+      "setup": "A standard static bomb calorimeter consists of four principal components. (1) The bomb: a thick-walled stainless-steel vessel (~340 mL) with a screw-cap head carrying two insulated electrodes, a needle valve for gas filling/venting, and an O-ring seal. A platinum or stainless-steel crucible sits on a support ring between the electrodes. (2) The calorimeter bucket: a polished metal container holding ~2 kg of water, with an immersion stirrer driven at constant speed. The bomb is fully submerged. (3) The jacket: either an isothermal water jacket (temperature controlled to ±0.001 K, as in the Parr 6775 design) or an adiabatic shield that tracks the bucket temperature to eliminate heat exchange. (4) The temperature measurement system: a quartz-crystal oscillator thermometer (resolution ±0.0001 K) or a four-wire platinum resistance thermometer read by an AC bridge provides the time-temperature trace. A computer-controlled data acquisition system records at ≥0.1 Hz. Commercial systems (e.g., Parr 6200, 6400, IKA C 6000) automate oxygen filling, firing, data acquisition, and heat exchange correction.",
+      "suitable_for": "Static bomb calorimetry is the method of choice for determining combustion enthalpies of pure, well-characterized organic compounds composed of C, H, O, and N. It is widely applied to pharmaceuticals, amino acids, ionic liquids, energetic materials, biomass model compounds, polymers, and hydrocarbons. The technique delivers the highest accuracy (0.01–0.03%) available for combustion calorimetry when samples are pure, combustion is complete, and the only gaseous products are CO2, H2O, and N2. It also serves as the primary route to standard enthalpies of formation ΔfH° through Hess's law, making it indispensable for building and validating thermochemical databases and computational chemistry benchmarks.",
+      "core_limitations": "The technique is destructive — the sample is completely consumed. Compounds containing sulfur, halogens, boron, or metals produce non-volatile combustion products (H2SO4, HX, B2O3, metal oxides) that require special analytical treatment and typically need a rotating-bomb configuration for quantitative product recovery. Gaseous samples require specialized gas-handling bombs. Highly volatile liquids must be sealed in combustible ampoules, adding a correction for the ampoule energy that increases uncertainty. Sample purity is critical: even 0.1% of an impurity with a significantly different heat of combustion can bias the result beyond the inherent precision of the method. Extremely high-energy or detonable materials require blast-rated bombs and remote firing procedures. The technique is relatively slow (4–8 runs/day) and labor-intensive compared to differential scanning calorimetry, though far more accurate.",
+      "sample_preparation": "Solid samples are dried to constant mass in a vacuum desiccator or oven and pelleted using a hydraulic press (typically into 13 mm diameter pellets of 0.5–1.5 g). Pelleting increases the density and surface area control, promoting uniform and complete combustion. Powders that cannot be easily pelleted are enclosed in polyethylene combustion bags or gelatin capsules whose combustion energy has been independently determined. Liquid samples of low volatility are weighed directly into the crucible; volatile liquids are sealed in thin-walled polyethylene or glass ampoules that are broken by the combustion heat. In all cases the sample mass is determined on an analytical balance to ±0.01 mg. The elemental composition (C, H, N, and O by difference) must be known accurately for computing the stoichiometric combustion reaction and Washburn corrections. Sample purity should be verified by DSC, HPLC, or GC — a mole-fraction purity ≥ 0.999 is desirable.",
+      "calibration_and_references": "The calorimeter is calibrated by burning pellets of NIST Standard Reference Material 39j benzoic acid, whose certified massic energy of combustion is ΔcU° = −26434 ± 3 J/g under defined bomb conditions (3.04 MPa O2, 1 mL H2O, 298.15 K). A minimum of 6, preferably 10, calibration burns are averaged to yield the energy equivalent ε with a standard deviation of the mean typically ≤ 0.01%. Calibration must be repeated whenever any component of the calorimetric system changes (bomb, crucible, thermometer, water volume). Temperature calibration is verified against ITS-90 fixed points or by comparison with a certified reference thermometer. Secondary validation is performed using succinic acid (ΔcU° = −12679 J/g) or naphthalene (ΔcU° = −40298 J/g) to confirm that the system produces values within the expected uncertainty for compounds other than the calibrant.",
+      "data_interpretation": "The raw temperature–time trace is divided into three periods: the fore period (5–10 min of near-equilibrium drift before ignition), the main period (5–10 min encompassing the rapid temperature rise), and the after period (5–10 min of post-combustion drift toward a new equilibrium). The corrected temperature rise ΔTcorr is extracted by fitting the drift lines of the fore and after periods and extrapolating them to the mid-time of the main period (Dickinson method) or by applying the Regnault-Pfaundler integration. The gross bomb energy is ε × ΔTcorr. From this, the fuse wire energy, HNO3 formation energy (59.7 kJ/mol HNO3, determined by titrating bomb washings with standard Na2CO3), and any combustion aid energy are subtracted. The result is the bomb-process energy ΔcU(bomb) for the specific sample mass. Washburn corrections are then applied following the Hubbard-Scott-Waddington procedure to yield ΔcU° at 298.15 K and 0.1 MPa. Conversion to ΔcH° uses the Δn·RT term. Finally, ΔfH° is calculated via Hess's law: ΔfH°(compound) = Σ ΔfH°(products) − ΔcH°(compound), using ΔfH° of CO2(g) = −393.51 kJ/mol and ΔfH° of H2O(l) = −285.83 kJ/mol.",
+      "common_pitfalls": "The most critical pitfall is incomplete combustion, identifiable by soot on bomb walls or crucible and by CO2 recovery below 99.95% of theoretical. Causes include insufficient O2 pressure, poor fuse–sample contact, sample too loosely packed or too large, or refractory compounds that resist oxidation. A second major pitfall is uncharacterized impurity — even analytically pure (≥99.5%) samples may have thermal impurities (water, solvent from crystallization) that bias ΔcU° by amounts exceeding the instrumental precision. Failure to titrate bomb washings accurately leads to systematic errors in the HNO3 correction: for nitrogen-containing compounds this correction is substantial (each mg of HNO3 ≈ 0.95 J). Pre-fires (igniting the bomb before inserting it into the calorimeter water) waste the run. Using degraded or improperly stored benzoic acid calibrant introduces calibration bias.",
+      "artifacts_and_failure_modes": "Soot formation is the most visible artifact — it renders the run unusable because the energy of the incomplete oxidation (CO + soot) is indeterminate. Pre-ignition evaporation of volatile samples during O2 pressurization changes the effective sample mass without changing the weighed mass, producing systematically low ΔcU° values. Crucible corrosion by sulfur or halogen products can contribute extraneous exothermic metal sulfide/halide formation energy; platinum crucibles mitigate this. A malfunctioning stirrer creates thermal gradients in the bucket, distorting the temperature–time curve and corrupting the heat exchange correction. Bomb seal (O-ring) degradation causes slow oxygen leaks that reduce the effective O2 pressure and can lead to incomplete combustion. Electrical fuse ignition failure — due to poor wire-to-electrode contact, corroded electrodes, or insufficient ignition energy — produces no combustion and wastes the prepared sample. For adiabatic systems, a lag or overshoot in the adiabatic shield tracking introduces a systematic error in ΔTcorr.",
+      "reporting_checklist": "Published static bomb calorimetry results should include: compound identity and purity characterization method; sample mass and form (pellet, powder, liquid in ampoule); oxygen fill pressure; bomb internal volume; mass of water in bomb and bucket; jacket type (isothermal or adiabatic); thermometer type and resolution; calibrant identity and certified energy (NIST SRM 39j recommended); number of calibration and sample burns; energy equivalent ε and its standard deviation; corrected temperature rise ΔTcorr; individual auxiliary energy corrections (fuse, HNO3, H2SO4 if applicable, combustion aid); Washburn correction method and value; massic energy of combustion Δcu° (J/g); molar energy of combustion ΔcU° (kJ/mol); molar enthalpy of combustion ΔcH° (kJ/mol); molar enthalpy of formation ΔfH° (kJ/mol) with auxiliary thermochemical data sources cited; combined expanded uncertainty at 95% confidence with an uncertainty budget identifying the principal contributions; and CO2 recovery percentage. For ThermoML encoding, values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

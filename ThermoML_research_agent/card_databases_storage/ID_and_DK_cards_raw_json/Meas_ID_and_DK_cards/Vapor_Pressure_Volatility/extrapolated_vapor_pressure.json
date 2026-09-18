@@ -1,0 +1,273 @@
+{
+  "meas_ID": "extrapolated_vapor_pressure",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Extrapolated vapor pressure",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Extrapolated vapor pressure",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 3,
+      "property_groups": [
+        "Criticals"
+      ],
+      "n_papers": 3,
+      "per_group": {
+        "Criticals": {
+          "instances": 3,
+          "papers": 3
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "measured saturation pressure P_sat(T) data points within the experimental range",
+          "fitted correlation parameters (Antoine, Wagner, or Cox constants)"
+        ],
+        "derived_observables": [
+          "vapor pressure at temperatures beyond the measured range (extrapolated P_sat)",
+          "estimated critical pressure (when extrapolating toward the critical point)",
+          "vapor pressure curve slope dP_sat/dT in the extrapolated region"
+        ],
+        "target_properties": [
+          "saturation vapor pressure at temperatures outside the experimental range",
+          "estimated critical pressure and critical temperature (by extrapolation toward convergence)",
+          "boiling point at non-standard pressures (by inverse extrapolation)"
+        ],
+        "phases_measured": [
+          "liquid–vapor equilibrium (extrapolated coexistence curve)"
+        ],
+        "supported_sample_types": [
+          "pure compounds with existing measured vapor pressure data",
+          "well-characterized binary mixtures with known activity coefficients (limited applicability)",
+          "compounds with sufficient data points to constrain a multi-parameter correlation"
+        ],
+        "unsupported_sample_types": [
+          "compounds with no measured vapor pressure data",
+          "mixtures without well-established thermodynamic models",
+          "polymers or non-volatile solids with negligible vapor pressure",
+          "compounds that decompose before reaching the extrapolated temperature range",
+          "supercritical fluids (extrapolation beyond the critical point is physically meaningless)"
+        ],
+        "typical_output_formats": [
+          "P_sat(T) table at specified extrapolated temperatures",
+          "P_sat vs. T curve extending beyond the original measurement range",
+          "ln(P_sat) vs. 1/T plot (Clausius–Clapeyron representation)",
+          "correlation parameters with stated validity range and extrapolation bounds"
+        ],
+        "units": {
+          "vapor_pressure": "Pa or kPa",
+          "temperature": "K",
+          "correlation_parameters": "equation-specific (dimensionless or mixed units depending on correlation form)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range_of_source_data",
+            "typical_range": "varies; commonly 250–500 K for organic compounds",
+            "hard_limits": "must span at least 30–50 K to constrain multi-parameter correlations; wider spans improve extrapolation reliability",
+            "notes": "the quality and span of the source data directly control the trustworthiness of the extrapolation"
+          },
+          {
+            "parameter": "extrapolation_distance",
+            "typical_range": "10–100 K beyond measured range",
+            "hard_limits": "no absolute cutoff, but uncertainty grows rapidly; extrapolations beyond ~50–100 K are generally unreliable unless the correlation form is physically grounded",
+            "notes": "extrapolation toward the critical point is especially hazardous due to non-analytic behavior near Tc"
+          },
+          {
+            "parameter": "number_of_source_data_points",
+            "typical_range": "10–100 data points",
+            "hard_limits": "minimum ~5–8 points required to fit a 3-parameter correlation (Antoine); 4+ parameters (Wagner) require more points",
+            "notes": "redundant data points improve statistical confidence in fit parameters"
+          },
+          {
+            "parameter": "pressure_range_of_source_data",
+            "typical_range": "0.1 kPa to 1000 kPa",
+            "hard_limits": "must cover sufficient dynamic range; correlations fitted only to low-pressure data extrapolate poorly to high pressures and vice versa",
+            "notes": "logarithmic spacing in pressure is preferred for uniform weighting across the range"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "independent variable for extrapolation",
+            "typical_values": "target temperatures beyond the original measurement range",
+            "effect": "the extrapolated vapor pressure is evaluated at these temperatures using the fitted correlation"
+          },
+          {
+            "name": "correlation_type",
+            "role": "methodological choice",
+            "typical_values": "Antoine (3-param), Wagner (4-param), Cox (3-param), Riedel (4-param)",
+            "effect": "different functional forms have different extrapolation behavior; Wagner equation is generally most reliable for long-range extrapolation because it is constrained to the correct critical-point boundary conditions"
+          },
+          {
+            "name": "source_data_uncertainty",
+            "role": "quality metric for input data",
+            "typical_values": "0.1–5% relative uncertainty in measured P_sat",
+            "effect": "propagates into and amplifies the uncertainty of extrapolated values; lower source uncertainty permits more confident extrapolation"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "computational environment — software for nonlinear regression (e.g., NIST TDE, DIPPR, or general-purpose tools such as Python/MATLAB)",
+          "measured vapor pressure dataset — P_sat(T) data from ebulliometry, static methods, effusion, or other primary measurements",
+          "correlation equation library — implementations of Antoine, Wagner, Cox, Riedel, and related equations",
+          "statistical analysis module — for evaluating goodness of fit, parameter confidence intervals, and extrapolation uncertainty propagation"
+        ],
+        "environmental_requirements": [
+          "no physical laboratory requirements — purely computational procedure",
+          "access to critically evaluated vapor pressure databases (NIST TDE, DIPPR, Dortmund Data Bank) is recommended for high-quality source data"
+        ],
+        "sample_requirements": {
+          "geometry": [],
+          "size_limits": "not applicable (computational method)",
+          "thickness_limits": "not applicable",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "curated dataset of measured P_sat(T) values with associated uncertainties",
+            "identification and removal of outlier data points before fitting",
+            "verification that source data are thermodynamically consistent (e.g., monotonically increasing P_sat with T)"
+          ]
+        },
+        "calibration_requirements": [
+          "validation of the fitted correlation against held-out data points within the measured range (cross-validation)",
+          "comparison of correlation predictions with independent published data at overlapping temperatures",
+          "verification that the fitted correlation reproduces the normal boiling point within accepted tolerance"
+        ],
+        "reference_materials": [
+          "water — IAPWS-95 formulation provides a gold-standard vapor pressure curve for benchmarking extrapolation methods",
+          "n-alkanes (propane through n-decane) — well-characterized vapor pressure data for validation",
+          "reference compounds with data spanning from low temperature to near-critical: CO2, ethanol, benzene"
+        ],
+        "consumables": [],
+        "safety_notes": [
+          "no physical hazards — computational method",
+          "risk of over-reliance on extrapolated values: users must be warned that extrapolated vapor pressures carry much larger uncertainty than interpolated values"
+        ]
+      },
+      "performance": {
+        "sensitivity": "not applicable (computational extrapolation, not a sensor)",
+        "detection_limit": "not applicable; limited by the lowest vapor pressure reliably measured in the source dataset",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "limited by the dynamic range of the source data and the physical validity of the correlation form; practically from ~0.001 Pa to the critical pressure",
+        "accuracy": "within the fitted range: 0.1–1% if source data are high quality; extrapolated 20–50 K beyond range: 1–10%; extrapolated >100 K: potentially >50% error or physically meaningless",
+        "precision": "determined by the statistical uncertainty of the fit parameters; typically 0.05–0.5% within the fitted range, degrading rapidly with extrapolation distance",
+        "throughput": "essentially instantaneous computation once the correlation is established",
+        "measurement_speed": "fitting a correlation: seconds to minutes; evaluating at extrapolated temperatures: milliseconds"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "measured P_sat(T) data pairs (input); extrapolated P_sat(T) values and associated uncertainties (output)",
+        "preprocessing_steps": [
+          "collection and compilation of measured vapor pressure data from one or multiple literature sources",
+          "critical evaluation: removal of outliers, checking for internal consistency and thermodynamic plausibility",
+          "transformation to linearized form if appropriate (e.g., ln P vs. 1/T for Antoine-type fitting)",
+          "weighting of data points by their reported uncertainties for weighted least-squares regression"
+        ],
+        "analysis_methods": [
+          "nonlinear least-squares regression of P_sat(T) data to the chosen correlation equation",
+          "Antoine equation: log10(P) = A − B/(C + T) — simple, accurate over narrow ranges, poor for long extrapolation",
+          "Wagner equation: ln(Pr) = (aτ + bτ^1.5 + cτ^2.5 + dτ^5)/Tr — anchored to the critical point, best for wide-range extrapolation",
+          "Cox equation: ln(P/Pref) = (1 − Tref/T) × exp(A0 + A1T + A2T²) — good intermediate-range behavior",
+          "evaluation of the fitted equation at temperatures beyond the measurement range to obtain extrapolated P_sat",
+          "uncertainty propagation: Monte Carlo or Taylor expansion of parameter covariance matrix to estimate extrapolated uncertainty"
+        ],
+        "model_assumptions": [
+          "the chosen correlation form adequately represents the true P_sat(T) relationship over the extrapolation range",
+          "no phase transitions, decomposition, or association changes occur between the measurement range and the extrapolated range",
+          "the substance remains in the liquid–vapor two-phase region (extrapolation beyond the critical point is invalid)",
+          "source data uncertainties are correctly characterized and follow approximately normal distributions",
+          "the correlation parameters are statistically well-determined by the available data"
+        ],
+        "fit_parameters": [
+          "Antoine: A (intercept), B (enthalpy-related), C (temperature offset) — 3 parameters",
+          "Wagner: a, b, c, d (reduced vapor pressure polynomial coefficients) plus Tc and Pc — effectively 6 parameters",
+          "Cox: A0, A1, A2 (polynomial coefficients) plus Tref and Pref — 5 parameters",
+          "Riedel: A, B, C, D (extended Antoine form) — 4 parameters"
+        ],
+        "common_artifacts": [
+          "divergence artifact: correlation predicts negative pressures or infinite pressures at extrapolated temperatures due to inadequate functional form",
+          "curvature inversion: Antoine equation can produce a minimum or maximum in P_sat(T) at temperatures far from the fitted range, which is physically impossible",
+          "critical-point overshoot: correlations not anchored to the critical point may predict P_sat > Pc or T > Tc",
+          "false precision: statistical fit metrics (R², residuals) within the fitted range give no indication of extrapolation reliability",
+          "data vintage artifact: using old or low-accuracy source data produces a well-fitted but systematically biased extrapolation"
+        ],
+        "quality_control_checks": [
+          "verify that the correlation slope dP/dT remains positive and physically reasonable throughout the extrapolation range",
+          "compare extrapolated values from two or more independent correlation forms — agreement indicates robustness, divergence flags unreliability",
+          "check that extrapolated values are thermodynamically consistent with Clausius–Clapeyron expectations (d ln P/d(1/T) ≈ −ΔHvap/R)",
+          "verify the correlation reproduces known reference points (e.g., normal boiling point, literature values at nearby temperatures)",
+          "examine the parameter covariance matrix: large off-diagonal elements or ill-conditioned Hessian indicates poorly constrained parameters and unreliable extrapolation",
+          "plot residuals within the fitted range to check for systematic trends that would amplify in extrapolation"
+        ],
+        "failure_modes": [
+          "insufficient data span: source data covering a narrow temperature range cannot constrain the curvature of P_sat(T), leading to wildly divergent extrapolations",
+          "wrong correlation form: using a 3-parameter Antoine equation for extrapolation over hundreds of kelvins produces large systematic errors",
+          "near-critical extrapolation failure: standard correlations (except Wagner) do not capture the power-law singularity near the critical point",
+          "chemical instability: the compound decomposes at temperatures in the extrapolated range, making the concept of vapor pressure physically meaningless",
+          "overfitting: too many parameters for too few data points causes the correlation to fit noise, producing dramatic extrapolation errors"
+        ]
+      },
+      "uncertainty": {
+        "level": "within fitted range: 0.1–1%; extrapolated 20 K: 1–5%; extrapolated 50 K: 5–20%; extrapolated >100 K: uncertainty may exceed 50% and values should be treated as order-of-magnitude estimates only",
+        "random_sources": [
+          "scatter in measured P_sat(T) source data",
+          "statistical uncertainty of regression parameters propagated to the extrapolated region",
+          "numerical round-off in fitting algorithms (negligible for modern implementations)"
+        ],
+        "systematic_sources": [
+          "inadequacy of the correlation functional form (model error) — dominant source for long extrapolations",
+          "systematic bias in source data (e.g., impurity effects, pressure measurement offsets in original experiments)",
+          "neglect of non-ideal gas behavior at high pressures if the correlation does not account for it",
+          "assumption that ΔHvap is approximately constant when it in fact varies significantly with temperature",
+          "failure to account for association or dissociation equilibria that change the effective volatility"
+        ],
+        "operator_dependence": "low for the computation itself, but moderate for the choices of correlation form, data selection and weighting, and quality assessment of source data",
+        "model_dependence": "very high — the choice of correlation equation is the single largest determinant of extrapolation accuracy; different physically reasonable correlations can diverge by orders of magnitude at temperatures far from the fitted range",
+        "dominant_error_sources": [
+          "model form error (inadequacy of the extrapolation equation at temperatures far from the data)",
+          "extrapolation distance (uncertainty grows roughly exponentially with distance beyond the data boundary)",
+          "quality and span of the source data constraining the fit"
+        ],
+        "reported_as": [
+          "expanded uncertainty U(P_sat) at 95% confidence (k=2), often estimated by Monte Carlo propagation of parameter uncertainties",
+          "relative uncertainty as percentage of extrapolated P_sat",
+          "range bounds from comparison of multiple independent correlations"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Extrapolated vapor pressure is a computational procedure — not a physical measurement technique — in which vapor pressure values are estimated at temperatures outside the range of available experimental data. A correlation equation (typically Antoine, Wagner, Cox, or Riedel) is fitted by nonlinear regression to a set of measured saturation vapor pressure data P_sat(T), and then evaluated at target temperatures beyond the data boundaries. The method appears in the NIST ThermoML database under the Criticals property group, where it is used to extend vapor pressure curves toward the critical point or to low temperatures where direct measurement is impractical. Because the reliability of the result depends entirely on the mathematical form chosen and the quality of the underlying data, extrapolated values carry significantly larger uncertainties than interpolated ones and must always be flagged as derived rather than measured quantities.",
+      "how_it_operates": "The procedure begins with assembling a critically evaluated dataset of measured P_sat(T) pairs, typically from ebulliometric, static, or effusion measurements. These data are fitted to a chosen vapor pressure correlation by weighted nonlinear least-squares regression, minimizing the sum of squared deviations between measured and calculated pressures (or their logarithms). Once the correlation parameters are determined, the equation is evaluated at temperatures beyond the extremes of the original dataset. The Wagner equation ln(P_r) = (aτ + bτ^1.5 + cτ^2.5 + dτ^5)/T_r (where τ = 1 − T_r and T_r = T/T_c) is preferred for long-range extrapolation because it is anchored to the critical point and has the correct limiting behavior. The Antoine equation log₁₀(P) = A − B/(C + T) is adequate for short-range extrapolation within 20–30 K of the data boundaries but diverges unpredictably for larger gaps.",
+      "core_theory": "Extrapolation of vapor pressure rests on the Clausius–Clapeyron equation, d ln P/dT = ΔH_vap/(RT²), which establishes that ln P varies approximately linearly with 1/T when the enthalpy of vaporization ΔH_vap is roughly constant. Real fluids deviate from this ideal linearity because ΔH_vap decreases with increasing temperature and vanishes at the critical point. More sophisticated correlation forms like the Wagner equation encode these physical constraints by expressing the reduced vapor pressure as a polynomial in τ = 1 − T/T_c with fractional exponents chosen to reproduce the correct near-critical scaling. The fundamental limitation is that no finite-parameter correlation can guarantee correct behavior outside its fitted domain: extrapolation is an inherently model-dependent exercise, and the divergence between different plausible models grows with distance from the data.",
+      "setup": "No physical laboratory setup is required. The practitioner needs: (1) a curated dataset of measured P_sat(T) values with associated uncertainties, preferably drawn from critically evaluated compilations such as the NIST TDE or DIPPR databases; (2) a computational tool capable of nonlinear regression (e.g., NIST ThermoData Engine, specialized thermodynamic software, or general-purpose environments like Python with scipy.optimize); (3) implementations of the correlation equations of interest; and (4) a statistical framework for uncertainty propagation, such as Monte Carlo parameter sampling or linearized covariance propagation. The workflow proceeds entirely on a computer with no physical apparatus.",
+      "suitable_for": "This method is appropriate when direct vapor pressure measurement at the target temperature is unavailable or impractical — for example, at very high temperatures approaching the critical point where containment is difficult, or at very low temperatures where vapor pressures are too small to measure reliably. It is also used when only a limited number of measured data points exist and a smooth curve representation is needed for thermodynamic modeling. The technique is most trustworthy when the extrapolation distance is small (less than ~30 K beyond the data) and when a physically grounded correlation form (Wagner) is used with high-quality source data spanning a wide temperature range.",
+      "core_limitations": "The central limitation is that extrapolation reliability degrades rapidly with distance beyond the measured data. Uncertainty in the extrapolated value grows roughly exponentially with the temperature gap because small errors in the curvature of ln P vs. 1/T compound over distance. No statistical goodness-of-fit metric computed within the data range can predict extrapolation accuracy — a perfect fit to 50 points does not guarantee a correct prediction 100 K away. Near the critical point, most correlation forms (except Wagner and IAPWS-type equations) fail to capture the power-law singularity in the coexistence curve. For compounds that decompose or undergo chemical change between the measured and target temperatures, the concept of equilibrium vapor pressure itself becomes invalid.",
+      "sample_preparation": "No physical sample is involved. Data preparation consists of: assembling measured P_sat(T) pairs from primary literature or evaluated databases; verifying internal thermodynamic consistency (monotonically increasing P_sat with T, positive dP/dT, no sign of experimental outliers); removing or downweighting suspect data points; and ensuring that the dataset spans the widest feasible temperature range to provide maximum constraint on the curvature of the correlation. If critical constants (T_c, P_c) are available, they should be included as anchor points for Wagner or Riedel equation fits.",
+      "calibration_and_references": "Validation replaces physical calibration. The fitted correlation should first be tested by leave-one-out or leave-many-out cross-validation within the measured range to confirm robustness. It should reproduce the normal boiling point (at 101.325 kPa) within the accepted literature uncertainty. Comparison with independent reference substances (water via IAPWS-95, n-alkanes, CO₂) provides a qualitative benchmark of the extrapolation methodology. When multiple correlation forms yield divergent extrapolated values, the spread among them provides a practical estimate of model-form uncertainty.",
+      "data_interpretation": "Extrapolated vapor pressures are obtained by direct algebraic evaluation of the fitted correlation at the target temperatures. The primary diagnostic is a Clausius–Clapeyron plot (ln P vs. 1/T), on which the extrapolated segment should smoothly extend the trend of the measured data without kinks, inflections, or curvature reversals. A comparison plot showing results from two or more independent correlations highlights the region where extrapolation becomes unreliable — the point at which the curves diverge by more than the stated uncertainty. Uncertainty estimates are derived by propagating the parameter covariance matrix (from the regression) through the correlation equation, often augmented by a model-form uncertainty term estimated from inter-correlation spread.",
+      "common_pitfalls": "The most dangerous pitfall is presenting extrapolated values with the same confidence as measured data. Users may take P_sat values from a fitted correlation table without recognizing that entries beyond the data boundaries carry dramatically larger uncertainty. Choosing the Antoine equation for long-range extrapolation is a common error because its simple three-parameter form lacks the flexibility to follow the true curvature of ln P vs. 1/T over wide temperature spans. Overfitting with too many parameters to a small dataset creates a correlation that reproduces the data perfectly but extrapolates wildly. Failure to include the critical constants as constraints in Wagner-type fits allows unphysical behavior near T_c.",
+      "artifacts_and_failure_modes": "Divergence failure: the Antoine equation can predict negative vapor pressures or a pressure maximum at temperatures far below the fitted range because the (C + T) denominator term passes through zero. Curvature inversion: weakly constrained correlations can develop a positive second derivative of ln P vs. 1/T (concave-up), which is thermodynamically impossible for a normal liquid. Critical overshoot: without an explicit critical-point anchor, the correlation may predict P_sat > P_c or a vapor pressure curve that passes through a maximum and then decreases — both physically meaningless. False-precision failure: the correlation reports 5 significant figures at the extrapolated temperature, but the actual uncertainty spans orders of magnitude. These artifacts are detectable by plotting the extrapolated curve on a wide-range Clausius–Clapeyron diagram and checking for any non-monotonic or sign-changing behavior.",
+      "reporting_checklist": "Reports of extrapolated vapor pressure should include: (1) the correlation equation used, with all fitted parameter values and their standard errors; (2) the temperature range and number of source data points used in the fit; (3) the extrapolation distance (difference between the target temperature and the nearest data boundary); (4) a clear statement that the reported value is extrapolated, not measured; (5) the goodness-of-fit statistics within the data range (average absolute deviation, maximum deviation); (6) the estimated uncertainty at the extrapolated temperature, including both parameter-propagation and model-form contributions; (7) comparison with at least one alternative correlation form if available; and (8) the critical constants used as constraints, if applicable. For ThermoML encoding, the extrapolated P_sat is reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

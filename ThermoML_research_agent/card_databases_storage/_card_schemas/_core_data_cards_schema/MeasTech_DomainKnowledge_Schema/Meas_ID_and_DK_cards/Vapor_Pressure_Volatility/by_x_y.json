@@ -1,0 +1,297 @@
+{
+  "meas_ID": "by_x_y",
+  "identity": {
+    "name": "By X=Y",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "By X=Y",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 265,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium",
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 84,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 179,
+          "papers": 74
+        },
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 86,
+          "papers": 43
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "liquid-phase mole fraction x_i (composition of liquid at vapor-liquid equilibrium)",
+          "vapor-phase mole fraction y_i (composition of vapor at vapor-liquid equilibrium)",
+          "equilibrium temperature T at each VLE tie-line",
+          "equilibrium pressure P at each VLE tie-line"
+        ],
+        "derived_observables": [
+          "azeotropic composition x_az (mole fraction where x_i = y_i)",
+          "azeotropic temperature T_az (temperature at the azeotropic composition)",
+          "azeotropic pressure P_az (pressure at the azeotropic composition)",
+          "relative volatility α_ij at each data point (derived from x-y data to confirm azeotrope where α = 1)",
+          "deviation function (y_i − x_i) as a function of x_i for graphical or numerical root-finding"
+        ],
+        "target_properties": [
+          "Azeotropic composition (mole fraction)",
+          "Azeotropic temperature",
+          "Azeotropic pressure"
+        ],
+        "phases_measured": [
+          "vapor-liquid equilibrium (VLE) coexisting phases"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures exhibiting azeotropic behavior",
+          "ternary and multicomponent mixtures (where x_i = y_i conditions define azeotropic surfaces)",
+          "aqueous-organic mixtures",
+          "organic-organic mixtures",
+          "mixtures containing electrolytes that form azeotropes",
+          "systems with both minimum-boiling and maximum-boiling azeotropes"
+        ],
+        "unsupported_sample_types": [
+          "pure components (no x-y curve exists for a single species)",
+          "systems with no azeotrope (the y = x diagonal is never crossed)",
+          "solid-liquid or liquid-liquid equilibria (no vapor phase involved)",
+          "supercritical fluids above the mixture critical point",
+          "systems where VLE data are unavailable or unreliable"
+        ],
+        "typical_output_formats": [
+          "y vs. x diagram with y = x diagonal line showing intersection point",
+          "(y − x) vs. x plot showing zero-crossing at azeotropic composition",
+          "tabulated azeotropic composition, temperature, and pressure",
+          "relative volatility α vs. x plot showing α = 1 crossing"
+        ],
+        "units": {
+          "composition": "mole fraction (dimensionless, 0 to 1)",
+          "temperature": "K",
+          "pressure": "kPa or MPa",
+          "relative_volatility": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "VLE_data_density",
+            "typical_range": "10 to 50 x-y data points spanning the full composition range",
+            "hard_limits": "minimum 5–8 points required in the vicinity of the azeotrope for reliable interpolation",
+            "notes": "data must bracket the azeotropic composition; one-sided data cannot locate the crossing"
+          },
+          {
+            "parameter": "temperature_or_pressure_condition",
+            "typical_range": "isobaric data at 101.325 kPa or isothermal data at 298.15–373.15 K",
+            "hard_limits": "VLE data must be measured under a single thermodynamic constraint (constant T or constant P) for the x = y determination to be meaningful",
+            "notes": "mixing isobaric and isothermal data invalidates the analysis"
+          },
+          {
+            "parameter": "composition_accuracy",
+            "typical_range": "mole fraction uncertainty ≤ 0.005",
+            "hard_limits": "composition uncertainty must be small relative to the distance between data points near the azeotrope",
+            "notes": "analytical methods (GC, refractive index) used for the underlying VLE study determine composition precision"
+          },
+          {
+            "parameter": "thermodynamic_consistency",
+            "typical_range": "VLE data should pass area or point consistency tests",
+            "hard_limits": "thermodynamically inconsistent data can produce spurious or shifted azeotropic compositions",
+            "notes": "Herington, Van Ness, or Redlich-Kister consistency tests recommended before x = y analysis"
+          }
+        ],
+        "variables": [
+          {
+            "name": "liquid_mole_fraction_x",
+            "role": "independent variable (abscissa in y-x diagram)",
+            "typical_values": "0 to 1",
+            "effect": "defines the composition axis; the azeotrope is located where the y(x) curve crosses the y = x line"
+          },
+          {
+            "name": "vapor_mole_fraction_y",
+            "role": "dependent variable (ordinate in y-x diagram)",
+            "typical_values": "0 to 1",
+            "effect": "measured or correlated vapor composition; intersection with y = x diagonal identifies the azeotrope"
+          },
+          {
+            "name": "temperature",
+            "role": "constrained or measured variable",
+            "typical_values": "250 K to 500 K",
+            "effect": "for isobaric VLE, T varies with composition; T at the azeotropic x gives T_az"
+          },
+          {
+            "name": "pressure",
+            "role": "constrained or measured variable",
+            "typical_values": "1 kPa to 10 MPa",
+            "effect": "for isothermal VLE, P varies with composition; P at the azeotropic x gives P_az"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "no dedicated instrument — this is a data analysis/graphical method applied to existing VLE measurements",
+          "graphing software or computational tool for plotting y vs. x and the y = x diagonal",
+          "interpolation algorithm (linear, cubic spline, or polynomial) for locating the exact crossing point",
+          "root-finding routine for solving y(x) − x = 0 numerically (e.g., bisection, Newton-Raphson, or Brent's method)",
+          "optional: thermodynamic model (Wilson, NRTL, UNIQUAC, or equation of state) fitted to VLE data for smooth interpolation"
+        ],
+        "environmental_requirements": [
+          "not applicable — post-measurement data analysis method; no physical laboratory requirements"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "not applicable — method operates on numerical data, not physical samples"
+          ],
+          "size_limits": "not applicable",
+          "thickness_limits": "not applicable",
+          "surface_requirements": [
+            "not applicable"
+          ],
+          "mounting_requirements": [
+            "not applicable"
+          ],
+          "preparation_requirements": [
+            "VLE data set with paired (x_i, y_i) measurements at known T and P",
+            "data should span the full composition range or at minimum bracket the expected azeotropic region",
+            "thermodynamic consistency verification of the input VLE data"
+          ]
+        },
+        "calibration_requirements": [
+          "no instrument calibration required — accuracy depends entirely on the quality of the input VLE data",
+          "the underlying VLE measurement apparatus (ebulliometer, recirculating still, static cell) must have been properly calibrated",
+          "composition analytical methods (GC, densimetry, refractometry) used in the original VLE study must be calibrated"
+        ],
+        "reference_materials": [
+          "well-characterized azeotropic systems for validation (e.g., ethanol-water at 101.325 kPa, x_az ≈ 0.8943 mole fraction ethanol, T_az ≈ 351.3 K)",
+          "NIST/DECHEMA VLE data compilations for cross-checking source data quality",
+          "Gmehling azeotropic data tables for comparison of derived azeotropic compositions"
+        ],
+        "consumables": [
+          "none — purely computational method"
+        ],
+        "safety_notes": [
+          "not applicable — no physical hazards associated with data analysis"
+        ]
+      },
+      "performance": {
+        "sensitivity": "can detect azeotropes with compositions resolvable to ±0.001–0.005 mole fraction, depending on VLE data density and quality near the crossing point",
+        "detection_limit": "unable to resolve azeotropes where the y-x curve approaches but does not cross the diagonal (tangent azeotropes); requires clear sign change in (y − x)",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "applicable across the full mole fraction range 0 to 1; limited at extreme dilution where VLE data are sparse",
+        "accuracy": "azeotropic composition accuracy typically ±0.002–0.01 mole fraction; temperature accuracy ±0.1–0.5 K; pressure accuracy ±0.1–1 kPa; all contingent on input VLE data quality",
+        "precision": "repeatability limited by interpolation method choice; cubic spline and thermodynamic model fits typically agree within ±0.002 mole fraction",
+        "throughput": "effectively instantaneous once VLE data are available; analysis of a single data set takes seconds to minutes",
+        "measurement_speed": "data analysis step is negligible; total time governed by the upstream VLE experiment"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "tabulated (x_i, y_i, T, P) data from a VLE experiment — no raw instrumental signal is generated by this method itself",
+        "preprocessing_steps": [
+          "verify thermodynamic consistency of VLE data (Herington area test, Van Ness point test, or Redlich-Kister test)",
+          "remove or flag outlier data points that deviate strongly from smooth (y − x) vs. x trends",
+          "sort data in order of increasing x_i",
+          "compute the deviation function Δy = y_i − x_i for each data point"
+        ],
+        "analysis_methods": [
+          "graphical method: plot y vs. x and visually locate intersection with y = x diagonal",
+          "numerical interpolation: fit cubic spline or polynomial to (x, Δy) data and find root where Δy = 0",
+          "thermodynamic model fitting: regress Wilson, NRTL, UNIQUAC, or Margules parameters to VLE data, then solve y(x) = x analytically or numerically",
+          "relative volatility method: compute α = y(1−x)/[x(1−y)] at each point and interpolate to find where α = 1",
+          "linear interpolation between bracketing points: if x_k < x_az < x_{k+1}, interpolate linearly in (x, Δy) to estimate x_az"
+        ],
+        "model_assumptions": [
+          "the VLE data represent true thermodynamic equilibrium (no mass-transfer limitations or partial equilibration)",
+          "the system exhibits a single azeotrope within the composition range (multiple crossings require individual treatment)",
+          "the x-y relationship is smooth and continuous between data points (justifying interpolation)",
+          "for isobaric data: pressure is constant across all measurements; for isothermal data: temperature is constant",
+          "if a thermodynamic model is used for smoothing, the model form is adequate to represent the system's non-ideality"
+        ],
+        "fit_parameters": [
+          "azeotropic composition x_az (the primary result)",
+          "azeotropic temperature T_az (from T-x data at x = x_az)",
+          "azeotropic pressure P_az (from P-x data at x = x_az)",
+          "activity coefficient model parameters (Wilson Λ_ij, NRTL τ_ij and α_ij, or UNIQUAC u_ij) when model-based smoothing is used"
+        ],
+        "common_artifacts": [
+          "false azeotrope detection due to thermodynamically inconsistent VLE data (systematic composition errors can shift or create a spurious crossing)",
+          "interpolation artifact: overshoot or oscillation in cubic spline near the crossing point if data density is insufficient",
+          "composition-dependent systematic bias from GC calibration errors shifting the entire y-x curve up or down",
+          "apparent multiple azeotropes from noisy data where (y − x) fluctuates around zero without a true thermodynamic crossing"
+        ],
+        "quality_control_checks": [
+          "verify that VLE data pass thermodynamic consistency tests before performing x = y analysis",
+          "confirm that the (y − x) function changes sign — a necessary condition for a true azeotrope",
+          "compare azeotropic composition from multiple interpolation methods (linear, spline, model-based) to assess robustness",
+          "check that derived T_az or P_az are physically reasonable (e.g., T_az lies between pure-component boiling points for minimum-boiling azeotrope)",
+          "cross-reference with literature azeotropic data (Gmehling tables, DECHEMA) where available",
+          "inspect the y-x plot visually for obvious outliers or curvature anomalies near the diagonal crossing"
+        ],
+        "failure_modes": [
+          "VLE data do not bracket the azeotrope (data collected only on one side of the crossing)",
+          "insufficient data density near the azeotrope leading to unreliable interpolation (large gap between bracketing points)",
+          "thermodynamically inconsistent VLE data producing a shifted or fictitious azeotrope",
+          "tangent azeotrope where the y-x curve touches but does not definitively cross the diagonal (numerically ambiguous root)",
+          "model-dependent bias when inappropriate thermodynamic model is used to smooth the data before root-finding"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: x_az ±0.002–0.01 mole fraction; T_az ±0.1–0.5 K; P_az ±0.1–1 kPa",
+        "random_sources": [
+          "scatter in individual (x_i, y_i) data points from the VLE experiment",
+          "random analytical uncertainty in composition measurements (GC peak integration, refractometry noise)",
+          "temperature and pressure measurement noise in the original VLE apparatus"
+        ],
+        "systematic_sources": [
+          "GC calibration bias shifting all x or y values systematically",
+          "temperature sensor offset in the VLE apparatus",
+          "pressure gauge bias",
+          "incomplete vapor-liquid equilibration in the VLE measurement (partial equilibrium)",
+          "interpolation method bias (choice of linear vs. spline vs. model introduces small systematic differences)",
+          "thermodynamic model inadequacy when model-based smoothing is employed"
+        ],
+        "operator_dependence": "low for numerical methods (result is deterministic given data and interpolation algorithm); moderate for graphical methods where visual judgment of the crossing point introduces subjectivity",
+        "model_dependence": "moderate to high — if a thermodynamic model is used to smooth VLE data before locating x = y, the derived azeotropic composition depends on the model choice and parameter quality; direct interpolation of raw data avoids model dependence but is more susceptible to noise",
+        "dominant_error_sources": [
+          "accuracy of the input VLE composition data (x and y uncertainties propagate directly to x_az uncertainty)",
+          "data density near the azeotropic composition (sparse data near the crossing demands larger interpolation extrapolation)",
+          "thermodynamic consistency of the source VLE data set"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(x_az) at 95% confidence (k=2)",
+          "combined expanded uncertainty U(T_az) or U(P_az) at 95% confidence (k=2)",
+          "uncertainty propagated from VLE data scatter through interpolation procedure"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "By X=Y is a data analysis method — not a physical measurement technique — used to determine azeotropic conditions from vapor-liquid equilibrium (VLE) data. The method identifies the composition at which the liquid mole fraction x equals the vapor mole fraction y, which is the defining thermodynamic condition for an azeotrope. At this point the coexisting liquid and vapor phases have identical composition, the relative volatility equals unity, and the mixture boils (or condenses) without change in composition. The method is applied post hoc to VLE data sets obtained by any experimental technique (ebulliometry, static cells, recirculating stills) and involves graphical or numerical determination of the intersection of the y(x) curve with the y = x diagonal on a McCabe-Thiele-type diagram.",
+      "how_it_operates": "The analyst takes a set of experimentally measured (x_i, y_i) pairs from a VLE study conducted under either isobaric or isothermal conditions and constructs a y-versus-x diagram alongside the 45° diagonal line y = x. The azeotropic composition corresponds to the point where the experimental y(x) curve crosses this diagonal. In practice, the crossing is located by computing the deviation function Δy(x) = y − x at each data point, then finding the root where Δy = 0 using interpolation or a fitted thermodynamic model. The corresponding equilibrium temperature (for isobaric data) or pressure (for isothermal data) at the azeotropic composition gives T_az or P_az respectively.",
+      "core_theory": "At thermodynamic equilibrium for a binary system, the vapor composition y_i is related to the liquid composition x_i through the modified Raoult's law: y_i·P = x_i·γ_i·P_i^sat, where γ_i is the liquid-phase activity coefficient and P_i^sat is the pure-component saturation pressure. At the azeotrope, y_i = x_i for all components, which requires γ_i·P_i^sat = P for each species. This means the relative volatility α_12 = (y_1/x_1)/(y_2/x_2) = (γ_1·P_1^sat)/(γ_2·P_2^sat) equals unity at the azeotropic composition. The By X=Y method directly exploits the y_i = x_i condition by seeking the composition where the experimentally observed or model-predicted y(x) curve intersects the y = x line, without requiring knowledge of activity coefficients or saturation pressures.",
+      "setup": "No physical experimental setup is required. The method is performed computationally using VLE data that have already been measured. A typical workflow uses spreadsheet software (Excel), scientific computing environments (Python with NumPy/SciPy, MATLAB), or dedicated thermodynamic packages (Aspen Plus, ProSim). The analyst imports the tabulated (x, y, T, P) data, plots y versus x together with the y = x diagonal, and applies an interpolation or curve-fitting routine to precisely locate the crossing point. When higher precision is desired, the VLE data are first correlated with a thermodynamic activity coefficient model (Wilson, NRTL, UNIQUAC) and the azeotropic condition y(x) = x is solved analytically or numerically from the model equations.",
+      "suitable_for": "The By X=Y method is applicable to any binary or multicomponent system where VLE data have been measured and an azeotrope is suspected or known to exist. It is routinely used in studies of minimum-boiling azeotropes (positive deviations from Raoult's law, such as ethanol-water), maximum-boiling azeotropes (negative deviations, such as acetone-chloroform), and pressure-dependent azeotropic behavior. The method is especially valuable when azeotropic conditions must be characterized precisely from experimental VLE campaigns, when validating thermodynamic model predictions, or when determining how azeotropic composition shifts with temperature or pressure for distillation process design.",
+      "core_limitations": "The method can only locate an azeotrope if VLE data are available on both sides of the crossing point — one-sided data sets that do not bracket the azeotrope cannot be used. The accuracy of the derived azeotropic composition is entirely contingent upon the accuracy and density of the input VLE data; sparse or noisy data near the crossing produce poorly determined results. Tangent azeotropes, where the y(x) curve approaches the diagonal asymptotically without a clear crossing, are difficult to detect and characterize. The method provides no direct information about the physical microscopic origin of azeotrope formation and does not predict whether an azeotrope will exist — it only locates one if the data indicate it. For multicomponent systems, the analysis becomes more complex as the azeotropic condition involves simultaneous x_i = y_i for all components.",
+      "sample_preparation": "No physical sample preparation is required since this is a data analysis method. However, the quality of the input VLE data is paramount, and the upstream sample preparation for the VLE experiment itself must be rigorously controlled. The liquid mixtures used in the source VLE measurements should be prepared gravimetrically from high-purity components (≥99.5% by GC), with water content verified by Karl Fischer titration for hygroscopic systems. Compositions must be determined by calibrated analytical methods (gas chromatography, densimetry, or refractometry) with traceability. Before applying the By X=Y analysis, the analyst should verify that the source data were obtained from properly degassed samples at true vapor-liquid equilibrium.",
+      "calibration_and_references": "No instrument calibration is needed for the By X=Y method itself. The critical calibration requirement is that the source VLE data were measured with properly calibrated instruments: temperature sensors traceable to ITS-90 standards, pressure gauges calibrated against deadweight testers or NIST-traceable references, and composition analytical methods calibrated with certified standard mixtures. For validation of the method, the analyst should compare derived azeotropic values against established reference compilations: the Gmehling azeotropic data collection (DECHEMA Chemistry Data Series), the NIST ThermoData Engine, and the Azeotropic Data compendium by Horsley. The well-characterized ethanol-water system (x_az ≈ 0.8943 at 101.325 kPa) serves as a standard benchmark.",
+      "data_interpretation": "The primary analysis constructs the deviation function Δy = y − x from the VLE data and locates the zero crossing. For graphical analysis, the intersection of the y(x) curve with the y = x diagonal is read directly from the plot. For numerical analysis, cubic spline interpolation of the (x, Δy) data followed by root-finding (Brent's method or bisection) yields x_az. The corresponding T_az or P_az is obtained by interpolating the T(x) or P(x) data at x = x_az. When a thermodynamic model has been fitted to the VLE data, the azeotropic condition can be expressed analytically (e.g., for the Margules or Van Laar models) or solved numerically (for NRTL, Wilson, or UNIQUAC). The sign of (y − x) on either side of the root indicates the azeotrope type: if y > x for x < x_az and y < x for x > x_az (for the more volatile component), the system has a minimum-boiling azeotrope; the reverse pattern indicates a maximum-boiling azeotrope.",
+      "common_pitfalls": "The most frequent error is applying the method to VLE data that do not bracket the azeotrope, yielding an extrapolated composition that may be unreliable or physically meaningless. Using thermodynamically inconsistent VLE data without verification can produce a shifted or entirely fictitious azeotrope — the Herington area test or Van Ness point test should always be applied first. Sparse data near the crossing point force the interpolation over a wide composition gap, amplifying uncertainty; best results require at least 3–5 data points within ±0.05 mole fraction of the azeotrope. Confusing isobaric and isothermal data, or mixing data from different pressures, invalidates the analysis. Finally, over-reliance on a single thermodynamic model for smoothing can introduce model-dependent bias; comparing results from multiple models or direct interpolation is advisable.",
+      "artifacts_and_failure_modes": "A false azeotrope can be inferred from systematically biased composition data — for example, if the GC calibration has a consistent offset that shifts all y values upward, the y(x) curve will cross the diagonal at a composition different from the true azeotrope, or may produce a crossing even when no true azeotrope exists. Cubic spline overshoot near steep regions of the y(x) curve can create artificial zero-crossings in the Δy function, particularly with unevenly spaced data. Noisy data near the diagonal (where Δy is small) can produce multiple apparent sign changes, suggesting nonexistent multiple azeotropes. In systems with a tangent azeotrope, the y(x) curve grazes the diagonal without a definitive crossing, making root detection numerically ill-conditioned — small perturbations in the data move the apparent azeotropic composition dramatically. Model-based analysis fails when the chosen activity coefficient model cannot adequately represent the system's non-ideality, producing shifted or missed azeotropes.",
+      "reporting_checklist": "Published results derived by the By X=Y method should report: the source of VLE data (original measurements or literature reference with full citation), experimental conditions (isobaric at stated P, or isothermal at stated T), number and composition range of (x, y) data points used, results of thermodynamic consistency testing applied to the data, interpolation or modeling method used to locate the crossing (linear interpolation, cubic spline, or specific activity coefficient model with parameters), the derived azeotropic composition x_az with combined expanded uncertainty at 95% confidence, the corresponding T_az or P_az with uncertainty, whether the azeotrope is minimum-boiling or maximum-boiling, and any comparison with literature azeotropic data. For ThermoML encoding, azeotropic composition is reported as mole fraction with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

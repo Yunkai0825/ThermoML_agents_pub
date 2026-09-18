@@ -1,0 +1,320 @@
+{
+  "meas_ID": "index_of_refraction_calibration_data",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Index of refraction calibration data",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Index of refraction calibration data",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Optical / Refractometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 522,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium",
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 113,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 520,
+          "papers": 113
+        },
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 2,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "refractive index nD of each equilibrium phase sample at 589.3 nm (sodium D-line)",
+          "temperature of sample during nD measurement",
+          "critical angle at the prism–sample interface (Abbe refractometer)"
+        ],
+        "derived_observables": [
+          "mole fraction (or mass fraction) of each component from the nD-vs-composition calibration curve",
+          "tie-line compositions (liquid–liquid equilibrium end-points)",
+          "deviation of measured nD from calibration curve fit (residual ΔnD)",
+          "calibration curve coefficients (polynomial or empirical fit parameters)"
+        ],
+        "target_properties": [
+          "composition of coexisting phases at equilibrium (x₁ / mole fraction or w₁ / mass fraction)",
+          "tie-line compositions in liquid–liquid equilibrium (LLE)",
+          "vapor-phase and liquid-phase compositions in vapor–liquid equilibrium (VLE)",
+          "azeotropic composition"
+        ],
+        "phases_measured": [
+          "liquid (upper and lower liquid phases in LLE)",
+          "liquid (condensed vapor samples in VLE)",
+          "liquid (homogeneous calibration mixtures)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures where components have sufficiently different nD values",
+          "ternary mixtures (with supplementary analytical technique or two calibration curves)",
+          "aqueous–organic two-phase systems",
+          "organic–organic two-phase systems",
+          "alcohol–hydrocarbon mixtures",
+          "homogeneous calibration standards of known composition"
+        ],
+        "unsupported_sample_types": [
+          "systems where component nD values are too similar (ΔnD < 0.005 between pure components — insufficient sensitivity)",
+          "multicomponent mixtures (≥3 components) without supplementary analytical methods (single nD reading cannot resolve >1 unknown)",
+          "opaque or strongly colored samples that prevent light transmission through the prism interface",
+          "emulsions or turbid samples that scatter light and obscure the critical-angle boundary",
+          "highly volatile samples that evaporate on the refractometer prism before a stable reading is obtained",
+          "gaseous phases (refractive index differences too small for meaningful composition resolution)"
+        ],
+        "typical_output_formats": [
+          "calibration table: known x₁ (or w₁), measured nD at fixed T",
+          "calibration curve: nD vs. x₁ polynomial fit (typically 3rd–5th order)",
+          "phase composition table: T, x₁(phase I), x₁(phase II) derived from nD readings",
+          "tie-line diagram with compositions from refractometric analysis",
+          "deviation plot: Δx₁ = x₁(nD) − x₁(gravimetric) for calibration verification"
+        ],
+        "units": {
+          "refractive_index": "dimensionless (typically reported to 4–5 decimal places)",
+          "composition": "mole fraction (x) or mass fraction (w), dimensionless",
+          "temperature": "K or °C",
+          "wavelength": "nm (589.3 nm for sodium D-line)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "measurement_wavelength",
+            "typical_range": "589.3 nm (sodium D-line)",
+            "hard_limits": "fixed by the refractometer light source; must match the wavelength used for calibration curve construction",
+            "notes": "virtually all ThermoML entries use the D-line; other wavelengths (e.g., 546.1 nm mercury green line) are rare"
+          },
+          {
+            "parameter": "temperature",
+            "typical_range": "293.15 K to 333.15 K",
+            "hard_limits": "limited by refractometer thermostat range and by sample volatility/stability",
+            "notes": "nD measurements for calibration and unknowns must be at the same temperature (commonly 298.15 K); dnD/dT ≈ −3×10⁻⁴ to −5×10⁻⁴ K⁻¹ for typical organic liquids"
+          },
+          {
+            "parameter": "refractive_index_difference_between_components",
+            "typical_range": "ΔnD ≥ 0.01 between pure components for adequate composition resolution",
+            "hard_limits": "ΔnD < 0.005 renders refractometric analysis essentially unusable",
+            "notes": "composition sensitivity is directly proportional to dnD/dx₁; larger ΔnD gives better precision in mole fraction"
+          },
+          {
+            "parameter": "number_of_calibration_points",
+            "typical_range": "8 to 20 mixtures spanning the full composition range",
+            "hard_limits": "minimum ~5 for a reliable polynomial fit; more points needed if nD(x) is strongly nonlinear",
+            "notes": "calibration mixtures should be evenly distributed across x₁ = 0 to 1 and include both pure components"
+          }
+        ],
+        "variables": [
+          {
+            "name": "composition_of_calibration_mixture",
+            "role": "independent variable (known a priori)",
+            "typical_values": "x₁ = 0.0, 0.05, 0.10, …, 0.95, 1.0 (or similar grid)",
+            "effect": "defines the nD-vs-x calibration curve; must span the full range expected in equilibrium samples"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled variable (held constant within ±0.1 K during nD reading)",
+            "typical_values": "298.15 K (most common); range 288–333 K for temperature-dependent studies",
+            "effect": "nD decreases with increasing T; calibration curve must be constructed at each temperature used for equilibrium sampling"
+          },
+          {
+            "name": "wavelength",
+            "role": "fixed instrument parameter",
+            "typical_values": "589.3 nm (sodium D-line)",
+            "effect": "refractive index is wavelength-dependent (dispersion); all measurements must use the same wavelength"
+          },
+          {
+            "name": "pressure",
+            "role": "usually ambient (atmospheric)",
+            "typical_values": "0.1 MPa",
+            "effect": "nD has negligible pressure dependence at atmospheric conditions; relevant only for high-pressure refractometry in specialized studies"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "Abbe refractometer (most common: Atago, Bellingham+Stanley, or equivalent) with sodium D-line illumination and precision ±0.0001 nD",
+          "thermostat — circulating water bath connected to the refractometer prism block, providing temperature stability ±0.05–0.1 K",
+          "calibrated thermometer — thermistor or PRT reading prism temperature to ±0.05 K",
+          "light source — sodium vapor lamp (589.3 nm) or broadband source with compensating Amici prisms for chromatic dispersion correction",
+          "equilibrium cell — for LLE: jacketed glass cell with stirring and settling capability; for VLE: still with sampling ports",
+          "micropipettes or syringes — for withdrawing equilibrium-phase samples and placing drops on the refractometer prism",
+          "analytical balance — for gravimetric preparation of calibration mixtures (±0.0001 g)"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (±2 K) to minimize thermal drift of the refractometer",
+          "refractometer prism block thermostated to ±0.05–0.1 K via circulating water bath",
+          "clean environment to prevent dust or solvent vapor contamination of the prism surface"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid drop spread uniformly on the measuring prism face (Abbe refractometer)",
+            "sufficient volume to cover the prism surface completely (~0.1–0.5 mL)"
+          ],
+          "size_limits": "0.1–1 mL per reading; calibration curve construction requires ~5–20 mL total of each calibration mixture",
+          "thickness_limits": "liquid layer on prism must be thick enough to achieve total internal reflection (typically ≥0.1 mm)",
+          "surface_requirements": [
+            "refractometer prism surface must be scrupulously clean and dry before each sample application",
+            "no scratches or deposits on the prism that would blur the critical-angle boundary"
+          ],
+          "mounting_requirements": [
+            "prism halves closed gently to spread the liquid into a uniform film",
+            "sample must fully wet the prism surface — no air bubbles trapped between prisms"
+          ],
+          "preparation_requirements": [
+            "calibration mixtures: prepared gravimetrically from pure components of known purity (≥99%) on an analytical balance",
+            "equilibrium-phase samples: withdrawn carefully to avoid cross-contamination between phases",
+            "all samples must be at the same temperature as the refractometer prism before reading nD",
+            "volatile samples: work quickly or use a sealed sample chamber to minimize evaporative composition changes"
+          ]
+        },
+        "calibration_requirements": [
+          "refractometer calibrated against certified refractive-index standard liquids (e.g., NIST-traceable nD standards) or distilled water (nD = 1.33299 at 589.3 nm, 293.15 K)",
+          "nD-vs-composition calibration curve constructed from 8–20 gravimetrically prepared binary mixtures spanning x₁ = 0 to 1",
+          "calibration curve fitted to a polynomial (typically 3rd–5th order) with residuals confirming fit quality (σ(nD) < 0.0002)",
+          "calibration must be performed at every temperature at which equilibrium samples will be analyzed",
+          "refractometer prism alignment and zero-point checked before each measurement session"
+        ],
+        "reference_materials": [
+          "distilled water (nD = 1.33299 at 589.3 nm, 293.15 K; nD = 1.33250 at 298.15 K) — primary instrument check",
+          "certified refractive-index standard liquids (e.g., Cargille, PTB, or NIST-traceable standards)",
+          "pure components used in the study (literature nD values as secondary check)",
+          "2-bromonaphthalene (nD ≈ 1.658 at 293 K) for high-nD verification",
+          "toluene (nD ≈ 1.4961 at 293 K) — common organic reference liquid"
+        ],
+        "consumables": [
+          "lens tissue or lint-free wipes for prism cleaning",
+          "acetone or ethanol for cleaning the prism surface between samples",
+          "micropipettes with disposable tips for sample transfer",
+          "pure solvents for calibration mixture preparation (≥99% purity)",
+          "contact liquid (1-bromonaphthalene) if measuring solids with the Abbe refractometer"
+        ],
+        "safety_notes": [
+          "organic solvents used for cleaning and calibration are flammable — avoid open flames and ensure ventilation",
+          "some calibration/sample solvents (e.g., chlorinated hydrocarbons, aromatics) are toxic — use fume hood",
+          "glass prisms are fragile — avoid overtightening the prism clamp or using abrasive cleaning materials",
+          "sodium lamps contain sodium metal — dispose of burned-out lamps per local regulations"
+        ]
+      },
+      "performance": {
+        "sensitivity": "dnD/dx₁ depends on the system; for a ΔnD ≈ 0.05 over the full composition range, an Abbe refractometer (±0.0001) resolves Δx₁ ≈ ±0.002",
+        "detection_limit": "not applicable (used for bulk composition analysis, not trace detection)",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid property)",
+          "temporal": "individual nD reading: 30–120 seconds including thermal equilibration on the prism",
+          "spectral": "fixed at 589.3 nm (sodium D-line); Amici prism compensates for broadband sources",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "nD range of Abbe refractometer: approximately 1.300 to 1.700; typical liquid mixtures fall within 1.33–1.55",
+        "accuracy": "composition accuracy ±0.001–0.005 in mole fraction, depending on calibration curve quality, ΔnD between components, and temperature control; nD accuracy ±0.0001–0.0002",
+        "precision": "nD repeatability ±0.0001–0.0002; composition repeatability ±0.0005–0.003 in mole fraction",
+        "throughput": "rapid: each nD reading takes 1–2 minutes; a full calibration curve (15 points) requires ~1–2 hours including mixture preparation",
+        "measurement_speed": "individual reading: ~1 min; complete analysis of one equilibrium sample (triplicate nD readings): ~5 min"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "angular position of the critical-angle boundary (bright/dark border) observed through the eyepiece or digital detector of the Abbe refractometer, converted internally to nD by the instrument's calibrated scale",
+        "preprocessing_steps": [
+          "record nD reading after thermal equilibration (stable reading for ≥30 s)",
+          "take triplicate readings and compute the mean and standard deviation",
+          "apply instrument zero-point correction if check against certified standard showed an offset",
+          "verify that measurement temperature matches the calibration curve temperature within ±0.1 K"
+        ],
+        "analysis_methods": [
+          "polynomial regression: fit nD = a₀ + a₁x₁ + a₂x₁² + a₃x₁³ + … to calibration data using least-squares",
+          "inverse calibration: solve the polynomial for x₁ given the measured nD of an unknown sample, typically by Newton-Raphson or analytical inversion for low-order polynomials",
+          "graphical interpolation: read composition directly from a plotted nD-vs-x₁ calibration curve (older literature)",
+          "Redlich-Kister or excess-property based models: fit nD^E = nD_mix − Σ(xᵢ·nD_pure,i) and relate to composition",
+          "for ternary systems: combine nD with a second analytical measurement (e.g., density, GC) to resolve two unknowns"
+        ],
+        "model_assumptions": [
+          "the nD-vs-x relationship is smooth, single-valued, and monotonic (or at least the relevant branch is monotonic) over the composition range of interest",
+          "the polynomial (or other empirical) function adequately represents the true nD(x) curve within the calibration domain",
+          "temperature is identical for calibration and unknown measurements — even 0.5 K mismatch can shift nD by ~0.0002",
+          "sample composition does not change between withdrawal from the equilibrium cell and nD measurement (no evaporation, absorption, or chemical reaction)",
+          "the sample placed on the refractometer prism is representative of the bulk phase (no preferential sampling from interfaces)"
+        ],
+        "fit_parameters": [
+          "polynomial coefficients a₀, a₁, a₂, …, aₙ for nD(x₁) (typically n = 3–5)",
+          "standard deviation of the fit σ(nD) — typically < 0.0002 for a good calibration",
+          "Redlich-Kister coefficients Aₖ for excess refractive index models (alternative parameterization)"
+        ],
+        "common_artifacts": [
+          "evaporative enrichment: volatile component evaporates from the drop on the prism, shifting nD toward the less volatile component and biasing the inferred composition",
+          "temperature mismatch artifact: sample temperature differs from prism temperature, producing a systematic nD offset that maps to a composition error",
+          "prism contamination: residue from a previous sample on the prism adds a systematic nD offset to all subsequent readings until cleaned",
+          "phase carryover in LLE sampling: small droplets of the conjugate phase entrained in the sampled phase shift the apparent nD and hence composition",
+          "chromatic boundary blur: degraded sodium lamp or incorrect compensator setting produces a fuzzy critical-angle line, increasing reading uncertainty"
+        ],
+        "quality_control_checks": [
+          "verify refractometer reads the accepted nD of distilled water before and after each measurement session",
+          "check back-calculated compositions of calibration mixtures against their gravimetric values (residuals Δx₁ < 0.002)",
+          "measure nD of both pure components and compare with literature values",
+          "take triplicate nD readings on each unknown sample — standard deviation of x₁ should be < 0.002",
+          "for LLE: verify that tie-line end-points converge to the binodal curve determined independently (e.g., by cloud-point titration)"
+        ],
+        "failure_modes": [
+          "calibration curve is non-monotonic or nearly flat in the composition range of interest — nD cannot uniquely resolve composition",
+          "large evaporation of volatile component during the measurement — irreproducible and biased compositions",
+          "prism damage (scratches, etching by corrosive samples) — blurred boundary and degraded precision",
+          "lamp failure or wavelength drift — measured nD is no longer at 589.3 nm, invalidating the calibration curve",
+          "emulsion or turbid sample placed on prism — no clear critical-angle boundary visible"
+        ]
+      },
+      "uncertainty": {
+        "level": "composition uncertainty typically ±0.001–0.005 mole fraction (combined standard uncertainty); nD measurement uncertainty ±0.0001–0.0002",
+        "random_sources": [
+          "operator reading precision of the critical-angle boundary (±0.0001–0.0002 nD)",
+          "thermal fluctuations at the prism surface during the reading",
+          "sample placement variability (drop size, coverage, air bubbles)",
+          "calibration mixture preparation (weighing precision ±0.0001 g)"
+        ],
+        "systematic_sources": [
+          "refractometer zero-point offset (detected and corrected by reference standard check)",
+          "temperature offset between prism and sample (even ±0.1 K → ±0.00003–0.00005 nD → ±0.0003–0.001 in x₁)",
+          "calibration curve model inadequacy (polynomial under- or over-fitting)",
+          "compositional bias from evaporation during sample handling and measurement",
+          "purity of calibration-mixture components (impurities shift nD of the pure-component anchors)",
+          "chromatic correction error if a broadband source is used with imperfect compensating prisms"
+        ],
+        "operator_dependence": "moderate — reading the critical-angle boundary on manual refractometers is subjective; digital Abbe refractometers reduce operator dependence significantly; sample handling and evaporation control also depend on skill",
+        "model_dependence": "low to moderate — the polynomial calibration curve is empirical and model choice (order, functional form) affects interpolated compositions; well-distributed calibration points minimize this",
+        "dominant_error_sources": [
+          "evaporation of volatile component between equilibrium sampling and nD reading — the single largest source of bias in practice",
+          "temperature mismatch between calibration and measurement conditions",
+          "inherent sensitivity limit: when ΔnD between components is small (< 0.02), composition uncertainty grows inversely with dnD/dx₁"
+        ],
+        "reported_as": [
+          "composition uncertainty: u(x₁) or U(x₁) at 95% confidence (k=2)",
+          "refractive index uncertainty: u(nD) reported as ±0.0001 or ±0.0002",
+          "calibration curve fit quality: standard deviation σ(nD) or σ(x₁) of residuals"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Index of refraction calibration data refers to the use of refractive index (nD) measurements as a compositional analysis tool rather than as a target property. In ThermoML, this tag identifies data sets where the refractive index — typically measured at the sodium D-line (589.3 nm) with an Abbe refractometer — was measured on equilibrium-phase samples and then converted to composition through a pre-established nD-versus-composition calibration curve. This is not a measurement technique in the conventional sense: it is a calibration and analytical protocol in which refractometry serves as the bridge between an easily measured optical property and the desired thermodynamic quantity (phase composition). With 522 instances across 113 papers, almost exclusively in the CompositionAtPhaseEquilibrium property group (520 of 522 instances), this method is one of the most widely used analytical approaches for liquid–liquid equilibrium (LLE) and, less commonly, vapor–liquid equilibrium (VLE) composition determination.",
+      "how_it_operates": "The workflow has two distinct stages. First, a calibration curve is constructed: a series of binary (or pseudo-binary) mixtures of known composition are prepared gravimetrically, and the refractive index of each mixture is measured at a fixed temperature and wavelength (589.3 nm). The resulting nD-vs-composition data are fitted to a polynomial (typically 3rd to 5th order), producing a continuous calibration function nD(x₁). Second, samples are withdrawn from the equilibrium phases of interest (e.g., the two liquid layers in an LLE experiment or condensed vapor and residual liquid in a VLE experiment), and the nD of each sample is measured under the same conditions used for calibration. The measured nD is then fed into the inverted calibration function to obtain the composition of the sampled phase. The entire procedure relies on the fact that different compositions produce measurably different refractive indices — the method works well when the pure-component nD values differ by at least 0.01.",
+      "core_theory": "The refractive index of a liquid mixture is a well-behaved function of composition that depends on the electronic polarizabilities and molar volumes of the constituent molecules. For ideal mixtures, the Lorentz-Lorenz relation predicts additivity of the molar refraction R = (nD² - 1)/(nD² + 2) × (M/ρ). Real mixtures deviate from this ideal mixing rule, and the excess refractive index nD^E = nD_mix - Σ(xᵢ·nD,pure,i) is typically small but non-zero, reflecting non-ideal volume and polarizability contributions. In practice, the calibration curve is purely empirical — nD(x₁) is determined experimentally and fitted to a polynomial without invoking mixing rules. The critical requirement is that dnD/dx₁ ≠ 0 over the composition range of interest, ensuring a unique mapping from nD to x₁. The sensitivity of the method is proportional to |dnD/dx₁|; for a typical system where ΔnD ≈ 0.05 over the full range and the refractometer resolves ±0.0001, the theoretical composition resolution is approximately ±0.002 in mole fraction.",
+      "setup": "The core instrument is an Abbe refractometer equipped with a thermostated prism block. The refractometer measures the critical angle of total internal reflection at the interface between a high-refractive-index glass prism and the liquid sample. A sodium vapor lamp (or broadband source with Amici chromatic compensating prisms) provides illumination at 589.3 nm. A circulating water bath maintains the prism at the desired measurement temperature (±0.05–0.1 K). The refractometer is complemented by an equilibrium apparatus — typically a jacketed glass cell with magnetic stirring for LLE studies or an Othmer-type or modified Fischer still for VLE work — equipped with sampling ports that allow withdrawal of small aliquots (0.1–0.5 mL) from each phase. An analytical balance (±0.0001 g) is essential for gravimetric preparation of the calibration mixtures. Micropipettes or gas-tight syringes minimize evaporation losses during sample transfer from the equilibrium cell to the refractometer.",
+      "suitable_for": "This method is ideally suited for binary liquid–liquid equilibrium systems where the two components have sufficiently different refractive indices (ΔnD > 0.01). It is the dominant analytical method for LLE tie-line determination in the ThermoML database, appearing in studies of aqueous–organic, organic–organic, and ionic-liquid-containing systems. It is also applicable to VLE composition analysis when vapor samples can be condensed and measured as liquids. The technique is rapid, non-destructive, requires only small sample volumes (~0.1 mL), and uses inexpensive, widely available instrumentation. It is particularly effective when the nD-vs-x curve is steep (large |dnD/dx₁|), giving excellent composition precision.",
+      "core_limitations": "The fundamental limitation is that a single nD measurement provides only one piece of analytical information, so it can resolve only one compositional unknown — this restricts the method to binary systems or to pseudo-binary sections of multicomponent systems unless a second independent measurement (density, GC, Karl Fischer, etc.) is combined. The method fails when the pure-component nD values are too similar (ΔnD < 0.005), because the calibration curve becomes nearly flat and the composition resolution degrades to the point of being analytically useless. The method also requires that sample composition not change between withdrawal from the equilibrium cell and measurement on the refractometer; volatile systems are problematic because evaporation of the lighter component during transfer shifts the apparent composition. Temperature must be matched precisely between calibration and measurement — even a 0.5 K mismatch maps through dnD/dT to a composition error of order 0.001–0.003 in mole fraction. Finally, opaque, turbid, or emulsified samples cannot be analyzed because the critical-angle boundary is not visible.",
+      "sample_preparation": "Calibration mixtures are prepared gravimetrically by weighing known masses of each pure component into sealed vials on an analytical balance (±0.0001 g). Components should be of high purity (≥99%) and their nD values verified against literature before use. For LLE experiments, the equilibrium cell is charged with the mixture at the desired overall composition, stirred vigorously for 15–60 minutes to ensure intimate phase contact, and then allowed to settle for 30–120 minutes until complete phase separation. Samples of each phase are withdrawn carefully through sampling ports using syringes positioned well away from the interface to avoid entrainment of the conjugate phase. The sample drop is placed on the clean, thermostated refractometer prism immediately after withdrawal to minimize evaporative losses. For VLE experiments, condensed vapor and liquid samples are collected from the still's sampling traps. In all cases, the refractometer prism is cleaned with acetone or ethanol and wiped with lint-free tissue between samples.",
+      "calibration_and_references": "The calibration curve is the heart of this method and determines the ultimate accuracy of the composition results. Typically 10–20 binary mixtures spanning x₁ = 0 to 1 are prepared gravimetrically, and each is measured on the Abbe refractometer at the analysis temperature. The nD-vs-x₁ data are fitted to a polynomial nD = Σ(aₖ·x₁ᵏ) where the order k (usually 3–5) is chosen to minimize residuals while avoiding overfitting. A good calibration has fit residuals σ(nD) < 0.0002, corresponding to σ(x₁) < 0.002. The refractometer itself is verified at the start of each session by measuring the nD of distilled water (nD = 1.33250 at 298.15 K, 589.3 nm) or a certified nD standard liquid. If the reading deviates by more than ±0.0002 from the accepted value, the instrument is adjusted or a zero-point correction is applied. A separate calibration curve must be constructed at each temperature used for equilibrium measurements, because nD values and the shape of the nD(x₁) curve are temperature-dependent.",
+      "data_interpretation": "For each equilibrium-phase sample, the measured mean nD (from triplicate readings) is inserted into the inverse of the calibration polynomial to obtain composition. For low-order polynomials, this is done analytically (e.g., solving a cubic); for higher orders, a numerical root-finding algorithm (Newton-Raphson) is used, selecting the root that falls within the physical range 0 ≤ x₁ ≤ 1. If the nD(x₁) curve is non-monotonic (rare, but possible for strongly non-ideal systems), care must be taken to select the physically correct branch — independent knowledge of the approximate composition range (e.g., organic-rich vs. water-rich phase) guides this choice. The resulting phase compositions define tie-line end-points in LLE, which are plotted on a phase diagram. Consistency is verified by checking that tie-line mid-points align with the known overall composition (lever rule) and that binodal-curve points from refractometric analysis agree with cloud-point determinations. The composition uncertainty is propagated from the nD measurement uncertainty through the inverse calibration function: u(x₁) ≈ u(nD) / |dnD/dx₁|.",
+      "common_pitfalls": "The most prevalent error source is evaporation of the volatile component during the interval between sample withdrawal and nD measurement — working quickly and keeping sample volumes small are essential countermeasures. Using a calibration curve constructed at one temperature to interpret nD readings taken at a different temperature (even differing by 1–2 K) introduces systematic composition errors that are often unrecognized. Applying the method to systems where |ΔnD| between components is too small leads to large composition uncertainties that may not be evident from the nD data alone. Insufficient calibration points (fewer than 8) or unevenly spaced points that leave gaps in the composition range can cause the polynomial fit to oscillate, producing erroneous interpolated compositions. Cross-contamination between samples — from inadequate prism cleaning or from entrained droplets of the conjugate phase — is particularly insidious because it shifts nD in a direction consistent with the other phase, making the error difficult to detect. Finally, neglecting to verify the refractometer against a standard at the start of each session allows undetected zero-point drift to propagate into all composition results.",
+      "artifacts_and_failure_modes": "Evaporative enrichment is the dominant artifact: a thin liquid film on the refractometer prism loses its volatile component faster than the bulk, causing nD to drift monotonically during the measurement and yielding a biased composition reading. Phase-carryover artifact arises when small droplets of the conjugate liquid phase are entrained in the sampled phase, shifting nD toward an intermediate value and producing tie lines that appear shorter than they truly are. Chromatic boundary blur occurs when the sodium lamp degrades or the compensating prisms are misaligned, increasing the uncertainty in locating the bright/dark boundary by a factor of 2–5. Polynomial extrapolation failure happens when the measured nD of an unknown falls outside the calibration range (above the highest or below the lowest calibration nD); the polynomial may produce wildly incorrect or physically meaningless compositions. Prism degradation from repeated exposure to corrosive solvents (strong acids, halocarbon solvents) etches the glass surface, producing a permanent haze that broadens the critical-angle boundary and degrades precision.",
+      "reporting_checklist": "Published refractometric composition data should report: wavelength used (589.3 nm unless otherwise noted), temperature of nD measurement and temperature control method, make and model of refractometer and its stated precision, nD values of the pure components at the measurement temperature with literature comparisons, number of calibration mixtures and composition range covered, functional form and order of the calibration polynomial with fit quality (σ(nD) or R²), method of equilibrium-phase sampling and settling time, number of replicate nD readings per sample, uncertainty in derived compositions u(x₁) with explanation of how it was estimated, and verification data (e.g., nD of distilled water check, back-calculated compositions of calibration mixtures). In ThermoML, the derived composition values are encoded with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

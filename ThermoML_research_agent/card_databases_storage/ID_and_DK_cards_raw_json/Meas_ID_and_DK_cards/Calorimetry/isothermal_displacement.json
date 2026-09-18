@@ -1,0 +1,320 @@
+{
+  "meas_ID": "isothermal_displacement",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Isothermal displacement",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Isothermal displacement",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 22,
+      "property_groups": [
+        "ExcessPartialApparentEnergyProp"
+      ],
+      "n_papers": 3,
+      "per_group": {
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 22,
+          "papers": 3
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "volume displacement of mercury meniscus in Bunsen ice calorimeter (proportional to ice melted/refrozen)",
+          "electrical compensation energy from Peltier element (isothermal jacket calorimeters)",
+          "mass of condensed or evaporated phase-change medium (ice/water or diphenyl ether)"
+        ],
+        "derived_observables": [
+          "enthalpy of reaction or dissolution (from total displacement integrated over experiment)",
+          "enthalpy of mixing (partial molar or excess)",
+          "partial molar enthalpy at infinite dilution",
+          "apparent molar enthalpy"
+        ],
+        "target_properties": [
+          "enthalpy of dissolution",
+          "enthalpy of mixing",
+          "excess partial molar enthalpy",
+          "apparent molar enthalpy",
+          "enthalpy of dilution",
+          "enthalpy of reaction at constant temperature"
+        ],
+        "phases_measured": [
+          "liquid solutions",
+          "liquid mixtures",
+          "solid dissolving into liquid"
+        ],
+        "supported_sample_types": [
+          "electrolyte solutions (dissolution, dilution)",
+          "non-electrolyte liquid mixtures",
+          "solid solutes dissolving in liquid solvents",
+          "binary and multicomponent liquid mixtures",
+          "dilute solutions for partial molar property determination"
+        ],
+        "unsupported_sample_types": [
+          "gas-phase reactions (calorimeter operates at fixed T near phase-change medium's transition point)",
+          "high-temperature reactions above the working range of the phase-change medium",
+          "extremely fast reactions (response time limited by heat transfer to phase-change jacket)",
+          "samples that react with mercury or the phase-change medium"
+        ],
+        "typical_output_formats": [
+          "total heat evolved/absorbed vs. time curve",
+          "cumulative enthalpy change vs. moles of solute added",
+          "excess enthalpy of mixing vs. composition",
+          "partial molar enthalpy vs. molality or mole fraction"
+        ],
+        "units": {
+          "enthalpy": "J/mol or kJ/mol",
+          "volume_displacement": "mm³ or cm³ (mercury meniscus movement)",
+          "electrical_energy": "J (Peltier compensation)",
+          "temperature": "K (held constant at phase-change temperature)",
+          "mass_of_phase_change_medium": "mg or g",
+          "composition": "mol/kg (molality) or mole fraction"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "operating_temperature",
+            "typical_range": "273.15 K (ice calorimeter) or near the phase-change temperature of the chosen medium",
+            "hard_limits": "fixed at the equilibrium temperature of the phase-change substance; 273.15 K for ice/water, ~300 K for diphenyl ether",
+            "notes": "temperature cannot be varied freely — it is set by the phase-change medium; this is the defining characteristic of isothermal displacement calorimetry"
+          },
+          {
+            "parameter": "sample_amount",
+            "typical_range": "0.1 mL to 10 mL (liquid); 10 mg to 5 g (solid solute)",
+            "hard_limits": "limited by reaction vessel volume and total calorimeter heat capacity",
+            "notes": "amount must produce a heat effect large enough to generate a measurable displacement but not so large as to overwhelm the phase-change jacket"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (atmospheric)",
+            "hard_limits": "standard operation at ambient pressure; pressurized variants are rare",
+            "notes": "excess or partial molar enthalpies are reported at the operating pressure"
+          },
+          {
+            "parameter": "heat_effect_magnitude",
+            "typical_range": "0.01 J to 100 J per injection",
+            "hard_limits": "lower limit set by meniscus readability or Peltier sensitivity; upper limit by phase-change jacket capacity",
+            "notes": "multiple small injections are preferred for titration-mode experiments"
+          }
+        ],
+        "variables": [
+          {
+            "name": "composition",
+            "role": "primary experimental variable (titration mode)",
+            "typical_values": "solute molality 0.001 to 10 mol/kg; mole fraction 0 to 1",
+            "effect": "systematic variation of composition yields partial molar or excess enthalpy as a function of concentration"
+          },
+          {
+            "name": "amount_of_solute_added",
+            "role": "controlled injection variable",
+            "typical_values": "0.01 mL to 1 mL per injection",
+            "effect": "determines the incremental heat effect; smaller increments give better resolution of the enthalpy-composition curve"
+          },
+          {
+            "name": "temperature",
+            "role": "fixed (defined by phase-change medium)",
+            "typical_values": "273.15 K (ice) or ~300 K (diphenyl ether)",
+            "effect": "not varied within a single experiment; different phase-change media would be needed for different temperatures"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa",
+            "effect": "standard operation at atmospheric pressure"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "phase-change jacket — mantle of ice/water mixture (Bunsen ice calorimeter) or diphenyl ether surrounding the reaction vessel, providing isothermal heat sink/source",
+          "reaction vessel (calorimetric cell) — glass or metal vessel immersed in the phase-change jacket where mixing, dissolution, or reaction occurs",
+          "mercury-filled displacement tube — capillary connected to the ice jacket; volume change of ice/water upon heat exchange displaces mercury meniscus (Bunsen type)",
+          "Peltier compensation module — thermoelectric element that supplies/removes electrical energy to maintain isothermal conditions (modern designs)",
+          "precision cathetometer or displacement transducer — reads mercury meniscus position or linear displacement with micrometer resolution",
+          "injection system — syringe, ampoule breaker, or titration burette for introducing solute or reactant into the reaction vessel",
+          "stirrer — magnetic or mechanical stirrer to ensure rapid mixing and uniform heat distribution in the reaction vessel",
+          "thermopile or thermometer — monitors temperature stability of the phase-change jacket (should remain constant)",
+          "thermal insulation / Dewar jacket — surrounds the entire calorimeter to minimize parasitic heat exchange with the environment",
+          "data acquisition system — records displacement readings (meniscus position or Peltier energy) as a function of time"
+        ],
+        "environmental_requirements": [
+          "thermostatic room or temperature-controlled enclosure to minimize ambient heat flux",
+          "vibration-free bench to prevent disturbance of mercury meniscus",
+          "draft-free environment to reduce convective heat leaks through insulation",
+          "stable barometric pressure (pressure changes affect mercury levels)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid samples for mixing/dilution (no geometry constraint)",
+            "solid samples as powder or small crystals for rapid dissolution",
+            "sealed ampoules for breaking into solvent"
+          ],
+          "size_limits": "reaction vessel volume typically 5–50 mL; sample volumes 0.05–10 mL per injection",
+          "thickness_limits": "not applicable (liquid mixing); for solid dissolution, particle size < 1 mm preferred for rapid heat release",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "sample loaded into reaction vessel or sealed ampoule before assembly",
+            "reaction vessel properly seated in phase-change jacket with full thermal contact"
+          ],
+          "preparation_requirements": [
+            "accurate weighing of solute and solvent (±0.01 mg for solute, ±0.1 mg for solvent)",
+            "degassing of liquids to prevent bubble formation during mixing",
+            "pre-equilibration of all components to the calorimeter operating temperature",
+            "drying of hygroscopic solutes to known water content"
+          ]
+        },
+        "calibration_requirements": [
+          "electrical calibration — known electrical energy dissipated by a calibration heater in the reaction vessel to establish the displacement-to-energy conversion factor",
+          "mercury displacement factor — gravimetric or volumetric determination of the heat equivalent per unit mercury displacement (J/mm³)",
+          "Peltier calibration — determination of Peltier coefficient and parasitic Joule heating correction for compensation-type instruments",
+          "verification with a standard reaction — dissolution of KCl in water or mixing of known enthalpy pair to validate the overall system accuracy"
+        ],
+        "reference_materials": [
+          "KCl (potassium chloride) — standard enthalpy of solution in water at 298.15 K; NIST recommended reference",
+          "THAM (tris(hydroxymethyl)aminomethane) — enthalpy of dissolution in HCl(aq) as calorimetric reference reaction",
+          "NaCl in water — well-characterized enthalpy of dilution data for comparison",
+          "cyclohexane + hexane — standard mixture for verifying excess enthalpy measurements"
+        ],
+        "consumables": [
+          "high-purity ice prepared from degassed distilled water (Bunsen type)",
+          "mercury for displacement tube (Bunsen type)",
+          "diphenyl ether (for ~300 K phase-change medium variant)",
+          "glass ampoules for sealed solute introduction",
+          "precision syringes or micropipettes for volumetric injections",
+          "vacuum grease for sealing joints"
+        ],
+        "safety_notes": [
+          "mercury is toxic — handle with proper ventilation, spill trays, and mercury-safe disposal; modern instruments may replace mercury with non-toxic displacement fluids",
+          "glass ampoule breaking generates fine glass fragments — use proper protective equipment",
+          "cryogenic ice bath maintenance requires attention to water quality and dewar integrity",
+          "diphenyl ether is an irritant — handle in a fume hood with appropriate PPE"
+        ]
+      },
+      "performance": {
+        "sensitivity": "Bunsen ice calorimeter: ~0.01 J resolution from mercury displacement readability; Peltier-compensated designs: ~0.001 J",
+        "detection_limit": "minimum detectable heat effect ~0.005–0.05 J depending on displacement readout precision",
+        "resolution": {
+          "spatial": "not applicable (bulk calorimetric measurement)",
+          "temporal": "response time 10–300 s depending on heat transfer rate from reaction vessel to phase-change jacket",
+          "spectral": "not applicable",
+          "energy": "~0.01 J for Bunsen type; ~0.001 J for Peltier-compensated designs"
+        },
+        "dynamic_range": "heat effects from ~0.01 J to ~500 J per experiment; limited by phase-change jacket capacity",
+        "accuracy": "0.2–1% for enthalpy of dissolution/mixing after calibration; Bunsen ice calorimeters historically achieved ~0.1% for large heat effects",
+        "precision": "0.1–0.5% repeatability for well-controlled dissolution or mixing experiments",
+        "throughput": "single experiment at a time; each run (equilibration + reaction + post-period) takes 30 min to several hours",
+        "measurement_speed": "slow — heat transfer to phase-change jacket limits speed; slow reactions and dissolution processes ideally suited"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "mercury meniscus displacement vs. time (Bunsen type) or cumulative electrical compensation energy vs. time (Peltier type)",
+        "preprocessing_steps": [
+          "baseline correction — subtract pre-reaction and post-reaction drift in mercury position or Peltier power to isolate the reaction signal",
+          "conversion of mercury displacement to heat using the calibration factor (J/mm³ or J/mm)",
+          "correction for heat of stirring — subtract continuous mechanical or magnetic stirring heat input",
+          "correction for heat of ampoule breaking (if applicable) — subtract the known endothermic/exothermic effect of breaking the glass seal",
+          "correction for evaporation or condensation of solvent at the reaction vessel surface"
+        ],
+        "analysis_methods": [
+          "integration of displacement-time curve — total area under the corrected displacement curve gives total heat of reaction",
+          "incremental injection analysis — each injection heat effect plotted vs. cumulative composition to map enthalpy-composition curve",
+          "Regnault-Pfaundler method — graphical or numerical correction for heat exchange during the reaction period",
+          "extrapolation to infinite dilution — fit partial molar enthalpy data to Debye-Hückel or Pitzer models for electrolyte solutions",
+          "fitting excess enthalpy vs. mole fraction to Redlich-Kister or Margules equations for non-electrolyte mixtures"
+        ],
+        "model_assumptions": [
+          "the phase-change medium maintains perfect isothermality (temperature of the calorimeter jacket does not deviate from the equilibrium transition temperature)",
+          "all heat from the reaction is conducted to the phase-change jacket (no heat leaks to environment)",
+          "the displacement of mercury is linearly proportional to the heat exchanged (constant specific volume difference between ice and water)",
+          "mixing or dissolution is complete before the displacement reading is taken (or the kinetic profile is properly recorded)",
+          "the calibration heater faithfully reproduces the thermal path of the reaction heat"
+        ],
+        "fit_parameters": [
+          "total enthalpy change ΔH for the reaction/dissolution",
+          "partial molar enthalpy as a function of composition",
+          "Redlich-Kister or Margules coefficients for HE(x) curves",
+          "Pitzer interaction parameters for electrolyte dilution enthalpies"
+        ],
+        "common_artifacts": [
+          "incomplete dissolution artifact — undissolved solid causes underestimation of enthalpy of solution",
+          "mercury sticking or meniscus hysteresis — capillary effects cause irregular displacement readings",
+          "thermal leakage artifact — imperfect insulation leads to baseline drift that biases the integrated heat",
+          "stirring heat artifact — continuous mechanical energy input produces a systematic positive bias if not corrected",
+          "ampoule-breaking artifact — glass fracture energy and wetting effects contribute a small spurious heat signal"
+        ],
+        "quality_control_checks": [
+          "verify calibration factor reproducibility with repeated electrical calibrations (should agree within 0.1%)",
+          "measure enthalpy of solution of KCl in water and compare to NIST recommended value",
+          "check baseline stability — pre- and post-reaction baselines should be parallel and linear",
+          "verify that displacement returns to baseline after a reversible mixing experiment is unmixed by dilution",
+          "repeat injections at the same composition to assess precision"
+        ],
+        "failure_modes": [
+          "air bubble in mercury column causing discontinuous or erratic displacement readings",
+          "loss of ice-water equilibrium in the phase-change jacket (all ice melted or all water frozen) — calorimeter can no longer absorb/release heat isothermally",
+          "leaking reaction vessel allowing solvent into the phase-change jacket",
+          "stirrer failure causing incomplete mixing and stratified heat release",
+          "mercury oxidation or contamination blocking capillary tube"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.2–1% for enthalpy of dissolution or mixing; can reach 0.1% for large heat effects with careful technique",
+        "random_sources": [
+          "meniscus reading uncertainty (parallax, capillary stick-slip)",
+          "injection volume variability from syringe or burette",
+          "temperature fluctuations in the environment affecting baseline drift",
+          "stirring speed variations causing variable frictional heat input",
+          "noise in Peltier compensation current measurement"
+        ],
+        "systematic_sources": [
+          "calibration factor uncertainty (electrical calibration accuracy)",
+          "incomplete dissolution or mixing (biases enthalpy low)",
+          "heat leak through insulation (biases measured enthalpy low for exothermic, high for endothermic processes)",
+          "sample mass and purity uncertainties",
+          "ampoule-breaking correction uncertainty",
+          "stirring heat correction uncertainty",
+          "evaporation/condensation correction for volatile solvents"
+        ],
+        "operator_dependence": "moderate — mercury meniscus reading, ampoule sealing quality, ice preparation, and sample loading technique all depend on operator skill; Peltier-compensated instruments reduce operator dependence",
+        "model_dependence": "low to moderate — primary measurement (heat = displacement × factor) is model-independent; fitting partial molar enthalpies to thermodynamic models (Pitzer, Redlich-Kister) introduces model dependence in derived quantities",
+        "dominant_error_sources": [
+          "calibration factor determination (dominant for absolute enthalpy accuracy)",
+          "heat leak correction (especially for slow reactions extending over long periods)",
+          "sample mass and purity (controls accuracy of molar enthalpy)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔH) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of measured enthalpy",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Isothermal displacement calorimetry is a classical calorimetric technique that measures heat effects at a rigorously constant temperature by exploiting the phase transition of a surrounding medium (typically ice/water at 273.15 K or diphenyl ether near 300 K). When a reaction, dissolution, or mixing process releases or absorbs heat in the reaction vessel, the surrounding phase-change jacket compensates by melting or freezing an equivalent amount of substance. The resulting volume change displaces a mercury column (Bunsen ice calorimeter) or is compensated electrically (Peltier-type instruments), providing a direct, absolute measurement of the heat exchanged. The technique is particularly valued for measuring enthalpies of solution, dilution, and mixing of electrolyte and non-electrolyte systems with high accuracy.",
+      "how_it_operates": "The sample is placed in a reaction vessel fully immersed in a phase-change jacket (e.g., a mantle of finely divided ice in equilibrium with water at 273.15 K). When the chemical or physical process releases heat, a proportional amount of ice melts; when it absorbs heat, water freezes. Because ice has a smaller specific volume than water (by ~9%), melting causes the jacket volume to decrease, drawing mercury up through a capillary tube. The displacement of the mercury meniscus is read with a cathetometer or electronic transducer and converted to heat using a pre-determined calibration factor. In Peltier-compensated variants, a thermoelectric module actively maintains the temperature by supplying or removing electrical energy, which is recorded directly. The key advantage is that temperature remains constant throughout, eliminating corrections for heat capacity changes with temperature.",
+      "core_theory": "The operating principle rests on the thermodynamic identity that at a first-order phase transition, the enthalpy of transformation ΔHfus is absorbed or released at a strictly constant temperature. For ice at 273.15 K, ΔHfus = 333.5 J/g. A heat effect Q in the reaction vessel melts a mass m = Q/ΔHfus of ice, producing a volume decrease ΔV = m(1/ρwater − 1/ρice). This volume change displaces mercury in a capillary: Q = k·Δx, where Δx is the linear displacement and k is the calibration constant (J/mm) combining the specific volumes, latent heat, and capillary cross-section. For Peltier-compensated instruments, Q = ∫(πI − I²R)dt, where π is the Peltier coefficient, I the current, and R the parasitic resistance. The isothermal condition ensures that all measured heat corresponds solely to the process enthalpy, with no sensible heat corrections.",
+      "setup": "A Bunsen ice calorimeter consists of an inner reaction vessel (typically 5–50 mL capacity, glass or stainless steel) surrounded by a thick layer of finely crushed ice in equilibrium with water, all enclosed in a thermally insulating Dewar jacket. A mercury-filled capillary tube extends from the ice jacket to an external graduated scale or displacement transducer. The reaction vessel is fitted with an injection port (for adding solute via syringe or breaking a sealed glass ampoule) and a stirrer. An electrical calibration heater (precision resistor, ~10–100 Ω) is wound around or inserted into the reaction vessel. Modern Peltier-compensated instruments replace the ice jacket with a thermoelectric module surrounding the cell, with electronic feedback maintaining constant temperature. The entire assembly sits on a vibration-free bench in a temperature-controlled room.",
+      "suitable_for": "Isothermal displacement calorimetry is ideally suited for measuring enthalpies of dissolution, dilution, and mixing where the accuracy of strictly constant temperature is paramount. It excels for electrolyte solution thermodynamics (excess and partial molar enthalpies at 273.15 K), slow dissolution processes (minutes to hours) that would cause baseline drift in scanning calorimeters, and systems where heat capacity is unknown or changes during the process. The Bunsen ice calorimeter provides an absolute measurement requiring no heat capacity knowledge of the sample. It is favored for benchmark reference data on standard enthalpies of solution and dilution of salts, acids, and bases in aqueous media.",
+      "core_limitations": "The principal limitation is the fixed operating temperature — the measurement must be conducted at the phase-change temperature of the jacket medium (273.15 K for ice/water), severely restricting the temperature range. Using alternative phase-change media (diphenyl ether at ~300 K, naphthalene at ~353 K) extends the range somewhat but offers only discrete temperatures. The response time is inherently slow (tens of seconds to minutes) because heat must diffuse from the reaction vessel through the phase-change jacket, making the technique unsuitable for fast kinetic studies. Mercury-based instruments pose toxicity and environmental concerns. The total heat capacity of the phase-change jacket limits the maximum measurable heat effect — very large exothermic reactions can exhaust the ice supply.",
+      "sample_preparation": "Liquid samples for mixing are degassed under vacuum to prevent bubble formation and accurately dispensed using calibrated syringes, micropipettes, or weight burettes. Solid solutes are dried to known water content, weighed to ±0.01 mg on an analytical balance, and sealed in thin-walled glass ampoules that are broken inside the reaction vessel at the start of the experiment. All components (solvent, solute, ampoules) are pre-equilibrated to the calorimeter operating temperature by immersion in a thermostat bath for at least 30 minutes before loading. For hygroscopic materials, preparation is performed in a dry glove box. The solvent is loaded into the reaction vessel first, and the calorimeter is allowed to reach thermal equilibrium (stable baseline) before initiating the process.",
+      "calibration_and_references": "Electrical calibration is the primary method: a known quantity of electrical energy (Q = I²Rt, measured with a precision ammeter and timer) is dissipated by a heater in the reaction vessel, and the resulting mercury displacement is recorded. The ratio k = Q/Δx (J/mm) is the calibration constant, typically determined to ±0.1%. This calibration is verified by measuring the enthalpy of solution of KCl in water (NIST recommended value: 17.241 kJ/mol at infinite dilution and 298.15 K, or the appropriate value at 273.15 K) or the enthalpy of reaction of THAM with HCl. For ice calorimeters, the calibration constant can also be calculated from first principles using the known density difference between ice and water and the enthalpy of fusion, providing an absolute calibration independent of electrical input.",
+      "data_interpretation": "The raw mercury displacement-time curve is divided into three periods: a pre-reaction baseline (fore period), the reaction period proper, and a post-reaction baseline (after period). The corrected displacement is obtained by extrapolating the fore and after baselines to the midpoint of the reaction period (Regnault-Pfaundler method) and taking the difference. Multiplication by the calibration factor gives the total heat Q. For titration-mode experiments, incremental heats qi from successive injections are plotted against cumulative molality to construct the integral enthalpy of mixing or dissolution curve. Partial molar enthalpies are obtained by differentiation (Δqi/Δni). Fitting to Pitzer or Redlich-Kister equations yields thermodynamic interaction parameters. Corrections are applied for stirring heat, ampoule breaking, and any evaporation effects.",
+      "common_pitfalls": "The most common pitfall is loss of ice-water equilibrium — if all the ice melts (large exothermic reaction) or all the water freezes (large endothermic effect), the calorimeter ceases to operate isothermally and data become meaningless. Incomplete dissolution of solid samples leads to systematic underestimation of the enthalpy of solution. Air bubbles trapped in the mercury capillary cause erratic or absent displacement readings. Failure to pre-equilibrate the injected solute to the calorimeter temperature introduces a sensible heat artifact that corrupts the process enthalpy. Insufficient baseline equilibration time before starting the reaction produces sloping baselines that increase integration uncertainty. Neglecting the heat of ampoule breaking (typically ~0.01 J) can introduce a small but measurable systematic error for reactions with small heat effects.",
+      "artifacts_and_failure_modes": "Mercury meniscus hysteresis (contact angle variation in the capillary) produces irreproducible displacement readings, especially at small heat effects. Thermal leakage through the Dewar insulation manifests as a steady baseline drift proportional to the temperature difference between the room and the calorimeter. A cracked or porous phase-change jacket allows exchange of liquid water with the reaction vessel, diluting the sample and releasing spurious heat. Stirring artifacts appear as a constant positive offset in the baseline slope; if the stirrer stalls, incomplete mixing produces a double-peaked or extended heat release curve. In mercury-based systems, mercury oxide formation in the capillary increases flow resistance and reduces displacement sensitivity over time. Loss of vacuum in the Dewar jacket dramatically increases parasitic heat exchange and renders baseline corrections unreliable.",
+      "reporting_checklist": "Published isothermal displacement calorimetry results should report: type of calorimeter (Bunsen ice, diphenyl ether, Peltier-compensated), operating temperature, phase-change medium used, reaction vessel volume and material, calibration method and calibration constant with uncertainty, reference reaction used for validation, sample masses and purities with uncertainties, injection method (ampoule break, syringe), stirring method and speed, baseline correction method (Regnault-Pfaundler or other), corrections applied (stirring heat, ampoule breaking, evaporation), number of replicate measurements, total enthalpy change with combined expanded uncertainty at 95% confidence (k=2), and for composition-dependent measurements the enthalpy values at each composition point. For ThermoML encoding, enthalpy values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

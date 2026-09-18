@@ -1,0 +1,331 @@
+{
+  "meas_ID": "derived_from_pvt_data",
+  "identity": {
+    "name": "Derived from PVT data",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Derived from PVT data",
+    "thermoml_custom_codes": [],
+    "measurement_family": "PVT / Volumetric",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 71,
+      "property_groups": [
+        "Criticals",
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 17,
+      "per_group": {
+        "Criticals": {
+          "instances": 70,
+          "papers": 16
+        },
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 1,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "pressure (P)",
+          "molar or specific volume (V or Vm)",
+          "density (ρ = 1/v)",
+          "temperature (T)"
+        ],
+        "derived_observables": [
+          "compressibility factor Z = PV/(nRT)",
+          "second virial coefficient (B) from Z(P) or Z(ρ) expansion",
+          "third virial coefficient (C) from Z(P) or Z(ρ) expansion",
+          "isothermal compressibility κT = −(1/V)(∂V/∂P)T",
+          "isobaric expansivity αP = (1/V)(∂V/∂T)P",
+          "thermal pressure coefficient γV = (∂P/∂T)V",
+          "internal pressure Pi = T(∂P/∂T)V − P",
+          "heat capacity difference Cp − Cv = TVαP²/κT",
+          "residual volume Vres = V − Videal",
+          "equation of state parameters (e.g., van der Waals a, b; Peng-Robinson parameters)",
+          "critical temperature, critical pressure, critical density (from PVT surface extrapolation)",
+          "fugacity and fugacity coefficient from pressure-explicit EOS integration"
+        ],
+        "target_properties": [
+          "critical temperature (Tc)",
+          "critical pressure (Pc)",
+          "critical density (ρc) or critical molar volume (Vc)",
+          "second and third virial coefficients (B, C)",
+          "isothermal compressibility (κT)",
+          "isobaric expansivity (αP)",
+          "thermal pressure coefficient (γV)",
+          "internal pressure (Pi)",
+          "vapor pressure (Psat) from PVT isotherm analysis",
+          "equation of state parameters"
+        ],
+        "phases_measured": [
+          "gas / vapor",
+          "supercritical fluid",
+          "compressed liquid",
+          "liquid near saturation",
+          "two-phase (liquid + vapor) coexistence region"
+        ],
+        "supported_sample_types": [
+          "pure gases and vapors",
+          "pure compressed liquids",
+          "supercritical fluids",
+          "binary and multicomponent gas mixtures",
+          "binary and multicomponent liquid mixtures",
+          "refrigerants and working fluids",
+          "hydrocarbons and petrochemical fluids",
+          "cryogenic fluids"
+        ],
+        "unsupported_sample_types": [
+          "solids (PVT derivation applies to fluid phases)",
+          "highly viscous liquids where equilibrium P-V-T state is not reached within measurement timescale",
+          "reactive systems that decompose during PVT measurement",
+          "adsorbed phases or confined fluids (standard PVT relations assume bulk behavior)"
+        ],
+        "typical_output_formats": [
+          "P-V-T data table (isotherms or isochores)",
+          "Z vs. P or Z vs. ρ plots at constant T",
+          "virial coefficient vs. T tables",
+          "κT or αP vs. T at constant P",
+          "equation of state parameter table",
+          "critical constants table"
+        ],
+        "units": {
+          "pressure": "MPa or kPa",
+          "volume": "cm³/mol or m³/kg",
+          "density": "kg/m³ or mol/dm³",
+          "temperature": "K",
+          "compressibility_factor": "dimensionless",
+          "second_virial_coefficient": "cm³/mol",
+          "third_virial_coefficient": "cm⁶/mol²",
+          "isothermal_compressibility": "MPa⁻¹ or GPa⁻¹",
+          "isobaric_expansivity": "K⁻¹",
+          "thermal_pressure_coefficient": "MPa/K",
+          "internal_pressure": "MPa"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 700 K",
+            "hard_limits": "determined by the original PVT apparatus; cryogenic setups extend to ~80 K, high-temperature piezometers to ~1000 K",
+            "notes": "derivation quality depends on density of PVT data points across the temperature range"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.01 MPa to 100 MPa",
+            "hard_limits": "limited by the pressure vessel of the original PVT apparatus; some instruments reach 300+ MPa",
+            "notes": "virial coefficient extraction requires low-to-moderate pressure data where truncated virial series converges"
+          },
+          {
+            "parameter": "data_density",
+            "typical_range": "10–100 points per isotherm or isochore",
+            "hard_limits": "minimum ~5–10 points per isotherm for meaningful EOS fitting; higher density required for derivative properties",
+            "notes": "derivative properties (κT, αP) require closely spaced points for reliable numerical differentiation"
+          },
+          {
+            "parameter": "density_range",
+            "typical_range": "0.01 mol/dm³ (dilute gas) to 30 mol/dm³ (compressed liquid)",
+            "hard_limits": "depends on the fluid and phase region covered by original measurements",
+            "notes": "virial coefficient extraction best at low-to-moderate densities; liquid-phase derivations require high-density data"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "independent variable in isothermal data sets",
+            "typical_values": "200 K to 700 K in 5–25 K intervals",
+            "effect": "determines which isotherm is analyzed; virial coefficients are functions of T"
+          },
+          {
+            "name": "pressure",
+            "role": "independent or dependent variable depending on apparatus type",
+            "typical_values": "0.01 MPa to 100 MPa",
+            "effect": "along an isotherm, P variation gives the V(P) or ρ(P) relationship from which compressibility and EOS are derived"
+          },
+          {
+            "name": "density_or_volume",
+            "role": "independent or dependent variable depending on apparatus type",
+            "typical_values": "gas: 0.01–5 mol/dm³; liquid: 5–30 mol/dm³",
+            "effect": "Z(ρ) expansion yields virial coefficients directly; volume derivatives yield κT and αP"
+          },
+          {
+            "name": "equation_of_state_model",
+            "role": "analysis choice / model selection",
+            "typical_values": "virial (truncated to 2nd or 3rd), Peng-Robinson, Soave-Redlich-Kwong, MBWR, GERG, Helmholtz multiparameter",
+            "effect": "choice of EOS model determines which parameters are fitted and the systematic model uncertainty"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "PVT data source — pre-existing experimental data from piezometer, vibrating-tube densimeter, isochoric apparatus, bellows volumetry, or Burnett apparatus",
+          "computer with numerical analysis software — for regression, differentiation, and EOS fitting (e.g., Python/SciPy, MATLAB, NIST REFPROP, ThermoFit)",
+          "equation of state library — reference implementations of cubic, virial, and multiparameter EOS models",
+          "thermodynamic consistency checking tools — for validating Maxwell relations and Gibbs-Duhem consistency"
+        ],
+        "environmental_requirements": [
+          "not applicable — derivation method performed computationally on existing data",
+          "access to original measurement uncertainty estimates for proper error propagation"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "not applicable — method operates on tabulated P, V, T data"
+          ],
+          "size_limits": "not applicable",
+          "thickness_limits": "not applicable",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "PVT data must cover sufficient range and density for the target derivation",
+            "data should be screened for outliers and internally inconsistent points before fitting",
+            "composition must be precisely known for mixtures (mole fraction uncertainty propagates into derived properties)",
+            "original measurement uncertainties in P, V or ρ, and T must be available for proper error propagation"
+          ]
+        },
+        "calibration_requirements": [
+          "not applicable to the derivation step itself — calibration pertains to the original PVT measurement apparatus",
+          "equation of state models should be validated against reference data (e.g., NIST REFPROP values) before use",
+          "numerical differentiation algorithms should be verified against analytically differentiable test functions"
+        ],
+        "reference_materials": [
+          "argon — simple fluid with precisely known PVT surface (NIST reference equation by Tegeler, Span, Wagner)",
+          "nitrogen — reference EOS by Span et al.; used to validate virial coefficient extraction",
+          "carbon dioxide — Span-Wagner reference EOS; important test case due to accessible critical point",
+          "water — IAPWS-95 formulation provides gold-standard PVT and derivative properties for comparison",
+          "methane — Setzmann-Wagner reference EOS"
+        ],
+        "consumables": [],
+        "safety_notes": [
+          "no direct safety hazards — this is a computational derivation method",
+          "care must be taken that derived parameters are not extrapolated beyond the range of the original PVT data"
+        ]
+      },
+      "performance": {
+        "sensitivity": "depends on the original PVT data quality; derivative properties amplify noise in the source data, requiring high-precision input (pressure to ±0.01%, density to ±0.01%) for reliable results",
+        "detection_limit": "not applicable — derivation method, not a measurement",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "spans from ideal-gas limit (low density) to compressed-liquid states (high density), limited by the range of the input PVT data",
+        "accuracy": "virial coefficients: 1–5% for B(T), 5–20% for C(T); isothermal compressibility and expansivity: 0.5–3% when derived from high-quality PVT data; critical constants: 0.1–1% from well-characterized PVT surfaces",
+        "precision": "limited by scatter in original PVT data and number of data points; numerical differentiation amplifies random noise by a factor of ~3–10 relative to the source data precision",
+        "throughput": "computationally fast — full EOS fitting and property derivation for one substance in minutes to hours on a standard workstation",
+        "measurement_speed": "not applicable — derivation is post-processing of existing data; speed depends on dataset size and complexity of EOS model"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "tabulated pressure-volume (or density)-temperature data sets, typically organized as isotherms P(V)T, isochores P(T)V, or isobars V(T)P",
+        "preprocessing_steps": [
+          "data screening: identify and remove outliers using statistical tests (Chauvenet's criterion, Cook's distance)",
+          "unit conversion and standardization: convert all data to consistent units (SI preferred)",
+          "interpolation to uniform grid spacing if required for numerical differentiation",
+          "composition verification for mixture data (mole fraction consistency checks)",
+          "establishment of phase boundaries: identify liquid-vapor coexistence region to avoid two-phase data in single-phase fitting"
+        ],
+        "analysis_methods": [
+          "compressibility factor analysis: compute Z = PV/(nRT) and plot Z vs. P or Z vs. ρ at each isotherm",
+          "virial coefficient extraction: fit Z = 1 + B/V + C/V² (density series) or Z = 1 + B'P + C'P² (pressure series) at each T",
+          "equation of state regression: nonlinear least-squares fit of cubic (PR, SRK), multiparameter (MBWR, Helmholtz), or other EOS to PVT data",
+          "numerical differentiation: compute (∂V/∂P)T, (∂V/∂T)P, (∂P/∂T)V from finite differences or spline derivatives to obtain κT, αP, γV",
+          "critical point determination: locate the inflection point where (∂P/∂V)T = 0 and (∂²P/∂V²)T = 0 simultaneously",
+          "Maxwell construction: determine vapor pressure from PVT isotherms crossing the two-phase dome by equal-area criterion",
+          "residual property calculation: compute Vres, Hres, Sres from departures of real-fluid PVT from ideal-gas behavior"
+        ],
+        "model_assumptions": [
+          "thermodynamic equilibrium at each measured (P, V, T) state point",
+          "sample is a homogeneous single phase at each data point used for derivation (no two-phase data in single-phase fits)",
+          "for virial analysis: the virial series converges at the densities considered (typically valid up to ~0.5 ρc)",
+          "for cubic EOS fitting: two-parameter corresponding-states principle is approximately valid",
+          "for derivative properties: the PVT surface is smooth and differentiable (no first-order transitions within the fitting region)",
+          "ideal-gas law holds in the zero-density limit (used as boundary condition for EOS fitting)"
+        ],
+        "fit_parameters": [
+          "virial coefficients B(T), C(T) — typically 2–3 per isotherm",
+          "cubic EOS parameters: a(T), b (e.g., Peng-Robinson), plus mixing rules (kij) for mixtures",
+          "multiparameter EOS: 20–60 adjustable coefficients for Helmholtz-type reference equations",
+          "critical constants Tc, Pc, ρc (if fitted rather than constrained)",
+          "spline knot coefficients when using interpolating splines for differentiation"
+        ],
+        "common_artifacts": [
+          "differentiation noise amplification: numerical derivatives of scattered PVT data produce noisy κT and αP curves, especially near the critical point",
+          "virial truncation bias: truncating the virial series at 2nd or 3rd term at densities where higher terms contribute leads to systematic error in B and C",
+          "critical region singularity: classical (analytic) EOS fail to capture the non-classical scaling behavior near the critical point, producing systematic deviations in derived properties",
+          "overfitting: excessive number of EOS parameters relative to available data can produce spurious oscillations in interpolated properties",
+          "extrapolation divergence: derived properties outside the measured PVT range are unreliable and can diverge unphysically"
+        ],
+        "quality_control_checks": [
+          "thermodynamic consistency: verify that derived κT, αP, γV satisfy the identity αP = κT · γV",
+          "Maxwell relation check: confirm (∂κT/∂T)P = −(∂αP/∂P)T from the derived quantities",
+          "ideal-gas limit: verify Z → 1 and B → correct temperature dependence as ρ → 0",
+          "comparison with reference data: check derived virial coefficients and derivative properties against values from NIST REFPROP or published reference EOS",
+          "residual analysis: inspect fit residuals (Pfit − Pexp) for systematic patterns indicating model inadequacy",
+          "cross-validation: hold out a subset of PVT data and verify that the fitted EOS predicts withheld points within stated uncertainty"
+        ],
+        "failure_modes": [
+          "insufficient data density: too few PVT points for reliable numerical differentiation or EOS fitting",
+          "phase-boundary contamination: inclusion of two-phase (wet) data in single-phase fitting regime leads to erroneous EOS parameters",
+          "ill-conditioned regression: highly correlated EOS parameters produce numerically unstable fits with large parameter uncertainties",
+          "near-critical anomaly: classical EOS cannot reproduce the divergence of κT and Cv at the critical point, yielding qualitatively wrong derivative properties",
+          "inconsistent source data: combining PVT data from multiple laboratories without proper intercalibration introduces systematic offsets"
+        ]
+      },
+      "uncertainty": {
+        "level": "propagated from PVT measurement uncertainty; derivative properties typically 2–10× less accurate than the source P, V, T values due to differentiation amplification",
+        "random_sources": [
+          "scatter in original P, V, T measurements",
+          "noise amplification during numerical differentiation",
+          "regression residuals from EOS fitting",
+          "interpolation error when data are not on a uniform grid"
+        ],
+        "systematic_sources": [
+          "equation of state model inadequacy (truncation error, wrong functional form)",
+          "virial series truncation at finite order",
+          "systematic bias in the original PVT apparatus (pressure gauge offset, volume calibration error, temperature scale offset)",
+          "impurity effects on the sample used for original PVT measurements",
+          "failure of classical scaling near the critical point when using analytic EOS"
+        ],
+        "operator_dependence": "moderate — choices of EOS model, data weighting scheme, outlier rejection criteria, and differentiation method depend on analyst judgment and experience",
+        "model_dependence": "high — derived quantities are strongly dependent on the chosen EOS or fitting model; different models can yield significantly different virial coefficients or derivative properties from the same PVT data, especially near the critical region",
+        "dominant_error_sources": [
+          "equation of state model form error — dominant for multiparameter property derivation",
+          "numerical differentiation noise amplification — dominant for κT and αP near the critical point",
+          "virial series truncation — dominant for B(T) and C(T) extraction at moderate-to-high densities",
+          "original PVT measurement uncertainty — propagates directly and is amplified through derivatives"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty with coverage factor k=2 (95% confidence)",
+          "propagated uncertainty from PVT source data via error propagation formulas",
+          "standard deviation of fit residuals",
+          "relative uncertainty as percentage of derived property value"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "'Derived from PVT data' is not a physical measurement technique but a thermodynamic derivation method in which pressure-volume-temperature (PVT) measurements are mathematically processed to extract secondary thermodynamic properties. The input data come from experimental PVT apparatus such as piezometers, Burnett apparatus, vibrating-tube densimeters, bellows volumeters, or isochoric cells. Through thermodynamic identities, numerical differentiation, and equation of state (EOS) fitting, a rich set of properties — including compressibility factors, virial coefficients, critical constants, isothermal compressibility, isobaric expansivity, thermal pressure coefficient, internal pressure, and heat capacity differences — can be obtained from a single comprehensive PVT data set. In the ThermoML database this method appears primarily in the Criticals property group (70 of 71 instances), reflecting its central role in determining critical temperature, critical pressure, and critical density from PVT surface analysis.",
+      "how_it_operates": "The derivation begins with a set of experimental (P, V, T) or (P, ρ, T) state points covering the thermodynamic surface of a fluid. For compressibility factor analysis, Z = PV/(nRT) is computed at each point and examined as a function of pressure or density along isotherms. Virial coefficients are extracted by fitting the low-density portion of Z(ρ) or Z(P) isotherms to a truncated virial series. Equation of state parameters are obtained by nonlinear regression of P(V,T) or ρ(P,T) data to an EOS model (cubic, multiparameter, or Helmholtz-based). Derivative properties such as κT and αP are computed either analytically from the fitted EOS or numerically from finite-difference or spline derivatives of the tabulated data. Critical constants are determined by locating the point on the PVT surface where the first and second derivatives of P with respect to V vanish simultaneously at fixed T, or by fitting the rectilinear diameter of the coexistence curve.",
+      "core_theory": "The theoretical foundation rests on classical thermodynamics and the equation of state concept: any equilibrium state of a pure substance is fully defined by two intensive variables (e.g., T and P) plus composition. The compressibility factor Z = PV/(nRT) quantifies departure from ideal-gas behavior. The virial equation of state, Z = 1 + B(T)/V + C(T)/V² + …, provides a rigorous expansion for gases at moderate densities, where B(T) and C(T) are related to pair and triplet intermolecular interactions. Derivative properties follow from Maxwell relations: κT = −(1/V)(∂V/∂P)T, αP = (1/V)(∂V/∂T)P, and γV = (∂P/∂T)V, connected by the identity αP = κT·γV. The heat capacity difference Cp − Cv = TVαP²/κT links volumetric derivatives to caloric properties. Near the critical point, (∂P/∂V)T = 0 and (∂²P/∂V²)T = 0 define Tc, Pc, and Vc. These relations transform a single PVT dataset into a comprehensive thermodynamic characterization.",
+      "setup": "The 'setup' for PVT-derived properties is computational rather than physical. It requires: (1) a curated PVT dataset in a structured format — typically a table of (T, P, V or ρ) with associated uncertainties, organized by isotherm, isochore, or isobar; (2) numerical analysis software capable of nonlinear regression, numerical differentiation, and interpolation (Python with NumPy/SciPy, MATLAB, or specialized tools such as NIST TDE, REFPROP, or ThermoFit); (3) a library of equation of state models appropriate to the fluid and conditions; and (4) reference data from established sources (NIST REFPROP, DIPPR, DECHEMA) for validation. The analyst must define the data range, select the EOS model, specify weighting schemes, and set convergence criteria for the regression.",
+      "suitable_for": "This derivation method is suited for any fluid system where comprehensive PVT data exist across a sufficient range of temperatures and pressures. It is especially powerful for: determining critical constants from high-precision PVT measurements near the critical region; extracting second and third virial coefficients from gas-phase PVT data for use in thermodynamic modeling; computing derivative properties (κT, αP, γV) that are difficult to measure directly; parameterizing equations of state for process simulation and engineering design; and obtaining vapor pressures via Maxwell construction from subcritical isotherms. The method applies to pure fluids and mixtures including hydrocarbons, refrigerants, cryogens, and industrially important gases.",
+      "core_limitations": "The primary limitation is that derived properties inherit and amplify the uncertainty of the input PVT measurements — numerical differentiation typically degrades precision by a factor of 3–10. Near the critical point, classical (analytic) equations of state fail to capture the non-classical scaling exponents, leading to systematic errors in κT, Cv, and other quantities that diverge at the critical point. Virial coefficient extraction is reliable only at moderate densities (below roughly half the critical density); at higher densities, series truncation introduces systematic bias. The method cannot produce information about properties that are not connected to the PVT surface by thermodynamic identities (e.g., transport properties like viscosity require independent measurements). For liquid-phase derivative properties, extremely high-precision density data (better than 0.01%) are required to obtain meaningful results.",
+      "sample_preparation": "No physical sample preparation is required since this is a post-measurement data analysis method. However, the quality of the derivation depends critically on the quality and coverage of the input PVT data. The analyst should verify that: the composition of the sample used for PVT measurement was well-characterized (purity ≥ 99.5% for pure fluids, or accurate mole fractions for mixtures); the PVT data cover the temperature and pressure ranges relevant to the target derived properties; data points near phase boundaries are correctly identified and excluded from single-phase fits; and original measurement uncertainties in P, V or ρ, and T are documented and propagated through the derivation.",
+      "calibration_and_references": "Calibration pertains to the original PVT measurement apparatus, not to the derivation step. For the derivation itself, validation against reference data serves the analogous role. Derived virial coefficients should be compared with values from established compilations (Dymond & Smith, Tsonopolous correlation) or NIST reference equations of state. Derived critical constants should be checked against NIST Webbook or DIPPR recommended values. Computed derivative properties (κT, αP) should be verified against the analytic derivatives of validated reference EOS models (e.g., Span-Wagner EOS for CO₂, IAPWS-95 for water, Setzmann-Wagner for methane). Testing the derivation workflow on a well-characterized reference fluid (argon, nitrogen, or methane) before applying it to the target substance is strongly recommended.",
+      "data_interpretation": "Interpreting PVT-derived properties requires understanding the propagation of uncertainty through mathematical operations. The compressibility factor Z is obtained directly from the data with relative uncertainty combining those of P, V, and T. Virial coefficients are regression parameters whose uncertainty depends on: the number and range of data points, the degree of truncation of the virial series, and the correlation between B and C in simultaneous fits. Derivative properties obtained by numerical differentiation are interpreted cautiously — they are only meaningful where the underlying data are densely spaced and free from systematic trends in the residuals. Critical constants derived from PVT analysis should be accompanied by a description of the method used (e.g., vanishing-derivative criterion, rectilinear diameter, EOS fitting) since different methods can yield slightly different values. All derived quantities should be reported with propagated uncertainties reflecting both the original PVT data scatter and the model-form uncertainty.",
+      "common_pitfalls": "The most common pitfall is applying numerical differentiation to sparse or noisy PVT data, producing derivative properties dominated by noise rather than genuine thermodynamic trends. Truncating the virial series at too few terms (typically at the second coefficient) while including data at densities where higher-order terms contribute introduces systematic errors in B(T) that appear as temperature-dependent bias. Using a classical (analytic) EOS to derive properties in the critical region gives qualitatively incorrect behavior — κT from a cubic EOS shows a finite maximum rather than the true power-law divergence. Mixing PVT data from multiple sources without checking inter-laboratory consistency can create discontinuities in derived properties. Extrapolating fitted EOS beyond the range of the input data often produces unphysical results (negative compressibility, divergent properties) that are not immediately obvious from the fit statistics.",
+      "artifacts_and_failure_modes": "Differentiation noise amplification is the most pervasive artifact: even 0.01% scatter in density data can produce 0.1–1% oscillations in κT. Virial truncation artifacts manifest as systematic curvature in the residuals of Z-fits at moderate density, often mistaken for experimental error. Overfitting artifacts occur when a multiparameter EOS with many adjustable coefficients captures noise in the data, producing spurious oscillations in interpolated and extrapolated properties — this is detectable via cross-validation. Phase-misidentification failure occurs when two-phase (wet) data are inadvertently included in single-phase EOS fits, causing large systematic deviations in fitted parameters. Near-critical failure is inherent to classical EOS: the incorrect mean-field critical exponents (β = 0.5 vs. true β ≈ 0.326) cause percent-level errors in coexistence properties and qualitative failure in κT and Cv divergence. Extrapolation divergence occurs when the fitted EOS is evaluated outside the data range, potentially giving negative pressures, imaginary volumes, or thermodynamically impossible states.",
+      "reporting_checklist": "Reports of properties derived from PVT data should include: identification and source of input PVT data (laboratory, apparatus type, literature reference); temperature, pressure, and density ranges of the input data; number of data points used; original PVT measurement uncertainties; equation of state model or fitting method employed (with references); derivative calculation method (analytic from EOS or numerical, with details of differentiation scheme); weighting scheme used in regression; goodness-of-fit statistics (AAD, bias, maximum deviation); range of validity for derived properties; propagated uncertainty estimates for each derived quantity at the 95% confidence level (k=2); comparison with independent literature values or reference EOS; and any data points rejected as outliers with justification. For ThermoML encoding, derived property values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

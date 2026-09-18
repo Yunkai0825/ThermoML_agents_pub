@@ -1,0 +1,329 @@
+{
+  "meas_ID": "linear_variable_path_acoustic_interferometer",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Linear variable-path acoustic interferometer",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Linear variable-path acoustic interferometer",
+    "thermoml_custom_codes": [
+      "LVPAI"
+    ],
+    "measurement_family": "Acoustic / Speed of Sound",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 905,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 137,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 905,
+          "papers": 137
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "acoustic standing wave pattern (successive amplitude maxima and minima)",
+          "path length difference between consecutive maxima or minima (Δd = λ/2)",
+          "driving frequency of acoustic transducer (f)"
+        ],
+        "derived_observables": [
+          "acoustic wavelength (λ = 2Δd)",
+          "speed of sound (u = f × λ)",
+          "isentropic compressibility (κS = 1/(ρu²))",
+          "acoustic impedance (Z = ρu)"
+        ],
+        "target_properties": [
+          "speed of sound (u)",
+          "isentropic compressibility (κS)",
+          "ratio of heat capacities (γ = Cp/Cv, for gases)",
+          "intermolecular interaction parameters (from excess speed of sound in mixtures)",
+          "density (when combined with independent compressibility data)"
+        ],
+        "phases_measured": [
+          "liquid",
+          "compressed gas",
+          "supercritical fluid",
+          "liquid mixtures (binary and multicomponent)"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "compressed gases and vapors",
+          "supercritical fluids",
+          "ionic liquids",
+          "organic and aqueous solvent systems"
+        ],
+        "unsupported_sample_types": [
+          "solids (acoustic coupling and reflector scanning not feasible)",
+          "highly viscous liquids or gels (excessive attenuation prevents standing wave formation)",
+          "suspensions and slurries with significant scattering",
+          "foams or gas-liquid dispersions",
+          "samples with very high acoustic absorption at the operating frequency"
+        ],
+        "typical_output_formats": [
+          "speed of sound u vs. temperature T at fixed pressure",
+          "speed of sound u vs. pressure P at fixed temperature",
+          "speed of sound u vs. composition (mole fraction) at fixed T and P",
+          "isentropic compressibility κS vs. T or composition",
+          "excess speed of sound uE vs. mole fraction"
+        ],
+        "units": {
+          "speed_of_sound": "m/s",
+          "wavelength": "mm or µm",
+          "frequency": "MHz (typically 1–10 MHz for liquids)",
+          "path_length": "mm",
+          "isentropic_compressibility": "TPa⁻¹ or Pa⁻¹",
+          "temperature": "K",
+          "pressure": "MPa",
+          "density": "kg/m³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "driving_frequency",
+            "typical_range": "1 MHz to 10 MHz for liquids; 0.1–1 MHz for gases",
+            "hard_limits": "frequency must be high enough to produce well-defined standing waves within the cell dimensions; upper limit set by acoustic attenuation in the sample",
+            "notes": "fixed-frequency operation is standard; frequency is chosen to optimize signal-to-noise for the sample under study"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 373 K for standard cells; 200 K to 500 K with specialized thermostating",
+            "hard_limits": "limited by thermostat capability, transducer Curie temperature (typically < 600 K for PZT), and sample stability",
+            "notes": "temperature stability of ±0.01 K or better is required for high-accuracy measurements"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 100 MPa",
+            "hard_limits": "limited by cell mechanical strength and seal integrity; specialized high-pressure cells extend to 200+ MPa",
+            "notes": "atmospheric pressure measurements are most common; high-pressure work requires specially designed thick-walled cells"
+          },
+          {
+            "parameter": "path_length_travel",
+            "typical_range": "10 mm to 100 mm total travel",
+            "hard_limits": "minimum travel must span several half-wavelengths for reliable wavelength determination; maximum limited by cell geometry and acoustic attenuation",
+            "notes": "typical measurement uses 10–50 successive maxima to improve statistical precision"
+          }
+        ],
+        "variables": [
+          {
+            "name": "driving_frequency",
+            "role": "fixed experimental parameter",
+            "typical_values": "1–5 MHz for liquids; 0.5–2 MHz for compressed gases",
+            "effect": "determines the acoustic wavelength in the medium and hence the spatial period of the standing wave pattern"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled thermodynamic variable",
+            "typical_values": "273 K to 373 K",
+            "effect": "speed of sound varies with temperature; temperature must be controlled to ±0.01 K for 0.01% accuracy in u"
+          },
+          {
+            "name": "pressure",
+            "role": "controlled thermodynamic variable",
+            "typical_values": "0.1 MPa (atmospheric) to 100 MPa",
+            "effect": "speed of sound increases with pressure in liquids; pressure must be measured and controlled for high-pressure studies"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable for mixture studies",
+            "typical_values": "full mole fraction range 0 to 1",
+            "effect": "speed of sound in mixtures is sensitive to intermolecular interactions; excess speed of sound reveals non-ideal mixing behavior"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "piezoelectric transducer (PZT crystal) — generates and detects ultrasonic waves at fixed frequency, mounted at one end of the acoustic cell",
+          "movable acoustic reflector — flat metallic plate (stainless steel or quartz) translated by a precision micrometer or stepper motor along the acoustic axis",
+          "precision linear positioning system — micrometer screw or motorized linear stage with sub-micron resolution for accurate path length measurement",
+          "thermostated measurement cell — jacketed cylindrical cell with circulating thermostat fluid for temperature control to ±0.01 K",
+          "frequency generator/synthesizer — provides stable sinusoidal drive signal to the transducer at a precisely known frequency",
+          "signal detector and amplifier — monitors the electrical signal from the transducer (or a separate receiving transducer) to detect standing wave pattern",
+          "phase-sensitive detector or oscilloscope — measures the amplitude of the received acoustic signal as a function of reflector position for identifying maxima/minima",
+          "temperature measurement system — platinum resistance thermometer (PRT) or calibrated thermistor in the sample cell",
+          "pressure transducer (for high-pressure work) — calibrated strain gauge or dead-weight gauge for measuring sample pressure",
+          "data acquisition and control system — computer interface for recording reflector position, signal amplitude, temperature, and pressure"
+        ],
+        "environmental_requirements": [
+          "temperature stability ±0.01 K or better maintained by circulating thermostat bath",
+          "vibration isolation to prevent mechanical disturbance of standing wave pattern and reflector position",
+          "for high-pressure measurements: leak-free high-pressure seals and burst protection",
+          "clean laboratory environment to prevent particulate contamination of the sample and acoustic interfaces"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "homogeneous liquid or gas filling the cylindrical acoustic cell",
+            "no bubbles, suspended particles, or phase boundaries in the acoustic path"
+          ],
+          "size_limits": "typically 10–50 mL of liquid required to fill the measurement cell",
+          "thickness_limits": "not applicable — the sample fills the variable-length path between transducer and reflector",
+          "surface_requirements": [
+            "transducer face and reflector surface must be optically flat and parallel to each other",
+            "surfaces must be clean and free of deposits that would scatter or absorb acoustic waves"
+          ],
+          "mounting_requirements": [
+            "reflector must translate smoothly along the acoustic axis without tilting or lateral displacement",
+            "transducer must be rigidly mounted with good acoustic coupling to the sample"
+          ],
+          "preparation_requirements": [
+            "liquids must be degassed under vacuum or by ultrasonic agitation to remove dissolved gases that cause bubble formation and acoustic scattering",
+            "samples must be filtered to remove suspended particles (typical: 0.45 µm membrane filter)",
+            "for mixtures: components weighed gravimetrically on an analytical balance (±0.0001 g) and mixed thoroughly",
+            "for compressed gas measurements: sample purity verified by gas chromatography"
+          ]
+        },
+        "calibration_requirements": [
+          "path length calibration using a reference liquid with well-known speed of sound (e.g., distilled water) to establish the zero-point and linearity of the micrometer/positioning system",
+          "frequency calibration of the signal generator against a frequency counter traceable to a national standard",
+          "temperature sensor calibration against ITS-90 fixed points or a NIST-traceable reference thermometer",
+          "pressure transducer calibration against a dead-weight piston gauge for high-pressure work",
+          "verification of reflector parallelism by checking that maxima count vs. travel distance yields a constant wavelength"
+        ],
+        "reference_materials": [
+          "distilled, degassed water — primary speed of sound reference (u well-known to ±0.005% from IAPWS-95 equation of state over wide T-P range)",
+          "n-hexane — secondary reference liquid with well-characterized u(T)",
+          "toluene — reference liquid recommended by IUPAC for speed of sound calibration",
+          "dry nitrogen or argon — reference gases for gas-phase measurements"
+        ],
+        "consumables": [
+          "acoustic couplant (not typically needed for liquid immersion cells)",
+          "O-rings and high-pressure seals for cell assembly",
+          "syringe filters (0.45 µm) for sample preparation",
+          "thermostat fluid (water, silicone oil, or ethylene glycol mixture)"
+        ],
+        "safety_notes": [
+          "high-pressure cells must be hydrostatically tested to at least 1.5× maximum operating pressure before use",
+          "compressed gas cylinders require standard gas handling precautions and pressure relief devices",
+          "some organic liquid samples are flammable or toxic — use in a fume hood with appropriate PPE",
+          "ultrasonic transducers operate at inaudible frequencies but can produce significant acoustic energy — avoid direct contact during operation"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving speed of sound changes of ~0.01 m/s in liquids at typical operating frequencies",
+        "detection_limit": "not applicable — technique measures speed of sound in bulk fluid, not trace quantities",
+        "resolution": {
+          "spatial": "not applicable (bulk volumetric measurement)",
+          "temporal": "measurement requires scanning reflector through multiple maxima; single-point measurement time typically 1–10 minutes",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "speed of sound from ~100 m/s (low-pressure gases) to ~2000 m/s (dense liquids); temperature 200–500 K; pressure 0.1–200 MPa",
+        "accuracy": "0.01–0.1% in speed of sound for liquids (corresponding to ±0.1 to ±1 m/s at typical liquid sound speeds); 0.05–0.2% for compressed gases",
+        "precision": "0.005–0.02% (repeatability from multiple scans at the same thermodynamic state)",
+        "throughput": "one sample at a time; complete temperature or pressure scan takes 2–8 hours depending on number of state points",
+        "measurement_speed": "individual speed of sound determination requires 5–15 minutes per state point including reflector scan, equilibration, and data acquisition"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "electrical signal amplitude from piezoelectric transducer as a function of reflector position, exhibiting periodic maxima and minima corresponding to constructive and destructive interference of the standing acoustic wave",
+        "preprocessing_steps": [
+          "identification of successive amplitude maxima (or minima) in the signal-vs-position trace",
+          "determination of reflector positions at each maximum using peak-fitting or zero-crossing analysis",
+          "calculation of half-wavelength intervals Δd = λ/2 from the difference between successive maxima positions",
+          "averaging over multiple half-wavelength intervals to reduce random positioning error",
+          "temperature and pressure corrections applied to the measured state point"
+        ],
+        "analysis_methods": [
+          "wavelength determination: λ = 2 × (mean Δd) from N successive maxima spanning a total distance D, giving λ = 2D/N",
+          "speed of sound calculation: u = f × λ, where f is the precisely known driving frequency",
+          "linear regression of maxima positions vs. maxima index to extract wavelength and detect systematic drift",
+          "isentropic compressibility derivation: κS = 1/(ρu²), requiring independent density measurement at the same T and P",
+          "polynomial fitting of u(T) or u(P) data for interpolation and thermodynamic property calculation"
+        ],
+        "model_assumptions": [
+          "plane wave propagation — acoustic wavelength is much smaller than the cell cross-section diameter so that diffraction effects are negligible",
+          "the sample is a homogeneous single-phase fluid with no bubbles, particles, or temperature gradients in the acoustic path",
+          "acoustic attenuation is low enough that well-defined standing wave maxima and minima are observed over the full reflector travel",
+          "the reflector and transducer faces are perfectly flat and parallel, producing ideal planar standing waves",
+          "dispersion is negligible — the speed of sound does not vary significantly with frequency at the operating frequency"
+        ],
+        "fit_parameters": [
+          "half-wavelength interval Δd (from peak positions)",
+          "acoustic wavelength λ = 2Δd",
+          "speed of sound u = fλ",
+          "polynomial coefficients for u(T) or u(P) fits"
+        ],
+        "common_artifacts": [
+          "diffraction correction: in cells with small diameter-to-wavelength ratio, wavefront curvature causes measured wavelength to differ systematically from the plane-wave value",
+          "near-field effects: close to the transducer face, the acoustic field is non-uniform and standing wave maxima may be distorted",
+          "parasitic acoustic modes: reflections from cell walls or transducer housing generate spurious standing wave patterns superimposed on the primary signal",
+          "thermal gradient artifact: if the cell is not uniformly thermostated, the speed of sound varies along the acoustic path, broadening the maxima and introducing systematic error",
+          "dissolved gas or microbubble artifact: incomplete degassing produces anomalous attenuation and erratic maxima positions"
+        ],
+        "quality_control_checks": [
+          "verify constancy of λ: plot individual Δd values vs. position and check for systematic drift (should be constant for a homogeneous sample)",
+          "measure speed of sound of a reference liquid (water, toluene) and compare with literature within stated accuracy",
+          "repeat measurements at the same state point to confirm reproducibility within stated precision",
+          "check for frequency dependence by measuring at two or more frequencies (absence of dispersion confirms measurement validity)",
+          "inspect the amplitude envelope of the standing wave pattern for regularity — irregular or decaying amplitude indicates excessive attenuation or misalignment"
+        ],
+        "failure_modes": [
+          "bubbles in the sample path (sudden loss of standing wave pattern or erratic maxima)",
+          "reflector misalignment or tilt (gradual decrease in standing wave amplitude with increasing path length)",
+          "transducer delamination or cracking (weak or absent acoustic signal)",
+          "seal failure in high-pressure cell (pressure loss and sample leakage)",
+          "temperature controller malfunction (temperature drift causing systematic shift in measured u)",
+          "mechanical backlash in micrometer drive (hysteresis between forward and reverse scans)"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.1% for speed of sound in liquids; 0.05–0.2% for gases",
+        "random_sources": [
+          "positioning repeatability of the micrometer or linear stage",
+          "electrical noise in the transducer signal",
+          "short-term temperature fluctuations in the thermostated cell",
+          "peak identification uncertainty (finite width of standing wave maxima)"
+        ],
+        "systematic_sources": [
+          "micrometer or encoder calibration error (path length scale factor)",
+          "frequency generator accuracy and stability",
+          "diffraction correction (wavefront curvature in finite-diameter cells)",
+          "temperature measurement offset (thermometer calibration)",
+          "pressure measurement uncertainty (for high-pressure studies)",
+          "thermal expansion of cell components affecting path length at extreme temperatures",
+          "acoustic dispersion if operating frequency is in a relaxation region"
+        ],
+        "operator_dependence": "low to moderate — sample preparation (degassing, filtering) requires care; reflector alignment is critical but typically performed once during cell assembly; data acquisition is largely automated",
+        "model_dependence": "low — the plane-wave standing wave model is well-established; diffraction corrections are calculable from cell geometry and are typically < 0.01% for well-designed cells",
+        "dominant_error_sources": [
+          "path length measurement accuracy (micrometer calibration and positioning repeatability)",
+          "temperature measurement and control (0.01 K error in T can cause ~0.01% error in u for typical liquids)",
+          "incomplete degassing of liquid samples (dissolved gas alters speed of sound)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(u) at 95% confidence level (k=2)",
+          "relative uncertainty as percentage of u",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The linear variable-path acoustic interferometer measures the speed of sound in fluids by systematically varying the distance between an ultrasonic transducer and a planar reflector immersed in the sample. As the reflector is translated along the acoustic axis, a standing wave interference pattern is established, and successive amplitude maxima are separated by exactly one half-wavelength. This technique has been a workhorse of physical chemistry and thermophysics since the mid-20th century, providing high-accuracy speed of sound data for pure liquids, liquid mixtures, and compressed gases across wide ranges of temperature and pressure.",
+      "how_it_operates": "A piezoelectric transducer (typically PZT ceramic) generates a continuous sinusoidal ultrasonic wave at a fixed, precisely known frequency (1–10 MHz for liquids) that propagates through the fluid sample toward a flat reflector. The reflected wave travels back to the transducer, and the superposition of incident and reflected waves creates a standing wave pattern in the fluid column. The reflector is slowly translated along the acoustic axis by a precision micrometer or motorized stage, and the electrical signal from the transducer (which acts as both sender and receiver) is monitored. Each time the path length changes by half a wavelength, the signal passes through a maximum or minimum; the spacing between consecutive maxima yields λ/2, from which the speed of sound is calculated as u = f × λ.",
+      "core_theory": "The measurement is based on acoustic standing wave resonance in a fluid column bounded by a transducer face and a parallel reflector. When the transducer-to-reflector distance d satisfies d = nλ/2 (n = 1, 2, 3, …), constructive interference produces an amplitude maximum. The wavelength is extracted from the measured spacing between N consecutive maxima over a total travel distance D as λ = 2D/N. The speed of sound follows directly from u = fλ, where f is the driving frequency known to parts-per-million accuracy from a synthesized signal generator. For an ideal lossless fluid with plane-wave propagation, this relationship is exact; in practice, small corrections for diffraction (wavefront curvature) and near-field effects may be applied.",
+      "setup": "The instrument consists of a cylindrical thermostated cell filled with the fluid sample, with a piezoelectric transducer mounted at one end and a movable flat reflector at the other. The reflector is connected to a precision micrometer screw or motorized linear stage capable of sub-micron positioning over a total travel of 10–100 mm. The cell is jacketed and connected to a circulating thermostat bath maintaining temperature stability to ±0.01 K, with a calibrated platinum resistance thermometer monitoring the sample temperature. A frequency synthesizer drives the transducer, and the received signal amplitude is recorded as a function of reflector position by a data acquisition system, often with phase-sensitive detection for improved signal-to-noise ratio.",
+      "suitable_for": "This technique is ideally suited for measuring speed of sound in low-viscosity liquids, liquid mixtures, electrolyte solutions, and compressed gases where high accuracy (0.01–0.1%) is required. It is extensively used in thermophysical property studies to determine isentropic compressibility via κS = 1/(ρu²), to derive heat capacity ratios γ = Cp/Cv in gases, and to characterize intermolecular interactions through excess speed of sound in binary mixtures. The method is particularly valuable for equation-of-state development, where speed of sound data provide strong constraints on the pressure-density-temperature surface of a fluid.",
+      "core_limitations": "The technique requires homogeneous, single-phase fluid samples with sufficiently low acoustic attenuation to sustain well-defined standing waves over the full reflector travel. Highly viscous liquids, gels, and heterogeneous samples (suspensions, emulsions, foams) generally cannot be measured because excessive attenuation prevents formation of clear interference maxima. The measurement is relatively slow compared to single-pulse time-of-flight methods, as the reflector must be scanned mechanically through multiple half-wavelengths. The operating temperature range is limited by the thermostat capability and by the Curie temperature of the piezoelectric transducer (typically < 600 K for PZT ceramics).",
+      "sample_preparation": "Liquid samples must be thoroughly degassed to remove dissolved gases that can form microbubbles and severely distort the standing wave pattern. Degassing is typically accomplished by applying vacuum with stirring, by ultrasonic agitation under reduced pressure, or by repeated freeze-pump-thaw cycles. Samples should be filtered through 0.45 µm membrane filters to remove particulate matter that causes acoustic scattering. For mixture studies, components are weighed gravimetrically on an analytical balance (±0.0001 g) to achieve accurate composition, mixed thoroughly, and degassed before loading into the cell.",
+      "calibration_and_references": "The primary calibration involves measuring the speed of sound in distilled degassed water, whose values are known to ±0.005% from the IAPWS-95 equation of state over a wide range of temperature and pressure. This calibration verifies the path length scale (micrometer linearity and zero-point) and the overall measurement chain. The frequency generator is verified against a precision frequency counter traceable to national standards. Temperature sensors are calibrated against ITS-90 fixed points or NIST-traceable reference thermometers. Secondary reference liquids such as toluene or n-hexane, with well-characterized speed of sound data recommended by IUPAC, serve as independent verification standards.",
+      "data_interpretation": "The raw data consist of signal amplitude as a function of reflector position, showing periodic maxima and minima. Peak positions are extracted by fitting parabolas or Gaussians to each maximum, and the half-wavelength is determined as the mean spacing between consecutive peaks. The speed of sound is computed as u = f × λ from the known driving frequency and the measured wavelength. Uncertainty is reduced by averaging over many (10–50) half-wavelength intervals in a single scan. The resulting u(T,P) data are typically fitted to polynomials for interpolation and used to derive isentropic compressibility (κS = 1/ρu²) when independent density data are available at the same thermodynamic conditions.",
+      "common_pitfalls": "The most critical pitfall is inadequate degassing of liquid samples — even small amounts of dissolved gas can nucleate microbubbles that drastically alter the standing wave pattern and produce erratic or biased speed of sound values. Misalignment of the reflector (non-parallelism with the transducer face) causes the standing wave amplitude to decrease with path length, degrading precision and accuracy. Operating too close to the transducer (in the near field) where the acoustic field is non-uniform can introduce systematic wavelength errors. Using a cell with insufficient diameter-to-wavelength ratio leads to significant diffraction corrections that, if neglected, produce systematically low speed of sound values.",
+      "artifacts_and_failure_modes": "Diffraction artifacts arise when the cell diameter is not much larger than the acoustic wavelength, causing the effective wavelength in the confined geometry to differ from the free-field value by a calculable correction. Near-field distortion occurs within a few wavelengths of the transducer face, where the wavefronts are not yet planar and maxima spacing is irregular. Parasitic acoustic modes from wall reflections can superimpose secondary patterns on the primary standing wave, producing anomalous peak shapes. Mechanical backlash in the micrometer drive manifests as a systematic difference between forward and reverse scans. Seal failure in high-pressure cells causes gradual pressure loss and drifting speed of sound readings.",
+      "reporting_checklist": "Published speed of sound results from variable-path interferometry should report: driving frequency, number of half-wavelengths averaged per measurement, total reflector travel, cell temperature and its uncertainty, pressure and its uncertainty (for high-pressure studies), sample purity and source, degassing procedure, path length calibration method and reference material used, diffraction correction applied (if any), measured speed of sound values with combined expanded uncertainty at 95% confidence level (k=2), and the equation used for any derived properties such as isentropic compressibility. For ThermoML encoding, speed of sound values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

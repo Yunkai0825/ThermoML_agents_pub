@@ -1,0 +1,333 @@
+{
+  "meas_ID": "falling_or_rolling_sphere_viscometry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Falling or rolling sphere viscometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Falling or rolling sphere viscometry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Viscometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 1243,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 276,
+      "per_group": {
+        "TransportProp": {
+          "instances": 1243,
+          "papers": 276
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "fall time or roll time of a sphere over a calibrated distance",
+          "sphere position as a function of time (optical or inductive detection)",
+          "tube inclination angle (rolling-ball variant)"
+        ],
+        "derived_observables": [
+          "dynamic viscosity η (from fall/roll time, sphere and fluid densities, and calibration constant)",
+          "kinematic viscosity ν = η/ρ (when fluid density is known)"
+        ],
+        "target_properties": [
+          "dynamic viscosity η",
+          "kinematic viscosity ν",
+          "viscosity as a function of temperature",
+          "viscosity as a function of pressure (high-pressure falling-sinker variants)"
+        ],
+        "phases_measured": [
+          "liquid (Newtonian fluids)",
+          "liquid mixtures",
+          "liquid at elevated pressures (falling-sinker variant)"
+        ],
+        "supported_sample_types": [
+          "pure Newtonian liquids",
+          "binary and multicomponent liquid mixtures",
+          "transparent and opaque liquids",
+          "high-viscosity liquids (oils, polymers, ionic liquids)",
+          "liquids under high pressure (falling-sinker cells)",
+          "silicone oils and calibration fluids",
+          "organic solvents",
+          "aqueous solutions"
+        ],
+        "unsupported_sample_types": [
+          "gases (density difference too small for practical fall times)",
+          "strongly non-Newtonian or viscoelastic fluids (Stokes law inapplicable)",
+          "suspensions or slurries containing particles (interfere with sphere motion)",
+          "extremely low-viscosity fluids below ~0.3 mPa·s (fall time too short for accurate timing)",
+          "yield-stress fluids (sphere will not fall if yield stress exceeds buoyant stress)"
+        ],
+        "typical_output_formats": [
+          "η vs. T curve at fixed pressure",
+          "η vs. P curve at fixed temperature",
+          "tabulated viscosity-temperature-pressure data",
+          "Arrhenius or VTF fit parameters"
+        ],
+        "units": {
+          "dynamic_viscosity": "mPa·s (cP)",
+          "kinematic_viscosity": "mm²/s (cSt)",
+          "fall_or_roll_time": "s",
+          "temperature": "K",
+          "pressure": "MPa",
+          "density": "kg/m³",
+          "sphere_diameter": "mm",
+          "inclination_angle": "degrees"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "viscosity_range",
+            "typical_range": "0.5 mPa·s to 10⁵ mPa·s",
+            "hard_limits": "lower limit set by minimum resolvable fall time; upper limit set by impractically long fall times or available sphere densities",
+            "notes": "range is adjusted by selecting sphere material and diameter; rolling-ball instruments (e.g., Anton Paar Lovis) extend the low-viscosity range to ~0.3 mPa·s"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "253 K to 473 K",
+            "hard_limits": "limited by thermostat capability and tube/seal materials; high-pressure variants may operate to 523 K",
+            "notes": "temperature stability of ±0.01 K is typical for research-grade instruments"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 200 MPa (falling-sinker variants)",
+            "hard_limits": "standard falling-ball and Hoeppler instruments operate at ambient pressure only; specialized falling-sinker viscometers reach up to 1 GPa",
+            "notes": "high-pressure operation requires pressure-rated tubes, pistons, and seals"
+          },
+          {
+            "parameter": "Reynolds_number",
+            "typical_range": "Re < 1 (Stokes regime)",
+            "hard_limits": "Re must remain below ~0.5 to ensure validity of Stokes law; corrections available for Re up to ~10",
+            "notes": "Reynolds number Re = ρf·v·d/η; verified by checking that fall time is independent of sphere-to-tube diameter ratio effects"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "253 K to 473 K",
+            "effect": "viscosity decreases exponentially with increasing temperature for most liquids; temperature is the most common independent variable"
+          },
+          {
+            "name": "pressure",
+            "role": "secondary variable (high-pressure variants)",
+            "typical_values": "0.1 MPa to 200 MPa",
+            "effect": "viscosity generally increases with pressure; falling-sinker viscometers are designed specifically for P-dependent measurements"
+          },
+          {
+            "name": "sphere_material_and_diameter",
+            "role": "instrument configuration parameter",
+            "typical_values": "steel, glass, or tungsten carbide spheres; diameters 1–16 mm",
+            "effect": "determines density difference (ρs − ρf) and thus fall time and measurable viscosity range; larger or denser spheres are used for low-viscosity fluids"
+          },
+          {
+            "name": "tube_inclination_angle",
+            "role": "instrument configuration parameter (rolling-ball variant)",
+            "typical_values": "10° to 80° from horizontal",
+            "effect": "controls the gravitational component driving the ball; smaller angles slow the ball for low-viscosity fluids; steeper angles for high-viscosity fluids"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable for mixtures",
+            "typical_values": "mole fraction 0 to 1",
+            "effect": "viscosity of mixtures varies non-linearly with composition; often measured across the full composition range at fixed T"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision glass or metal tube — cylindrical tube (vertical for falling-ball; inclined for rolling-ball/Hoeppler) with calibrated measurement section and known inner diameter",
+          "calibrated sphere or sinker — sphere of known diameter, density, and surface finish (steel, glass, tungsten carbide, or gold-plated for chemical resistance)",
+          "timing system — optical sensors (photodiodes, laser barriers), inductive sensors, or CCD camera tracking sphere passage between calibrated marks",
+          "thermostat — water jacket, Peltier, or circulating bath surrounding the tube for temperature control to ±0.01–0.05 K",
+          "temperature sensor — Pt100 RTD or calibrated thermistor in contact with the fluid or tube wall",
+          "tilting mechanism — adjustable angle mount for rolling-ball instruments (e.g., Hoeppler design) with precision angle readout",
+          "high-pressure cell (optional) — thick-walled tube and piston assembly with pressure gauge and hydraulic intensifier for falling-sinker viscometry",
+          "sphere retrieval mechanism — magnetic retrieval, tube inversion (Hoeppler), or manual repositioning to repeat measurements"
+        ],
+        "environmental_requirements": [
+          "temperature control of the sample tube to ±0.01–0.05 K via thermostatted jacket",
+          "vibration-free mounting to prevent perturbation of sphere trajectory",
+          "level or precisely inclined mounting — vertical alignment is critical for falling-ball; precise angle for rolling-ball",
+          "draft-free environment to minimize thermal gradients along the tube"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid filling the measurement tube completely with no trapped air bubbles"
+          ],
+          "size_limits": "typically 1–40 mL depending on tube volume; Hoeppler ~40 mL; micro rolling-ball (Lovis) ~0.1 mL",
+          "thickness_limits": "not applicable (bulk liquid measurement)",
+          "surface_requirements": [
+            "tube inner wall must be clean and free of scratches or deposits that could impede sphere motion",
+            "sphere surface must be smooth, unscratched, and free of corrosion"
+          ],
+          "mounting_requirements": [
+            "tube must be filled without trapped air bubbles",
+            "sphere must be centered in the tube (tube-to-sphere diameter ratio typically 10:1 for falling-ball; close clearance ~0.02 mm for rolling-ball)"
+          ],
+          "preparation_requirements": [
+            "sample degassed to remove dissolved air (prevents bubble formation on sphere surface)",
+            "sample filtered to remove suspended particles (>1 µm) that could impede sphere motion or alter trajectory",
+            "sample dried if moisture-sensitive",
+            "fluid density measured independently (required for viscosity calculation)"
+          ]
+        },
+        "calibration_requirements": [
+          "instrument constant K determination using certified viscosity reference standards (e.g., Cannon N-series oils or PTB/NIST certified fluids)",
+          "sphere diameter and density verification with micrometer and precision balance or density standard",
+          "temperature sensor calibration against ITS-90 fixed points or a certified reference thermometer",
+          "tube verticality or inclination angle verification using precision inclinometer",
+          "wall correction factor (Faxén correction) determined from tube-to-sphere diameter ratio",
+          "timing system validation against a calibrated frequency source"
+        ],
+        "reference_materials": [
+          "Cannon certified viscosity reference standards (N-series: N4, N10, N35, N100, N350, etc.) — NIST-traceable oils spanning 2 to 100,000 mPa·s",
+          "NIST SRM 2490 (polyisobutylene in cetane) — high-viscosity standard for Newtonian behavior verification",
+          "NIST SRM 717a (borosilicate glass) — viscosity standard for high-temperature applications",
+          "distilled water — well-known viscosity (1.002 mPa·s at 293.15 K) for verification checks",
+          "di(2-ethylhexyl) sebacate (DEHS) — IUPAC recommended reference fluid for viscosity at high pressures"
+        ],
+        "consumables": [
+          "precision spheres (replacement balls of calibrated diameter and density)",
+          "cleaning solvents (acetone, ethanol, petroleum ether) for tube and sphere cleaning",
+          "viscosity reference standard oils for periodic recalibration",
+          "O-rings and seals for high-pressure cells"
+        ],
+        "safety_notes": [
+          "high-pressure falling-sinker instruments operate at pressures up to hundreds of MPa — follow high-pressure equipment safety protocols",
+          "glass tubes are fragile — handle with care to avoid cracks that compromise structural integrity",
+          "some sample liquids may be toxic, flammable, or corrosive — use appropriate PPE and ventilation",
+          "hot thermostat fluids and heated tubes present burn hazards"
+        ]
+      },
+      "performance": {
+        "sensitivity": "sensitive to dynamic viscosity changes of ~0.1% for well-controlled instruments with precise timing",
+        "detection_limit": "minimum measurable viscosity ~0.3 mPa·s (micro rolling-ball instruments such as Anton Paar Lovis 2000 M/ME); ~0.5 mPa·s for standard falling-ball",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "fall/roll time resolution ~0.001 s with electronic timing; translates to viscosity resolution of ~0.01 mPa·s at low viscosities",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "0.3 mPa·s to 10⁵ mPa·s (over 5 decades, selected by choice of sphere and tube geometry)",
+        "accuracy": "0.5–2% of measured viscosity with proper calibration; 0.5% achievable with certified reference standards and careful temperature control",
+        "precision": "0.1–0.5% coefficient of variation from repeated fall/roll time measurements at a given condition",
+        "throughput": "single sample per tube loading; one viscosity measurement in 10 s to 30 min depending on viscosity; full T-sweep takes 1–4 hours",
+        "measurement_speed": "individual measurement: seconds (low viscosity) to minutes (high viscosity); rapid for a viscometer compared to capillary methods at high viscosities"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "fall time or roll time of a sphere between two detection points separated by a calibrated distance, recorded by optical or inductive sensors and a digital timer",
+        "preprocessing_steps": [
+          "average multiple (typically 5–10) replicate fall/roll time measurements to reduce random timing errors",
+          "apply temperature correction to sphere and fluid densities using known thermal expansion coefficients",
+          "verify that Reynolds number Re < 1 (Stokes regime) for the measured fall velocity",
+          "subtract any buoyancy or end-effect corrections if tube geometry requires it",
+          "apply Faxén wall correction for the finite tube-to-sphere diameter ratio"
+        ],
+        "analysis_methods": [
+          "Stokes law calculation: η = K·(ρs − ρf)·t, where K is the calibration constant, ρs is sphere density, ρf is fluid density, and t is fall/roll time",
+          "Faxén wall correction: multiplicative factor F(d/D) correcting for the influence of tube walls on drag; F = 1 − 2.104(d/D) + 2.089(d/D)³ − 0.948(d/D)⁵ for falling-ball geometry",
+          "rolling-ball calibration: η = K(θ)·(ρs − ρf)·t, where K(θ) depends on the inclination angle and is determined empirically",
+          "Arrhenius or VTF fitting of η(T) data to parameterize temperature dependence",
+          "high-pressure analysis using empirical correlations (e.g., Barus equation η = η₀·exp(αP)) or free-volume models"
+        ],
+        "model_assumptions": [
+          "fluid is Newtonian — viscosity is independent of shear rate (valid for the very low shear rates in a falling-sphere geometry)",
+          "sphere reaches terminal velocity before entering the measurement zone (acceleration phase is complete)",
+          "Stokes creeping-flow regime: Re << 1, so inertial effects are negligible",
+          "sphere falls (or rolls) along the tube axis without lateral drift or rotation anomalies",
+          "fluid is homogeneous, incompressible, and at thermal equilibrium",
+          "tube walls are smooth and concentric with the sphere trajectory; Faxén correction accounts for wall effects"
+        ],
+        "fit_parameters": [
+          "calibration constant K (or K(θ) for rolling-ball at specific angle)",
+          "sphere density ρs and fluid density ρf",
+          "fall/roll time t",
+          "Faxén wall correction factor F(d/D)",
+          "Arrhenius activation energy Ea (for η vs. T fits)",
+          "VTF parameters (η₀, B, T₀) for curved Arrhenius plots"
+        ],
+        "common_artifacts": [
+          "air bubble adhesion on sphere surface — reduces effective density difference and increases apparent viscosity",
+          "sphere eccentricity — off-axis fall path changes effective wall correction and produces inconsistent times",
+          "thermal gradient along tube — convection or density stratification causes non-uniform fall velocity",
+          "turbulent wake at high Re — invalidates Stokes law; produces shorter fall times and underestimates viscosity",
+          "sphere surface degradation — corrosion or scratching changes drag coefficient over time",
+          "non-Newtonian behavior — shear-thinning fluids give apparent viscosity that depends on sphere size and velocity"
+        ],
+        "quality_control_checks": [
+          "measure a certified viscosity reference standard before and after sample measurements to verify instrument constant K stability",
+          "repeat fall/roll time measurements (≥5 replicates) and confirm coefficient of variation < 0.5%",
+          "vary sphere size or inclination angle and confirm that computed viscosity is independent of these (verifies Newtonian behavior and Stokes regime)",
+          "compare heating and cooling sweep viscosities to check for hysteresis or thermal lag",
+          "verify Reynolds number Re < 1 for each measurement point",
+          "inspect sphere and tube for visible damage, deposits, or bubble adhesion before each run"
+        ],
+        "failure_modes": [
+          "sphere stuck or slowed by debris or deposits on tube wall",
+          "air bubble attached to sphere — artificially buoyant sphere gives erroneously high viscosity",
+          "temperature controller failure — thermal drift invalidates isothermal assumption",
+          "timing sensor misalignment — inconsistent detection of sphere passage gives erratic times",
+          "sphere corrosion or pitting — altered drag coefficient and irreproducible results",
+          "tube cracking or seal leak in high-pressure cells — loss of sample or pressure containment"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for dynamic viscosity; 0.5% achievable with best practice",
+        "random_sources": [
+          "timing variability between replicate fall/roll measurements",
+          "small temperature fluctuations within the thermostat (±0.01–0.05 K)",
+          "sphere positioning variability (eccentricity, initial conditions)",
+          "electronic noise in optical or inductive detection circuits"
+        ],
+        "systematic_sources": [
+          "calibration constant K uncertainty (propagated from reference fluid viscosity uncertainty)",
+          "sphere density uncertainty (±0.01–0.1%)",
+          "fluid density uncertainty (±0.01–0.05%)",
+          "temperature measurement offset or drift (±0.01–0.05 K translates to ~0.1–0.5% viscosity)",
+          "Faxén wall correction uncertainty due to tube bore and sphere diameter tolerances",
+          "end effects and acceleration zone correction",
+          "inclination angle uncertainty for rolling-ball instruments (±0.01° gives ~0.1% viscosity change)"
+        ],
+        "operator_dependence": "low to moderate — filling the tube without bubbles, sphere handling, and cleaning procedure depend on operator care; automated instruments (e.g., Lovis) reduce operator dependence significantly",
+        "model_dependence": "low for Newtonian fluids in the Stokes regime — the underlying Stokes law is well-validated; increases for higher Re, non-spherical sinkers, or non-Newtonian fluids where additional corrections and assumptions are needed",
+        "dominant_error_sources": [
+          "density difference (ρs − ρf) uncertainty — this directly scales the viscosity result; a 0.1% error in either density propagates fully",
+          "temperature measurement accuracy — viscosity has a strong T-dependence, so even small offsets cause significant systematic bias",
+          "calibration constant K — absorbs all geometric and flow-field corrections, so its accuracy depends on the reference standard quality"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(η) at 95% confidence level (k=2)",
+          "relative expanded uncertainty as percentage of η",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Falling or rolling sphere viscometry determines the dynamic viscosity of a liquid by measuring the time required for a calibrated sphere to traverse a known distance through the fluid under gravity. In the falling-ball variant, a sphere descends vertically through a cylindrical tube filled with the sample liquid; in the rolling-ball (Hoeppler) variant, the sphere rolls along the inside wall of an inclined tube. Both configurations relate the terminal velocity of the sphere to the fluid viscosity through Stokes' law with appropriate correction factors. With 1243 data instances across 276 papers in the NIST ThermoML database, this technique is one of the most widely used viscometric methods, valued for its simplicity, broad viscosity range (0.3–10⁵ mPa·s), applicability to both transparent and opaque liquids, and the availability of high-pressure variants for measuring viscosity under extreme conditions.",
+      "how_it_operates": "A precision sphere of known diameter and density is released into a tube filled with the sample liquid that is thermostatted to the desired temperature. Under gravity, the sphere accelerates until the drag force (proportional to velocity and viscosity) balances the net gravitational force (proportional to the density difference between sphere and fluid). At terminal velocity, the sphere passes between two detection points — optical sensors (laser beams or photodiodes) or inductive coils — separated by a calibrated distance. The elapsed transit time is recorded by a digital timer. In the Hoeppler rolling-ball design, the tube is inclined at a fixed angle (typically 10°–80°) and the ball rolls along the lower wall with combined translational and rotational motion; tube inversion allows repeated measurements without reloading. The dynamic viscosity is calculated from η = K·(ρs − ρf)·t, where K is an instrument-specific calibration constant determined using reference fluids.",
+      "core_theory": "The fundamental relation is Stokes' law for creeping flow around a sphere: F_drag = 3πηdv, where d is the sphere diameter and v is the terminal velocity. At terminal velocity, the drag force equals the net gravitational force: (π/6)d³(ρs − ρf)g = 3πηdv, yielding η = d²(ρs − ρf)g/(18v). Since v = L/t for a fall distance L and time t, this becomes η = K·(ρs − ρf)·t, where the calibration constant K = d²gL/18L embeds all geometric factors. For the confined geometry of a tube, the Faxén wall correction accounts for increased drag: F(d/D) = 1 − 2.104(d/D) + 2.089(d/D)³ − 0.948(d/D)⁵, where D is the tube inner diameter. In the rolling-ball variant, both sliding friction and rolling dynamics contribute; the working equation retains the same form η = K(θ)·(ρs − ρf)·t, but K(θ) depends on the inclination angle and is determined empirically from calibration. Stokes' law is strictly valid only for Re < 1; the Oseen and Goldstein corrections extend validity to somewhat higher Re values.",
+      "setup": "A typical Hoeppler-type instrument (e.g., Anton Paar Lovis 2000 M) consists of a precision borosilicate or metal tube mounted in a thermostatted jacket with a water circulator controlling temperature to ±0.01 K. A set of calibrated spheres of different materials (glass, nickel-iron steel, gold-plated steel) and diameters (1.5–16 mm) is provided to cover various viscosity ranges. Two optical or inductive sensors detect the sphere as it passes calibrated marks on the tube. For falling-ball instruments, the tube is mounted vertically with a sphere release mechanism at the top. For the Hoeppler design, the tube is inclined at a fixed angle and fitted with an inversion mechanism to flip the apparatus 180° for repeated measurements. High-pressure falling-sinker viscometers replace the glass tube with a thick-walled metal cylinder and use a precisely machined cylindrical sinker (rather than a sphere) falling axially, with pressure applied via a hydraulic piston and measured by a pressure transducer.",
+      "suitable_for": "This technique is ideal for measuring dynamic viscosity of Newtonian liquids across a wide range from low-viscosity solvents (~0.3 mPa·s) to highly viscous oils and polymer melts (~10⁵ mPa·s). It is particularly well-suited for precision viscosity measurements of transparent or opaque liquids at closely controlled temperatures, making it a workhorse method for characterizing organic solvents, ionic liquids, petroleum products, silicone oils, and aqueous solutions. The high-pressure falling-sinker variant is one of the few techniques capable of measuring viscosity at pressures up to 1 GPa, which is essential for equation-of-state development and reservoir fluid characterization. The method requires only small sample volumes (as little as 0.1 mL for micro rolling-ball instruments), handles a wide temperature range, and provides absolute viscosity values when operated with well-characterized spheres and geometries.",
+      "core_limitations": "The method is restricted to Newtonian fluids; non-Newtonian liquids give apparent viscosities that depend on sphere size, velocity, and the resulting shear rate distribution. The Stokes' law analysis requires Re < 1, which limits the combination of low viscosity and large sphere size. The technique measures only the zero-shear viscosity and provides no information about viscoelastic properties or shear-rate dependence. For very low-viscosity fluids below ~0.3 mPa·s, fall times become too short for accurate timing even with electronic sensors. Each measurement requires knowing the densities of both sphere and fluid at the measurement temperature and pressure, introducing additional uncertainty. The method is inherently single-point (one viscosity per run), so mapping viscosity across temperature or composition requires sequential measurements. High-pressure variants are mechanically complex, expensive, and limited to specialized laboratories.",
+      "sample_preparation": "The sample liquid must be degassed to prevent air bubbles from adhering to the sphere surface or forming in the tube, which would alter the effective buoyancy and drag. For particle-containing samples, filtration through a 0.45 µm or finer membrane is essential to avoid interference with sphere motion. The sample should be dried if moisture-sensitive, as even small amounts of water can significantly alter viscosity of hygroscopic liquids such as ionic liquids. The tube and sphere are thoroughly cleaned with appropriate solvents (acetone, ethanol, or petroleum ether) and dried before loading. The tube is filled slowly from the bottom to minimize air entrainment, and the sphere is inserted gently. The fluid density at each measurement temperature (and pressure, for high-pressure work) must be determined independently using a vibrating-tube densimeter or pycnometer, as ρf enters directly into the viscosity calculation.",
+      "calibration_and_references": "Calibration is performed by measuring the fall or roll time of the sphere in certified viscosity reference standards — typically Cannon N-series oils (N4, N10, N35, N100, etc.) or PTB/NIST-traceable reference fluids — at known temperatures. The calibration constant K (or K(θ) at a specific inclination angle) is calculated from K = η_ref / [(ρs − ρf_ref)·t_ref]. This constant incorporates all geometric factors including the Faxén wall correction, sphere roundness, and tube bore. Calibration must be repeated whenever the sphere, tube, or inclination angle is changed. Temperature is calibrated against ITS-90 using a Pt100 RTD traceable to a national metrology institute. Additional verification is routinely performed using distilled water (η = 1.002 mPa·s at 293.15 K) as a secondary check. For high-pressure work, DEHS (di(2-ethylhexyl) sebacate) serves as an IUPAC-recommended reference fluid for viscosity at elevated pressures.",
+      "data_interpretation": "The primary calculation converts measured fall or roll time to dynamic viscosity using η = K·(ρs − ρf)·t. Multiple replicate measurements (5–10) are averaged to obtain a mean fall/roll time, and the standard deviation provides an estimate of random measurement uncertainty. Sphere and fluid densities are corrected to the exact measurement temperature using known thermal expansion data. For temperature-dependent studies, viscosity data are typically fitted to an Arrhenius equation η = A·exp(Ea/RT) for near-linear ln(η) vs. 1/T behavior, or to the Vogel-Tammann-Fulcher (VTF) equation η = η₀·exp[B/(T − T₀)] for fluids with super-Arrhenius temperature dependence. For pressure-dependent data, the Barus equation η = η₀·exp(αP) or the more general Tait-type correlations are used. Excess viscosity of mixtures Δη_mix is computed relative to ideal mixing rules (e.g., Grunberg-Nissan) and related to intermolecular interactions.",
+      "common_pitfalls": "The most critical pitfall is failing to verify that the flow is in the Stokes regime (Re < 1) — using a sphere that is too large or too dense for a low-viscosity fluid results in inertial effects that cause viscosity to be underestimated. Air bubbles adhering to the sphere are a persistent problem, particularly with freshly loaded samples, and produce erroneously high viscosity readings because the effective density difference is reduced. Inadequate temperature equilibration before starting measurements introduces systematic bias, as viscosity is strongly temperature-dependent (typically 2–3% per kelvin for common organic liquids near room temperature). Using a single calibration constant across widely different viscosities without verifying linearity can introduce systematic errors. Tube contamination with residual cleaning solvent or previous sample is another frequent source of error, especially when switching between immiscible fluids. For rolling-ball instruments, failing to set the inclination angle precisely or neglecting to verify the angle after instrument transport introduces direct scaling errors in the viscosity.",
+      "artifacts_and_failure_modes": "Bubble adhesion on the sphere surface is the most common artifact — it reduces the net downward force and increases the apparent fall time, yielding an overestimate of viscosity. Sphere eccentricity (off-axis fall) arises from imperfect sphere roundness, tube misalignment, or residual fluid motion, and alters the effective wall correction, producing inconsistent times between replicates. Thermal stratification along the tube, caused by insufficient thermostatting or heat losses at the ends, creates a viscosity gradient that the sphere traverses, yielding inaccurate average viscosity. In high-pressure falling-sinker instruments, seal friction on the sinker can retard its motion and systematically increase the apparent viscosity. Sphere corrosion or pitting from chemically aggressive fluids degrades the surface finish and alters the drag coefficient progressively over time. Timing sensor misalignment — where the optical or inductive sensors shift from their calibrated positions — directly corrupts the effective fall distance and hence the calibration constant. In the rolling-ball configuration, wear of the tube inner surface at the ball contact line creates a groove that changes the rolling dynamics and invalidates the original calibration.",
+      "reporting_checklist": "Published falling or rolling sphere viscometry results should include: sphere material, diameter, and density; tube inner diameter and the tube-to-sphere diameter ratio; instrument make and model; whether the measurement used falling-ball, rolling-ball (Hoeppler), or falling-sinker configuration; inclination angle for rolling-ball instruments; calibration reference standard used and its certified viscosity at the calibration temperature; temperature control method and stability (±0.0X K); pressure (if not ambient) and pressure measurement method; fluid density values used in the calculation and their source; number of replicate fall/roll time measurements and their standard deviation; any corrections applied (Faxén, end effects, Oseen); combined expanded uncertainty U(η) with coverage factor k = 2 at 95% confidence level; and verification measurement on a secondary reference fluid. For ThermoML encoding, viscosity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

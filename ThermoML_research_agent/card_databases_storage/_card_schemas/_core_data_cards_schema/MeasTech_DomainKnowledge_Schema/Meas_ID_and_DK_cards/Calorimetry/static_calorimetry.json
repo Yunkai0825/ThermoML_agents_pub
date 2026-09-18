@@ -1,0 +1,340 @@
+{
+  "meas_ID": "static_calorimetry",
+  "identity": {
+    "name": "Static calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Static calorimetry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 182,
+      "property_groups": [
+        "PhaseTransition",
+        "HeatCapacityAndDerivedProp"
+      ],
+      "n_papers": 79,
+      "per_group": {
+        "PhaseTransition": {
+          "instances": 176,
+          "papers": 79
+        },
+        "HeatCapacityAndDerivedProp": {
+          "instances": 6,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature change of calorimeter contents (ΔT)",
+          "electrical calibration energy (Q_cal = V·I·t)",
+          "sample masses and volumes",
+          "stirrer power dissipation",
+          "heat leak rate (dT/dt during drift periods)"
+        ],
+        "derived_observables": [
+          "enthalpy of mixing (ΔmixH)",
+          "enthalpy of reaction (ΔrH)",
+          "enthalpy of dissolution (ΔsolH)",
+          "isobaric heat capacity (Cp)",
+          "energy equivalent of calorimeter (ε, J/K)",
+          "excess enthalpy (HE)"
+        ],
+        "target_properties": [
+          "molar enthalpy of mixing",
+          "molar enthalpy of dissolution",
+          "molar enthalpy of reaction",
+          "molar enthalpy of dilution",
+          "molar excess enthalpy",
+          "isobaric heat capacity",
+          "specific heat capacity",
+          "enthalpy of phase transition"
+        ],
+        "phases_measured": [
+          "liquid",
+          "liquid mixtures",
+          "solid dissolved in liquid",
+          "liquid-liquid two-phase systems",
+          "solid (heat capacity mode)"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "polymer solutions",
+          "surfactant solutions",
+          "solid solutes dissolving in liquid solvents",
+          "reacting liquid mixtures (slow reactions)",
+          "ionic liquids and deep eutectic solvents",
+          "slurries and suspensions"
+        ],
+        "unsupported_sample_types": [
+          "gases or supercritical fluids (require specialized pressure vessels)",
+          "highly volatile liquids at elevated temperatures (vapor loss)",
+          "fast explosive reactions (insufficient time resolution)",
+          "extremely viscous materials that cannot be stirred or mixed",
+          "samples requiring temperatures above ~400 K (standard Dewar setups)"
+        ],
+        "typical_output_formats": [
+          "temperature vs. time curve (fore-drift, main period, after-drift)",
+          "ΔmixH vs. mole fraction",
+          "HE vs. composition at fixed T",
+          "Cp vs. T at fixed composition",
+          "ΔsolH vs. concentration"
+        ],
+        "units": {
+          "enthalpy": "J/mol or kJ/mol",
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "temperature": "K",
+          "temperature_change": "K or mK",
+          "mass": "g",
+          "volume": "mL or cm³",
+          "energy": "J",
+          "electrical_power": "W"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 373 K",
+            "hard_limits": "limited by Dewar integrity and coolant; specialized metal-block calorimeters extend to 200–500 K",
+            "notes": "most static calorimetry in ThermoML is performed near ambient (288–328 K)"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "atmospheric (0.1 MPa)",
+            "hard_limits": "standard Dewar and glass vessels rated to ~0.2 MPa; steel reaction vessels to ~10 MPa",
+            "notes": "almost all reported static calorimetry is at atmospheric pressure"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "10 mL to 1000 mL",
+            "hard_limits": "minimum ~5 mL for adequate thermal signal; maximum set by vessel size",
+            "notes": "Dewar calorimeters typically use 100–500 mL; micro-reaction calorimeters use 10–50 mL"
+          },
+          {
+            "parameter": "mixing_ratio",
+            "typical_range": "full composition range (0 to 1 mole fraction)",
+            "hard_limits": "very dilute additions limited by sensitivity; very concentrated by vessel volume",
+            "notes": "stepwise or single-injection mixing; common to measure 10–20 compositions per isotherm"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled variable (isothermal operation) or scanned variable (heat capacity mode)",
+            "typical_values": "288 K to 328 K for mixing; broader for Cp",
+            "effect": "temperature determines the thermodynamic state; mixing enthalpies are strongly T-dependent"
+          },
+          {
+            "name": "composition",
+            "role": "primary experimental variable for mixing studies",
+            "typical_values": "mole fractions from 0.05 to 0.95",
+            "effect": "composition determines the magnitude and sign of excess enthalpy"
+          },
+          {
+            "name": "total_sample_mass",
+            "role": "measured quantity; determines signal magnitude",
+            "typical_values": "10 g to 500 g depending on vessel",
+            "effect": "larger samples produce larger ΔT but require longer equilibration; smaller samples give weaker signals"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "pressure corrections are negligible for liquids at atmospheric pressure"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "calorimetric vessel — silvered Dewar flask, double-walled glass vessel, or insulated metal cell (50–1000 mL)",
+          "stirrer — magnetic or mechanical paddle stirrer providing continuous mixing of vessel contents",
+          "temperature sensor — precision thermistor (10 kΩ at 25 °C) or platinum resistance thermometer (PRT, 100 Ω) with ±0.001 K resolution",
+          "electrical calibration heater — resistance wire or foil heater immersed in liquid, connected to precision power supply for energy equivalent determination",
+          "sample introduction system — glass ampoule-breaking device, syringe injection port, or rotating mixing cell for controlled addition",
+          "constant-temperature jacket or water bath — surrounds calorimeter to define heat-leak environment",
+          "precision power supply and multimeter — for measuring calibration heater voltage and current",
+          "data acquisition system — computer with high-resolution ADC (≥18-bit) logging temperature at 0.5–2 Hz"
+        ],
+        "environmental_requirements": [
+          "constant-temperature room or water bath controlling jacket temperature to ±0.01 K",
+          "draft-free environment to minimize convective disturbances",
+          "vibration-free bench to avoid stirrer bearing noise in temperature signal",
+          "ambient temperature near the measurement temperature to minimize heat leak corrections"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid samples — no geometry constraint; injected or loaded as bulk liquid",
+            "solid solutes — granular, powder, or pellet form for rapid dissolution"
+          ],
+          "size_limits": "typically 5–500 g total charge; individual injections of 0.1–50 mL",
+          "thickness_limits": "not applicable (bulk liquid measurements)",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "liquids loaded by pipette or syringe through fill port",
+            "solids placed in breakable glass ampoules suspended in the calorimeter liquid"
+          ],
+          "preparation_requirements": [
+            "all liquids degassed by vacuum or ultrasonic treatment to prevent bubble formation during mixing",
+            "both components weighed on analytical balance to ±0.1 mg",
+            "hygroscopic samples handled under dry atmosphere",
+            "reactive samples kept under inert gas until measurement"
+          ]
+        },
+        "calibration_requirements": [
+          "energy equivalent (ε) determination by electrical Joule heating: known power for known time, measuring ΔT",
+          "ε must be determined at each fill level and stirring rate used in experiments",
+          "heat leak modulus (cooling constant k) measured from drift periods before and after each experiment",
+          "thermometer calibrated against certified reference (ITS-90 fixed points or NIST-traceable PRT)",
+          "verification with a standard reaction or mixing system (e.g., HCl + NaOH or cyclohexane + hexane)"
+        ],
+        "reference_materials": [
+          "aqueous HCl + NaOH — NIST-recommended neutralization enthalpy standard (ΔH = −55.835 kJ/mol at 298.15 K, infinite dilution)",
+          "cyclohexane + hexane — well-characterized endothermic mixing enthalpy reference",
+          "methanol + water — widely measured exothermic mixing system",
+          "KCl dissolution in water — standard dissolution enthalpy (NIST SRM 1655)",
+          "benzoic acid — combustion/reaction calorimetry standard (NIST SRM 39j)"
+        ],
+        "consumables": [
+          "glass ampoules for solid solute introduction",
+          "disposable syringes and needles for liquid injection",
+          "silicone or Teflon septum seals",
+          "drying agents (molecular sieves, CaCl2) for hygroscopic sample preparation",
+          "inert gas supply (nitrogen or argon) for air-sensitive samples"
+        ],
+        "safety_notes": [
+          "glass Dewar vessels are implosion hazards — wrap in protective tape or use shielded housings",
+          "exothermic reactions can cause rapid temperature rise — limit reactant quantities",
+          "handle corrosive (acid/base) and organic solvents with appropriate PPE",
+          "pressurized or sealed vessels require relief valves to prevent over-pressurization"
+        ]
+      },
+      "performance": {
+        "sensitivity": "temperature resolution of ±0.001 K with precision thermistors; detectable heat effects as small as ~0.05 J for 100 mL systems",
+        "detection_limit": "minimum resolvable enthalpy change ~0.5 J/mol for concentrated systems; limited by thermal noise and heat leak correction uncertainty",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "temperature logged at 0.5–2 Hz; main-period events resolved to ~1 s",
+          "spectral": "not applicable",
+          "energy": "energy equivalent determined to ±0.05%; enthalpy resolution ~0.1 J in well-designed systems"
+        },
+        "dynamic_range": "enthalpy changes from ~0.5 J/mol (near-ideal mixtures) to ~100 kJ/mol (strong acid-base reactions); temperature changes from ~0.005 K to ~5 K",
+        "accuracy": "0.5–2% for enthalpy of mixing; 0.2–1% for heat capacity; depends on calibration quality and heat leak correction",
+        "precision": "0.2–0.5% (repeatability of replicate injections or dissolutions under identical conditions)",
+        "throughput": "one experiment (single composition or reaction) per 20–60 minutes including drift periods; an isotherm of 15 compositions requires a full day",
+        "measurement_speed": "mixing event occurs over 1–5 minutes; drift observation requires 5–15 minutes before and after the main period"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "temperature vs. time trace recorded continuously through fore-drift, main period (mixing/reaction), and after-drift phases",
+        "preprocessing_steps": [
+          "linear or exponential fit to fore-drift and after-drift temperature segments",
+          "extrapolation of drift baselines to the midpoint of the main period to determine corrected ΔT",
+          "Regnault-Pfaundler or Dickinson heat-leak correction for non-adiabatic conditions",
+          "subtraction of stirrer energy and ampoule-breaking energy contributions",
+          "conversion of corrected ΔT to enthalpy: ΔH = ε × ΔT_corrected"
+        ],
+        "analysis_methods": [
+          "Regnault-Pfaundler method: corrects ΔT for heat exchange with jacket using measured drift rates",
+          "Dickinson extrapolation: graphically or numerically determines true ΔT from corrected drift lines",
+          "electrical calibration: ε = Q_cal / ΔT_cal determines the energy equivalent immediately before or after each experiment",
+          "Redlich-Kister polynomial fitting: models HE(x) = x₁x₂ Σ Aₖ(x₁−x₂)ᵏ for composition-dependent excess enthalpy",
+          "least-squares fitting of ΔmixH vs. x data to thermodynamic mixing models (Margules, Wilson, NRTL)"
+        ],
+        "model_assumptions": [
+          "calorimeter heat exchange with surroundings follows Newton's law of cooling (linear heat leak)",
+          "energy equivalent ε is constant over the ΔT range of the experiment",
+          "stirring energy is constant throughout the experiment",
+          "mixing or dissolution is complete before the after-drift period begins",
+          "no evaporation or vapor-space enthalpy corrections are needed (sealed system or negligible vapor pressure)"
+        ],
+        "fit_parameters": [
+          "energy equivalent ε (J/K)",
+          "heat leak modulus k (s⁻¹ or min⁻¹)",
+          "corrected temperature change ΔT_corr (K)",
+          "Redlich-Kister coefficients A₀, A₁, A₂, … for HE(x) fitting",
+          "model parameters for Wilson, NRTL, or UNIQUAC equations when used"
+        ],
+        "common_artifacts": [
+          "incomplete mixing artifact: measured ΔT is too small because mixing is not homogeneous, producing systematically low enthalpies",
+          "evaporation artifact: volatile component loss from headspace absorbs enthalpy, reducing apparent exothermic signal or enhancing endothermic signal",
+          "ampoule-breaking energy artifact: mechanical energy of breaking glass ampoule contributes a small exothermic signal (~0.01–0.1 J) that must be corrected",
+          "stirrer heating drift: continuous stirrer energy input creates a slow temperature rise that must be accounted for in the drift correction",
+          "adsorption artifact: component adsorption on vessel walls or stirrer changes effective composition, especially at low concentrations"
+        ],
+        "quality_control_checks": [
+          "reproduce known enthalpy of a reference system (e.g., cyclohexane + hexane or KCl dissolution) within stated accuracy",
+          "verify energy equivalent ε by repeated electrical calibrations (relative standard deviation < 0.1%)",
+          "check fore-drift and after-drift linearity — curvature indicates thermal grounding or non-steady heat leak",
+          "compare results from different fill volumes to confirm absence of surface or evaporation artifacts",
+          "verify symmetry: measure both A-into-B and B-into-A mixing directions and compare",
+          "confirm endpoint of mixing by observing stable after-drift rate"
+        ],
+        "failure_modes": [
+          "broken or leaking Dewar vacuum jacket (sudden increase in heat leak, drift rates become very large)",
+          "failed stirrer (no mixing occurs; ΔT reflects only local temperature near injection point)",
+          "cracked ampoule before intended break (premature mixing contaminates fore-drift)",
+          "air leak into sealed cell — oxygen or moisture reacts with sample or causes evaporation",
+          "thermometer failure or cable short — temperature trace shows discontinuities or excessive noise"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for enthalpy of mixing; 0.3–1% for heat capacity",
+        "random_sources": [
+          "thermometer noise (±0.001 K for thermistors, ±0.005 K for thermocouples)",
+          "irreproducibility in injection or ampoule-breaking timing",
+          "stirring irregularities causing local temperature inhomogeneity",
+          "ambient temperature fluctuations affecting heat leak",
+          "mass determination uncertainty (±0.1 mg on analytical balance)"
+        ],
+        "systematic_sources": [
+          "energy equivalent calibration uncertainty (typically 0.05–0.2%)",
+          "heat leak correction model error (linear vs. actual exponential decay)",
+          "incomplete mixing — biases enthalpy toward zero",
+          "evaporation losses — biases enthalpies systematically",
+          "impurities in sample components (water content, dissolved gases)",
+          "thermal equilibration of injected liquid to calorimeter temperature",
+          "stirrer energy correction uncertainty"
+        ],
+        "operator_dependence": "moderate — quality of drift analysis, stirring rate selection, and degassing procedure depend on operator experience; automated injection reduces but does not eliminate operator effects",
+        "model_dependence": "low to moderate — enthalpy values depend on heat leak correction model; Regnault-Pfaundler and Dickinson methods give consistent results when drift is linear; non-linear drift indicates thermal grounding problems requiring more complex analysis",
+        "dominant_error_sources": [
+          "heat leak correction (especially for slow reactions with long main periods)",
+          "sample purity and moisture content",
+          "completeness of mixing for viscous or immiscible systems"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔmixH) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of measured enthalpy",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Static calorimetry is a batch thermal measurement technique that determines enthalpy changes by observing the temperature response of a known thermal mass when a mixing, dissolution, or reaction event occurs within a thermally insulated vessel. Unlike scanning methods (DSC, DTA) that sweep temperature continuously, static calorimetry operates isothermally or near-isothermally: the calorimeter is equilibrated at a fixed temperature, the thermal event is initiated (by mixing, ampoule breaking, or injection), and the resulting temperature change ΔT is measured. Combined with the energy equivalent of the calorimeter (determined by electrical calibration), this ΔT yields the enthalpy change directly. The technique encompasses Dewar-flask calorimeters, isoperibol reaction calorimeters, and batch mixing calorimeters, and has been a workhorse method for measuring enthalpies of mixing, dissolution, and slow chemical reactions since the early 20th century.",
+      "how_it_operates": "The calorimeter consists of an insulated vessel (typically a silvered Dewar flask or a double-walled cell surrounded by a constant-temperature jacket) containing a known mass of liquid. A calibrated thermometer records the temperature continuously. During the experiment, three distinct phases are observed: (1) the fore-drift period, where the temperature drifts slowly due to heat exchange with the jacket and stirrer energy input; (2) the main period, during which the thermal event occurs — a second liquid is injected, a glass ampoule containing a solid or liquid is broken, or a reaction is initiated — causing a rapid temperature change; and (3) the after-drift period, where the system returns to a slow drift regime at the new temperature. The corrected temperature change ΔT is determined by extrapolating the fore-drift and after-drift baselines to the midpoint of the main period. Multiplying ΔT by the calorimeter's energy equivalent ε (determined by passing a known electrical current through an immersed calibration heater) gives the enthalpy change: ΔH = ε × ΔT_corr.",
+      "core_theory": "The fundamental measurement equation is ΔH = ε × ΔT_corr, where ε is the energy equivalent of the calorimeter (in J/K) and ΔT_corr is the corrected temperature change. The energy equivalent is determined by electrical calibration: ε = Q_cal/ΔT_cal, where Q_cal = V × I × t is the known electrical energy dissipated in the calibration heater. Heat leak corrections account for the continuous exchange of thermal energy between the calorimeter and its surroundings. Under Newton's law of cooling, the heat leak rate is proportional to the temperature difference between calorimeter and jacket: dT_leak/dt = −k(T − T_jacket), where k is the cooling constant. The Regnault-Pfaundler correction integrates this heat leak over the main period, while the Dickinson method extrapolates the drift baselines to a time chosen so that the integrated heat leak before and after that time are equal. For isoperibol (constant-jacket-temperature) calorimeters, these corrections are well-established and introduce uncertainties of 0.1–0.5% when drift behavior is linear.",
+      "setup": "A typical static calorimeter for liquid mixing consists of a silvered Dewar flask (100–500 mL capacity) fitted with a tight-fitting lid through which pass a precision thermistor or PRT probe, a calibration heater lead, a stirrer shaft, and an injection port or ampoule-breaking mechanism. The Dewar sits inside a constant-temperature water bath or air jacket controlled to ±0.01 K. A magnetic or mechanical stirrer operates continuously at a fixed speed (typically 60–200 rpm) to ensure thermal homogeneity. For the mixing experiment, the first component is loaded into the Dewar, equilibrated, and the fore-drift is recorded for 5–15 minutes. The second component (pre-thermostatted to the same temperature) is introduced via syringe or by breaking a sealed glass ampoule inside the liquid. The resulting temperature change is recorded through the main period and into the after-drift. Immediately before or after the mixing experiment, an electrical calibration is performed by passing a known current through the immersed heater for a measured time, producing a comparable ΔT.",
+      "suitable_for": "Static calorimetry is the method of choice for measuring enthalpies of mixing of liquid binary and multicomponent systems across the full composition range at ambient or near-ambient conditions. It is widely used for dissolution enthalpies of solids in liquids, dilution enthalpies of concentrated solutions, and enthalpies of slow chemical reactions (hydration, neutralization, complexation). The technique is particularly well-suited for systems where one or both components are non-volatile, moderately viscous, or require precise compositional control — including electrolyte solutions, polymer solutions, ionic liquids, and surfactant systems. In heat capacity mode (with repeated electrical calibrations at incrementally different temperatures), it can also deliver accurate Cp data for liquids and solutions.",
+      "core_limitations": "The principal limitation is the requirement that the thermal event be slow enough to be contained within the main period — fast or explosive reactions may overwhelm the temperature sensor's response time or damage the vessel. Heat leak corrections become large and uncertain when the main period is very long (> 30 minutes), as occurs for slow dissolution of sparingly soluble solids or sluggish reactions. The technique is inherently a single-event measurement: each injection or ampoule break gives one enthalpy point, so constructing a full composition isotherm requires many separate experiments. Volatile components pose difficulties because evaporation into the headspace absorbs enthalpy and alters the effective composition. The temperature range is limited by the vessel material — glass Dewars are restricted to roughly 250–370 K, while metal reaction calorimeters extend this to approximately 200–500 K. Sensitivity is lower than that of microcalorimeters, making the technique unsuitable for very dilute solutions where ΔT is below the noise floor (~0.001 K).",
+      "sample_preparation": "All liquid components must be of known purity (typically ≥99 mol%) and handled to prevent contamination. Water-sensitive liquids are transferred under dry nitrogen or argon. Both components are degassed before use — either by vacuum degassing, ultrasonic treatment, or gentle boiling under reflux — to prevent bubble formation during mixing, which produces irreproducible stirring artifacts. Solid solutes are dried to constant mass and stored in a desiccator. For ampoule-based experiments, a precisely weighed aliquot of the second component is sealed in a thin-walled glass ampoule that is then placed inside the calorimeter liquid before equilibration. Component masses are determined on an analytical balance to ±0.1 mg. For syringe injection, the injecting syringe is thermostatted alongside the calorimeter to prevent a temperature perturbation upon injection.",
+      "calibration_and_references": "Calibration proceeds in two steps. First, the energy equivalent ε of the filled calorimeter is measured by electrical heating: a precision DC power supply drives a known current I through a calibration heater of resistance R for a measured time t, dissipating energy Q = I²Rt (verified by simultaneous voltage measurement). The resulting ΔT_cal gives ε = Q/ΔT_cal. This calibration must be performed at the same fill level, stirring rate, and approximate temperature as the experiment, because ε depends on the heat capacity of the entire calorimeter contents. Second, the temperature sensor is calibrated against an ITS-90-traceable reference thermometer or against certified melting-point standards. System validation is performed by measuring a well-characterized reference reaction — commonly the enthalpy of neutralization of HCl(aq) + NaOH(aq) or the enthalpy of dissolution of KCl in water (NIST SRM 1655) — and comparing the result with the accepted literature value. For mixing calorimetry, the system cyclohexane + hexane provides a well-established endothermic reference, while methanol + water provides an exothermic reference.",
+      "data_interpretation": "The raw temperature-time trace is divided into three segments. Linear regression is applied to the fore-drift and after-drift segments separately. The corrected ΔT is obtained by extrapolating these two baselines to the midpoint time of the main period (Dickinson method) or by integrating the heat leak correction over the main period (Regnault-Pfaundler method). The molar enthalpy of mixing is then computed as ΔmixH = ε × ΔT_corr / n_total, where n_total is the total amount of substance. For composition-dependent studies, the excess enthalpy HE at each mole fraction x is obtained from a series of experiments and fitted to a Redlich-Kister polynomial: HE = x₁x₂ Σ Aₖ(x₁−x₂)ᵏ. Activity coefficient models (Wilson, NRTL, UNIQUAC) may also be fitted to the data. For dissolution experiments, the integral enthalpy of dissolution is reported at the final molality, while the differential enthalpy is obtained by differentiating a series of dilution measurements. All enthalpy values are normalized per mole of mixture, per mole of solute, or per mole of reaction as appropriate to the property definition.",
+      "common_pitfalls": "The most frequent error is inadequate degassing, which causes bubbles to form during mixing, producing erratic temperature traces and non-reproducible ΔT values. Failing to thermostat the injected liquid to the calorimeter temperature introduces a sensible-heat artifact that can be comparable to the mixing enthalpy for small heat effects. Operating with insufficient stirring leads to thermal stratification, where the thermometer senses a local temperature that does not represent the bulk. Using an energy equivalent measured at a different fill level or temperature introduces a systematic error because ε depends on the total heat capacity of the charge. Neglecting the heat of ampoule breaking (typically 0.01–0.1 J) becomes significant for very small enthalpy effects. Applying a linear drift correction when the actual drift is non-linear — as occurs when the calorimeter has not fully equilibrated with the jacket — introduces baseline errors that distort the corrected ΔT.",
+      "artifacts_and_failure_modes": "Incomplete mixing artifacts manifest as measured enthalpies that systematically underestimate the true value and show poor reproducibility; this is common with viscous liquids or partially miscible systems. Evaporation artifacts occur when volatile components escape into the headspace, absorbing latent heat and making exothermic mixing appear weaker (or endothermic mixing appear stronger) than the true enthalpy. Stirrer heating artifacts produce a linear temperature rise that, if not properly captured in the drift periods, biases ΔT_corr. Ampoule fracture artifacts arise when the ampoule does not break cleanly, releasing the solute gradually and distributing the thermal event over an extended period that merges with the after-drift. Condensation on the vessel lid returns droplets that re-dissolve, producing secondary thermal events. Adsorption of surfactants or polymers on vessel walls removes material from the bulk phase, shifting the effective composition. Dewar vacuum failure is indicated by a sudden increase in the cooling constant k, making drift rates large and heat-leak corrections unreliable.",
+      "reporting_checklist": "Published static calorimetry results should report: calorimeter type and vessel volume, thermometer type and calibration traceability, stirring method and speed, sample purities and water content, masses of all components with uncertainties, temperature of measurement (controlled jacket temperature), method of sample introduction (injection, ampoule breaking), energy equivalent and its uncertainty, heat leak correction method (Regnault-Pfaundler or Dickinson), number of replicate measurements, combined expanded uncertainty U(ΔH) at 95% confidence level (k=2), and whether results are reported per mole of mixture, per mole of solute, or per mole of reaction. For ThermoML encoding, enthalpy values are accompanied by nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

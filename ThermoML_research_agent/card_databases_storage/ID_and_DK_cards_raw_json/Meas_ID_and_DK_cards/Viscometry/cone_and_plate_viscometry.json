@@ -1,0 +1,369 @@
+{
+  "meas_ID": "cone_and_plate_viscometry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Cone and plate viscometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Cone and plate viscometry",
+    "thermoml_custom_codes": [
+      "CONPLT"
+    ],
+    "measurement_family": "Viscometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 291,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 62,
+      "per_group": {
+        "TransportProp": {
+          "instances": 291,
+          "papers": 62
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "torque on the cone or plate (T)",
+          "angular velocity of the cone (ω)",
+          "sample temperature",
+          "normal force on the plate"
+        ],
+        "derived_observables": [
+          "dynamic viscosity (η)",
+          "shear stress (σ)",
+          "shear rate (γ̇)",
+          "first normal stress difference (N1)",
+          "second normal stress difference (N2)",
+          "apparent yield stress",
+          "complex viscosity (η*) in oscillatory mode",
+          "storage modulus (G') and loss modulus (G'') in oscillatory mode"
+        ],
+        "target_properties": [
+          "dynamic viscosity (η)",
+          "kinematic viscosity (ν, when combined with density)",
+          "shear-rate-dependent viscosity η(γ̇)",
+          "flow curves (σ vs. γ̇)",
+          "viscoelastic moduli (G', G'') in small-amplitude oscillatory shear",
+          "first normal stress coefficient (Ψ1)",
+          "yield stress"
+        ],
+        "phases_measured": [
+          "liquid (Newtonian and non-Newtonian)",
+          "polymer melts",
+          "polymer solutions",
+          "emulsions",
+          "suspensions (dilute to moderately concentrated)",
+          "gels and soft solids"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "polymer solutions and melts",
+          "ionic liquids",
+          "surfactant solutions",
+          "emulsions and microemulsions",
+          "dilute to moderately concentrated suspensions",
+          "biological fluids (blood, synovial fluid)",
+          "food systems (sauces, creams, gels)",
+          "lubricants and oils"
+        ],
+        "unsupported_sample_types": [
+          "gases",
+          "highly volatile liquids that evaporate from the open gap",
+          "dense granular suspensions that jam the narrow gap",
+          "very low viscosity fluids (< 0.5 mPa·s) where inertial effects dominate",
+          "samples containing large particles (diameter > 1/5 of gap height)",
+          "highly corrosive fluids incompatible with cone/plate materials"
+        ],
+        "typical_output_formats": [
+          "η vs. γ̇ flow curve",
+          "η vs. T at fixed shear rate",
+          "σ vs. γ̇ flow curve",
+          "G' and G'' vs. ω (frequency sweep)",
+          "G' and G'' vs. strain amplitude (amplitude sweep)",
+          "η vs. time (thixotropy or time-dependent measurements)",
+          "N1 vs. γ̇ (normal stress difference)"
+        ],
+        "units": {
+          "viscosity": "Pa·s or mPa·s",
+          "kinematic_viscosity": "mm²/s (cSt)",
+          "shear_rate": "s⁻¹",
+          "shear_stress": "Pa",
+          "torque": "µN·m or mN·m",
+          "angular_velocity": "rad/s or rpm",
+          "temperature": "K or °C",
+          "normal_force": "N",
+          "storage_modulus": "Pa",
+          "loss_modulus": "Pa"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "cone_angle",
+            "typical_range": "0.5° to 4°",
+            "hard_limits": "angles below 0.3° are impractical due to truncation and alignment tolerances; above 4° the uniform shear-rate assumption breaks down",
+            "notes": "1° and 2° cones are the most common; smaller angles give higher shear rates at a given ω but require more precise gap setting"
+          },
+          {
+            "parameter": "cone_radius",
+            "typical_range": "10 mm to 30 mm (radius)",
+            "hard_limits": "limited by instrument frame size and sample availability; larger cones increase torque sensitivity but require more sample",
+            "notes": "25 mm radius is common for general-purpose measurements; 60 mm cones used for low-viscosity fluids needing higher torque signal"
+          },
+          {
+            "parameter": "shear_rate",
+            "typical_range": "0.01 s⁻¹ to 10 000 s⁻¹",
+            "hard_limits": "lower limit set by instrument torque resolution; upper limit set by secondary flow (Taylor-type instabilities) and sample ejection from the gap",
+            "notes": "inertial effects and edge fracture limit useful shear rate range for viscoelastic fluids to < 1 000 s⁻¹"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "-20 °C to 200 °C (Peltier-controlled systems)",
+            "hard_limits": "depends on plate temperature control; convection ovens extend to 400 °C; cryogenic accessories extend below -40 °C",
+            "notes": "upper limit often set by sample volatility or thermal degradation rather than instrument capability"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "0.5 mL to 2 mL",
+            "hard_limits": "defined by cone geometry: V ≈ (π/3)R³ tan(α); underfilling causes air entrainment, overfilling causes edge effects",
+            "notes": "precise sample volume is critical — loading guides or trimming excess sample ensures proper meniscus at the cone edge"
+          }
+        ],
+        "variables": [
+          {
+            "name": "angular_velocity",
+            "role": "primary controlled variable",
+            "typical_values": "0.01 rad/s to 200 rad/s",
+            "effect": "directly sets shear rate via γ̇ = ω/tan(α); higher ω yields higher shear rate and larger torque signal"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled or scanned variable",
+            "typical_values": "-20 °C to 200 °C",
+            "effect": "viscosity is strongly temperature-dependent; Peltier plates provide ±0.1 °C control"
+          },
+          {
+            "name": "oscillation_frequency",
+            "role": "variable in oscillatory mode",
+            "typical_values": "0.01 Hz to 100 Hz",
+            "effect": "probes viscoelastic response at different timescales; higher frequencies reveal shorter relaxation times"
+          },
+          {
+            "name": "strain_amplitude",
+            "role": "variable in oscillatory mode",
+            "typical_values": "0.01% to 100%",
+            "effect": "must remain within linear viscoelastic region for valid G'/G'' measurements; amplitude sweeps determine the LVE limit"
+          },
+          {
+            "name": "normal_force",
+            "role": "monitored variable",
+            "typical_values": "0 to 50 N",
+            "effect": "indicates sample loading quality, thermal expansion, and Weissenberg (rod-climbing) effects in viscoelastic fluids"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "cone fixture — precision-machined shallow-angle cone (stainless steel, titanium, or aluminum) with defined truncation at the apex",
+          "flat plate — temperature-controlled lower plate (Peltier element or circulating bath), typically stainless steel or aluminum",
+          "rotational drive — electronically commutated (EC) motor or drag-cup motor providing controlled torque or controlled angular velocity",
+          "torque transducer — high-resolution torque sensor (optical encoder or strain gauge), resolving down to ~0.01 µN·m on research-grade instruments",
+          "angular position encoder — optical encoder giving angular displacement and velocity with resolution < 0.01 µrad",
+          "normal force sensor — axial force transducer measuring thrust on the plate (resolution ~0.001 N)",
+          "temperature control — Peltier plate, circulating fluid bath jacket, or convection oven surrounding the geometry",
+          "solvent trap or humidity cover — minimizes evaporation from the exposed sample meniscus",
+          "gap-setting mechanism — motorized vertical stage with micrometer precision for setting the cone truncation gap",
+          "data acquisition and control software — instrument control, data logging, and analysis (e.g., TRIOS, RheoCompass, Rheoplus)"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature to avoid thermal drift in Peltier-controlled plates",
+          "vibration-free bench or anti-vibration table for low-torque measurements",
+          "solvent trap or saturated atmosphere to prevent sample evaporation at the rim",
+          "level instrument to avoid eccentric loading and uneven gap"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid or soft material that can flow into and fill the cone-plate gap uniformly",
+            "no specific shape required — sample is loaded as a drop or aliquot onto the center of the plate"
+          ],
+          "size_limits": "typically 0.5–2 mL depending on cone radius and angle; a 25 mm, 1° cone requires approximately 0.6 mL",
+          "thickness_limits": "gap height ranges from ~25 µm at the truncation to ~450 µm at the rim (for a 25 mm, 1° cone); sample must fill this gap completely",
+          "surface_requirements": [
+            "cone and plate surfaces must be clean, free of residual sample, and chemically compatible with the fluid",
+            "surface roughness or texture may be applied for wall-slip-prone samples (e.g., sandblasted or serrated geometries)"
+          ],
+          "mounting_requirements": [
+            "cone must be seated to correct truncation gap using the instrument's automatic or manual gap-zeroing procedure",
+            "sample loaded onto the center of the plate, cone lowered to measuring gap, and excess trimmed flush with the cone rim"
+          ],
+          "preparation_requirements": [
+            "sample should be homogeneous and free of air bubbles (degas if needed)",
+            "temperature equilibration before measurement (typically 2–5 minutes after loading)",
+            "pre-shear protocol if sample has shear history dependence (to establish reproducible starting state)",
+            "particle-size check for suspensions: largest particle < 1/5 of minimum gap height"
+          ]
+        },
+        "calibration_requirements": [
+          "zero-gap calibration: lower cone to contact plate, zero the gap position, then raise to truncation height",
+          "instrument inertia calibration: map motor and bearing friction contribution across rotational speed range",
+          "torque mapping: verify torque transducer linearity using a certified viscosity reference standard",
+          "temperature verification: check plate temperature against an independent thermometer (thermocouple or Pt100) at the sample position",
+          "normal force zero: tare normal force sensor with cone raised before loading sample"
+        ],
+        "reference_materials": [
+          "NIST SRM 2490 — polyisobutylene in 2,6,10,14-tetramethylpentadecane (non-Newtonian reference for G'/G'')",
+          "NIST traceable Cannon certified viscosity standards (S3, S60, N100, etc.) — Newtonian oils spanning 1–100 000 mPa·s",
+          "silicone oil standards (Brookfield, Cannon) — Newtonian fluids for calibration verification",
+          "water — 1.002 mPa·s at 20 °C, useful as a low-viscosity check standard"
+        ],
+        "consumables": [
+          "lint-free wipes and cleaning solvents (acetone, ethanol, isopropanol) for cone and plate cleaning",
+          "disposable spatulas or pipettes for sample loading",
+          "solvent trap inserts or wetted sponge rings for evaporation control",
+          "replacement cones if worn or damaged (precision geometry is critical)"
+        ],
+        "safety_notes": [
+          "rotating cone creates a pinch hazard — keep hands clear during measurement",
+          "hot plate surfaces (up to 200 °C or higher) require burn protection",
+          "volatile or toxic solvents in the sample require fume extraction or enclosed geometry",
+          "clean spills immediately to prevent slip hazards on the bench"
+        ]
+      },
+      "performance": {
+        "sensitivity": "minimum measurable viscosity ~0.5 mPa·s (limited by inertial effects and torque resolution); torque resolution ~0.01 µN·m on research-grade instruments",
+        "detection_limit": "viscosity as low as ~0.2 mPa·s with specialized low-inertia geometries; practical lower limit ~0.5 mPa·s for standard cone-plate",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement of homogeneous gap)",
+          "temporal": "time resolution ~0.1–1 s per data point in steady-state mode; millisecond-scale in fast transient or step-shear modes",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "viscosity from ~1 mPa·s to ~10⁶ mPa·s (10⁻³ to 10³ Pa·s); shear rate from ~0.001 s⁻¹ to ~10 000 s⁻¹; torque range typically 0.01 µN·m to 200 mN·m",
+        "accuracy": "1–2% for Newtonian fluids measured against certified standards; 2–5% for non-Newtonian fluids depending on shear-rate-dependent corrections",
+        "precision": "0.5–1% (repeatability for a given sample, loading, and shear rate)",
+        "throughput": "single sample per run; a complete flow curve takes 5–30 minutes; temperature ramp measurements can take 30–120 minutes",
+        "measurement_speed": "individual steady-state viscosity point: 10–60 s (including equilibration); rapid sweep modes available at ~1 s/point"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "torque (from transducer) and angular velocity (from optical encoder), along with temperature from Peltier/sensor, and optionally normal force",
+        "preprocessing_steps": [
+          "instrument inertia correction: subtract motor and bearing friction contribution from measured torque",
+          "temperature correction: apply thermal expansion correction to gap height if temperature changes during measurement",
+          "steady-state verification: confirm torque has stabilized within tolerance before recording each data point",
+          "edge-effect evaluation: inspect for sample meniscus irregularity or material ejection at high shear rates",
+          "normal force monitoring: verify normal force does not exceed acceptable limits (indicates sample overfill, thermal expansion, or Weissenberg effect)"
+        ],
+        "analysis_methods": [
+          "viscosity calculation: η = 3Tα/(2πR³ω) where T=torque, α=cone angle (rad), R=cone radius, ω=angular velocity",
+          "shear rate calculation: γ̇ = ω/tan(α), uniform across the gap (primary advantage of cone-plate geometry)",
+          "shear stress calculation: σ = 3T/(2πR³)",
+          "flow curve fitting: power-law (σ = Kγ̇ⁿ), Cross, Carreau, or Herschel-Bulkley models for non-Newtonian fluids",
+          "oscillatory analysis: G' = (σ₀/γ₀)cos(δ), G'' = (σ₀/γ₀)sin(δ), η* = √(G'² + G''²)/ω",
+          "normal stress analysis: N1 = 2F/(πR²) where F is the axial thrust on the plate",
+          "temperature-viscosity fitting: Arrhenius (η = A·exp(Ea/RT)) or Vogel-Fulcher-Tammann models"
+        ],
+        "model_assumptions": [
+          "cone angle is small enough that sin(α) ≈ tan(α) ≈ α (small-angle approximation, valid for α < 4°)",
+          "flow is purely tangential (laminar, Couette-type) with no secondary flow or Taylor vortices",
+          "no wall slip: fluid velocity equals surface velocity at both cone and plate boundaries",
+          "sample completely fills the gap with a proper meniscus at the rim (no air entrainment or overflow)",
+          "steady-state flow has been achieved at each shear rate before data recording",
+          "isothermal conditions throughout the gap (no viscous heating at the shear rates used)",
+          "inertial effects are negligible (low Reynolds number regime)"
+        ],
+        "fit_parameters": [
+          "dynamic viscosity η (Newtonian fluids)",
+          "consistency index K and flow behavior index n (power-law fluids)",
+          "zero-shear viscosity η₀, infinite-shear viscosity η∞, relaxation time λ, and exponent (Cross or Carreau models)",
+          "yield stress σ_y, consistency K, and exponent n (Herschel-Bulkley model)",
+          "activation energy Ea (Arrhenius temperature model)"
+        ],
+        "common_artifacts": [
+          "wall slip: apparent viscosity is lower than true value; detectable by comparing measurements with different gap heights or cone angles",
+          "secondary flow (Taylor-Couette instability): at very high shear rates, toroidal vortices form and apparent viscosity increases anomalously",
+          "edge fracture: viscoelastic samples fracture at the free surface rim at high shear rates, causing sudden viscosity drop",
+          "sample ejection: centrifugal forces push sample out of the gap at high rotation speeds, leading to progressively declining torque",
+          "viscous heating: at high shear rates, dissipated energy raises sample temperature, causing apparent shear thinning artifact",
+          "evaporation: volatile samples lose solvent from the exposed rim, causing progressive apparent viscosity increase",
+          "air bubble entrainment: bubbles trapped during loading produce noisy, irreproducible torque readings"
+        ],
+        "quality_control_checks": [
+          "verify Newtonian reference standard (certified oil) within ±2% of certified value across the shear rate range",
+          "repeat loading: measure same sample with independent loadings to confirm ≤1% variation",
+          "check for shear-rate independence in Newtonian fluids across the claimed operating range",
+          "compare ascending and descending shear-rate sweeps to detect thixotropy or measurement artifacts",
+          "inspect normal force during measurement — unexpected drift signals thermal expansion, evaporation, or sample instability",
+          "visual inspection of sample meniscus after measurement to confirm no ejection or edge fracture occurred"
+        ],
+        "failure_modes": [
+          "incorrect gap setting (cone not at proper truncation height) — produces systematic viscosity error proportional to gap error",
+          "sample underfilling — air drawn into the gap causes noisy/low torque readings",
+          "sample overfilling — excess material wraps around the cone creating additional drag and high viscosity reading",
+          "worn or damaged cone tip — changes the effective geometry and invalidates the calibration",
+          "temperature sensor offset — systematic viscosity error due to incorrect temperature assignment",
+          "loss of Peltier temperature control — unstable temperature produces erratic viscosity data"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 1–2% for Newtonian fluids; 2–5% for non-Newtonian fluids with shear-rate-dependent behavior",
+        "random_sources": [
+          "torque transducer noise (dominant at very low shear rates/low viscosity)",
+          "angular velocity fluctuations from motor control",
+          "temperature fluctuations from Peltier controller (±0.05–0.1 °C)",
+          "sample loading variability (meniscus shape and fill level)",
+          "vibration-induced noise affecting torque signal"
+        ],
+        "systematic_sources": [
+          "gap-setting error (truncation gap offset, thermal expansion of fixtures)",
+          "cone angle uncertainty from manufacturing tolerances",
+          "instrument inertia correction residual",
+          "viscous heating at high shear rates raising sample temperature",
+          "wall slip for structured fluids (polymers, suspensions, emulsions)",
+          "secondary flow contributions at high shear rates",
+          "evaporation of volatile components over measurement duration",
+          "temperature gradient across the sample (cone not thermally controlled in some instruments)"
+        ],
+        "operator_dependence": "moderate — sample loading technique, trimming, pre-shear protocol, and gap zeroing quality affect reproducibility; experienced operators achieve 0.5–1% repeatability",
+        "model_dependence": "low for Newtonian fluids (geometry factor is exact for ideal cone-plate); moderate for non-Newtonian fluids where flow curve model selection (Cross vs. Carreau vs. power law) affects extrapolated values",
+        "dominant_error_sources": [
+          "gap-setting error (a 10 µm offset on a 50 µm truncation gap causes ~20% viscosity error)",
+          "sample loading inconsistency (meniscus shape at the rim)",
+          "temperature uncertainty (viscosity changes ~2–5% per °C for many liquids)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(η) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of η",
+          "standard deviation from replicate measurements",
+          "repeatability and reproducibility per ISO 3219"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Cone and plate viscometry is a rotational rheometric technique that measures the viscosity of fluids by shearing a sample in the narrow gap between a shallow-angle cone and a flat plate. Developed as a practical implementation of Couette flow with uniform shear rate, it has become one of the most widely used geometries in research and industrial rheometry. The technique's defining advantage is that the shear rate is constant across the entire gap — a consequence of the linearly increasing gap height that exactly compensates the linearly increasing velocity — enabling direct, unambiguous determination of viscosity without the need for shear-rate correction. It is used in ThermoML for transport property measurements, particularly dynamic viscosity of both Newtonian and non-Newtonian liquids, with 291 instances across 62 papers.",
+      "how_it_operates": "A truncated shallow-angle cone (typically 0.5–4°) is positioned above a flat plate with its apex virtually touching the plate surface, separated by a precisely set truncation gap (typically 25–150 µm). The sample (~0.5–2 mL) is loaded onto the plate and the cone is lowered to the measuring position, filling the gap completely. During measurement, the cone (or in some designs the plate) rotates at a controlled angular velocity ω while the resulting torque T is measured by a high-resolution transducer. Because the gap height h(r) = r·tan(α) increases linearly with radial distance r and the local velocity also increases linearly with r, the shear rate γ̇ = ω/tan(α) is uniform everywhere in the gap. The instrument's control software converts the measured torque and angular velocity into viscosity using the cone-plate geometry factor: η = 3Tα/(2πR³ω).",
+      "core_theory": "The cone-and-plate geometry exploits the geometry of a shallow cone to achieve uniform simple shear flow. For a cone of radius R and angle α rotating at angular velocity ω above a stationary plate, the velocity field in the gap is v_φ(r,θ) = ωr·sin(θ)/sin(α) in spherical coordinates, producing a constant shear rate γ̇ = ω/tan(α) ≈ ω/α for small α. The shear stress σ is related to the measured torque by integration over the plate area: T = ∫₀ᴿ σ·r·2πr dr = (2π/3)R³σ, giving σ = 3T/(2πR³). For a Newtonian fluid, η = σ/γ̇ = 3Tα/(2πR³ω). The first normal stress difference N₁ can be obtained from the axial thrust F on the plate: N₁ = 2F/(πR²). These relations are exact in the limit of small cone angles, creeping flow (Re → 0), and complete gap filling with proper meniscus shape. Deviations arise from inertial effects at high ω, secondary flows, and edge effects.",
+      "setup": "A complete cone-and-plate viscometry setup consists of a rheometer base unit housing the rotational drive motor and torque transducer, with the flat plate mounted on a temperature-controlled stage (typically a Peltier element providing ±0.01–0.1 °C stability). The cone is attached to the instrument spindle via a magnetic or mechanical coupling and is lowered onto the plate using a precision motorized stage. The truncation gap is set by an automated zero-gap procedure where the cone contacts the plate, registers the position, then lifts to the specified truncation height. A solvent trap or humidity cover encloses the geometry to minimize evaporation. Temperature is measured by a sensor embedded in the Peltier plate directly beneath the sample. Major commercial platforms include Anton Paar MCR series, TA Instruments Discovery HR and ARES-G2, and Brookfield RST series. The instrument is controlled through dedicated software that manages gap setting, temperature control, shear-rate programming, and data acquisition.",
+      "suitable_for": "Cone and plate viscometry is suited for measuring the viscosity of a wide range of liquids and soft materials from approximately 1 mPa·s to 10⁶ mPa·s. It excels for pure liquids, liquid mixtures, polymer solutions and melts, ionic liquids, oils and lubricants, emulsions, biological fluids, and food systems. The geometry is particularly advantageous when the sample is non-Newtonian, because the uniform shear rate eliminates the need for the Weissenberg-Rabinowitsch correction required by capillary or coaxial cylinder geometries. It is well suited for obtaining complete flow curves (viscosity vs. shear rate), temperature-dependent viscosity profiles, and — in oscillatory mode — viscoelastic properties (G', G''). The small sample volume (~0.5–2 mL) makes it attractive when sample quantity is limited, as is common in pharmaceutical, ionic liquid, and specialty chemical research.",
+      "core_limitations": "The primary limitation is the open gap at the rim, which makes the technique vulnerable to solvent evaporation for volatile samples and to sample ejection at high rotational speeds due to centrifugal forces. The narrow gap restricts use to fluids without large particles (maximum particle size must be less than ~1/5 of the minimum gap height). Very low viscosity fluids (below ~0.5 mPa·s) produce torque signals near the instrument noise floor and are affected by fluid inertia. At high shear rates, secondary flows (Taylor-type instabilities) and viscous heating disturb the assumed simple shear flow, degrading accuracy. Edge fracture in viscoelastic fluids at high shear rates limits the accessible deformation range. The gap-setting procedure is critical — a gap error of 10 µm on a 50 µm truncation gap introduces ~20% systematic error in viscosity. Additionally, cone and plate viscometry is not suitable for pressurized measurements, limiting studies to ambient or near-ambient pressure conditions.",
+      "sample_preparation": "Samples should be homogeneous and free of air bubbles before loading. Liquids are gently mixed or degassed under vacuum if bubbles are present. A measured aliquot (typically 0.5–2 mL, matched to the specific cone geometry) is placed on the center of the plate using a pipette or syringe. The cone is then lowered to the measuring position and excess sample is trimmed flush with the cone rim using a spatula or scraper to establish a proper meniscus. Underfilling must be avoided as it introduces air into the gap, while overfilling creates additional drag that biases viscosity upward. For temperature-sensitive samples, the plate should be at the target temperature before loading. A pre-shear protocol (e.g., shearing at a defined rate for 30–60 s followed by a rest period) is often applied to erase loading history, especially for thixotropic or viscoelastic materials. Suspensions should be checked to confirm the largest particle diameter is less than 1/5 of the minimum gap height.",
+      "calibration_and_references": "Calibration begins with the zero-gap procedure: the cone is slowly lowered until it contacts the plate, the position is registered as zero, and the cone is then raised to the specified truncation height (provided by the manufacturer for the specific cone). The instrument's motor friction and bearing inertia are mapped through an automated motor calibration routine. Torque accuracy is verified by measuring a Cannon or NIST-traceable certified viscosity standard oil spanning the viscosity range of interest (e.g., S3, S60, N100 oils), confirming agreement within ±2% of the certified value across the shear rate range. Temperature is verified against an independent Pt100 or thermocouple at the plate surface. For viscoelastic measurements, NIST SRM 2490 (polyisobutylene solution) serves as a non-Newtonian reference for G' and G''. Normal force is zeroed with the cone raised before each measurement. Calibration should be re-verified whenever the cone is changed, after maintenance, or at regular intervals per laboratory QA protocols.",
+      "data_interpretation": "The instrument software applies the cone-plate geometry factor to convert raw torque T and angular velocity ω directly into viscosity: η = 3Tα/(2πR³ω). For steady-state measurements, each data point corresponds to a specific shear rate γ̇ = ω/tan(α) and the resulting η. Flow curves plotting η vs. γ̇ on log-log axes reveal the rheological character of the sample — constant η for Newtonian fluids, shear thinning (decreasing η) for polymer solutions, or yield-stress behavior with a steep rise at low γ̇. These curves are fitted to rheological models (Cross, Carreau, Herschel-Bulkley, or power-law) to extract material parameters such as zero-shear viscosity η₀, infinite-shear viscosity η∞, relaxation time, and yield stress. Temperature sweeps are fitted to Arrhenius or VFT models to obtain activation energy. In oscillatory mode, the in-phase and out-of-phase torque components yield G' and G'' from which complex viscosity η* = √(G'² + G''²)/ω is computed. Normal force data give the first normal stress difference N₁ = 2F/(πR²), a measure of fluid elasticity.",
+      "common_pitfalls": "The most frequent pitfall is incorrect gap setting — if the zero-gap position is off by even 10 µm, all viscosity values will be systematically biased because the geometry factor assumes exact truncation height. Loading errors are equally common: underfilling draws air into the gap producing noisy readings, while overfilling causes excess material to wrap around the cone edge producing erroneously high viscosity. Failure to use a solvent trap for volatile samples leads to progressive evaporation from the exposed rim, causing apparent viscosity to increase over time and producing hysteresis between ascending and descending shear-rate sweeps. Neglecting pre-shear for thixotropic samples results in irreproducible first-measurement data. Reporting viscosity at shear rates where secondary flow or sample ejection has occurred gives artificially high or low values. Another common error is using a cone-plate geometry for suspensions with particles too large relative to the gap, producing noisy data and possible geometry damage.",
+      "artifacts_and_failure_modes": "Wall slip appears as an apparent reduction in viscosity that depends on gap height; it is common in concentrated suspensions, yield-stress fluids, and polymer melts. Secondary flow artifacts manifest as an anomalous upturn in apparent viscosity at high shear rates due to Taylor vortex formation. Edge fracture in viscoelastic fluids causes the sample meniscus to indent at the rim, reducing the effective sample radius and producing a sudden drop in measured torque. Sample ejection at high rotational speeds progressively reduces the sample volume, causing a continuous decline in torque that is misinterpreted as shear thinning. Viscous heating artifacts produce apparent shear thinning when frictional energy dissipation raises the sample temperature faster than the Peltier plate can remove heat. Evaporation artifacts cause apparent thickening over time. Air bubbles from poor loading produce random torque spikes and scatter. Cone or plate damage (scratches, dents) alters the geometry factor and must be checked by visual inspection and reference-standard verification.",
+      "reporting_checklist": "Published cone-and-plate viscometry results should report: cone angle and radius, truncation gap height, sample volume and loading procedure, temperature and temperature control method (Peltier, bath, oven), shear rate range or angular velocity range, whether cone or plate was the rotating element, steady-state criterion used (e.g., torque stable within 2% for 10 s), pre-shear protocol if applied, solvent trap or evaporation prevention method, rheological model used for non-Newtonian data fitting, viscosity reference standard used and deviation from certified value, combined expanded uncertainty with confidence level and coverage factor (k=2), number of replicate loadings, and instrument make and model. For ThermoML encoding, viscosity values are reported with nCombExpandUncertValue at the 95% confidence level. Results should specify whether the reported quantity is zero-shear viscosity, viscosity at a specific shear rate, or a model-fitted parameter."
+    }
+  }
+}

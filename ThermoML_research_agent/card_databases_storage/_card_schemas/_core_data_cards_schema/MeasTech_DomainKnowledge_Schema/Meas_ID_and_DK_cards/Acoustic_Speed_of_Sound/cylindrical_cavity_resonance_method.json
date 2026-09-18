@@ -1,0 +1,336 @@
+{
+  "meas_ID": "cylindrical_cavity_resonance_method",
+  "identity": {
+    "name": "Cylindrical cavity resonance method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Cylindrical cavity resonance method",
+    "thermoml_custom_codes": [
+      "CCDM"
+    ],
+    "measurement_family": "Acoustic / Speed of Sound",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 8,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 4,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 8,
+          "papers": 4
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "acoustic resonance frequencies (f_n) of the cylindrical cavity",
+          "resonance half-widths (Δf, related to quality factor Q)",
+          "resonance mode pattern (longitudinal, radial, azimuthal mode indices)"
+        ],
+        "derived_observables": [
+          "speed of sound u in the fluid",
+          "acoustic absorption coefficient α",
+          "heat capacity ratio γ (from u with equation of state data)",
+          "isentropic compressibility κ_s (from u and density)",
+          "ideal-gas heat capacity Cp° (from low-pressure speed of sound extrapolation)"
+        ],
+        "target_properties": [
+          "speed of sound u",
+          "isentropic compressibility κ_s",
+          "heat capacity ratio γ = Cp/Cv",
+          "isobaric heat capacity Cp (with auxiliary density data)",
+          "isochoric heat capacity Cv (with auxiliary density data)",
+          "acoustic virial coefficients",
+          "acoustic absorption coefficient"
+        ],
+        "phases_measured": [
+          "gas",
+          "liquid",
+          "supercritical fluid",
+          "gas mixtures",
+          "liquid mixtures"
+        ],
+        "supported_sample_types": [
+          "pure gases",
+          "gas mixtures",
+          "pure liquids",
+          "liquid mixtures",
+          "supercritical fluids",
+          "refrigerant gases and liquids",
+          "noble gases (calibration)",
+          "light hydrocarbons"
+        ],
+        "unsupported_sample_types": [
+          "solids",
+          "highly viscous liquids (excessive acoustic absorption damps resonances)",
+          "multiphase or two-phase systems (scattering destroys coherent resonances)",
+          "slurries or suspensions",
+          "samples that attack or corrode the cavity material"
+        ],
+        "typical_output_formats": [
+          "speed of sound u vs. temperature at fixed pressure",
+          "speed of sound u vs. pressure at fixed temperature",
+          "u(T, p) surface data",
+          "acoustic absorption coefficient vs. frequency",
+          "resonance frequency spectrum (f_n vs. mode index)"
+        ],
+        "units": {
+          "speed_of_sound": "m/s",
+          "resonance_frequency": "Hz or kHz",
+          "half_width": "Hz",
+          "temperature": "K",
+          "pressure": "MPa or kPa",
+          "isentropic_compressibility": "Pa⁻¹ or TPa⁻¹",
+          "absorption_coefficient": "Np/m or dB/m",
+          "heat_capacity_ratio": "dimensionless"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "200 K to 500 K",
+            "hard_limits": "limited by cavity material properties and seal integrity; cryogenic setups extend to ~80 K, high-T setups to ~700 K",
+            "notes": "temperature must be uniform throughout the cavity to avoid systematic frequency shifts from thermal gradients"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.01 MPa to 20 MPa",
+            "hard_limits": "upper limit set by cavity wall thickness and seal design; some high-pressure cells reach 100 MPa",
+            "notes": "low pressures reduce acoustic signal strength; very high pressures require thick-walled cavities that may shift resonance frequencies"
+          },
+          {
+            "parameter": "frequency_range",
+            "typical_range": "1 kHz to 100 kHz",
+            "hard_limits": "lower limit set by cavity dimensions (must be large enough to support standing waves); upper limit by transducer bandwidth and viscous boundary layer corrections",
+            "notes": "operating frequencies depend on cavity length and radius; typical cylindrical cavities 5–30 cm long operate in the 1–50 kHz range"
+          },
+          {
+            "parameter": "cavity_dimensions",
+            "typical_range": "radius 2–5 cm, length 5–30 cm",
+            "hard_limits": "must be large enough for clean resonance modes but small enough for thermal equilibrium and pressure containment",
+            "notes": "length-to-radius ratio chosen to separate longitudinal and radial mode frequencies for unambiguous identification"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary thermodynamic state variable",
+            "typical_values": "200 K to 500 K",
+            "effect": "speed of sound varies with temperature; thermal expansion of cavity changes effective dimensions"
+          },
+          {
+            "name": "pressure",
+            "role": "primary thermodynamic state variable",
+            "typical_values": "0.01 MPa to 20 MPa",
+            "effect": "speed of sound varies strongly with pressure, especially in gases; pressure also affects density and absorption"
+          },
+          {
+            "name": "mode_index",
+            "role": "measurement variable",
+            "typical_values": "n = 1 to 10 for longitudinal modes; radial and azimuthal modes also used",
+            "effect": "multiple modes provide redundant speed-of-sound determinations and enable identification of systematic errors"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable (for mixtures)",
+            "typical_values": "mole fractions 0 to 1",
+            "effect": "speed of sound depends on mixture composition through equation of state and heat capacity ratio"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision-machined cylindrical cavity — stainless steel, Inconel, or aluminum alloy with polished inner surface and precisely known length L and radius a",
+          "acoustic transducers — piezoelectric source and detector (PZT disks or electrostatic transducers) mounted at opposite ends of the cavity",
+          "frequency synthesizer — stable signal generator driving the source transducer with swept or stepped frequency near each resonance",
+          "phase-sensitive detection system — lock-in amplifier or network analyzer to measure amplitude and phase of the received acoustic signal",
+          "thermostat — liquid bath or thermostatic jacket maintaining temperature uniformity to ±1 mK or better",
+          "temperature measurement — calibrated platinum resistance thermometer (PRT, SPRT) with resistance bridge",
+          "pressure measurement — calibrated pressure transducer or dead-weight gauge",
+          "vacuum and gas-handling manifold — for evacuating the cavity, introducing sample gas, and controlling pressure",
+          "data acquisition and control system — computer with GPIB/USB interfaces for automated frequency scanning and data recording"
+        ],
+        "environmental_requirements": [
+          "temperature stability ±1–5 mK during a resonance frequency sweep",
+          "vibration isolation to minimize mechanical coupling to acoustic resonances",
+          "pressure stability ±0.01% during measurement",
+          "clean gas-handling system (free of leaks and contaminants) especially for high-purity gas measurements",
+          "temperature-controlled laboratory environment to reduce drift"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid sample — fills the entire cylindrical cavity volume"
+          ],
+          "size_limits": "cavity volume typically 50–2000 cm³; sample amount determined by required pressure and cavity volume",
+          "thickness_limits": "not applicable — fluid fills cavity",
+          "surface_requirements": [
+            "cavity inner wall must be smooth and clean to minimize viscous and thermal boundary layer perturbations"
+          ],
+          "mounting_requirements": [
+            "transducers must be flush-mounted or recessed to avoid perturbing the acoustic field",
+            "seals (O-rings or metal gaskets) must withstand operating pressure and temperature without outgassing or leaking"
+          ],
+          "preparation_requirements": [
+            "high-purity sample gas or degassed liquid (impurities shift speed of sound)",
+            "sample purity typically ≥99.9% or better for precision work",
+            "thorough evacuation of cavity before filling to remove residual gases",
+            "for liquids: degassing under vacuum to remove dissolved air that creates bubbles and scatters sound"
+          ]
+        },
+        "calibration_requirements": [
+          "cavity length calibration using a reference gas of known speed of sound (typically argon) at measured T and p",
+          "thermal expansion correction for cavity dimensions at each temperature using known expansion coefficients of cavity material",
+          "transducer end-correction calibration — frequency-dependent perturbation from non-ideal boundary conditions at transducer faces",
+          "pressure transducer calibration against a dead-weight gauge or transfer standard",
+          "temperature sensor calibration against ITS-90 fixed points or a calibrated SPRT"
+        ],
+        "reference_materials": [
+          "argon — primary acoustic reference gas with well-known equation of state and speed of sound; used for cavity length determination",
+          "nitrogen — secondary reference gas",
+          "helium — used for leak checking and as an alternative calibrant at low temperatures",
+          "water — reference liquid for liquid-phase cavity calibration with well-characterized speed of sound (IAPWS)"
+        ],
+        "consumables": [
+          "high-purity calibration gas (argon ≥99.999%)",
+          "O-ring or metal gasket seals",
+          "vacuum pump oil (for gas handling system)",
+          "sample gas or liquid of certified purity"
+        ],
+        "safety_notes": [
+          "high-pressure operation requires compliance with pressure vessel codes and burst-disk protection",
+          "flammable or toxic gases require appropriate ventilation, gas detection, and handling protocols",
+          "cryogenic operation requires standard cryogen handling precautions",
+          "electrical safety for high-frequency signal generators and amplifiers"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving speed-of-sound changes of ~0.001 m/s in gases; resonance frequency resolution typically ±0.001 Hz with modern electronics",
+        "detection_limit": "minimum pressure ~1 kPa for gases (signal amplitude decreases with decreasing density); liquids are straightforward at any reasonable pressure",
+        "resolution": {
+          "spatial": "not applicable — bulk averaged measurement over cavity volume",
+          "temporal": "single resonance sweep takes seconds to minutes; full T or p isotherm/isobar takes minutes to hours",
+          "spectral": "frequency resolution ~0.001 Hz from lock-in or network analyzer; sufficient to resolve resonance peaks with Q > 1000",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "speed of sound from ~100 m/s (heavy gases at low T) to ~2000 m/s (light gases or liquids); pressure range 1 kPa to 100 MPa",
+        "accuracy": "0.01–0.1% in speed of sound for well-calibrated systems; best results ~0.002% (20 ppm) achieved with argon calibration in gases",
+        "precision": "0.005–0.02% (repeatability from multiple modes and repeated measurements at same state point)",
+        "throughput": "one sample at a time; a complete T-p matrix of speed-of-sound data typically requires days to weeks",
+        "measurement_speed": "individual resonance frequency determination in seconds; full isotherm at multiple pressures in hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "complex acoustic transfer function — amplitude and phase of detected acoustic signal as a function of driving frequency near each resonance mode, yielding Lorentzian resonance peaks characterized by center frequency f_n and half-width g_n",
+        "preprocessing_steps": [
+          "fit each resonance peak to a complex Lorentzian (or Lorentzian + baseline polynomial) to extract resonance frequency f_n and half-width g_n",
+          "apply viscous boundary layer correction: Δf_visc = −(f_n/2a)√(ν/(πf_n)) × (1 + (γ−1)/√Pr), where ν is kinematic viscosity and Pr is Prandtl number",
+          "apply thermal boundary layer correction for heat exchange at cavity walls",
+          "apply shell motion correction for elastic vibrations of cavity walls at high pressures",
+          "apply end-correction for transducer perturbation and non-ideal boundary conditions at cavity ends",
+          "apply thermal expansion correction to cavity dimensions L and a at measurement temperature",
+          "average corrected speed of sound from multiple modes to obtain final u value"
+        ],
+        "analysis_methods": [
+          "for longitudinal modes: u = f_n × 2L/n, where L is cavity length and n is mode index",
+          "for radial modes: u = 2πa × f_mn / χ_mn, where a is cavity radius and χ_mn are zeros of the Bessel function derivative",
+          "over-determined analysis using multiple modes (longitudinal, radial, azimuthal) for consistency checks",
+          "regression of u² vs. pressure at constant T to extract acoustic virial coefficients and ideal-gas heat capacity ratio γ°",
+          "derivation of isentropic compressibility: κ_s = 1/(ρu²), where ρ is fluid density from independent measurement or equation of state",
+          "derivation of heat capacities: γ = Cp/Cv from speed of sound with equation of state; Cp = γ/(ρκ_s)"
+        ],
+        "model_assumptions": [
+          "acoustic field in the cavity satisfies the linearized wave equation (small-amplitude sound waves)",
+          "cavity geometry is a perfect right circular cylinder with rigid, smooth walls",
+          "boundary layer perturbations (viscous and thermal) are small corrections that can be calculated from transport properties",
+          "fluid is homogeneous and in thermodynamic equilibrium throughout the cavity",
+          "no coupling between acoustic modes and structural (shell) vibrations of the cavity walls (or such coupling is correctable)"
+        ],
+        "fit_parameters": [
+          "resonance frequency f_n for each mode",
+          "half-width g_n for each mode (related to acoustic losses)",
+          "effective cavity length L_eff (from calibration with reference gas)",
+          "end-correction terms (frequency-dependent)",
+          "acoustic virial coefficients β_a, γ_a (from pressure series of u²)"
+        ],
+        "common_artifacts": [
+          "shell resonance coupling: overlap of acoustic cavity modes with mechanical vibrations of the cavity wall, producing distorted or split resonance peaks",
+          "precondensation: near the dew point, adsorption of sample on cavity walls shifts resonance frequencies systematically",
+          "impurity-induced speed-of-sound shift: trace contaminants (e.g., water in gas samples) cause bias in u",
+          "thermal gradient artifact: non-uniform temperature across cavity length shifts mode frequencies asymmetrically",
+          "transducer loading: mass and compliance of transducer faces perturb boundary conditions, introducing end-corrections that must be calibrated out"
+        ],
+        "quality_control_checks": [
+          "mode consistency: compare u values from multiple independent modes (longitudinal, radial); agreement within 0.01% confirms correct identification and corrections",
+          "reproduce known speed of sound in reference gas (argon) at standard conditions to within stated accuracy",
+          "verify that half-width values match predictions from viscous and thermal boundary layer theory",
+          "check residuals of Lorentzian fits to resonance peaks for systematic structure indicating mode coupling or artifacts",
+          "compare heating and cooling approaches to same T to check for hysteresis or thermal gradient effects"
+        ],
+        "failure_modes": [
+          "seal failure: gas leak changes cavity pressure during measurement, producing drifting resonance frequencies",
+          "transducer failure or degradation: loss of signal amplitude or distorted resonance shapes",
+          "condensation in cavity: liquid droplets form on walls near saturation, drastically distorting acoustic response",
+          "mode crossing: accidental degeneracy between longitudinal and radial modes makes peak identification ambiguous",
+          "contamination: impure sample or outgassing from seals/walls shifts speed of sound from true value"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.1% in speed of sound; best-in-class systems achieve 0.002–0.01%",
+        "random_sources": [
+          "noise in acoustic signal detection (electronic noise in transducer and amplifier)",
+          "temperature fluctuations during resonance frequency sweep",
+          "pressure fluctuations or drift",
+          "fitting uncertainty in resonance frequency extraction from Lorentzian fit",
+          "mechanical vibrations coupling into the acoustic signal"
+        ],
+        "systematic_sources": [
+          "cavity dimension uncertainty (length L and radius a calibration)",
+          "thermal expansion coefficient uncertainty for cavity material",
+          "viscous and thermal boundary layer correction model uncertainty",
+          "shell motion correction uncertainty at high pressures",
+          "end-correction uncertainty from transducer perturbation",
+          "sample purity (impurity-induced speed of sound shift)",
+          "temperature measurement calibration offset",
+          "pressure measurement calibration offset"
+        ],
+        "operator_dependence": "low — measurement is largely automated after setup; operator skill matters primarily in sample purity verification, seal integrity, and correct mode identification",
+        "model_dependence": "moderate — accuracy depends on quality of boundary layer corrections (require knowledge of transport properties), shell motion corrections, and end-corrections; these models are well-established for simple gases but less certain for dense fluids",
+        "dominant_error_sources": [
+          "cavity dimension calibration (especially effective length L_eff)",
+          "boundary layer corrections at extreme conditions (high pressure, near saturation)",
+          "sample purity for trace-impurity-sensitive measurements"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(u) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of u",
+          "standard deviation from multiple-mode average"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The cylindrical cavity resonance method determines the speed of sound in fluids by measuring the acoustic resonance frequencies of a precisely machined cylindrical cavity filled with the test fluid. The technique exploits the relationship between standing wave frequencies, cavity geometry, and the speed of sound to achieve very high accuracy (0.01–0.1%). Developed from pioneering work in gas-phase acoustics, it is widely used in thermophysical property laboratories for characterizing gases, liquids, and supercritical fluids, providing a direct route to fundamental thermodynamic quantities including heat capacity ratios, compressibilities, and equation-of-state parameters.",
+      "how_it_operates": "A cylindrical cavity of precisely known length L and radius a is filled with the fluid under study at controlled temperature and pressure. A piezoelectric transducer at one end of the cavity emits acoustic waves that form standing wave patterns at discrete resonance frequencies determined by the cavity dimensions and the speed of sound in the fluid. A second transducer at the opposite end detects the acoustic signal. A frequency synthesizer sweeps through the frequency range near each expected resonance, and a lock-in amplifier or network analyzer records the amplitude and phase of the detected signal as a function of frequency. Each resonance appears as a Lorentzian peak, and the center frequency f_n is extracted by curve fitting. The speed of sound is then calculated from u = f_n × 2L/n for the n-th longitudinal mode, or from the corresponding expressions for radial and azimuthal modes involving the cavity radius and Bessel function zeros.",
+      "core_theory": "The acoustic field inside a rigid cylindrical cavity satisfies the Helmholtz equation. For a cylinder of length L and radius a with rigid end-walls, the longitudinal resonance frequencies are f_n = nu/(2L) for integer mode indices n = 1, 2, 3, …, and the radial resonance frequencies are f_mn = u × χ_mn/(2πa), where χ_mn are zeros of the derivative of the Bessel function J_m. In practice, the walls are not perfectly rigid — viscous and thermal boundary layers at the fluid-wall interface slightly shift and broaden each resonance. The corrected resonance frequency is f_n(corrected) = f_n(measured) + Δf_visc + Δf_thermal + Δf_shell + Δf_end, where each correction term is calculable from fluid transport properties and cavity material properties. The speed of sound is related to thermodynamic properties through u² = (∂p/∂ρ)_s = γRT/M for an ideal gas, enabling extraction of the heat capacity ratio γ, and κ_s = 1/(ρu²) for any fluid.",
+      "setup": "The central component is a precision-machined cylindrical resonator, typically fabricated from stainless steel or Inconel for corrosion resistance and dimensional stability, with inner surfaces polished to minimize boundary layer perturbations. The cavity length ranges from 5 to 30 cm and the radius from 2 to 5 cm, with the length-to-radius ratio chosen to avoid accidental degeneracy between longitudinal and radial modes. Piezoelectric transducers (PZT ceramic disks) are mounted flush at each end, sealed with O-rings or metal gaskets for high-pressure operation. The resonator is housed inside a thermostatic bath or jacket providing temperature uniformity to ±1 mK, with temperature measured by a calibrated SPRT and pressure by a calibrated transducer or dead-weight gauge. A vacuum and gas-handling manifold allows evacuation, purging, and precise filling of the cavity. A computer-controlled frequency synthesizer and lock-in amplifier (or vector network analyzer) automate the resonance frequency scanning and data acquisition.",
+      "suitable_for": "The cylindrical cavity resonance method is well suited for precision speed-of-sound measurements in gases and liquids over a wide range of temperatures and pressures. It excels in characterizing pure gases and gas mixtures for equation-of-state development, measuring refrigerant thermodynamic properties, determining ideal-gas heat capacities from low-pressure acoustic data, and providing reference-quality speed-of-sound data for calibration of other instruments. The technique is particularly powerful for gases because the acoustic impedance matching is favorable, boundary layer corrections are well characterized, and the high quality factors (Q > 1000) enable very precise frequency determination. Liquid-phase measurements are also feasible, especially for low-viscosity liquids where acoustic absorption is not excessive.",
+      "core_limitations": "The technique requires precise knowledge of cavity dimensions, which must be calibrated using a reference gas (typically argon) — any error in the calibration propagates directly to the speed-of-sound result. Boundary layer corrections depend on transport properties (viscosity, thermal conductivity, Prandtl number) of the fluid, which may not be accurately known for all substances, introducing model-dependent uncertainty. Near the dew point or at conditions approaching phase boundaries, precondensation on cavity walls can shift resonance frequencies. Very viscous liquids or fluids with high acoustic absorption broaden resonance peaks so severely that accurate frequency determination becomes difficult. Shell resonances of the cavity structure can couple with acoustic modes at certain frequencies, requiring careful mode identification. The method is inherently a bulk measurement requiring the cavity to be completely filled with a homogeneous fluid.",
+      "sample_preparation": "For gas-phase measurements, sample purity is critical — trace impurities (especially moisture) shift the speed of sound and can produce systematic bias. Sample gas should be of certified high purity (≥99.99% for precision work) and introduced through a clean, leak-tested manifold. The cavity is evacuated to <1 Pa before filling to remove residual air. For liquid-phase measurements, the liquid must be thoroughly degassed by vacuum distillation, ultrasonic agitation under vacuum, or freeze-pump-thaw cycling to prevent dissolved gas bubbles that scatter sound and degrade resonance quality. Chemically reactive or corrosive samples require compatible cavity materials (e.g., Hastelloy, gold-plated interiors). Sample quantity depends on cavity volume and required pressure; typical gas fills require a few moles at moderate pressures.",
+      "calibration_and_references": "The effective cavity length L_eff is determined by measuring resonance frequencies in a reference gas with well-characterized speed of sound — argon is the universal standard because its equation of state (and hence speed of sound) is known to within a few ppm. Multiple longitudinal modes are measured in argon at a series of temperatures and pressures spanning the experimental range, and L_eff is extracted at each condition. The thermal expansion of the cavity is accounted for using the known expansion coefficient of the cavity material (e.g., stainless steel 316: α ≈ 16 × 10⁻⁶ K⁻¹). End-corrections for transducer perturbation are calibrated from the argon measurements by checking consistency across mode orders. Pressure sensors are calibrated against dead-weight gauges traceable to national standards, and SPRTs are calibrated on the ITS-90 scale.",
+      "data_interpretation": "Each measured resonance peak is fitted to a complex Lorentzian function to extract the center frequency f_n and half-width g_n. Systematic corrections are then applied: viscous and thermal boundary layer corrections (typically a few ppm to tens of ppm), shell motion corrections (significant above ~10 MPa), end-corrections for transducer perturbation, and thermal expansion corrections to cavity dimensions. The corrected frequencies yield speed-of-sound values from u = 2L_eff × f_n/n for each longitudinal mode. Values from multiple modes are averaged, and their standard deviation provides a consistency check. For equation-of-state applications, u² is fitted as a polynomial in pressure at constant temperature: u² = A₀ + A₁p + A₂p² + …, where A₀ = γ°RT/M yields the ideal-gas heat capacity ratio γ°. Isentropic compressibility is computed as κ_s = 1/(ρu²) using density from an independent source or equation of state.",
+      "common_pitfalls": "The most critical pitfall is incorrect mode identification — assigning a wrong mode index n to a resonance peak produces a proportionally wrong speed of sound. This is avoided by measuring many consecutive modes and verifying that they produce consistent u values. Using boundary layer corrections calculated with inaccurate transport property data (especially near the critical point or for poorly characterized fluids) introduces systematic errors that are difficult to detect without independent validation. Failing to account for thermal gradients across the cavity — for example, if the thermostat is not properly equilibrated — shifts longitudinal mode frequencies asymmetrically and biases the average u. Operating too close to the dew line causes precondensation that progressively shifts resonances as adsorbed layers build up on the walls. Neglecting shell resonance coupling can lead to anomalous data points when an acoustic mode frequency coincides with a mechanical resonance of the cavity.",
+      "artifacts_and_failure_modes": "Shell resonance coupling is the most problematic artifact: when an acoustic mode frequency approaches a mechanical vibration frequency of the cylindrical wall, the resonance splits or shifts, yielding erroneous speed-of-sound values. This is diagnosed by plotting the mode-by-mode speed of sound and identifying outliers. Precondensation artifacts manifest as a slow systematic drift of resonance frequencies over time at conditions near the phase boundary, producing apparent hysteresis between measurements at increasing vs. decreasing pressure. Impurity artifacts appear as speed-of-sound values that are offset from equation-of-state predictions by a constant fractional amount across all conditions. Thermal gradient artifacts produce mode-dependent biases: low-order longitudinal modes (long wavelengths) are more affected than high-order modes. Transducer degradation or debonding from the cavity face reduces signal amplitude and may shift the apparent resonance frequency if the end boundary condition changes.",
+      "reporting_checklist": "Published cylindrical cavity resonance results should report: cavity dimensions (length, radius) and material, method of length calibration (reference gas, conditions, equation of state used), transducer type and mounting configuration, temperature and pressure ranges with measurement uncertainties, number of modes used and mode types (longitudinal, radial), boundary layer correction model and transport property sources, shell motion correction method (if applied), thermal expansion model for cavity dimensions, sample purity and supplier, individual mode consistency (standard deviation or spread), combined expanded uncertainty U(u) at 95% confidence level (k=2), and whether raw or corrected resonance frequencies are tabulated. For ThermoML encoding, speed of sound values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

@@ -1,0 +1,328 @@
+{
+  "meas_ID": "visual_observation_in_an_unstirred_cell",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Visual observation in an unstirred cell",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Visual observation in an unstirred cell",
+    "thermoml_custom_codes": [
+      "VISOBS",
+      "VISOBSU"
+    ],
+    "measurement_family": "Visual / Direct Observation",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "yes",
+      "imaging": "yes"
+    },
+    "db_usage": {
+      "instance_count": 284,
+      "property_groups": [
+        "Criticals"
+      ],
+      "n_papers": 57,
+      "per_group": {
+        "Criticals": {
+          "instances": 284,
+          "papers": 57
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature at which a visible phase change occurs (meniscus disappearance, turbidity onset, crystal melting)",
+          "visual appearance of phases (clear, turbid, two-liquid, single-phase, crystalline, fluid)",
+          "location and shape of liquid–liquid or liquid–vapor meniscus in the capillary"
+        ],
+        "derived_observables": [
+          "melting point / fusion temperature",
+          "critical temperature (Tc) from meniscus disappearance in sealed tubes",
+          "critical opalescence onset temperature",
+          "cloud point temperature (liquid–liquid demixing)",
+          "boiling point (at known applied pressure)",
+          "solid–solid transition temperature (visual change in crystal habit or opacity)"
+        ],
+        "target_properties": [
+          "normal melting point",
+          "upper critical solution temperature (UCST)",
+          "lower critical solution temperature (LCST)",
+          "critical temperature (vapor–liquid)",
+          "cloud point",
+          "boiling point",
+          "solid–liquid phase boundary temperature",
+          "eutectic temperature"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "liquid",
+          "vapor",
+          "liquid–liquid two-phase region",
+          "liquid–vapor two-phase region",
+          "supercritical fluid"
+        ],
+        "supported_sample_types": [
+          "pure organic solids and liquids",
+          "binary and multicomponent liquid mixtures",
+          "polymer solutions",
+          "ionic liquids",
+          "pharmaceuticals and fine chemicals",
+          "low-melting salts",
+          "waxes and lipids",
+          "sealed gas–liquid systems for critical-point studies"
+        ],
+        "unsupported_sample_types": [
+          "opaque samples that prevent visual observation of phase boundaries",
+          "extremely air-sensitive materials that degrade before the tube can be sealed",
+          "samples with decomposition temperatures below the target transition",
+          "high-pressure systems exceeding capillary burst pressure (typically >10 MPa)",
+          "samples requiring sub-ambient observation without specialized cryostat"
+        ],
+        "typical_output_formats": [
+          "transition temperature at a specified heating/cooling rate",
+          "temperature–composition phase diagram points",
+          "onset and clear-point temperatures for melting range",
+          "cloud-point curve (T vs. mole fraction)"
+        ],
+        "units": {
+          "temperature": "K or °C",
+          "pressure": "kPa or MPa (if controlled or measured)",
+          "composition": "mole fraction or mass fraction",
+          "heating_rate": "K/min"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "heating_rate",
+            "typical_range": "0.1 K/min to 2 K/min",
+            "hard_limits": "must be slow enough for thermal equilibrium throughout the unstirred sample; above ~5 K/min temperature gradients become excessive",
+            "notes": "slower rates improve accuracy but increase measurement time; automated instruments often use 0.2–1.0 K/min"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 623 K (standard capillary melting point apparatus)",
+            "hard_limits": "lower limit set by cryostat capability; upper limit set by softening point of borosilicate glass (~823 K) or quartz tubes (~1473 K)",
+            "notes": "most pharmacopeial melting point measurements span 293–573 K"
+          },
+          {
+            "parameter": "sample_fill_level",
+            "typical_range": "2–5 mm column height in capillary (melting point); 30–70% volume fill in sealed ampoule (critical point)",
+            "hard_limits": "too little sample prevents clear observation; overfilling sealed tubes risks explosion at elevated temperatures",
+            "notes": "for critical-point work the fill fraction must be near the critical density"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "ambient (open capillary) or autogenous vapor pressure (sealed tube)",
+            "hard_limits": "sealed glass capillaries limited to ~5–10 MPa internal pressure depending on wall thickness and annealing",
+            "notes": "for volatile systems the boiling point is defined at a known external pressure"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "scanned variable (primary)",
+            "typical_values": "273 K to 623 K, ramped continuously",
+            "effect": "temperature is ramped until a phase change is visually detected; the transition temperature is the key measurand"
+          },
+          {
+            "name": "composition",
+            "role": "set variable (for mixtures)",
+            "typical_values": "series of known mole or mass fractions",
+            "effect": "each composition gives one point on the phase boundary curve; multiple compositions map the phase diagram"
+          },
+          {
+            "name": "heating_rate",
+            "role": "controlled experimental variable",
+            "typical_values": "0.2 K/min to 1.0 K/min",
+            "effect": "slower rates reduce thermal lag and improve agreement between heating and cooling observations"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed or autogenous",
+            "typical_values": "0.1 MPa (open capillary) or autogenous vapor pressure in sealed systems",
+            "effect": "in sealed tubes, pressure rises with temperature; at the critical point T and P are coupled"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "glass capillary tube (1.0–1.8 mm o.d., ~0.2 mm wall, 100 mm length) or sealed borosilicate/quartz glass ampoule",
+          "heating block or thermostated oil bath (Thiele tube, silicon oil bath, or aluminum block with programmable heater)",
+          "thermometer — calibrated Pt100-type RTD, thermocouple, or mercury-in-glass thermometer positioned adjacent to sample zone",
+          "temperature programmer/controller — ramp generator for linear heating at selectable rates",
+          "illumination source — diffuse white LED or fiber-optic illuminator to enhance visual contrast",
+          "magnification optics — simple lens (×3–×10) or integrated video camera with digital zoom",
+          "automated detection system (optional) — photodetector/CCD measuring transmitted or scattered light intensity through capillary",
+          "video recording system (optional) — digital camera for archival and repeated playback of transition"
+        ],
+        "environmental_requirements": [
+          "adequate ambient lighting control to enhance visual contrast at the phase boundary",
+          "fume hood or ventilation when working with volatile or toxic samples",
+          "stable bench free of vibration (vibration can cause premature meniscus disruption in critical-point work)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "finely ground powder packed into open capillary (melting point)",
+            "liquid or solution sealed in capillary or glass ampoule (cloud point, critical point)"
+          ],
+          "size_limits": "1–5 mg for capillary melting point; 0.05–2 mL for sealed ampoule critical-point studies",
+          "thickness_limits": "capillary inner diameter 0.8–1.5 mm; ampoule inner diameter 2–8 mm",
+          "surface_requirements": [
+            "glass must be clean and free of scratches that nucleate bubbles or cracks",
+            "inner capillary wall should be dry before loading powder samples"
+          ],
+          "mounting_requirements": [
+            "capillary held vertically or at slight angle in heating block bore or oil bath",
+            "sample column seated at the sealed (bottom) end of the capillary",
+            "sealed ampoule centered in the isothermal zone of the bath or block"
+          ],
+          "preparation_requirements": [
+            "grind solid to fine powder (<100 µm) and pack 2–3 mm column height by tapping",
+            "seal one end of capillary by flame before loading (melting point); seal both ends for volatile/liquid samples",
+            "degas liquids under vacuum before sealing for critical-point work",
+            "prepare solutions gravimetrically to known composition for cloud-point measurements"
+          ]
+        },
+        "calibration_requirements": [
+          "thermometer calibration against certified melting-point reference standards at multiple points across the measurement range",
+          "heating-rate-dependent correction: measure standards at the same rate used for unknowns to quantify thermal lag",
+          "verify temperature uniformity across the observation zone using multiple reference substances",
+          "for automated photodetection systems, establish light-intensity threshold corresponding to visual transition criteria"
+        ],
+        "reference_materials": [
+          "vanillin (354.7 K) — USP/BP melting point standard",
+          "phenacetin (407.7 K) — pharmacopeial melting point standard",
+          "caffeine (509.3 K) — pharmacopeial melting point standard",
+          "indium (429.75 K) — NIST SRM, metal melting point standard",
+          "gallium (302.91 K) — low-temperature melting point standard",
+          "WHO/USP melting point reference standard kit (set of 5 standards spanning 395–530 K)"
+        ],
+        "consumables": [
+          "one-end-sealed borosilicate glass capillary tubes (disposable)",
+          "silicone oil or mineral oil (for oil-bath variants)",
+          "flame or micro-torch for sealing capillaries",
+          "mortar and pestle or ball mill for grinding samples"
+        ],
+        "safety_notes": [
+          "sealed capillaries containing volatile liquids may burst at elevated temperatures — use blast shield or safety enclosure",
+          "hot oil baths present burn and fire risk — use silicone oil rated above maximum temperature",
+          "broken glass capillaries create sharp hazards — dispose in sharps container",
+          "toxic or volatile samples should be handled in a fume hood; sealed capillaries reduce but do not eliminate exposure risk"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of detecting phase transitions involving visible changes in transparency, meniscus shape, or crystal morphology; cannot detect transitions with no optical signature",
+        "detection_limit": "minimum sample ~0.5 mg for capillary melting point; visual detection requires sufficient optical path length through sample (~1 mm)",
+        "resolution": {
+          "spatial": "~0.5–1.5 mm capillary diameter defines the observation volume",
+          "temporal": "limited by heating rate and observer reaction time; ~1–5 s for manual observation, <1 s for automated photodetection",
+          "spectral": "not applicable (white-light observation)",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "temperatures from ~250 K (with cryostat) to ~623 K (standard glass) or ~1473 K (quartz); single transition per heating ramp",
+        "accuracy": "0.2–1.0 K for manual visual observation with calibrated thermometer; 0.1–0.3 K for automated capillary melting point instruments (Büchi, Stanford Research, Mettler Toledo)",
+        "precision": "0.1–0.5 K repeatability (automated); 0.5–2.0 K repeatability (manual, operator dependent)",
+        "throughput": "1–3 samples simultaneously in most capillary melting point instruments; automated instruments can run up to 6 capillaries in parallel",
+        "measurement_speed": "5–30 minutes per determination depending on temperature range and heating rate"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "visual observation of phase change (human eye or photodetector/camera measuring transmitted light intensity through capillary as a function of temperature)",
+        "preprocessing_steps": [
+          "record temperature at first visible sign of phase change (onset) and at completion (clear point or total melt)",
+          "apply thermometer calibration correction to raw temperature reading",
+          "apply heating-rate correction if calibration was performed at a different ramp rate",
+          "for photodetection: apply light-intensity threshold to determine transition temperature from intensity-vs-T curve"
+        ],
+        "analysis_methods": [
+          "report onset temperature (first crystal collapse or first turbidity) and clear point (last crystal disappears or solution clarifies)",
+          "take mean of onset and clear-point as the transition temperature, or report the range",
+          "average replicate measurements (typically 3–5 runs) to obtain mean transition temperature",
+          "construct T–x phase diagram by plotting transition temperatures against composition",
+          "extrapolate transition temperature to zero heating rate for thermodynamic equilibrium value"
+        ],
+        "model_assumptions": [
+          "sample is in or near thermal equilibrium with the thermometer at the moment of observation (requires slow heating rate)",
+          "the observed visual change corresponds to the thermodynamic phase boundary (no significant superheating or supercooling in the unstirred system)",
+          "temperature is uniform throughout the capillary sample volume (no significant radial or axial gradients)",
+          "for critical-point work: the meniscus disappearance temperature equals the critical temperature when fill fraction is near the critical density"
+        ],
+        "fit_parameters": [
+          "transition onset temperature (T_onset)",
+          "transition endpoint / clear-point temperature (T_clear)",
+          "melting range (T_clear − T_onset)",
+          "critical temperature Tc (from meniscus disappearance in sealed-tube experiments)"
+        ],
+        "common_artifacts": [
+          "thermal lag: observed transition temperature overshoots the true value because the unstirred sample core lags behind the heated wall — magnitude proportional to heating rate",
+          "superheating/supercooling: absence of stirring can cause the sample to persist metastably beyond the equilibrium transition temperature, especially on cooling",
+          "meniscus pinning: in narrow capillaries the meniscus may stick to the glass wall and disappear at a temperature slightly above the true critical temperature",
+          "sublimation or decomposition before melting: darkening or shrinkage of sample misinterpreted as onset of melting",
+          "condensation on capillary walls above the sample obscuring observation in sealed-tube volatile systems"
+        ],
+        "quality_control_checks": [
+          "check calibration with a reference standard at the beginning and end of each measurement session",
+          "compare heating and cooling transition temperatures — large hysteresis indicates significant thermal lag or supercooling",
+          "measure at two or more heating rates and extrapolate to zero rate to estimate equilibrium temperature",
+          "inspect sample before and after measurement for signs of decomposition (discoloration, gas evolution)",
+          "verify that replicate measurements agree within the expected precision (±0.5 K automated, ±1 K manual)"
+        ],
+        "failure_modes": [
+          "capillary tube cracks or bursts due to internal pressure buildup in sealed systems",
+          "sample sublimes or decomposes before reaching the phase transition of interest",
+          "poor sample packing in capillary creates voids that prevent clear observation of melting onset",
+          "condensation or fogging inside the capillary obscures the phase boundary",
+          "thermometer drift or failure produces systematically shifted transition temperatures"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5 K (automated instruments) or 0.5–1.5 K (manual visual observation)",
+        "random_sources": [
+          "observer judgment variability in identifying the exact moment of phase change",
+          "sample-to-sample packing variability in capillary tubes",
+          "small temperature fluctuations in the heating block or bath",
+          "slight differences in capillary wall thickness affecting heat transfer"
+        ],
+        "systematic_sources": [
+          "thermal lag between thermometer and sample (always causes observed T to exceed true T on heating)",
+          "thermometer calibration offset",
+          "heating-rate-dependent systematic bias (faster rate = higher apparent transition temperature)",
+          "non-uniform temperature distribution in the heating block or bath",
+          "consistent observer bias (tendency to call onset too early or too late)",
+          "sample impurity depression of melting point (not an instrument error but often a systematic confound)"
+        ],
+        "operator_dependence": "high for manual observation — different operators may disagree by 0.5–2 K on onset and clear-point temperatures; automated photodetection reduces operator dependence to near zero",
+        "model_dependence": "low — the technique relies on direct observation rather than a physical model; however, assignment of the observation to a thermodynamic phase boundary implicitly assumes thermal equilibrium",
+        "dominant_error_sources": [
+          "thermal lag between thermometer reading and actual sample temperature in the unstirred cell",
+          "operator subjectivity in defining onset and endpoint of the transition (manual mode)",
+          "heating rate (finite ramp rate shifts observed temperature above equilibrium value)"
+        ],
+        "reported_as": [
+          "melting range (onset to clear point) in K or °C",
+          "mean transition temperature with standard deviation from replicate runs",
+          "combined expanded uncertainty U(T) at 95% confidence (k=2)"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Visual observation in an unstirred cell is one of the oldest and most direct methods for detecting phase boundaries in condensed matter. A small quantity of sample is sealed or loaded into a glass capillary tube or ampoule, placed in a temperature-controlled heating block or oil bath, and heated at a slow, programmed rate while the operator (or an automated photodetector) watches for visible signs of a phase transition — the collapse of crystals, disappearance of a meniscus, onset of turbidity, or the clearing of a cloudy solution. Because the cell has no mechanical stirring, thermal equilibration depends entirely on conduction through the glass and natural convection in the sample, which constrains heating rates to low values (typically 0.2–1 K/min) to avoid excessive thermal gradients. The method dominates pharmacopeial melting-point determinations and remains widely used in physical chemistry for mapping liquid–liquid and vapor–liquid critical points in sealed tubes.",
+      "how_it_operates": "The sample is placed in a thin-walled glass capillary (for melting points) or a sealed borosilicate or quartz ampoule (for critical-point or cloud-point studies) and positioned in the isothermal zone of a heating block or thermostated bath. A calibrated thermometer — typically a platinum resistance sensor or thermocouple — is positioned adjacent to or surrounding the capillary. The block temperature is ramped linearly at a controlled rate while the operator monitors the sample through a magnifying lens or video camera. When a phase transition occurs, the change in optical properties (transparency, turbidity, crystal morphology, or meniscus shape) is noted and the corresponding thermometer reading is recorded as the transition temperature. No stirring is applied, so the method relies on the slow heating rate and the small thermal mass of the sample to approximate thermal equilibrium between sample and surroundings.",
+      "core_theory": "The method is grounded in the thermodynamic principle that first-order phase transitions (melting, boiling, liquid–liquid demixing) produce abrupt changes in optical properties that are detectable by eye or photodetector. At a first-order transition the Gibbs free energies of two phases become equal at the equilibrium temperature T_eq, and the discontinuous change in density, refractive index, or crystal structure produces a visible signal. For critical phenomena, the divergence of density fluctuations near the critical point causes critical opalescence — intense scattering of light — followed by the disappearance of the meniscus at Tc. The key assumption is that the heating rate is slow enough that the sample temperature equals the thermometer reading at the moment of observation; any deviation constitutes thermal lag, which systematically biases the reported temperature upward on heating. This bias is approximately proportional to the heating rate and inversely proportional to the thermal diffusivity of the sample and the square of the capillary radius.",
+      "setup": "A standard capillary melting point apparatus consists of (1) a metal heating block with a cylindrical bore that accepts one to six capillary tubes, machined with a transparent window or light path for observation; (2) an embedded platinum RTD or thermocouple for temperature measurement, positioned within millimeters of the capillary; (3) a programmable temperature controller that ramps the block from a user-defined start temperature at a user-selectable rate (typically 0.2–5 K/min); and (4) an optical system comprising a built-in LED light source, magnifying lens or CCD camera, and a display or eyepiece. Modern automated instruments (e.g., Büchi B-545, Mettler Toledo MP series, Stanford Research OptiMelt) add a photodetector that measures light transmission through the capillary and algorithmically detects the onset and clear-point temperatures, reducing operator subjectivity. For sealed-tube critical-point work, a custom thick-walled borosilicate or quartz ampoule is filled to the appropriate density, flame-sealed under vacuum or inert gas, and placed in an oil bath or transparent furnace with external windows for observation.",
+      "suitable_for": "This technique is ideal for melting-point determination of crystalline organic and inorganic solids, where it is the pharmacopeial standard method (USP, EP, BP, JP). It is equally well suited for measuring cloud points and upper/lower critical solution temperatures of binary liquid mixtures, and for locating vapor–liquid critical points in sealed tubes at moderate pressures. The method handles very small sample quantities (1–5 mg for capillary work, 50–500 µL for ampoule work), making it valuable when only limited material is available. It accommodates a wide range of sample types — powders, waxy solids, viscous liquids, and solutions — and requires no special sample geometry beyond fitting inside the capillary or ampoule. The equipment is inexpensive, robust, and available in virtually every chemistry laboratory worldwide.",
+      "core_limitations": "The absence of stirring makes this technique intrinsically susceptible to thermal gradients within the sample, which manifest as a broadened melting range and a systematic upward shift of the observed transition temperature on heating. The method is inherently limited to phase transitions that produce a visible optical change; transitions between phases with similar refractive indices or in opaque materials cannot be detected. Operator subjectivity in judging the moment of onset and completion of a transition limits manual precision to ~0.5–2 K, although automated photodetection mitigates this. The technique provides only the temperature of the transition and does not directly yield thermodynamic quantities such as enthalpy or entropy of transition. Sealed-tube work is limited by the pressure rating of the glass container, restricting critical-point studies to systems with moderate vapor pressures. Supercooling on cooling runs can be severe in the absence of stirring or nucleation aids, making cooling-mode measurements less reliable than heating-mode observations.",
+      "sample_preparation": "For capillary melting point measurements, the solid sample is ground to a fine powder (particle size <100 µm) using a mortar and pestle to ensure reproducible packing and good thermal contact within the capillary. A small amount (2–3 mm column height) is introduced into a one-end-sealed capillary tube by inverting the open end into the powder, then tapping or dropping the capillary through a glass tube onto a hard surface to compact the sample at the closed end. The powder column should be tightly packed with no visible voids. For cloud-point or critical-point studies, solutions of known composition are prepared gravimetrically and transferred into a clean, dry glass ampoule. The ampoule is degassed by freeze–pump–thaw cycles or by brief evacuation, then flame-sealed under the desired atmosphere. The fill fraction for critical-point work must be close to the critical density; this is typically achieved by trial and error or from literature density estimates, adjusting the liquid volume to occupy roughly 30–50% of the ampoule at room temperature.",
+      "calibration_and_references": "Temperature calibration is performed by measuring reference substances of certified melting point under identical conditions (same heating rate, same capillary type, same instrument) and comparing the observed values with literature values. Pharmacopeial standards such as vanillin (354.7 K), phenacetin (407.7 K), and caffeine (509.3 K) are commonly used, spanning the typical melting-point range. The difference between observed and certified values provides a correction that is applied to all subsequent measurements. Calibration should be performed at the same heating rate as the unknown, because the thermal lag offset is rate-dependent. For automated instruments, the manufacturer's calibration protocol typically uses two to three certified standards and stores a correction curve in the instrument firmware. Recalibration is recommended after any change of thermometer, heating block, or capillary type, and should be verified at least monthly during routine use.",
+      "data_interpretation": "The primary data are the temperatures at which the observer (or photodetector) identifies the onset of the transition (T_onset, first collapse of crystals or first appearance of turbidity) and the endpoint (T_clear, last crystal disappears or solution fully clarifies). For melting points, the interval T_onset to T_clear defines the melting range; a narrow range (≤1 K) indicates high purity, while a broad range suggests impurities or polymorphic behavior. The melting point is typically reported as T_clear (pharmacopeial convention) or as the mean of T_onset and T_clear. For cloud points, the temperature of first visible turbidity on cooling (or clearing on heating) is recorded. Replicate measurements (three to five capillaries) are averaged to improve precision, and the standard deviation of the replicates serves as a measure of random uncertainty. In critical-point studies, the temperature at which the meniscus disappears (on heating) and reappears (on cooling) brackets the critical temperature; the mean of these two values, extrapolated to zero heating rate, provides the best estimate of Tc.",
+      "common_pitfalls": "The most frequent mistake is using too fast a heating rate, which introduces a large thermal lag between the thermometer and the unstirred sample and inflates the observed transition temperature — this error can exceed 2 K at rates above 2 K/min for typical capillary dimensions. Inadequate sample grinding leads to large crystals that melt heterogeneously, broadening the observed melting range and making onset determination ambiguous. Poor capillary packing with air gaps causes uneven heat transfer, producing irreproducible results. For sealed-tube work, incorrect fill fractions shift the observed meniscus disappearance temperature away from the true critical temperature. Starting the observation ramp too far below the expected transition is wasteful of time but starting too close risks missing the onset. In manual mode, operator fatigue during long heating ramps leads to missed or delayed onset calls.",
+      "artifacts_and_failure_modes": "Thermal lag is the dominant artifact: because the sample is not stirred, the core of the capillary sample lags behind the wall temperature, causing the observed transition to appear at a higher temperature than the true thermodynamic value. The magnitude scales approximately as (dT/dt) × r²/(4κ), where r is the capillary inner radius and κ is the thermal diffusivity. Supercooling artifacts on cooling scans can be very large (5–20 K) in the absence of stirring or heterogeneous nucleation sites, making cooling measurements unreliable without nucleation aids. Sublimation of volatile solids (e.g., naphthalene, camphor) before melting causes the sample column to shrink, mimicking the early stages of melting and yielding a falsely low onset temperature. Decomposition concurrent with melting (indicated by darkening or gas evolution) shifts the apparent melting point and broadens the range. In sealed critical-point tubes, meniscus pinning on the glass wall can delay apparent disappearance by 0.1–0.5 K. Capillary breakage due to excessive internal pressure is a safety-critical failure mode in sealed-tube systems.",
+      "reporting_checklist": "Published results using visual observation in an unstirred cell should include: capillary type and dimensions (inner diameter, wall thickness, material); heating rate (K/min); whether observation was manual or automated (instrument model for automated); whether the transition temperature refers to onset, clear point, or mean; sample packing method and approximate column height; reference standards used for calibration and their certified values; number of replicate measurements and the standard deviation; corrections applied (thermometer calibration, heating-rate correction); sample purity and source; for sealed-tube work: fill fraction, sealing atmosphere, tube material and dimensions, and whether transition was observed on heating, cooling, or both; combined expanded uncertainty with confidence level and identification of the dominant uncertainty components. For ThermoML encoding, transition temperatures are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

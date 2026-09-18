@@ -1,0 +1,8 @@
+#!/bin/sh
+# Inspect the objects being pushed, not the current working-tree copies.
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+if command -v python >/dev/null 2>&1; then
+    exec python scripts/check_no_pointers.py --pre-push
+fi
+exec python3 scripts/check_no_pointers.py --pre-push

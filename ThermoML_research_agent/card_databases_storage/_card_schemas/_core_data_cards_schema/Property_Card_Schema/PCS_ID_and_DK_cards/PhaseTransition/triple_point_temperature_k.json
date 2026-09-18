@@ -1,0 +1,207 @@
+{
+  "prop_ID": "triple_point_temperature_k",
+  "identity": {
+    "name": "Triple point temperature, K",
+    "unit": "K",
+    "symbol": null,
+    "dimension": null,
+    "property_group": "PhaseTransition",
+    "property_class": "phase_equilibrium",
+    "is_intensive": true,
+    "is_molar": false,
+    "is_excess": false,
+    "is_partial": false,
+    "is_apparent": false,
+    "aliases": [],
+    "typical_variables": [
+      {
+        "var_name": "Pressure, kPa",
+        "var_type": "ePressure",
+        "role": "environmental",
+        "usage_fraction": 0.0265
+      },
+      {
+        "var_name": "Mole fraction",
+        "var_type": "eComponentComposition",
+        "role": "composition",
+        "usage_fraction": 0.0229
+      },
+      {
+        "var_name": "Mass fraction",
+        "var_type": "eComponentComposition",
+        "role": "composition",
+        "usage_fraction": 0.0025
+      },
+      {
+        "var_name": "Solvent: Mole fraction",
+        "var_type": "eComponentComposition",
+        "role": "composition",
+        "usage_fraction": 0.0005
+      },
+      {
+        "var_name": "Solvent: Mass fraction",
+        "var_type": "eComponentComposition",
+        "role": "composition",
+        "usage_fraction": 0.0005
+      }
+    ],
+    "typical_constraints": [],
+    "thermoml_name": "Triple point temperature, K",
+    "db_usage": {
+      "total_instances": 1963,
+      "n_papers": 589,
+      "rank_in_group": 4,
+      "rank_overall": 16,
+      "common_methods": [
+        {
+          "method_name": "custom: DTA",
+          "method_type": "custom",
+          "count": 818,
+          "fraction": 0.4167
+        },
+        {
+          "method_name": "custom: DSC",
+          "method_type": "custom",
+          "count": 529,
+          "fraction": 0.2695
+        },
+        {
+          "method_name": "Adiabatic calorimetry",
+          "method_type": "standard",
+          "count": 180,
+          "fraction": 0.0917
+        },
+        {
+          "method_name": "custom: DTA:corrimp",
+          "method_type": "custom",
+          "count": 110,
+          "fraction": 0.056
+        },
+        {
+          "method_name": "custom: VISOBS",
+          "method_type": "custom",
+          "count": 42,
+          "fraction": 0.0214
+        }
+      ],
+      "common_variables": [
+        {
+          "var_name": "Pressure, kPa",
+          "count": 52,
+          "fraction": 0.0265
+        },
+        {
+          "var_name": "Mole fraction",
+          "count": 45,
+          "fraction": 0.0229
+        },
+        {
+          "var_name": "Mass fraction",
+          "count": 5,
+          "fraction": 0.0025
+        },
+        {
+          "var_name": "Solvent: Mole fraction",
+          "count": 1,
+          "fraction": 0.0005
+        },
+        {
+          "var_name": "Solvent: Mass fraction",
+          "count": 1,
+          "fraction": 0.0005
+        }
+      ],
+      "common_constraints": [],
+      "system_type_distribution": {
+        "unary": 1867,
+        "binary": 85,
+        "ternary": 11,
+        "quaternary_plus": 0
+      },
+      "presentation_distribution": {
+        "direct": 1963,
+        "difference": 0,
+        "ratio": 0,
+        "other": 0
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "definition": {
+        "physical_quantity": "",
+        "mathematical_definition": null,
+        "thermodynamic_definition": null,
+        "sign_convention": null,
+        "related_properties": [],
+        "derived_from": [],
+        "can_derive": []
+      },
+      "measurement_context": {
+        "primary_methods": [],
+        "typical_variable_patterns": [],
+        "applicable_presentations": [],
+        "applicable_standard_states": null,
+        "applicable_ref_state_types": null
+      },
+      "phase_applicability": {
+        "applicable_phases": [],
+        "primary_phases": [],
+        "phase_equilibrium_type": null,
+        "applicable_system_types": [],
+        "component_specific": false,
+        "requires_solvent": false
+      },
+      "typical_ranges": {
+        "value_range": {
+          "min": null,
+          "max": null,
+          "unit": "",
+          "note": null
+        },
+        "temperature_range_K": {
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        "pressure_range_kPa": {
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        "reference_values": []
+      },
+      "uncertainty_profile": {
+        "typical_relative_uncertainty": "",
+        "best_achievable_uncertainty": null,
+        "dominant_uncertainty_sources": [],
+        "method_dependent_quality": null,
+        "quality_indicators": []
+      },
+      "data_patterns": {
+        "typical_n_points": {
+          "median": null,
+          "p10": null,
+          "p90": null
+        },
+        "common_block_patterns": [],
+        "multi_property_frequency": "",
+        "co_measured_properties": []
+      }
+    },
+    "description_block": {
+      "property_overview": "",
+      "physical_meaning": "",
+      "thermodynamic_context": "",
+      "measurement_methods_overview": "",
+      "common_variable_patterns": "",
+      "phase_behavior": "",
+      "data_quality_indicators": "",
+      "unit_conventions": "",
+      "typical_applications": "",
+      "common_pitfalls": "",
+      "related_properties": "",
+      "reporting_checklist": ""
+    }
+  }
+}

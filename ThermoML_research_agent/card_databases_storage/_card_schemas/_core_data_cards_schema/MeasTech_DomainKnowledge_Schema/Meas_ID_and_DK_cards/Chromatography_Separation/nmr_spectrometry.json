@@ -1,0 +1,341 @@
+{
+  "meas_ID": "nmr_spectrometry",
+  "identity": {
+    "name": "NMR spectrometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "NMR spectrometry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Chromatography / Separation",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 48,
+      "property_groups": [
+        "ReactionEquilibriumProp"
+      ],
+      "n_papers": 3,
+      "per_group": {
+        "ReactionEquilibriumProp": {
+          "instances": 48,
+          "papers": 3
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "chemical shift (δ, ppm)",
+          "peak area (integral intensity)",
+          "spin-lattice relaxation time (T1)",
+          "spin-spin relaxation time (T2)",
+          "line width at half-maximum",
+          "multiplet splitting pattern (J-coupling)"
+        ],
+        "derived_observables": [
+          "mole fraction of each component (from relative peak integrals)",
+          "activity coefficients (from equilibrium composition analysis)",
+          "partition coefficients (from phase composition ratios)",
+          "mass fraction (converted from mole fraction with known molar masses)",
+          "equilibrium constants (from composition at equilibrium)"
+        ],
+        "target_properties": [
+          "mole fraction composition of liquid phases at equilibrium",
+          "activity coefficients at infinite dilution",
+          "liquid-liquid equilibrium (LLE) tie-line compositions",
+          "vapor-liquid equilibrium (VLE) liquid-phase compositions",
+          "reaction equilibrium constants",
+          "partition coefficients between immiscible phases"
+        ],
+        "phases_measured": [
+          "liquid (single phase)",
+          "liquid (each phase of a liquid-liquid equilibrium)",
+          "liquid phase from vapor-liquid equilibrium sampling"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "ternary and multicomponent liquid mixtures",
+          "ionic liquid systems",
+          "aqueous solutions of organic compounds",
+          "organic solvent mixtures",
+          "samples withdrawn from phase equilibrium cells"
+        ],
+        "unsupported_sample_types": [
+          "samples lacking NMR-active nuclei (e.g., symmetric molecules with no 1H or 13C signal)",
+          "paramagnetic solutions (severe line broadening)",
+          "highly viscous or solid samples (without MAS techniques)",
+          "gas-phase samples (very low density gives insufficient signal)",
+          "strongly ferromagnetic materials"
+        ],
+        "typical_output_formats": [
+          "NMR spectrum (intensity vs. chemical shift in ppm)",
+          "integrated peak area table per component",
+          "mole fraction composition table",
+          "tie-line composition pairs (LLE)",
+          "activity coefficient vs. composition curves"
+        ],
+        "units": {
+          "chemical_shift": "ppm (parts per million)",
+          "peak_integral": "arbitrary units (relative)",
+          "mole_fraction": "dimensionless (0 to 1)",
+          "relaxation_time": "s or ms",
+          "frequency": "MHz (spectrometer operating frequency)",
+          "activity_coefficient": "dimensionless",
+          "temperature": "K"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "spectrometer_frequency",
+            "typical_range": "300 MHz to 600 MHz (1H)",
+            "hard_limits": "60 MHz (benchtop) to 1200 MHz (ultra-high-field); minimum ~60 MHz for quantitative work",
+            "notes": "higher field strength improves spectral resolution and sensitivity; 400 MHz is common for routine quantitative analysis"
+          },
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 373 K",
+            "hard_limits": "typically 200 K to 400 K with standard variable-temperature probes",
+            "notes": "temperature must match the equilibrium condition at which the phase samples were prepared"
+          },
+          {
+            "parameter": "number_of_scans",
+            "typical_range": "8 to 256 scans",
+            "hard_limits": "1 to >10000; SNR improves as √(number of scans)",
+            "notes": "quantitative 1H-NMR often requires 16–64 scans; 13C-NMR requires significantly more due to lower sensitivity"
+          },
+          {
+            "parameter": "relaxation_delay",
+            "typical_range": "5 to 60 s (for quantitative 1H; 30–120 s for 13C)",
+            "hard_limits": "must be ≥5×T1 of the slowest-relaxing nucleus to ensure full magnetization recovery",
+            "notes": "insufficient relaxation delay is the most common source of systematic error in quantitative NMR"
+          },
+          {
+            "parameter": "pulse_angle",
+            "typical_range": "30° to 90°",
+            "hard_limits": "90° gives maximum signal per scan but requires longest relaxation delay; 30° allows shorter delays",
+            "notes": "90° pulse with full relaxation delay is the gold standard for quantitative work"
+          }
+        ],
+        "variables": [
+          {
+            "name": "spectrometer_frequency",
+            "role": "fixed instrument parameter",
+            "typical_values": "300 MHz, 400 MHz, 500 MHz, 600 MHz (1H frequency)",
+            "effect": "higher frequency improves chemical shift dispersion and sensitivity, reducing peak overlap"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled variable (must match equilibrium T)",
+            "typical_values": "293 K to 353 K for most phase equilibrium studies",
+            "effect": "affects chemical shifts slightly; must be controlled to ±0.1 K for reproducibility; determines the thermodynamic state of the equilibrium"
+          },
+          {
+            "name": "solvent_or_lock",
+            "role": "experimental choice",
+            "typical_values": "CDCl3, D2O, DMSO-d6, or external lock capillary",
+            "effect": "deuterated solvent provides frequency lock signal; choice affects solubility, chemical shift reference, and must not interfere with analyte signals"
+          },
+          {
+            "name": "sample_concentration",
+            "role": "determined by equilibrium composition",
+            "typical_values": "10–500 mM per component, or neat mixture with lock capillary",
+            "effect": "affects signal intensity and potential intermolecular interactions; must be representative of the equilibrium phase"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "superconducting magnet — provides static magnetic field B0 (typically 7.05–14.1 T, corresponding to 300–600 MHz 1H frequency)",
+          "radiofrequency (RF) transmitter and probe — delivers excitation pulses and detects NMR signal (FID)",
+          "receiver and digitizer — amplifies, filters, and digitizes the free induction decay signal",
+          "field-frequency lock system — maintains field stability using deuterium signal from deuterated solvent",
+          "shim coils — correct spatial inhomogeneities in B0 for narrow line widths",
+          "variable-temperature (VT) unit — controls sample temperature via heated/cooled nitrogen gas flow",
+          "NMR sample tubes — precision-bore borosilicate or quartz tubes (typically 5 mm OD)",
+          "sample spinner (optional) — rotates tube to average transverse field inhomogeneities",
+          "computer and software — pulse sequence control, data acquisition, Fourier transform, integration"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature to minimize drift in magnet homogeneity",
+          "low vibration environment (superconducting magnets are sensitive to mechanical disturbance)",
+          "no large ferromagnetic objects or strong magnetic fields nearby (fringe field safety zone)",
+          "regular liquid helium and nitrogen fills for superconducting magnet dewar (or helium-free cryomagnet)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid in standard 5 mm OD NMR tube (most common)",
+            "coaxial insert tube for external reference or lock solvent",
+            "sealed tube or J-Young valve tube for air-sensitive or volatile samples"
+          ],
+          "size_limits": "typically 0.5–0.7 mL of liquid in a 5 mm tube; minimum ~0.1 mL with microprobes",
+          "thickness_limits": "not applicable (liquid sample fills tube cross-section uniformly)",
+          "surface_requirements": [
+            "clean NMR tube free of paramagnetic contaminants (wash with chromic acid or EDTA, rinse with distilled water and solvent)",
+            "no scratches on tube that could cause spinning sidebands"
+          ],
+          "mounting_requirements": [
+            "tube inserted into spinner turbine and lowered into probe via pneumatic sample lift",
+            "tube depth adjusted to center sample volume in RF coil detection region",
+            "spinner rate set to ~20 Hz for improved line shape (or non-spinning for modern probes)"
+          ],
+          "preparation_requirements": [
+            "equilibrium phase sample withdrawn carefully to avoid cross-contamination between phases",
+            "dissolution in deuterated solvent or use of external lock capillary for neat mixtures",
+            "addition of internal standard (if absolute quantification needed) at known concentration",
+            "filtering to remove particulates that degrade field homogeneity",
+            "degassing (freeze-pump-thaw) for dissolved paramagnetic oxygen removal if highest precision required"
+          ]
+        },
+        "calibration_requirements": [
+          "chemical shift referencing using internal standard (TMS, δ = 0.00 ppm for 1H/13C) or solvent residual peak",
+          "pulse width (90° pulse) calibration for the specific probe and sample conditions",
+          "relaxation delay optimization: measure T1 of all relevant peaks and set delay ≥ 5×T1(max)",
+          "receiver gain adjustment to avoid signal clipping or digitization noise",
+          "line shape verification using a standard sample (e.g., chloroform in CDCl3, line width < 0.5 Hz)"
+        ],
+        "reference_materials": [
+          "tetramethylsilane (TMS) — primary chemical shift reference for 1H and 13C (δ = 0.00 ppm)",
+          "DSS (sodium 2,2-dimethyl-2-silapentane-5-sulfonate) — water-soluble chemical shift reference",
+          "maleic acid or dimethyl sulfone — certified quantitative NMR (qNMR) reference standards for integral calibration",
+          "ERETIC or PULCON electronic reference — synthetic reference signal for absolute quantification without internal standard"
+        ],
+        "consumables": [
+          "deuterated solvents (CDCl3, D2O, DMSO-d6, acetone-d6, benzene-d6)",
+          "precision NMR tubes (5 mm, borosilicate or quartz)",
+          "coaxial insert tubes (for external lock/reference)",
+          "tube caps or septa (polyethylene or J-Young valve for air-sensitive work)",
+          "internal reference compounds (TMS, DSS)",
+          "liquid helium and liquid nitrogen for magnet cryogen fills"
+        ],
+        "safety_notes": [
+          "strong static magnetic field (fringe field) — no ferromagnetic objects, implanted medical devices, or magnetic-stripe cards near magnet",
+          "cryogen hazards — risk of asphyxiation from helium boil-off in poorly ventilated rooms; cold burns from liquid nitrogen/helium",
+          "quench risk — rapid boil-off of helium if superconducting coil goes normal; requires emergency ventilation",
+          "RF exposure — minimal at standard power levels but RF transmitter should not be operated with probe removed"
+        ]
+      },
+      "performance": {
+        "sensitivity": "1H NMR: detection limit ~1 µmol (5 mm probe, 400 MHz); 13C NMR: ~100× less sensitive than 1H due to low natural abundance (1.1%) and smaller gyromagnetic ratio",
+        "detection_limit": "~0.1 mol% for minor component in a mixture by 1H NMR with 64 scans at 400 MHz; ~1 mol% for 13C NMR without isotopic enrichment",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement of entire sample volume in detection coil)",
+          "temporal": "single spectrum acquisition: 1–10 min for quantitative 1H; 30 min to several hours for 13C",
+          "spectral": "chemical shift resolution ~0.001 ppm (0.4 Hz at 400 MHz) achievable with good shimming; sufficient to resolve most distinct molecular environments",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "mole fraction range: ~0.001 to 1.0 (1H); limited at low end by signal-to-noise and at high end by solvent suppression capability for dominant components",
+        "accuracy": "0.5–2% relative in mole fraction for well-resolved peaks with proper relaxation delays; 0.1–0.5% achievable with certified qNMR protocols and internal standards",
+        "precision": "0.2–0.5% relative standard deviation for replicate integrations of well-resolved 1H peaks",
+        "throughput": "5–15 min per sample for routine quantitative 1H NMR; autosamplers allow unattended measurement of 50–100 samples per day",
+        "measurement_speed": "1H spectrum: 2–10 min (including shimming); 13C spectrum: 30 min to 12 h depending on concentration and number of scans"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "free induction decay (FID) — time-domain oscillating voltage signal from precessing nuclear magnetization, detected in quadrature (real and imaginary channels)",
+        "preprocessing_steps": [
+          "Fourier transformation of FID to produce frequency-domain spectrum (intensity vs. chemical shift)",
+          "phase correction (zero-order and first-order) to produce pure absorption-mode line shapes",
+          "baseline correction (polynomial or spline) to remove rolling baseline artifacts",
+          "chemical shift referencing to internal standard (TMS) or solvent residual peak",
+          "apodization (exponential or Gaussian window function) to optimize resolution vs. sensitivity trade-off"
+        ],
+        "analysis_methods": [
+          "peak integration: numerical integration of selected peak regions to obtain relative areas proportional to number of nuclei",
+          "mole fraction calculation: xi = (Ai/ni) / Σ(Aj/nj), where Ai = integral area, ni = number of equivalent nuclei per molecule",
+          "deconvolution/curve fitting: Lorentzian or Voigt line shape fitting for overlapped peaks",
+          "internal standard method: addition of known amount of reference compound for absolute quantification",
+          "ERETIC/PULCON method: electronic reference for absolute quantification without adding internal standard"
+        ],
+        "model_assumptions": [
+          "peak integral is directly proportional to the number of nuclei giving rise to that signal (fundamental NMR quantitation principle)",
+          "all nuclei of interest are fully relaxed between successive scans (relaxation delay ≥ 5×T1)",
+          "nuclear Overhauser effect (NOE) is absent or uniform across all peaks (critical for inverse-gated 13C experiments)",
+          "sample is homogeneous and well-mixed within the detection volume",
+          "chemical exchange is slow on the NMR timescale so that distinct peaks are observed for each component"
+        ],
+        "fit_parameters": [
+          "integrated peak areas (Ai) for each component",
+          "number of equivalent nuclei per molecule (ni) — assigned from molecular structure",
+          "chemical shift (δ) and line width for deconvolution",
+          "T1 relaxation times for all quantified peaks (measured separately)"
+        ],
+        "common_artifacts": [
+          "incomplete relaxation artifact: underestimation of slowly-relaxing peaks when relaxation delay < 5×T1, causing systematic mole fraction errors",
+          "baseline distortion: rolling or curved baseline from acoustic ringing, probe background, or receiver filter effects, leading to integration errors",
+          "peak overlap: signals from different components coincide within the spectral resolution, requiring deconvolution or selection of alternative peaks",
+          "13C NOE artifact: differential NOE enhancement of different carbons in decoupled 13C spectra distorts relative integrals unless inverse-gated decoupling is used",
+          "spinning sidebands: satellite peaks at ±spinning frequency from intense signals, caused by sample tube imperfections or field inhomogeneity",
+          "solvent signal interference: large solvent peak obscures nearby analyte signals; requires solvent suppression techniques"
+        ],
+        "quality_control_checks": [
+          "verify T1 values for all quantified peaks and confirm relaxation delay ≥ 5×T1(max)",
+          "check line shape symmetry and width — asymmetric or broad lines indicate poor shimming or paramagnetic contamination",
+          "confirm mass balance: sum of all mole fractions should equal 1.000 ± tolerance",
+          "measure known reference mixture to verify accuracy of integration procedure",
+          "compare integrals from multiple non-overlapping peaks of the same molecule — they should give consistent mole fractions",
+          "inspect baseline flatness in regions without peaks"
+        ],
+        "failure_modes": [
+          "shimming failure: broad or asymmetric peaks that prevent reliable integration (field homogeneity issue)",
+          "sample decomposition or chemical reaction during measurement (new peaks appear, original peaks decrease)",
+          "phase separation in NMR tube if sample temperature changes from equilibrium condition",
+          "lock signal loss (deuterium lock fails) causing field drift and peak position wandering",
+          "tube breakage in probe (rare but requires probe cleaning and may damage electronics)",
+          "paramagnetic impurity contamination causing excessive line broadening across entire spectrum"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% relative in mole fraction for well-resolved 1H peaks; 2–5% for 13C-based analysis or partially overlapped peaks",
+        "random_sources": [
+          "thermal (Johnson) noise in receiver coil",
+          "signal-to-noise ratio limited by number of scans and sample concentration",
+          "small variations in sample tube positioning affecting shimming reproducibility",
+          "temperature fluctuations in VT unit affecting chemical shifts and equilibrium composition",
+          "baseline noise affecting integration limits"
+        ],
+        "systematic_sources": [
+          "incomplete longitudinal relaxation (T1 effect) — most critical systematic error in quantitative NMR",
+          "differential NOE enhancement in decoupled 13C spectra",
+          "baseline distortion propagating into integrated areas",
+          "impurity peaks overlapping with analyte signals",
+          "integration limit selection (operator-dependent boundary placement)",
+          "reference compound purity and weighing uncertainty (for absolute quantification)",
+          "isotope effects when deuterated solvent alters equilibrium composition"
+        ],
+        "operator_dependence": "moderate — integration boundary selection, shimming quality, and choice of non-overlapping peaks depend on operator expertise; automated integration algorithms reduce but do not eliminate dependence",
+        "model_dependence": "low for well-resolved spectra (direct proportionality of integral to mole count is fundamental); moderate when deconvolution is needed for overlapped peaks (depends on assumed line shape model)",
+        "dominant_error_sources": [
+          "incomplete relaxation (using insufficient relaxation delay relative to T1)",
+          "peak overlap requiring deconvolution (introduces model-dependent uncertainty)",
+          "integration boundary selection for peaks on sloped or noisy baseline"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(x) at 95% confidence (k=2) in mole fraction units",
+          "relative standard uncertainty as percentage of mole fraction",
+          "standard deviation from replicate measurements on independently prepared samples"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "NMR spectrometry, as applied in ThermoML studies, is a quantitative analytical technique that exploits the magnetic properties of atomic nuclei (principally 1H and 13C) to determine the composition of liquid mixtures at thermodynamic equilibrium. Unlike its more common use in structural elucidation, the ThermoML application focuses on integrating well-resolved spectral peaks to obtain mole fractions of components in phases sampled from liquid-liquid or vapor-liquid equilibrium experiments. The technique is non-destructive and requires no chemical derivatization, making it well suited for analyzing equilibrium samples without perturbing the system. In the ThermoML database, NMR spectrometry appears with 48 measurement instances across 3 papers, exclusively in the ReactionEquilibriumProp property group.",
+      "how_it_operates": "A liquid equilibrium sample is placed in a precision glass tube and inserted into the bore of a superconducting magnet producing a strong, homogeneous static field B0. Nuclear spins with non-zero magnetic moments (1H, 13C, etc.) precess about B0 at the Larmor frequency, which is slightly modified by the local electronic environment of each nucleus — this environment-dependent shift is the chemical shift (δ). A short radiofrequency pulse tips the magnetization away from equilibrium, and the resulting free induction decay (FID) is recorded as the nuclei relax back. Fourier transformation of the FID produces a frequency-domain spectrum with peaks at each chemically distinct nuclear environment. For quantitative composition analysis, the area (integral) under each peak is directly proportional to the number of nuclei contributing to that resonance, allowing mole fractions to be calculated from relative peak integrals after correcting for the number of equivalent nuclei per molecule.",
+      "core_theory": "Quantitative NMR rests on the principle that the integrated signal intensity of a resonance is directly proportional to the number of nuclei giving rise to it, provided all spins are equally excited and fully relaxed between scans. For a mixture of components i, the mole fraction is xi = (Ai / ni) / Σj(Aj / nj), where Ai is the integrated area of a selected peak of component i and ni is the number of magnetically equivalent nuclei producing that peak. This proportionality holds because the NMR signal amplitude depends only on the nuclear magnetization M0 = Nγ²ℏ²I(I+1)B0/(3kT), which scales linearly with the number of spins N. The critical requirement is that the repetition delay between scans must exceed 5×T1 (the spin-lattice relaxation time) for every quantified peak, ensuring complete return to thermal equilibrium magnetization and thus equal sensitivity per nucleus regardless of relaxation rate.",
+      "setup": "The measurement requires a high-field NMR spectrometer, typically operating at 300–600 MHz proton frequency (corresponding to 7.05–14.1 T magnetic field), equipped with a broadband or multinuclear probe for either 1H or 13C observation. The equilibrium sample — withdrawn from a thermostatted phase equilibrium cell — is loaded into a 5 mm precision NMR tube, often with a coaxial capillary containing deuterated solvent for field-frequency lock if the sample itself lacks deuterium. The tube is inserted into the probe via pneumatic sample lift, and the field homogeneity is optimized by shimming on the lock signal. Temperature is controlled by the variable-temperature (VT) unit to match the equilibrium temperature, typically within ±0.1 K. Before acquiring quantitative spectra, the 90° pulse width is calibrated, and T1 relaxation times of all relevant peaks are measured using an inversion-recovery sequence to set the appropriate relaxation delay.",
+      "suitable_for": "NMR spectrometry is particularly suitable for determining the composition of liquid phases in binary and multicomponent equilibrium systems where components have chemically distinct, non-overlapping NMR signals. It excels for mixtures involving ionic liquids, organic solvents, and aqueous-organic systems commonly encountered in liquid-liquid equilibrium studies. The technique is ideal when aliquots can be withdrawn from equilibrated phases and analyzed without further chemical treatment. It is valued for simultaneously quantifying all NMR-active components in a single measurement and for its independence from component-specific detector calibration curves — unlike chromatographic methods, NMR does not require individual response factors provided all nuclei are fully relaxed.",
+      "core_limitations": "The most significant limitation is spectral overlap: if components produce peaks at identical or very similar chemical shifts, quantitative deconvolution becomes necessary, introducing additional uncertainty. The technique requires NMR-active nuclei (with non-zero spin quantum number), excluding analysis of components that lack suitable NMR-observable atoms. Equipment cost is high, with research-grade spectrometers costing $500K–$3M, limiting accessibility. Sensitivity is lower than chromatographic methods, with typical detection limits of ~0.1 mol% for 1H and ~1 mol% for 13C at natural abundance. Deuterated solvents needed for field locking are expensive and may perturb the equilibrium through isotope effects if used as co-solvents rather than external locks. Paramagnetic species in solution cause severe line broadening that can make quantitative integration unreliable.",
+      "sample_preparation": "Samples for quantitative NMR composition analysis are typically aliquots withdrawn from pre-equilibrated phase equilibrium cells using syringes or sampling valves, with great care to avoid cross-contamination between coexisting phases. The sample (0.5–0.7 mL) is transferred into a clean, dry 5 mm NMR tube. If a deuterated solvent is used, it should be chosen to be fully miscible with the sample and chemically inert; alternatively, a coaxial insert tube containing D2O or CDCl3 provides the lock signal without diluting the sample. An internal reference (TMS for organic systems, DSS for aqueous systems) may be added at known concentration for absolute quantification. Particulate matter must be removed by filtration through a 0.2 µm membrane filter, as suspended particles degrade field homogeneity and line shape. For air-sensitive samples, preparation is carried out under inert atmosphere and the tube is sealed with a J-Young valve or flame-sealed.",
+      "calibration_and_references": "Quantitative NMR calibration involves several steps: (1) chemical shift referencing by adding a trace of TMS (δ = 0.00 ppm) or using the known residual solvent peak position; (2) 90° pulse width calibration specific to the probe, sample solvent, and temperature to ensure uniform excitation across the spectral width; (3) T1 measurement by inversion-recovery for all peaks to be integrated, with the relaxation delay set to at least 5×T1(max); and (4) validation using a reference mixture of known composition to confirm that the integration procedure recovers the correct mole fractions within the stated accuracy. For absolute quantification, certified qNMR standards (maleic acid, dimethyl sulfone, or NIST-traceable compounds) are used as internal standards with accurately known mass. The ERETIC or PULCON electronic reference methods provide an alternative when adding an internal standard is undesirable.",
+      "data_interpretation": "The acquired FID is Fourier-transformed, phase-corrected, and baseline-corrected to yield a clean absorption-mode spectrum. Chemical shifts are referenced to the internal standard or solvent signal. For each component, one or more well-resolved, non-overlapping peaks are selected for integration. The integration limits are set to encompass the full peak envelope including any fine structure from J-coupling. The raw integral Ai of each selected peak is divided by ni (the number of equivalent nuclei producing that peak, determined from the molecular structure) to obtain a quantity proportional to the number of moles of that component. Mole fractions are then calculated as xi = (Ai/ni) / Σ(Aj/nj). When peaks overlap, line shape deconvolution using Lorentzian or mixed Lorentzian-Gaussian functions is applied before integration. For LLE studies, this procedure is performed separately on samples from each coexisting liquid phase, yielding tie-line compositions. Activity coefficients can then be derived from the measured equilibrium compositions using appropriate thermodynamic models.",
+      "common_pitfalls": "The most critical pitfall is using an insufficient relaxation delay relative to the T1 values of the quantified nuclei — this causes differential saturation where slowly-relaxing peaks are systematically underestimated, biasing mole fractions. Failure to suppress or avoid the nuclear Overhauser effect in inverse-gated 13C experiments introduces non-uniform signal enhancements that destroy the proportionality between integral and mole count. Selecting peaks for integration that overlap with impurity signals or solvent satellites (13C satellites of the solvent peak) introduces systematic errors. Poor shimming produces asymmetric or broad lines whose tails extend under neighboring peaks, corrupting integrals. Using integration limits that are too narrow truncates peak tails (especially for Lorentzian line shapes where ~5% of intensity lies beyond 10× the half-width), while limits that are too wide capture baseline noise. Allowing temperature variation during acquisition can shift peak positions and introduce phase errors.",
+      "artifacts_and_failure_modes": "Incomplete relaxation artifacts manifest as mole fraction values that depend on the number of scans or repetition rate — if reducing the relaxation delay changes the calculated composition, the delay is too short. Baseline roll from acoustic ringing after the RF pulse or from probe background signals creates a curved baseline that biases integrals of peaks sitting on the slope. Spinning sidebands appear as satellite peaks at ±n× spinning frequency from intense resonances and can overlap with weak analyte peaks; modern high-homogeneity probes minimize this by allowing measurement without spinning. Phase separation inside the NMR tube occurs if the sample temperature drifts from the equilibrium condition, producing a heterogeneous sample with unreliable integrals. Lock signal failure from insufficient deuterium in the sample causes field drift, resulting in peak position wandering and spectral broadening over long acquisition times. Radiation damping from very intense solvent peaks (e.g., H2O in aqueous samples) distorts line shapes of both the solvent and nearby analyte peaks.",
+      "reporting_checklist": "Published NMR composition analyses should report: spectrometer frequency (e.g., 400 MHz 1H), probe type (broadband, inverse, cryoprobe), observed nucleus (1H, 13C, 19F, etc.), pulse sequence (single pulse, inverse-gated, etc.), pulse angle, relaxation delay and how it was determined relative to T1, number of scans, acquisition temperature and its uncertainty, deuterated solvent and chemical shift reference used, whether internal or external lock was employed, peaks selected for integration (identified by chemical shift and assignment), number of equivalent nuclei per peak, integration method (manual, automatic, deconvolution), mass balance closure (Σxi), combined expanded uncertainty in mole fraction at 95% confidence, and any solvent suppression techniques employed. For ThermoML encoding, composition values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

@@ -1,0 +1,351 @@
+{
+  "meas_ID": "drop_calorimetry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Drop calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Drop calorimetry",
+    "thermoml_custom_codes": [
+      "DROPSH"
+    ],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 343,
+      "property_groups": [
+        "HeatCapacityAndDerivedProp",
+        "PhaseTransition"
+      ],
+      "n_papers": 81,
+      "per_group": {
+        "HeatCapacityAndDerivedProp": {
+          "instances": 339,
+          "papers": 81
+        },
+        "PhaseTransition": {
+          "instances": 4,
+          "papers": 3
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature rise of receiving calorimeter after sample drop (ΔT_cal)",
+          "heat evolved in isothermal receiving calorimeter (Q)",
+          "equilibrium temperature of calorimeter after thermal equilibration"
+        ],
+        "derived_observables": [
+          "enthalpy increment H(T₁) − H(T₂) from sample temperature T₁ to calorimeter temperature T₂",
+          "mean heat capacity over interval ΔT (Cp_mean = ΔH/ΔT)",
+          "heat capacity Cp(T) from derivative of H(T) vs. T curve",
+          "enthalpy of phase transitions (from discontinuities in H vs. T plot)"
+        ],
+        "target_properties": [
+          "enthalpy increment H(T₁) − H(298.15 K)",
+          "isobaric heat capacity (Cp)",
+          "enthalpy of fusion (ΔfusH)",
+          "enthalpy of solid-solid phase transitions",
+          "enthalpy of formation (via thermochemical cycles)",
+          "high-temperature thermodynamic functions (H, S, G relative to 298.15 K)"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous)",
+          "liquid",
+          "multiphase samples spanning transitions"
+        ],
+        "supported_sample_types": [
+          "pure metals and alloys",
+          "refractory oxides and ceramics",
+          "intermetallic compounds",
+          "minerals and geological materials",
+          "salts and ionic compounds",
+          "pure organic solids (low vapor pressure)",
+          "glass and amorphous inorganic materials",
+          "binary and multicomponent solid mixtures"
+        ],
+        "unsupported_sample_types": [
+          "gases",
+          "volatile liquids that evaporate during heating or transfer",
+          "samples that decompose or react with the atmosphere during heating to T₁",
+          "hygroscopic materials that absorb moisture during transfer",
+          "samples requiring sub-ambient receiving temperatures in standard setups"
+        ],
+        "typical_output_formats": [
+          "H(T) − H(298.15 K) vs. T tabulation",
+          "Cp vs. T curve (from differentiation of H vs. T)",
+          "enthalpy increment per unit mass or per mole at discrete furnace temperatures",
+          "transition enthalpy from discontinuity in H(T) curve"
+        ],
+        "units": {
+          "enthalpy_increment": "J/mol or J/g",
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "temperature": "K",
+          "mass": "g",
+          "heat": "J",
+          "time": "s"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "furnace_temperature_T1",
+            "typical_range": "400 K to 2000 K",
+            "hard_limits": "limited by furnace element and sample containment; specialized setups reach 2500 K or higher with tungsten or graphite elements",
+            "notes": "furnace temperature must be stable to ±0.5 K during thermal equilibration before drop"
+          },
+          {
+            "parameter": "receiving_calorimeter_temperature_T2",
+            "typical_range": "298.15 K (standard) or 273.15 K (ice calorimeter)",
+            "hard_limits": "must remain constant or near-constant during the measurement; isothermal receiving is preferred",
+            "notes": "Bunsen ice calorimeters operate at 273.15 K; copper-block calorimeters typically at 298.15 K"
+          },
+          {
+            "parameter": "sample_mass",
+            "typical_range": "0.1 g to 10 g",
+            "hard_limits": "minimum limited by calorimeter sensitivity; maximum by calorimeter heat capacity and temperature rise constraint",
+            "notes": "larger masses improve signal-to-noise but increase equilibration time; optimal mass chosen so ΔT_cal is 0.5–3 K"
+          },
+          {
+            "parameter": "drop_time",
+            "typical_range": "< 1 s",
+            "hard_limits": "must be short relative to thermal equilibration time to minimize heat loss during transfer",
+            "notes": "rapid drop through a guiding tube or funnel into the calorimeter well"
+          },
+          {
+            "parameter": "equilibration_time",
+            "typical_range": "5 min to 60 min",
+            "hard_limits": "depends on sample mass, calorimeter design, and thermal conductance",
+            "notes": "complete equilibration verified by approach to exponential baseline"
+          }
+        ],
+        "variables": [
+          {
+            "name": "furnace_temperature",
+            "role": "primary experimental variable — stepped to discrete values",
+            "typical_values": "400 K to 2000 K in steps of 25–100 K",
+            "effect": "defines the upper temperature of the enthalpy increment; each furnace temperature yields one H(T₁)−H(T₂) data point"
+          },
+          {
+            "name": "receiving_temperature",
+            "role": "fixed reference temperature",
+            "typical_values": "298.15 K or 273.15 K",
+            "effect": "defines the lower limit of the enthalpy integration interval; held constant throughout measurement campaign"
+          },
+          {
+            "name": "sample_mass",
+            "role": "controlled parameter",
+            "typical_values": "0.5 g to 5 g",
+            "effect": "scales the heat input to the calorimeter; must be known precisely for molar enthalpy calculation"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "standard drop calorimetry operates at ambient pressure; inert atmosphere may be used for reactive samples"
+          },
+          {
+            "name": "atmosphere",
+            "role": "controlled environment",
+            "typical_values": "air, argon, or vacuum",
+            "effect": "inert atmosphere prevents sample oxidation at high temperature; vacuum reduces convective heat loss during drop"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "high-temperature furnace — resistance-wound (Kanthal, MoSi₂, or W) or induction-heated, capable of stable operation to the target T₁",
+          "receiving calorimeter — Bunsen ice calorimeter, copper-block calorimeter, or Calvet-type heat-flux calorimeter",
+          "drop tube or guide funnel — vertical tube connecting furnace to calorimeter, often evacuated or purged with inert gas to minimize heat loss during transfer",
+          "sample container or crucible — refractory material (alumina, platinum, graphite, tungsten, BN) compatible with sample and furnace atmosphere",
+          "temperature measurement in furnace — type B, S, or R thermocouple or optical pyrometer for T₁ determination",
+          "temperature measurement in calorimeter — precision thermometer (PRT, thermistor, or type E thermocouple) for ΔT_cal",
+          "data acquisition system — high-resolution digitizer for calorimeter temperature vs. time recording",
+          "analytical balance — for sample mass determination (±0.1 mg or better)",
+          "drop mechanism — solenoid-actuated gate, rotating platform, or manual release for reproducible sample transfer"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature in the laboratory (±1 K) to minimize calorimeter drift",
+          "draft-free environment around the calorimeter (enclosure or thermal shield)",
+          "inert atmosphere (Ar, He, or N₂) in furnace for oxidation-sensitive samples",
+          "vacuum or inert gas in drop tube to reduce convective cooling during transfer",
+          "vibration isolation for high-sensitivity receiving calorimeters"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "small cylinders, disks, or pellets (preferred for uniform heating and rapid equilibration)",
+            "wire or foil segments for metals",
+            "irregular pieces (acceptable if they fit the crucible and equilibrate fully in the furnace)"
+          ],
+          "size_limits": "typically 0.1–10 g; optimal mass 0.5–5 g for most receiving calorimeters",
+          "thickness_limits": "no strict limit, but sample dimensions should allow full thermal equilibration in the furnace (typically < 10 mm in any dimension)",
+          "surface_requirements": [
+            "clean surface free of oxide scale if oxidation correction is to be avoided",
+            "samples may be pre-oxidized to stable oxide layer for measurements in air"
+          ],
+          "mounting_requirements": [
+            "sample placed in or on a lightweight container (crucible) of known heat capacity",
+            "crucible must fit through the drop tube and into the calorimeter well",
+            "sample must not adhere to crucible walls after high-temperature exposure"
+          ],
+          "preparation_requirements": [
+            "accurate mass measurement (weighed before and after experiment to check for mass loss)",
+            "annealing or thermal conditioning to establish a well-defined initial state",
+            "drying or degassing for hydrated or porous materials",
+            "encapsulation in sealed crucible for samples that volatilize or react at T₁"
+          ]
+        },
+        "calibration_requirements": [
+          "calorimeter constant determination using electrical calibration (Joule heating) or certified reference substance drops",
+          "furnace temperature calibration against melting points of certified reference metals",
+          "empty-container (blank) drops to determine and subtract the enthalpy contribution of the crucible",
+          "verification of heat loss during drop by measuring enthalpy increments of a well-characterized standard (sapphire or copper)"
+        ],
+        "reference_materials": [
+          "sapphire (α-Al₂O₃) — NIST SRM 720, primary reference for enthalpy increment and Cp",
+          "copper — well-characterized enthalpy increments (NIST, JANAF tables)",
+          "platinum — high-temperature enthalpy reference, inert and stable",
+          "molybdenum — refractory metal reference for very high temperatures",
+          "benzoic acid — melting point and enthalpy reference for moderate temperatures"
+        ],
+        "consumables": [
+          "crucibles (alumina, platinum, graphite, or BN — depends on sample and T₁)",
+          "furnace heating elements (periodic replacement)",
+          "thermocouples (S, R, B type for furnace; PRT or type E for calorimeter)",
+          "inert gas supply (argon, helium, or nitrogen)",
+          "vacuum grease for calorimeter seals"
+        ],
+        "safety_notes": [
+          "high-temperature furnace operation requires burn protection (gloves, shields) and caution during sample drops",
+          "use of inert or reducing atmospheres requires proper gas handling and ventilation",
+          "molten-salt or liquid-metal samples at high temperature pose splash and spill hazards",
+          "Bunsen ice calorimeters use mercury — proper mercury handling and containment protocols required",
+          "vacuum systems require implosion protection"
+        ]
+      },
+      "performance": {
+        "sensitivity": "typical receiving calorimeters detect enthalpy inputs of ~0.5 J; Bunsen ice calorimeters can resolve ~0.01 J through mercury displacement measurement",
+        "detection_limit": "minimum enthalpy increment ~1 J for copper-block calorimeters; ~0.05 J for Bunsen ice calorimeters; sample mass ≥ 0.1 g typically required",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "not applicable (integral technique — measures total enthalpy difference, not time-resolved)",
+          "spectral": "not applicable",
+          "energy": "enthalpy resolution ~0.2–1% of measured increment for well-calibrated systems"
+        },
+        "dynamic_range": "enthalpy increments from ~100 J/mol to ~200 kJ/mol; temperature range 298.15 K to 2500 K (furnace dependent)",
+        "accuracy": "0.5–2% for enthalpy increments after full calibration and heat-loss correction; best results ~0.3% with high-precision Bunsen ice calorimeters",
+        "precision": "0.3–1% (repeatability of enthalpy increment at a given furnace temperature from replicate drops)",
+        "throughput": "one data point per drop; 3–10 drops per day depending on equilibration time and furnace reheat time",
+        "measurement_speed": "each drop cycle (furnace equilibration + drop + calorimeter equilibration) takes 30 min to 3 hours; full H(T) curve over a temperature range requires days to weeks"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "temperature vs. time trace of the receiving calorimeter showing baseline, temperature rise after drop, and exponential return toward baseline (for non-isothermal receivers); or mercury displacement volume vs. time for Bunsen ice calorimeters",
+        "preprocessing_steps": [
+          "baseline extrapolation: fit pre-drop and post-equilibration temperature drifts to determine the corrected temperature rise ΔT_cal",
+          "heat exchange correction: apply Regnault-Pfaundler or exponential extrapolation to correct for heat exchange between calorimeter and surroundings during the measurement period",
+          "empty-container subtraction: subtract the enthalpy contribution of the crucible from the total measured enthalpy",
+          "heat-loss-during-drop correction: estimate and correct for heat lost by the sample during transfer from furnace to calorimeter",
+          "conversion to molar quantities using measured sample mass and molar mass"
+        ],
+        "analysis_methods": [
+          "enthalpy increment calculation: ΔH = C_cal × ΔT_cal (for non-isothermal receivers) after all corrections",
+          "H(T) curve construction: plot corrected enthalpy increments H(T₁)−H(T₂) vs. T₁",
+          "Cp(T) derivation: numerically differentiate the H(T) curve, or fit H(T) to a polynomial and differentiate analytically",
+          "transition enthalpy extraction: identify discontinuities in H(T) at phase transitions; transition enthalpy = jump in H(T) at transition temperature",
+          "Shomate or Maier-Kelley polynomial fitting: fit H(T) data to standard thermodynamic polynomials for tabulation"
+        ],
+        "model_assumptions": [
+          "sample reaches complete thermal equilibrium at furnace temperature T₁ before the drop",
+          "heat loss during the brief drop transfer is negligible or correctable",
+          "receiving calorimeter behaves as an ideal integrating device (all heat from the sample is captured)",
+          "empty-container correction fully accounts for crucible enthalpy contribution",
+          "no chemical reaction between sample and crucible or atmosphere during furnace heating"
+        ],
+        "fit_parameters": [
+          "calorimeter constant C_cal (J/K) from electrical or reference-material calibration",
+          "Shomate polynomial coefficients (A, B, C, D, E) for H(T) representation",
+          "transition temperature Ttr and transition enthalpy ΔtrH from discontinuities in H(T) data",
+          "heat-loss-during-drop correction factor (fraction of enthalpy lost during transfer)"
+        ],
+        "common_artifacts": [
+          "heat loss during drop: if the sample cools significantly during transfer, the measured enthalpy increment is lower than the true value — produces a systematic negative bias",
+          "incomplete equilibration in furnace: sample temperature is lower than the measured furnace temperature, underestimating the true H(T₁)",
+          "crucible reaction artifact: chemical interaction between sample and crucible at high T changes sample composition and measured enthalpy",
+          "radiative heat gain/loss in drop tube: radiation exchange between sample and tube walls during transfer introduces systematic error",
+          "volatilization artifact: mass loss during high-temperature exposure leads to incorrect molar enthalpy if not detected by post-experiment weighing"
+        ],
+        "quality_control_checks": [
+          "replicate drops at the same furnace temperature to verify repeatability (agreement within 0.5–1%)",
+          "measure enthalpy increments of sapphire (SRM 720) or copper to validate instrument calibration",
+          "compare pre-drop and post-drop sample mass to detect volatilization or reaction",
+          "check smoothness and monotonicity of H(T) curve (except at known phase transitions)",
+          "verify that H(T) values connect smoothly with low-temperature DSC or adiabatic calorimetry data when available",
+          "inspect calorimeter temperature vs. time trace for anomalies (incomplete equilibration, multiple thermal events)"
+        ],
+        "failure_modes": [
+          "sample sticking to crucible or drop tube, preventing clean transfer into calorimeter",
+          "sample shattering on impact with calorimeter, causing portions to lodge outside the measurement well",
+          "thermal shock cracking of crucible during rapid cooling, contaminating calorimeter",
+          "mercury leaks in Bunsen ice calorimeter compromising volume measurement",
+          "furnace element failure or thermocouple degradation leading to incorrect T₁ values",
+          "oxidation or decomposition of sample during furnace heating (detected by mass change)"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for enthalpy increments; 1–3% for derived Cp values (due to differentiation amplifying uncertainty)",
+        "random_sources": [
+          "calorimeter temperature measurement noise",
+          "variability in heat loss during drop (depends on drop speed and trajectory)",
+          "sample mass variation between drops (if different specimens are used)",
+          "environmental temperature fluctuations affecting calorimeter drift rate",
+          "irreproducibility of sample positioning in furnace and calorimeter"
+        ],
+        "systematic_sources": [
+          "heat loss during sample transfer from furnace to calorimeter",
+          "incomplete thermal equilibration in furnace (sample T < thermocouple T)",
+          "empty-container (crucible) enthalpy subtraction error",
+          "calorimeter constant calibration uncertainty",
+          "furnace temperature measurement uncertainty (thermocouple drift, calibration)",
+          "sample mass uncertainty (particularly relevant if volatilization occurs)",
+          "radiation corrections in the drop tube"
+        ],
+        "operator_dependence": "moderate — drop timing, sample placement in furnace, and calorimeter operation require practiced technique; Bunsen ice calorimeters require significant operator skill for mercury volume readings",
+        "model_dependence": "low to moderate — primary measurement (enthalpy increment) is relatively model-free; differentiation to obtain Cp introduces dependence on polynomial fitting choices and smoothing parameters",
+        "dominant_error_sources": [
+          "heat loss during drop transfer (especially at very high furnace temperatures where radiative loss is large)",
+          "empty-container correction uncertainty (significant when crucible enthalpy is large relative to sample enthalpy)",
+          "furnace temperature uncertainty at very high temperatures (thermocouple drift, inhomogeneity)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔH) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of enthalpy increment",
+          "standard deviation from replicate drops at each temperature"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Drop calorimetry (also called the drop method or method of mixtures) is a classical calorimetric technique that determines enthalpy increments by heating a sample to a known elevated temperature T₁ in a furnace and then rapidly dropping it into a receiving calorimeter held at a lower reference temperature T₂, typically 298.15 K. The calorimeter measures the total heat released as the sample cools from T₁ to T₂, yielding the enthalpy increment H(T₁) − H(T₂) = ∫Cp dT integrated over that interval. By repeating the measurement at a series of furnace temperatures, a complete enthalpy vs. temperature curve is constructed from which heat capacity and phase transition enthalpies are derived. The technique is particularly well suited for high-temperature measurements from 400 K to above 2000 K, where continuous-heating methods become impractical.",
+      "how_it_operates": "A sample of known mass is placed in a refractory crucible and heated to a stable, precisely measured temperature T₁ in a high-temperature furnace. Once thermal equilibrium is confirmed, a drop mechanism releases the sample, which falls through a guide tube into the receiving calorimeter at temperature T₂. The calorimeter absorbs the enthalpy released by the cooling sample and records the resulting thermal response — either a temperature rise ΔT_cal (in a copper-block adiabatic receiver) or a volume change of mercury (in a Bunsen ice calorimeter). After applying corrections for heat exchange with surroundings, crucible enthalpy, and any heat lost during the brief transfer, the corrected thermal response is converted to the sample's enthalpy increment using the known calorimeter constant.",
+      "core_theory": "The fundamental relation is H(T₁) − H(T₂) = C_cal × ΔT_cal for a non-isothermal receiving calorimeter, where C_cal is the calibrated heat capacity of the calorimeter assembly and ΔT_cal is the corrected temperature rise. For a Bunsen ice calorimeter, the enthalpy equals the measured mass of ice melted multiplied by the specific enthalpy of fusion of ice. The enthalpy increment equals the integral of isobaric heat capacity: H(T₁) − H(T₂) = ∫[T₂ to T₁] Cp(T) dT, plus any latent heat contributions from phase transitions within the interval. Heat capacity is obtained by differentiating the H(T) curve: Cp(T) = dH/dT, typically by fitting H(T) data to Shomate or Maier-Kelley polynomials and computing the analytical derivative.",
+      "setup": "A typical drop calorimeter system comprises four main components: (1) a high-temperature furnace with precise temperature control and measurement, using resistance heating elements (Kanthal to ~1500 K, MoSi₂ to ~1800 K, or tungsten/graphite to ~2500 K) and type S/R/B thermocouples or pyrometers; (2) a vertical drop tube that guides the sample from furnace to calorimeter, often evacuated or purged with inert gas to minimize heat loss during the ~0.5 s transfer; (3) a receiving calorimeter — commonly a Bunsen ice calorimeter for highest accuracy, a copper-block isoperibol calorimeter for convenience, or a Calvet-type twin heat-flux calorimeter for versatility; and (4) a data acquisition system recording the calorimeter temperature or mercury volume as a function of time.",
+      "suitable_for": "Drop calorimetry is the method of choice for measuring enthalpy increments and deriving heat capacity of materials at high temperatures (400–2500 K), where it offers unique advantages. It excels for refractory metals, alloys, oxides, ceramics, and minerals that are stable at elevated temperatures. The technique is ideal when absolute enthalpy values referenced to 298.15 K are needed for thermodynamic tables and thermochemical calculations. It naturally captures phase transition enthalpies when the furnace temperature spans a transition. The method requires no continuous thermal contact between heater and sample at the measurement temperature, making it suitable for hard, brittle, or irregularly shaped specimens that are difficult to mount in scanning calorimeters.",
+      "core_limitations": "Drop calorimetry provides enthalpy increments at discrete furnace temperatures rather than continuous data, requiring multiple drops to map H(T). The derived heat capacity Cp(T) is obtained by differentiation, which amplifies experimental scatter and limits Cp precision to 1–3% compared to 0.1–0.5% achievable with adiabatic scanning calorimetry. Heat loss during the drop transfer introduces systematic uncertainty that increases with furnace temperature due to radiative cooling (proportional to T⁴). The technique is generally limited to samples that are thermally stable and non-volatile at the furnace temperature, and to solids or high-melting liquids that survive the drop without splashing. Measurement throughput is low — typically 3–10 data points per day.",
+      "sample_preparation": "Samples are prepared as compact pieces (cylinders, disks, or pellets) with mass typically 0.5–5 g, sized to fit the refractory crucible and ensure complete thermal equilibration in the furnace. The sample mass is determined by weighing on an analytical balance (±0.1 mg). For metals, the surface should be cleaned of oxide scale by polishing or etching; alternatively, pre-oxidation to a stable oxide layer may be performed for measurements in air. Powders should be compacted into pellets to improve thermal contact and prevent dispersal during the drop. Hygroscopic or hydrated materials must be dried under controlled conditions. The sample is weighed before and after the experiment to check for volatilization or reaction.",
+      "calibration_and_references": "Calibration of the receiving calorimeter involves two steps: (1) determination of the calorimeter constant C_cal by electrical calibration (passing a known current through a heater for a known time, delivering measured Joule heat) or by dropping a well-characterized reference material; and (2) validation by measuring the enthalpy increments of a primary reference material — sapphire (α-Al₂O₃, NIST SRM 720) is the universal standard, with certified H(T)−H(298.15 K) values tabulated from 298 K to 2250 K. Copper and platinum serve as secondary references. Empty-crucible (blank) drops at each furnace temperature determine the container enthalpy contribution for subtraction. Furnace temperature is calibrated using the melting points of certified reference metals (Au 1337.33 K, Ag 1234.93 K, Cu 1357.77 K).",
+      "data_interpretation": "The primary data product is a table of corrected enthalpy increments H(T₁)−H(298.15 K) at each furnace temperature T₁. The calorimeter temperature-vs.-time trace is analyzed by extrapolating pre-drop and post-equilibration baselines to the midpoint of the temperature rise (Regnault-Pfaundler method) to obtain the corrected ΔT_cal. After subtracting the empty-container contribution and applying heat-loss-during-drop corrections, the enthalpy increment is computed as ΔH = C_cal × ΔT_cal. The set of H(T) data points is fitted to a Shomate polynomial H(T)−H(298.15) = AT + BT²/2 + CT³/3 + DT⁴/4 − E/T + F, from which Cp(T) = A + BT + CT² + DT³ + E/T² is derived analytically. Phase transitions appear as discontinuities (jumps) in the H(T) plot, with the transition enthalpy equal to the magnitude of the jump.",
+      "common_pitfalls": "The most critical pitfall is underestimating heat loss during the drop transfer, which systematically lowers the measured enthalpy increment — this error grows with furnace temperature and is worst above 1500 K where radiative cooling is dominant. Failure to achieve complete thermal equilibrium in the furnace before the drop results in the sample being at a lower temperature than the thermocouple reads, producing an apparent enthalpy deficit. Using a crucible material that reacts with the sample at elevated temperatures (e.g., alumina with reducing metals) contaminates the measurement. Insufficient equilibration time in the receiving calorimeter leads to incorrect baseline extrapolation. Neglecting to re-weigh the sample after the experiment means that volatilization-induced mass loss goes undetected, causing systematic error in the molar enthalpy.",
+      "artifacts_and_failure_modes": "The dominant artifact is the heat-loss-during-drop error, which appears as a systematic low bias in H(T) that increases with temperature. Incomplete furnace equilibration produces scatter in replicate drops at the same T₁ that exceeds expected random uncertainty. Sample oxidation during heating generates exothermic heat that artificially increases the apparent enthalpy increment if mass change is not accounted for. Sample shattering on impact with the calorimeter can distribute fragments outside the measurement well, causing an apparent low enthalpy. Crucible cracking from thermal shock during the drop releases debris into the calorimeter, altering the empty-container correction. In Bunsen ice calorimeters, mercury leakage or air bubbles in the mercury column produce erratic volumetric readings. Thermocouple degradation at high temperatures causes a gradual drift in the assigned T₁ value over a measurement campaign.",
+      "reporting_checklist": "Published drop calorimetry results should report: furnace temperature T₁ and receiving temperature T₂ for each data point, sample identity and purity, sample mass (pre- and post-experiment), crucible material and mass, receiving calorimeter type and calibration method, reference material used for validation (e.g., sapphire SRM 720) and agreement achieved, atmosphere (air, inert gas, vacuum) in furnace and drop tube, empty-container correction applied, heat-loss-during-drop correction method and magnitude, polynomial form and coefficients used for H(T) and Cp(T) fitting, phase transitions observed (temperatures and enthalpies), combined expanded uncertainty with confidence level (k=2), and comparison with literature values where available. For ThermoML encoding, enthalpy increments and Cp values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

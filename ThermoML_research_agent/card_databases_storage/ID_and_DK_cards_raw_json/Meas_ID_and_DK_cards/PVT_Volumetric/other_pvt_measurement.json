@@ -1,0 +1,344 @@
+{
+  "meas_ID": "other_pvt_measurement",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Other PVT measurement",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Other PVT measurement",
+    "thermoml_custom_codes": [
+      "OTHPVT"
+    ],
+    "measurement_family": "PVT / Volumetric",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 93,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 19,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 93,
+          "papers": 19
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "pressure (P) of the confined fluid",
+          "temperature (T) of the sample",
+          "volume (V) or volume change (ΔV) of the sample cell",
+          "piston displacement or linear position (variable-volume cells)",
+          "sample mass or amount of substance"
+        ],
+        "derived_observables": [
+          "molar volume Vm(T,P)",
+          "specific volume v(T,P) = 1/ρ",
+          "density ρ(T,P)",
+          "compressibility factor Z = PVm/(RT)",
+          "isothermal compressibility κT = −(1/V)(∂V/∂P)_T",
+          "isobaric expansivity αP = (1/V)(∂V/∂T)_P",
+          "pressure coefficient (∂P/∂T)_V",
+          "second and third virial coefficients (from low-density Z(P) data)"
+        ],
+        "target_properties": [
+          "molar volume",
+          "density",
+          "compressibility factor",
+          "isothermal compressibility",
+          "isobaric thermal expansivity",
+          "excess molar volume (for mixtures)",
+          "PVT equation of state parameters"
+        ],
+        "phases_measured": [
+          "compressed liquid",
+          "supercritical fluid",
+          "gas / vapor",
+          "liquid near saturation",
+          "two-phase (liquid + vapor) for phase boundary detection"
+        ],
+        "supported_sample_types": [
+          "pure compressed liquids",
+          "pure gases and vapors",
+          "supercritical fluids",
+          "binary and multicomponent liquid mixtures",
+          "gas mixtures",
+          "refrigerant fluids",
+          "hydrocarbons and petroleum fractions",
+          "ionic liquids under pressure",
+          "aqueous electrolyte solutions",
+          "polymer melts (low-viscosity)"
+        ],
+        "unsupported_sample_types": [
+          "solids and crystalline materials (require specialized dilatometry)",
+          "highly viscous materials that cannot fill or equilibrate in the cell",
+          "corrosive fluids incompatible with cell metallurgy",
+          "reactive or pyrophoric liquids without specialized containment",
+          "heterogeneous slurries or suspensions with settling"
+        ],
+        "typical_output_formats": [
+          "ρ(T,P) isothermal or isobaric data tables",
+          "Vm vs. P at constant T (isotherms)",
+          "Z vs. P at constant T",
+          "P vs. T at constant V (isochores)",
+          "αP or κT vs. T or P tables"
+        ],
+        "units": {
+          "pressure": "MPa (or bar, atm)",
+          "temperature": "K",
+          "volume": "cm³ or cm³/mol",
+          "density": "kg/m³ or g/cm³",
+          "compressibility_factor": "dimensionless",
+          "isothermal_compressibility": "MPa⁻¹ or GPa⁻¹",
+          "isobaric_expansivity": "K⁻¹",
+          "mass": "g"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa to 200 MPa",
+            "hard_limits": "depends on cell design; some high-pressure cells rated to 500 MPa or beyond; burst pressure of vessel and seals is the ultimate limit",
+            "notes": "most ThermoML entries in this category cover 0.1–100 MPa; ultra-high-pressure cells (>500 MPa) are specialized"
+          },
+          {
+            "parameter": "temperature",
+            "typical_range": "250 K to 500 K",
+            "hard_limits": "lower limit set by sample freezing and cryostat capability; upper limit by seal materials, O-ring degradation, and thermal stability of sample",
+            "notes": "most common range is 280–450 K; cryogenic PVT and high-T supercritical studies extend the range"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "1 cm³ to 100 cm³",
+            "hard_limits": "minimum set by dead volume corrections; maximum by cell fabrication and pressure rating",
+            "notes": "small-volume cells minimize sample usage but increase relative dead-volume uncertainty"
+          },
+          {
+            "parameter": "equilibration_time",
+            "typical_range": "10 min to 120 min per state point",
+            "hard_limits": "must be sufficient for complete thermal and mechanical equilibrium; viscous samples require longer times",
+            "notes": "insufficient equilibration is a leading source of systematic error in PVT work"
+          }
+        ],
+        "variables": [
+          {
+            "name": "pressure",
+            "role": "primary controlled or measured variable",
+            "typical_values": "0.1 MPa to 200 MPa",
+            "effect": "compression changes volume/density; higher pressures compress the fluid, reducing volume and increasing density"
+          },
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "250 K to 500 K",
+            "effect": "thermal expansion increases volume at constant pressure; T and P together define the thermodynamic state"
+          },
+          {
+            "name": "volume",
+            "role": "measured or constrained variable (depending on apparatus type)",
+            "typical_values": "1–100 cm³",
+            "effect": "in isochoric cells, volume is fixed and pressure is measured as a function of T; in variable-volume cells, volume is the measured response to imposed T and P"
+          },
+          {
+            "name": "composition",
+            "role": "fixed for each experimental run (mixtures)",
+            "typical_values": "mole fraction 0 to 1",
+            "effect": "composition determines the mixture density surface ρ(T,P,x); excess volumes require comparison with pure-component data"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "pressure vessel / PVT cell — thick-walled cylinder (typically stainless steel or Hastelloy) containing the sample, rated to the maximum working pressure",
+          "piston or bellows (variable-volume cells) — movable boundary element that transmits pressure and allows volume measurement via displacement",
+          "pressure generator — hand-operated screw press, syringe pump, or pneumatic/hydraulic intensifier to set and control pressure",
+          "pressure transducer — calibrated strain-gauge, piezoelectric, or dead-weight gauge for pressure measurement",
+          "temperature sensor — platinum resistance thermometer (PRT), thermistor, or thermocouple in direct contact with or embedded in the cell body",
+          "temperature control system — thermostat bath (liquid or air), heating jacket, or Peltier controller surrounding the cell",
+          "volume measurement system — LVDT, cathetometer, or graduated scale for piston displacement; or fixed calibrated cell volume for isochoric apparatus",
+          "vacuum and fill manifold — valves, tubing, and vacuum pump for evacuating the cell and loading the sample without air contamination",
+          "data acquisition system — computer-controlled digitizer recording P, T, and V (or displacement) at each equilibrium state point"
+        ],
+        "environmental_requirements": [
+          "temperature uniformity within the cell better than ±0.01 K to ±0.05 K depending on accuracy needs",
+          "vibration-free mounting for sensitive pressure transducers",
+          "leak-tight seals (O-rings, metal-to-metal seals) rated to the maximum working pressure and temperature",
+          "corrosion-resistant wetted surfaces compatible with sample chemistry"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid sample — no geometric constraints on the sample itself",
+            "cell geometry defines the measurement volume"
+          ],
+          "size_limits": "typically 5–200 cm³ of fluid; smaller cells (1–5 cm³) exist for scarce or expensive samples",
+          "thickness_limits": "not applicable (bulk fluid measurement)",
+          "surface_requirements": [
+            "not applicable to fluid samples; cell interior surfaces must be clean and chemically inert"
+          ],
+          "mounting_requirements": [
+            "sample is loaded by injection, pouring, or condensation into the evacuated cell",
+            "no air or moisture contamination during loading for hygroscopic or reactive samples"
+          ],
+          "preparation_requirements": [
+            "degassing: dissolved gases must be removed by vacuum, freeze-pump-thaw, or ultrasonic degassing to avoid bubble formation under pressure changes",
+            "drying: moisture-sensitive samples require drying over molecular sieves or distillation",
+            "known mass: sample mass determined gravimetrically (±0.01 g or better) for density calculation",
+            "composition verification: for mixtures, composition confirmed by analytical methods (GC, Karl Fischer, etc.) before loading"
+          ]
+        },
+        "calibration_requirements": [
+          "pressure transducer calibration against a dead-weight tester or NIST-traceable reference gauge (annually or before each campaign)",
+          "temperature sensor calibration at ITS-90 fixed points or against a calibrated reference PRT",
+          "cell volume calibration using a reference fluid of known density (water, mercury, or nitrogen) at multiple (T,P) points",
+          "piston displacement calibration: linear encoder or micrometer verified against gauge blocks",
+          "dead-volume determination: volume of connecting tubing, valves, and ports measured and corrected for"
+        ],
+        "reference_materials": [
+          "water (IAPWS-95 equation of state) — primary density/volume standard over wide T,P range",
+          "nitrogen (reference equation of state by Span et al.) — gas-phase PVT calibration standard",
+          "mercury — classic volumetric standard for cell calibration (declining use due to toxicity)",
+          "toluene, n-heptane — secondary liquid standards with well-known ρ(T,P)",
+          "CO2 (Span-Wagner EOS) — reference for near-critical and supercritical calibration"
+        ],
+        "consumables": [
+          "O-ring seals (Viton, Kalrez, PTFE, or metal C-rings depending on T and P range)",
+          "hydraulic fluid for pressure transmission (if used)",
+          "molecular sieves for sample drying",
+          "cleaning solvents for cell interior (acetone, ethanol, hexane)"
+        ],
+        "safety_notes": [
+          "high-pressure equipment poses burst and projectile hazards — cells must be hydrostatically tested to at least 1.5× maximum working pressure",
+          "all high-pressure connections must use properly rated fittings (cone-and-thread or autofrettaged tubing)",
+          "pressure relief valves or rupture discs are required on all closed systems",
+          "flammable or toxic samples require appropriate ventilation, fume hoods, and personal protective equipment",
+          "cryogenic operation requires standard cryogen handling precautions"
+        ]
+      },
+      "performance": {
+        "sensitivity": "volume changes detectable to ~0.001 cm³ in well-designed variable-volume cells; pressure resolution ~0.001 MPa with high-quality transducers",
+        "detection_limit": "not applicable in the usual sense; minimum measurable density difference ~0.01 kg/m³ for differential methods",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement)",
+          "temporal": "equilibrium measurement; each state point requires minutes to hours; not a time-resolved technique",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "density from ~0.5 kg/m³ (low-pressure gas) to ~2000 kg/m³ (compressed heavy liquid); pressure from sub-atmospheric to >500 MPa; temperature 200–700 K",
+        "accuracy": "0.01–0.5% in density depending on apparatus type and operating conditions; best isochoric and piston-cylinder cells achieve 0.01–0.05%; cruder or improvised setups may be 0.1–0.5%",
+        "precision": "0.005–0.1% (repeatability at a given state point); typically better than absolute accuracy",
+        "throughput": "one sample at a time; a complete ρ(T,P) surface (e.g., 6 isotherms × 10 pressures) takes 1–5 days",
+        "measurement_speed": "slow: each (T,P) state point requires 10–120 min for full thermal and mechanical equilibrium"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "pressure from transducer (voltage or frequency signal), temperature from PRT or thermocouple (resistance or voltage), and volume from piston displacement (LVDT voltage or encoder counts) or fixed cell volume",
+        "preprocessing_steps": [
+          "conversion of raw transducer signals to engineering units using calibration polynomials",
+          "dead-volume correction: subtract volume of connecting lines and fittings from total measured volume",
+          "thermal expansion correction: account for cell body expansion/contraction with temperature using known thermal expansion coefficient of cell material",
+          "pressure correction for hydrostatic head if sample column height is significant",
+          "elastic deformation correction: account for pressure-induced expansion of the cell vessel at high pressures"
+        ],
+        "analysis_methods": [
+          "direct calculation: ρ = m/V(T,P) from measured mass and corrected volume",
+          "equation of state fitting: fit ρ(T,P) data to Tait equation, modified Tait, MBWR, PC-SAFT, or cubic EOS",
+          "isochore analysis: for constant-volume cells, fit P(T) isochores to extract (∂P/∂T)_V and derive αP, κT",
+          "virial analysis: fit Z(P) or Z(ρ) isotherms to the virial equation to extract B(T), C(T)",
+          "numerical differentiation of ρ(T,P) surface to obtain κT and αP",
+          "excess volume calculation: VE = Vmix − Σ xi·Vi* from mixture and pure-component molar volumes"
+        ],
+        "model_assumptions": [
+          "thermodynamic equilibrium has been achieved at each measured state point",
+          "sample composition is uniform and constant throughout the measurement (no phase separation unaccounted for)",
+          "cell volume calibration is valid at the measurement conditions (interpolation/extrapolation from calibration points is accurate)",
+          "corrections for cell deformation and thermal expansion are adequately described by elastic theory and known material properties",
+          "pressure is hydrostatic and uniform throughout the sample volume"
+        ],
+        "fit_parameters": [
+          "Tait equation parameters (B, C, ρ0)",
+          "virial coefficients B(T), C(T)",
+          "equation of state parameters specific to the chosen model (e.g., PC-SAFT segment parameters)",
+          "polynomial coefficients for ρ(T) or ρ(P) empirical correlations"
+        ],
+        "common_artifacts": [
+          "incomplete equilibration: apparent hysteresis between pressurization and depressurization runs caused by insufficient wait time",
+          "bubble or dissolved gas artifact: trapped air or dissolved gas produces anomalous compressibility at low pressures",
+          "seal friction artifact: in piston-cylinder cells, static friction on piston seals causes pressure hysteresis between compression and expansion strokes",
+          "thermal gradient artifact: non-uniform temperature in the cell causes local density variations and introduces error in the average density",
+          "adsorption/desorption artifact: gas adsorption on cell walls at low pressures can produce apparent loss of sample amount"
+        ],
+        "quality_control_checks": [
+          "verify apparatus with a reference fluid (water or toluene) and compare to accepted reference data within stated uncertainty",
+          "check for pressure hysteresis by comparing compression and expansion isotherms",
+          "test thermal equilibrium by monitoring P or V drift over time at fixed set-point",
+          "compare results from multiple independent cell fillings (different sample charges) to rule out systematic mass errors",
+          "inspect smoothness of ρ(T,P) surface — outliers often indicate leaks, incomplete equilibration, or transducer faults"
+        ],
+        "failure_modes": [
+          "seal failure or leak: loss of sample or pressure medium, identifiable by inability to hold constant pressure or unexplained mass loss",
+          "pressure transducer drift or failure: systematic offset in all pressure readings; detected by comparison with reference gauge",
+          "sample decomposition: progressive density change over time at high temperature; irreversible shift between heating and cooling runs",
+          "piston seizure: in variable-volume cells, high friction or galling prevents smooth piston travel, causing erratic volume readings",
+          "cell corrosion: sample attacks cell material, introducing contaminants and potentially weakening the pressure vessel"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.5% in density; highly dependent on specific apparatus design and operating range",
+        "random_sources": [
+          "pressure transducer noise and short-term drift",
+          "temperature controller fluctuations",
+          "piston displacement readout noise (LVDT, encoder)",
+          "vibration-induced pressure fluctuations",
+          "repeatability of sealing and loading procedure"
+        ],
+        "systematic_sources": [
+          "cell volume calibration uncertainty",
+          "dead-volume correction error",
+          "thermal expansion and elastic deformation corrections for the cell body",
+          "pressure transducer calibration offset",
+          "temperature sensor calibration offset",
+          "sample mass determination (buoyancy correction, residual moisture)",
+          "sample purity and composition uncertainty",
+          "incomplete degassing (residual dissolved gas)"
+        ],
+        "operator_dependence": "moderate to high — sample loading technique, degassing thoroughness, leak checking, and equilibrium judgment all depend on operator experience; improvised or non-standard apparatus amplifies operator effects",
+        "model_dependence": "low for direct ρ(T,P) measurements; moderate when fitting equations of state (results depend on model choice and number of adjustable parameters); high when extrapolating beyond measured range",
+        "dominant_error_sources": [
+          "cell volume calibration (especially at extreme T and P where corrections are large)",
+          "thermal equilibration adequacy (the most common source of discrepancy between laboratories)",
+          "sample purity (impurities directly affect measured density)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ρ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of density",
+          "absolute uncertainty in density (kg/m³)",
+          "standard deviation from repeated measurements at a state point"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "\"Other PVT measurement\" is a catch-all category in ThermoML for pressure-volume-temperature measurement techniques that do not correspond to a specific named method such as vibrating-tube densimetry, pycnometry, or buoyancy methods. It encompasses a wide variety of custom and conventional PVT apparatus — including isochoric (constant-volume) cells, variable-volume piston-cylinder devices, high-pressure PVT cells, bellows-type volumeters, and other bespoke volumetric instruments — used to determine the density, molar volume, or compressibility factor of fluids as a function of temperature and pressure. Because this is a generic category, the specific hardware, measurement principle, and achievable accuracy vary considerably from one reported data set to another. In the ThermoML database, 93 measurement instances across 19 papers are coded under this designation, all within the VolumetricProp group.",
+      "how_it_operates": "Although the specific apparatus varies, all PVT techniques in this category share the same fundamental measurement principle: a known amount of sample (mass m or amount of substance n) is confined in a cell of known or measurable volume V, and the thermodynamic state is defined by controlling or measuring pressure P and temperature T. In isochoric (constant-volume) apparatus, the cell volume is fixed and calibrated, and pressure is recorded as temperature is varied along isochores. In variable-volume (piston-cylinder or bellows) apparatus, pressure is imposed externally and the resulting volume change is measured via piston displacement, bellows compression, or mercury-column height. In both cases, the density is obtained from ρ = m/V(T,P). Temperature is regulated by immersing the cell in a thermostat bath or heating jacket, while pressure is generated by screw presses, syringe pumps, or hydraulic intensifiers and measured by calibrated transducers or dead-weight gauges.",
+      "core_theory": "The measurement is grounded in the thermodynamic equation of state relating pressure, molar volume, and temperature: f(P, Vm, T) = 0. For an ideal gas, PVm = RT; real fluid behavior is described by the compressibility factor Z = PVm/(RT), which deviates from unity due to intermolecular interactions. Direct PVT data provide the fundamental experimental input for constructing equations of state (van der Waals, Peng-Robinson, PC-SAFT, multiparameter Helmholtz-energy formulations). Thermodynamic derivative properties are obtained from the P-V-T surface: the isothermal compressibility κT = −(1/V)(∂V/∂P)_T, the isobaric expansivity αP = (1/V)(∂V/∂T)_P, and the pressure coefficient (∂P/∂T)_V = αP/κT. At low densities, Z(P) isotherms yield virial coefficients B(T) and C(T) that characterize pair and three-body intermolecular interactions.",
+      "setup": "A generic PVT apparatus consists of a pressure vessel (cell) fabricated from high-strength alloy (stainless steel 316, Hastelloy, Inconel, or titanium) with a calibrated internal volume ranging from ~1 cm³ to ~100 cm³. Variable-volume cells include a movable piston or bellows sealed with O-rings or metal seals, whose displacement is measured by an LVDT, micrometer dial, or cathetometer. The cell is housed in a thermostat — typically a stirred liquid bath (silicone oil, water, or ethylene glycol mixture) or an air-bath oven — providing temperature stability of ±0.01 K to ±0.05 K. Pressure is generated by a hand-operated screw press or an automated syringe pump and measured by a calibrated pressure transducer (strain gauge or resonant quartz type) or a dead-weight piston gauge. A vacuum and fill manifold allows the cell to be evacuated and charged with a degassed sample. All data — P, T, and V or displacement — are logged by a computerized data acquisition system.",
+      "suitable_for": "This catch-all category is used when the density or molar volume of a fluid is measured by a PVT apparatus that does not fit neatly into any of the specific named technique categories in ThermoML. It is particularly common for (1) high-pressure studies (above ~50 MPa) where specialized thick-walled cells and piston-cylinder geometry are used, (2) measurements over very wide pressure ranges spanning gas, liquid, and supercritical phases, (3) custom-built or legacy apparatus for which no standard technique name applies, and (4) simultaneous PVT measurements that combine volume and pressure observations in a single run. Typical target substances include compressed hydrocarbons, refrigerants, ionic liquids under pressure, supercritical CO2 and other fluids, and aqueous or non-aqueous mixtures at elevated pressures.",
+      "core_limitations": "Because this is a heterogeneous category, the principal limitation is unpredictability: accuracy, precision, pressure range, and applicable sample types vary widely depending on which specific apparatus was used. Without reading the source publication, an analyst cannot know the actual measurement principle. Common limitations across most PVT cells include: (1) achieving true thermal equilibrium is slow and temperature uniformity within the cell is difficult to verify in situ; (2) cell volume calibration drifts with time and usage, requiring periodic recalibration; (3) high-pressure seals degrade, introducing leaks that may go undetected; (4) dead-volume corrections become significant for small-volume cells and introduce systematic uncertainty; (5) the technique is intrinsically slow, typically requiring 10–120 minutes per state point for full equilibration, making comprehensive P-T mapping time-consuming.",
+      "sample_preparation": "Sample preparation for PVT measurement centers on ensuring known composition, mass, and freedom from dissolved gases. Liquid samples are typically degassed by freeze-pump-thaw cycling, prolonged vacuum exposure, or ultrasonic agitation under vacuum to prevent bubble formation during pressurization or depressurization. Hygroscopic samples are dried over molecular sieves or freshly distilled before loading. The sample mass is determined gravimetrically (±0.01 g or better) either by weighing the loaded cell against the empty cell or by using a calibrated syringe/buret. For mixtures, composition is verified by gas chromatography or other analytical methods before and sometimes after the measurement. Loading is performed through a vacuum-tight fill port to avoid air ingress, and the cell and connecting lines are flushed with sample vapor before final filling.",
+      "calibration_and_references": "Calibration of a PVT apparatus involves four key steps: (1) pressure transducer calibration against a dead-weight piston gauge or NIST-traceable reference, typically with polynomial fit yielding uncertainty <0.01% of reading, repeated annually or before each measurement campaign; (2) temperature sensor calibration at ITS-90 fixed points or against a NIST-calibrated reference PRT, achieving ±0.01 K or better; (3) cell volume calibration by filling the cell with a reference fluid of precisely known density — water (IAPWS-95 EOS), nitrogen (Span et al. EOS), or toluene — and measuring at multiple (T,P) points to establish V_cell(T,P) including thermal expansion and elastic deformation corrections; (4) dead-volume determination by measuring the volume of all connecting tubing, valves, and capillaries. Calibration is validated by measuring a second independent reference fluid and comparing to its accepted equation of state.",
+      "data_interpretation": "Raw transducer readings (pressure as voltage/frequency, temperature as resistance, volume as displacement voltage or encoder counts) are converted to SI units via calibration polynomials. The gross cell volume is corrected for thermal expansion of the cell material (using known linear expansion coefficient of the alloy) and elastic deformation under pressure (using Lamé equations for thick-walled cylinders). Dead-volume corrections subtract the contribution of connecting tubing between the cell and the pressure transducer. The density is then calculated as ρ = m / V_corrected(T,P). For isochoric apparatus, P(T) isochores are analyzed to extract derivative properties: (∂P/∂T)_V gives the pressure coefficient, from which αP and κT can be derived if the equation of state form is known. The ρ(T,P) data surface is typically fitted to the Tait equation, a polynomial in T and P, or a molecular-based EOS. Excess molar volumes for mixtures are computed as VE = Vmix − Σ xi Vi* from mixture and pure-component data at identical (T,P) conditions.",
+      "common_pitfalls": "The most prevalent pitfall in PVT work is incomplete thermal equilibration — recording pressure or volume before the system has reached true equilibrium leads to systematic errors that are difficult to detect without explicit equilibrium checks (monitoring P or V drift over time). Inadequate degassing produces dissolved-gas artifacts that manifest as anomalous compressibility at low pressures or bubble formation during depressurization. For piston-cylinder cells, seal friction introduces a hysteresis between compression and expansion paths that can be mistaken for real thermodynamic effects. Failure to account for cell expansion and compressibility corrections at high pressures systematically biases density values. Using an incorrect or outdated equation of state for the calibration fluid propagates error into all subsequent measurements. Finally, because this is a catch-all category, analysts sometimes lack detailed knowledge of the original apparatus, making critical evaluation of the data more difficult.",
+      "artifacts_and_failure_modes": "Pressure hysteresis between compression and expansion isotherms is the most common artifact, usually caused by seal friction in piston-cylinder cells or by incomplete equilibration. Bubble or dissolved-gas artifacts appear as a sudden increase in apparent compressibility at low pressures when residual dissolved gas comes out of solution. Thermal gradient artifacts arise when the cell is heated or cooled too rapidly, producing a non-uniform temperature field where the sensor reads a temperature different from the bulk sample average. Adsorption/desorption artifacts affect gas-phase measurements at low pressures where molecules adsorb onto cell walls, causing apparent loss of sample amount. Seal failure is the most serious failure mode: a slow leak causes progressive loss of sample or ingress of hydraulic fluid, producing a gradual drift in apparent density that may not be immediately obvious. Pressure transducer drift or zero-offset shift gives a systematic error in all pressure readings. Sample decomposition at sustained high temperatures produces irreversible density changes detectable as non-overlapping heating and cooling runs.",
+      "reporting_checklist": "Publications using a PVT apparatus coded as 'Other PVT measurement' should report: (1) apparatus type and measurement principle (isochoric, variable-volume, piston-cylinder, bellows, etc.) with a schematic or reference to a detailed prior publication; (2) cell material and maximum rated pressure; (3) pressure transducer type and calibration method with stated uncertainty; (4) temperature sensor type, calibration, and thermostat stability; (5) cell volume calibration method and reference fluid used; (6) dead-volume corrections and elastic deformation corrections applied; (7) sample source, purity, and water content; (8) degassing method and loading procedure; (9) equilibration criteria (how thermal and mechanical equilibrium was verified); (10) number of replicate measurements and reproducibility; (11) combined expanded uncertainty U(ρ) or U(Vm) at 95% confidence level (k=2) with a breakdown of contributing uncertainty components; (12) any equation of state fits with parameters and deviations. For ThermoML encoding, density or volume values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

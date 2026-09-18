@@ -1,0 +1,310 @@
+{
+  "meas_ID": "isoteniscope",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Isoteniscope",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Isoteniscope",
+    "thermoml_custom_codes": [
+      "ISOTEN"
+    ],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 5,
+      "property_groups": [
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 5,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "U-tube manometer level balance (equilibrium indication)",
+          "external applied pressure at null balance",
+          "sample temperature (thermostat bath temperature)"
+        ],
+        "derived_observables": [
+          "vapor pressure at temperature T",
+          "Clausius-Clapeyron slope (d ln P / d(1/T))",
+          "enthalpy of vaporization (from vapor pressure vs. temperature data)"
+        ],
+        "target_properties": [
+          "vapor pressure as a function of temperature",
+          "boiling point at a specified pressure",
+          "enthalpy of vaporization (derived from Clausius-Clapeyron analysis)",
+          "Antoine equation parameters (fitted from P-T data)"
+        ],
+        "phases_measured": [
+          "liquid (pure liquid in equilibrium with its vapor)",
+          "liquid solution (solvent or solute vapor pressure)",
+          "gas/vapor (saturated vapor phase above the liquid)"
+        ],
+        "supported_sample_types": [
+          "pure volatile liquids",
+          "liquid mixtures and solutions",
+          "low-melting solids (if meltable in the bulb)",
+          "petroleum fractions and hydrocarbon liquids",
+          "organic solvents",
+          "aqueous solutions"
+        ],
+        "unsupported_sample_types": [
+          "high-melting solids that cannot be liquefied in the sample bulb",
+          "extremely low-vapor-pressure materials (sublimation pressures below ~10 Pa)",
+          "highly viscous or polymeric liquids that cannot be degassed effectively",
+          "corrosive liquids that attack glass (e.g., concentrated HF)",
+          "pyrophoric or spontaneously flammable liquids (open-system hazard during filling)"
+        ],
+        "typical_output_formats": [
+          "vapor pressure vs. temperature table (P-T pairs)",
+          "ln P vs. 1/T plot (Clausius-Clapeyron plot)",
+          "Antoine plot (log P vs. T)",
+          "boiling point at specified pressure"
+        ],
+        "units": {
+          "vapor_pressure": "kPa or mmHg (Torr)",
+          "temperature": "K or °C",
+          "enthalpy_of_vaporization": "kJ/mol",
+          "external_pressure": "kPa or mmHg"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "ambient to ~573 K (300 °C)",
+            "hard_limits": "lower limit set by bath fluid freezing; upper limit set by glass softening (~573 K for borosilicate) or decomposition of organic samples",
+            "notes": "ASTM D2879 specifies operating range for petroleum products; specialized high-temperature versions with quartz extend to ~773 K"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 kPa to 200 kPa",
+            "hard_limits": "lower limit ~0.01 kPa determined by manometer sensitivity and vacuum quality; upper limit ~200 kPa for atmospheric isoteniscopes, higher with reinforced apparatus",
+            "notes": "standard operation centers near atmospheric pressure; sub-atmospheric measurements require a vacuum manifold with precision pressure regulation"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "5 mL to 15 mL",
+            "hard_limits": "must fill the sample bulb sufficiently to generate a liquid-vapor interface and partially fill the U-tube; overfilling prevents proper degassing",
+            "notes": "ASTM D2879 specifies approximately 7–10 mL depending on bulb design"
+          },
+          {
+            "parameter": "temperature_stability",
+            "typical_range": "±0.02 K to ±0.1 K",
+            "hard_limits": "temperature fluctuations must be smaller than the desired vapor pressure accuracy; ±0.01 K needed for high-precision work",
+            "notes": "thermostat bath must be well-stirred and regulated with a precision temperature controller"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary independent variable (stepped or ramped)",
+            "typical_values": "283 K to 573 K in steps of 5–10 K",
+            "effect": "vapor pressure increases exponentially with temperature; each temperature setpoint yields one P-T data point"
+          },
+          {
+            "name": "external_applied_pressure",
+            "role": "balanced variable (adjusted to match internal vapor pressure)",
+            "typical_values": "0.1 kPa to 200 kPa",
+            "effect": "adjusted by vacuum/pressure manifold until U-tube levels equalize; at balance, external pressure equals internal vapor pressure"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable (for solution measurements)",
+            "typical_values": "mole fraction 0 to 1",
+            "effect": "vapor pressure of solutions varies with composition per Raoult's law or activity coefficient models"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "isoteniscope bulb — glass vessel with sample chamber connected to an integral U-tube manometer, typically constructed from borosilicate glass",
+          "U-tube manometer section — integral part of the isoteniscope body; liquid levels indicate pressure balance between internal vapor and external applied pressure",
+          "thermostat bath — precision-controlled liquid bath (oil, silicone fluid, or water) providing stable, uniform temperature around the sample bulb",
+          "precision thermometer — calibrated platinum resistance thermometer (PRT), mercury-in-glass thermometer, or thermocouple positioned near the sample bulb in the bath",
+          "vacuum/pressure manifold — system of valves, vacuum pump, and inert gas supply for adjusting and measuring external pressure",
+          "pressure gauge — precision manometer (mercury manometer, capacitance diaphragm gauge, or digital pressure transducer) measuring external applied pressure",
+          "vacuum pump — rotary vane or diaphragm pump for system evacuation and degassing",
+          "cold trap — between isoteniscope and vacuum pump to prevent sample vapor from contaminating pump oil",
+          "stirrer — mechanical or magnetic stirrer in thermostat bath to ensure temperature uniformity",
+          "cathetometer or visual observation system — for precise reading of U-tube liquid levels (in classical setups)"
+        ],
+        "environmental_requirements": [
+          "thermostat bath temperature uniformity better than ±0.05 K across the sample bulb region",
+          "draft-free environment to maintain bath temperature stability",
+          "adequate ventilation for volatile or toxic vapors",
+          "stable ambient temperature to reduce baseline drift in external pressure reading"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample poured or injected into the isoteniscope bulb",
+            "no specific geometric form required — sample fills the bulb and partially enters the U-tube"
+          ],
+          "size_limits": "typically 5–15 mL of liquid; ASTM D2879 specifies ~7–10 mL",
+          "thickness_limits": "not applicable — bulk liquid measurement",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "sample bulb must be immersed to the correct depth in the thermostat bath so the entire liquid sample is at uniform temperature",
+            "U-tube must be visible for level observation or connected to a differential pressure sensor"
+          ],
+          "preparation_requirements": [
+            "thorough degassing of the sample (repeated freeze-pump-thaw cycles or in-situ boiling under vacuum) to remove dissolved air and non-condensable gases",
+            "drying of the isoteniscope glassware before loading",
+            "filling without introducing air bubbles",
+            "for solutions: accurate gravimetric or volumetric preparation of known composition"
+          ]
+        },
+        "calibration_requirements": [
+          "thermometer calibration against ITS-90 fixed points or a certified reference thermometer",
+          "pressure gauge calibration against a dead-weight tester or reference standard manometer",
+          "leak-testing the entire manifold and isoteniscope assembly under vacuum before measurement",
+          "verification of degassing completeness by checking that U-tube balance is reproducible upon repeated thermal cycling"
+        ],
+        "reference_materials": [
+          "water — well-known vapor pressure (IAPWS formulation); used as primary verification standard",
+          "n-decane — NIST recommended vapor pressure reference for hydrocarbons",
+          "benzene — extensively studied vapor pressure data available",
+          "mercury — classical manometric fluid and vapor pressure standard at higher temperatures",
+          "naphthalene — solid reference substance for sublimation pressure verification"
+        ],
+        "consumables": [
+          "manometric fluid for U-tube (often the sample itself or dibutyl phthalate for inert manometric fluid)",
+          "vacuum grease for glass joints (Apiezon L or silicone grease)",
+          "thermostat bath fluid (silicone oil, mineral oil, or water depending on temperature range)",
+          "inert gas supply (nitrogen or argon) for pressure ballasting"
+        ],
+        "safety_notes": [
+          "glass apparatus under vacuum is an implosion hazard — use safety shields",
+          "many measured liquids are volatile and flammable — ensure adequate ventilation and avoid ignition sources",
+          "hot bath fluids present burn hazards at elevated temperatures",
+          "mercury manometers pose toxicity risk — use enclosed well-ventilated systems or replace with electronic pressure gauges",
+          "vacuum pump exhaust may contain sample vapors — vent through a fume hood or use an appropriate cold trap"
+        ]
+      },
+      "performance": {
+        "sensitivity": "can detect vapor pressure differences of ~10–50 Pa depending on manometer sensitivity and pressure gauge resolution",
+        "detection_limit": "minimum measurable vapor pressure ~10–100 Pa (0.1–1 mmHg); limited by manometer resolution and leak rate",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement)",
+          "temporal": "equilibration time 10–60 minutes per temperature point depending on sample volatility and bath stability",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "vapor pressure from ~0.01 kPa to ~200 kPa (approximately four decades)",
+        "accuracy": "0.1–1% of measured vapor pressure for well-degassed samples with calibrated instrumentation; ASTM D2879 reports repeatability of ~0.5 kPa at moderate pressures",
+        "precision": "0.05–0.5% relative standard deviation for repeated measurements at a fixed temperature",
+        "throughput": "single sample per apparatus; one complete P-T curve (10–20 points) requires several hours to a full day",
+        "measurement_speed": "10–60 minutes per equilibrium point; faster at higher temperatures where equilibration is quicker"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "visual observation of U-tube level equality (classical) or differential pressure transducer reading reaching null; external pressure reading from calibrated gauge; temperature reading from calibrated thermometer",
+        "preprocessing_steps": [
+          "correction of pressure gauge reading for ambient temperature and local gravity (for mercury manometers)",
+          "application of head correction for the column of sample vapor between the liquid surface and the pressure measurement point",
+          "correction for non-ideality of the vapor phase (fugacity correction) if operating at higher pressures",
+          "smoothing or fitting of P-T data to remove scatter from equilibration noise"
+        ],
+        "analysis_methods": [
+          "Clausius-Clapeyron analysis: plot ln P vs. 1/T to determine ΔHvap from the slope (−ΔHvap/R)",
+          "Antoine equation fitting: log10(P) = A − B/(C + T) for compact parameterization of P-T data",
+          "Wagner equation fitting for high-accuracy representation over wide temperature ranges",
+          "Cox chart analysis for comparing measured data against reference compound vapor pressure curves",
+          "calculation of boiling point at standard pressure by interpolation of the P-T curve"
+        ],
+        "model_assumptions": [
+          "vapor-liquid equilibrium is established at each temperature setpoint (quasi-static measurement)",
+          "the sample is completely degassed — no residual dissolved gases contribute to measured pressure",
+          "the U-tube liquid provides a perfect seal between the vapor space and the external manifold",
+          "the vapor phase behaves ideally (valid at low pressures; corrections needed above ~100 kPa)",
+          "temperature is uniform throughout the sample and vapor space within the isoteniscope"
+        ],
+        "fit_parameters": [
+          "Antoine constants A, B, C",
+          "Clausius-Clapeyron slope (ΔHvap/R)",
+          "Wagner equation parameters for wide-range fits",
+          "normal boiling point (interpolated at 101.325 kPa)"
+        ],
+        "common_artifacts": [
+          "residual dissolved gas artifact: incomplete degassing causes measured pressure to exceed true vapor pressure, especially at lower temperatures where vapor pressure is small relative to partial pressure of air",
+          "thermal gradient artifact: temperature non-uniformity between the liquid surface and the coldest point in the vapor space causes condensation and pressure reading that reflects the cold-spot temperature rather than the bulk liquid temperature",
+          "superheating/supercooling artifact: metastable liquid or vapor states give transient pressure values that do not represent true equilibrium",
+          "manometric fluid contamination: diffusion of manometric fluid into the sample (or vice versa) alters composition and vapor pressure",
+          "leak artifact: slow air leaks into the vacuum manifold introduce a time-dependent positive pressure error"
+        ],
+        "quality_control_checks": [
+          "verify degassing completeness: measure vapor pressure, cool and reheat, confirm reproducibility within tolerance",
+          "measure vapor pressure of a certified reference liquid (e.g., water) and compare against published values",
+          "check for leaks by isolating the system under vacuum and monitoring pressure rise over time",
+          "confirm temperature equilibration by monitoring the external pressure gauge for stability (drift < 0.01 kPa over 5 minutes)",
+          "compare ascending and descending temperature measurements to confirm reversibility and absence of decomposition"
+        ],
+        "failure_modes": [
+          "incomplete degassing — most common failure, evidenced by irreproducible pressure readings and excess pressure at low temperatures",
+          "glass breakage of the isoteniscope bulb or U-tube due to thermal shock or mechanical stress",
+          "sample decomposition at elevated temperatures — evidenced by discoloration, pressure drift, or non-reproducibility on cooling",
+          "loss of U-tube seal — if sample volatility is very high and U-tube liquid is blown out, the pressure balance is lost",
+          "thermostat failure — bath temperature oscillations or drift produce corresponding pressure noise"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–1% of vapor pressure for well-degassed pure liquids; 1–3% for solutions or poorly degassed samples",
+        "random_sources": [
+          "thermostat temperature fluctuations",
+          "pressure gauge readout noise",
+          "visual U-tube level reading imprecision (±0.5 mm for cathetometer)",
+          "vibration-induced disturbance of U-tube liquid levels",
+          "drafts affecting bath temperature stability"
+        ],
+        "systematic_sources": [
+          "incomplete degassing (positive bias in measured pressure)",
+          "thermometer calibration offset",
+          "pressure gauge calibration offset or nonlinearity",
+          "head correction error (vapor column between liquid surface and gauge)",
+          "thermal gradient between thermostat bath and vapor space",
+          "sample purity (impurities alter vapor pressure)"
+        ],
+        "operator_dependence": "moderate — degassing technique, visual U-tube reading, and temperature equilibration judgment require operator experience; automated systems reduce dependence",
+        "model_dependence": "low for direct pressure readings; moderate when deriving ΔHvap from Clausius-Clapeyron slope (assumes ΔHvap constant over fitted temperature range) or fitting Antoine/Wagner equations",
+        "dominant_error_sources": [
+          "incomplete degassing (the single largest source of systematic error)",
+          "temperature measurement uncertainty (amplified by the exponential P-T relationship)",
+          "pressure gauge accuracy at the low end of the measurement range"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(P) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of vapor pressure",
+          "repeatability and reproducibility as per ASTM D2879"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The isoteniscope is a comparative vapor pressure measurement device standardized in ASTM D2879. It operates on the null-balance principle: a sample confined in a glass bulb is connected to a U-tube manometer that acts as a visual null indicator, and an external pressure is adjusted until the internal vapor pressure of the sample exactly balances it, as indicated by equal liquid levels in the U-tube. By immersing the isoteniscope in a precision thermostat and stepping through a series of temperatures, a complete vapor pressure curve P(T) is obtained. The method was originally developed by Smith and Menzies in 1910 and remains one of the most reliable and straightforward techniques for measuring vapor pressure of pure liquids and solutions in the range of approximately 0.1 to 200 kPa.",
+      "how_it_operates": "The sample liquid is loaded into the isoteniscope bulb and partially fills the attached U-tube manometer. The system is connected to a vacuum/pressure manifold and thoroughly degassed by repeated cycles of evacuation and gentle boiling under reduced pressure, removing all dissolved air and non-condensable gases. The isoteniscope is then immersed in a thermostat bath at a controlled temperature. As the sample reaches thermal equilibrium, it generates a vapor pressure in the closed space above the liquid. The operator adjusts the external pressure in the manifold until the liquid levels in the two arms of the U-tube are equal — at this null point, the external applied pressure exactly equals the internal vapor pressure. The external pressure is then read from a calibrated pressure gauge. This procedure is repeated at each desired temperature to construct the P-T vapor pressure curve.",
+      "core_theory": "At thermodynamic equilibrium, the vapor pressure of a pure liquid at temperature T is the pressure at which the liquid and vapor phases coexist on the saturation curve. The isoteniscope implements a direct measurement by establishing this equilibrium in the sample bulb and using the U-tube as a differential null detector. When the U-tube levels are equal, ΔP = P_internal − P_external = 0, so P_vapor = P_external. The temperature dependence of vapor pressure follows the Clausius-Clapeyron equation: d(ln P)/d(1/T) = −ΔH_vap/R, where ΔH_vap is the enthalpy of vaporization and R is the gas constant. For practical fitting, the Antoine equation log10(P) = A − B/(C + T) provides an accurate parameterization over moderate temperature ranges, while the Wagner equation is preferred for high-accuracy representation spanning from the triple point to the critical point.",
+      "setup": "A standard isoteniscope consists of a borosilicate glass vessel comprising a sample bulb (5–15 mL capacity) connected to an integral U-tube manometer with arms of approximately 5–8 mm internal diameter. The open end of the U-tube connects via a glass-to-ground-glass joint and flexible vacuum tubing to an external vacuum/pressure manifold equipped with a vacuum pump, cold trap, inert gas supply, needle valves for fine pressure control, and a calibrated pressure measurement device (mercury manometer, capacitance diaphragm gauge, or digital pressure transducer). A precision thermometer (calibrated PRT or mercury-in-glass) is positioned in the thermostat bath adjacent to the sample bulb. The thermostat bath is filled with an appropriate heat-transfer fluid (water up to ~363 K, silicone oil or mineral oil to ~573 K) and is regulated by a precision temperature controller with mechanical stirring to ensure uniformity.",
+      "suitable_for": "The isoteniscope is best suited for measuring vapor pressures of pure volatile liquids and liquid solutions in the range of approximately 0.1 to 200 kPa and temperatures from ambient up to about 573 K. It is a standard method for petroleum products (ASTM D2879), organic solvents, and aqueous solutions. The technique is valued for its conceptual simplicity, relatively low cost, and direct traceability — the measured quantity is a pressure read from a calibrated gauge at a known temperature, with no complex models or corrections needed. It is particularly useful when a moderate number of P-T data points are needed for a new compound or mixture and absolute accuracy of 0.1–1% is sufficient.",
+      "core_limitations": "The isoteniscope has several inherent limitations. Thorough degassing is essential and constitutes the main source of systematic error if performed inadequately — residual dissolved gases inflate measured vapor pressures. The maximum operating temperature is limited by the glass softening point (~573 K for borosilicate) and by sample thermal stability. Pressures below about 0.01 kPa are difficult to measure accurately due to manometer sensitivity limits and the increasing relative impact of leaks. The technique is slow, requiring 10–60 minutes per equilibrium point, and measures only one sample at a time. Highly viscous or foaming liquids are problematic because they resist effective degassing and may not form a clean meniscus in the U-tube. The classical visual null-balance method introduces operator subjectivity in reading U-tube levels, though this is eliminated in automated versions using differential pressure transducers.",
+      "sample_preparation": "The sample should be of known purity (analytical grade or better), as impurities directly affect vapor pressure. The liquid is carefully transferred into the clean, dry isoteniscope bulb to the fill level specified by the apparatus design (typically 7–10 mL), avoiding introduction of air bubbles. Degassing is the most critical preparation step: the standard ASTM D2879 procedure involves connecting the loaded isoteniscope to the vacuum manifold, slowly reducing the pressure until the sample begins to boil gently, maintaining gentle boiling for several minutes to sweep out dissolved gases, then closing the vacuum and allowing the sample to cool. This cycle is repeated at least three times, or until the measured vapor pressure at a test temperature is reproducible to within the desired tolerance. For solutions, the components must be weighed gravimetrically to known composition before mixing and loading.",
+      "calibration_and_references": "Calibration involves three elements: (1) the thermometer is calibrated against ITS-90 fixed points or a certified reference thermometer to ensure temperature accuracy of ±0.02–0.05 K; (2) the pressure gauge is calibrated against a dead-weight pressure tester or a reference standard mercury manometer; and (3) the overall system is verified by measuring the vapor pressure of a well-characterized reference liquid — water is the most common primary standard, with vapor pressure known to better than 0.01% from the IAPWS-95 formulation. Secondary references include n-decane, benzene, and toluene. These verification measurements should bracket the temperature and pressure range of the intended sample measurements. Leak-testing the assembled system under vacuum (pressure rise < 1 Pa/min) is a mandatory pre-measurement calibration step.",
+      "data_interpretation": "Each measurement yields a directly observed (P, T) pair. The raw pressure reading may require corrections: for mercury manometers, temperature and gravity corrections are standard; for all gauges, a head correction accounts for the vapor column between the liquid surface and the gauge. The set of P-T pairs is plotted as ln P vs. 1/T to check linearity (Clausius-Clapeyron) and fitted to the Antoine equation or Wagner equation for interpolation and reporting. The slope of the Clausius-Clapeyron plot yields the enthalpy of vaporization ΔH_vap. Deviations from linearity indicate a temperature-dependent ΔH_vap and require higher-order fitting. For mixtures, the measured total vapor pressure is combined with composition data and activity coefficient models (e.g., Margules, van Laar, NRTL, UNIQUAC) to extract component activity coefficients and partial vapor pressures.",
+      "common_pitfalls": "The most frequent and consequential pitfall is inadequate degassing, which produces vapor pressures that are systematically too high, particularly at lower temperatures where the true vapor pressure is comparable to the partial pressure of residual dissolved air. Operators sometimes mistake bumping (sudden violent boiling) during degassing for steady degassing — bumping expels liquid from the bulb and can break the apparatus. Failure to allow sufficient equilibration time at each temperature produces readings taken before the system reaches true thermodynamic equilibrium, leading to hysteresis between heating and cooling runs. Using a thermostat bath fluid with insufficient thermal conductivity or inadequate stirring creates temperature gradients around the sample bulb. Overfilling the isoteniscope prevents proper degassing because the liquid column in the U-tube resists bubble passage. Operating beyond the sample's thermal decomposition temperature produces irreversible pressure increases and discolored residues.",
+      "artifacts_and_failure_modes": "Incomplete degassing produces a characteristic signature: the measured pressure exceeds the literature value by a roughly constant offset that becomes proportionally larger at lower temperatures where true vapor pressure is small. A slow upward drift in pressure at constant temperature indicates either a vacuum leak (air ingress) or progressive sample decomposition producing volatile products. Loss of the U-tube liquid seal occurs when the vapor pressure rises rapidly during heating and blasts sample liquid out of the U-tube — this can be prevented by gradual temperature steps and careful pressure tracking. Thermal gradient artifacts arise when the vapor space above the liquid is cooler than the liquid itself, causing condensation and an anomalously low measured pressure that reflects the cold-spot temperature. Glass corrosion by alkaline or fluoride-containing samples can produce slow leaks and contamination over time.",
+      "reporting_checklist": "Published isoteniscope vapor pressure data should include: sample identity and purity (with analytical method), sample volume and isoteniscope dimensions, degassing procedure (number of cycles, minimum pressure reached), thermostat bath type and temperature stability, thermometer type and calibration traceability, pressure gauge type, range, and calibration traceability, equilibration criterion (time or pressure stability threshold), corrections applied (head correction, gravity, temperature), tabulated P-T data pairs with combined expanded uncertainty U(P) at 95% confidence (k=2), fitted Antoine or Wagner parameters with residuals, reference standard measured for verification and its deviation from literature, and ASTM D2879 compliance statement if applicable. For ThermoML encoding, vapor pressure values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

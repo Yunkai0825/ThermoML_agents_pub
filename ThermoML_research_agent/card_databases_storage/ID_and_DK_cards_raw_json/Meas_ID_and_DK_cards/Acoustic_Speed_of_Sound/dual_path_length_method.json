@@ -1,0 +1,321 @@
+{
+  "meas_ID": "dual_path_length_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Dual path-length method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Dual path-length method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Acoustic / Speed of Sound",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 7,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 3,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 7,
+          "papers": 3
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "time-of-flight difference (Δt) between the short-path and long-path cells",
+          "acoustic pulse arrival times (t1 and t2) at each receiver transducer",
+          "received ultrasonic pulse waveforms (amplitude vs. time)"
+        ],
+        "derived_observables": [
+          "speed of sound u = ΔL / Δt, where ΔL is the known path-length difference",
+          "acoustic absorption coefficient α from pulse amplitude ratio between long and short paths",
+          "isentropic compressibility κS = 1/(ρu²) when density is independently known"
+        ],
+        "target_properties": [
+          "speed of sound (u)",
+          "isentropic compressibility (κS)",
+          "acoustic absorption coefficient (α)",
+          "bulk modulus (KS = ρu²)"
+        ],
+        "phases_measured": [
+          "liquid",
+          "compressed liquid",
+          "gas",
+          "supercritical fluid"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "liquid mixtures and solutions",
+          "electrolyte solutions",
+          "compressed gases",
+          "supercritical fluids",
+          "high-viscosity liquids (with appropriate pulse frequencies)",
+          "binary and multicomponent mixtures"
+        ],
+        "unsupported_sample_types": [
+          "solids (require different transducer coupling and cell designs)",
+          "highly absorbing media where signal is fully attenuated in the long path",
+          "multiphase or heterogeneous mixtures with strong scattering",
+          "samples with heavy suspended particulates or gas bubbles"
+        ],
+        "typical_output_formats": [
+          "u vs. T at constant p",
+          "u vs. p at constant T",
+          "u vs. composition at constant T and p",
+          "κS vs. T or p"
+        ],
+        "units": {
+          "speed_of_sound": "m/s",
+          "time_of_flight": "µs or ns",
+          "path_length_difference": "mm or cm",
+          "temperature": "K",
+          "pressure": "MPa",
+          "isentropic_compressibility": "TPa⁻¹ or Pa⁻¹",
+          "absorption_coefficient": "Np/m or dB/m"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "253 K to 473 K",
+            "hard_limits": "limited by cell seal materials and thermostat fluid; specialized cells extend to 200 K or 573 K",
+            "notes": "most ThermoML entries cover 273–373 K for liquid-phase measurements"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 100 MPa",
+            "hard_limits": "cell and fitting design can extend to 200 MPa or beyond for high-pressure studies",
+            "notes": "ambient-pressure measurements dominate the database; high-pressure cells use thick-walled stainless steel or Inconel construction"
+          },
+          {
+            "parameter": "ultrasonic_frequency",
+            "typical_range": "1 MHz to 10 MHz",
+            "hard_limits": "0.5 MHz to 20 MHz; lower frequencies reduce absorption losses, higher frequencies improve timing resolution",
+            "notes": "frequency must be chosen so that acoustic wavelength is much smaller than cell cross-section to avoid diffraction; 2–5 MHz is most common"
+          },
+          {
+            "parameter": "path_length_difference",
+            "typical_range": "10 mm to 100 mm",
+            "hard_limits": "ΔL must be large enough for adequate timing resolution and small enough that absorption does not excessively attenuate the long-path signal",
+            "notes": "typical designs use ΔL ≈ 20–50 mm; longer differences improve relative timing accuracy"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "273 K to 373 K",
+            "effect": "speed of sound in most liquids decreases roughly linearly with increasing temperature (water is anomalous below ~347 K)"
+          },
+          {
+            "name": "pressure",
+            "role": "controlled or scanned variable",
+            "typical_values": "0.1 MPa to 100 MPa",
+            "effect": "speed of sound generally increases with pressure in liquids due to increasing density and stiffness"
+          },
+          {
+            "name": "composition",
+            "role": "mixture variable",
+            "typical_values": "0 to 1 mole fraction",
+            "effect": "u varies with composition; excess speed of sound reveals molecular interactions and non-ideal mixing"
+          },
+          {
+            "name": "ultrasonic_frequency",
+            "role": "fixed instrument parameter",
+            "typical_values": "2 MHz to 5 MHz",
+            "effect": "in non-dispersive media u is frequency-independent; in dispersive fluids near relaxation, frequency affects apparent u"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "two acoustic measurement cells of precisely known, different fixed path lengths (L1 and L2), machined to µm-level tolerances",
+          "matched pair of piezoelectric transducers (PZT or lithium niobate) — one transmitter and one receiver per cell, or pulse-echo configuration in each cell",
+          "ultrasonic pulse generator — produces narrow-band tone bursts or broadband pulses at 1–10 MHz",
+          "high-speed digital oscilloscope or time-interval counter — timing resolution ≤ 1 ns for precise Δt measurement",
+          "thermostat — liquid circulation bath or Peltier-controlled block providing ±0.01 K temperature stability",
+          "temperature sensors — platinum resistance thermometers (PRT, Pt-100 or Pt-25) calibrated on ITS-90",
+          "pressure transducer — calibrated strain-gauge or dead-weight piston gauge for high-pressure cells",
+          "sample manifold and filling system — for degassed liquid introduction under vacuum or inert gas",
+          "signal amplifier and impedance-matching network — optimizes transducer driving and receiving sensitivity",
+          "computer with data acquisition software — controls pulse timing, records waveforms, and computes u"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled room or enclosure to minimize thermal gradients in the cell",
+          "vibration-damped mounting to prevent mechanical coupling into transducer signals",
+          "electromagnetic shielding of transducer cables and receiver electronics to reduce pickup noise",
+          "pressure safety enclosure for high-pressure cells exceeding 10 MPa"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid sample fills both acoustic cells completely — no trapped gas bubbles or dead volumes"
+          ],
+          "size_limits": "typically 10–200 mL total sample volume (both cells combined); exact volume depends on cell design",
+          "thickness_limits": "not applicable — path length is fixed by cell geometry, not sample preparation",
+          "surface_requirements": [
+            "transducer faces must be clean and wetted by the sample for good acoustic coupling",
+            "cell walls and sealing surfaces must be free of deposits that alter path length"
+          ],
+          "mounting_requirements": [
+            "cells must be rigidly mounted in the thermostat to prevent differential thermal expansion artifacts",
+            "transducers bonded or spring-loaded against cell faces with couplant or direct fluid contact"
+          ],
+          "preparation_requirements": [
+            "degassing under vacuum or by helium sparging to remove dissolved gases (bubbles scatter and attenuate ultrasound)",
+            "filtration through 0.45 µm filters for particulate removal",
+            "drying over molecular sieves for hygroscopic liquids",
+            "known composition verified by Karl Fischer titration (water content) or GC analysis"
+          ]
+        },
+        "calibration_requirements": [
+          "path-length difference ΔL calibrated using a reference liquid of well-known speed of sound (typically water, IAPWS-95 equation of state)",
+          "temperature sensor calibration on ITS-90 using fixed-point cells or comparison with a standard PRT",
+          "pressure transducer calibration against a dead-weight piston gauge or certified reference",
+          "electronic timing calibration — verification of oscilloscope or counter timebase against a rubidium or GPS-disciplined frequency standard",
+          "zero-offset check — measure Δt with cells at identical path length (or same cell measured twice) to verify zero systematic delay difference"
+        ],
+        "reference_materials": [
+          "water (IAPWS-95) — primary calibration fluid for path-length determination; u known to ±0.005% over wide T–p range",
+          "n-heptane — secondary reference liquid with well-characterized u(T,p)",
+          "toluene — secondary reference fluid",
+          "dry nitrogen or argon — gaseous reference for gas-phase cell calibration"
+        ],
+        "consumables": [
+          "ultrasonic couplant gel (for contact-mode transducers, if not directly wetted)",
+          "O-rings and sealing gaskets (Viton, Kalrez, or PTFE depending on chemical compatibility)",
+          "molecular sieves for sample drying",
+          "cleaning solvents (acetone, ethanol, or appropriate solvent for the fluid under test)"
+        ],
+        "safety_notes": [
+          "high-pressure cells must be hydrostatically tested to ≥1.5× maximum working pressure",
+          "pressure relief valves required on high-pressure manifolds",
+          "chemical compatibility of seals and cell materials must be verified for each sample",
+          "volatile or toxic samples require fume hood operation and proper ventilation"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving speed-of-sound changes < 0.01 m/s in well-optimized systems",
+        "detection_limit": "not applicable — technique measures an intensive property (u); requires sufficient sample volume to fill both cells",
+        "resolution": {
+          "spatial": "not applicable (bulk fluid measurement)",
+          "temporal": "timing resolution ≤ 1 ns achievable with modern digital oscilloscopes; corresponds to ~0.001 m/s resolution for ΔL = 50 mm",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "speed of sound from ~100 m/s (low-density gases) to ~2000 m/s (compressed liquids); limited by transducer bandwidth and timing range",
+        "accuracy": "0.01–0.05% for speed of sound in liquids after full calibration; 0.05–0.1% for gases (larger due to lower u and shorter acoustic signals)",
+        "precision": "0.005–0.02% (repeatability of u measurement at constant T and p from replicate pulse acquisitions)",
+        "throughput": "sequential measurement at each T–p state point; one point per 1–5 minutes including thermal equilibration; automated scanning over T or p possible",
+        "measurement_speed": "individual Δt acquisition takes < 1 second (averaging of multiple pulses); thermal equilibration between state points dominates total time"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "digitized ultrasonic pulse waveforms (voltage vs. time) from the receiver transducers in both the short-path and long-path cells",
+        "preprocessing_steps": [
+          "signal averaging of multiple pulse acquisitions (typically 100–1000 pulses) to improve signal-to-noise ratio",
+          "band-pass filtering to remove out-of-band electronic noise",
+          "cross-correlation of received waveforms with a reference pulse to determine precise arrival times t1 and t2",
+          "computation of time-of-flight difference Δt = t2 − t1",
+          "temperature and pressure corrections to ΔL for thermal expansion and elastic compression of the cell body"
+        ],
+        "analysis_methods": [
+          "primary: u = ΔL / Δt, where ΔL = L2 − L1 is the calibrated path-length difference and Δt is the measured time-of-flight difference",
+          "cross-correlation peak fitting — sub-sample interpolation (parabolic, Gaussian, or sinc) for Δt determination at sub-nanosecond precision",
+          "phase-comparison method — measure phase difference between received signals in the two cells at the carrier frequency for improved precision",
+          "absorption analysis: α = (1/ΔL) ln(A1/A2), where A1 and A2 are pulse amplitudes in the short and long cells, corrected for diffraction",
+          "polynomial or rational-function fitting of u(T,p) data for interpolation and thermodynamic property derivation"
+        ],
+        "model_assumptions": [
+          "acoustic propagation is one-dimensional plane wave within the cell bore (cell diameter >> wavelength)",
+          "the fluid is non-dispersive at the operating frequency (u is frequency-independent)",
+          "transducer characteristics (delay, phase response) are identical in both cells, so they cancel exactly in the Δt measurement",
+          "thermal expansion of the cell body is known and corrected using calibrated expansion coefficients",
+          "diffraction losses are negligible or equal in both cells due to matched geometry"
+        ],
+        "fit_parameters": [
+          "speed of sound u at each (T, p) state point",
+          "path-length difference ΔL (determined during calibration, treated as a refined constant)",
+          "acoustic absorption coefficient α (if amplitude analysis is performed)",
+          "polynomial coefficients for u(T) or u(T,p) correlations"
+        ],
+        "common_artifacts": [
+          "diffraction correction error: if cell geometries are not perfectly matched, residual diffraction differences introduce a systematic offset in Δt",
+          "thermal gradient artifact: temperature differences between the two cells cause differential path-length changes and apparent u shift",
+          "bubble or dissolved gas artifact: microbubbles scatter ultrasound, causing erratic time-of-flight readings and increased noise",
+          "mode conversion artifact: acoustic energy coupling into cell wall modes produces spurious echoes that interfere with the direct signal",
+          "electronic crosstalk: electromagnetic coupling between transmitter and receiver channels creates a false early-arrival signal"
+        ],
+        "quality_control_checks": [
+          "reproduce known u of reference fluid (water) to within ±0.01–0.02% over the measurement T and p range",
+          "verify that measured u is independent of pulse repetition rate and number of averages (rules out thermal or acoustic streaming effects)",
+          "check consistency between heating and cooling scans (absence of hysteresis confirms proper degassing and thermal equilibration)",
+          "inspect received waveforms for distortion, multiple echoes, or anomalous amplitude changes indicating bubble formation or seal failure",
+          "repeat measurements at multiple ultrasonic frequencies to confirm non-dispersive behavior"
+        ],
+        "failure_modes": [
+          "seal failure — sample leakage causes loss of acoustic coupling and erratic Δt readings",
+          "transducer delamination or cracking at elevated temperature or pressure — produces weak or distorted pulses",
+          "incomplete degassing — dissolved gas exsolves at low pressure or elevated temperature, forming bubbles that scatter ultrasound",
+          "cell fouling or corrosion — deposits on transducer faces alter effective path length and acoustic impedance matching",
+          "thermal runaway in thermostat — loss of temperature control invalidates the measurement state point"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.05% for speed of sound in liquids; 0.05–0.1% for gases",
+        "random_sources": [
+          "electronic noise in receiver amplifier and digitizer (jitter in arrival time determination)",
+          "thermostat temperature fluctuations (±0.005–0.02 K contributes through du/dT)",
+          "pressure fluctuations or measurement noise in the pressure transducer",
+          "pulse-to-pulse variations in transducer excitation (amplitude, timing)",
+          "sample composition fluctuations in flowing or dynamically mixed systems"
+        ],
+        "systematic_sources": [
+          "path-length difference uncertainty — propagates directly as Δu/u = ΔδL/ΔL",
+          "thermal expansion correction of cell body (uncertainty in expansion coefficient of cell material)",
+          "residual transducer delay mismatch between the two cells (imperfect cancellation of electronic and acoustic delays)",
+          "diffraction correction difference between the two cells",
+          "temperature measurement uncertainty (PRT calibration, self-heating, thermal gradient between sensor and fluid)",
+          "pressure measurement uncertainty (transducer calibration, pressure gradient between gauge and cell)",
+          "reference fluid uncertainty used in path-length calibration (IAPWS-95 equation uncertainty for water)"
+        ],
+        "operator_dependence": "low — once cells are assembled and calibrated, measurement is highly automated; operator influence limited to sample preparation quality (degassing, purity) and cell cleaning",
+        "model_dependence": "low — the fundamental relation u = ΔL/Δt is exact for plane-wave propagation; corrections for diffraction and cell expansion are small and well-characterized",
+        "dominant_error_sources": [
+          "path-length difference calibration (typically the largest single uncertainty contributor)",
+          "temperature measurement and control (especially for fluids with large du/dT)",
+          "impurity or water contamination in the sample affecting u"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(u) at 95% confidence level (k=2)",
+          "relative uncertainty as percentage of u",
+          "component-wise uncertainty budget tabulating random and systematic contributions"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The dual path-length method determines the speed of sound in fluids by measuring the difference in acoustic transit times through two cells of precisely known, different fixed path lengths. By differencing the time-of-flight measurements, systematic delays introduced by the piezoelectric transducers, their bonding layers, and the driving electronics cancel exactly, leaving only the acoustic propagation time through the known path-length difference ΔL. The speed of sound is then obtained from the simple relation u = ΔL/Δt. This differential design achieves accuracies of 0.01–0.05% without requiring absolute knowledge of transducer delay times, making it one of the most reliable acoustic techniques for precise thermophysical property determination in liquids and gases.",
+      "how_it_operates": "A short electrical pulse or tone burst from an ultrasonic pulser excites a piezoelectric transmitter transducer that launches an acoustic wave into the fluid-filled measurement cell. The wave propagates through the sample and is detected by a receiver transducer on the opposite face. Two such cells are operated simultaneously or sequentially: one with a shorter path length L1 and one with a longer path length L2. The total measured transit times include the true acoustic propagation time plus fixed electronic and transducer delays that are identical in both cells. By subtracting the two measured times, Δt = t2 − t1, all non-acoustic delays cancel, and the speed of sound is u = (L2 − L1)/Δt = ΔL/Δt. High-speed digital oscilloscopes or time-interval counters with sub-nanosecond resolution record the received waveforms, and cross-correlation or phase-comparison algorithms extract Δt with high precision.",
+      "core_theory": "The speed of sound u in a fluid relates the acoustic pressure wave's propagation velocity to the medium's thermodynamic properties through u² = (∂p/∂ρ)S = 1/(ρκS), where ρ is the density and κS is the isentropic compressibility. In the dual path-length method, u is determined kinematically from u = ΔL/Δt. The measured transit time through each cell is ti = Li/u + τ, where τ represents the sum of all fixed delays (electrical, transducer, bonding). Since τ is the same for both cells, the difference gives Δt = (L2 − L1)/u = ΔL/u, hence u = ΔL/Δt. The path-length difference ΔL is calibrated by measuring Δt in a reference fluid (typically water) whose u(T,p) is known from the IAPWS-95 equation of state to ±0.005%. Small corrections are applied for thermal expansion and pressure-induced compression of the cell body material using known coefficients of thermal expansion and elastic moduli.",
+      "setup": "A typical dual path-length apparatus consists of two cylindrical stainless steel cells of differing internal lengths (e.g., L1 ≈ 20 mm and L2 ≈ 50 mm), each fitted with a pair of disc-shaped piezoelectric transducers (PZT-5 or lithium niobate, 2–5 MHz center frequency) sealed against the fluid by O-rings or metal gaskets. Both cells are mounted in a common thermostat — either a liquid circulation bath or a massive copper block with Peltier or resistive heating — ensuring isothermal conditions to within ±0.01 K as measured by calibrated Pt-100 or Pt-25 resistance thermometers. For high-pressure operation, the cells are jacketed in thick-walled pressure vessels with capillary connections to a pressure generator and a calibrated pressure transducer. The ultrasonic pulser, receiver amplifier, and digital oscilloscope are connected through impedance-matched coaxial cables. A computer controls the pulse repetition, acquires waveforms, performs cross-correlation for timing, computes u, and automates temperature and pressure scanning.",
+      "suitable_for": "The dual path-length method is ideally suited for high-accuracy determination of speed of sound in pure liquids, liquid mixtures, electrolyte solutions, and compressed gases over wide ranges of temperature and pressure. It is the technique of choice when accuracies of 0.01–0.05% are required, such as in deriving isentropic compressibilities, validating equations of state, or establishing reference data for calibration of simpler ultrasonic devices. The method is particularly valuable for compressed liquids at elevated pressures (up to 100–200 MPa) where the differential design suppresses pressure-dependent transducer artifacts. It is also used for supercritical fluids and dense gases where speed of sound varies strongly with T and p, providing critical data for process engineering and thermodynamic modeling.",
+      "core_limitations": "The method requires substantial sample volumes (tens to hundreds of milliliters) to fill both measurement cells, which can be prohibitive for expensive or rare fluids. Both cells must be maintained at identical and uniform temperature and pressure; any differential thermal gradient between cells introduces a direct systematic error in u. The technique is limited to fluids with sufficiently low acoustic absorption that a detectable signal reaches the receiver through the longer path — highly viscous or strongly absorbing media may require lower frequencies, which in turn reduce timing resolution. The method cannot be applied to solids without fundamental redesign. Path-length calibration is only as accurate as the reference fluid data (water via IAPWS-95), so the absolute accuracy floor is set by the reference equation of state uncertainty (~0.005%). At acoustic frequencies of several MHz, dispersive fluids near relaxation transitions may yield frequency-dependent apparent speeds that must be carefully interpreted.",
+      "sample_preparation": "Samples must be thoroughly degassed to prevent microbubble formation that scatters ultrasonic pulses and produces erratic timing. Liquids are typically degassed under vacuum (< 1 kPa) with stirring or by helium sparging for 30–60 minutes. Water content of hygroscopic samples is determined by Karl Fischer titration and reported. Particulate matter is removed by filtration through 0.45 µm membrane filters. Sample purity should be verified by GC, HPLC, or NMR as appropriate, with stated mole fraction purity typically ≥ 0.995. The fluid is loaded into both cells through a manifold under vacuum or inert gas to avoid entraining air. For volatile liquids, the cells are sealed and slightly pressurized above the vapor pressure to prevent cavitation during acoustic measurements.",
+      "calibration_and_references": "The path-length difference ΔL is the critical calibrated quantity. It is determined by filling both cells with degassed, deionized water and measuring Δt at a series of temperatures (typically 5–10 points over 278–358 K) and comparing with the IAPWS-95 speed of sound. A least-squares fit yields ΔL at a reference temperature T0 and the effective thermal expansion coefficient of the cell assembly. This calibration should be performed at each pressure of interest if high-pressure measurements are planned, because elastic compression alters L1 and L2 slightly (though the effect on ΔL is partially self-canceling). Temperature sensors are calibrated on ITS-90 using triple-point-of-water cells and comparison with a NIST-traceable standard PRT. Pressure transducers are calibrated against a dead-weight piston gauge. The calibration is verified periodically by re-measuring water or a secondary reference liquid (n-heptane, toluene) and confirming agreement to within the stated uncertainty.",
+      "data_interpretation": "For each T–p state point, the oscilloscope records the received waveforms from both cells. Cross-correlation of each received signal with a stored reference pulse determines the precise arrival times t1 and t2, and hence Δt. Sub-sample interpolation (parabolic or sinc fitting around the cross-correlation peak) achieves timing precision well below the digitizer sampling interval. The speed of sound is computed as u = ΔL(T,p)/Δt, where ΔL has been corrected for thermal expansion and pressure compression from the calibration model. Multiple acquisitions (100–1000) are averaged to reduce random noise. The resulting u(T,p) data can be fitted to polynomial or Padé correlations for interpolation. Isentropic compressibility κS = 1/(ρu²) is derived when density data are available. Excess speed of sound uE = u_mix − Σ(xi·u_i) for mixtures is calculated from the mixture measurement minus the mole-fraction-weighted pure component values, informing solution thermodynamic models.",
+      "common_pitfalls": "The most frequent error source is incomplete degassing — even trace dissolved gas produces bubbles upon temperature change or pressure reduction, scattering ultrasound and introducing large random errors in Δt. Operating the two cells at slightly different temperatures (due to thermostat non-uniformity) introduces a systematic bias proportional to the temperature difference times du/dT, which can be several m/s per kelvin. Using excessively high ultrasonic frequencies in absorbing liquids causes the long-path signal to fall below the noise floor, yielding unreliable timing. Neglecting the thermal expansion correction to ΔL introduces a systematic drift of ~0.01–0.03% per 50 K excursion from the calibration temperature. Contamination or impurity in the sample, even at the 0.1% level, can shift u by several tenths of a percent in some systems, exceeding the instrumental precision.",
+      "artifacts_and_failure_modes": "Diffraction mismatch artifacts arise when the two cells have slightly different bore diameters or transducer alignment, producing unequal diffraction phase shifts that do not cancel in the Δt measurement — this manifests as a small but reproducible offset in u. Mode conversion artifacts occur when acoustic energy couples into guided modes along the cell walls (especially in narrow-bore cells), generating parasitic echoes that can be mistaken for the direct-path signal or distort the cross-correlation peak. Bubble artifacts appear as sudden erratic jumps or spikes in the Δt time series and are diagnostic of inadequate degassing or seal leakage. Transducer aging — gradual depoling of PZT at elevated temperatures or fatigue cracking of the piezoelectric element — causes progressive signal weakening and waveform distortion, degrading timing precision. Seal failure at high pressure leads to sample loss, cross-contamination, and potential safety hazards.",
+      "reporting_checklist": "Publications using the dual path-length method should report: nominal path lengths L1 and L2 and the calibrated ΔL with uncertainty, cell material and thermal expansion coefficients, transducer type and operating frequency, reference fluid used for ΔL calibration with the equation of state cited, temperature measurement method and ITS-90 calibration details, pressure measurement method and calibration traceability, sample purity and source with analytical method, degassing procedure, number of pulse averages per data point, timing method (cross-correlation, phase comparison) and digitizer resolution, u(T,p) data with combined expanded uncertainty at 95% confidence (k=2) and complete uncertainty budget, and any observed frequency dependence of u. For ThermoML encoding, speed of sound values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

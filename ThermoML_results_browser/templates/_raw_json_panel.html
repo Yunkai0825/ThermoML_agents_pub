@@ -1,0 +1,12 @@
+{% macro raw_json_panel(doi, classes='mt-2') -%}
+{% if doi %}
+<details class="raw-json-panel {{ classes }}"
+         data-raw-json-url="{{ url_for('raw_json_source', doi=doi) }}">
+  <summary class="small text-danger" title="Loaded directly from the compressed ThermoML corpus">
+    <i class="bi bi-braces"></i> Raw JSON
+  </summary>
+  <div class="raw-json-status small text-muted py-2">Expand to load the complete archived JSON.</div>
+  <pre class="raw-json-content d-none mb-0"></pre>
+</details>
+{% endif %}
+{%- endmacro %}

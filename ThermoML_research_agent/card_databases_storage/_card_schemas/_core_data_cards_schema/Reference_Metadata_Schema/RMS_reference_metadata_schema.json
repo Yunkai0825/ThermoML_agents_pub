@@ -1,0 +1,675 @@
+{
+  "$schema": "thermoml_reference_metadata_schema_v1",
+  "$id": "RMS_reference_metadata_schema",
+  "title": "ThermoML Reference Metadata Card Schema",
+  "description": "One card per paper (DOI). Holds all bibliographic metadata plus a precomputed content summary of what the paper contributes to the database. Agents load RMS when they need citation context, author info, or paper-level discovery. PCS cards carry only {doi, title} and reference RMS for the rest.",
+  "version": "1.0.0",
+  "database_stats": {
+    "total_papers": 11726,
+    "year_range": "2003-2019",
+    "all_journal_type": true,
+    "all_original_source": true,
+    "with_abstract": 11682,
+    "with_keywords": 7910,
+    "unique_keywords": 13747
+  },
+  "card_structure": {
+    "identity": {
+      "description": "Primary key and internal identifiers",
+      "fields": {
+        "doi": {
+          "type": "string",
+          "description": "Digital Object Identifier (sDOI). Primary key for this card. 1 file in DB lacks sDOI — use filename-derived DOI as fallback."
+        },
+        "lit_id": {
+          "type": "string",
+          "description": "TRC literature identifier derived from TRCRefID (yrYrPub-sAuthor1-sAuthor2-nAuthorn). Unique per paper; 1:1 with DOI. Compact human-readable paper handle.",
+          "example": "2007-shi-yok-2"
+        },
+        "trc_ref_id": {
+          "type": "object",
+          "description": "TRC-specific reference identifier (TRCRefID). Present in all 11,726 files.",
+          "fields": {
+            "year": {
+              "type": "string",
+              "description": "Publication year from TRC (yrYrPub)"
+            },
+            "author1": {
+              "type": "string",
+              "description": "First author abbreviation (sAuthor1, 3 chars)"
+            },
+            "author2": {
+              "type": "string",
+              "description": "Second author abbreviation (sAuthor2, 2-3 chars)"
+            },
+            "author_n": {
+              "type": "string",
+              "description": "Additional author count (nAuthorn)"
+            }
+          }
+        },
+        "lit_num_id": {
+          "type": "string",
+          "description": "[audited] Present in 100.0% of cards. Example: GLOBlit_1"
+        }
+      }
+    },
+    "bibliographic": {
+      "description": "Full citation metadata. All fields present in 100% of papers unless noted.",
+      "fields": {
+        "title": {
+          "type": "string",
+          "description": "Paper title (sTitle). Median 119 chars, max 389."
+        },
+        "authors": {
+          "type": "array",
+          "description": "Author list (sAuthor). Format: 'LastName, I.[FirstName]'. Median 4 authors, max 15.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "journal": {
+          "type": "string",
+          "description": "Journal or publication name (sPubName). All entries are journals in this DB."
+        },
+        "year": {
+          "type": "integer",
+          "description": "Publication year (yrPubYr). Range: 2003–2019."
+        },
+        "volume": {
+          "type": "string",
+          "description": "Volume number (sVol). String to handle ranges like '228-229'."
+        },
+        "pages": {
+          "type": "string",
+          "description": "Page range (sPage, e.g., '79-86')."
+        },
+        "issue_number": {
+          "type": "string|null",
+          "description": "Issue number (sIDNum). Present in 65% of papers."
+        },
+        "publication_type": {
+          "type": "string",
+          "description": "Publication type (eType). All 11,726 are 'journal' in this DB.",
+          "allowed_values": [
+            "journal",
+            "book",
+            "thesis",
+            "patent",
+            "report",
+            "conferenceProceedings",
+            "personalCommunication",
+            "unspecified"
+          ]
+        },
+        "source_type": {
+          "type": "string",
+          "description": "Source type (eSourceType). All 11,726 are 'Original' in this DB.",
+          "allowed_values": [
+            "Original",
+            "ChemicalAbstracts",
+            "Other"
+          ]
+        },
+        "citation_date": {
+          "type": "string",
+          "description": "Date the citation record was created/updated (dateCit, e.g., '2020-09-29')."
+        }
+      }
+    },
+    "content": {
+      "description": "Textual content from the paper. Abstract present in 99.6%, keywords in 67%.",
+      "fields": {
+        "abstract": {
+          "type": "string|null",
+          "description": "Paper abstract (sAbstract). Median ~230 tokens, max ~940. Null for 44 papers."
+        },
+        "keywords": {
+          "type": "array|null",
+          "description": "Author keywords (sKeyword). Median 5, max 24. 13,747 unique keywords across DB. Null for 3,816 papers.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "data_inventory": {
+      "description": "Precomputed summary of what experimental data this paper contributes. Agent reads this section for paper-level discovery without loading individual PCS cards.",
+      "fields": {
+        "n_compounds": {
+          "type": "integer",
+          "description": "Number of unique compounds in this paper. Median 4, max 94."
+        },
+        "compound_list": {
+          "type": "array",
+          "description": "Lightweight compound references for each compound. Enables compound-based paper discovery.",
+          "items": {
+            "type": "object",
+            "fields": {
+              "org_num": {
+                "type": "string",
+                "description": "DOI-scoped source component ID. Format: 'DOIcomp_<positive integer>'."
+              },
+              "comp_num_id": {
+                "type": "string",
+                "description": "Global compound registry ID. Format: 'GLOBcomp_<positive integer>'."
+              },
+              "inchi_key": {
+                "type": "string",
+                "description": "Canonical global compound structure key."
+              },
+              "SMILES": {
+                "type": "string|null",
+                "description": "Canonical SMILES — derived from InChI via RDKit. Primary structural identifier and CDS lookup key."
+              },
+              "InChI": {
+                "type": "string|null",
+                "description": "IUPAC Standard InChI — full canonical structure string from source data"
+              },
+              "name": {
+                "type": "string",
+                "description": "Primary common name"
+              },
+              "formula": {
+                "type": "string",
+                "description": "Molecular formula"
+              }
+            }
+          }
+        },
+        "n_blocks": {
+          "type": "integer",
+          "description": "Total measurement blocks (PureOrMixtureData + ReactionData). Median 7, max 594."
+        },
+        "has_pure_or_mixture_data": {
+          "type": "boolean",
+          "description": "Whether the paper contains PureOrMixtureData blocks. True for 11,632 (99.2%)."
+        },
+        "has_reaction_data": {
+          "type": "boolean",
+          "description": "Whether the paper contains ReactionData blocks. True for 495 (4.2%)."
+        },
+        "property_names": {
+          "type": "array",
+          "description": "Distinct property names measured in this paper (from ePropName across all blocks).",
+          "items": {
+            "type": "string"
+          }
+        },
+        "property_groups": {
+          "type": "array",
+          "description": "Distinct PropertyGroup classifications present.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "system_types": {
+          "type": "array",
+          "description": "System sizes present (e.g., ['unary', 'binary']).",
+          "items": {
+            "type": "string"
+          }
+        },
+        "temperature_range_K": {
+          "type": "object|null",
+          "description": "Overall temperature range across all blocks.",
+          "fields": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        },
+        "pressure_range_kPa": {
+          "type": "object|null",
+          "description": "Overall pressure range across all blocks (null if no pressure data).",
+          "fields": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        },
+        "n_datapoints": {
+          "type": "integer",
+          "description": "Total data points across all blocks in this paper."
+        },
+        "properties": {
+          "type": "array",
+          "description": "[audited] Present in 100.0% of cards.",
+          "items": {
+            "fields": {
+              "component_linked": {
+                "type": "boolean",
+                "description": "[audited] Present in 100.0% of cards. Example: False"
+              },
+              "name": {
+                "type": "string",
+                "description": "[audited] Present in 100.0% of cards. Example: Thermal conductivity, W/m/K"
+              },
+              "prop_id": {
+                "type": "string",
+                "description": "[audited] Present in 100.0% of cards. Example: thermal_conductivity_w_m_k"
+              },
+              "prop_num_id": {
+                "type": "string",
+                "description": "[audited] Present in 100.0% of cards. Example: GLOBprop_34"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "field_universe_audit": {
+    "generated": "2026-08-03",
+    "source": "full scan of every card in the database (audit_card_fields.py)",
+    "rows_scanned": 11923,
+    "distinct_paths": 56,
+    "wildcards": "ID-grammar keys collapsed: <GLOBxxx_N>, <PROPblock_N>, <BLKxxx_N>, <DOIcomp_N>, <doi>, <n>",
+    "paths": {
+      "bibliographic": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "bibliographic.authors": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "bibliographic.authors[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Patek, J."
+      },
+      "bibliographic.citation_date": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "2020-09-29"
+      },
+      "bibliographic.issue_number": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "3"
+      },
+      "bibliographic.journal": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Int. J. Thermophys."
+      },
+      "bibliographic.pages": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "577-592"
+      },
+      "bibliographic.publication_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "journal"
+      },
+      "bibliographic.source_type": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Original"
+      },
+      "bibliographic.title": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Thermal Conductivity of Carbon Dioxide Methane Mixtures at Temperatures Between …"
+      },
+      "bibliographic.volume": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "26"
+      },
+      "bibliographic.year": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "2005"
+      },
+      "content": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "content.abstract": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "The thermal conductivities of carbon dioxide and three mixtures of carbon dioxid…"
+      },
+      "content.keywords": {
+        "types": [
+          "array",
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "content.keywords[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 67.78,
+        "example": "carbon dioxide"
+      },
+      "data_inventory": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.compound_list": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.compound_list[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.compound_list[].InChI": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "InChI=1S/CH4/h1H4"
+      },
+      "data_inventory.compound_list[].SMILES": {
+        "types": [
+          "null"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.compound_list[].comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBcomp_51"
+      },
+      "data_inventory.compound_list[].formula": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "CH4"
+      },
+      "data_inventory.compound_list[].inchi_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "VNWKTOKETHGBQD-UHFFFAOYSA-N"
+      },
+      "data_inventory.compound_list[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "methane"
+      },
+      "data_inventory.compound_list[].org_num": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "DOIcomp_1"
+      },
+      "data_inventory.has_pure_or_mixture_data": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "True"
+      },
+      "data_inventory.has_reaction_data": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "data_inventory.n_blocks": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "2"
+      },
+      "data_inventory.n_compounds": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "2"
+      },
+      "data_inventory.n_datapoints": {
+        "types": [
+          "integer"
+        ],
+        "pct": 100.0,
+        "example": "257"
+      },
+      "data_inventory.pressure_range_kPa": {
+        "types": [
+          "null",
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.pressure_range_kPa.max": {
+        "types": [
+          "number"
+        ],
+        "pct": 86.81,
+        "example": "15010.0"
+      },
+      "data_inventory.pressure_range_kPa.min": {
+        "types": [
+          "number"
+        ],
+        "pct": 86.81,
+        "example": "497.0"
+      },
+      "data_inventory.properties": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.properties[]": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.properties[].component_linked": {
+        "types": [
+          "boolean"
+        ],
+        "pct": 100.0,
+        "example": "False"
+      },
+      "data_inventory.properties[].name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "Thermal conductivity, W/m/K"
+      },
+      "data_inventory.properties[].prop_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "thermal_conductivity_w_m_k"
+      },
+      "data_inventory.properties[].prop_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBprop_34"
+      },
+      "data_inventory.property_groups": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.property_groups[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "TransportProp"
+      },
+      "data_inventory.system_types": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.system_types[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "binary"
+      },
+      "data_inventory.temperature_range_K": {
+        "types": [
+          "null",
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "data_inventory.temperature_range_K.max": {
+        "types": [
+          "number"
+        ],
+        "pct": 94.77,
+        "example": "428.05"
+      },
+      "data_inventory.temperature_range_K.min": {
+        "types": [
+          "number"
+        ],
+        "pct": 94.77,
+        "example": "298.89"
+      },
+      "identity": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.doi": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "10.1007/s10765-005-5566-6"
+      },
+      "identity.lit_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "2005-pat-klo-0"
+      },
+      "identity.lit_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBlit_1"
+      },
+      "identity.trc_ref_id": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.trc_ref_id.author1": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "pat"
+      },
+      "identity.trc_ref_id.author2": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "klo"
+      },
+      "identity.trc_ref_id.author_n": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "0"
+      },
+      "identity.trc_ref_id.year": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "2005"
+      }
+    }
+  }
+}

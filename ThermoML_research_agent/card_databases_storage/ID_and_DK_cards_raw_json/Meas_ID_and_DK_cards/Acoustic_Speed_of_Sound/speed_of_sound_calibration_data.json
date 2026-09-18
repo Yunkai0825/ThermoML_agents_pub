@@ -1,0 +1,325 @@
+{
+  "meas_ID": "speed_of_sound_calibration_data",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Speed of sound calibration data",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Speed of sound calibration data",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Acoustic / Speed of Sound",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 11,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 11,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "time-of-flight of acoustic pulse through reference fluid (t)",
+          "resonance frequency of acoustic cavity filled with reference fluid (f)",
+          "temperature of reference fluid (T)",
+          "pressure of reference fluid (P)",
+          "echo signal amplitude and waveform"
+        ],
+        "derived_observables": [
+          "speed of sound in reference fluid (u = 2L/t or from resonance condition)",
+          "calibrated acoustic path length (L = u_ref × t/2)",
+          "systematic correction factors (diffraction, viscous boundary layer, waveguide dispersion)",
+          "instrument uncertainty budget from residuals against reference equation of state",
+          "temperature-dependent path length correction (thermal expansion of cell)"
+        ],
+        "target_properties": [
+          "calibrated acoustic path length of the measurement cell",
+          "speed of sound in well-characterized reference fluids",
+          "systematic error characterization of the acoustic instrument",
+          "instrument linearity and stability verification",
+          "temperature and pressure coefficients of cell geometry"
+        ],
+        "phases_measured": [
+          "liquid (primary — water calibration)",
+          "gas (argon, nitrogen calibration)",
+          "supercritical fluid (for extended P-T calibrations)"
+        ],
+        "supported_sample_types": [
+          "high-purity reference liquids (water, toluene, n-hexane)",
+          "high-purity reference gases (argon, nitrogen, helium)",
+          "NIST-certified standard reference fluids",
+          "degassed and deionized water"
+        ],
+        "unsupported_sample_types": [
+          "unknown or uncharacterized fluids (defeats calibration purpose)",
+          "mixtures without precisely known equation of state",
+          "highly viscous fluids that over-attenuate acoustic signals",
+          "reactive or corrosive fluids that damage transducers",
+          "two-phase systems (excessive scattering and attenuation)"
+        ],
+        "typical_output_formats": [
+          "u_measured vs. u_reference residual table as a function of T and P",
+          "calibrated path length L(T) polynomial or table",
+          "systematic correction factor table",
+          "uncertainty budget spreadsheet (Type A and Type B contributions)",
+          "deviation plot: (u_meas − u_ref)/u_ref × 10⁶ vs. T or P"
+        ],
+        "units": {
+          "speed_of_sound": "m/s",
+          "time_of_flight": "µs",
+          "path_length": "mm",
+          "temperature": "K",
+          "pressure": "MPa",
+          "frequency": "MHz",
+          "relative_deviation": "ppm (parts per million)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 373 K (water calibration); 200 K to 500 K (gas calibration)",
+            "hard_limits": "limited by reference fluid stability and equation of state validity range",
+            "notes": "water calibration most common from 274 K to 368 K where Del Grosso & Mader and IAPWS-95 data are most precise"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 100 MPa for liquid calibration; 0.05 MPa to 20 MPa for gas calibration",
+            "hard_limits": "cell design pressure rating; reference EOS validity limits",
+            "notes": "atmospheric pressure calibration with water is the minimum baseline"
+          },
+          {
+            "parameter": "reference_fluid_purity",
+            "typical_range": "≥ 99.99% for gases; ASTM Type I for water",
+            "hard_limits": "impurities alter speed of sound and invalidate reference values",
+            "notes": "water must be freshly degassed; dissolved air shifts u by up to 1 m/s at 25 °C"
+          },
+          {
+            "parameter": "acoustic_frequency",
+            "typical_range": "1 MHz to 10 MHz for pulse-echo; 0.5 kHz to 20 kHz for resonance methods",
+            "hard_limits": "frequency must avoid dispersion regime for the calibration fluid",
+            "notes": "at calibration frequencies, reference fluids should exhibit negligible acoustic dispersion"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "273 K to 373 K in 5–10 K steps",
+            "effect": "path length and reference speed of sound both vary with T; calibration maps L(T)"
+          },
+          {
+            "name": "pressure",
+            "role": "scanned variable for high-pressure instruments",
+            "typical_values": "0.1 MPa to 100 MPa in 5–10 MPa steps",
+            "effect": "pressure affects reference fluid speed of sound and cell compliance; calibration maps L(T,P)"
+          },
+          {
+            "name": "reference_fluid_identity",
+            "role": "selection variable",
+            "typical_values": "water, argon, nitrogen, toluene",
+            "effect": "different fluids provide independent calibration checks and access different T-P regions"
+          },
+          {
+            "name": "acoustic_frequency",
+            "role": "fixed or checked variable",
+            "typical_values": "1–5 MHz (pulse-echo); 2–10 kHz (resonator)",
+            "effect": "frequency should be within the non-dispersive regime for the reference fluid; checked for consistency"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "acoustic measurement cell — the same cell used for unknown samples, now filled with reference fluid",
+          "piezoelectric transducer(s) — broadband ultrasonic transducers (pulse-echo) or resonator cavity with fixed geometry",
+          "high-precision thermometer — calibrated PRT (platinum resistance thermometer) or SPRT with ≤ 5 mK uncertainty",
+          "pressure gauge — calibrated dead-weight gauge or quartz-crystal pressure transducer with ≤ 0.01% uncertainty",
+          "pulse generator and receiver — for time-of-flight measurements with ~1 ns timing resolution",
+          "frequency counter or network analyzer — for resonance-based measurements",
+          "thermostat or cryostat — temperature stability ≤ ±5 mK during measurement",
+          "pressure generation system — manual or automated piston pump for high-pressure calibrations",
+          "data acquisition system — computer-controlled digitizer for waveform capture and timing analysis"
+        ],
+        "environmental_requirements": [
+          "temperature stability ≤ ±5 mK over the measurement duration at each set point",
+          "pressure stability ≤ ±0.001 MPa during each measurement point",
+          "vibration isolation to prevent acoustic noise coupling into measurement cell",
+          "clean fluid handling to prevent contamination of reference fluid"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "reference fluid fills the entire acoustic measurement cell volume"
+          ],
+          "size_limits": "sufficient volume to completely fill the measurement cell (typically 5–200 mL)",
+          "thickness_limits": "not applicable — acoustic path length is defined by cell geometry (typically 10–100 mm)",
+          "surface_requirements": [
+            "cell interior surfaces must be clean and free of adsorbed contaminants",
+            "transducer faces must be clean and undamaged"
+          ],
+          "mounting_requirements": [
+            "cell must be properly sealed against leaks at operating pressure",
+            "transducer alignment must be verified for pulse-echo measurements"
+          ],
+          "preparation_requirements": [
+            "water: freshly deionized (ASTM Type I, 18.2 MΩ·cm) and thoroughly degassed under vacuum",
+            "gases: high-purity certified grade (≥ 99.999%), moisture content verified",
+            "cell must be flushed and evacuated before filling with reference fluid",
+            "temperature equilibration time adequate for full thermal equilibrium (typically 20–60 min per point)"
+          ]
+        },
+        "calibration_requirements": [
+          "this IS the calibration procedure — no prior speed of sound calibration is used",
+          "thermometer calibrated against ITS-90 fixed points or NIST-traceable standard",
+          "pressure transducer calibrated against dead-weight gauge or NIST-traceable standard",
+          "timing electronics characterized for trigger jitter and systematic delay",
+          "cell path length initially estimated from mechanical measurement, then refined acoustically"
+        ],
+        "reference_materials": [
+          "water — primary liquid standard; IAPWS-95 equation of state provides u(T,P) with uncertainty ~0.005% below 373 K",
+          "Del Grosso & Mader (1972) tabulated water speed of sound values — historical primary reference with ~0.002% accuracy",
+          "argon — primary gas standard; reference EOS by Tegeler, Span, & Wagner (1999)",
+          "nitrogen — secondary gas standard; reference EOS by Span, Lemmon, Jacobsen, Wagner, & Yokozeki (2000)",
+          "toluene — secondary liquid standard; reference EOS data available for cross-validation",
+          "n-hexane — alternative liquid reference for expanded T-P range"
+        ],
+        "consumables": [
+          "high-purity deionized water (freshly prepared and degassed)",
+          "certified high-purity calibration gases (argon, nitrogen)",
+          "O-rings and seals compatible with reference fluids and operating pressure",
+          "acoustic couplant (for transducer-buffer rod interfaces if applicable)"
+        ],
+        "safety_notes": [
+          "high-pressure systems require burst disk protection and proper pressure vessel certification",
+          "compressed gas cylinders require standard gas handling precautions",
+          "pressure vessels must not exceed rated working pressure during calibration"
+        ]
+      },
+      "performance": {
+        "sensitivity": "modern pulse-echo systems resolve speed-of-sound differences of ~0.01 m/s (≈ 7 ppm in water at 25 °C); resonators achieve ~0.001 m/s in gases",
+        "detection_limit": "not applicable — calibration measures a well-defined macroscopic quantity, not trace amounts",
+        "resolution": {
+          "spatial": "not applicable (single-path bulk measurement)",
+          "temporal": "timing resolution ~0.5–2 ns for pulse-echo systems; frequency resolution ~0.01 Hz for resonators",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "speed of sound range ~200 m/s (low-pressure gases) to ~1800 m/s (water under pressure)",
+        "accuracy": "calibration achieves 0.01–0.05% agreement with reference EOS values for well-degassed water; 0.005–0.02% for high-quality gas resonators",
+        "precision": "repeatability ~0.005–0.01% (5–10 ppm) for pulse-echo; ~0.001% (1 ppm) for spherical resonators",
+        "throughput": "one reference fluid calibration campaign covers a T-P grid in 1–5 days depending on number of state points",
+        "measurement_speed": "individual state point measurement: 1–5 minutes after thermal equilibration; equilibration dominates total time"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "pulse-echo: digitized ultrasonic waveform showing transmitted or reflected pulses; resonator: amplitude-frequency response curve showing resonance peaks",
+        "preprocessing_steps": [
+          "time-of-flight extraction via cross-correlation, threshold detection, or echo overlap method",
+          "resonance frequency extraction via Lorentzian peak fitting for resonator data",
+          "temperature and pressure reading synchronization with acoustic measurement timestamps",
+          "signal averaging over multiple pulses or resonance sweeps to reduce random noise",
+          "correction for electronic trigger delay and cable propagation time"
+        ],
+        "analysis_methods": [
+          "path length calibration: L(T,P) = u_ref(T,P) × t_measured/2, where u_ref comes from reference EOS",
+          "polynomial fit of L(T) to account for thermal expansion of cell body",
+          "residual analysis: Δu/u = (u_measured − u_reference)/u_reference plotted vs. T and P",
+          "least-squares regression of correction factors as functions of T and P",
+          "GUM-compliant uncertainty propagation combining Type A (statistical) and Type B (systematic) contributions"
+        ],
+        "model_assumptions": [
+          "reference fluid speed of sound from EOS is exact (uncertainty treated as a known systematic contribution)",
+          "acoustic propagation is in the plane-wave or known-mode regime (no parasitic modes)",
+          "cell geometry changes are purely due to thermal expansion and elastic compression (no hysteresis or creep)",
+          "diffraction corrections are adequately described by analytical models (e.g., Williams, 1951)",
+          "viscous and thermal boundary layer corrections are negligible or well-characterized"
+        ],
+        "fit_parameters": [
+          "acoustic path length L at reference conditions (L₀)",
+          "thermal expansion coefficients of cell material (α₁, α₂ in L(T) = L₀[1 + α₁(T−T₀) + α₂(T−T₀)²])",
+          "pressure compliance coefficient of cell (∂L/∂P)",
+          "systematic timing offset (Δt₀)",
+          "diffraction correction magnitude as function of frequency"
+        ],
+        "common_artifacts": [
+          "dissolved gas in water producing erroneously low speed of sound values",
+          "parasitic echoes from cell walls or mounting structures interfering with primary echo",
+          "temperature gradient across cell causing path-averaged u to differ from u at the measured T",
+          "pressure hysteresis in cell dimensions after high-pressure excursions",
+          "transducer aging or coupling degradation introducing slow drift in apparent path length"
+        ],
+        "quality_control_checks": [
+          "compare calibration results against published reference values (IAPWS-95, Del Grosso & Mader) — deviations should be < 0.05%",
+          "check consistency between heating and cooling temperature sweeps (no hysteresis > instrument precision)",
+          "verify path length calibration with a second independent reference fluid (e.g., argon after water)",
+          "confirm repeatability by repeating selected state points after full T-P cycle",
+          "inspect residual plot for systematic patterns indicating uncorrected artifacts"
+        ],
+        "failure_modes": [
+          "incomplete degassing of water — systematic low bias of 0.1–1 m/s (up to 700 ppm)",
+          "thermal non-equilibrium — scatter and systematic curvature in residual plot",
+          "cell leak at elevated pressure — sudden loss of signal or pressure drift",
+          "transducer delamination or cracking — loss of echo amplitude and phase coherence",
+          "contamination of reference fluid — shift in calibrated path length between runs"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty of calibrated path length: 0.005–0.02%; speed of sound residuals against reference EOS: 0.01–0.05%",
+        "random_sources": [
+          "timing jitter in pulse-echo measurement (~0.5–2 ns, contributing ~1–5 ppm in u)",
+          "temperature measurement noise (±1–5 mK)",
+          "pressure measurement noise (±0.001 MPa)",
+          "signal averaging residual noise",
+          "frequency determination noise in resonance methods (~0.01 Hz)"
+        ],
+        "systematic_sources": [
+          "reference EOS uncertainty (0.005–0.02% for IAPWS-95 water below 373 K)",
+          "thermometer calibration uncertainty (±5–20 mK → ~0.005–0.02% in u via du/dT)",
+          "pressure gauge calibration uncertainty (±0.01–0.1% of reading)",
+          "diffraction correction model uncertainty",
+          "viscous and thermal boundary layer correction uncertainty",
+          "cell thermal expansion model uncertainty",
+          "dissolved gas or impurity content in reference fluid"
+        ],
+        "operator_dependence": "moderate — degassing procedure thoroughness, thermal equilibration patience, and fluid handling cleanliness are operator-dependent",
+        "model_dependence": "moderate — accuracy depends on choice of reference EOS, thermal expansion model for cell, and diffraction correction model",
+        "dominant_error_sources": [
+          "dissolved gas content in water reference (can dominate if degassing is inadequate)",
+          "temperature measurement uncertainty (propagates strongly through du/dT ≈ 2.5 m/(s·K) for water at 25 °C)",
+          "reference EOS uncertainty (sets the fundamental floor for calibration accuracy)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(L) at 95% confidence (k=2) for calibrated path length",
+          "relative deviation (u_meas − u_ref)/u_ref in ppm with stated uncertainty",
+          "uncertainty budget table listing individual Type A and Type B contributions"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Speed of sound calibration data refers not to a distinct measurement technique but to acoustic speed of sound measurements performed specifically on well-characterized reference fluids for the purpose of calibrating the instrument rather than reporting new thermophysical property data. The measurements use the same pulse-echo, time-of-flight, or acoustic resonance instrumentation employed for unknown samples, but the fluid is chosen because its speed of sound is known to high accuracy from primary reference equations of state (e.g., IAPWS-95 for water, Tegeler-Span-Wagner for argon). By comparing the measured time-of-flight or resonance frequency against the known speed of sound at each temperature and pressure, the experimenter determines the calibrated acoustic path length of the cell and characterizes systematic errors. In ThermoML, this category flags that the reported data serves primarily a calibration and validation function rather than contributing new property values to the literature.",
+      "how_it_operates": "The calibration procedure fills the acoustic measurement cell with a reference fluid of known thermodynamic properties and measures the acoustic signal — either the round-trip time-of-flight of an ultrasonic pulse reflected from a known reflector, or the resonance frequencies of a fixed-geometry acoustic cavity. Because the speed of sound in the reference fluid u_ref(T,P) is known from an authoritative equation of state, the measured time-of-flight t directly yields the acoustic path length: L = u_ref × t/2 for a pulse-echo configuration. The procedure is repeated at multiple temperatures and pressures to map how the cell geometry changes with thermal expansion and elastic compression. The resulting L(T,P) calibration function is then used in subsequent measurements on unknown fluids, where u_unknown = 2L(T,P)/t_measured. For resonance-based instruments, the calibration instead determines the effective cavity radius or length from the known resonance condition f_n = n·u_ref/(2L).",
+      "core_theory": "The fundamental relation connecting the direct observable (time-of-flight t or resonance frequency f) to the speed of sound is u = 2L/t for pulse-echo or u = 2Lf_n/n for the n-th longitudinal resonance mode. In calibration mode, u is known from a reference equation of state and L is the unknown to be determined. The IAPWS-95 formulation provides the speed of sound in water as a function of T and P through the thermodynamic relation u² = (∂P/∂ρ)_s, where the partial derivative is evaluated from the Helmholtz free energy surface. For the path length calibration, L(T) is typically modeled as L(T) = L₀[1 + α₁(T−T₀) + α₂(T−T₀)²], where α₁ and α₂ are effective thermal expansion coefficients of the cell assembly. Additional corrections for acoustic diffraction (beam spreading), viscous boundary layers on cell walls, and waveguide dispersion effects are applied as systematic corrections, each carrying its own uncertainty contribution.",
+      "setup": "The setup is identical to that used for regular speed of sound measurement on unknown fluids — the defining feature is that the cell is filled with a reference fluid instead. A typical pulse-echo setup comprises a cylindrical measurement cell with a piezoelectric transducer at one end and a polished reflector at the other, separated by a fixed geometric path length of 10–100 mm. The cell is immersed in a precision thermostat providing temperature stability to ±5 mK, and connected to a calibrated pressure system for high-pressure work. A pulser-receiver generates broadband ultrasonic pulses (typically 1–5 MHz), and the reflected echo train is captured by a high-speed digitizer with sub-nanosecond timing resolution. Temperature is measured by a calibrated SPRT or PRT inserted in the cell body near the acoustic path, and pressure by a dead-weight gauge or quartz-crystal transducer. For resonator-based instruments, the cell is a spherical or cylindrical acoustic cavity driven by a swept-frequency source, with the resonance peaks recorded by a microphone or second transducer.",
+      "suitable_for": "This calibration approach is essential for any laboratory performing precision speed of sound measurements and is suitable for validating pulse-echo, sing-around, interferometric, and resonance-based acoustic instruments. It is most commonly applied to fixed-path-length cells used in liquid and compressed gas measurements at temperatures from 250 K to 500 K and pressures up to 200 MPa. The calibration is particularly important when the instrument is newly constructed, when transducers or reflectors have been replaced, when the operating temperature or pressure range is extended beyond previously calibrated conditions, or as a periodic verification of instrument performance. Water is the preferred primary calibration fluid for liquid-phase instruments because of the exceptional accuracy of the IAPWS-95 equation of state, while argon and nitrogen serve as primary calibrants for gas-phase resonators.",
+      "core_limitations": "The accuracy of the calibration is fundamentally limited by the uncertainty of the reference equation of state — for IAPWS-95 water this is approximately 0.005% in speed of sound below 373 K, setting a floor on the achievable calibration accuracy. Dissolved air in water is the single largest practical limitation: even small residual gas content after incomplete degassing shifts the measured speed of sound by 0.1–1 m/s, corresponding to tens to hundreds of ppm in relative terms. The calibration is valid only over the T-P range actually measured, and extrapolation beyond this range introduces additional uncertainty from the thermal expansion model. For high-pressure work, elastic deformation and hysteresis of the cell body can make the path length pressure-dependent in ways that are difficult to model precisely. The calibration also assumes that the cell geometry does not change between the calibration run and subsequent sample measurements — any mechanical disturbance, reassembly, or thermal cycling beyond the calibrated range can invalidate the calibration.",
+      "sample_preparation": "The reference fluid must be prepared with extreme care to ensure its thermodynamic state matches the conditions assumed in the reference equation of state. For water, this means using freshly generated ASTM Type I deionized water (resistivity ≥ 18.2 MΩ·cm) that has been thoroughly degassed — either by prolonged vacuum boiling, ultrasonic degassing under vacuum, or sparging with helium followed by vacuum treatment. The dissolved oxygen content should be verified (< 1 ppm) using an oxygen sensor or by comparing the measured speed of sound at a known state point against the reference value. For gaseous calibrants, research-grade purity (≥ 99.999%) is specified, with certification of impurity levels from the supplier. The measurement cell must be scrupulously cleaned and dried between fluid changes, and flushed multiple times with the calibration fluid before final filling. All fluid transfer lines should be evacuated and back-filled to prevent air ingress.",
+      "calibration_and_references": "This measurement card is itself a calibration procedure, so the concept of 'calibrating the calibration' refers to the traceability chain for temperature, pressure, and timing measurements. The thermometer must be calibrated at ITS-90 fixed points (triple point of water at 273.16 K, melting points of gallium and indium) or against a NIST-traceable SPRT with uncertainty ≤ 5 mK. The pressure transducer is calibrated against a dead-weight tester traceable to national standards, with uncertainty ≤ 0.01% of reading. Timing electronics are characterized for trigger delay stability and jitter against a rubidium or GPS-disciplined frequency standard. The primary speed of sound references are: (1) IAPWS-95 equation of state for water (Wagner & Pruß, 2002), providing u(T,P) with 0.005% uncertainty below 373 K; (2) Del Grosso & Mader (1972) tabulated values for water at atmospheric pressure, considered the most accurate experimental data set for water speed of sound; (3) Tegeler, Span, & Wagner (1999) reference EOS for argon; (4) Span et al. (2000) reference EOS for nitrogen. Cross-validation using two independent reference fluids is strongly recommended.",
+      "data_interpretation": "The primary output of the calibration is the acoustic path length L as a function of temperature and pressure. Raw time-of-flight data are corrected for electronic delay, diffraction, and boundary layer effects, then combined with reference speed of sound values to compute L at each state point. The L(T) data are fitted to a polynomial (typically quadratic or cubic) representing the thermal expansion of the cell assembly. The quality of the calibration is assessed by examining the residuals: the fractional deviation (u_calc − u_ref)/u_ref should scatter randomly around zero with magnitude comparable to the combined measurement uncertainty, with no systematic trends as a function of T or P. Systematic patterns in the residuals indicate uncorrected artifacts — a linear slope suggests a thermometer offset, curvature suggests an incorrect thermal expansion model, and pressure-dependent trends indicate cell compliance effects. The final calibration product is a function L(T,P) with a stated uncertainty budget, which propagates into the uncertainty of all subsequent speed-of-sound measurements made with that instrument.",
+      "common_pitfalls": "The dominant and most common pitfall is inadequate degassing of water, which introduces a negative systematic bias in the apparent speed of sound that can easily reach 0.5–1 m/s (300–700 ppm) and masquerade as a path length error. Operators sometimes assume that brief boiling or ultrasonication suffices, when in fact thorough degassing requires sustained vacuum treatment over hours. A second frequent pitfall is insufficient thermal equilibration — the cell body has substantial thermal mass, and temperature gradients as small as 10 mK across the acoustic path produce measurable scatter in the calibration data. Failing to verify the calibration using a second independent reference fluid can leave systematic errors undetected, since a constant fractional error in path length and a compensating error in time-of-flight can cancel when using a single reference. Neglecting diffraction corrections at low frequencies or with narrow-beam transducers introduces systematic positive bias in the apparent path length. Finally, assuming that a calibration performed in one T-P range remains valid when extrapolated to significantly different conditions is a common source of unrecognized systematic error.",
+      "artifacts_and_failure_modes": "Dissolved gas artifacts in water are the most consequential: dissolved air reduces the speed of sound in water by approximately 0.5 m/s at 25 °C and atmospheric pressure, translating to a ~340 ppm systematic error. Parasitic echo artifacts occur when secondary acoustic reflections from cell walls, seals, or mounting hardware overlap with the primary echo, distorting the time-of-flight measurement. Temperature gradient artifacts produce apparent scatter or curvature in L(T) residuals because the acoustic path samples a spatially averaged temperature while the thermometer reads a local temperature. Pressure hysteresis artifacts appear in high-pressure calibrations when the cell body exhibits elastic hysteresis — path length values differ between pressurizing and depressurizing sequences. Transducer aging manifests as a gradual decrease in echo amplitude and broadening of the echo envelope, which can shift the apparent time-of-flight if threshold or zero-crossing detection methods are used. Acoustic couplant degradation at elevated temperatures can create impedance mismatch artifacts that reduce signal quality. Complete failure modes include cell leaks under pressure (sudden signal loss), transducer delamination (catastrophic loss of echo amplitude), and reference fluid contamination (irreversible shift in calibration constants).",
+      "reporting_checklist": "Published speed of sound calibration data should report: (1) identity and purity of the reference fluid used, including source and certification; (2) degassing procedure for liquid calibrants and verification method (e.g., dissolved oxygen measurement); (3) reference equation of state or data source used for the known speed of sound values, with citations; (4) temperature and pressure ranges covered, with number of state points and step sizes; (5) thermometer and pressure gauge types, calibration traceability, and stated uncertainties; (6) acoustic measurement method (pulse-echo, sing-around, resonance) and operating frequency; (7) timing resolution and method of time-of-flight extraction (cross-correlation, echo overlap, etc.); (8) diffraction, boundary layer, and waveguide corrections applied, with references; (9) calibrated path length function L(T,P) with fitted coefficients and their uncertainties; (10) residual deviations (u_meas − u_ref)/u_ref as a function of T and P; (11) complete uncertainty budget with Type A and Type B contributions combined at 95% confidence (k=2); (12) explicit statement that the data is reported for calibration/validation purposes. For ThermoML encoding, values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

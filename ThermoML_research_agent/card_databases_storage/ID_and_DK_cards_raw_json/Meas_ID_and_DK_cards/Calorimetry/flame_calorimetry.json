@@ -1,0 +1,340 @@
+{
+  "meas_ID": "flame_calorimetry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Flame calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Flame calorimetry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "yes",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 1,
+      "property_groups": [
+        "ReactionStateChangeProp"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "ReactionStateChangeProp": {
+          "instances": 1,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature rise of calorimeter water jacket or isothermal shield (ΔT)",
+          "mass flow rate of gaseous or atomized liquid sample into burner",
+          "mass flow rate of oxygen supplied to combustion zone",
+          "mass of condensed combustion products (H₂O, CO₂ absorbent traps)",
+          "heat exchange with isothermal jacket (for isothermal-jacket designs)"
+        ],
+        "derived_observables": [
+          "molar enthalpy of combustion (ΔcH°)",
+          "molar enthalpy of formation (ΔfH°) via Hess's law",
+          "massic energy of combustion (Δcu)",
+          "heat of reaction per unit mass of sample burned"
+        ],
+        "target_properties": [
+          "standard molar enthalpy of combustion (ΔcH°)",
+          "standard molar enthalpy of formation (ΔfH°)",
+          "massic energy of combustion",
+          "energy equivalent of calorimeter system"
+        ],
+        "phases_measured": [
+          "gas (sample delivered as gas into flame)",
+          "liquid (sample atomized or vaporized into flame)",
+          "combustion products: gas (CO₂, H₂O vapor) and condensed (liquid H₂O)"
+        ],
+        "supported_sample_types": [
+          "pure gaseous hydrocarbons (methane, ethane, propane, butane, etc.)",
+          "volatile liquid hydrocarbons (pentane, hexane, benzene, toluene, etc.)",
+          "gaseous hydrogen and simple inorganic gases (H₂, CO, H₂S)",
+          "volatile organosulfur and organonitrogen compounds",
+          "binary gaseous mixtures of known composition",
+          "low-boiling liquid organic compounds amenable to vaporization"
+        ],
+        "unsupported_sample_types": [
+          "non-volatile solids (use oxygen bomb calorimetry instead)",
+          "high-boiling liquids that cannot be atomized or vaporized into a steady flame",
+          "samples that produce toxic combustion products requiring special scrubbing (e.g., fluorinated compounds)",
+          "explosives or highly shock-sensitive materials",
+          "materials that burn incompletely or form refractory residues (metals, ceramics)"
+        ],
+        "typical_output_formats": [
+          "ΔcH° vs. substance identity (tabulated per compound)",
+          "ΔfH° calculated from ΔcH° and known enthalpies of formation of CO₂ and H₂O",
+          "corrected temperature rise ΔTc vs. time (calorimetric thermogram)",
+          "mass of CO₂ and H₂O collected per run (stoichiometric completeness check)"
+        ],
+        "units": {
+          "enthalpy_of_combustion": "kJ/mol",
+          "enthalpy_of_formation": "kJ/mol",
+          "massic_energy_of_combustion": "J/g",
+          "temperature": "K",
+          "temperature_rise": "K",
+          "mass_flow_rate": "g/min or cm³/min (STP for gases)",
+          "pressure": "kPa",
+          "mass_of_products": "g"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "oxygen_flow_rate",
+            "typical_range": "excess O₂, typically 1.2–2.0 times stoichiometric requirement",
+            "hard_limits": "must ensure complete combustion; insufficient O₂ leads to CO and soot formation",
+            "notes": "oxygen purity ≥ 99.95% required to avoid nitrogen oxide corrections"
+          },
+          {
+            "parameter": "sample_flow_rate",
+            "typical_range": "0.01–1.0 g/min depending on sample and burner design",
+            "hard_limits": "must produce a stable, luminous flame without flashback or blowoff",
+            "notes": "for gases, typically 20–200 cm³/min at STP; rate adjusted to give ΔT of 1–3 K per run"
+          },
+          {
+            "parameter": "calorimeter_temperature",
+            "typical_range": "298.15 K (standard state) ± 2 K initial temperature",
+            "hard_limits": "jacket temperature controlled to ± 0.001 K for isothermal-jacket designs",
+            "notes": "Washburn corrections applied for temperature deviation from 298.15 K"
+          },
+          {
+            "parameter": "atmospheric_pressure",
+            "typical_range": "101.325 kPa (standard); actual measured and corrected",
+            "hard_limits": "corrections applied to reduce results to standard pressure",
+            "notes": "barometric pressure recorded for each experiment"
+          },
+          {
+            "parameter": "combustion_completeness",
+            "typical_range": "> 99.95% conversion to CO₂ and H₂O",
+            "hard_limits": "any CO or soot formation requires correction or indicates run failure",
+            "notes": "verified by gravimetric analysis of CO₂ and H₂O collected and comparison with stoichiometric prediction"
+          }
+        ],
+        "variables": [
+          {
+            "name": "sample_identity",
+            "role": "primary variable — each experiment determines ΔcH° for a specific compound",
+            "typical_values": "pure gaseous or volatile liquid substances",
+            "effect": "different compounds yield different ΔcH° values; molecular structure determines heat released"
+          },
+          {
+            "name": "sample_flow_rate",
+            "role": "controlled input variable",
+            "typical_values": "0.01–1.0 g/min",
+            "effect": "determines flame size, stability, and total heat released per run; optimized for steady-state combustion"
+          },
+          {
+            "name": "oxygen_excess_ratio",
+            "role": "controlled variable",
+            "typical_values": "1.2–2.0 × stoichiometric",
+            "effect": "ensures complete combustion; excess O₂ carries away some heat (corrected in analysis)"
+          },
+          {
+            "name": "temperature",
+            "role": "reference condition",
+            "typical_values": "298.15 K (standard state)",
+            "effect": "all results corrected to 298.15 K and 101.325 kPa via Kirchhoff's equation and Washburn corrections"
+          },
+          {
+            "name": "pressure",
+            "role": "reference condition, usually ambient",
+            "typical_values": "101.325 kPa (standard state)",
+            "effect": "flame calorimetry operates at constant (atmospheric) pressure, yielding enthalpy directly"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "burner assembly — precision gas burner (Rossini-type or Pilcher-type) with concentric O₂ and sample delivery tubes, producing a stable laminar diffusion flame",
+          "combustion chamber — enclosed, thermally insulated reaction vessel surrounding the flame, with ports for gas inlet and exhaust",
+          "calorimeter vessel — water-filled jacket or isothermal shield surrounding the combustion chamber, instrumented with precision thermometers",
+          "precision thermometry — platinum resistance thermometers (PRTs) or quartz-crystal thermometers reading to ± 0.0001 K in the calorimeter water",
+          "gas metering system — precision mass-flow controllers or calibrated rotameters for sample gas and oxygen delivery",
+          "sample delivery system — gas manifold with pressure regulators for gaseous samples; atomizer/vaporizer for volatile liquid samples",
+          "product collection train — Ascarite (NaOH on asite) tube for CO₂ absorption, anhydrous Mg(ClO₄)₂ or P₂O₅ tube for H₂O absorption, weighed before and after",
+          "stirrer — mechanical stirrer in calorimeter water to ensure uniform temperature distribution",
+          "ignition system — electric spark or pilot flame for igniting the sample stream",
+          "analytical balance — for weighing product absorption tubes and sample ampoules (± 0.01 mg)",
+          "barometer — precision barometer for recording atmospheric pressure",
+          "data acquisition system — computer-controlled temperature logger with ≤ 0.0001 K resolution"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (± 1 K) to minimize ambient drift corrections",
+          "draft-free environment to maintain stable flame and calorimeter conditions",
+          "adequate ventilation for combustion product exhaust after product collection",
+          "high-purity gas supply lines free of leaks"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "gaseous sample in a cylinder or gas manifold at known pressure",
+            "volatile liquid in a sealed ampoule or pressurized reservoir connected to atomizer/vaporizer"
+          ],
+          "size_limits": "typically 0.5–5 g consumed per run (enough to produce ΔT of 1–3 K in the calorimeter)",
+          "thickness_limits": "not applicable — sample is consumed in flame",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "gas-tight connections between sample reservoir, flow controller, and burner",
+            "liquid samples require leak-free coupling to vaporizer/atomizer"
+          ],
+          "preparation_requirements": [
+            "purity assay ≥ 99.9 mol% by gas chromatography or other analytical method",
+            "degassing of liquid samples to remove dissolved air",
+            "drying over molecular sieves or P₂O₅ for hygroscopic samples",
+            "mass determination of sample consumed (by difference in cylinder mass or by product analysis)"
+          ]
+        },
+        "calibration_requirements": [
+          "energy equivalent determination: electrical calibration using a precision heater of known resistance and current (Joule heating) in the calorimeter, or chemical calibration with a substance of certified ΔcH°",
+          "thermometer calibration against ITS-90 fixed points or certified reference thermometer",
+          "mass-flow controller calibration against a primary gas flow standard (e.g., wet test meter or soap-bubble flowmeter)",
+          "product absorption train efficiency verification: quantitative recovery of CO₂ and H₂O from combustion of a standard compound (e.g., methane, benzoic acid vapor)",
+          "heat-of-stirring determination and thermal leakage modulus (Newton's law cooling constant)"
+        ],
+        "reference_materials": [
+          "hydrogen (H₂) — ΔcH° = −285.830 ± 0.042 kJ/mol (CODATA), used as primary chemical calibrant",
+          "methane (CH₄) — ΔcH° = −890.65 ± 0.37 kJ/mol, commonly used gaseous calibrant",
+          "benzoic acid (vapor) — cross-check with bomb calorimetry value; NIST SRM 39j",
+          "electrical calibration reference — precision resistor and current source traceable to SI standards"
+        ],
+        "consumables": [
+          "high-purity oxygen gas (≥ 99.95%)",
+          "Ascarite II or NaOH-on-ite CO₂ absorbent",
+          "anhydrous magnesium perchlorate (Mg(ClO₄)₂) or phosphorus pentoxide (P₂O₅) as H₂O absorbent",
+          "precision-bore glass absorption tubes",
+          "sample gas cylinders or liquid ampoules",
+          "igniter electrodes or pilot flame fuel"
+        ],
+        "safety_notes": [
+          "open flame and high-purity oxygen present significant fire and explosion risk — follow laboratory oxygen-handling protocols",
+          "compressed gas cylinders must be secured and equipped with proper regulators and flashback arrestors",
+          "combustion products may include trace CO and NOx — ensure adequate ventilation and use CO detectors",
+          "Ascarite and Mg(ClO₄)₂ are corrosive — handle with gloves and eye protection",
+          "high-pressure gas lines require leak testing before each experiment"
+        ]
+      },
+      "performance": {
+        "sensitivity": "detects enthalpy changes of ~0.1 J in the calorimeter; corresponds to ~0.01 kJ/mol for typical sample amounts",
+        "detection_limit": "requires minimum ~0.5 g of sample per run to achieve adequate temperature rise (ΔT ≥ 1 K)",
+        "resolution": {
+          "spatial": "not applicable (bulk combustion measurement)",
+          "temporal": "temperature readings at 10 s intervals during fore, main, and after periods; total run duration 20–60 min",
+          "spectral": "not applicable",
+          "energy": "enthalpy resolution ~0.01–0.05 kJ/mol for optimized systems"
+        },
+        "dynamic_range": "ΔcH° from ~200 kJ/mol (simple gases like CO) to ~6000 kJ/mol (large hydrocarbons); limited by sample volatility and flame stability",
+        "accuracy": "0.01–0.1% relative uncertainty in ΔcH° for well-characterized systems — among the most accurate calorimetric techniques; NBS/NIST reference data typically quoted at ± 0.01–0.03%",
+        "precision": "0.005–0.05% (repeatability of ΔcH° from replicate combustion runs)",
+        "throughput": "1–3 complete experiments per day including calibration, combustion runs, and product analysis",
+        "measurement_speed": "single combustion run: 20–60 min (10 min fore period, 10–30 min main period, 10 min after period); product weighing adds 30 min"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "time-temperature trace from precision thermometers immersed in calorimeter water, recorded during fore (pre-combustion), main (combustion), and after (post-combustion) periods; also gravimetric data from CO₂ and H₂O absorption tubes",
+        "preprocessing_steps": [
+          "fore-period and after-period temperature drift extrapolation to determine corrected temperature rise ΔTc (Regnault-Pfaundler or Dickinson method)",
+          "heat-of-stirring correction subtracted from observed temperature rise",
+          "thermal leakage correction using Newton's law cooling constant and jacket temperature",
+          "Washburn corrections to reduce results from actual bomb/calorimeter conditions to standard-state (298.15 K, 101.325 kPa, ideal gas)",
+          "correction for heat carried away by excess O₂ and combustion product gases leaving the calorimeter",
+          "buoyancy correction for gas mass measurements"
+        ],
+        "analysis_methods": [
+          "ΔcH° = −(ε × ΔTc − Σq_corrections) / n_sample, where ε is the energy equivalent of the calorimeter, ΔTc is the corrected temperature rise, and n_sample is the moles of sample burned",
+          "ΔfH° computed from ΔcH° via Hess's law: ΔfH°(compound) = Σ ΔfH°(products) − ΔcH°(compound)",
+          "completeness of combustion verified by comparing gravimetric CO₂ and H₂O with stoichiometric prediction",
+          "statistical analysis of replicate runs: mean, standard deviation, and combined expanded uncertainty"
+        ],
+        "model_assumptions": [
+          "combustion is complete — all carbon converted to CO₂ and all hydrogen to H₂O with no soot, CO, or other partial oxidation products",
+          "calorimeter behaves as a well-stirred isothermal body with uniform temperature (lumped-capacitance model)",
+          "heat exchange with surroundings obeys Newton's law of cooling with a constant thermal leakage modulus",
+          "Washburn corrections adequately bridge actual conditions to ideal-gas standard state at 298.15 K",
+          "no side reactions (e.g., nitrogen fixation from trace N₂ in O₂) contribute measurable heat"
+        ],
+        "fit_parameters": [
+          "energy equivalent of calorimeter (ε, J/K) from electrical or chemical calibration",
+          "Newton's law cooling constant (k, K/min) from fore and after period analysis",
+          "corrected temperature rise (ΔTc, K) from Regnault-Pfaundler or Dickinson extrapolation",
+          "mass of sample burned (g) from product analysis or direct weighing"
+        ],
+        "common_artifacts": [
+          "incomplete combustion: formation of CO or soot gives erroneously low ΔcH°, detected by CO₂/H₂O mass deficit relative to stoichiometry",
+          "flame instability: flickering or blowoff during combustion causes irregular temperature rise profile and poor repeatability",
+          "heat leak from hot exhaust gases not fully thermalized in the calorimeter — systematic negative bias in ΔcH°",
+          "water adsorption on absorption tubes between weighings — systematic positive error in H₂O mass",
+          "sample impurity: even 0.1% impurity can shift ΔcH° by 0.1% if the impurity has a very different heat of combustion"
+        ],
+        "quality_control_checks": [
+          "stoichiometric ratio check: compare mass of CO₂ and H₂O collected with theoretical values calculated from sample mass and molecular formula; agreement should be ≥ 99.95%",
+          "replicate combustion runs (minimum 6–8) and verify relative standard deviation ≤ 0.02%",
+          "calibration verification: combust a reference substance (H₂ or CH₄) and compare ΔcH° with certified value",
+          "fore/after-period drift linearity check to validate Newton's law cooling correction",
+          "blank run (no sample) to verify calorimeter baseline stability and absence of parasitic heat sources"
+        ],
+        "failure_modes": [
+          "flame extinction during run — invalidates the entire combustion experiment",
+          "flashback into sample manifold (for gaseous samples) — safety hazard and experiment failure",
+          "leaks in gas lines producing O₂/sample loss and incorrect stoichiometry",
+          "absorption tube saturation — CO₂ or H₂O breakthrough past absorbent gives low product mass",
+          "calorimeter water loss by evaporation at high ΔT — alters effective energy equivalent"
+        ]
+      },
+      "uncertainty": {
+        "level": "combined standard uncertainty typically 0.01–0.1% for ΔcH° in well-conducted experiments; NBS/NIST benchmark results achieve ± 0.01–0.03%",
+        "random_sources": [
+          "flame stability fluctuations affecting temperature rise profile",
+          "thermometer noise and digitization uncertainty (typically ± 0.0001 K)",
+          "weighing uncertainty for product absorption tubes (± 0.01–0.02 mg)",
+          "sample mass determination uncertainty",
+          "ambient temperature fluctuations affecting calorimeter drift"
+        ],
+        "systematic_sources": [
+          "energy equivalent calibration uncertainty (dominant for absolute accuracy)",
+          "incomplete combustion producing trace CO or soot (negative bias)",
+          "Washburn correction uncertainty (especially for compounds with heteroatoms)",
+          "heat loss through exhaust gases not fully equilibrated with calorimeter water",
+          "impurity in sample contributing extraneous heat of combustion",
+          "absorption train efficiency — loss of CO₂ or H₂O before gravimetric determination",
+          "thermometer calibration offset"
+        ],
+        "operator_dependence": "moderate to high — flame adjustment, gas flow balancing, and product collection require experienced operator; quality of Regnault-Pfaundler extrapolation depends on judgment of period selection",
+        "model_dependence": "moderate — results depend on validity of Newton's law cooling correction and Washburn corrections; incomplete combustion correction models assume simple CO/soot formation pathways",
+        "dominant_error_sources": [
+          "energy equivalent calibration uncertainty",
+          "completeness of combustion verification (especially for compounds prone to soot)",
+          "Washburn corrections for non-ideal gas behavior and dissolved gases",
+          "sample purity"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔcH°) at 95% confidence (k = 2)",
+          "relative percentage uncertainty in ΔcH°",
+          "standard deviation of the mean from replicate runs"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Flame calorimetry is a continuous combustion calorimetry technique in which a gaseous or atomized liquid sample is burned in a steady flame within an oxygen atmosphere, and the heat released is measured by the temperature rise of a surrounding calorimeter. Unlike oxygen bomb calorimetry, which is a batch process operating at constant volume and high pressure, flame calorimetry operates continuously at constant (atmospheric) pressure, directly yielding enthalpy of combustion (ΔcH°). Developed and refined at the National Bureau of Standards (NBS, now NIST) by Rossini and later by Pilcher, Sunner, and others, flame calorimetry provided many of the benchmark standard reference values for enthalpies of combustion and formation of gaseous and volatile liquid compounds that underpin modern thermochemical databases.",
+      "how_it_operates": "The sample — either a gas from a cylinder or a volatile liquid vaporized/atomized into a gas stream — is metered at a precisely controlled flow rate into a specially designed burner situated inside an enclosed combustion chamber. High-purity oxygen (≥ 99.95%) is supplied in stoichiometric excess (typically 1.2–2× the theoretical requirement) to ensure complete combustion to CO₂ and H₂O. The flame burns steadily, releasing heat that is absorbed by the surrounding calorimeter water. Precision thermometers (platinum resistance thermometers or quartz-crystal thermometers) record the temperature of the calorimeter water during fore (pre-combustion), main (combustion), and after (post-combustion) periods. The combustion products exit through a collection train where CO₂ is absorbed by Ascarite and H₂O by anhydrous Mg(ClO₄)₂; these tubes are weighed before and after to verify completeness of combustion by comparing collected product masses with stoichiometric predictions.",
+      "core_theory": "At constant pressure, the heat released by the combustion reaction equals the enthalpy of combustion: ΔcH° = −(ε × ΔTc − Σq_corrections) / n_sample, where ε is the energy equivalent of the calorimeter (J/K), ΔTc is the corrected temperature rise determined by Regnault-Pfaundler or Dickinson extrapolation of the fore and after periods, and n_sample is the amount of substance burned (mol). Corrections (Σq) include heat of stirring, thermal leakage to the jacket (Newton's law), heat carried away by exhaust gases, and Washburn corrections that convert the measured enthalpy from actual experimental conditions to the standard state (298.15 K, 101.325 kPa, ideal-gas reference). The enthalpy of formation is then derived via Hess's law: ΔfH°(compound) = Σ ΔfH°(CO₂, H₂O) − ΔcH°(compound), using the precisely known ΔfH° values of CO₂(g) and H₂O(l).",
+      "setup": "A flame calorimeter consists of a precision gas burner (Rossini-type) housed inside a thermally insulated combustion chamber, which is immersed in or surrounded by a water-filled calorimeter vessel. The calorimeter water is continuously stirred for temperature uniformity. Precision platinum resistance thermometers (resolution ± 0.0001 K) monitor the water temperature. The sample is delivered from a gas manifold (for gaseous samples) or a vaporizer/atomizer unit (for volatile liquids) through calibrated mass-flow controllers into the burner. Oxygen is supplied from a high-purity cylinder through a separate flow controller. Downstream of the combustion chamber, the exhaust passes through a condenser (to recover liquid H₂O) and a series of absorption tubes (Ascarite for CO₂, Mg(ClO₄)₂ for H₂O) that are weighed gravimetrically. An electrical calibration heater inside the calorimeter enables determination of the energy equivalent. A precision barometer and hygrometer record ambient conditions for Washburn corrections.",
+      "suitable_for": "Flame calorimetry is specifically designed for measuring enthalpies of combustion and, via Hess's law, enthalpies of formation of gaseous compounds and volatile liquids. It excels for light hydrocarbons (methane through hexane), hydrogen, carbon monoxide, hydrogen sulfide, and other small molecules that burn completely in oxygen. The technique achieves the highest accuracies (0.01–0.03%) attainable in combustion calorimetry and is the source of many NIST/CODATA standard reference thermochemical values. It is preferred over bomb calorimetry for gases because constant-pressure operation avoids the large ΔnRT corrections needed for bomb (constant-volume) measurements, and because gaseous samples are difficult to handle in sealed oxygen bombs.",
+      "core_limitations": "Flame calorimetry is limited to samples that can be delivered as a stable gas or atomized vapor stream and that burn completely in an oxygen flame. Non-volatile solids, high-boiling liquids, and compounds that decompose before vaporization cannot be studied. Compounds producing corrosive or toxic combustion products (e.g., fluorinated or chlorinated compounds) require specialized scrubbing and present safety challenges. The technique requires large quantities of sample (0.5–5 g per run) compared to microcalorimetric methods. Flame stability is critical — any flickering, blowoff, or flashback invalidates the run. The apparatus is complex, custom-built, and operated primarily in specialized national metrology laboratories. Throughput is low (1–3 runs per day) due to the extensive calibration and product verification required.",
+      "sample_preparation": "Gaseous samples must be of high purity (≥ 99.9 mol%, preferably 99.99%), assayed by gas chromatography, and supplied in clean cylinders with appropriate pressure regulation. Volatile liquid samples are purified by fractional distillation and/or zone refining, dried over molecular sieves, and degassed by repeated freeze-pump-thaw cycles. The sample is loaded into the delivery system (gas manifold or liquid vaporizer) under inert atmosphere to prevent pre-oxidation. For liquid samples, a precision syringe pump or gravimetric flow system delivers a known mass flow rate to the atomizer. The absorption tubes in the product collection train are conditioned by heating under dry N₂ flow, allowed to cool in a desiccator, and weighed on an analytical balance (± 0.01 mg) immediately before and after each run.",
+      "calibration_and_references": "Calibration uses two complementary approaches: (1) electrical calibration — a precision resistive heater inside the calorimeter dissipates a known quantity of electrical energy (measured via calibrated voltage and current), and the resulting temperature rise determines the energy equivalent ε of the calorimeter system; (2) chemical calibration — combustion of a reference substance of certified ΔcH° (typically hydrogen gas, ΔcH° = −285.830 ± 0.042 kJ/mol per CODATA, or methane) validates the entire measurement chain including the product collection train. Thermometers are calibrated against ITS-90 fixed points, and mass-flow controllers are verified against primary gas flow standards. The product collection train efficiency is validated by burning the reference substance and confirming quantitative recovery of CO₂ and H₂O. Calibrations are repeated at the beginning and end of each measurement campaign.",
+      "data_interpretation": "The primary result is the corrected temperature rise ΔTc extracted from the time-temperature record using the Regnault-Pfaundler or Dickinson method, which extrapolates the linear fore-period and after-period drifts to the midpoint of the main period. The quantity of sample burned is determined either by direct mass-flow integration or, more accurately, from the gravimetric CO₂ and H₂O data using the stoichiometry of the combustion reaction. The enthalpy of combustion is computed as ΔcH° = −(ε × ΔTc − Σq) / n, where corrections Σq account for heat of stirring, thermal leakage, excess-gas heat capacity, fuse/ignition energy, and Washburn corrections. The enthalpy of formation follows from Hess's law. Replicate runs (6–8 minimum) are statistically analyzed, and the combined expanded uncertainty is reported at the 95% confidence level (k = 2).",
+      "common_pitfalls": "The most critical pitfall is incomplete combustion, which produces CO or soot and gives erroneously low ΔcH° values; this is detected by a deficit in collected CO₂ relative to the stoichiometric prediction and may be caused by insufficient oxygen flow or an improperly adjusted burner. Poor flame stability — caused by drafts, incorrect gas flow ratios, or burner fouling — leads to irreproducible temperature rise profiles. Inadequate conditioning of absorption tubes (residual moisture or CO₂) produces systematic errors in product mass determination. Failure to apply or correctly compute Washburn corrections, especially for compounds containing heteroatoms (S, N), introduces systematic bias in the reported standard-state values. Sample impurities as low as 0.1 mol% can shift ΔcH° by 0.1% if the impurity has a substantially different heat of combustion.",
+      "artifacts_and_failure_modes": "Flame extinction during a run completely invalidates the experiment and requires a fresh start with reconditioned absorption tubes. Flashback — where the flame propagates back into the sample delivery line — is a serious safety hazard, prevented by incorporating flashback arrestors in the gas train. Absorption tube saturation occurs if the absorbent is used beyond its capacity; CO₂ or H₂O breaks through and is lost, causing a mass deficit. Thermal leakage artifacts arise if the Newton's law cooling constant changes during the run (e.g., due to a shift in ambient temperature or stirring speed change), leading to inaccurate ΔTc correction. Water condensation in unintended locations within the exhaust train removes H₂O from the gravimetric accounting. Gas line leaks upstream of the burner cause sample loss and apparent reduction in ΔcH°.",
+      "reporting_checklist": "Published flame calorimetry results should report: sample identity, purity, and source; sample delivery method (gas manifold or atomizer/vaporizer); oxygen purity and excess ratio; burner type and configuration; calorimeter type (isothermal jacket, isoperibol, or adiabatic); thermometer type and calibration traceability; energy equivalent ε and its uncertainty from electrical and/or chemical calibration; number of combustion runs and individual ΔcH° values; stoichiometric completeness check (CO₂ and H₂O recovery percentages); Washburn corrections applied; standard-state conditions (298.15 K, 101.325 kPa); combined expanded uncertainty at 95% confidence (k = 2); and reference to CODATA or NIST values used for ΔfH° derivation. For ThermoML encoding, enthalpy values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

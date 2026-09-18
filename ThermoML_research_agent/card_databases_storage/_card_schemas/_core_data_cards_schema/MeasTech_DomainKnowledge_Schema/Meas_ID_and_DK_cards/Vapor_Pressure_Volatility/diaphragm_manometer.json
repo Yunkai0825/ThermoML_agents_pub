@@ -1,0 +1,323 @@
+{
+  "meas_ID": "diaphragm_manometer",
+  "identity": {
+    "name": "Diaphragm manometer",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Diaphragm manometer",
+    "thermoml_custom_codes": [
+      "HGMAN"
+    ],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 51,
+      "property_groups": [
+        "VaporPBoilingTAzeotropTandP"
+      ],
+      "n_papers": 8,
+      "per_group": {
+        "VaporPBoilingTAzeotropTandP": {
+          "instances": 51,
+          "papers": 8
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "diaphragm deflection (measured as capacitance change or strain gauge signal)",
+          "pressure difference across diaphragm (ΔP)",
+          "null-balance reference pressure (when null technique is used)"
+        ],
+        "derived_observables": [
+          "vapor pressure of sample at controlled temperature",
+          "sublimation pressure of solid samples",
+          "boiling temperature at specified pressure (by inversion of P-T data)"
+        ],
+        "target_properties": [
+          "vapor pressure",
+          "sublimation pressure",
+          "boiling temperature",
+          "azeotropic pressure and temperature"
+        ],
+        "phases_measured": [
+          "liquid-vapor equilibrium",
+          "solid-vapor equilibrium (sublimation)",
+          "gas phase (for pressure measurement)"
+        ],
+        "supported_sample_types": [
+          "pure volatile liquids",
+          "pure volatile solids (sublimation pressure)",
+          "binary and multicomponent liquid mixtures",
+          "low-vapor-pressure organic compounds",
+          "refrigerants and cryogenic fluids",
+          "aqueous solutions with volatile components",
+          "inorganic volatile compounds"
+        ],
+        "unsupported_sample_types": [
+          "non-volatile solids with negligible vapor pressure at accessible temperatures",
+          "corrosive gases or vapors that attack the diaphragm material (unless special alloy heads are used)",
+          "dusty or particle-laden vapors that can deposit on the diaphragm",
+          "polymerizing vapors that can coat and stiffen the diaphragm",
+          "pressures far above the rated full-scale range of the gauge head"
+        ],
+        "typical_output_formats": [
+          "vapor pressure vs. temperature (P-T) curve",
+          "log(P) vs. 1/T (Clausius-Clapeyron plot)",
+          "Antoine or Wagner equation fit parameters",
+          "tabulated P-T data pairs with uncertainties"
+        ],
+        "units": {
+          "pressure": "Pa, kPa, mbar, or Torr",
+          "temperature": "K",
+          "capacitance_change": "pF (internal sensor signal)",
+          "voltage_output": "V (linearized analog or digital output)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 Pa to 133 kPa (1 Torr full-scale to 1000 Torr full-scale, depending on gauge head)",
+            "hard_limits": "lower limit set by diaphragm sensitivity and thermal transpiration; upper limit set by diaphragm elastic range and overpressure rating",
+            "notes": "MKS Baratron heads available in ranges from 0.02 Torr FS to 25000 Torr FS; select head range to keep measurement in upper 10–100% of full scale for best accuracy"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "250 K to 500 K",
+            "hard_limits": "limited by thermostatting capability of sample cell and gauge head; cryogenic measurements require special cold-cathode or cryogenic manometer setups",
+            "notes": "gauge head must be thermostatted at or above sample temperature to prevent condensation on the diaphragm"
+          },
+          {
+            "parameter": "temperature_stability",
+            "typical_range": "±0.01 K to ±0.05 K",
+            "hard_limits": "vapor pressure is exponentially sensitive to temperature; ±0.1 K instability can introduce >1% error in P at low temperatures",
+            "notes": "temperature control is typically the dominant source of uncertainty for precise vapor pressure measurements"
+          },
+          {
+            "parameter": "equilibration_time",
+            "typical_range": "10 min to 60 min per data point",
+            "hard_limits": "depends on sample volatility, cell volume, and degassing requirements",
+            "notes": "low-vapor-pressure samples require longer equilibration; pressure reading drift should be <0.01% per minute before recording"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "250 K to 500 K",
+            "effect": "temperature is stepped or slowly ramped; vapor pressure is measured at each set temperature after equilibration"
+          },
+          {
+            "name": "pressure",
+            "role": "primary measured quantity",
+            "typical_values": "0.1 Pa to 100 kPa",
+            "effect": "the diaphragm deflection signal is converted to absolute pressure via calibration"
+          },
+          {
+            "name": "gauge_head_temperature",
+            "role": "controlled parameter (thermostatted)",
+            "typical_values": "typically 318 K (45 °C) for standard heated Baratron heads, or matched to sample temperature",
+            "effect": "prevents condensation on diaphragm; must be stable to avoid thermal transpiration corrections"
+          },
+          {
+            "name": "reference_side_pressure",
+            "role": "null-balance variable (for differential operation)",
+            "typical_values": "matched to sample pressure within diaphragm differential range",
+            "effect": "in null-balance mode, reference pressure is adjusted until diaphragm is at null position, then reference pressure equals sample vapor pressure"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "capacitance diaphragm gauge head — thin metal diaphragm (Inconel 750 or stainless steel 316L) welded to a housing, with a fixed reference electrode; capacitance between diaphragm and electrode varies with deflection",
+          "signal conditioning electronics — bridge circuit or oscillator that converts capacitance change to a linearized voltage proportional to pressure",
+          "thermostatted sample cell — glass or stainless steel vessel immersed in a temperature-controlled bath or oven, connected to gauge head via heated tubing",
+          "temperature-controlled bath — liquid bath (water, silicone oil, or ethylene glycol) or dry-block oven for sample thermostatting, stability ±0.01 K",
+          "heated transfer line — tubing connecting sample cell to gauge head, maintained at or above sample temperature to prevent condensation",
+          "vacuum system — turbomolecular or diffusion pump backed by rotary pump for evacuation and degassing",
+          "reference vacuum or pressure source — for absolute gauges the reference side is evacuated (<0.001 Pa); for null-balance systems a precision pressure controller or dead-weight gauge provides reference pressure",
+          "temperature measurement — calibrated PRT (Pt100) or thermocouple in sample cell, read by precision thermometer bridge or DMM",
+          "data acquisition system — digital voltmeter or A/D converter logging gauge output and temperature",
+          "valves and manifold — all-metal UHV valves for isolating sample, gauge, and vacuum lines"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (±1 °C) to minimize ambient drift effects on gauge electronics",
+          "vibration-free bench or optical table to avoid microphonic noise on the diaphragm",
+          "clean environment to prevent dust or particulate contamination of the gauge head",
+          "adequate ventilation for potentially toxic or flammable vapor samples"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid in sample cell (no specific geometry requirement)",
+            "solid powder or pellet in sample cell for sublimation measurements"
+          ],
+          "size_limits": "typically 1–50 mL of liquid; sufficient to maintain liquid phase throughout measurement range",
+          "thickness_limits": "not applicable (bulk sample in cell)",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "sample must be loaded into a clean, leak-free sample cell",
+            "cell connected to gauge via metal-sealed fittings (VCR or CF flanges) to prevent leaks"
+          ],
+          "preparation_requirements": [
+            "thorough degassing by repeated freeze-pump-thaw cycles (minimum 3 cycles) to remove dissolved air and light impurities",
+            "purity verification (GC or Karl Fischer for water content) — impurities shift vapor pressure",
+            "drying over molecular sieves for hygroscopic samples",
+            "distillation or zone refining for high-accuracy work (purity >99.9%)"
+          ]
+        },
+        "calibration_requirements": [
+          "zero calibration: evacuate both sides of the diaphragm and set the electronic zero",
+          "span calibration: compare gauge reading against a primary pressure standard (dead-weight piston gauge, spinning rotor gauge, or NIST-traceable transfer standard) at multiple pressures across the operating range",
+          "linearity check: verify output proportionality at 10%, 25%, 50%, 75%, and 100% of full scale",
+          "temperature coefficient correction: characterize gauge head sensitivity shift with gauge temperature (typically <0.01%/°C for heated heads)",
+          "thermal transpiration correction at pressures below ~100 Pa when sample and gauge are at different temperatures (apply Takaishi-Sensui or Šetina equations)"
+        ],
+        "reference_materials": [
+          "water — IAPWS-95 vapor pressure reference for 273–647 K",
+          "n-decane — well-characterized vapor pressure standard for organic calibration",
+          "naphthalene — sublimation pressure standard for low-pressure calibration",
+          "mercury — traditional manometric reference (though usage declining due to toxicity)",
+          "NIST-traceable transfer pressure standards for absolute calibration"
+        ],
+        "consumables": [
+          "replacement diaphragm gauge heads (finite lifetime, especially if exposed to corrosive vapors)",
+          "o-rings and metal gaskets (Conflat copper gaskets or VCR silver-plated gaskets) for vacuum seals",
+          "molecular sieves (4 Å) or desiccant for sample drying",
+          "liquid nitrogen for freeze-pump-thaw degassing",
+          "inert gas (nitrogen or argon) for backfilling and leak checking"
+        ],
+        "safety_notes": [
+          "use fume hoods or proper ventilation when handling volatile, toxic, or flammable samples",
+          "vacuum systems containing glass components require implosion shields",
+          "cryogenic liquids (liquid nitrogen) require standard cryogen handling PPE",
+          "high-pressure gas lines must be rated for maximum operating pressure and equipped with pressure relief valves",
+          "do not exceed the overpressure rating of the gauge head — catastrophic diaphragm failure can release sample vapor"
+        ]
+      },
+      "performance": {
+        "sensitivity": "resolution ~0.01 Pa for low-range gauge heads (0.1 Torr FS); ~0.001% of full-scale reading for high-range heads",
+        "detection_limit": "~0.01 Pa (absolute) for the most sensitive gauge heads (0.02 Torr FS Baratron); limited by electronic noise and thermal transpiration at ultra-low pressures",
+        "resolution": {
+          "spatial": "not applicable (bulk pressure measurement)",
+          "temporal": "response time typically 20–50 ms for 63% of step change; full settling 200–500 ms",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "within a single gauge head ~10⁴ (0.01% to 100% of FS); multi-head systems can cover 0.01 Pa to 133 kPa by switching between heads",
+        "accuracy": "0.08–0.5% of reading for calibrated capacitance manometers (MKS Baratron specification); 0.25% of reading typical for general laboratory gauges",
+        "precision": "0.01–0.05% of reading (short-term repeatability at stable temperature)",
+        "throughput": "single sample at a time; one complete P-T curve (15–30 data points) typically requires 4–24 hours depending on equilibration time",
+        "measurement_speed": "individual pressure reading acquired in <1 s; overall speed limited by sample equilibration time (10–60 min per temperature point)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "linearized DC voltage (0–10 V) or digital output proportional to pressure, from the capacitance sensing electronics of the gauge head",
+        "preprocessing_steps": [
+          "electronic zero correction (subtract offset measured under vacuum)",
+          "span correction using calibration polynomial or lookup table from dead-weight gauge comparison",
+          "thermal transpiration correction for measurements where gauge head temperature differs from sample temperature and pressure is below ~100 Pa",
+          "hydrostatic head correction if sample cell and gauge are at different heights (ΔP = ρgh, typically negligible for gas-phase measurements)",
+          "time-series filtering: average multiple readings over 30–60 s at each equilibrium point to reduce noise"
+        ],
+        "analysis_methods": [
+          "Antoine equation fit: log₁₀(P) = A − B/(C + T) for parameterizing P-T data over limited temperature ranges",
+          "Wagner equation fit: ln(P/Pc) = (Tc/T)[a·τ + b·τ^1.5 + c·τ^2.5 + d·τ^5] with τ = 1 − T/Tc, for wide-range correlation up to critical point",
+          "Clausius-Clapeyron analysis: d(ln P)/d(1/T) = −ΔHvap/R for extracting vaporization enthalpy",
+          "Cox equation or DIPPR correlation fitting for integration into databases",
+          "residual analysis: plot (P_measured − P_fit)/P_measured vs. T to detect systematic deviations or impurity effects"
+        ],
+        "model_assumptions": [
+          "sample is in true thermodynamic equilibrium at each measurement temperature (no kinetic barriers to vaporization)",
+          "the vapor behaves as an ideal gas (valid at low pressures; non-ideal corrections needed above ~100 kPa)",
+          "sample purity is sufficient that Raoult's law deviations from impurities are negligible",
+          "no chemical reaction or decomposition occurs at measurement temperatures",
+          "thermal transpiration effects are negligible or properly corrected"
+        ],
+        "fit_parameters": [
+          "Antoine constants A, B, C (for limited T range)",
+          "Wagner constants a, b, c, d (for wide T range, requires Tc and Pc)",
+          "vaporization enthalpy ΔHvap (from Clausius-Clapeyron slope)",
+          "critical temperature Tc and critical pressure Pc (if fitting extended correlations)"
+        ],
+        "common_artifacts": [
+          "thermal transpiration effect: at pressures below ~100 Pa, gas flow through connecting tubing at different temperatures causes apparent pressure shift (thermomolecular pressure difference)",
+          "outgassing artifact: residual gas desorption from cell walls and tubing adds a spurious background pressure, especially significant at low vapor pressures",
+          "condensation on gauge diaphragm: if gauge head temperature drops below sample dew point, liquid condensation shifts the reading and can damage the sensor",
+          "dissolved gas artifact: incompletely degassed sample releases dissolved air or light gases that add to the measured pressure",
+          "sample decomposition: thermal degradation products increase total pressure above the true equilibrium vapor pressure"
+        ],
+        "quality_control_checks": [
+          "verify pressure stability: pressure reading should be constant within ±0.02% over 5 minutes before recording a data point",
+          "check for dissolved gas: measure pressure, briefly pump, then re-equilibrate — pressure should return to the same value",
+          "compare ascending and descending temperature measurements — agreement confirms equilibrium and absence of decomposition",
+          "verify against known vapor pressure standard (e.g., water or n-decane) at multiple temperatures within the study range",
+          "inspect Clausius-Clapeyron plot linearity — systematic curvature beyond expected may indicate impurity or decomposition",
+          "cross-check gauge heads: measure the same pressure with two different-range gauges to confirm consistency"
+        ],
+        "failure_modes": [
+          "diaphragm contamination or coating by condensed sample or decomposition products (causes zero drift and span error)",
+          "loss of vacuum on reference side of absolute gauge (shifts reading by the leaked pressure amount)",
+          "sample cell leak (atmospheric air leaks raise measured pressure and introduce oxygen/moisture contamination)",
+          "gauge head overtemperature or exposure to pressure beyond rated overpressure (permanent diaphragm deformation)",
+          "electronic drift in signal conditioning (requires periodic zero and span recalibration)",
+          "loss of bath temperature control (pressure readings become meaningless without stable sample temperature)"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5% of vapor pressure reading; can reach 0.05% for carefully calibrated systems with high-purity samples",
+        "random_sources": [
+          "electronic noise in capacitance detection circuit",
+          "temperature fluctuations of sample bath (propagated through steep dP/dT)",
+          "gauge head temperature fluctuations",
+          "mechanical vibration coupling to diaphragm",
+          "pressure fluctuations from residual outgassing"
+        ],
+        "systematic_sources": [
+          "gauge calibration uncertainty (traceability to primary pressure standard)",
+          "thermal transpiration correction error at low pressures",
+          "temperature measurement offset in sample cell (even ±0.01 K matters for steep P-T curves)",
+          "sample purity — trace impurities shift vapor pressure via Raoult's law",
+          "incomplete degassing — residual dissolved gas adds to measured pressure",
+          "nonlinearity of gauge response at extremes of range",
+          "dead volume and adsorption effects in connecting tubing"
+        ],
+        "operator_dependence": "low to moderate — primary operator-dependent steps are sample degassing thoroughness, leak checking quality, and equilibration patience; gauge operation itself is largely automated",
+        "model_dependence": "low — diaphragm manometry is a direct pressure measurement; model dependence enters only through thermal transpiration corrections (empirical) and in fitting P-T data to correlation equations",
+        "dominant_error_sources": [
+          "temperature measurement and stability (dominant at high dP/dT)",
+          "sample purity and completeness of degassing",
+          "gauge calibration uncertainty (dominant at the extremes of the gauge range)",
+          "thermal transpiration correction (dominant below ~10 Pa)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(P) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of pressure reading",
+          "combined temperature and pressure uncertainties propagated through the Antoine or Wagner fit"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The diaphragm manometer is a direct pressure measurement technique widely used for determining the vapor pressure and sublimation pressure of pure compounds and mixtures. It operates by sensing the deflection of a thin metal diaphragm caused by the pressure difference between the sample vapor and a reference side (either evacuated for absolute measurement or pressurized for differential or null-balance operation). Commercial capacitance diaphragm gauges (CDGs), most notably the MKS Baratron series, have become the standard instrument for precision vapor pressure work in thermodynamics laboratories. The technique is especially valued for its excellent sensitivity at low pressures (down to ~0.01 Pa), wide dynamic range, and direct traceability to primary pressure standards.",
+      "how_it_operates": "A thin metal diaphragm (typically Inconel 750 or stainless steel, 0.05–0.5 mm thick) is welded into a housing that separates the sample gas volume from a sealed reference cavity. When sample vapor exerts pressure on one side, the diaphragm deflects proportionally. In a capacitance manometer, a fixed electrode behind the diaphragm forms a parallel-plate capacitor whose capacitance changes with diaphragm deflection. High-frequency bridge or oscillator electronics detect this capacitance change and produce a linearized voltage output proportional to the applied pressure. In the null-balance mode, the reference side pressure is actively adjusted (using a precision pressure controller or piston gauge) until the diaphragm returns to its zero-deflection position; the reference pressure then equals the unknown sample pressure, eliminating nonlinearity and hysteresis errors inherent in large deflections.",
+      "core_theory": "The operating principle rests on the elastic mechanics of thin circular plates. For a clamped circular diaphragm of radius a, thickness t, and elastic modulus E, subjected to a uniform differential pressure ΔP, the center deflection w₀ is given by w₀ = (3(1−ν²)a⁴ΔP)/(16Et³), where ν is Poisson's ratio. For a parallel-plate capacitor with gap d₀ and electrode area A, the capacitance C = ε₀A/(d₀ − w₀). The electronics linearize the inherently nonlinear C(ΔP) relationship over the full-scale range. At very low pressures in the molecular flow regime (mean free path comparable to tubing diameter), thermal transpiration produces a pressure difference between two connected volumes at different temperatures: P₁/P₂ → √(T₁/T₂) in the free-molecular limit, requiring the Takaishi-Sensui or Šetina correction formula to obtain the true sample pressure from the gauge reading.",
+      "setup": "A typical vapor pressure apparatus with a diaphragm manometer consists of a glass or stainless steel sample cell (5–50 mL volume) immersed in a precision temperature-controlled bath (water, silicone oil, or ethylene glycol, stability ±0.01 K). The sample cell connects via a heated stainless steel or glass transfer line to the gauge head, which is separately thermostatted at a temperature equal to or above the sample temperature to prevent condensation. The reference side of the gauge is continuously pumped to <0.001 Pa for absolute pressure measurement, or connected to a null-balance pressure controller. Sample temperature is measured by a calibrated platinum resistance thermometer (PRT) inserted in a thermowell in or adjacent to the sample cell. The entire gas-handling manifold includes UHV-grade valves, a vacuum pumping station for degassing, and possibly a cold trap to protect the pumps from sample vapor.",
+      "suitable_for": "Diaphragm manometry is the method of choice for measuring vapor pressures in the range 0.1 Pa to 100 kPa, covering the low-to-moderate volatility regime that is critical for environmental fate modeling, pharmaceutical formulation, and chemical process design. It is particularly well-suited for pure organic liquids with vapor pressures below atmospheric, sublimation pressures of moderately volatile solids (such as naphthalene, polycyclic aromatic hydrocarbons, and pharmaceutical intermediates), and the partial pressures of components in binary or multicomponent mixtures when combined with composition analysis. The technique handles refrigerants, cryogenic fluids, aqueous solutions, and inorganic volatile compounds. Its non-destructive, non-intrusive nature and high sensitivity make it ideal for samples available in small quantities or for compounds with very low volatility.",
+      "core_limitations": "The primary limitation is the requirement to thermostat the gauge head at or above the sample temperature to prevent condensation on the diaphragm. This constrains the technique to temperatures where reliable thermostatting is feasible (typically below 500 K for standard heated gauge heads). At very low pressures (<1 Pa), thermal transpiration effects introduce systematic errors that must be corrected using semi-empirical formulas, adding uncertainty. Each gauge head covers a limited pressure range (typically a factor of 10⁴ from minimum detectable to full scale), so different heads must be installed for measurements spanning many decades of pressure. The diaphragm is susceptible to contamination, corrosion, or permanent deformation if exposed to corrosive vapors, particles, or pressures exceeding the overpressure rating. Sample purity is critical because even trace impurities alter the vapor pressure through Raoult's law effects.",
+      "sample_preparation": "Rigorous sample preparation is essential for accurate vapor pressure measurements. Liquid samples must be thoroughly degassed by repeated freeze-pump-thaw (FPT) cycles — a minimum of three cycles with pumping to <0.1 Pa during each frozen stage — to remove dissolved air and light volatile impurities. Sample purity should be verified by gas chromatography (>99.5% for routine work, >99.9% for high-accuracy studies), and water content checked by Karl Fischer titration for hygroscopic compounds. The sample cell and all connecting tubing must be scrupulously cleaned, dried, and leak-tested before loading. For sublimation pressure measurements, solid samples should be freshly ground or crushed to increase surface area and promote rapid equilibration, then degassed under vacuum at a temperature below the sublimation point. The sample is typically loaded into the cell under inert gas or vacuum to avoid atmospheric contamination.",
+      "calibration_and_references": "Calibration of the diaphragm manometer proceeds in two stages. First, the electronic zero is set by evacuating both sides of the gauge to <0.001 Pa and recording the zero offset. Second, the span is calibrated by comparing the gauge output against a primary pressure standard — typically a gas-operated dead-weight piston gauge for pressures above 1 kPa, or a spinning rotor gauge (SRG) or ultrasonic interferometer manometer for the 0.01–1000 Pa range. A multi-point calibration at 5–10 pressures spanning the operating range establishes a correction polynomial. Temperature coefficient calibration characterizes the gauge sensitivity shift with gauge head temperature (typically <0.01%/°C for heated Baratron heads). For low-pressure work, the thermal transpiration correction must also be established experimentally or calculated using the Takaishi-Sensui formula with the known gas species and tubing geometry. Water (IAPWS-95), n-decane, and naphthalene serve as common vapor pressure reference substances for validating the complete measurement system.",
+      "data_interpretation": "The primary data from a diaphragm manometer vapor pressure experiment are pairs of equilibrium pressure P and temperature T. After applying zero, span, and thermal transpiration corrections to the raw gauge output, the P-T data are typically fitted to a standard correlation equation. For limited temperature ranges, the Antoine equation log₁₀(P/kPa) = A − B/(C + T/K) is commonly used. For wider ranges or when extrapolation toward the critical point is needed, the Wagner equation ln(P/Pc) = (Tc/T)[aτ + bτ^1.5 + cτ^2.5 + dτ^5] (with τ = 1 − T/Tc) provides superior representation. A Clausius-Clapeyron analysis of d(ln P)/d(1/T) yields the enthalpy of vaporization or sublimation as a function of temperature. Residual plots (P_measured − P_fit)/P_measured vs. T should show random scatter within the stated uncertainty; systematic trends suggest impurity effects, incomplete degassing, or instrument drift.",
+      "common_pitfalls": "The most frequent experimental pitfall is inadequate degassing, which manifests as measured pressures systematically higher than literature values due to residual dissolved air contributing to the total pressure. Allowing the gauge head temperature to drop below the sample dew point causes condensation on the diaphragm, producing erratic readings and potentially permanent contamination of the sensor. Operating a gauge near or below its minimum detectable pressure (typically <0.01% of full scale) yields readings dominated by electronic noise and zero drift. Neglecting the thermal transpiration correction at low pressures (<100 Pa) when gauge and sample are at different temperatures introduces systematic error that can exceed 5% in unfavorable cases. Insufficient equilibration time — recording pressure before the sample has reached true vapor-liquid or vapor-solid equilibrium — biases the reading, especially for viscous liquids or low-surface-area solids. Finally, using a single gauge head far below its optimal range rather than switching to a more sensitive head degrades both accuracy and resolution.",
+      "artifacts_and_failure_modes": "Thermal transpiration is the most significant physical artifact: in the molecular flow regime (Knudsen number >0.1), a thermomolecular pressure difference develops in the connecting tubing between the thermostatted sample cell and the gauge head at a different temperature, causing the gauge to read a pressure different from the true sample pressure. Outgassing from cell walls, tubing, and vacuum grease contributes a time-dependent background pressure that decays over hours, particularly problematic for measurements below 1 Pa. Condensation on the diaphragm if the gauge head is too cold produces sudden pressure drops or erratic oscillations. Diaphragm contamination from corrosive vapors or deposited films causes irreversible zero drift and span errors. Electronic zero drift due to ambient temperature changes requires periodic rechecking. Diaphragm fatigue or permanent deformation after overpressure events shifts both zero and span, necessitating gauge head replacement. Leak-through at valve seats introduces atmospheric gases that monotonically increase the measured pressure over time.",
+      "reporting_checklist": "Published vapor pressure data measured with a diaphragm manometer should report: gauge manufacturer, model, and full-scale range; method of calibration and traceability to a primary pressure standard; sample purity and method of assay; degassing procedure (number of FPT cycles, residual pressure achieved); temperature measurement instrument and its calibration (PRT type, calibration standard); temperature stability of sample bath; gauge head temperature and thermostatting method; whether absolute or null-balance mode was used; thermal transpiration correction method and parameters (if applicable); equilibration criterion (e.g., pressure drift <0.02% over 5 min); tabulated P-T data with combined expanded uncertainty U(P) at 95% confidence (k=2); correlation equation used (Antoine, Wagner, etc.) with fitted parameters and temperature validity range. For ThermoML encoding, vapor pressure values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

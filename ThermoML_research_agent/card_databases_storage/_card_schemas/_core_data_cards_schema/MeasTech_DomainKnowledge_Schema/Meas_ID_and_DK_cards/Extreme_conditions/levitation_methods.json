@@ -1,0 +1,374 @@
+{
+  "meas_ID": "levitation_methods",
+  "identity": {
+    "name": "Levitation methods",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Levitation methods",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Extreme Conditions",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 10,
+      "property_groups": [
+        "TransportProp",
+        "HeatCapacityAndDerivedProp",
+        "VolumetricProp"
+      ],
+      "n_papers": 5,
+      "per_group": {
+        "TransportProp": {
+          "instances": 6,
+          "papers": 2
+        },
+        "HeatCapacityAndDerivedProp": {
+          "instances": 3,
+          "papers": 3
+        },
+        "VolumetricProp": {
+          "instances": 1,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "drop oscillation frequency and damping rate (from high-speed video or photodetector)",
+          "drop shape, diameter, and volume (from high-speed shadow imaging)",
+          "pyrometer signal — spectral radiance or brightness temperature of the levitated sample",
+          "cooling curve — temperature vs. time during free radiative cooling",
+          "sample mass (weighed before and after experiment)",
+          "levitation coil current or electrode voltage (EML/ESL positioning signal)"
+        ],
+        "derived_observables": [
+          "surface tension (from oscillation frequency via Rayleigh equation)",
+          "viscosity (from oscillation damping time via Lamb equation)",
+          "density (from volume determined by imaging and known sample mass)",
+          "isobaric heat capacity Cp (from radiative cooling rate via Newton's law of cooling)",
+          "thermal conductivity (from modulated heating/cooling analysis)",
+          "electrical resistivity (from impedance of levitation coil in EML)",
+          "total hemispherical emissivity (from absolute cooling rate calibration)"
+        ],
+        "target_properties": [
+          "surface tension of liquid metals and alloys",
+          "viscosity of undercooled and stable liquid metals",
+          "density of high-temperature melts",
+          "isobaric heat capacity (Cp) of liquid metals",
+          "thermal conductivity of liquid metals",
+          "electrical resistivity of liquid metals"
+        ],
+        "phases_measured": [
+          "stable liquid (above liquidus)",
+          "undercooled (metastable) liquid",
+          "liquid at extreme temperatures (>2000 K)"
+        ],
+        "supported_sample_types": [
+          "pure liquid metals and transition metals",
+          "binary and multicomponent metallic alloys",
+          "semiconductors in the liquid state",
+          "refractory metals and ceramics (with laser heating)",
+          "slags and oxide melts",
+          "metallic glasses and glass-forming alloys",
+          "reactive melts (Ti, Zr, rare earths) that attack crucibles"
+        ],
+        "unsupported_sample_types": [
+          "gases and low-density vapors",
+          "organic liquids and aqueous solutions (too low density/conductivity for EML; limited levitation force)",
+          "samples with mass below ~10 mg or above ~5 g (outside typical levitation capacity)",
+          "highly volatile materials that evaporate before reaching target temperature",
+          "non-spherical solid samples requiring fixed orientation"
+        ],
+        "typical_output_formats": [
+          "surface tension vs. T curve",
+          "viscosity vs. T curve (Arrhenius or VFT plot)",
+          "density vs. T curve (linear fit)",
+          "Cp vs. T from cooling curve analysis",
+          "cooling curve (T vs. t)",
+          "oscillation frequency and damping spectra"
+        ],
+        "units": {
+          "surface_tension": "N/m or mN/m",
+          "viscosity": "Pa·s or mPa·s",
+          "density": "kg/m³",
+          "heat_capacity": "J/(mol·K) or J/(kg·K)",
+          "thermal_conductivity": "W/(m·K)",
+          "electrical_resistivity": "µΩ·m or µΩ·cm",
+          "temperature": "K",
+          "oscillation_frequency": "Hz",
+          "damping_time": "s or ms",
+          "drop_diameter": "mm"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "1000 K to 3000 K (EML metals); up to 3500 K (ESL with laser heating)",
+            "hard_limits": "lower limit set by solidification; upper limit set by sample evaporation rate and pyrometer range",
+            "notes": "undercooling of 100–400 K below liquidus routinely achieved in containerless conditions"
+          },
+          {
+            "parameter": "sample_mass",
+            "typical_range": "0.5 g to 3 g (EML); 20 mg to 300 mg (ESL)",
+            "hard_limits": "EML: minimum ~0.1 g (insufficient coupling below), maximum ~5 g (gravitational droop); ESL: minimum ~5 mg, maximum ~500 mg",
+            "notes": "sample must be spherical or near-spherical when molten for valid Rayleigh analysis"
+          },
+          {
+            "parameter": "atmosphere",
+            "typical_range": "high-purity inert gas (He, Ar, or He-Ar mixture) at 10–500 mbar for EML; high vacuum (10⁻⁶–10⁻⁸ mbar) for ESL",
+            "hard_limits": "EML requires gas for convective cooling control; ESL requires vacuum for electrostatic stability",
+            "notes": "gas composition and pressure affect convective heat transfer and sample quiescence"
+          },
+          {
+            "parameter": "levitation_frequency_EML",
+            "typical_range": "100 kHz to 400 kHz (RF frequency for electromagnetic coil)",
+            "hard_limits": "frequency must produce skin depth smaller than sample radius for effective coupling",
+            "notes": "higher frequencies improve positional stability but increase Joule heating in the sample"
+          },
+          {
+            "parameter": "cooling_rate",
+            "typical_range": "10 K/s to 200 K/s (radiative cooling in vacuum); 50–500 K/s (gas-assisted cooling in EML)",
+            "hard_limits": "minimum rate set by radiative loss at given T; maximum set by available gas flow or heater-off response",
+            "notes": "cooling rate determines temporal resolution of Cp measurement and accessible undercooling depth"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "1200 K to 2800 K",
+            "effect": "temperature determines melt properties; scanning reveals T-dependence of surface tension, viscosity, density, and Cp"
+          },
+          {
+            "name": "levitation_field_strength",
+            "role": "controlled positioning parameter",
+            "typical_values": "EML: coil current 100–600 A (RF); ESL: electrode voltage 5–25 kV",
+            "effect": "sets levitation force and sample position; in EML also contributes to inductive heating; in ESL decoupled from heating"
+          },
+          {
+            "name": "laser_power",
+            "role": "independent heating variable (ESL, aerodynamic levitation)",
+            "typical_values": "10 W to 200 W (CO₂ or Nd:YAG laser)",
+            "effect": "controls sample temperature independently of levitation force; enables isothermal holds and controlled cooling"
+          },
+          {
+            "name": "atmosphere_composition_and_pressure",
+            "role": "environmental variable",
+            "typical_values": "He or Ar at 10–500 mbar (EML); vacuum <10⁻⁶ mbar (ESL)",
+            "effect": "affects convective heat loss, oxidation rate, evaporation, and damping of surface oscillations"
+          },
+          {
+            "name": "excitation_pulse",
+            "role": "oscillation trigger for drop dynamics",
+            "typical_values": "short current pulse (EML) or voltage pulse (ESL) of 1–50 ms duration",
+            "effect": "excites surface oscillation modes for surface tension and viscosity determination; must be short enough not to perturb temperature significantly"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "electromagnetic levitation coil (EML) — water-cooled copper coil connected to RF generator (100–400 kHz, up to 5 kW), producing oscillating magnetic field for both levitation and inductive heating",
+          "electrostatic levitation electrodes (ESL) — pair of parallel electrodes with central sample, driven by high-voltage DC supply (up to 25 kV) with fast feedback control for vertical positioning; side electrodes for lateral centering",
+          "position detection system — laser/photodetector pair or CCD camera tracking sample position in three axes for feedback control",
+          "heating laser (ESL/aerodynamic) — CO₂ laser (10.6 µm, 50–200 W) or Nd:YAG laser (1.064 µm) for independent temperature control",
+          "pyrometer — single-color or two-color (ratio) pyrometer, typically operating in 1–5 µm spectral range, for non-contact temperature measurement",
+          "high-speed camera — typically 500–10,000 fps with backlighting or shadowgraph setup for imaging drop shape, diameter, and oscillation dynamics",
+          "vacuum/atmosphere chamber — stainless steel chamber with optical viewports, gas inlet/outlet, and ports for pyrometer and camera; UHV-compatible for ESL",
+          "gas handling system (EML) — mass flow controllers, purification getters, and pressure regulators for He/Ar atmosphere",
+          "RF power generator (EML) — 100–400 kHz, 1–5 kW output, with fast switching capability for oscillation excitation",
+          "data acquisition system — multichannel digitizer for synchronous recording of pyrometer signal, camera frames, oscillation amplitude, and coil current/voltage",
+          "image analysis software — edge detection and ellipse fitting algorithms for extracting drop diameter and oscillation amplitude from video frames"
+        ],
+        "environmental_requirements": [
+          "high-purity inert atmosphere (EML): He or Ar at 99.999% purity, O₂ and H₂O < 1 ppm, to prevent oxidation of reactive melts",
+          "ultra-high vacuum (ESL): base pressure < 10⁻⁷ mbar required for stable electrostatic levitation without arcing",
+          "vibration-isolated optical table or platform to minimize mechanical disturbance of the levitated drop",
+          "temperature-stable environment for pyrometer and camera to ensure calibration stability",
+          "proper laser safety enclosure and interlocks when laser heating is used"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "roughly spherical sample (becomes spherical upon melting due to surface tension)",
+            "pre-formed sphere or small irregular piece cut from bulk material"
+          ],
+          "size_limits": "EML: 5–10 mm diameter (0.5–3 g); ESL: 1–3 mm diameter (20–300 mg); aerodynamic: 1–4 mm diameter",
+          "thickness_limits": "not applicable — sample is a free droplet",
+          "surface_requirements": [
+            "clean metallic surface, mechanically polished or chemically etched before experiment to remove oxide layer",
+            "oxide-free surface required for consistent pyrometric temperature measurement and reproducible surface oscillations"
+          ],
+          "mounting_requirements": [
+            "sample placed on lower electrode or support pedestal before levitation initiation",
+            "no physical mounting during measurement — sample is freely suspended"
+          ],
+          "preparation_requirements": [
+            "known mass weighed to ±0.1 mg on analytical balance before and after experiment (mass loss indicates evaporation)",
+            "pre-melting under inert gas to form a sphere and degas the sample",
+            "chemical analysis (ICP, EDX) to verify alloy composition before and after levitation",
+            "surface cleaning by mechanical polishing, acid etching, or ultrasonic cleaning in acetone/ethanol"
+          ]
+        },
+        "calibration_requirements": [
+          "pyrometer calibration using a blackbody radiation source or calibration lamp traceable to national standards",
+          "emissivity determination — either from known liquidus plateau or from ratio pyrometry to convert brightness temperature to true temperature",
+          "high-speed camera magnification calibration using a precision sphere or calibration target at the sample position",
+          "oscillation frequency calibration — verify against known surface tension of a reference liquid metal (e.g., pure Cu, Ni, or Zr)",
+          "mass loss measurement before/after to assess evaporation correction",
+          "timing calibration of data acquisition channels to ensure synchronization of pyrometer and camera data"
+        ],
+        "reference_materials": [
+          "pure nickel — well-characterized surface tension, viscosity, and density; melting point 1728 K",
+          "pure copper — established surface tension (1.303 N/m at melting point) and viscosity data; melting point 1358 K",
+          "pure zirconium — widely used EML/ESL reference; melting point 2128 K",
+          "pure iron — surface tension and viscosity data available from multiple research groups; melting point 1811 K",
+          "pure silicon — reference for semiconductor levitation; melting point 1687 K"
+        ],
+        "consumables": [
+          "high-purity sample material (99.99%+ metals)",
+          "inert gas supply (He, Ar, research grade 99.999%)",
+          "pyrometer windows (sapphire or ZnSe) — require periodic cleaning or replacement",
+          "O-ring seals and vacuum gaskets for chamber",
+          "getter cartridges for gas purification (Ti sponge or molecular sieve)"
+        ],
+        "safety_notes": [
+          "high-voltage hazard from ESL electrodes (up to 25 kV) and RF generator (EML) — proper interlocks and shielding required",
+          "laser radiation hazard — Class 4 CO₂ or Nd:YAG lasers require enclosed beam path, interlocks, and laser safety eyewear",
+          "extreme temperatures (>2000 K) — radiation hazard and risk of chamber damage if sample falls onto viewport",
+          "reactive metal melts (Ti, Zr) can react violently with oxygen — ensure atmosphere integrity",
+          "RF electromagnetic fields — potential interference with pacemakers and electronics; maintain exclusion zone during EML operation"
+        ]
+      },
+      "performance": {
+        "sensitivity": "surface tension: resolvable changes ~0.5–1 mN/m; viscosity: resolvable down to ~0.5 mPa·s; density: ~10 kg/m³ change detectable",
+        "detection_limit": "viscosity measurable from ~0.5 mPa·s (liquid alkali metals) to ~200 mPa·s (viscous glass-forming alloys); surface tension from ~0.1 N/m to ~2.5 N/m",
+        "resolution": {
+          "spatial": "not applicable (bulk droplet measurement); drop diameter resolution ~5–20 µm via imaging",
+          "temporal": "oscillation dynamics: 0.1–1 ms (set by camera frame rate); cooling curve: ~1 ms (pyrometer bandwidth)",
+          "spectral": "pyrometer spectral resolution ~10–50 nm (bandpass filter for single-color pyrometry)",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "temperature: 1000–3500 K; surface tension: 0.1–2.5 N/m; viscosity: 0.5–200 mPa·s; density: 2000–20000 kg/m³",
+        "accuracy": "surface tension: 1–5% (depending on oscillation mode purity and translational correction); viscosity: 5–20% (damping analysis is more sensitive to convective disturbances); density: 1–2% (limited by imaging calibration); Cp: 5–15% (radiative cooling method)",
+        "precision": "surface tension: 1–3% (repeatability); viscosity: 3–10%; density: 0.5–1%; Cp: 3–10%",
+        "throughput": "one sample per experiment; a full temperature sweep (heating + multiple cooling cycles) takes 10–60 minutes",
+        "measurement_speed": "each oscillation measurement takes 1–5 seconds (excitation + decay); cooling curve for Cp takes 10–60 seconds; full thermal cycle minutes to tens of minutes"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "high-speed video frames of the oscillating drop (for surface tension, viscosity, density), pyrometer voltage proportional to spectral radiance (for temperature and cooling curves), and coil current/electrode voltage waveforms (for positioning feedback)",
+        "preprocessing_steps": [
+          "image processing: edge detection and ellipse fitting on each video frame to extract instantaneous equatorial and polar radii of the drop",
+          "oscillation signal extraction: compute time series of radius or aspect ratio, then apply FFT or fit decaying sinusoid to identify oscillation frequency (ν) and damping time (τ)",
+          "pyrometer signal conversion: convert raw voltage to brightness temperature using pyrometer calibration curve, then correct for emissivity to obtain true temperature",
+          "recalescence detection: identify solidification onset as sudden temperature spike in the cooling curve",
+          "baseline temperature correction: remove slow drift and compensate for pyrometer window contamination over time",
+          "translational oscillation correction (EML): subtract contribution of center-of-mass motion from surface oscillation frequency using Cummings-Blackburn correction"
+        ],
+        "analysis_methods": [
+          "Rayleigh equation for surface tension: γ = (3πmν²)/(l(l-1)(l+2)) for mode l=2, where m is sample mass and ν is the oscillation frequency of the l=2 mode",
+          "Cummings-Blackburn correction: accounts for translational frequency splitting in EML by relating observed multiplet frequencies to true Rayleigh frequency",
+          "Lamb equation for viscosity: η = (ρR²)/(5τ(l-1)(2l+1)) for l=2 mode, where R is drop radius, ρ is density, and τ is exponential damping time",
+          "density from imaging: ρ = m/V where V = (4/3)π·Req³ computed from equivalent spherical radius Req derived from ellipse-fit radii",
+          "Cp from radiative cooling: Cp = -(εσA(T⁴-T₀⁴))/(m·dT/dt) where ε is total hemispherical emissivity, σ is Stefan-Boltzmann constant, A is surface area, and dT/dt is cooling rate",
+          "Arrhenius or Vogel-Fulcher-Tammann (VFT) fitting of viscosity vs. temperature data"
+        ],
+        "model_assumptions": [
+          "sample is a perfectly spherical, non-rotating liquid drop for Rayleigh oscillation analysis",
+          "surface oscillation modes are small-amplitude (linear regime) and dominated by the l=2 fundamental mode",
+          "internal fluid flow (convection and circulation) does not significantly affect the damping of surface oscillations",
+          "temperature is uniform throughout the drop (isothermal drop assumption, valid when Biot number << 1)",
+          "radiative heat loss dominates over conductive/convective losses (valid for ESL in vacuum; requires correction for EML in gas atmosphere)",
+          "emissivity is known or independently measured — small errors propagate strongly into temperature and Cp"
+        ],
+        "fit_parameters": [
+          "surface oscillation frequency ν₂ (l=2 mode) and higher harmonics if resolved",
+          "oscillation damping time τ₂ (exponential decay constant of l=2 mode amplitude)",
+          "translational oscillation frequencies ν_t (for Cummings-Blackburn correction in EML)",
+          "drop equivalent radius Req from ellipse fitting",
+          "emissivity ε (fitted from liquidus plateau or measured independently)",
+          "cooling rate dT/dt from polynomial or spline fit to the cooling curve"
+        ],
+        "common_artifacts": [
+          "translational mode coupling (EML): electromagnetic field gradient causes coupling between droplet translation and surface oscillation, splitting the l=2 mode into a multiplet and shifting the apparent frequency",
+          "turbulent internal convection (EML): Lorentz-force-driven recirculating flow inside the drop increases apparent damping, causing viscosity to be overestimated",
+          "sample rotation: asymmetric heating or residual angular momentum causes rotation that splits oscillation modes and complicates frequency analysis",
+          "evaporation artifact: mass loss during measurement changes the sample mass used to compute surface tension and density, introducing systematic drift",
+          "oxide skin formation: even trace oxygen can form a surface oxide film on reactive metals, drastically altering surface tension and damping behavior",
+          "pyrometer window contamination: metal vapor deposition on chamber windows reduces pyrometer signal, causing apparent temperature decrease",
+          "recalescence overlap: if solidification occurs during a cooling measurement, the latent heat release obscures the Cp cooling curve in the undercooled regime"
+        ],
+        "quality_control_checks": [
+          "verify oscillation mode purity: inspect FFT spectrum for clean l=2 peak without significant l=3,4 contamination",
+          "check mass loss: weigh sample before and after; if mass loss >0.5%, apply evaporation correction or discard run",
+          "reproduce known surface tension of a reference metal (e.g., pure Cu or Ni) within ±3%",
+          "verify temperature calibration via observed liquidus/solidus plateau against known melting point",
+          "compare surface tension from heating and cooling branches to check for oxide contamination",
+          "confirm that viscosity values converge between multiple excitation pulses at the same temperature",
+          "inspect drop images for visible oxide film, debris, or asymmetric deformation"
+        ],
+        "failure_modes": [
+          "loss of levitation: sample falls due to power fluctuation, feedback instability, or excessive mass — damages chamber and loses experiment",
+          "sample shattering on solidification: rapid crystallization can fragment the drop, especially for brittle intermetallics",
+          "oxide skin rupture: sudden change in oscillation behavior when oxide film breaks, invalidating surface tension data before and after the event",
+          "camera saturation or focus loss: at very high T, sample brightness saturates imaging sensor or thermal expansion shifts focal plane",
+          "pyrometer saturation or range exceedance: sample temperature exceeds pyrometer calibration range",
+          "RF interference (EML): strong electromagnetic fields couple into pyrometer or camera electronics, introducing noise"
+        ]
+      },
+      "uncertainty": {
+        "level": "surface tension: 1–5% combined expanded uncertainty; viscosity: 5–20%; density: 1–3%; Cp: 5–15%",
+        "random_sources": [
+          "oscillation frequency scatter from turbulent perturbations and mode impurity",
+          "image noise from limited camera resolution and lighting fluctuations",
+          "pyrometer noise from detector shot noise and thermal fluctuations",
+          "sample position instability causing variable viewing angle for pyrometer and camera",
+          "variability in excitation pulse strength leading to different oscillation amplitudes"
+        ],
+        "systematic_sources": [
+          "emissivity uncertainty — propagates directly into temperature (1% emissivity error → 5–15 K temperature error at 2000 K) and dominates Cp uncertainty",
+          "sample mass loss from evaporation — causes growing systematic error in surface tension and density over the course of the experiment",
+          "translational frequency correction (EML) — model-dependent and sensitive to magnetic field gradient calibration",
+          "internal convection contribution to damping (EML) — causes viscosity overestimation if not corrected via magnetohydrodynamic modeling",
+          "non-spherical drop shape — deviation from perfect sphere introduces bias in density and oscillation frequency analysis",
+          "camera magnification calibration error — directly affects volume (density) measurement",
+          "pyrometer window transmission degradation — causes systematic temperature drift during long experiments"
+        ],
+        "operator_dependence": "moderate to high — sample preparation (purity, surface cleanliness), levitation stability tuning, pyrometer alignment, and excitation pulse optimization all require significant operator expertise",
+        "model_dependence": "high — derivation of all properties depends on models: Rayleigh equation (surface tension), Lamb damping (viscosity), Stefan-Boltzmann radiative cooling (Cp); corrections to these models (Cummings-Blackburn, MHD convection) further increase model dependence",
+        "dominant_error_sources": [
+          "emissivity uncertainty (dominates temperature and Cp accuracy)",
+          "translational oscillation correction in EML (dominates surface tension uncertainty)",
+          "convective damping in EML (dominates viscosity uncertainty)",
+          "mass loss from evaporation at extreme temperatures"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k=2)",
+          "relative uncertainty as percentage of measured value",
+          "scatter band from repeated melting/cooling cycles"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Levitation methods are a family of containerless measurement techniques in which a sample is suspended freely — by electromagnetic, electrostatic, aerodynamic, or acoustic forces — eliminating physical contact with any crucible. This containerless approach is indispensable for measuring thermophysical properties of highly reactive liquid metals, refractory alloys, and oxide melts at extreme temperatures (1000–3500 K) where conventional crucible materials would dissolve, contaminate the melt, or catalyze heterogeneous nucleation. The principal variants are electromagnetic levitation (EML), which uses radio-frequency magnetic fields to simultaneously levitate and inductively heat electrically conducting samples; electrostatic levitation (ESL), which suspends charged samples between high-voltage electrodes with independent laser heating; and aerodynamic levitation, which supports samples on a gas jet with laser heating. Properties accessible include surface tension, viscosity, density, heat capacity, thermal conductivity, and electrical resistivity, all measured on a single freely-suspended droplet.",
+      "how_it_operates": "In electromagnetic levitation, an alternating current at 100–400 kHz drives a specially shaped copper coil that produces an inhomogeneous magnetic field. Eddy currents induced in the electrically conducting sample generate both a Lorentz force (lifting the sample against gravity) and Joule heating (raising its temperature to melting and above). In electrostatic levitation, a sample charged to ~10⁻⁹ C by UV illumination or thermionic emission is suspended between parallel electrodes at 5–25 kV, with a fast feedback loop using position-sensing detectors to maintain stable levitation; heating is provided independently by one or more focused laser beams. Once the sample is molten and stably levitated, measurements proceed via three primary diagnostic channels: (1) a high-speed camera (500–10,000 fps) captures shadow images of the drop to determine its shape, volume, and oscillation dynamics; (2) a pyrometer measures the sample's spectral radiance to determine temperature; and (3) a brief electromagnetic or electrostatic pulse excites surface oscillations whose frequency and damping are recorded for surface tension and viscosity determination.",
+      "core_theory": "Surface tension is derived from the Rayleigh equation for the oscillation frequency of a free liquid sphere: ν_l² = l(l−1)(l+2)γ/(3πm), where l is the mode number, γ is the surface tension, and m is the sample mass. For the dominant l=2 mode, this gives γ = 3πmν₂²/8. In terrestrial EML, the inhomogeneous levitation field breaks the five-fold degeneracy of the l=2 mode into a multiplet of up to five peaks; the Cummings-Blackburn correction recovers the true Rayleigh frequency from the observed multiplet by accounting for the translational frequencies of the center-of-mass oscillation. Viscosity follows from the Lamb equation: the damping time τ of the l=2 oscillation amplitude is related to viscosity η by τ = ρR²/[5(l−1)(2l+1)η], yielding η = ρR²/(25τ) for l=2. Density is obtained geometrically as ρ = m/V from the known mass and the volume V determined by fitting an axisymmetric ellipsoid to the drop silhouette. Heat capacity Cp is extracted from the containerless cooling curve: after the heater is turned off, the drop cools purely by radiation, and the energy balance m·Cp·(dT/dt) = −εσA(T⁴−T₀⁴) allows Cp to be solved if the total hemispherical emissivity ε is known.",
+      "setup": "An EML facility consists of a water-cooled copper levitation coil connected to a high-frequency RF generator (100–400 kHz, 1–5 kW), housed inside a stainless-steel vacuum chamber fitted with optical windows for pyrometry and imaging. The chamber is evacuated and backfilled with high-purity helium or argon (99.999%, O₂ < 1 ppm) at a controlled pressure of 10–500 mbar. A two-color or single-color pyrometer is focused on the sample through a sapphire window for temperature measurement. A high-speed camera with telecentric optics and LED backlighting provides shadow images for drop shape analysis. An ESL facility replaces the coil with a pair of parallel electrodes (typically 10–15 mm spacing), a UV lamp or electron gun for sample charging, a position-sensing detector with fast feedback electronics (bandwidth >1 kHz), and one or more CO₂ or Nd:YAG lasers directed at the sample through additional viewports. Both setups include a multichannel data acquisition system that synchronously records pyrometer signal, camera frames, and excitation/feedback waveforms.",
+      "suitable_for": "Levitation methods are uniquely suited for measuring thermophysical properties of materials that cannot be contained in conventional crucibles: reactive liquid metals (titanium, zirconium, rare earth elements), refractory metals (tungsten, molybdenum, tantalum) above 2500 K, and corrosive oxide and silicate melts. The containerless environment eliminates heterogeneous nucleation sites, enabling deep undercooling of the liquid well below the equilibrium melting point — undercooling of 100–400 K is routinely achieved, providing access to metastable liquid properties unavailable by any other method. The technique is widely applied in materials science for liquid metal processing, alloy design, casting simulation, and database development for CALPHAD thermodynamic modeling. ESL is particularly valued for benchmarking microgravity experiments on the International Space Station, where the absence of gravitational deformation permits the most precise Rayleigh analysis.",
+      "core_limitations": "The most fundamental limitation is the coupling between levitation and heating in EML: the same electromagnetic field that suspends the sample also heats it, limiting independent temperature control and producing turbulent magnetohydrodynamic convection inside the drop that broadens oscillation damping and compromises viscosity measurements. ESL overcomes this coupling but is technically complex and requires ultra-high vacuum, restricting throughput. All levitation variants demand accurate knowledge of the sample's total hemispherical emissivity for pyrometric temperature measurement and for Cp derivation from cooling curves — emissivity is often the dominant uncertainty source. Sample evaporation at extreme temperatures causes progressive mass loss, introducing systematic drift in surface tension and density. The Rayleigh analysis assumes a perfectly spherical, non-rotating drop with small-amplitude oscillations; deviations from these conditions require corrections that increase model dependence. Finally, only liquid samples can be measured (the sample must be molten to form a spherical drop), preventing solid-phase measurements.",
+      "sample_preparation": "Samples are typically prepared as small spheres or near-spherical pieces of 1–10 mm diameter, cut from high-purity bulk material (>99.9%) by wire EDM, arc-melting, or mechanical cutting. The surface is mechanically polished with fine-grit abrasive paper (up to 1200 grit) and then ultrasonically cleaned in acetone and ethanol to remove machining residues and organic contaminants. For alloy samples, the composition is verified by ICP-OES or EDX before the experiment. The sample is weighed on an analytical balance (±0.1 mg) and its mass recorded for surface tension and density calculations. Pre-melting under inert atmosphere (one or two cycles in the levitator before the actual measurement) is performed to degas the sample, remove residual surface oxide, and form a clean sphere. After the experiment, the sample is re-weighed to quantify evaporative mass loss, and post-experiment compositional analysis is performed for alloys to check for selective evaporation of volatile components.",
+      "calibration_and_references": "Temperature calibration relies on identifying the liquidus plateau during solidification (recalescence) of the sample itself or a known reference metal. The observed brightness temperature at the melting point is compared to the known thermodynamic melting point to determine the effective emissivity at the pyrometer wavelength. Alternatively, a two-color ratio pyrometer is used to eliminate emissivity dependence, though this introduces an assumption of gray-body behavior. Camera magnification is calibrated by imaging a precision sphere (e.g., a sapphire ball bearing of certified diameter) placed at the exact sample position. Surface tension values are validated against recommended literature values for pure Ni (γ = 1.778 N/m at 1728 K), Cu (γ = 1.303 N/m at 1358 K), or Zr (γ = 1.500 N/m at 2128 K). Viscosity is cross-checked against established values for pure metals where possible, though reference data for high-temperature viscosity are more limited. Periodic recalibration is performed whenever the pyrometer window is cleaned or replaced.",
+      "data_interpretation": "Raw high-speed video is processed frame-by-frame using automated edge-detection algorithms (e.g., Canny filter) to extract the drop contour, which is fitted to an ellipse to obtain equatorial and polar radii as functions of time. The oscillation of the radius about the equilibrium value is Fourier-transformed to identify the l=2 surface mode frequency and any higher harmonics. In EML, the five-fold splitting of the l=2 mode is corrected using the Cummings-Blackburn formula, which expresses the true Rayleigh frequency as a function of the observed peak positions and the three translational oscillation frequencies. The damping time of the oscillation envelope is extracted by fitting an exponential decay to the amplitude of the filtered l=2 signal. The pyrometer cooling curve (temperature vs. time after heater switch-off) is differentiated to obtain dT/dt, which is combined with the Stefan-Boltzmann radiation balance to yield Cp as a function of temperature. For viscosity analysis in EML, magnetohydrodynamic corrections based on numerical simulation of the Lorentz-force-driven flow field may be applied to subtract the convective contribution to damping.",
+      "common_pitfalls": "The most frequent error is neglecting the translational oscillation correction in EML, which can shift the derived surface tension by 5–15% due to unresolved frequency splitting. Treating the observed damping time as purely viscous without accounting for turbulent internal convection in EML leads to systematically overestimated viscosity values, sometimes by a factor of 2–5. Using a fixed emissivity value across the full temperature range, rather than accounting for its temperature and wavelength dependence, introduces a temperature-dependent bias in both T and Cp. Failing to check for oxide skin — which is visually subtle on a glowing drop — results in anomalously high surface tension and erratic damping behavior. Mass loss from evaporation is often underestimated, particularly for alloys containing volatile components (Mn, Zn, Pb); neglecting this produces a systematic downward drift in apparent surface tension over successive thermal cycles. Attempting to excite oscillations at too high an amplitude violates the small-amplitude assumption of the Rayleigh equation and shifts the derived surface tension toward lower values.",
+      "artifacts_and_failure_modes": "Translational-surface mode coupling in EML is the most pervasive artifact: the inhomogeneous magnetic field mixes translational and surface oscillation modes, producing frequency splittings and shifts that, if uncorrected, yield incorrect surface tension. Oxide skin formation on reactive metals creates a rigid or viscoelastic surface layer whose mechanical properties differ from the bare liquid surface, suppressing surface oscillation, increasing apparent damping, and elevating apparent surface tension. Evaporation artifacts manifest as a progressive decrease in derived density and surface tension across sequential thermal cycles due to unaccounted mass loss. Pyrometer window fouling from condensed metal vapor causes a systematic downward drift in measured temperature. Sample rotation, induced by asymmetric laser heating or electromagnetic torques, splits oscillation multiplets in ways that mimic translational splitting and confuses the Cummings-Blackburn correction. In extreme cases, loss of feedback control in ESL or field instability in EML causes the sample to fall, terminating the measurement and potentially damaging the chamber interior.",
+      "reporting_checklist": "Publications should report: levitation technique type (EML, ESL, aerodynamic) and key operating parameters (coil frequency and power for EML; electrode voltage for ESL; laser type and power); atmosphere composition, purity, and pressure; sample material, purity, supplier, composition verification method; sample mass before and after experiment (to document evaporation); pyrometer type, wavelength, and emissivity value used (with how it was determined); camera frame rate and spatial resolution; oscillation excitation method and pulse parameters; whether Cummings-Blackburn or other translational correction was applied (for EML surface tension); magnetohydrodynamic correction for viscosity (if applied); temperature range and number of thermal cycles; tabulated values with combined expanded uncertainty at 95% confidence level (k=2); and comparison with reference materials or literature data. For ThermoML encoding, all property values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

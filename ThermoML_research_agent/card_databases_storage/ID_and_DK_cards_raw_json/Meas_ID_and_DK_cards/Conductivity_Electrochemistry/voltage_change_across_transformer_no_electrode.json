@@ -1,0 +1,315 @@
+{
+  "meas_ID": "voltage_change_across_transformer_no_electrode",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Voltage change across transformer (no electrode)",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Voltage change across transformer (no electrode)",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Conductivity / Electrochemistry",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 9,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "TransportProp": {
+          "instances": 9,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "induced voltage amplitude in detector (secondary) toroid",
+          "phase angle between driver and detector signals",
+          "sample temperature"
+        ],
+        "derived_observables": [
+          "specific electrical conductivity κ (S/m)",
+          "molar conductivity Λ (S·m²/mol)",
+          "electrical resistivity ρ (Ω·m)"
+        ],
+        "target_properties": [
+          "specific electrical conductivity of electrolyte solutions",
+          "molar conductivity",
+          "temperature dependence of conductivity",
+          "concentration dependence of conductivity"
+        ],
+        "phases_measured": [
+          "liquid (aqueous electrolyte solutions)",
+          "liquid (non-aqueous electrolyte solutions)",
+          "molten salts",
+          "slurries and suspensions"
+        ],
+        "supported_sample_types": [
+          "concentrated electrolyte solutions",
+          "strong acid and base solutions",
+          "molten salts and ionic liquids",
+          "corrosive chemical solutions (HF, conc. H2SO4, NaOH)",
+          "slurries and particulate suspensions",
+          "conductive polymer solutions",
+          "industrial process streams",
+          "binary and multicomponent electrolyte mixtures"
+        ],
+        "unsupported_sample_types": [
+          "very dilute electrolyte solutions (κ < 10⁻² S/m)",
+          "non-conducting organic solvents",
+          "gases",
+          "solid samples",
+          "highly viscous media that cannot flow through the sample loop"
+        ],
+        "typical_output_formats": [
+          "κ vs. T curve at fixed composition",
+          "κ vs. concentration at fixed T",
+          "Λ vs. √c (Kohlrausch plot)",
+          "Arrhenius plot of ln(κ) vs. 1/T"
+        ],
+        "units": {
+          "specific_conductivity": "S/m or mS/cm",
+          "molar_conductivity": "S·m²/mol or S·cm²/mol",
+          "resistivity": "Ω·m or Ω·cm",
+          "temperature": "K",
+          "frequency": "kHz",
+          "voltage": "mV or V"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "excitation_frequency",
+            "typical_range": "1 kHz to 100 kHz",
+            "hard_limits": "frequency must be high enough to induce measurable current in the fluid loop but below onset of significant stray capacitance effects",
+            "notes": "frequencies of 10–25 kHz are most common; higher frequencies reduce inductive coupling efficiency"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273 K to 573 K",
+            "hard_limits": "limited by sample loop material, O-ring seals, and toroid insulation temperature ratings; molten salt cells extend to >900 K with ceramic housings",
+            "notes": "thermostating accuracy directly affects conductivity accuracy due to strong κ(T) dependence"
+          },
+          {
+            "parameter": "sample_conductivity_range",
+            "typical_range": "10⁻² S/m to 10³ S/m",
+            "hard_limits": "lower limit set by signal-to-noise ratio of induced voltage; upper limit set by core saturation and amplifier linearity",
+            "notes": "optimal performance in the 0.1–100 S/m range; concentrated electrolytes and molten salts are the primary application space"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (ambient)",
+            "hard_limits": "high-pressure variants possible with sealed metallic sample loops; standard cells rated to ~1 MPa",
+            "notes": "most measurements performed at ambient pressure"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "273 K to 573 K",
+            "effect": "conductivity of electrolytes is strongly temperature-dependent; typical temperature coefficient is 1–3% per K"
+          },
+          {
+            "name": "concentration",
+            "role": "composition variable",
+            "typical_values": "0.01 mol/L to saturation",
+            "effect": "determines ion population and ionic interactions; conductivity passes through a maximum at intermediate concentrations for many electrolytes"
+          },
+          {
+            "name": "excitation_frequency",
+            "role": "controlled instrument parameter",
+            "typical_values": "10 kHz to 25 kHz",
+            "effect": "affects coupling efficiency and sensitivity; must be verified to produce frequency-independent κ readings"
+          },
+          {
+            "name": "excitation_voltage",
+            "role": "controlled input variable",
+            "typical_values": "0.5 V to 5 V rms across driver toroid",
+            "effect": "sets induced current magnitude; must remain in linear regime to avoid core saturation"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "driver toroid (primary transformer) — toroidal ferrite or permalloy core wound with primary coil, couples AC excitation into the fluid loop",
+          "detector toroid (secondary transformer) — toroidal core wound with secondary coil, senses the current induced in the fluid loop",
+          "signal generator — provides sinusoidal AC excitation at kHz frequencies to the driver toroid",
+          "lock-in amplifier or synchronous detector — measures amplitude and phase of the induced signal in the detector coil with high sensitivity",
+          "thermostated sample loop — closed tube or channel of known cross-section and path length through which the sample fluid flows and forms the secondary winding of both toroids",
+          "temperature sensor — Pt100 RTD or thermocouple in thermal contact with sample loop for accurate temperature measurement",
+          "thermostat or circulating bath — maintains sample at controlled temperature with stability ±0.01–0.05 K",
+          "data acquisition system — computer for recording detector voltage, phase, and temperature"
+        ],
+        "environmental_requirements": [
+          "stable temperature environment; external temperature fluctuations directly affect measurement accuracy",
+          "electromagnetic shielding to reduce pickup noise in the detector coil",
+          "vibration-free mounting to prevent microphonic noise in the toroidal cores",
+          "grounding and cable shielding for signal-generator-to-detector pathway"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "flowing or static liquid in a closed loop geometry that threads through both toroid bores",
+            "sample loop typically formed from glass, PTFE, or ceramic tubing"
+          ],
+          "size_limits": "sample loop volume typically 10–200 mL depending on toroid bore diameter and tubing length",
+          "thickness_limits": "tube inner diameter typically 5–15 mm; must be large enough for adequate cross-sectional area to ensure measurable induced current",
+          "surface_requirements": [
+            "loop tubing must be chemically inert to the sample fluid",
+            "inner surfaces must be clean and free of deposits that could alter the effective cross-section"
+          ],
+          "mounting_requirements": [
+            "sample loop must pass through the center bore of both driver and detector toroids",
+            "toroids must be rigidly mounted and electrically isolated from each other and from the sample",
+            "loop geometry must be fixed and reproducible to maintain constant cell constant"
+          ],
+          "preparation_requirements": [
+            "sample must be degassed to prevent air bubbles in the loop that reduce effective cross-section",
+            "sample loop must be thoroughly rinsed with solvent then sample solution before measurement",
+            "for molten salt measurements, preheating of the loop assembly above the melting point"
+          ]
+        },
+        "calibration_requirements": [
+          "cell constant determination using KCl reference solutions of known conductivity at 25 °C (IUPAC recommended standards: 0.01, 0.1, and 1.0 mol/kg KCl)",
+          "temperature sensor calibration against a certified reference thermometer",
+          "linearity verification: confirm that measured voltage scales linearly with conductivity across the working range",
+          "frequency independence check: measure the same standard at several frequencies to confirm absence of stray capacitance effects"
+        ],
+        "reference_materials": [
+          "KCl aqueous solutions — primary conductivity standards (0.01 D, 0.1 D, 1.0 D as per IUPAC/OIML recommendations)",
+          "NaCl aqueous solutions — secondary standards with well-characterized κ(T,c) data",
+          "deionized water — low-conductivity baseline check"
+        ],
+        "consumables": [
+          "PTFE or glass tubing for sample loop replacement",
+          "O-rings and seals for loop connections (Viton, Kalrez for corrosive media)",
+          "KCl reference solutions (certified, traceable)"
+        ],
+        "safety_notes": [
+          "corrosive sample handling requires appropriate personal protective equipment and fume extraction",
+          "molten salt measurements require high-temperature safety precautions and heat-resistant gloves",
+          "HF-containing samples require specialized PTFE cells and HF-rated fume hoods",
+          "pressurized sample loops require pressure-rated fittings and burst protection"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of detecting conductivity changes of ~10⁻³ S/m; sensitivity limited by detector coil noise floor and transformer coupling efficiency",
+        "detection_limit": "practical lower limit ~10⁻² S/m (roughly 10⁻⁴ mol/L KCl equivalent); much less sensitive than contacted electrode methods for dilute solutions",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement averaged over the entire loop)",
+          "temporal": "response time ~1–5 s; limited by lock-in time constant and thermal equilibration",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "approximately 10⁻² to 10³ S/m (~5 decades); optimal range 0.1–100 S/m",
+        "accuracy": "0.5–2% of reading after calibration, depending on temperature stability and cell constant accuracy",
+        "precision": "0.1–0.5% (repeatability at constant temperature and composition)",
+        "throughput": "single measurement per fill; temperature scan of one solution takes minutes to hours depending on range and equilibration time",
+        "measurement_speed": "individual reading acquired in 1–10 s; equilibration time at each temperature step typically 2–10 min"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "AC voltage from the detector toroid, demodulated by lock-in amplifier to yield in-phase amplitude proportional to the conductance of the fluid loop",
+        "preprocessing_steps": [
+          "lock-in demodulation of detector voltage at the excitation frequency to extract amplitude and phase",
+          "subtraction of baseline signal (empty loop or air-filled loop) to remove residual inductive coupling",
+          "temperature correction to reference temperature (often 25 °C) using known temperature coefficient",
+          "cell constant application: κ = G × K_cell, where G is measured conductance and K_cell is the geometric cell constant"
+        ],
+        "analysis_methods": [
+          "direct calculation: κ = (V_detected / V_applied) × K_cell, where K_cell is determined from calibration with KCl standards",
+          "molar conductivity calculation: Λ = κ / c, where c is molar concentration",
+          "Arrhenius or VTF fitting of κ(T) data to extract activation energies for ion transport",
+          "Kohlrausch analysis: Λ vs. √c to determine Λ° (limiting molar conductivity) for moderately concentrated solutions"
+        ],
+        "model_assumptions": [
+          "the fluid loop acts as a single-turn secondary winding of both toroidal transformers",
+          "the sample conductivity is uniform throughout the loop",
+          "stray capacitance between toroids is negligible at the operating frequency",
+          "the magnetic cores operate in their linear permeability regime (no saturation)",
+          "temperature is uniform along the entire sample loop within the thermostated region"
+        ],
+        "fit_parameters": [
+          "cell constant K_cell (m⁻¹)",
+          "specific conductivity κ (S/m)",
+          "activation energy E_a for ion transport (from Arrhenius fit)",
+          "VTF parameters (κ₀, B, T₀) for non-Arrhenius conductivity behavior"
+        ],
+        "common_artifacts": [
+          "air bubble artifact: trapped bubbles in the loop reduce the effective cross-section, lowering apparent conductivity",
+          "residual coupling artifact: direct electromagnetic coupling between driver and detector toroids produces a baseline offset that must be subtracted",
+          "temperature gradient artifact: non-uniform temperature along the loop averages conductivities at different temperatures, smearing κ(T) features",
+          "core saturation artifact: at very high conductivities or excessive drive voltages, toroid cores enter nonlinear regime, causing measurement error",
+          "fouling or deposit artifact: buildup of precipitates or scale on inner tube walls alters the effective loop geometry over time"
+        ],
+        "quality_control_checks": [
+          "verify cell constant reproducibility with KCl standard before and after each measurement series",
+          "confirm frequency independence of measured κ at 2–3 frequencies spanning the operating range",
+          "check linearity by measuring standards of different known conductivity",
+          "compare heating and cooling scans to verify thermal equilibrium at each point",
+          "inspect baseline (empty loop) signal for drift indicating electromagnetic interference or instrument instability"
+        ],
+        "failure_modes": [
+          "sample loop leak at O-ring seals, especially at elevated temperatures (loss of sample, contamination)",
+          "toroid core degradation or cracking at high temperatures changing coupling efficiency",
+          "lock-in amplifier phase drift causing apparent conductivity drift over long measurement series",
+          "bubble formation from dissolved gases upon heating, introducing random noise and bias",
+          "chemical attack on loop tubing material by aggressive samples (HF on glass, concentrated alkali on certain polymers)"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for absolute κ; 0.1–0.5% for relative conductivity changes",
+        "random_sources": [
+          "detector coil voltage noise (Johnson noise and amplifier noise)",
+          "temperature fluctuations from thermostat instability",
+          "bubble nucleation and movement in the sample loop",
+          "electromagnetic interference from external sources",
+          "digitization noise in data acquisition"
+        ],
+        "systematic_sources": [
+          "cell constant calibration uncertainty (geometry of loop, KCl standard purity)",
+          "temperature measurement offset or lag between sensor and sample",
+          "baseline subtraction error (residual coupling between toroids)",
+          "stray capacitance effects at higher frequencies",
+          "sample purity and concentration uncertainty",
+          "loop geometry changes from thermal expansion at elevated temperatures"
+        ],
+        "operator_dependence": "low to moderate — primary operator-dependent step is sample loop filling (avoiding bubbles) and ensuring leak-free connections; once the cell is assembled and calibrated, measurements are largely automated",
+        "model_dependence": "low — the single-turn transformer model is straightforward and well-validated; corrections for stray capacitance or core nonlinearity are needed only at the extremes of the operating range",
+        "dominant_error_sources": [
+          "cell constant calibration accuracy (typically 0.3–1%)",
+          "temperature measurement accuracy (0.01–0.05 K error translates to 0.01–0.15% κ error)",
+          "trapped air bubbles in the sample loop (can introduce >1% bias if undetected)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(κ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of κ",
+          "standard deviation from replicate fillings"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Electrodeless conductivity measurement via voltage change across a transformer is a non-contact technique for determining the specific electrical conductivity of electrolyte solutions without any electrode in direct contact with the fluid. The sample liquid forms the secondary loop of a pair of toroidal transformers: a driver toroid induces an alternating current in the fluid, and a detector toroid senses the resulting current, which is directly proportional to the solution conductivity. Originally developed in the 1950s for industrial process monitoring of corrosive streams, the technique eliminates electrode polarization artifacts, fouling, and contamination issues that plague conventional contacted conductivity cells, making it the method of choice for concentrated electrolytes, molten salts, corrosive acids and bases, and slurries.",
+      "how_it_operates": "Two toroidal transformer cores are arranged so that a closed loop of liquid sample passes through the bore of each toroid. An AC signal generator drives a sinusoidal current through the primary winding of the driver toroid, which generates an oscillating magnetic field in its core. This field induces an electromotive force in the fluid loop acting as a single-turn secondary winding, causing an ionic current to flow through the liquid proportional to its conductivity. The ionic current flowing through the bore of the detector toroid induces a corresponding voltage in the detector's pickup winding. A lock-in amplifier or synchronous detector extracts the amplitude of this induced voltage, which is directly proportional to the conductance of the fluid loop. Division by the geometrically determined cell constant yields the specific conductivity κ.",
+      "core_theory": "The operating principle rests on Faraday's law of electromagnetic induction applied to a liquid conductor. The driver toroid generates a time-varying magnetic flux Φ(t) = Φ₀ sin(ωt) in its core, inducing an EMF ε = −dΦ/dt = −ωΦ₀ cos(ωt) around the fluid loop. This EMF drives an ionic current I = ε / R_loop through the electrolyte, where R_loop = (1/κ) × (L/A) is the resistance of the fluid path of length L and cross-sectional area A. The current I passes through the detector toroid and induces a detector voltage V_det ∝ I ∝ κ·A/L. The cell constant K_cell = L/A is a geometric factor determined by calibration. The proportionality V_det ∝ κ holds as long as the toroid cores remain in their linear permeability regime and stray capacitive coupling between the toroids is negligible compared to the inductive signal pathway through the fluid.",
+      "setup": "A typical electrodeless conductivity cell consists of two toroidal cores (ferrite or high-permeability permalloy) each wound with a multi-turn coil, mounted in a chemically inert housing of PTFE, PEEK, or ceramic. The sample loop is formed by tubing (glass, PTFE, or ceramic, typically 5–15 mm inner diameter) that threads through the bore of both toroids and reconnects externally to form a closed liquid path. The toroids are fully encapsulated and sealed to prevent sample contact with the windings. A signal generator delivers a sinusoidal excitation at 10–25 kHz to the driver coil, and the detector coil output is fed to a lock-in amplifier for phase-sensitive detection. A Pt100 RTD or thermocouple monitors sample temperature, and the entire cell assembly is immersed in or connected to a thermostated circulation bath for temperature control to ±0.01–0.05 K.",
+      "suitable_for": "This technique is ideally suited for measuring the electrical conductivity of concentrated electrolyte solutions, strong acids and bases, molten salts, ionic liquids, and corrosive media where conventional electrode-based cells would suffer from rapid fouling, electrode dissolution, or severe polarization artifacts. It is also well adapted for slurries, suspensions, and industrial process streams where particulate matter would foul or abrade conventional electrodes. The absence of electrodes eliminates the need for platinization and periodic electrode maintenance. The method is routinely used for κ values from 10⁻² to 10³ S/m and is particularly valued in process analytical chemistry and in high-temperature studies of molten salt systems where electrode stability is problematic.",
+      "core_limitations": "The fundamental limitation is reduced sensitivity at low conductivities: because the induced current scales with κ, dilute solutions with κ < 10⁻² S/m produce signals that drop below the noise floor of practical detector circuits, making the technique unsuitable for pure water, trace-level electrolytes, or very dilute solutions. The cell constant depends on the precise geometry of the sample loop, so any change in loop dimensions (due to thermal expansion, tube replacement, or deposits) introduces systematic error until recalibration. At very high conductivities approaching 10³ S/m, the large induced currents can drive the toroid cores toward magnetic saturation, introducing nonlinearity. The method requires a continuous fluid loop, precluding measurement of small discrete samples or solids.",
+      "sample_preparation": "The sample solution is prepared at the desired concentration using analytical-grade reagents and high-purity solvent (e.g., ASTM Type I water for aqueous solutions). The sample is degassed by vacuum or ultrasonic treatment to eliminate dissolved gases that could form bubbles in the measurement loop upon heating. The sample loop is first rinsed with the pure solvent, then flushed with at least three loop volumes of the sample solution to ensure complete displacement of the previous fluid. For corrosive samples, tubing and seals must be verified for chemical compatibility. For molten salt measurements, the loop assembly is preheated above the liquidus temperature before introducing the melt, and an inert gas blanket prevents oxidation.",
+      "calibration_and_references": "Calibration is performed by filling the sample loop with KCl reference solutions of known conductivity, as recommended by IUPAC and OIML. Standard concentrations are 0.01, 0.1, and 1.0 mol/kg KCl at 25 °C, whose conductivities are established to within ±0.02%. The measured detector voltage for each standard is plotted against known κ to determine the cell constant K_cell = κ_ref / G_measured and to verify linearity across the operating range. The empty-loop (air-filled) baseline is recorded and subtracted to correct for residual electromagnetic coupling between driver and detector toroids. Temperature calibration of the sensor is verified against a traceable reference thermometer. The cell constant should be redetermined whenever the sample loop geometry is altered.",
+      "data_interpretation": "The lock-in amplifier output voltage V_det is converted to specific conductivity via κ = V_det × (K_cell / V_driver), where the ratio incorporates the calibration factor. For temperature-scan experiments, κ(T) data are typically fitted to an Arrhenius equation κ = κ₀ exp(−E_a / RT) or a Vogel-Tammann-Fulcher (VTF) model κ = κ₀ exp(−B / (T − T₀)) for glass-forming electrolytes. Molar conductivity Λ = κ/c is computed and plotted against √c for Kohlrausch-type analysis, though this analysis is most meaningful in the dilute-to-moderate concentration range. The strong temperature dependence of conductivity (1–3% per K for typical aqueous electrolytes) means that even small temperature errors propagate significantly into κ uncertainty, so temperature correction to a reference value (usually 25 °C) is standard practice.",
+      "common_pitfalls": "The most prevalent pitfall is incomplete removal of air bubbles from the sample loop during filling. A single bubble occupying even 1% of the loop cross-section reduces the effective conductive path and introduces a systematic underestimate of κ that may go unrecognized. Inadequate rinsing between samples leads to cross-contamination, particularly problematic when switching between solutions of very different concentrations. Neglecting to subtract the empty-loop baseline signal introduces an additive offset that is most significant at low conductivities. Operating at a frequency where stray capacitance between the toroids is non-negligible produces frequency-dependent κ readings and must be identified by the frequency-independence check. Using the cell beyond the linear range of the toroid cores (high-κ samples with high drive voltage) causes underestimation of conductivity.",
+      "artifacts_and_failure_modes": "Bubble artifacts manifest as sudden downward jumps or noisy fluctuations in measured κ as gas nucleates and migrates through the measurement zone. Residual coupling artifacts produce a non-zero baseline signal even with an empty (non-conducting) loop, which if not subtracted leads to a positive offset in all readings. Temperature gradient artifacts arise when the thermostatting does not uniformly control the entire loop length, causing the measured κ to represent a spatial average rather than a value at a single temperature — this is especially problematic for long sample loops. Core saturation artifacts appear as a sublinear response of V_det to κ at high conductivities, identifiable by comparison with the calibration linearity curve. Seal failure at elevated temperatures leads to sample leakage, loss of the closed-loop geometry, and abrupt signal dropout.",
+      "reporting_checklist": "Published electrodeless conductivity results should report: excitation frequency and voltage amplitude, sample loop geometry (tube inner diameter, loop length, cell constant K_cell), toroid specifications (core material, number of turns), thermostating method and temperature stability, KCl calibration standards used and their reference conductivity values, baseline subtraction procedure (empty loop or air-filled correction), sample preparation and degassing procedure, measured κ or Λ values with temperature and concentration, temperature correction method and reference temperature if applicable, combined expanded uncertainty U(κ) at 95% confidence with dominant error sources identified, and verification of frequency independence. For ThermoML encoding, conductivity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

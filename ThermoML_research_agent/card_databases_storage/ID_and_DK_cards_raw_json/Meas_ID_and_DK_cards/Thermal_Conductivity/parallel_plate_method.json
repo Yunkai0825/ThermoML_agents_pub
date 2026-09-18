@@ -1,0 +1,337 @@
+{
+  "meas_ID": "parallel_plate_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Parallel plate method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Parallel plate method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Thermal Conductivity",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 34,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 6,
+      "per_group": {
+        "TransportProp": {
+          "instances": 34,
+          "papers": 6
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "heat flux through sample (electrical power to metered heater, Q)",
+          "temperature difference across sample (ΔT = T_hot − T_cold)",
+          "sample thickness (d)",
+          "metered area of heat flux (A)"
+        ],
+        "derived_observables": [
+          "thermal conductivity λ = Q·d/(A·ΔT) (Fourier's law, steady state)",
+          "thermal resistance R = ΔT·A/Q = d/λ"
+        ],
+        "target_properties": [
+          "thermal conductivity (λ)",
+          "thermal resistance (R-value)",
+          "thermal resistivity (1/λ)"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous/glassy)",
+          "solid (porous/fibrous)",
+          "liquid (confined between plates)"
+        ],
+        "supported_sample_types": [
+          "rigid solids and building materials (insulation, concrete, brick, glass)",
+          "polymers and plastics",
+          "ceramics and composites",
+          "metals and alloys (thin specimens to keep ΔT measurable)",
+          "liquids confined in thin-layer cells",
+          "porous and fibrous materials (mineral wool, expanded polystyrene)",
+          "biological tissues (ex-vivo specimens)",
+          "binary and multicomponent liquid mixtures"
+        ],
+        "unsupported_sample_types": [
+          "gases (convective transport confounds conduction measurement)",
+          "thin films (thickness too small for parallel plate geometry; use 3-omega or laser flash)",
+          "highly volatile liquids at measurement temperature (evaporation disrupts steady state)",
+          "materials with very high thermal conductivity (>400 W/(m·K)) — ΔT becomes immeasurably small",
+          "anisotropic samples where through-thickness conductivity is not representative"
+        ],
+        "typical_output_formats": [
+          "λ vs. temperature curve",
+          "λ at specified temperature and pressure",
+          "thermal resistance R at stated thickness",
+          "λ vs. composition for mixtures"
+        ],
+        "units": {
+          "thermal_conductivity": "W/(m·K)",
+          "thermal_resistance": "m²·K/W",
+          "heat_flux": "W/m² or W",
+          "temperature": "K or °C",
+          "temperature_difference": "K",
+          "thickness": "mm or m",
+          "area": "m²",
+          "power": "W"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "−50 °C to 600 °C (standard guarded hot plate)",
+            "hard_limits": "limited by plate heater materials and insulation degradation; specialized setups extend to 1000 °C or down to cryogenic temperatures",
+            "notes": "ASTM C177 and ISO 8302 define standard temperature ranges; high-temperature variants use refractory guard assemblies"
+          },
+          {
+            "parameter": "sample_thickness",
+            "typical_range": "5 mm to 100 mm for solids; 0.5 mm to 5 mm for liquids",
+            "hard_limits": "minimum limited by contact resistance becoming dominant; maximum limited by onset of convection in liquids or radiative transport in porous solids",
+            "notes": "for liquids, thin layers (< 3 mm) suppress natural convection; for solids, thickness must be uniform to <0.5% across metered area"
+          },
+          {
+            "parameter": "temperature_difference",
+            "typical_range": "5 K to 30 K across sample",
+            "hard_limits": "must be large enough for thermometer resolution but small enough that λ(T) is approximately constant over ΔT",
+            "notes": "ISO 8302 recommends ΔT ≥ 10 K for insulating materials; for high-conductivity materials ΔT may be <5 K"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (ambient) for standard tests",
+            "hard_limits": "pressurized cells used for liquids to suppress boiling; up to 200 MPa for high-pressure liquid studies",
+            "notes": "for porous insulation, measurements may be performed under vacuum or at reduced pressures to assess gas contribution"
+          }
+        ],
+        "variables": [
+          {
+            "name": "mean_temperature",
+            "role": "primary scanned variable",
+            "typical_values": "20 °C to 500 °C",
+            "effect": "thermal conductivity varies with temperature for most materials; temperature dependence is a key output"
+          },
+          {
+            "name": "temperature_difference",
+            "role": "controlled input",
+            "typical_values": "5 K to 30 K",
+            "effect": "sets the driving force for heat flow; determines signal-to-noise ratio of the measurement"
+          },
+          {
+            "name": "sample_thickness",
+            "role": "fixed sample parameter",
+            "typical_values": "5–100 mm (solids); 0.5–5 mm (liquids)",
+            "effect": "thicker samples increase ΔT for the same heat flux but increase time to reach steady state"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient; variable for high-pressure liquid studies",
+            "typical_values": "0.1 MPa to 200 MPa",
+            "effect": "affects thermal conductivity of gases in pores of porous materials; relevant for liquids under pressure"
+          },
+          {
+            "name": "composition",
+            "role": "sample variable for mixtures",
+            "typical_values": "mole or mass fraction",
+            "effect": "thermal conductivity of mixtures varies with composition; measured at fixed T and P for each composition"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "metered (main) heater — flat electrical resistance heater supplying measured power Q to a precisely defined area A",
+          "guard heater(s) — annular or concentric heater surrounding the metered heater, controlled to the same temperature to eliminate lateral heat loss",
+          "cold plate(s) — temperature-controlled heat sink(s) maintained at T_cold, typically using circulating coolant or thermoelectric elements",
+          "platinum resistance thermometers (PRTs) or thermocouples — embedded in or bonded to the hot and cold plates to measure T_hot and T_cold",
+          "gap thermocouples — differential thermocouples between guard and metered section to verify zero lateral temperature gradient",
+          "thickness measurement system — micrometer or LVDT displacement sensors to measure sample thickness under compression",
+          "power measurement system — precision voltmeter and ammeter (or power meter) for metered heater electrical input",
+          "thermal insulation — surrounding the guard assembly to minimize heat loss to the environment",
+          "data acquisition and control system — PID controllers for guard balance and cold plate temperature; computer logging of all signals"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature to avoid drift in cold plate temperature",
+          "vibration-free environment (vibrations can disrupt thermal contact and steady-state equilibrium)",
+          "draft-free room or enclosed apparatus to prevent convective disturbances",
+          "controlled humidity for hygroscopic samples (moisture changes thermal conductivity of some insulations)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "flat disk or square slab with parallel faces (circular or square matching plate geometry)",
+            "for liquids: thin layer confined between horizontal plates in a sealed cell"
+          ],
+          "size_limits": "diameter or side length must exceed the metered area plus guard gap; typical metered areas 100 mm to 300 mm diameter",
+          "thickness_limits": "5–100 mm for solids (ASTM C177); 0.5–5 mm for liquids to suppress convection",
+          "surface_requirements": [
+            "flat and smooth to ensure uniform contact with hot and cold plates (flatness <0.05 mm across metered area)",
+            "free of voids, cracks, or surface irregularities that create air gaps"
+          ],
+          "mounting_requirements": [
+            "sample clamped between hot plate and cold plate with controlled contact pressure",
+            "for solids: apply uniform compression (typically 1–10 kPa) to minimize contact resistance without deforming sample",
+            "for liquids: horizontal plate orientation with hot plate on top (heating from above) to suppress natural convection"
+          ],
+          "preparation_requirements": [
+            "machine or grind surfaces to achieve required flatness and parallelism",
+            "condition sample to equilibrium moisture content if hygroscopic",
+            "measure thickness at multiple points and report mean ± standard deviation",
+            "weigh sample to determine bulk density (relevant for insulation materials)",
+            "degas liquid samples to avoid bubble formation between plates"
+          ]
+        },
+        "calibration_requirements": [
+          "verify guard balance: differential thermocouple between guard and metered section must read <0.05 K under steady state",
+          "calibrate PRTs or thermocouples against a traceable reference thermometer (ITS-90)",
+          "calibrate power measurement chain (voltage and current) against traceable standards",
+          "validate apparatus with certified reference materials (e.g., NIST SRM 1450 series fiberglass board, Pyrex 7740, IRMM BCR-039 PMMA)",
+          "verify thickness measurement device calibration with gauge blocks"
+        ],
+        "reference_materials": [
+          "NIST SRM 1450 series (fibrous glass board) — λ ≈ 0.03–0.04 W/(m·K) at 25 °C, primary insulation reference",
+          "Pyrex 7740 borosilicate glass — λ ≈ 1.1 W/(m·K) at 25 °C",
+          "IRMM BCR-039 PMMA — certified thermal conductivity reference",
+          "stainless steel 304 — λ ≈ 15 W/(m·K), intermediate conductivity reference",
+          "water (for liquid cells) — well-characterized λ ≈ 0.607 W/(m·K) at 25 °C, IAPWS standard"
+        ],
+        "consumables": [
+          "thermal interface paste (silicone-based or graphite-loaded) for solid samples with imperfect surface finish",
+          "thin elastomeric pads for conformable contact with rough-surfaced insulation materials",
+          "O-rings and seals for liquid sample cells",
+          "coolant for cold plate (water-glycol mixture, silicone oil, or liquid nitrogen for cryogenic operation)"
+        ],
+        "safety_notes": [
+          "high-temperature plates can cause severe burns — use appropriate guards and thermal gloves",
+          "high-pressure liquid cells require proper burst-pressure ratings and pressure relief valves",
+          "electrical safety: heater circuits carry significant current at low voltage; proper grounding and insulation required",
+          "cryogenic operation requires standard cryogen handling precautions (frostbite, oxygen displacement)"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving thermal conductivity differences of ~0.001 W/(m·K) for insulating materials; limited by thermometer resolution and power measurement precision",
+        "detection_limit": "minimum measurable λ ≈ 0.005 W/(m·K) (vacuum insulation panels); maximum practical λ ≈ 200 W/(m·K) (limited by achieving measurable ΔT with available power)",
+        "resolution": {
+          "spatial": "not applicable — provides bulk average over metered area (typically 100–300 mm diameter)",
+          "temporal": "not applicable — steady-state technique; time to equilibrium 30 min to 24 h depending on sample thickness and diffusivity",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "λ from ~0.005 W/(m·K) (aerogels, vacuum insulation) to ~200 W/(m·K) (metals), spanning ~4.5 decades",
+        "accuracy": "0.5–2% for solids with well-defined geometry (per ASTM C177 and ISO 8302); 1–3% for liquids where convection suppression and contact resistance are harder to control",
+        "precision": "0.3–1% (repeatability for replicate measurements on the same sample under identical conditions)",
+        "throughput": "one sample per measurement; steady-state equilibration requires 1–24 hours per data point depending on sample thickness and thermal diffusivity",
+        "measurement_speed": "inherently slow — requires full thermal equilibrium; a complete λ(T) curve over 10 temperatures may require 1–3 days"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "electrical power to metered heater (voltage × current = Q), temperature readings from hot-plate and cold-plate PRTs (T_hot, T_cold), and sample thickness (d)",
+        "preprocessing_steps": [
+          "verify steady-state criterion: all temperatures stable within ±0.01 K over at least 30 minutes",
+          "compute net heat flux through sample: correct metered heater power for any residual guard imbalance and parasitic heat losses",
+          "correct for thermal contact resistance at sample-plate interfaces if not eliminated by design",
+          "correct for radiative heat transfer across the gap for high-temperature measurements (T > 200 °C)",
+          "correct for edge heat loss if guard balance is imperfect (finite guard gap correction)"
+        ],
+        "analysis_methods": [
+          "Fourier's law (one-dimensional steady-state): λ = Q·d/(A·ΔT), direct calculation from measured quantities",
+          "mean temperature assignment: λ is reported at T_mean = (T_hot + T_cold)/2",
+          "thickness-dependent series of measurements to extrapolate contact resistance and obtain intrinsic λ",
+          "polynomial fit of λ(T) data to obtain temperature-dependent thermal conductivity correlations",
+          "uncertainty propagation from Q, ΔT, d, and A through the Fourier's law formula"
+        ],
+        "model_assumptions": [
+          "heat flow is one-dimensional (perpendicular to plate surfaces) within the metered area — no lateral heat flow",
+          "sample is homogeneous and isotropic within the measurement volume",
+          "steady-state conditions have been fully achieved before data are recorded",
+          "thermal conductivity is effectively constant over the applied temperature difference ΔT",
+          "radiative and convective heat transfer within the sample are negligible or included in the effective λ",
+          "contact resistance between sample and plates is either negligible or corrected for"
+        ],
+        "fit_parameters": [
+          "thermal conductivity λ (primary result)",
+          "contact thermal resistance R_contact (if extracted from multi-thickness measurements)",
+          "polynomial coefficients for λ(T) correlation"
+        ],
+        "common_artifacts": [
+          "contact resistance artifact: unaccounted thermal contact resistance between sample and plates inflates apparent thermal resistance (R_measured > R_sample), yielding erroneously high λ",
+          "guard imbalance artifact: lateral heat flow to or from the metered area when guard temperature does not exactly match hot plate, causing over- or under-estimation of Q through the sample",
+          "convection artifact (liquids): natural convection in the liquid layer adds convective heat transfer to conduction, yielding an apparent λ higher than the true conductive value",
+          "radiation artifact (high T): radiative heat exchange across sample or between plate surfaces at high temperatures increases apparent heat flux",
+          "moisture migration artifact: in porous or hygroscopic samples, moisture redistribution driven by the temperature gradient transports latent heat, biasing measured λ upward",
+          "sample deformation artifact: compressive loading changes thickness or density of soft/porous samples during measurement"
+        ],
+        "quality_control_checks": [
+          "verify guard balance: differential thermocouple between guard and metered section reads <0.05 K",
+          "check reproducibility: repeat measurement on same sample and confirm λ agrees within stated precision",
+          "validate with reference material: measure NIST SRM 1450 or Pyrex 7740 and verify agreement within certified uncertainty",
+          "perform thickness variation test: measure same material at two thicknesses to check for contact resistance contribution",
+          "compare symmetric configuration: in double-sided guarded hot plate, verify both sides give the same λ",
+          "monitor time-to-steady-state: confirm that extending equilibration time does not change the result"
+        ],
+        "failure_modes": [
+          "failure to reach steady state (insufficient equilibration time, sample with very low diffusivity)",
+          "loss of guard balance due to controller malfunction or heater failure",
+          "cracking or warping of sample under thermal stress, creating air gaps",
+          "boiling or bubble formation in liquid samples at temperatures near the boiling point",
+          "thermocouple decalibration or failure (discontinuous temperature readings)",
+          "heater burnout or hot spots (non-uniform heat flux distribution)",
+          "sample outgassing at elevated temperatures changing thermal contact"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for solids (per ASTM C177); 1–3% for liquids",
+        "random_sources": [
+          "thermometer noise and resolution (PRT or thermocouple)",
+          "power measurement fluctuations (voltage and current noise)",
+          "thickness measurement repeatability",
+          "ambient temperature fluctuations affecting cold plate stability",
+          "guard balance fluctuations around setpoint"
+        ],
+        "systematic_sources": [
+          "thermal contact resistance at sample-plate interfaces",
+          "guard imbalance (lateral heat flow not exactly zero)",
+          "metered area uncertainty (finite gap between guard and metered heater)",
+          "radiative heat transfer correction at elevated temperatures",
+          "thermometer calibration offset (PRT or thermocouple)",
+          "parasitic heat losses through lead wires and structural supports",
+          "sample thickness non-uniformity",
+          "convective contribution in liquid measurements"
+        ],
+        "operator_dependence": "moderate — sample surface preparation, mounting pressure, and interface treatment significantly affect contact resistance and hence result quality; experienced operators achieve better reproducibility",
+        "model_dependence": "low — Fourier's law is exact for one-dimensional steady-state conduction; accuracy depends mainly on achieving the one-dimensional assumption (proper guarding) rather than model validity",
+        "dominant_error_sources": [
+          "thermal contact resistance (especially for solid samples with imperfect surface flatness)",
+          "guard imbalance and edge losses (for less sophisticated apparatus)",
+          "convective heat transfer in liquid samples if layer thickness is not sufficiently small"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(λ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of λ",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The parallel plate method (guarded hot plate method) is a primary, absolute, steady-state technique for measuring thermal conductivity. A flat sample of known thickness is sandwiched between a heated plate and a cooled plate, and the thermal conductivity is computed directly from Fourier's law once the heat flux, temperature difference, and sample geometry reach a stable equilibrium. Standardized in ASTM C177 and ISO 8302, it is the benchmark method for determining thermal conductivity of thermal insulation materials, building products, solids, and confined liquids. Its status as an absolute method — requiring no calibration fluids and deriving λ entirely from traceable electrical and dimensional measurements — makes it the primary reference technique against which transient and comparative methods are validated.",
+      "how_it_operates": "A metered (main) heater of precisely known area A supplies electrical power Q to one face of a flat sample of thickness d. The opposite face of the sample is in contact with a cold plate held at temperature T_cold by circulating coolant. A guard heater, coplanar with and surrounding the metered heater, is independently controlled to the same temperature T_hot as the metered section, eliminating lateral heat flow from the metered zone. After the system reaches thermal equilibrium (all temperatures stable to within ±0.01 K over 30 minutes or more), the temperatures T_hot and T_cold are recorded from embedded platinum resistance thermometers, and the electrical power to the metered heater is measured. Thermal conductivity is then calculated as λ = Q·d/(A·ΔT). In a double-sided (symmetrical) configuration, two identical samples are placed on either side of a central heater, and each cold plate receives half the total heat flow, improving symmetry and reducing edge corrections.",
+      "core_theory": "The method is a direct realization of Fourier's law of heat conduction, q = −λ∇T, applied to one-dimensional steady-state flow through a slab of uniform thickness d. Under ideal conditions — uniform heat flux across the metered area, no lateral heat flow, and negligible radiative or convective contribution — the thermal conductivity is λ = Q·d/(A·ΔT), where Q is the electrical power dissipated in the metered heater, A is the metered area, and ΔT = T_hot − T_cold. This formula is exact and model-free for the stated assumptions, giving the method its absolute (primary) character. Corrections may be applied for finite guard gap width (edge heat flow), radiative transfer at high temperatures (adding a radiative conductivity component λ_rad ∝ T³), and contact thermal resistance at the plate-sample interfaces (requiring multi-thickness measurements or extrapolation to zero thickness to isolate intrinsic λ from interface effects).",
+      "setup": "A guarded hot plate apparatus consists of a central metered heater plate (typically 100–300 mm in diameter or square) surrounded by one or more annular guard heater zones, all fabricated from high-conductivity metal (copper or aluminum) to ensure isothermal surfaces. The guard heater is controlled to match the metered plate temperature via a differential thermocouple bridge that drives the guard controller to null the gap differential. The cold plate, also of high-conductivity metal, contains internal channels for circulating temperature-controlled fluid. Platinum resistance thermometers are embedded at multiple positions in both plates to map the temperature field. The sample is clamped between the hot and cold plates with controlled mechanical pressure, and the entire assembly is enclosed in thermal insulation to minimize ambient heat exchange. For liquid measurements, a thin-layer horizontal cell with the hot plate above (heating from above) suppresses natural convection.",
+      "suitable_for": "The parallel plate method is the accepted reference technique for thermal insulation materials (mineral wool, expanded polystyrene, polyurethane foam, aerogels), building materials (concrete, brick, gypsum board, wood), polymers, ceramics, glasses, and composites. It is also used for moderate-conductivity metals and alloys when sample thickness is chosen to produce a measurable temperature difference. For liquids, horizontal thin-layer configurations successfully suppress convection and yield accurate conductive thermal conductivity values for water, organic solvents, refrigerants, oils, and their mixtures. The technique delivers the highest accuracy available for bulk thermal conductivity measurement and is required by many building codes and product certification standards.",
+      "core_limitations": "The principal limitation is the long time required to reach steady state — equilibration times range from 30 minutes for thin metallic specimens to 24 hours or more for thick insulation slabs, making temperature-dependent surveys time-consuming. The method requires relatively large, flat, parallel-faced samples whose lateral dimensions exceed the metered area, which can be difficult for exotic or expensive materials available only in small quantities. Materials with very high thermal conductivity (>200 W/(m·K)) produce ΔT values too small to measure accurately at practical power levels and sample thicknesses. For liquids, the gap between plates must be thin enough to suppress natural convection, limiting the practical range of sample viscosities and temperatures. The method measures an effective conductivity that may include radiative and convective contributions in porous media or at high temperatures if corrections are not applied.",
+      "sample_preparation": "Solid samples must be machined, ground, or cast to produce flat, parallel faces matching the plate geometry. Surface flatness of better than 0.05 mm over the metered area is required to minimize air-gap contact resistance. Thickness must be measured at multiple points (at least five) across the metered area, and the mean and standard deviation reported. For hygroscopic materials (e.g., wood, fibrous insulation), samples must be conditioned to a stable equilibrium moisture content at a specified relative humidity before testing. Liquid samples should be degassed under vacuum to prevent bubble nucleation between the plates and loaded into the cell with care to avoid trapping air at the plate-sample interface. Sample density should be determined to allow correlation with material specifications.",
+      "calibration_and_references": "As a primary (absolute) method, the guarded hot plate does not require a calibration fluid or reference material to derive λ — the result follows directly from traceable measurements of electrical power, temperature, and length. However, validation against certified reference materials is essential to confirm apparatus performance. NIST SRM 1450 series (fibrous glass board, λ ≈ 0.033 W/(m·K) at 25 °C) is the international benchmark for low-conductivity references. Pyrex 7740 borosilicate glass (λ ≈ 1.1 W/(m·K)) and IRMM BCR-039 PMMA serve as intermediate references. For liquid cells, water with IAPWS-recommended thermal conductivity values provides a traceable reference. Temperature sensors must be calibrated to ITS-90 using fixed points or comparison with a calibrated standard PRT, and the power measurement chain must be verified against traceable voltage and resistance standards.",
+      "data_interpretation": "Data analysis is straightforward: once steady-state criteria are met, λ is computed directly from the measured electrical power Q, sample thickness d, metered area A, and temperature difference ΔT using Fourier's law. Each data point represents the thermal conductivity at the mean temperature T_mean = (T_hot + T_cold)/2. When measurements are performed at several mean temperatures, the resulting λ(T) data are typically fit to a polynomial (linear or quadratic) to provide a continuous correlation. For multi-thickness experiments, plotting measured thermal resistance R = ΔT·A/Q versus thickness d yields a straight line whose slope is 1/λ and whose intercept gives the total contact resistance. Corrections for edge losses (finite guard gap), radiation, and any parasitic heat flow are applied before computing the final λ. Uncertainty analysis follows GUM guidelines, propagating uncertainties in Q, d, A, and ΔT through the Fourier formula.",
+      "common_pitfalls": "The most common pitfall is underestimating thermal contact resistance at the plate-sample interfaces. Even small air gaps from surface imperfections can add significant thermal resistance, especially for high-conductivity samples where the interface resistance may rival the sample resistance. Poor guard balance — where the guard annulus is not precisely at the metered plate temperature — allows lateral heat flow that biases the measurement. For liquid cells, failing to suppress natural convection (by using too large a plate spacing or heating from below) leads to an apparent thermal conductivity that exceeds the true conductive value. Insufficient equilibration time produces readings that have not converged, and impatient operators may record data while the system is still drifting. Allowing moisture content to change during measurement of hygroscopic insulation materials introduces latent heat transport that does not represent true conductive λ.",
+      "artifacts_and_failure_modes": "Guard imbalance artifacts produce systematic errors in the measured heat flux — if the guard is hotter than the metered section, extra heat flows into the metered area and λ appears too high, and vice versa. Contact resistance artifacts inflate the apparent thermal resistance; since they add in series, they cause the greatest relative error for thin, high-conductivity samples. Convection artifacts in liquid cells appear as an apparent λ that increases with increasing plate spacing or temperature difference, and can be detected by varying the gap thickness. Radiation artifacts become significant above 200 °C in porous or semi-transparent materials and manifest as an apparent increase in λ with temperature beyond what conduction alone predicts. Sample warping or cracking under thermal stress creates air gaps that suddenly increase measured thermal resistance. Heater hot-spot artifacts from non-uniform power dissipation cause local temperature gradients that violate the one-dimensional heat flow assumption.",
+      "reporting_checklist": "Published parallel plate (guarded hot plate) results should report: apparatus type (single-sided or double-sided), metered area dimensions, guard gap width and guard balance criterion achieved, sample description (material, density, thickness, moisture content for hygroscopic materials), surface preparation and interface treatment, mean temperature and temperature difference for each data point, heater power measurement method and traceability, thermometer type and calibration traceability, time to reach steady state and stability criterion used, any corrections applied (edge loss, radiation, contact resistance), reference material validation data, combined expanded uncertainty with confidence level and coverage factor (k=2), and compliance with applicable standards (ASTM C177, ISO 8302). For ThermoML encoding, thermal conductivity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

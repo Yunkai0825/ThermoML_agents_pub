@@ -1,0 +1,302 @@
+{
+  "meas_ID": "derived_by_second_law",
+  "identity": {
+    "name": "Derived by Second law",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Derived by Second law",
+    "thermoml_custom_codes": [
+      "SECLAW"
+    ],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 189,
+      "property_groups": [
+        "PhaseTransition"
+      ],
+      "n_papers": 57,
+      "per_group": {
+        "PhaseTransition": {
+          "instances": 189,
+          "papers": 57
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "equilibrium constant K as a function of temperature",
+          "vapor pressure P as a function of temperature",
+          "activity coefficients as a function of temperature",
+          "Gibbs energy of reaction ΔG at multiple temperatures"
+        ],
+        "derived_observables": [
+          "enthalpy of reaction ΔrH from van't Hoff slope",
+          "enthalpy of vaporization ΔvapH from Clausius-Clapeyron slope",
+          "enthalpy of sublimation ΔsubH from vapor pressure data",
+          "entropy of reaction ΔrS from van't Hoff intercept",
+          "entropy of vaporization ΔvapS",
+          "Gibbs energy of reaction ΔrG from ΔG = -RT ln K"
+        ],
+        "target_properties": [
+          "enthalpy of vaporization (ΔvapH)",
+          "enthalpy of sublimation (ΔsubH)",
+          "enthalpy of reaction (ΔrH)",
+          "entropy of vaporization (ΔvapS)",
+          "entropy of sublimation (ΔsubS)",
+          "entropy of reaction (ΔrS)"
+        ],
+        "phases_measured": [
+          "gas-liquid equilibrium (vaporization)",
+          "gas-solid equilibrium (sublimation)",
+          "liquid-solid equilibrium (fusion, less common)",
+          "chemical reaction equilibrium in solution or gas phase"
+        ],
+        "supported_sample_types": [
+          "pure compounds with measurable vapor pressure",
+          "volatile organic compounds",
+          "metallic elements and alloys (high-temperature vapor pressure studies)",
+          "inorganic salts and oxides with measurable sublimation pressure",
+          "reacting systems where equilibrium constant is measured at multiple temperatures",
+          "binary and multicomponent mixtures with accessible equilibrium data"
+        ],
+        "unsupported_sample_types": [
+          "systems where equilibrium data span too narrow a temperature range for reliable slope determination",
+          "irreversible reactions without a true thermodynamic equilibrium",
+          "systems with strongly temperature-dependent ΔCp where linear van't Hoff assumption fails badly",
+          "decomposing or polymerizing samples during the measurement temperature range"
+        ],
+        "typical_output_formats": [
+          "van't Hoff plot: ln(K) vs 1/T",
+          "Clausius-Clapeyron plot: ln(P) vs 1/T",
+          "tabulated ΔH and ΔS at a reference temperature",
+          "ΔG vs T curve derived from ΔG = ΔH − TΔS"
+        ],
+        "units": {
+          "enthalpy": "kJ/mol",
+          "entropy": "J/(mol·K)",
+          "gibbs_energy": "kJ/mol",
+          "equilibrium_constant": "dimensionless (based on activities)",
+          "vapor_pressure": "Pa or kPa",
+          "temperature": "K",
+          "gas_constant": "R = 8.31446 J/(mol·K)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range_of_input_data",
+            "typical_range": "50 K to 300 K span of equilibrium data",
+            "hard_limits": "minimum ~20 K span needed for meaningful slope; wider range reduces extrapolation error",
+            "notes": "accuracy of derived ΔH improves with the breadth and density of equilibrium data across the temperature range"
+          },
+          {
+            "parameter": "number_of_data_points",
+            "typical_range": "5 to 50 equilibrium measurements at distinct temperatures",
+            "hard_limits": "minimum 3 points required for a linear fit; 10+ recommended for reliable uncertainty estimation",
+            "notes": "more data points allow detection of non-linearity in the van't Hoff plot"
+          },
+          {
+            "parameter": "temperature_accuracy_of_source_data",
+            "typical_range": "±0.01 K to ±1 K depending on source technique",
+            "hard_limits": "temperature uncertainty propagates directly into slope uncertainty; ±0.1 K is typical for good vapor pressure data",
+            "notes": "systematic temperature offsets in source data cause proportional bias in derived ΔH"
+          },
+          {
+            "parameter": "equilibrium_constant_or_pressure_accuracy",
+            "typical_range": "1–5% relative uncertainty in K or P",
+            "hard_limits": "errors in ln(K) or ln(P) propagate linearly into the intercept and affect slope through leverage",
+            "notes": "outliers at extreme temperatures have disproportionate influence on the fitted slope"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "independent variable (1/T used in regression)",
+            "typical_values": "200 K to 600 K for organic vaporization; up to 2000 K for metals",
+            "effect": "defines the x-axis of the van't Hoff or Clausius-Clapeyron plot; wider T range gives better-determined slope"
+          },
+          {
+            "name": "equilibrium_constant_or_vapor_pressure",
+            "role": "dependent variable (ln K or ln P used in regression)",
+            "typical_values": "K from 10⁻⁶ to 10⁶; P from 0.01 Pa to 10⁶ Pa",
+            "effect": "precision of these values directly determines the quality of the derived thermodynamic quantities"
+          },
+          {
+            "name": "pressure",
+            "role": "fixed or measured (for Clausius-Clapeyron formulation)",
+            "typical_values": "saturation vapor pressure at each temperature",
+            "effect": "in the Clausius-Clapeyron equation, ln(P) is the dependent variable; total pressure is assumed not to affect condensed-phase fugacity significantly"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "NOT an instrument — this is a thermodynamic derivation method applied to existing equilibrium data",
+          "requires a source dataset of equilibrium constants K(T) or vapor pressures P(T) measured by any suitable technique",
+          "linear or weighted least-squares regression software for fitting ln(K) or ln(P) against 1/T",
+          "statistical analysis tools for uncertainty propagation and goodness-of-fit assessment",
+          "optional: non-linear fitting software for extended van't Hoff equations incorporating ΔCp terms"
+        ],
+        "environmental_requirements": [
+          "not applicable — computational derivation from existing data",
+          "source data must describe true thermodynamic equilibrium states"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "not applicable — no physical sample is required for the derivation itself"
+          ],
+          "size_limits": "not applicable",
+          "thickness_limits": "not applicable",
+          "surface_requirements": [
+            "not applicable"
+          ],
+          "mounting_requirements": [
+            "not applicable"
+          ],
+          "preparation_requirements": [
+            "high-purity source data: equilibrium constants or vapor pressures must have been measured on well-characterized samples",
+            "confirmation that the source measurements represent true equilibrium (not kinetically controlled values)",
+            "consistent thermodynamic reference state across all input data points"
+          ]
+        },
+        "calibration_requirements": [
+          "not applicable to the derivation itself — calibration pertains to the source measurement technique",
+          "internal consistency check: verify that input K(T) or P(T) data are thermodynamically self-consistent",
+          "cross-validation: compare derived ΔH with values from independent calorimetric measurements when available"
+        ],
+        "reference_materials": [
+          "benchmark compounds with well-established calorimetric ΔvapH for validation (e.g., water, n-alkanes, naphthalene)",
+          "NIST WebBook reference values for standard enthalpies of vaporization and sublimation",
+          "IUPAC recommended reference values for key thermodynamic quantities"
+        ],
+        "consumables": [
+          "not applicable — computational method"
+        ],
+        "safety_notes": [
+          "not applicable — no physical hazards associated with the derivation itself"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of extracting ΔH from datasets spanning as little as 20 K in temperature, though accuracy improves greatly with wider T range",
+        "detection_limit": "limited by the precision of the source equilibrium data; requires that ln(K) or ln(P) varies detectably with 1/T",
+        "resolution": {
+          "spatial": "not applicable",
+          "temporal": "not applicable",
+          "spectral": "not applicable",
+          "energy": "enthalpy resolution limited by slope uncertainty; typically 1–10 kJ/mol for ΔH depending on data quality and temperature span"
+        },
+        "dynamic_range": "applicable to ΔH values from ~1 kJ/mol (weak interactions) to >500 kJ/mol (strong chemical bonds); limited by the measurability of K(T) over a useful temperature range",
+        "accuracy": "typically 5–20% for ΔH, depending on temperature range, data quality, and validity of ΔCp ≈ 0 assumption; systematic errors often dominate",
+        "precision": "1–5% (repeatability of ΔH from the same dataset using different fitting strategies or subsets)",
+        "throughput": "very high — once equilibrium data are available, derivation is instantaneous (computational)",
+        "measurement_speed": "instantaneous (regression calculation); the rate-limiting step is acquisition of the source equilibrium data"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "tabulated equilibrium constants K(T) or vapor pressures P(T) from the source measurement technique, used as input to the second-law derivation",
+        "preprocessing_steps": [
+          "convert equilibrium data to ln(K) or ln(P) and 1/T",
+          "verify thermodynamic consistency of input data (e.g., check for monotonic trend in ln(K) vs 1/T)",
+          "identify and exclude outliers that may represent non-equilibrium or erroneous measurements",
+          "assess whether the van't Hoff plot is linear or curved (indicating temperature-dependent ΔCp)",
+          "weight data points by their individual measurement uncertainties if available"
+        ],
+        "analysis_methods": [
+          "linear van't Hoff analysis: fit ln(K) = -ΔH/(RT) + ΔS/R to extract ΔH from slope and ΔS from intercept",
+          "Clausius-Clapeyron analysis: fit d(ln P)/d(1/T) = -ΔHvap/R for vaporization or sublimation enthalpy",
+          "Gibbs-Helmholtz equation: d(ΔG/T)/d(1/T) = ΔH for extraction from free energy data",
+          "extended van't Hoff with ΔCp correction: ln(K) = -ΔH₀/(RT) + ΔS₀/R + (ΔCp/R)[T₀/T - 1 + ln(T/T₀)]",
+          "weighted least-squares regression with uncertainty propagation for slope and intercept",
+          "polynomial or Clarke-Glew fitting for high-precision datasets with significant curvature"
+        ],
+        "model_assumptions": [
+          "ΔH is constant (independent of temperature) over the fitted temperature range — the fundamental assumption of the linear van't Hoff method",
+          "the system is at true thermodynamic equilibrium at each measurement temperature",
+          "the equilibrium constant K is expressed in terms of activities (or ideal behavior is assumed for fugacity/activity coefficients)",
+          "for Clausius-Clapeyron: the vapor phase behaves as an ideal gas and the molar volume of the condensed phase is negligible compared to the gas phase",
+          "no side reactions, decomposition, or phase changes other than the one being analyzed occur over the temperature range"
+        ],
+        "fit_parameters": [
+          "slope = -ΔH/R (from which ΔH is extracted)",
+          "intercept = ΔS/R (from which ΔS is extracted)",
+          "ΔCp (if extended van't Hoff equation is used)",
+          "reference temperature T₀ (for Clarke-Glew or extended formulations)"
+        ],
+        "common_artifacts": [
+          "curvature in the van't Hoff plot due to non-zero ΔCp, leading to temperature-dependent apparent ΔH if fitted as linear",
+          "compensation effect: correlated errors in ΔH and ΔS that produce apparently reasonable ΔG despite individually inaccurate enthalpy and entropy values",
+          "leverage effect: data points at extreme temperatures dominate the slope determination, so outliers at the ends of the T range distort ΔH disproportionately",
+          "phase boundary crossing: source data spanning a phase transition may mix contributions from two different ΔH values",
+          "non-equilibrium data masquerading as equilibrium: kinetically controlled measurements yield apparent ΔH that differs from the thermodynamic value"
+        ],
+        "quality_control_checks": [
+          "test for linearity of the van't Hoff plot using residual analysis; systematic curvature indicates ΔCp ≠ 0",
+          "compare ΔH derived from different subsets of the temperature range to check for temperature dependence",
+          "verify that derived ΔG = ΔH − TΔS is consistent with directly measured ΔG values",
+          "compare second-law ΔH with third-law ΔH when both are available; large discrepancies signal systematic errors",
+          "check that derived ΔS is physically reasonable (e.g., ΔvapS ≈ 85–90 J/(mol·K) for normal liquids via Trouton's rule)",
+          "evaluate the reduced chi-squared of the linear fit; values far from 1 indicate under- or over-estimated uncertainties"
+        ],
+        "failure_modes": [
+          "insufficient temperature range producing an ill-determined slope with large uncertainty",
+          "strongly curved van't Hoff plot fitted with a linear model yielding a temperature-averaged ΔH that is not physically meaningful",
+          "use of non-equilibrium or kinetically biased input data leading to erroneous thermodynamic quantities",
+          "extrapolation of ΔH far outside the fitted temperature range without ΔCp correction",
+          "input data with inconsistent reference states or thermodynamic conventions producing internally contradictory results"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 5–20% for ΔH; 10–30% for ΔS; highly dependent on quality and temperature span of input data",
+        "random_sources": [
+          "scatter in equilibrium constant or vapor pressure measurements",
+          "temperature measurement noise in the source data",
+          "random errors in activity coefficient or fugacity corrections",
+          "variance from repeated independent datasets for the same system"
+        ],
+        "systematic_sources": [
+          "non-zero ΔCp treated as zero (constant ΔH assumption) — the dominant systematic error in most applications",
+          "systematic temperature offset in source instrument calibration",
+          "systematic bias in vapor pressure measurement technique (e.g., Knudsen cell geometry effects)",
+          "departure from ideal gas assumption in Clausius-Clapeyron analysis",
+          "inconsistent or incorrect activity coefficient model for solution equilibria",
+          "sample impurity in the source vapor pressure or equilibrium measurements"
+        ],
+        "operator_dependence": "low for the derivation itself (computational procedure), but moderate dependence on the analyst's choice of temperature range, fitting model, and outlier exclusion criteria",
+        "model_dependence": "high — the derived ΔH depends strongly on from ΔCp ≈ 0 assumption; using extended van't Hoff or Clarke-Glew equations with ΔCp corrections can change ΔH by 5–30% relative to the linear fit",
+        "dominant_error_sources": [
+          "temperature-dependent ΔCp causing curvature in the van't Hoff plot (systematic)",
+          "limited temperature range of input data (amplifies both random and systematic contributions to slope uncertainty)",
+          "compensation between ΔH and ΔS errors that can mask individual inaccuracies"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔH) at 95% confidence (k=2)",
+          "standard error of the slope from least-squares regression, converted to ΔH uncertainty",
+          "comparison with calorimetric values as an external validation"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Derived by Second law (also called the second-law method or van't Hoff method) is a thermodynamic derivation approach — not a physical measurement technique — that extracts enthalpies and entropies of reactions, phase transitions, or vaporization processes from the temperature dependence of equilibrium data using the Second Law of Thermodynamics. In the NIST ThermoML database, it appears primarily in the PhaseTransition property group (189 instances across 57 papers), where it is used to derive enthalpies of vaporization and sublimation from vapor pressure measurements over a range of temperatures. The method relates the slope of a plot of ln(K) or ln(P) versus 1/T to the enthalpy change ΔH through the van't Hoff or Clausius-Clapeyron equations, providing an indirect but widely accessible route to thermodynamic quantities without direct calorimetric measurement.",
+      "how_it_operates": "The second-law method operates entirely on pre-existing equilibrium data — it takes a set of equilibrium constants K(T), vapor pressures P(T), or Gibbs energies ΔG(T) measured at multiple temperatures and extracts the enthalpy and entropy changes by exploiting the thermodynamic relationship between these quantities and temperature. For the van't Hoff analysis, the natural logarithm of K is plotted against the reciprocal of absolute temperature (1/T). If ΔH is approximately constant over the temperature range, this plot is linear with slope −ΔH/R and intercept ΔS/R. For vapor pressure data, the Clausius-Clapeyron equation is used analogously: ln(P) is plotted against 1/T, and the slope yields −ΔHvap/R. The derivation is purely computational once the equilibrium data are available — no additional physical measurement is performed.",
+      "core_theory": "The theoretical foundation rests on the Second Law of Thermodynamics through two key equations. The van't Hoff equation, d(ln K)/d(1/T) = −ΔH/R, follows from combining ΔG = −RT ln K with the Gibbs-Helmholtz equation d(ΔG/T)/d(1/T) = ΔH. For vaporization and sublimation, the Clausius-Clapeyron equation d(ln P)/d(1/T) = −ΔH/R is derived by applying the Clausius equation dP/dT = ΔH/(TΔV) with ideal-gas and negligible-condensed-volume approximations. The critical assumption underlying the linear form is that ΔH is temperature-independent (ΔCp = 0) over the range of the data. When this assumption fails, extended formulations incorporating ΔCp allow fitting curvature in the van't Hoff plot: ln K(T) = −ΔH₀/(RT) + ΔS₀/R + (ΔCp/R)[T₀/T − 1 + ln(T/T₀)], known as the Clarke-Glew equation.",
+      "setup": "No physical experimental setup is required — the second-law method is a computational derivation applied to existing temperature-dependent equilibrium data. The practitioner needs: (1) a reliable dataset of equilibrium constants K(T) or vapor pressures P(T) spanning a sufficient temperature range, typically measured by techniques such as static or dynamic vapor pressure methods, Knudsen effusion, transpiration, gas chromatography retention, or chemical equilibrium analysis; (2) regression software capable of linear or weighted least-squares fitting of ln(K) or ln(P) versus 1/T; (3) statistical tools for assessing goodness of fit, computing confidence intervals on slope and intercept, and propagating uncertainties. Spreadsheet software or dedicated thermodynamic data analysis packages are commonly used.",
+      "suitable_for": "The second-law method is ideally suited for systems where equilibrium constants or vapor pressures can be measured accurately at multiple temperatures over a range of at least 30–50 K. It is the standard approach for deriving enthalpies of vaporization from static or effusion vapor pressure data, enthalpies of sublimation from Knudsen cell or transpiration measurements, and enthalpies of reaction from chemical equilibrium studies. The method is particularly valuable when direct calorimetric measurement is impractical — for example, for high-temperature vaporization of refractory materials, sublimation of organometallic compounds, or reactions in dilute solution. It is very common in the ThermoML database for organic compound vaporization enthalpies.",
+      "core_limitations": "The primary limitation is that the second-law ΔH represents a temperature-averaged quantity whose accuracy depends critically on whether ΔCp is truly negligible over the fitted range. When ΔCp ≠ 0, a linear van't Hoff fit yields a ΔH that corresponds to no single well-defined temperature, and systematic errors of 5–30% can result. The method is also highly sensitive to the quality and temperature span of the input data: a narrow temperature range amplifies statistical uncertainty in the slope, while systematic errors in the source measurements (e.g., temperature calibration offsets, impurity effects on vapor pressure) propagate directly into ΔH. The derived ΔS is even more uncertain than ΔH because it depends on the intercept of the fit, which is extrapolated to 1/T = 0 and is strongly correlated with the slope. The well-known enthalpy-entropy compensation effect can produce apparently precise but individually inaccurate ΔH and ΔS values.",
+      "sample_preparation": "No physical sample preparation is required for the derivation itself. However, the quality of the derived thermodynamic quantities depends entirely on the quality of the source equilibrium measurements, which in turn depend on rigorous sample preparation in the original experiments. Critical requirements for the source data include: high sample purity (typically >99 mol% for reliable vapor pressure data), proper degassing of liquid samples to avoid dissolved gas artifacts, confirmation of thermal equilibrium at each measurement temperature, and use of well-calibrated temperature and pressure sensors. The analyst performing the second-law derivation should critically evaluate the source data quality, noting sample purity, measurement technique, and reported uncertainties before fitting.",
+      "calibration_and_references": "The derivation itself requires no instrument calibration, but validation against independent measurements is essential for assessing accuracy. Key validation approaches include: (1) comparison of the second-law ΔH with direct calorimetric values — agreement within 2–5% indicates a reliable derivation; (2) comparison with the third-law method, which uses the same equilibrium data combined with absolute entropies from heat capacity integration to derive ΔH at 298.15 K — discrepancy between second-law and third-law values signals systematic errors in the source data or violation of the ΔCp ≈ 0 assumption; (3) consistency checks using Trouton's rule (ΔvapS ≈ 85–90 J/(mol·K) at the normal boiling point for non-associated liquids) to flag unreasonable entropy values. Reference benchmark values from the NIST Chemistry WebBook or IUPAC recommended data should be consulted.",
+      "data_interpretation": "The primary data analysis involves plotting ln(K) or ln(P) versus 1/T and performing linear least-squares regression. The slope (−ΔH/R) directly yields the enthalpy change, and the intercept (ΔS/R) yields the entropy change. Residual analysis is critical: random scatter about the regression line indicates valid linear behavior, while systematic curvature signals non-zero ΔCp requiring an extended model. For curved van't Hoff plots, the Clarke-Glew equation or a polynomial in 1/T should be used, and ΔH should be reported at a specified reference temperature (commonly 298.15 K). Weighted regression should be employed when individual data points have known, varying uncertainties. The propagated uncertainty on ΔH is calculated from the standard error of the slope multiplied by R. For the Clausius-Clapeyron analysis specifically, the ideal gas and negligible liquid volume assumptions should be validated, and fugacity corrections applied for high-pressure data.",
+      "common_pitfalls": "The most common pitfall is forcing a linear fit to a van't Hoff plot that is visibly curved, yielding a temperature-averaged ΔH that is not physically meaningful and whose reported uncertainty from the regression underestimates the true error. A second major pitfall is using too narrow a temperature range — a 10–15 K span may give an apparently good linear fit with small residuals, but the slope uncertainty is large and the result is extremely sensitive to any systematic offset in even one data point. Over-reliance on the derived ΔS is another pitfall; the intercept is the most uncertain regression parameter and is strongly correlated with the slope, so ΔS values derived by the second-law method should be treated with caution. Mixing data from different sources without assessing their mutual consistency can introduce hidden systematic errors. Finally, neglecting to check whether the source data truly represent equilibrium (as opposed to kinetically limited measurements) invalidates the entire thermodynamic derivation.",
+      "artifacts_and_failure_modes": "Curvature artifacts arise when ΔCp is significant — the van't Hoff plot bends, and a linear fit returns a slope reflecting neither the low-T nor the high-T ΔH accurately. The enthalpy-entropy compensation artifact produces a strong statistical correlation between the derived ΔH and TΔS such that ΔG appears well-determined even when ΔH and ΔS individually are not. An outlier leverage artifact occurs when one or two data points at an extreme temperature dominate the slope; removal of such points can shift ΔH by tens of percent. Phase-boundary crossing failure occurs when the input temperature range spans a phase transition (e.g., going from sublimation to vaporization at the melting point), producing a van't Hoff plot with a discontinuity in slope. Data inconsistency failure manifests as anomalously large scatter or irreproducible ΔH when combining datasets from different laboratories or techniques with unresolved systematic offsets.",
+      "reporting_checklist": "Published second-law derivations should report: the source of the equilibrium or vapor pressure data (technique, reference, sample purity), the temperature range and number of data points used in the fit, the fitting model employed (linear van't Hoff, Clarke-Glew, or polynomial), the derived ΔH and ΔS with their uncertainties (specifying whether standard or expanded, and the confidence level), the reference temperature at which ΔH is reported (especially for non-linear fits), residual analysis results or a goodness-of-fit statistic (R² or reduced χ²), whether ΔCp corrections were applied and what ΔCp value was used, comparison with calorimetric or third-law values if available, and any data points excluded as outliers with justification. For ThermoML encoding, enthalpy values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

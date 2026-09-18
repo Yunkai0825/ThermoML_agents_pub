@@ -1,0 +1,338 @@
+{
+  "meas_ID": "oscillating_viscometer",
+  "identity": {
+    "name": "Oscillating viscometer",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Oscillating viscometer",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Viscometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 1,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "TransportProp": {
+          "instances": 1,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "oscillation period (T) of the suspended body",
+          "logarithmic decrement (Δ) of oscillation amplitude decay",
+          "oscillation amplitude envelope as a function of time",
+          "temperature of the fluid",
+          "pressure of the fluid (if controlled)"
+        ],
+        "derived_observables": [
+          "dynamic viscosity (η)",
+          "kinematic viscosity (ν = η/ρ, when fluid density is known)",
+          "viscosity–temperature curves",
+          "viscosity–pressure curves",
+          "activation energy for viscous flow (from Arrhenius fit)"
+        ],
+        "target_properties": [
+          "dynamic viscosity (η)",
+          "kinematic viscosity (ν)",
+          "viscosity of molten salts and liquid metals",
+          "viscosity of corrosive or high-temperature fluids",
+          "viscosity of dense gases under pressure"
+        ],
+        "phases_measured": [
+          "liquid (Newtonian)",
+          "liquid (weakly non-Newtonian, at low shear rates)",
+          "molten salt",
+          "liquid metal",
+          "dense gas / supercritical fluid"
+        ],
+        "supported_sample_types": [
+          "pure Newtonian liquids",
+          "molten salts and ionic liquids",
+          "liquid metals and alloys",
+          "corrosive liquids (acids, molten hydroxides)",
+          "high-temperature oxide melts and slags",
+          "organic liquids and their binary/multicomponent mixtures",
+          "dense gases at elevated pressure",
+          "cryogenic liquids"
+        ],
+        "unsupported_sample_types": [
+          "highly viscoelastic fluids (strong elastic recoil overwhelms damping analysis)",
+          "suspensions with settling particles (sedimentation disrupts oscillation symmetry)",
+          "yield-stress fluids that do not flow under oscillatory shear",
+          "very low-viscosity gases at ambient pressure (insufficient damping for accurate measurement)",
+          "samples reacting with or wetting the oscillating body material"
+        ],
+        "typical_output_formats": [
+          "η vs. T curve at constant pressure",
+          "η vs. P curve at constant temperature",
+          "ν vs. T curve",
+          "logarithmic decrement vs. time (raw decay trace)",
+          "oscillation period vs. time"
+        ],
+        "units": {
+          "dynamic_viscosity": "Pa·s or mPa·s",
+          "kinematic_viscosity": "m²/s or mm²/s (cSt)",
+          "temperature": "K",
+          "pressure": "MPa",
+          "oscillation_period": "s",
+          "logarithmic_decrement": "dimensionless",
+          "density": "kg/m³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "250 K to 2500 K",
+            "hard_limits": "lower limit set by sample solidification; upper limit by container material stability and atmosphere control",
+            "notes": "oscillating-body methods are especially valued above 1000 K where capillary viscometers are impractical"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 200 MPa",
+            "hard_limits": "requires pressure-rated vessel with optical or electrical feedthroughs for high-pressure work",
+            "notes": "most measurements performed at ambient or moderate pressures; high-pressure designs exist for dense fluids"
+          },
+          {
+            "parameter": "viscosity_range",
+            "typical_range": "0.1 mPa·s to 10 Pa·s",
+            "hard_limits": "lower limit set by minimum detectable damping; upper limit where oscillation is overdamped and no periodic motion occurs",
+            "notes": "optimal sensitivity for low-to-moderate viscosity fluids; geometry and moment of inertia can be adjusted for range extension"
+          },
+          {
+            "parameter": "oscillation_amplitude",
+            "typical_range": "0.5° to 5° (torsional); 0.1 mm to 2 mm (translational)",
+            "hard_limits": "must remain in the linear (creeping flow) regime; Reynolds number of oscillation must be << 1",
+            "notes": "smaller amplitudes improve linearity but reduce signal-to-noise ratio"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "250 K to 2500 K",
+            "effect": "viscosity decreases strongly with temperature for most liquids; temperature is the main axis for viscosity mapping"
+          },
+          {
+            "name": "pressure",
+            "role": "secondary variable (usually fixed)",
+            "typical_values": "0.1 MPa (ambient) or up to 200 MPa",
+            "effect": "viscosity generally increases with pressure for liquids; enables PVT-viscosity studies"
+          },
+          {
+            "name": "oscillation_frequency",
+            "role": "instrument parameter, determined by body geometry and suspension",
+            "typical_values": "0.1 Hz to 5 Hz",
+            "effect": "affects the boundary layer thickness in the fluid; frequency must be stable for accurate period and decrement extraction"
+          },
+          {
+            "name": "fluid_density",
+            "role": "required auxiliary input for absolute viscosity calculation",
+            "typical_values": "measured or taken from literature",
+            "effect": "density enters the working equation; uncertainty in density propagates directly into viscosity uncertainty"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "oscillating body — precision-machined cylinder, sphere, or cup suspended in the test fluid; material chosen for chemical inertness (platinum, tungsten, steel, graphite, quartz)",
+          "suspension system — torsion wire (tungsten or platinum wire of known torsional stiffness) or magnetic suspension providing a restoring torque",
+          "angular/displacement sensor — optical (mirror + laser/photodetector), capacitive, or electromagnetic pickup to track oscillation amplitude and phase",
+          "furnace or cryostat — provides controlled temperature environment around the sample vessel",
+          "sample vessel/cup — container holding the fluid, may itself be the oscillating body (oscillating-cup design)",
+          "temperature measurement — thermocouple (type S, B, or K) or resistance thermometer positioned near the fluid",
+          "pressure control system (optional) — pump, pressure transducer, and sealed vessel for high-pressure measurements",
+          "vibration isolation platform — removes ambient mechanical vibrations that could excite parasitic oscillation modes",
+          "data acquisition system — high-resolution timer/counter or digitizer for recording oscillation waveform",
+          "atmosphere control — vacuum pump, inert gas supply (Ar, N₂), or controlled atmosphere for reactive or oxidation-sensitive samples"
+        ],
+        "environmental_requirements": [
+          "vibration-free foundation or optical table to prevent spurious mechanical excitation",
+          "stable ambient temperature or thermal shielding to minimize drift in suspension stiffness",
+          "inert or controlled atmosphere for measurements on molten metals, alloys, or reactive fluids",
+          "electromagnetic shielding if using inductive or capacitive angular detection"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid must fill the annular gap between oscillating body and outer vessel uniformly",
+            "fluid level must be sufficient to fully immerse the oscillating body"
+          ],
+          "size_limits": "typically 10–500 mL of fluid depending on vessel geometry; smaller volumes for miniaturized designs",
+          "thickness_limits": "annular gap between oscillating body and vessel wall typically 1–10 mm; must be large compared to viscous penetration depth δ = √(2η/(ρω))",
+          "surface_requirements": [
+            "oscillating body surface must be smooth and polished to minimize surface roughness effects on boundary layer",
+            "inner surface of sample vessel should be smooth for reproducible fluid boundary conditions"
+          ],
+          "mounting_requirements": [
+            "oscillating body must be coaxially centered within the sample vessel to ensure symmetric flow",
+            "suspension wire must be vertical, taut, and free from kinks or permanent deformation",
+            "body must oscillate freely without mechanical contact with vessel walls"
+          ],
+          "preparation_requirements": [
+            "fluid must be free of dissolved gases, bubbles, and particulates that could alter damping",
+            "degassing under vacuum or by boiling for liquids susceptible to dissolved gas",
+            "pre-melting and homogenization for alloys or salt mixtures",
+            "drying of hygroscopic salts before loading"
+          ]
+        },
+        "calibration_requirements": [
+          "determination of instrument constants (moment of inertia I, torsion wire constant c, geometric factors) by measurement in vacuum and in reference fluids",
+          "vacuum run to measure the intrinsic damping of the suspension system (background decrement Δ₀)",
+          "reference fluid measurement using a certified viscosity standard (e.g., water, NIST SRM 2490 PDMS) to verify working equation constants",
+          "temperature calibration of thermocouple or thermometer against fixed points (Sn, Zn, Al melting points for high-T work)",
+          "periodic verification of torsion wire elastic properties (wire creep or annealing can shift calibration)"
+        ],
+        "reference_materials": [
+          "distilled water — primary low-viscosity reference (η = 1.002 mPa·s at 293.15 K)",
+          "NIST SRM 2490 (polydimethylsiloxane, 1000 cSt nominal) — certified kinematic viscosity standard",
+          "NIST SRM 2492 (Bingham paste) — not directly applicable, but used in rheometry calibration",
+          "certified viscosity reference oils (Cannon, Paragon) spanning 1–100,000 mPa·s",
+          "pure tin or lead at known high temperatures — reference for molten metal viscometry"
+        ],
+        "consumables": [
+          "torsion wire (tungsten, platinum, or Pt-Rh alloy) — replaced if fatigued or permanently deformed",
+          "inert gas supply (argon, nitrogen) for atmosphere control",
+          "crucible or sample cup material (alumina, graphite, platinum) matched to fluid chemistry",
+          "thermocouple wire (type S or B for high temperature)"
+        ],
+        "safety_notes": [
+          "molten metals and salts at temperatures above 500°C pose severe burn hazards — heat-resistant gloves and face shields required",
+          "corrosive fluids (strong acids, molten hydroxides) require fume hood operation and corrosion-resistant containment",
+          "high-pressure vessels must be rated, inspected, and operated with blast shields",
+          "toxic metal vapors (Pb, Hg, Cd) require adequate ventilation and monitoring",
+          "vacuum systems require implosion protection"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving viscosity differences of ~0.01 mPa·s for low-viscosity fluids; logarithmic decrement changes of ~10⁻⁴ detectable with optical sensing",
+        "detection_limit": "minimum measurable viscosity ~0.01–0.1 mPa·s depending on body geometry and suspension design; limited by background damping in vacuum",
+        "resolution": {
+          "spatial": "not applicable (bulk fluid measurement)",
+          "temporal": "set by oscillation period, typically 1–10 s per cycle; a single viscosity point requires 10–50 oscillation cycles for reliable decrement fitting",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "viscosity range ~0.01 mPa·s to ~10 Pa·s; extended by changing oscillating body geometry, suspension stiffness, or moment of inertia",
+        "accuracy": "0.5–2% for absolute dynamic viscosity when geometry is precisely characterized and density is accurately known; 0.3–0.5% achievable with optimized designs and careful calibration",
+        "precision": "0.1–0.5% (repeatability of successive measurements at the same temperature)",
+        "throughput": "single fluid at a time; a full temperature sweep may take several hours due to thermal equilibration at each point",
+        "measurement_speed": "individual viscosity point: 1–5 minutes (including excitation, free decay recording, and equilibration); faster for automated continuous measurement"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "time-resolved angular displacement (or linear displacement for translational variants) waveform showing a decaying sinusoidal oscillation; digitized as amplitude vs. time",
+        "preprocessing_steps": [
+          "extraction of oscillation period T from successive zero-crossings or peak-to-peak intervals",
+          "calculation of logarithmic decrement Δ from the natural logarithm of the ratio of successive amplitude peaks",
+          "subtraction of background (vacuum) decrement Δ₀ to isolate fluid-induced damping: Δ_fluid = Δ_measured − Δ₀",
+          "correction for finite vessel (container) wall effects if annular gap is not effectively infinite",
+          "averaging over multiple decay cycles to reduce noise in T and Δ"
+        ],
+        "analysis_methods": [
+          "Newtonian working equation: η is calculated from the fluid-induced decrement and period shift using the instrument's geometric constants, moment of inertia, and fluid density",
+          "Kestin-Leidenfrost analysis for oscillating-disk/cylinder geometry relating Δ and period to η and ρ via boundary-layer theory",
+          "Beckwith-Newell analysis for oscillating-cup viscometers accounting for both interior and exterior fluid layers",
+          "nonlinear least-squares fit of the decaying sinusoid to extract T and Δ simultaneously",
+          "Arrhenius or Vogel-Fulcher-Tammann (VFT) fitting of η(T) data for activation energy extraction"
+        ],
+        "model_assumptions": [
+          "fluid behaves as an incompressible Newtonian continuum (linear stress–strain-rate relationship)",
+          "oscillation occurs in the creeping-flow (Stokes) regime — Reynolds number based on oscillation velocity is << 1",
+          "oscillating body executes small-amplitude purely torsional (or translational) motion with no wobble, precession, or eccentricity",
+          "fluid is at rest before each excitation and reaches full boundary-layer development within the first few cycles",
+          "container walls are either effectively infinite (wide annular gap) or their finite-gap correction is accurately applied",
+          "thermal equilibrium is established between the oscillating body, fluid, and vessel before measurement"
+        ],
+        "fit_parameters": [
+          "dynamic viscosity η (primary target)",
+          "logarithmic decrement Δ (intermediate)",
+          "oscillation period T in fluid vs. vacuum (for period-shift methods)",
+          "fluid density ρ (auxiliary input, not fitted)",
+          "geometric instrument constants (moment of inertia I, body radius R, body length L, gap width)"
+        ],
+        "common_artifacts": [
+          "end effects: fluid flow around the ends of a finite-length cylinder or cup introduces additional damping not accounted for in the infinite-cylinder model",
+          "eccentricity artifact: misalignment of the oscillating body within the vessel creates asymmetric flow and biases the decrement",
+          "surface tension meniscus effects: meniscus at the fluid surface adds a small restoring force and damping contribution",
+          "turbulence onset: if oscillation amplitude is too large, transition from laminar to turbulent boundary layer increases measured damping",
+          "wire fatigue / creep: gradual permanent deformation of the torsion wire shifts the natural frequency and background decrement",
+          "gas bubble entrapment: bubbles adhering to the oscillating body alter its effective moment of inertia and buoyancy"
+        ],
+        "quality_control_checks": [
+          "verify that the logarithmic decrement is independent of oscillation amplitude (confirming linear Newtonian regime)",
+          "confirm that the oscillation period in vacuum is stable and matches the calculated value from known I and wire constant",
+          "measure viscosity of a certified reference fluid (water or standard oil) and compare with accepted values within stated uncertainty",
+          "repeat measurements upon heating and cooling to check for hysteresis indicating thermal lag or sample decomposition",
+          "inspect raw decay waveform for beat frequencies, irregular damping, or sudden jumps indicating mechanical problems",
+          "check that measured viscosity is independent of fluid fill level above the minimum immersion depth"
+        ],
+        "failure_modes": [
+          "torsion wire breakage or plastic deformation — loss of calibration or complete failure",
+          "fluid solidification around the oscillating body — oscillation ceases entirely",
+          "chemical attack on oscillating body material (corrosion, dissolution, alloying) — changes geometry and surface properties",
+          "thermal decomposition of the sample at high temperature — progressive viscosity change and possible gas evolution",
+          "bubble formation from dissolved gas during heating — erratic damping and inconsistent readings",
+          "mechanical contact between oscillating body and vessel wall — sudden damping increase and possible body damage"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for absolute dynamic viscosity; 0.1–0.5% for relative viscosity differences",
+        "random_sources": [
+          "noise in angular displacement sensor (optical or capacitive jitter)",
+          "temperature fluctuations during measurement (affecting both viscosity and density)",
+          "vibrations from the environment coupling into the pendulum motion",
+          "statistical scatter in logarithmic decrement from finite number of decay cycles",
+          "electrical noise in timing/counting electronics"
+        ],
+        "systematic_sources": [
+          "uncertainty in oscillating body dimensions (radius, length, surface finish)",
+          "uncertainty in moment of inertia determination",
+          "uncertainty in fluid density (propagates directly into η via the working equation)",
+          "incomplete correction for end effects and finite container geometry",
+          "residual background damping subtraction error (Δ₀ uncertainty)",
+          "temperature measurement offset (thermocouple calibration)",
+          "torsion wire constant drift due to annealing at high temperatures"
+        ],
+        "operator_dependence": "moderate — centering the oscillating body, ensuring bubble-free filling, selecting appropriate oscillation amplitude, and torsion wire handling all depend on operator skill",
+        "model_dependence": "moderate to high — accuracy depends on the validity of the Newtonian, small-amplitude, infinite-container assumptions and the correctness of end-effect and finite-gap corrections",
+        "dominant_error_sources": [
+          "fluid density uncertainty (often the single largest contributor for absolute η)",
+          "end-effect corrections for finite-length oscillating bodies",
+          "oscillating body dimensional uncertainty (radius and surface roughness)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(η) at 95% confidence level (k=2)",
+          "relative uncertainty as percentage of η",
+          "standard deviation from repeated measurements at each temperature"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Oscillating viscometry is a class of viscosity measurement techniques based on observing the damped oscillation of a rigid body (cylinder, sphere, or cup) suspended in or containing the test fluid. Originating from classical torsional pendulum experiments in the 19th century, the method exploits the relationship between the viscous drag exerted by the fluid on the oscillating body and the resulting decay rate of the oscillation amplitude. By precisely measuring the oscillation period and the logarithmic decrement — the rate at which successive amplitude peaks diminish — the dynamic viscosity of the fluid can be determined, provided the fluid density and instrument geometry are known. The technique is classified as an absolute method when all geometric and inertial parameters are independently measured, requiring no viscosity reference standards for calibration.",
+      "how_it_operates": "The oscillating body (a cylinder, sphere, or cup filled with fluid) is suspended from a torsion wire or magnetic bearing and set into free torsional oscillation by an angular impulse — typically an electromagnetic pulse or manual deflection. Once released, the body oscillates freely while the surrounding fluid exerts a viscous drag torque that progressively damps the motion. An angular position sensor (laser beam reflected from a mirror mounted on the suspension, or a capacitive/electromagnetic pickup) records the decaying sinusoidal waveform as a function of time. The oscillation period T and the logarithmic decrement Δ = ln(Aₙ/Aₙ₊₁), where Aₙ is the amplitude of the n-th peak, are extracted from this waveform. These two quantities, together with the known moment of inertia of the oscillating body, its geometry, and the fluid density, are inserted into the appropriate working equation to compute the dynamic viscosity η.",
+      "core_theory": "The instrument operates in the regime of oscillatory Stokes flow where the viscous boundary layer that develops on the surface of the oscillating body governs the energy dissipation. For a cylinder of radius R and length L oscillating with small angular amplitude θ₀ in a Newtonian fluid of viscosity η and density ρ, the viscous penetration depth is δ = √(2η/(ρω)), where ω = 2π/T is the angular frequency. The fluid-induced torque on the body has both a dissipative (in-phase with velocity) and an inertial (in-phase with acceleration) component. The dissipative component increases the logarithmic decrement beyond its vacuum value (Δ₀), while the inertial component shifts the oscillation period relative to the vacuum period (T₀). The working equation relates η to the measured quantities through: Δ_fluid = f(η, ρ, R, L, I, ω) and T_fluid/T₀ = g(η, ρ, R, L, I, ω), where I is the body's moment of inertia and f, g are functions derived from the Navier-Stokes equations for the specific geometry. For the classic oscillating-cup case, the Beckwith-Newell solution yields explicit formulae; for oscillating cylinders in infinite fluid, the Kestin-Leidenfrost boundary-layer analysis provides the working equations. In practice, corrections for finite container size (finite annular gap), end effects at the top and bottom of the cylinder, and surface tension at the meniscus are applied.",
+      "setup": "A typical oscillating viscometer consists of a precision-machined oscillating body (often a hollow cup or solid cylinder made of platinum, tungsten, graphite, or high-purity alumina) suspended by a thin torsion wire (0.1–0.5 mm diameter tungsten or platinum wire) within a temperature-controlled furnace or cryostat. The oscillating body is immersed in or contains the test fluid inside a coaxial cylindrical outer vessel with a well-defined annular gap. An angular displacement sensor — commonly a small mirror bonded to the suspension that reflects a laser beam onto a position-sensitive photodetector — provides the time-resolved oscillation signal with sub-microradian resolution. The furnace maintains uniform temperature (monitored by one or more calibrated thermocouples positioned adjacent to the fluid) and the entire assembly sits on a vibration-isolated platform. For measurements on reactive or oxidizable fluids, the sample chamber is enclosed in a sealed vessel with inert gas ports. Data acquisition hardware records the waveform with microsecond timing resolution, and software extracts T and Δ by peak-detection or nonlinear curve fitting.",
+      "suitable_for": "Oscillating viscometry is particularly well suited for measuring the viscosity of fluids at extreme temperatures and in chemically aggressive environments where other viscometric techniques fail. Its primary application domain is molten salts (chlorides, fluorides, nitrates), liquid metals (alkali metals, aluminum, iron, steel), and molten oxide slags used in metallurgy and nuclear engineering. The sealed, non-flowing geometry ensures that the fluid is not exposed to uncontrolled atmosphere and that no steady shear flow is imposed — making the technique ideal for materials that oxidize rapidly, have high melting points, or are corrosive to capillary tubes. The method also serves well for cryogenic liquids, high-pressure dense gases, and organic liquids where its absolute character provides independent verification of other techniques. Since the oscillation amplitude is small and the shear rate is low, the technique naturally operates in the Newtonian regime for most fluids.",
+      "core_limitations": "The working equations assume strictly Newtonian fluid behavior at small oscillation amplitudes; viscoelastic or shear-thinning fluids produce frequency-dependent apparent viscosity that complicates interpretation. The technique simultaneously requires knowledge of the fluid density ρ, which must be measured or calculated by a separate method — uncertainty in ρ directly propagates into the viscosity result. Geometric corrections for end effects and finite container size can be complex and introduce model-dependent uncertainties, especially if the oscillating body length-to-diameter ratio is not large. At very low viscosities (below ~0.01 mPa·s), the fluid-induced damping becomes comparable to or smaller than the background damping of the suspension in vacuum, limiting sensitivity. Conversely, very high-viscosity fluids overdamp the oscillation so that no periodic motion occurs, setting an upper viscosity limit around 10 Pa·s without redesign. The method is inherently a single-point, single-fluid apparatus with limited throughput.",
+      "sample_preparation": "The test fluid must be free of bubbles, suspended particles, and dissolved gases that could distort the damping measurement. For molten salts and metals, the solid charge is loaded into the cleaned and pre-oxidized (or pre-coated) vessel under inert atmosphere, heated slowly through the melting point, and allowed to degas and homogenize at a temperature above the measurement range before cooling to the first set-point. Hygroscopic salts are dried under vacuum at elevated temperature before loading. For organic liquids, samples are filtered through a 0.2–0.45 µm membrane and degassed under vacuum or by ultrasonic treatment. The oscillating body and vessel are thoroughly cleaned (acid washing, solvent rinsing, and drying) to ensure consistent surface conditions. For high-temperature metallic melts, the oscillating body is often soaked in the melt for several hours to establish chemical equilibrium at the surface before measurements begin.",
+      "calibration_and_references": "Calibration comprises three stages: (1) a vacuum measurement to determine the background logarithmic decrement Δ₀ and the vacuum oscillation period T₀, which together yield the moment of inertia and torsion wire constant; (2) a measurement in a fluid of precisely known viscosity and density — typically distilled water at 20–25°C or a certified viscosity reference oil (e.g., Cannon N-series or NIST SRM 2490 PDMS) — to validate the working equation constants and geometric correction factors; and (3) temperature calibration of all thermometric sensors against ITS-90 fixed points relevant to the measurement range (e.g., Sn at 231.93°C, Zn at 419.53°C, Al at 660.32°C for high-temperature work). For the oscillating-cup variant, the cup dimensions (inner radius, wall thickness, height) are measured by coordinate metrology to ±1 µm. The vacuum run should be repeated periodically to monitor torsion wire aging, and the reference fluid calibration should bracket each measurement campaign.",
+      "data_interpretation": "The raw decay waveform θ(t) = θ₀·exp(−Δt/T)·cos(2πt/T + φ) is analyzed by either (a) identifying successive peaks and fitting ln(Aₙ) vs. cycle number to extract Δ, while averaging zero-crossing intervals for T, or (b) performing a nonlinear least-squares fit of the entire waveform to simultaneously extract θ₀, Δ, T, and phase φ. The fluid-induced decrement Δ_fluid = Δ − Δ₀ and the period ratio T/T₀ are then inserted into the working equation appropriate to the geometry (Beckwith-Newell for cups, Kestin-Leidenfrost for cylinders, Stokes solution for spheres) to compute η, given the independently measured or literature value of ρ. End-effect corrections, finite-gap corrections, and meniscus corrections are applied as additive or multiplicative terms. The resulting η(T) data are commonly fitted to an Arrhenius equation η = A·exp(Eₐ/RT) or a Vogel-Fulcher-Tammann equation η = A·exp(B/(T−T₀)) to parametrize the temperature dependence and extract the activation energy for viscous flow.",
+      "common_pitfalls": "The most common pitfall is failing to ensure small-amplitude oscillation in the linear (Newtonian) regime — if the initial angular deflection is too large, the onset of inertial boundary-layer effects (finite Reynolds number) systematically increases the measured decrement and overpredicts η. A second frequent error is incomplete degassing: dissolved gas or microbubbles adhering to the oscillating body change both its effective buoyancy and the fluid's apparent compressibility, producing scatter and systematic drift. Inadequate thermal equilibration — initiating measurement before the oscillating body, fluid, and vessel reach uniform temperature — causes apparent viscosity transients that can be mistaken for real thermal effects. Neglecting or improperly applying end-effect corrections for finite-length bodies produces a systematic bias of up to 5–10%. Finally, using fluid density values from an inappropriate source (wrong composition, wrong temperature range, or uncertain extrapolations) directly corrupts the computed viscosity because ρ enters the working equation explicitly.",
+      "artifacts_and_failure_modes": "End-effect artifacts arise when the fluid-flow pattern around the top and bottom edges of the oscillating body contributes unmeasured additional damping beyond the infinite-cylinder model, systematically biasing η high. Eccentricity artifacts occur when the oscillating body is not perfectly centered within the outer vessel, creating non-uniform gap flow and asymmetric drag. Surface wetting anomalies — changes in the contact angle or meniscus shape at the liquid surface on the oscillating body — introduce slow drift in Δ that mimics sample degradation. Torsion wire creep or fatigue after prolonged high-temperature operation gradually shifts T₀ and Δ₀, invalidating the vacuum calibration. Chemical attack on the oscillating body (dissolution of platinum into reactive melts, oxidation of tungsten, carbon dissolution from graphite into molten metals) alters the body mass, surface roughness, and moment of inertia, producing progressive systematic error. At high temperatures, radiative heat transfer within the furnace can create vertical temperature gradients in the fluid, establishing convective currents that add an extra apparent damping unrelated to viscosity.",
+      "reporting_checklist": "Published oscillating viscometer results should report: type and geometry of oscillating body (cup, cylinder, or sphere; material; dimensions including radius, length, and wall thickness), torsion wire material and diameter, oscillation frequency (period) in vacuum and in fluid, initial oscillation amplitude, method and result of vacuum calibration (Δ₀, T₀), reference fluid(s) used for calibration with viscosity and density values cited, fluid density values used and their source (measured or literature), corrections applied (end effects, finite gap, meniscus, buoyancy), temperature measurement method and calibration, atmosphere (inert gas type and purity, or vacuum), combined expanded uncertainty U(η) at 95% confidence level (k=2) with identification of dominant uncertainty sources, and whether the reported quantity is dynamic viscosity η or kinematic viscosity ν. For ThermoML encoding, viscosity values are recorded with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

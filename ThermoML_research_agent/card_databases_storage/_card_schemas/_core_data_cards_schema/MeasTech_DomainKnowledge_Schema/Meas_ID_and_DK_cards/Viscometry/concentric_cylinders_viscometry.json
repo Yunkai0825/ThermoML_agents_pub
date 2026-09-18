@@ -1,0 +1,351 @@
+{
+  "meas_ID": "concentric_cylinders_viscometry",
+  "identity": {
+    "name": "Concentric cylinders viscometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Concentric cylinders viscometry",
+    "thermoml_custom_codes": [
+      "CONCYL"
+    ],
+    "measurement_family": "Viscometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 1082,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 231,
+      "per_group": {
+        "TransportProp": {
+          "instances": 1082,
+          "papers": 231
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "torque on stationary cylinder (T)",
+          "angular velocity of rotating cylinder (ω)",
+          "temperature of fluid in annular gap (T_fluid)"
+        ],
+        "derived_observables": [
+          "dynamic viscosity (η)",
+          "shear stress (τ)",
+          "shear rate (γ̇)",
+          "kinematic viscosity (ν = η/ρ, when density is known)",
+          "apparent viscosity as a function of shear rate (for non-Newtonian fluids)"
+        ],
+        "target_properties": [
+          "dynamic viscosity (η)",
+          "kinematic viscosity (ν)",
+          "viscosity as a function of temperature",
+          "viscosity as a function of shear rate (flow curve)",
+          "viscosity as a function of pressure (with pressurized variants)",
+          "activation energy of viscous flow (from η vs. T data)"
+        ],
+        "phases_measured": [
+          "liquid (Newtonian)",
+          "liquid (non-Newtonian: shear-thinning, shear-thickening)",
+          "liquid mixtures and solutions",
+          "colloidal suspensions",
+          "emulsions",
+          "polymer solutions and melts"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "ionic liquids",
+          "polymer solutions",
+          "polymer melts",
+          "colloidal suspensions and slurries",
+          "emulsions",
+          "oils and lubricants",
+          "molten salts",
+          "biological fluids (blood, protein solutions)"
+        ],
+        "unsupported_sample_types": [
+          "gases (torque signal too small for reliable measurement)",
+          "extremely low-viscosity fluids below ~0.3 mPa·s (approaches instrument sensitivity limit)",
+          "solids and gels with yield stress exceeding instrument torque range",
+          "highly volatile liquids that evaporate from the open gap",
+          "samples containing large particles (>1/3 of gap width) that jam in the annular gap",
+          "strongly corrosive fluids without chemically resistant cylinder materials"
+        ],
+        "typical_output_formats": [
+          "η vs. T curve at fixed shear rate",
+          "η vs. shear rate (flow curve) at fixed T",
+          "torque vs. angular velocity (raw rheogram)",
+          "shear stress vs. shear rate plot",
+          "Arrhenius plot: ln(η) vs. 1/T"
+        ],
+        "units": {
+          "dynamic_viscosity": "Pa·s or mPa·s",
+          "kinematic_viscosity": "mm²/s (cSt)",
+          "shear_stress": "Pa",
+          "shear_rate": "s⁻¹",
+          "torque": "N·m or mN·m",
+          "angular_velocity": "rad/s or rpm",
+          "temperature": "K"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "253 K to 473 K",
+            "hard_limits": "depends on cylinder material and sealing; specialized setups extend to 200 K (cryogenic) or 773 K (molten salts with ceramic/metal cylinders)",
+            "notes": "standard instruments with Peltier or circulating bath temperature control cover 263–473 K"
+          },
+          {
+            "parameter": "shear_rate",
+            "typical_range": "0.1 s⁻¹ to 10,000 s⁻¹",
+            "hard_limits": "lower limit set by torque sensitivity; upper limit set by onset of Taylor vortices or turbulence in the gap",
+            "notes": "Taylor number Ta = ω·R₁·d/ν (where d = gap width) must remain below critical value (~41 for narrow gaps) to ensure laminar Couette flow"
+          },
+          {
+            "parameter": "gap_width",
+            "typical_range": "1 mm to 2 mm",
+            "hard_limits": "minimum ~0.5 mm (machining tolerance and alignment); maximum ~5 mm before curvature corrections become large",
+            "notes": "narrow gaps (R₂/R₁ close to 1) simplify analysis by ensuring nearly uniform shear rate; DIN 53019 specifies R₂/R₁ = 1.0847"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (ambient)",
+            "hard_limits": "pressurized variants operate up to 1 GPa with sealed high-pressure cells",
+            "notes": "standard instruments operate at atmospheric pressure; high-pressure measurements require specialized sealed geometry"
+          },
+          {
+            "parameter": "torque_range",
+            "typical_range": "0.01 mN·m to 200 mN·m",
+            "hard_limits": "minimum detectable torque ~0.001 mN·m for air-bearing instruments; maximum limited by motor and transducer capacity",
+            "notes": "torque range determines the accessible viscosity window for a given geometry"
+          }
+        ],
+        "variables": [
+          {
+            "name": "angular_velocity",
+            "role": "primary controlled variable",
+            "typical_values": "0.01 to 1000 rpm",
+            "effect": "directly sets the shear rate in the gap; γ̇ = 2ωR₂²/(R₂² - R₁²) for inner cylinder rotation; determines whether flow remains laminar"
+          },
+          {
+            "name": "temperature",
+            "role": "scanned or fixed variable",
+            "typical_values": "273 K to 373 K",
+            "effect": "viscosity is strongly temperature-dependent; Arrhenius or VFT behavior; temperature must be controlled to ±0.01–0.1 K for accurate viscosity data"
+          },
+          {
+            "name": "gap_geometry",
+            "role": "fixed instrument parameter",
+            "typical_values": "R₁ = 12–14 mm, R₂ = 14–15 mm (DIN standard); cylinder length L = 30–50 mm",
+            "effect": "defines the conversion factor between torque/angular velocity and viscosity; narrow gaps give more uniform shear rate"
+          },
+          {
+            "name": "sample_volume",
+            "role": "dependent on geometry",
+            "typical_values": "2 mL to 30 mL",
+            "effect": "must be sufficient to fill the annular gap completely and cover the immersed cylinder length; overfilling or underfilling introduces end-effect errors"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "outer cylinder (cup) — precision-machined metal (stainless steel, aluminum, or titanium) or glass cylinder that serves as the sample container",
+          "inner cylinder (bob) — coaxial rotating or stationary cylinder, precisely centered in the cup",
+          "drive motor — DC servo or electronically commutated (EC) motor providing controlled angular velocity or controlled torque",
+          "torque transducer — strain gauge, capacitive, or optical sensor measuring the reaction torque on the measuring cylinder",
+          "air bearing or jewel bearing — low-friction support for the inner cylinder spindle to minimize parasitic torque",
+          "temperature control system — Peltier element, circulating fluid jacket, or electrical heating mantle surrounding the outer cylinder",
+          "temperature sensor — Pt100 RTD or thermocouple positioned in the outer cylinder wall or in the fluid gap",
+          "solvent trap or evaporation cover — cap or shield to minimize evaporation from the open top of the annular gap",
+          "data acquisition and control software — controls motor speed/torque, records torque, speed, and temperature in real time"
+        ],
+        "environmental_requirements": [
+          "vibration-free bench or anti-vibration table to prevent flow disturbances in the gap",
+          "stable ambient temperature (±2 K) to reduce thermal drift in electronics and bearing friction",
+          "level instrument installation — cylinder concentricity depends on proper leveling",
+          "draft-free environment or enclosure to prevent convective cooling of the sample"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample that flows freely to fill the annular gap uniformly"
+          ],
+          "size_limits": "typically 2–30 mL depending on cylinder dimensions; DIN standard geometries require ~20 mL",
+          "thickness_limits": "not applicable — sample fills the annular gap (1–2 mm width) defined by the cylinder geometry",
+          "surface_requirements": [
+            "no wall slip — if sample slips at cylinder surfaces, surface roughening or serrated cylinders may be required",
+            "wetting: sample must wet both cylinder surfaces to transmit shear stress without slip layers"
+          ],
+          "mounting_requirements": [
+            "sample loaded into the outer cup with the inner bob raised, then bob lowered into sample",
+            "ensure no air bubbles are trapped in the annular gap (visible inspection or pre-shearing)",
+            "correct fill level: sample meniscus should be at the top of the bob measurement zone"
+          ],
+          "preparation_requirements": [
+            "degas sample if dissolved gases cause bubble formation during shearing",
+            "filter sample to remove particles larger than 1/3 gap width",
+            "equilibrate sample temperature before measurement or use instrument temperature control with adequate soak time",
+            "for non-Newtonian fluids, apply defined pre-shear protocol to establish reproducible starting microstructure"
+          ]
+        },
+        "calibration_requirements": [
+          "viscosity standard calibration using certified reference oils (e.g., Cannon N-series or PTB/NIST standard oils) spanning the measurement range",
+          "torque calibration using a known weight suspended from the bob on a calibrated arm",
+          "angular velocity verification using a tachometer or frequency counter on the motor encoder",
+          "temperature sensor calibration against a traceable reference thermometer or at fixed points (ice point, Ga melting)",
+          "gap geometry verification — measure R₁, R₂, and L with calibrated micrometer; confirm concentricity"
+        ],
+        "reference_materials": [
+          "NIST Standard Reference Materials: SRM 2490 (polyisobutylene in 2,6,10,14-tetramethylpentadecane, ~900 Pa·s at 25°C)",
+          "NIST SRM 2492 (Bingham paste standard for yield stress calibration)",
+          "Cannon Instrument Company certified viscosity standards (S3 to S60000 series covering 1 to 100,000 mPa·s)",
+          "PTB (Germany) certified viscosity reference oils",
+          "deionized water (0.890 mPa·s at 25°C — useful low-viscosity check)"
+        ],
+        "consumables": [
+          "cleaning solvents (acetone, ethanol, or petroleum ether) for cylinder surface preparation",
+          "lint-free wipes for drying cylinders",
+          "viscosity standard oils for periodic recalibration",
+          "solvent trap inserts or covers for volatile samples",
+          "disposable cylinder inserts or liners (for corrosive or difficult-to-clean samples)"
+        ],
+        "safety_notes": [
+          "rotating cylinder creates pinch hazard — keep fingers and loose clothing away from the gap during operation",
+          "hot outer cylinder jacket (above 373 K) requires burn protection",
+          "volatile or toxic solvents require fume extraction and appropriate PPE",
+          "high-viscosity samples at high shear rates can generate significant viscous heating — monitor temperature for runaway"
+        ]
+      },
+      "performance": {
+        "sensitivity": "minimum measurable viscosity ~0.5 mPa·s with narrow-gap geometries and air-bearing instruments; torque sensitivity ~0.001 mN·m for research-grade rheometers",
+        "detection_limit": "lower viscosity limit ~0.3–0.5 mPa·s constrained by ambient torque noise and bearing friction; upper limit >10⁶ mPa·s limited by maximum torque",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement of annular gap volume)",
+          "temporal": "transient torque response captured at 1–1000 Hz sampling rates depending on data acquisition system",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "viscosity range approximately 0.5 mPa·s to >10⁶ mPa·s using interchangeable cylinder sets; ~4 decades with a single geometry",
+        "accuracy": "1–3% for Newtonian fluids after full calibration and end-effect correction; 3–5% for non-Newtonian fluids due to additional shear-rate non-uniformity corrections",
+        "precision": "0.5–1% repeatability for Newtonian fluids at a given temperature and shear rate",
+        "throughput": "single sample per measurement; 5–30 minutes per viscosity-temperature curve depending on number of points and equilibration time",
+        "measurement_speed": "steady-state viscosity determination at a single temperature/shear-rate point requires 30 s to 5 min depending on equilibration"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "torque (T) on the measuring cylinder as a function of angular velocity (ω) of the driving cylinder, recorded simultaneously with temperature",
+        "preprocessing_steps": [
+          "zero-torque correction: subtract residual torque from bearing friction and air drag measured with empty instrument",
+          "end-effect correction: account for torque contributions from fluid below the bob base and at the meniscus (Mooney-Ewart correction or guard-ring design)",
+          "temperature equilibration verification: confirm that torque signal has reached steady state before recording",
+          "inertia correction: subtract contributions from fluid and bob inertia during acceleration phases (relevant for transient measurements)",
+          "wall slip check: compare results at two gap widths — if viscosity changes with gap, wall slip is present"
+        ],
+        "analysis_methods": [
+          "Margules equation: η = T(R₂² - R₁²)/(4πLωR₁²R₂²) for narrow-gap Couette flow with inner cylinder rotation",
+          "Krieger-Elrod correction: wide-gap correction for non-Newtonian fluids iterating true shear rate at the bob wall",
+          "Power-law or Herschel-Bulkley fit to flow curve (τ vs. γ̇) for non-Newtonian characterization",
+          "Arrhenius fit: ln(η) = ln(A) + Ea/(RT) for temperature-dependent viscosity of simple liquids",
+          "Vogel-Fulcher-Tammann (VFT) fit: η = η₀·exp(B/(T-T₀)) for glass-forming liquids",
+          "Andrade equation fit for viscosity-temperature correlation"
+        ],
+        "model_assumptions": [
+          "laminar Couette flow — no Taylor vortices, no turbulence (Reynolds number below critical value)",
+          "incompressible fluid in the annular gap",
+          "no-slip boundary condition at both cylinder surfaces",
+          "isothermal conditions — negligible viscous heating in the gap during measurement",
+          "steady-state flow — torque measurement taken after transient start-up flow has decayed",
+          "cylindrical symmetry — perfect concentricity of inner and outer cylinders"
+        ],
+        "fit_parameters": [
+          "dynamic viscosity η (for Newtonian fluids)",
+          "power-law index n and consistency factor K (for power-law fluids: τ = K·γ̇ⁿ)",
+          "yield stress τ₀ (for Bingham or Herschel-Bulkley fluids)",
+          "Arrhenius activation energy Ea and pre-exponential factor A",
+          "VFT parameters η₀, B, T₀ for glass-forming liquids"
+        ],
+        "common_artifacts": [
+          "Taylor vortex artifact: onset of secondary flow above critical Taylor number causes apparent viscosity increase and non-linear torque-speed relationship",
+          "end-effect artifact: additional torque from fluid below bob base leads to systematic overestimate of viscosity if uncorrected",
+          "wall slip artifact: measured viscosity appears lower than true value; exhibits gap-width dependence",
+          "viscous heating artifact: high shear rates generate heat faster than it dissipates, causing in-situ temperature rise and apparent shear-thinning in Newtonian fluids",
+          "evaporation artifact: sample loss from open top of gap decreases effective wetted length, causing apparent viscosity drift over time",
+          "air bubble artifact: trapped bubbles reduce effective fluid volume and cause erratic torque readings",
+          "eccentricity artifact: misalignment of inner and outer cylinders creates non-uniform gap and systematic viscosity error"
+        ],
+        "quality_control_checks": [
+          "verify Newtonian response: plot η vs. shear rate — should be flat for Newtonian standard oils",
+          "measure certified viscosity standard at a reference temperature and confirm agreement within stated accuracy",
+          "compare results from two different gap widths to detect wall slip",
+          "check for Taylor instability: look for abrupt change in torque-speed curve slope at high rotation rates",
+          "repeat measurement after thermal cycling to confirm absence of sample degradation or bubble formation",
+          "inspect bob and cup surfaces for scratches, deposits, or corrosion that alter gap geometry"
+        ],
+        "failure_modes": [
+          "loss of concentricity due to bearing wear or improper leveling (systematic viscosity error)",
+          "torque transducer drift or saturation (erroneous viscosity readings)",
+          "sample crystallization or gelation in the gap (sudden torque spike or instrument overload)",
+          "motor speed instability at very low rpm (noisy shear-rate control)",
+          "thermal runaway from viscous heating at high shear rates (uncontrolled temperature rise)",
+          "bob detachment or coupling failure during high-torque measurements"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 1–3% for Newtonian fluids; 3–5% for non-Newtonian fluids due to shear-rate non-uniformity",
+        "random_sources": [
+          "torque transducer noise and drift",
+          "temperature fluctuations in the sample (±0.01–0.1 K translates to 0.1–2% viscosity variation for typical dη/dT)",
+          "angular velocity fluctuations from motor controller",
+          "mechanical vibrations transmitted to the instrument",
+          "sample surface disturbances from meniscus instability or evaporation"
+        ],
+        "systematic_sources": [
+          "end-effect correction uncertainty (contributes 0.5–2% depending on geometry and correction method)",
+          "gap geometry dimensional tolerances (radii and length, typically ±5–10 µm machining tolerance)",
+          "eccentricity of inner and outer cylinders",
+          "temperature calibration offset (systematic shift in reported viscosity at the wrong T)",
+          "viscous heating not fully corrected (especially at high shear rates)",
+          "wall slip (undetected slip gives systematically low viscosity)",
+          "sample density uncertainty when converting to kinematic viscosity",
+          "torque transducer calibration uncertainty"
+        ],
+        "operator_dependence": "moderate — sample loading technique (avoiding bubbles), fill level, cleaning procedures, and temperature equilibration discipline significantly affect results",
+        "model_dependence": "low for Newtonian fluids measured in narrow-gap geometry (Margules equation is exact for ideal Couette flow); moderate to high for non-Newtonian fluids requiring shear-rate correction models",
+        "dominant_error_sources": [
+          "temperature measurement and control uncertainty (viscosity has exponential T-dependence)",
+          "end-effect correction accuracy",
+          "gap geometry dimensional uncertainty (especially for narrow gaps where small absolute errors are large relative errors)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(η) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of η",
+          "standard deviation from repeated measurements at fixed conditions"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Concentric cylinders viscometry (also known as Couette viscometry) is a rotational rheometric technique that determines the dynamic viscosity of a fluid by measuring the torque required to maintain steady rotation of one cylinder inside another, with the test fluid filling the annular gap between them. First systematically analyzed by Maurice Couette in 1890, the method remains one of the most widely used approaches for viscosity measurement because of its well-defined flow geometry, broad viscosity range (~0.5 mPa·s to >10⁶ mPa·s), and ability to characterize both Newtonian and non-Newtonian fluids. It is the dominant rotational viscometry technique in the NIST ThermoML database with 1082 instances across 231 papers, reflecting its central role in transport property measurements for pure liquids, mixtures, electrolyte solutions, and ionic liquids.",
+      "how_it_operates": "The sample fluid is loaded into the annular gap (typically 1–2 mm wide) between two coaxial cylindrical surfaces. In the most common configuration, the outer cylinder (cup) is stationary and the inner cylinder (bob) rotates at a controlled angular velocity ω, although the inverse configuration (rotating cup, stationary bob with torque measurement) is also used. The rotating cylinder establishes a steady-state Couette flow in the gap, producing a shear stress that is transmitted through the fluid and registered as a reaction torque on the measuring element. A precision torque transducer measures this torque T, and the viscosity is calculated from the Margules equation: η = T·(1/R₁² − 1/R₂²)/(4πLω), where R₁ and R₂ are the inner and outer cylinder radii and L is the immersed cylinder length. Temperature is controlled via a Peltier element or circulating fluid jacket on the outer cylinder, allowing viscosity to be mapped as a function of temperature at defined shear rates.",
+      "core_theory": "The analysis is based on the Navier-Stokes equations for an incompressible Newtonian fluid in the annular gap between two infinitely long coaxial cylinders. Under steady laminar flow with no axial or radial velocity components, the azimuthal velocity profile u(r) is determined by the balance between viscous stress and the imposed boundary conditions (no-slip at both walls). The resulting torque on a cylinder of length L is T = 4πηLωR₁²R₂²/(R₂² − R₁²), which when inverted gives the Margules equation for viscosity. For narrow gaps where R₂/R₁ ≈ 1, the shear rate is approximately uniform across the gap: γ̇ ≈ ωR₁/(R₂ − R₁). For wide gaps, the shear rate varies as 1/r² across the gap, requiring correction factors (Krieger-Elrod method) when measuring non-Newtonian fluids. The calculation assumes laminar Couette flow, which is valid below a critical Taylor number Ta_c ≈ 41.2 for the narrow-gap limit; above this, Taylor vortices form and the simple viscosity equation no longer applies.",
+      "setup": "A typical concentric-cylinder viscometer consists of a precision-machined outer cup (stainless steel, aluminum, or specialty alloy) mounted in a temperature-controlled jacket, and an inner bob suspended from a low-friction air bearing or jeweled bearing that connects to a torque transducer and drive motor. The cup is filled with the sample liquid, and the bob is lowered into the fluid until the measurement zone is fully immersed. A solvent trap or evaporation cover caps the assembly to minimize sample loss. Research-grade rotational rheometers (e.g., Anton Paar MCR series, TA Instruments Discovery HR, Malvern Kinexus) use electronically controlled motors capable of both controlled-rate (imposed ω, measured T) and controlled-stress (imposed T, measured ω) operation. The instrument is mounted on a vibration-free surface and leveled to ensure concentricity.",
+      "suitable_for": "Concentric cylinders viscometry is particularly well suited for low-to-moderate-viscosity liquids in the range 0.5–10,000 mPa·s, where cone-and-plate geometries may have difficulty containing the sample. It excels at measuring temperature-dependent viscosity of pure liquids, liquid mixtures, electrolyte solutions, and ionic liquids — the property types that dominate its ThermoML usage. The geometry is ideal for suspensions and emulsions because the sealed gap prevents particle sedimentation artifacts during measurement and accommodates larger particles than narrow cone-plate gaps. It is well suited for time-dependent measurements (thixotropy, rheopexy) because the enclosed gap maintains sample integrity during prolonged shearing. The wide shear-rate range supports both Newtonian characterization at a single rate and full flow-curve determination for non-Newtonian fluids.",
+      "core_limitations": "The fundamental limitation is the onset of Taylor vortices above the critical angular velocity, which imposes an upper bound on the accessible shear rate for a given fluid viscosity and gap geometry. For low-viscosity fluids (~1 mPa·s), the maximum shear rate before Taylor instability may be only a few hundred s⁻¹. End effects from the fluid below the bob and at the meniscus introduce systematic errors that must be corrected or minimized by special bob designs (cone-bottom Mooney-Ewart geometries or guard rings). Viscous heating at high shear rates can raise the sample temperature faster than the jacket can dissipate heat, producing erroneous viscosity data. The relatively large sample volume (2–30 mL) compared to cone-and-plate (~0.5 mL) can be a disadvantage when sample is scarce. Wall slip can occur with structured fluids, yielding artificially low viscosity values.",
+      "sample_preparation": "The sample should be a homogeneous liquid free of air bubbles and particles larger than approximately one-third of the gap width (~0.3–0.7 mm). Degassing under mild vacuum or gentle stirring removes dissolved gases that might form bubbles during shearing. Suspensions should be filtered or verified to have maximum particle sizes compatible with the gap. The sample is loaded by pouring or pipetting into the cup with the bob raised, taking care to avoid introducing air. After the bob is lowered to the measuring position, any excess sample is trimmed from the top to match the correct fill level. For temperature-dependent measurements, the sample is equilibrated at the starting temperature for 5–15 minutes before data acquisition. For non-Newtonian fluids, a pre-shear protocol (e.g., 60 s at a defined shear rate followed by a rest period) establishes a reproducible initial microstructure.",
+      "calibration_and_references": "Calibration is performed by measuring certified viscosity standard oils (e.g., Cannon Instrument Company S-series or NIST SRM 2490) at reference temperatures and verifying agreement within the stated uncertainty. A minimum of two standard oils spanning the viscosity range of interest should be used to confirm both the torque transducer linearity and the gap geometry conversion factor. Temperature calibration is verified by measuring the viscosity of water at 20°C (1.002 mPa·s) or 25°C (0.890 mPa·s) and comparing against NIST reference values. The angular velocity is verified using the motor encoder or an external tachometer. End-effect magnitude is characterized by measuring the same standard oil with two different immersion depths or with and without a cone-bottom bob. Calibration should be repeated at regular intervals (monthly for routine use) and whenever the geometry is changed or the instrument is serviced.",
+      "data_interpretation": "For Newtonian fluids, the viscosity η is directly computed from the Margules equation using measured torque and angular velocity, after applying zero-torque (bearing friction) and end-effect corrections. The viscosity should be independent of shear rate; any shear-rate dependence indicates either non-Newtonian behavior, instrumental artifacts (Taylor vortices at high rates, torque resolution limit at low rates), or wall slip. Temperature-dependent data are typically fitted to the Arrhenius equation ln(η) = ln(A) + Ea/(RT) for simple liquids, or to the Vogel-Fulcher-Tammann equation η = η₀·exp(B/(T−T₀)) for glass-forming or strongly non-Arrhenius systems. For non-Newtonian fluids, the raw torque-speed data are converted to shear stress–shear rate curves using Krieger-Elrod wide-gap corrections when R₂/R₁ deviates significantly from unity, and fitted to power-law, Herschel-Bulkley, or Cross models as appropriate.",
+      "common_pitfalls": "The most frequent pitfall is inadequate temperature control — because viscosity varies exponentially with temperature (typically 2–10% per kelvin for organic liquids near room temperature), temperature errors of ±0.1 K can exceed the target measurement uncertainty. Trapped air bubbles in the gap produce erratic and unreproducible torque readings; visual inspection after bob insertion is essential. Operating above the critical Taylor number without recognizing it leads to systematically high apparent viscosity because of the additional energy dissipation in Taylor vortices. Incorrect fill level (underfilling or overfilling) changes the effective measurement length and biases the result. Neglecting end-effect corrections, particularly with short bobs or wide gaps, introduces systematic overestimates of 2–5%. Using uncleaned or scratched cylinder surfaces promotes wall slip and alters the effective gap dimensions.",
+      "artifacts_and_failure_modes": "Taylor vortices appear as a characteristic upward inflection in the torque–angular velocity curve above the critical speed, causing measured viscosity to increase with shear rate even for Newtonian fluids. End-effect artifacts manifest as a constant torque offset that becomes significant relative to the total torque at low viscosities or short immersion lengths. Viscous heating artifacts present as apparent shear-thinning in Newtonian fluids at high shear rates, because the gap temperature rises above the jacket-controlled value. Evaporation from the open gap top causes a progressive drop in the apparent liquid level, reducing the effective wetted length and producing a slow downward drift in measured viscosity over time. Wall slip artifacts give anomalously low viscosity that increases with increasing gap width (opposite to the gap-width independence expected for no-slip conditions). Eccentricity artifacts from misaligned cylinders can produce periodic torque oscillations and a systematic viscosity error proportional to the square of the eccentricity ratio.",
+      "reporting_checklist": "Published concentric-cylinder viscometry results should report: inner and outer cylinder radii (R₁, R₂) and immersed length L, or identify the standard geometry used (DIN 53019, ISO 3219); bob/cup material; gap width and radius ratio R₂/R₁; controlled mode (controlled rate or controlled stress); shear rate(s) or angular velocity(ies) employed; temperature, its uncertainty, and the control method (Peltier, circulating bath); sample description and preparation (degassing, filtering); equilibration time and pre-shear protocol (if applicable); end-effect correction method applied; whether Taylor number was checked against the critical value; viscosity standard used for calibration and deviation from certified values; combined expanded uncertainty U(η) at 95% confidence (k = 2) with uncertainty budget identifying dominant sources; and for ThermoML encoding, viscosity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

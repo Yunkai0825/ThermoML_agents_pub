@@ -1,0 +1,172 @@
+{
+  "prop_ID": "apparent_molar_enthalpy_kj_mol",
+  "identity": {
+    "name": "Apparent molar enthalpy, kJ/mol",
+    "unit": "kJ/mol",
+    "symbol": null,
+    "dimension": null,
+    "property_group": "ExcessPartialApparentEnergyProp",
+    "property_class": "thermodynamic",
+    "is_intensive": true,
+    "is_molar": true,
+    "is_excess": false,
+    "is_partial": false,
+    "is_apparent": true,
+    "aliases": [],
+    "typical_variables": [
+      {
+        "var_name": "Solvent: Molality, mol/kg",
+        "var_type": "eComponentComposition",
+        "role": "composition",
+        "usage_fraction": 0.75
+      },
+      {
+        "var_name": "Temperature, K",
+        "var_type": "eTemperature",
+        "role": "primary_axis",
+        "usage_fraction": 0.25
+      },
+      {
+        "var_name": "Pressure, kPa",
+        "var_type": "ePressure",
+        "role": "environmental",
+        "usage_fraction": 0.25
+      },
+      {
+        "var_name": "Molality, mol/kg",
+        "var_type": "eComponentComposition",
+        "role": "composition",
+        "usage_fraction": 0.25
+      }
+    ],
+    "typical_constraints": [],
+    "thermoml_name": "Apparent molar enthalpy, kJ/mol",
+    "db_usage": {
+      "total_instances": 12,
+      "n_papers": 1,
+      "rank_in_group": 8,
+      "rank_overall": 86,
+      "common_methods": [
+        {
+          "method_name": "custom: CALVET:solid",
+          "method_type": "custom",
+          "count": 12,
+          "fraction": 1.0
+        }
+      ],
+      "common_variables": [
+        {
+          "var_name": "Solvent: Molality, mol/kg",
+          "count": 9,
+          "fraction": 0.75
+        },
+        {
+          "var_name": "Temperature, K",
+          "count": 3,
+          "fraction": 0.25
+        },
+        {
+          "var_name": "Pressure, kPa",
+          "count": 3,
+          "fraction": 0.25
+        },
+        {
+          "var_name": "Molality, mol/kg",
+          "count": 3,
+          "fraction": 0.25
+        }
+      ],
+      "common_constraints": [],
+      "system_type_distribution": {
+        "unary": 0,
+        "binary": 3,
+        "ternary": 9,
+        "quaternary_plus": 0
+      },
+      "presentation_distribution": {
+        "direct": 12,
+        "difference": 0,
+        "ratio": 0,
+        "other": 0
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "definition": {
+        "physical_quantity": "",
+        "mathematical_definition": null,
+        "thermodynamic_definition": null,
+        "sign_convention": null,
+        "related_properties": [],
+        "derived_from": [],
+        "can_derive": []
+      },
+      "measurement_context": {
+        "primary_methods": [],
+        "typical_variable_patterns": [],
+        "applicable_presentations": [],
+        "applicable_standard_states": null,
+        "applicable_ref_state_types": null
+      },
+      "phase_applicability": {
+        "applicable_phases": [],
+        "primary_phases": [],
+        "phase_equilibrium_type": null,
+        "applicable_system_types": [],
+        "component_specific": false,
+        "requires_solvent": false
+      },
+      "typical_ranges": {
+        "value_range": {
+          "min": null,
+          "max": null,
+          "unit": "",
+          "note": null
+        },
+        "temperature_range_K": {
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        "pressure_range_kPa": {
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        "reference_values": []
+      },
+      "uncertainty_profile": {
+        "typical_relative_uncertainty": "",
+        "best_achievable_uncertainty": null,
+        "dominant_uncertainty_sources": [],
+        "method_dependent_quality": null,
+        "quality_indicators": []
+      },
+      "data_patterns": {
+        "typical_n_points": {
+          "median": null,
+          "p10": null,
+          "p90": null
+        },
+        "common_block_patterns": [],
+        "multi_property_frequency": "",
+        "co_measured_properties": []
+      }
+    },
+    "description_block": {
+      "property_overview": "",
+      "physical_meaning": "",
+      "thermodynamic_context": "",
+      "measurement_methods_overview": "",
+      "common_variable_patterns": "",
+      "phase_behavior": "",
+      "data_quality_indicators": "",
+      "unit_conventions": "",
+      "typical_applications": "",
+      "common_pitfalls": "",
+      "related_properties": "",
+      "reporting_checklist": ""
+    }
+  }
+}

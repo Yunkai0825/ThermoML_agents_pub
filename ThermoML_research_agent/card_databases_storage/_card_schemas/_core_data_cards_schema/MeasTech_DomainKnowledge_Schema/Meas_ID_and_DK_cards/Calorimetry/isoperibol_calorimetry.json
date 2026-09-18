@@ -1,0 +1,368 @@
+{
+  "meas_ID": "isoperibol_calorimetry",
+  "identity": {
+    "name": "Isoperibol calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Isoperibol calorimetry",
+    "thermoml_custom_codes": [
+      "ISOPERIBOL"
+    ],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 28,
+      "property_groups": [
+        "ExcessPartialApparentEnergyProp"
+      ],
+      "n_papers": 7,
+      "per_group": {
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 28,
+          "papers": 7
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature-time curve of the reaction vessel (calorimetric thermogram)",
+          "temperature rise or fall (ΔT) of the calorimetric fluid/vessel",
+          "jacket (surroundings) temperature (constant)"
+        ],
+        "derived_observables": [
+          "corrected temperature change (ΔT_corrected) via Regnault-Pfaundler or graphical extrapolation",
+          "heat of reaction (Q = C_system × ΔT_corrected)",
+          "energy equivalent (heat capacity) of the calorimeter system",
+          "molar enthalpy of reaction, dissolution, mixing, or combustion"
+        ],
+        "target_properties": [
+          "molar enthalpy of solution",
+          "molar enthalpy of mixing",
+          "molar enthalpy of combustion",
+          "molar enthalpy of reaction",
+          "molar enthalpy of neutralization",
+          "molar enthalpy of dilution",
+          "molar heat capacity at constant pressure (from comparative method)",
+          "excess molar enthalpy"
+        ],
+        "phases_measured": [
+          "liquid (aqueous and organic solutions)",
+          "solid (combustion of solid fuels and organic compounds)",
+          "liquid-liquid mixtures",
+          "solid dissolved in liquid",
+          "gas-phase combustion products (in bomb calorimetry variant)"
+        ],
+        "supported_sample_types": [
+          "aqueous solutions and electrolytes",
+          "organic liquids and their mixtures",
+          "solid compounds (combustion calorimetry)",
+          "acids and bases (neutralization calorimetry)",
+          "salts and ionic compounds (dissolution calorimetry)",
+          "biomass and fuels (calorific value determination)",
+          "polymers and pharmaceuticals",
+          "binary and multicomponent liquid mixtures"
+        ],
+        "unsupported_sample_types": [
+          "gases requiring sealed high-pressure systems beyond bomb design limits",
+          "extremely volatile liquids that escape before measurement completion",
+          "samples with very slow reactions (hours) where heat leak corrections become unreliable",
+          "ultra-small samples (< 0.1 mg) where heat effects are below detection threshold",
+          "highly radioactive or extremely toxic materials requiring specialized containment beyond standard fume hood"
+        ],
+        "typical_output_formats": [
+          "temperature vs. time curve (fore period, main period, after period)",
+          "corrected temperature rise (ΔT_corrected) value",
+          "enthalpy of reaction per mole of reactant",
+          "energy equivalent of calorimeter (J/K or cal/K)",
+          "tabulated ΔH vs. composition or concentration"
+        ],
+        "units": {
+          "temperature": "K or °C",
+          "temperature_change": "K or mK",
+          "time": "s or min",
+          "heat_energy": "J or kJ",
+          "molar_enthalpy": "kJ/mol",
+          "specific_enthalpy": "J/g",
+          "energy_equivalent": "J/K",
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "mass": "g",
+          "volume": "mL or cm³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "jacket_temperature",
+            "typical_range": "288 K to 308 K (near ambient)",
+            "hard_limits": "must be stable to ±0.001 K or better throughout the experiment; specialized systems extend to 200–400 K",
+            "notes": "the defining feature of isoperibol calorimetry — surroundings held at constant temperature"
+          },
+          {
+            "parameter": "initial_temperature_difference",
+            "typical_range": "0 K to ±0.5 K between vessel and jacket at start",
+            "hard_limits": "minimized to reduce systematic heat leak before reaction initiation",
+            "notes": "ideally the vessel temperature equals jacket temperature at the start; small offsets are corrected mathematically"
+          },
+          {
+            "parameter": "temperature_change_of_reaction",
+            "typical_range": "0.5 K to 5 K",
+            "hard_limits": "must be large enough for adequate signal-to-noise (> 0.1 K) but small enough that heat capacity can be treated as constant over the interval",
+            "notes": "reactions producing ΔT < 0.1 K are at the detection limit; ΔT > 10 K may require nonlinear Cp corrections"
+          },
+          {
+            "parameter": "reaction_duration",
+            "typical_range": "30 s to 30 min for main period",
+            "hard_limits": "reaction must be fast enough that cumulative heat leak during the main period is small relative to the total heat evolved; typically < 60 min",
+            "notes": "slow reactions degrade accuracy because the Regnault-Pfaundler correction becomes dominant"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (ambient) for solution calorimetry; up to 30 MPa for bomb combustion calorimetry",
+            "hard_limits": "bomb calorimeters rated to specific maximum pressures (typically 20–35 MPa)",
+            "notes": "solution and mixing calorimetry at ambient pressure; combustion calorimetry at elevated O2 pressure"
+          }
+        ],
+        "variables": [
+          {
+            "name": "jacket_temperature",
+            "role": "controlled constant (defining condition)",
+            "typical_values": "298.15 K (25 °C) most common",
+            "effect": "held constant; defines the reference thermal environment; determines the direction and rate of heat leak between vessel and surroundings"
+          },
+          {
+            "name": "sample_concentration",
+            "role": "independent variable (dissolution/dilution studies)",
+            "typical_values": "0.001 mol/L to 10 mol/L",
+            "effect": "enthalpy of dissolution and dilution vary with final concentration; integral and differential heats of solution depend on molality"
+          },
+          {
+            "name": "stirring_rate",
+            "role": "controlled parameter",
+            "typical_values": "200 rpm to 600 rpm",
+            "effect": "ensures uniform temperature distribution in the reaction vessel; too slow causes temperature gradients; too fast introduces mechanical heating"
+          },
+          {
+            "name": "sample_mass",
+            "role": "controlled parameter",
+            "typical_values": "0.5 g to 5 g (solution calorimetry); 0.5 g to 1.5 g (combustion calorimetry)",
+            "effect": "determines total heat evolved and hence temperature rise; optimal mass chosen to give an adequate ΔT within the linear response regime"
+          },
+          {
+            "name": "calorimetric_fluid_volume",
+            "role": "controlled parameter",
+            "typical_values": "100 mL to 1000 mL (solution calorimetry); 2000 mL water equivalent (bomb calorimetry)",
+            "effect": "larger volumes moderate temperature rise and improve temperature uniformity; smaller volumes increase sensitivity but are more susceptible to heat leak"
+          },
+          {
+            "name": "pressure",
+            "role": "fixed or controlled (bomb calorimetry)",
+            "typical_values": "0.1 MPa (solution) or 3 MPa O2 (combustion)",
+            "effect": "combustion calorimetry requires excess O2 pressure to ensure complete combustion; correction from constant volume to constant pressure (ΔH = ΔU + ΔnRT) required for bomb data"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "reaction vessel (Dewar flask or insulated calorimeter can) — contains the reacting system and calorimetric fluid",
+          "constant-temperature jacket (water bath) — thermostatted outer vessel surrounding the reaction vessel, maintained at fixed temperature",
+          "precision thermometer or thermistor — measures reaction vessel temperature with ±0.001 K resolution (Beckmann thermometer, quartz crystal thermometer, or calibrated thermistor)",
+          "stirrer — motor-driven propeller or magnetic stirrer ensuring uniform temperature distribution within the reaction vessel",
+          "sample introduction device — ampoule breaker, syringe injector, or rotating sample holder for initiating contact between reactants at a defined time",
+          "electrical calibration heater — precision resistor immersed in the calorimetric fluid for determining the energy equivalent by Joule heating",
+          "bomb (combustion variant) — sealed high-pressure vessel for burning samples in excess oxygen",
+          "ignition system (combustion variant) — fuse wire and electrical firing circuit",
+          "data acquisition system — computer with digital thermometer interface recording temperature vs. time at 1–10 s intervals",
+          "timer — high-resolution clock synchronized with temperature recording"
+        ],
+        "environmental_requirements": [
+          "constant-temperature room (±1 K) to minimize stray heat exchange with the jacket exterior",
+          "vibration-free bench to avoid stirrer-induced noise in the thermometer signal",
+          "draft-free enclosure around the calorimeter assembly",
+          "stable electrical power supply for the jacket thermostat and stirrer motor"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "finely ground powder (combustion and dissolution samples for rapid reaction)",
+            "pelletized solid (combustion calorimetry, pressed into pellets for uniform burning)",
+            "liquid aliquot measured by calibrated syringe or pipette (solution and mixing calorimetry)",
+            "sealed glass ampoule containing reactant (ampoule-breaking calorimetry)"
+          ],
+          "size_limits": "0.1 g to 5 g typical; bomb combustion samples 0.5–1.5 g; solution calorimetry samples chosen to produce ΔT of 0.5–5 K",
+          "thickness_limits": "not directly applicable; particle size for powders should be < 200 µm for rapid dissolution or combustion",
+          "surface_requirements": [
+            "dry surface for accurate mass determination",
+            "clean surface free of contaminants that could contribute spurious heats"
+          ],
+          "mounting_requirements": [
+            "sealed in glass ampoule (dissolution/reaction) or pressed into pellet with fuse wire (combustion)",
+            "sample must be physically isolated from calorimetric fluid until the defined initiation moment"
+          ],
+          "preparation_requirements": [
+            "dried to constant mass in a desiccator or vacuum oven",
+            "weighed on analytical balance (±0.0001 g)",
+            "purity verified (impurities produce systematic enthalpy errors proportional to impurity fraction)",
+            "pelletized and wrapped with fuse wire (combustion); encapsulated in glass ampoule (dissolution)",
+            "degassed if dissolved gases may produce spurious thermal effects"
+          ]
+        },
+        "calibration_requirements": [
+          "energy equivalent (epsilon, J/K) determined by electrical calibration — passing known current through a precision heater resistor for a measured time: epsilon = V × I × t / ΔT_electrical",
+          "energy equivalent verification using certified reference material combustion (benzoic acid NIST SRM 39j for bomb calorimetry)",
+          "thermometer calibration against ITS-90 fixed points or a NIST-traceable reference thermometer",
+          "heat leak coefficient (Newton's law cooling constant k) determined from the fore-period and after-period temperature-time slopes",
+          "stirring energy correction — determined from the slope of temperature drift in the fore period with stirrer running"
+        ],
+        "reference_materials": [
+          "benzoic acid (NIST SRM 39j) — primary combustion calorimetry standard (ΔcU° = −26434 ± 3 J/g)",
+          "potassium chloride (KCl, NIST SRM 1655) — solution calorimetry reference for enthalpy of dissolution",
+          "tris(hydroxymethyl)aminomethane (THAM/TRIS) — reaction calorimetry reference for enthalpy of protonation in HCl",
+          "succinic acid — secondary standard for combustion calorimetry",
+          "naphthalene — combustion calorimetry secondary reference"
+        ],
+        "consumables": [
+          "glass ampoules for sample encapsulation (dissolution calorimetry)",
+          "fuse wire (cotton thread or iron wire, NIST-calibrated energy per unit length) for bomb ignition",
+          "high-purity oxygen gas (≥99.95%) for bomb charging",
+          "deionized water for calorimetric fluid",
+          "desiccant for sample storage",
+          "Parr decomposition aids (if needed for difficult combustions)"
+        ],
+        "safety_notes": [
+          "bomb calorimetry involves high-pressure oxygen — risk of explosion if bomb is improperly sealed or overpressurized; never exceed rated pressure",
+          "combustion of volatile organic compounds requires adherence to safe sample mass limits to avoid bomb overpressure",
+          "strong acids and bases used in solution calorimetry require standard chemical handling precautions",
+          "electrical calibration heater operates at elevated current — ensure proper grounding and insulation",
+          "glass ampoule breaking can produce sharp fragments inside the vessel"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of detecting heat effects as small as ~0.05 J in high-precision solution calorimeters; temperature resolution of ±0.0001 K in research-grade instruments",
+        "detection_limit": "minimum detectable temperature change ~0.001 K; minimum detectable enthalpy ~0.02 J for micro-scale isoperibol designs; standard instruments require ΔT ≥ 0.05 K for reliable measurement",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement; entire reaction vessel is the measurement volume)",
+          "temporal": "temperature recorded at 1–10 s intervals; reaction events lasting ≥ 10 s are well-resolved",
+          "spectral": "not applicable",
+          "energy": "energy resolution ~0.01% of the energy equivalent for research-grade instruments; ~0.1% for standard laboratory calorimeters"
+        },
+        "dynamic_range": "temperature changes from 0.05 K to 10 K; enthalpies from ~0.1 kJ/mol to ~10,000 kJ/mol (combustion of high-energy compounds)",
+        "accuracy": "0.01–0.05% for combustion calorimetry with certified reference calibration; 0.1–1% for solution calorimetry; depends critically on quality of heat leak correction",
+        "precision": "0.01–0.03% (repeatability) for combustion of benzoic acid; 0.1–0.5% for solution and mixing enthalpy measurements",
+        "throughput": "1–3 experiments per hour including fore period, main period, after period, and reset; automated combustion calorimeters can achieve higher throughput",
+        "measurement_speed": "individual measurement requires 20–60 min total (5–10 min fore period, 5–20 min main period, 5–10 min after period, plus preparation and reset)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "temperature vs. time trace recorded digitally from a precision thermometer immersed in the calorimetric fluid, divided into three sequential segments: fore period (pre-reaction drift), main period (reaction), and after period (post-reaction drift)",
+        "preprocessing_steps": [
+          "fore-period drift rate determination — linear (or exponential) fit to temperature-time data before reaction initiation to establish the pre-reaction heat leak rate",
+          "after-period drift rate determination — linear (or exponential) fit to temperature-time data after reaction completion to establish the post-reaction heat leak rate",
+          "Regnault-Pfaundler correction — calculates the corrected temperature rise by integrating the estimated heat exchange with the jacket over the main period: ΔT_corrected = ΔT_observed + k × ∫(T_jacket − T_vessel) dt",
+          "alternatively, graphical extrapolation method — extrapolate fore and after period lines to the midpoint of the main period and take the difference as ΔT_corrected",
+          "stirring energy subtraction — subtract the constant heat input from the stirrer determined from the fore-period slope",
+          "side-reaction corrections (combustion) — subtract heat contributions from fuse wire combustion, acid formation (HNO3, H2SO4), and any incomplete combustion residues"
+        ],
+        "analysis_methods": [
+          "Q = epsilon × ΔT_corrected, where epsilon is the energy equivalent of the calorimeter determined by electrical or chemical calibration",
+          "Washburn corrections (combustion calorimetry) — correct ΔU to standard-state conditions (298.15 K, standard pressure, ideal-gas products)",
+          "ΔH = ΔU + ΔnRT conversion (bomb calorimetry, constant volume to constant pressure)",
+          "molar enthalpy calculation: ΔH_m = Q / n, where n is moles of the limiting reactant",
+          "concentration-dependent enthalpy studies: plot ΔH_sol vs. molality to extrapolate to infinite dilution",
+          "Kirchhoff equation corrections if measurement temperature differs from the reference temperature"
+        ],
+        "model_assumptions": [
+          "Newton's law of cooling governs heat exchange between vessel and jacket: dQ_leak/dt = k × (T_jacket − T_vessel)",
+          "the cooling constant k is the same during fore, main, and after periods (no change in stirring or evaporation rate)",
+          "the heat capacity of the calorimeter system (energy equivalent) is constant over the small temperature range of the experiment",
+          "the reaction goes to completion during the main period",
+          "uniform temperature distribution within the reaction vessel (perfect mixing assumption)",
+          "for combustion: complete combustion to specified products (CO2(g), H2O(l), N2(g))"
+        ],
+        "fit_parameters": [
+          "energy equivalent of the calorimeter system (epsilon, J/K)",
+          "cooling constant (k, s⁻¹ or min⁻¹) from fore and after period drift rates",
+          "corrected temperature rise (ΔT_corrected, K)",
+          "heat of reaction (Q, J)",
+          "molar enthalpy of reaction (ΔH_m, kJ/mol)"
+        ],
+        "common_artifacts": [
+          "evaporation artifact: endothermic solvent evaporation creates a negative temperature drift that mimics heat leak, biasing ΔT_corrected low",
+          "stirring power artifact: variable stirrer speed or intermittent stirring produces non-constant heat input, distorting the fore and after period drift lines",
+          "incomplete reaction: if the reaction does not reach completion during the main period, residual heat evolution contaminates the after period, giving an underestimate of ΔT",
+          "thermal stratification: insufficient stirring creates temperature gradients within the vessel, causing the thermometer to read a non-representative temperature",
+          "parasitic heat from sample introduction: mechanical work of breaking an ampoule or friction from syringe injection contributes a small spurious heat"
+        ],
+        "quality_control_checks": [
+          "verify energy equivalent by combustion of certified benzoic acid (SRM 39j) — agreement within 0.05% of the certified value",
+          "verify dissolution enthalpy with KCl (SRM 1655) or THAM — agreement within 1% of the certified value",
+          "check that fore and after period drift rates are linear (or smoothly exponential) with no discontinuities",
+          "confirm that ΔT_corrected is independent of the time chosen for the graphical extrapolation midpoint (self-consistency check)",
+          "replicate measurements (n ≥ 3) to assess repeatability; coefficient of variation should be < 0.5% for combustion, < 2% for solution calorimetry",
+          "inspect combustion residues — crucible and bomb interior should show no soot, unburned sample, or unexpected deposits"
+        ],
+        "failure_modes": [
+          "jacket thermostat failure: drift in jacket temperature during the experiment invalidates the constant-surroundings assumption, corrupting the heat leak correction",
+          "thermometer malfunction: sudden jumps or noise in the temperature trace render the fore/after period fitting unreliable",
+          "incomplete combustion: soot or unburned residue in the bomb produces low ΔT and incorrect enthalpy; evident from carbon deposits",
+          "ampoule seal failure: premature contact between sample and calorimetric fluid before the defined initiation time produces an uncontrolled fore period",
+          "leak in the bomb seal: loss of pressurized O2 leads to incomplete combustion and possible safety hazard",
+          "solvent evaporation through an improperly sealed vessel: progressive evaporative cooling corrupts the temperature trace"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: 0.01–0.05% for combustion enthalpy; 0.2–1% for solution and mixing enthalpy; depends on quality of heat leak correction and completeness of reaction",
+        "random_sources": [
+          "thermometer noise — short-term fluctuations in the resistance or voltage reading",
+          "stirring speed fluctuations — variations in mechanical heat input",
+          "ambient temperature fluctuations affecting the jacket thermostat setpoint",
+          "incomplete mixing — random variations in how quickly the sample dissolves or reacts",
+          "ignition variability (combustion) — slight differences in fuse wire burn characteristics"
+        ],
+        "systematic_sources": [
+          "energy equivalent calibration uncertainty (dominant for absolute accuracy)",
+          "heat leak correction model error — deviation of actual heat exchange from Newton's law (e.g., radiative heat transfer at large ΔT)",
+          "evaporation heat loss not accounted for in the correction",
+          "thermometer calibration offset",
+          "sample purity — impurity content biases the measured enthalpy",
+          "incomplete reaction (combustion or dissolution) — produces a systematic low bias",
+          "Washburn correction uncertainties (combustion) — depend on assumed product composition",
+          "stirring energy correction uncertainty",
+          "sample mass determination uncertainty (balance calibration)"
+        ],
+        "operator_dependence": "moderate — correct assembly of the bomb, uniform packing of pellets, consistent ampoule breaking technique, and proper timing of fore/main/after periods depend on operator skill; automated instruments reduce this dependence",
+        "model_dependence": "moderate — accuracy depends on the validity of Newton's law of cooling and constancy of k over the measurement interval; for large ΔT or long experiments, more sophisticated heat exchange models (exponential decay, radiation corrections) may be needed",
+        "dominant_error_sources": [
+          "heat leak correction (Regnault-Pfaundler method) — becomes the dominant error for slow reactions or large temperature differences between vessel and jacket",
+          "energy equivalent calibration — directly propagates into every enthalpy value",
+          "sample purity — 1% impurity can bias ΔH by ~1% for combustion and more for other reaction types"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔH) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of ΔH",
+          "standard deviation of the mean from replicate experiments"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Isoperibol calorimetry (from Greek: iso = equal, peri = around, ballein = to throw) is a calorimetric technique in which the surroundings (jacket) are maintained at a constant temperature while the temperature change of the reaction vessel is measured. It is the most common type of reaction calorimeter found in both undergraduate teaching laboratories and industrial quality-control settings. The technique determines enthalpies of reaction, dissolution, mixing, combustion, and neutralization by measuring the corrected temperature rise produced when a chemical process occurs in the calorimetric vessel, then converting that temperature change to an energy using the known energy equivalent of the system. The Parr oxygen bomb calorimeter, used worldwide for determining heats of combustion, is the most recognized example of an isoperibol instrument.",
+      "how_it_operates": "A sample is placed inside a reaction vessel (Dewar flask or insulated calorimeter can) that is immersed in or surrounded by a constant-temperature jacket, typically a well-thermostatted water bath. The calorimetric fluid inside the reaction vessel is stirred continuously to maintain uniform temperature. A precision thermometer records the vessel temperature at regular intervals. The experiment proceeds in three phases: a fore period during which the temperature drift before reaction initiation is recorded, a main period during which the reaction occurs and the temperature changes, and an after period during which the post-reaction temperature drift is recorded. Because the jacket temperature is fixed while the vessel temperature changes, heat continuously leaks between the vessel and jacket at a rate proportional to their temperature difference (Newton's law of cooling). The corrected temperature rise is obtained by mathematically accounting for this heat exchange using the Regnault-Pfaundler method or graphical extrapolation, and the total heat is calculated as Q = epsilon × ΔT_corrected, where epsilon is the energy equivalent of the calorimeter system.",
+      "core_theory": "The fundamental principle is the first law of thermodynamics applied to the calorimeter as a system: the heat produced by the reaction (Q) equals the heat absorbed by the calorimeter system (Q = C_system × ΔT) plus the heat exchanged with the surroundings during the measurement. The heat exchange with the constant-temperature jacket is modeled by Newton's law of cooling: dT/dt = k × (T_jacket − T_vessel), where k is the cooling constant. The Regnault-Pfaundler correction integrates this heat leak over the main period: ΔT_corrected = T_final − T_initial + k × Σ(T_jacket − T_vessel,i) × Δt_i. For bomb combustion calorimetry the measurement yields the internal energy change at constant volume (ΔU), which is converted to the enthalpy change at constant pressure via ΔH = ΔU + Δn_gas × R × T, where Δn_gas is the change in moles of gaseous species. Washburn corrections further adjust the result to standard-state conditions (298.15 K, 0.1 MPa, pure substances).",
+      "setup": "A typical isoperibol calorimeter consists of an inner reaction vessel (often a silvered Dewar flask or a polished metal can with an air gap) suspended inside a double-walled constant-temperature jacket. The jacket is thermostatted by circulating water controlled to ±0.001 K by a precision bath. Inside the reaction vessel, a stirrer driven by an external motor ensures thermal homogeneity. A precision thermometer (quartz crystal oscillation thermometer, calibrated thermistor, or platinum resistance thermometer) is immersed in the calorimetric fluid and read by a digital data acquisition system. An electrical calibration heater (precision resistor) is also immersed in the fluid for determining the energy equivalent. For solution calorimetry, a sample introduction device (ampoule breaker or syringe injector) allows initiation of the reaction at a defined time. For combustion calorimetry, a sealed stainless-steel bomb containing the pelletized sample and fuse wire is placed inside the vessel, surrounded by a measured quantity of water, and fired electrically.",
+      "suitable_for": "Isoperibol calorimetry is the standard method for determining standard enthalpies of combustion of organic compounds, fuels, foodstuffs, and waste materials. It is widely used for measuring enthalpies of solution (dissolving a solid in a solvent), enthalpies of mixing of liquids, enthalpies of neutralization (acid-base reactions), and enthalpies of dilution. It is the technique of choice whenever a fast, strongly exothermic or endothermic process produces a temperature change of 0.5–5 K that can be measured with high precision. The technique is particularly well-suited to reactions that can be initiated sharply (ampoule breaking, ignition) and that reach completion within minutes, minimizing the cumulative heat leak correction. Bomb combustion calorimetry is the primary source of standard molar enthalpies of formation through Hess's law calculations.",
+      "core_limitations": "The defining limitation is the continuous heat exchange between the reaction vessel and the constant-temperature jacket, which must be corrected mathematically — the accuracy of the result depends directly on the quality of this correction. For slow reactions (> 30 min), the cumulative heat leak becomes a large fraction of the total heat and the correction dominates the uncertainty. The technique assumes Newton's law of cooling with a single, constant cooling coefficient, which breaks down at large temperature differences where radiative heat transfer becomes significant. Evaporation of the calorimetric fluid introduces an unaccounted endothermic effect unless the vessel is sealed. The energy equivalent must be redetermined whenever the vessel contents change (different masses or compositions of calorimetric fluid). Compared to isothermal or adiabatic calorimetry, the isoperibol method has higher systematic uncertainty for slow processes, though it offers simpler apparatus and operation.",
+      "sample_preparation": "For combustion calorimetry, the sample is dried to constant mass in a desiccator, weighed to ±0.0001 g on an analytical balance, and pressed into a pellet (~1 g) using a pellet press. A length of standardized fuse wire (iron wire or cotton thread with certified energy of combustion per unit length) is attached to the ignition electrodes and wrapped around or threaded through the pellet. The bomb is charged with excess oxygen (typically 3.0 MPa) and tested for leaks. For solution calorimetry, the solid sample is dried, weighed, and sealed in a thin-walled glass ampoule that is subsequently broken inside the calorimeter to initiate dissolution. Liquid samples are measured by volume using calibrated syringes or micropipettes and their density is used to convert to mass. Sample purity is critical — impurities contribute their own reaction enthalpy and must be quantified.",
+      "calibration_and_references": "Calibration establishes the energy equivalent (epsilon) of the calorimeter system by two complementary methods: electrical calibration, where a known amount of Joule heat (Q_elec = V × I × t) is dissipated in the calorimetric fluid and the resulting ΔT is measured, giving epsilon = Q_elec / ΔT_corrected; and chemical calibration, using a standard reference substance with a certified enthalpy of combustion or dissolution. For combustion calorimetry, NIST SRM 39j benzoic acid (ΔcU° = −26434 ± 3 J/g) is the primary reference. For solution calorimetry, KCl (NIST SRM 1655) and THAM (tris(hydroxymethyl)aminomethane) are standard references. The energy equivalent should be redetermined at the start of each measurement campaign and verified periodically. Temperature calibration is traced to ITS-90 via certified reference thermometers or fixed-point cells.",
+      "data_interpretation": "The temperature-time trace is divided into three segments. The fore period (5–10 min before reaction) and after period (5–10 min after reaction) establish the heat leak rates by linear regression of T vs. t. The corrected temperature rise is then calculated by the Regnault-Pfaundler method, which accounts for the heat exchanged with the jacket during the main period by summing incremental corrections at each time step. Alternatively, the Dickinson graphical extrapolation method projects the fore and after period lines to a common time (chosen so that the areas above and below the actual temperature curve are equal) and reads ΔT_corrected as the vertical distance. The total heat is Q = epsilon × ΔT_corrected. For combustion, corrections are subtracted for fuse wire combustion, nitric acid formation from atmospheric nitrogen, and any incomplete combustion. The Washburn corrections adjust the result to standard-state conditions, and the constant-volume energy is converted to constant-pressure enthalpy using ΔH = ΔU + Δn_gas × RT. The final molar enthalpy is ΔH_m = Q / n_sample.",
+      "common_pitfalls": "The most frequent error is neglecting or incorrectly applying the heat leak correction — using a linear extrapolation when the cooling follows an exponential profile, or assuming the cooling constant is the same for both fore and after periods when it is not. Insufficient stirring produces temperature gradients inside the vessel, causing the thermometer to sense a non-representative temperature and yielding irreproducible results. Failure to account for the heat of stirring (mechanical work from the stirrer paddles) biases the energy equivalent and all subsequent measurements. In combustion calorimetry, incomplete combustion due to insufficient oxygen, poorly pressed pellets, or inadequate fuse contact produces soot and erroneously low enthalpies. Using a sample mass that produces too large a temperature rise (> 5 K) violates the assumption that the heat capacity is constant over the measurement interval. Starting the experiment with a large temperature difference between vessel and jacket magnifies the heat leak correction and its associated uncertainty.",
+      "artifacts_and_failure_modes": "Evaporation artifact: if the reaction vessel is not sealed, continuous solvent evaporation produces a negative temperature drift superimposed on the heat leak, making the after-period slope steeper than expected and biasing ΔT_corrected low. Stirring power artifact: changes in stirrer speed during the experiment produce discontinuities in the temperature drift that cannot be modeled by the simple Newton's law correction. Incomplete reaction artifact (combustion): carbon residue or soot in the bomb indicates incomplete combustion; the measured enthalpy is systematically low and the run must be discarded. Parasitic heat artifact: the mechanical work of breaking a glass ampoule contributes a small exothermic pulse (~0.01–0.1 J) that must be quantified by blank experiments. Jacket thermostat drift: even small changes in jacket temperature (> 0.002 K) during the experiment introduce a time-dependent correction that the standard Regnault-Pfaundler treatment does not handle, producing systematic errors. Thermometer hysteresis: mercury-in-glass Beckmann thermometers exhibit setting errors if not properly tapped; modern digital thermometers eliminate this artifact.",
+      "reporting_checklist": "Published isoperibol calorimetry results should include: the type and model of calorimeter used, jacket temperature and its stability, energy equivalent and method of determination (electrical, chemical, or both), sample mass and purity with source of characterization, sample preparation method (pellet press conditions, ampoule type), calorimetric fluid identity and volume, stirring rate, time intervals for fore/main/after periods, heat leak correction method applied (Regnault-Pfaundler, Dickinson extrapolation), corrections for fuse wire, acid formation, and Washburn adjustments (combustion), corrected temperature rise and energy of reaction, molar enthalpy of reaction with combined expanded uncertainty at 95% confidence (k = 2), number of replicate experiments, and reference material verification results. For ThermoML encoding, enthalpy values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

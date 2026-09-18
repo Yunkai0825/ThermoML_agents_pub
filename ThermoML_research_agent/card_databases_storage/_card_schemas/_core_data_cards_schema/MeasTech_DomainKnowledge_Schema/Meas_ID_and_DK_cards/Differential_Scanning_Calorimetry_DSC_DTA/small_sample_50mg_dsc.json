@@ -1,0 +1,390 @@
+{
+  "meas_ID": "small_sample_50mg_dsc",
+  "identity": {
+    "name": "Small sample (50 mg) DSC",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Small sample (50 mg) DSC",
+    "thermoml_custom_codes": [
+      "DSC",
+      "SDSC"
+    ],
+    "measurement_family": "Differential Scanning Calorimetry (DSC/DTA)",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 1173,
+      "property_groups": [
+        "HeatCapacityAndDerivedProp",
+        "ExcessPartialApparentEnergyProp"
+      ],
+      "n_papers": 267,
+      "per_group": {
+        "HeatCapacityAndDerivedProp": {
+          "instances": 1160,
+          "papers": 266
+        },
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 13,
+          "papers": 4
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "differential heat flow (mW) between sample and reference",
+          "sample temperature (K or °C)",
+          "reference temperature (K or °C)",
+          "time (s or min)"
+        ],
+        "derived_observables": [
+          "isobaric heat capacity Cp (J/(mol·K) or J/(g·K))",
+          "specific heat capacity cp (J/(g·K))",
+          "transition onset temperature (K)",
+          "transition peak temperature (K)",
+          "transition enthalpy ΔH (J/mol or J/g)",
+          "glass transition temperature Tg (K)",
+          "crystallization temperature Tc (K)",
+          "melting temperature Tm (K)",
+          "degree of crystallinity (%)",
+          "purity (mol%)"
+        ],
+        "target_properties": [
+          "isobaric heat capacity (Cp)",
+          "molar heat capacity at constant pressure",
+          "specific heat capacity",
+          "enthalpy of fusion (ΔHfus)",
+          "enthalpy of crystallization (ΔHc)",
+          "enthalpy of vaporization (from sealed pans)",
+          "glass transition temperature (Tg)",
+          "melting temperature (Tm)",
+          "crystallization temperature (Tc)",
+          "degree of crystallinity",
+          "purity by DSC (van't Hoff method)",
+          "excess molar heat capacity (CpE)",
+          "partial molar heat capacity",
+          "apparent molar heat capacity"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous/glassy)",
+          "liquid",
+          "liquid crystal",
+          "gel",
+          "polymer melt",
+          "glass"
+        ],
+        "supported_sample_types": [
+          "pure organic solids and liquids",
+          "inorganic solids",
+          "polymers and copolymers",
+          "pharmaceutical compounds",
+          "ionic liquids",
+          "binary and multicomponent liquid mixtures",
+          "salt hydrates",
+          "metal alloys",
+          "oils and fats",
+          "biological materials (proteins, lipids)",
+          "composites and blends",
+          "nanomaterials and nanocomposites"
+        ],
+        "unsupported_sample_types": [
+          "gases (no condensed phase)",
+          "highly volatile liquids without sealed pans",
+          "samples generating corrosive gases that attack sensor or pans",
+          "samples requiring pressures above ~10 MPa (standard DSC)",
+          "extremely large samples (> 100 mg exceeds pan capacity)"
+        ],
+        "typical_output_formats": [
+          "heat flow (mW) vs. temperature (K or °C) curve",
+          "Cp vs. T curve",
+          "heat flow vs. time (isothermal mode)",
+          "first derivative of heat flow vs. T",
+          "enthalpy (integrated heat flow) vs. T"
+        ],
+        "units": {
+          "heat_flow": "mW or W/g",
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "temperature": "K or °C",
+          "enthalpy": "J/mol or J/g or kJ/mol",
+          "time": "s or min",
+          "heating_rate": "K/min or °C/min",
+          "sample_mass": "mg"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "93 K to 973 K (−180 °C to 700 °C)",
+            "hard_limits": "depends on instrument model and cooling accessory; RCS covers −90 °C, LNCS covers −180 °C; furnace maximum typically 700–725 °C",
+            "notes": "most standard measurements are run between −50 °C and 400 °C; specialized instruments extend to 1500 °C"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "5 K/min to 20 K/min",
+            "hard_limits": "0.01 K/min to 300 K/min (instrument-dependent)",
+            "notes": "10 K/min is the most common standard rate; slower rates improve resolution but reduce sensitivity; faster rates increase sensitivity but reduce resolution"
+          },
+          {
+            "parameter": "cooling_rate",
+            "typical_range": "5 K/min to 20 K/min",
+            "hard_limits": "limited by cooling system capacity; ballistic cooling at high T, controlled rates typically 0.1–50 K/min",
+            "notes": "achievable cooling rate depends on temperature range and cooling accessory type"
+          },
+          {
+            "parameter": "sample_mass",
+            "typical_range": "1 mg to 50 mg",
+            "hard_limits": "0.5 mg minimum for reliable signal; 100 mg maximum for standard pans",
+            "notes": "5–15 mg is optimal for most measurements; smaller masses for sharp transitions, larger for weak signals (e.g., Tg)"
+          },
+          {
+            "parameter": "purge_gas_flow_rate",
+            "typical_range": "20 mL/min to 50 mL/min",
+            "hard_limits": "0–100 mL/min",
+            "notes": "nitrogen is standard; helium for improved thermal conductivity; argon for reactive samples; air/oxygen for oxidative stability studies"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "scanned variable (primary)",
+            "typical_values": "93 K to 973 K",
+            "effect": "temperature drives thermal transitions; scan reveals endothermic/exothermic events and Cp changes"
+          },
+          {
+            "name": "heating_rate",
+            "role": "controlled experimental parameter",
+            "typical_values": "10 K/min (standard), 5–20 K/min",
+            "effect": "higher rates increase peak height and sensitivity but broaden peaks and shift onset temperatures; lower rates improve resolution"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "standard DSC operates at atmospheric pressure; high-pressure DSC cells available for specialized work up to 10 MPa"
+          },
+          {
+            "name": "sample_mass",
+            "role": "controlled parameter",
+            "typical_values": "5–15 mg (optimal)",
+            "effect": "larger mass increases signal intensity but broadens peaks due to thermal gradients; smaller mass improves resolution"
+          },
+          {
+            "name": "atmosphere",
+            "role": "controlled parameter",
+            "typical_values": "nitrogen, helium, argon, air",
+            "effect": "inert gas prevents oxidation; gas thermal conductivity affects heat transfer and baseline curvature"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "DSC cell — heat-flux disk sensor (e.g., constantan disk in TA Instruments Q-series; ring or plate sensor in Netzsch/Mettler) with sample and reference positions on a single thermoelectric platform",
+          "furnace — silver or aluminum block furnace providing controlled temperature program (heating, cooling, isothermal)",
+          "temperature sensor — area-type thermocouple array (chromel-constantan or platinum) beneath sample and reference pans for differential temperature measurement",
+          "cooling system — refrigerated cooling system (RCS), liquid nitrogen cooling system (LNCS), or intracooler for sub-ambient operation",
+          "sample pans — aluminum (standard, crimped or hermetic), platinum, gold, copper, or stainless steel pans with lids",
+          "reference pan — matched empty pan (same type and mass as sample pan)",
+          "purge gas system — flow controller and gas lines for N2, He, Ar, or air",
+          "autosampler (optional) — robotic sample changer for high-throughput operation (e.g., 50-position tray)",
+          "data acquisition and control — computer with instrument control software (e.g., TA TRIOS, Netzsch Proteus, Mettler STARe)"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature (±2 °C drift or better during measurement)",
+          "level, vibration-free surface for consistent baseline",
+          "dry purge gas to prevent ice formation at sub-ambient temperatures",
+          "adequate ventilation for purge gas exhaust"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "powder, granule, or small piece that fits inside sample pan",
+            "thin film or fiber cut to fit pan bottom",
+            "liquid injected or pipetted into pan"
+          ],
+          "size_limits": "1–50 mg (standard); 5–15 mg optimal; up to 100 mg in large-volume pans",
+          "thickness_limits": "sample should contact pan bottom uniformly; thickness < 2 mm preferred for good thermal contact",
+          "surface_requirements": [
+            "good thermal contact with pan bottom (flat particles or pressed pellets preferred)",
+            "clean, dry surface for reproducible contact"
+          ],
+          "mounting_requirements": [
+            "sample placed in appropriate pan type (crimped aluminum for routine, hermetic for volatiles, high-pressure for sealed measurements)",
+            "pan crimped or sealed with press/die set",
+            "pan centered on DSC platform sensor position",
+            "matching empty reference pan on reference platform"
+          ],
+          "preparation_requirements": [
+            "mass determined by analytical balance (±0.01 mg precision)",
+            "dried samples for hygroscopic materials",
+            "ground or cut to small pieces for good thermal contact",
+            "encapsulated in hermetic pan if volatile or reactive",
+            "known thermal history (annealing, quenching) documented"
+          ]
+        },
+        "calibration_requirements": [
+          "temperature calibration using high-purity metal melting point standards (indium Tm = 429.75 K, tin Tm = 505.08 K, zinc Tm = 692.68 K, lead Tm = 600.61 K)",
+          "enthalpy calibration using indium (ΔHfus = 28.45 J/g)",
+          "heat capacity (Cp) calibration using sapphire (α-Al2O3, NIST SRM 720) via three-run method: baseline, sapphire, sample",
+          "baseline verification (empty-pan vs. empty-pan) to confirm flat and reproducible baseline",
+          "cell constant and temperature calibration repeated after maintenance, cell cleaning, or relocation"
+        ],
+        "reference_materials": [
+          "indium — Tm = 429.75 K, ΔHfus = 28.45 J/g (primary temperature and enthalpy standard)",
+          "tin — Tm = 505.08 K (temperature calibration)",
+          "zinc — Tm = 692.68 K (high-temperature calibration)",
+          "lead — Tm = 600.61 K (temperature calibration)",
+          "n-octane — Tm = 216.38 K (low-temperature calibration)",
+          "sapphire (α-Al2O3) — NIST SRM 720 (Cp calibration standard)",
+          "gallium — Tm = 302.91 K (temperature calibration)",
+          "cyclohexane — solid-solid transition at 186.09 K (low-T calibration)"
+        ],
+        "consumables": [
+          "aluminum sample pans and lids (standard crimped, T-zero, hermetic)",
+          "platinum or gold sample pans (for high-temperature or corrosive samples)",
+          "crimping press and die set",
+          "high-purity nitrogen gas (purge, 99.999%)",
+          "helium gas (optional, for improved thermal contact)",
+          "calibration standards (indium, sapphire disks)",
+          "lint-free wipes and solvent (acetone, ethanol) for cell cleaning"
+        ],
+        "safety_notes": [
+          "liquid nitrogen handling requires cryogen safety precautions (gloves, goggles, ventilation)",
+          "high-temperature operation (> 400 °C) requires caution against burns",
+          "hermetic pans under pressure may rupture — do not exceed rated pressure or temperature",
+          "some samples may decompose exothermically — always run initial screen at low heating rate",
+          "corrosive or toxic decomposition products require fume extraction"
+        ]
+      },
+      "performance": {
+        "sensitivity": "heat flow sensitivity ~0.2 µW (TA Discovery DSC), ~1 µW (standard Q-series); detects transitions with ΔH as small as ~0.01 J/g",
+        "detection_limit": "minimum sample mass ~0.5 mg for detectable Cp signal; transitions detectable in 1–2 mg samples",
+        "resolution": {
+          "spatial": "not applicable (bulk measurement of pan contents)",
+          "temporal": "data sampling rate 0.01–50 points/s; effective time constant of sensor 1–5 s depending on instrument",
+          "spectral": "not applicable",
+          "energy": "temperature resolution ±0.01 K (instrument); heat flow noise floor ~0.1–1 µW RMS"
+        },
+        "dynamic_range": "heat flow range ~±500 mW; Cp measurable from ~0.1 J/(g·K) to ~10 J/(g·K); temperature range 93–973 K",
+        "accuracy": "2–5% for absolute Cp (after sapphire calibration); ±0.5 K for transition temperatures (after multi-point calibration); 2–5% for transition enthalpies",
+        "precision": "0.5–1% for Cp repeatability; ±0.1 K for transition temperature repeatability; 1–2% for enthalpy repeatability",
+        "throughput": "one sample per run; typical run 20–120 min depending on temperature range and heating rate; autosamplers enable unattended multi-sample operation",
+        "measurement_speed": "standard scan at 10 K/min covers 300 K range in 30 min; fast-scan up to 300 K/min available on some instruments"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "differential thermocouple voltage (µV) proportional to temperature difference between sample and reference platforms, converted to heat flow (mW) via cell calibration constant",
+        "preprocessing_steps": [
+          "baseline correction — subtract instrument baseline (empty-pan run) to remove systematic curvature",
+          "temperature correction — apply calibration offset from melting-point standards",
+          "cell constant application — convert raw differential signal to calibrated heat flow using enthalpy standard",
+          "normalization — divide heat flow by sample mass to obtain specific heat flow (W/g)",
+          "smoothing — optional Savitzky-Golay or running-average filter to reduce noise"
+        ],
+        "analysis_methods": [
+          "onset/peak/endset analysis — tangent construction to determine transition temperatures (ASTM E967 / ISO 11357-1)",
+          "enthalpy integration — area under endothermic or exothermic peak relative to baseline yields ΔH",
+          "Cp determination — ratio method using sapphire standard: Cp(sample) = Cp(sapphire) × [ΔQ(sample)/ΔQ(sapphire)] × [m(sapphire)/m(sample)]",
+          "glass transition analysis — midpoint, onset, or inflection-point Tg from step change in heat flow (ASTM E1356)",
+          "purity analysis — van't Hoff equation applied to melting peak broadening (ASTM E928)",
+          "degree of crystallinity — ratio of measured ΔHfus to ΔHfus of 100% crystalline material",
+          "kinetic analysis — Kissinger, Ozawa-Flynn-Wall, or Friedman methods from multi-rate experiments"
+        ],
+        "model_assumptions": [
+          "sample and reference are in quasi-thermal-equilibrium with the DSC sensor (thermal lag is small and correctable)",
+          "heat flow is proportional to temperature difference between sample and reference (heat-flux DSC linearity)",
+          "sample is homogeneous and in uniform thermal contact with pan bottom",
+          "purge gas provides uniform convective environment with no asymmetric cooling",
+          "for Cp measurements: baseline is linear and reproducible between calibration and sample runs"
+        ],
+        "fit_parameters": [
+          "onset temperature (intersection of baseline tangent and leading-edge tangent of peak)",
+          "peak temperature (maximum or minimum of heat flow curve)",
+          "transition enthalpy ΔH (integral of heat flow anomaly over baseline)",
+          "glass transition temperature Tg (midpoint, onset, or inflection)",
+          "heat capacity Cp (from sapphire ratio or MDSC deconvolution)",
+          "degree of crystallinity Xc"
+        ],
+        "common_artifacts": [
+          "thermal lag — apparent shift of transition temperatures to higher values on heating (and lower on cooling) due to finite thermal resistance between sample and sensor",
+          "baseline curvature — gradual drift in heat flow signal caused by asymmetric radiative or convective heat exchange",
+          "pan deformation — crimped pan may deform during heating, changing thermal contact and producing baseline disturbances",
+          "moisture release — endothermic peak near 100 °C from adsorbed water, often mistaken for a transition",
+          "contact artifact — initial transient as sample settles into pan during first heating (especially powders)",
+          "supercooling artifact — crystallization on cooling occurs well below equilibrium Tm, depending on nucleation kinetics"
+        ],
+        "quality_control_checks": [
+          "verify temperature calibration with indium melting onset within ±0.3 K of 429.75 K",
+          "verify enthalpy calibration with indium ΔHfus within ±2% of 28.45 J/g",
+          "confirm flat baseline (empty-pan run) with drift < 0.1 mW over the temperature range",
+          "check sapphire Cp within ±2% of literature values before measuring unknowns",
+          "run duplicate samples to verify repeatability of onset temperatures (±0.3 K) and enthalpies (±2%)",
+          "compare heating and cooling scans to assess thermal lag and irreversibility"
+        ],
+        "failure_modes": [
+          "pan leak or rupture — volatile sample escapes hermetic pan, producing anomalous endotherm and mass loss",
+          "sensor contamination — spilled sample on DSC sensor disk alters thermal coupling and baseline permanently",
+          "loss of purge gas — atmospheric moisture causes baseline instability and ice artifacts at sub-ambient temperatures",
+          "cooling system failure — inability to reach target start temperature or maintain controlled cooling rate",
+          "sample decomposition — exothermic decomposition can damage pan, contaminate cell, and obscure the signal of interest",
+          "autosampler misalignment — pan not centered on sensor, yielding reduced and irreproducible signal"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: 2–5% for Cp, ±0.5 K for transition temperatures, 2–5% for transition enthalpies",
+        "random_sources": [
+          "electronic noise in thermocouple/sensor signal",
+          "pan placement variability (position on sensor platform)",
+          "sample mass weighing uncertainty (±0.01 mg)",
+          "purge gas flow fluctuations",
+          "ambient temperature fluctuations",
+          "sample inhomogeneity (particle size, packing)"
+        ],
+        "systematic_sources": [
+          "thermal lag between sample and sensor (rate-dependent)",
+          "baseline curvature and drift (instrument-dependent)",
+          "calibration standard uncertainty (indium Tm, ΔH, sapphire Cp values)",
+          "pan mass mismatch between sample and reference",
+          "sample-pan thermal contact resistance",
+          "purge gas thermal conductivity effects on heat transfer",
+          "radiation heat exchange at high temperatures"
+        ],
+        "operator_dependence": "moderate — sample preparation (mass, pan crimping quality, packing), pan selection, and analysis parameter choices (baseline placement, integration limits) depend on operator judgment and skill",
+        "model_dependence": "low to moderate — standard onset/peak/enthalpy analysis follows well-defined ASTM/ISO protocols; Cp determination depends on sapphire calibration stability; kinetic analysis methods involve model assumptions",
+        "dominant_error_sources": [
+          "thermal lag (especially at high heating rates or for large sample masses)",
+          "baseline construction for enthalpy integration (choice of integration limits and baseline type)",
+          "sample-pan thermal contact (poor contact underestimates Cp and broadens peaks)",
+          "calibration drift over time if not re-verified periodically"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U at 95% confidence (k = 2)",
+          "relative uncertainty as percentage of Cp or ΔH",
+          "standard deviation from replicate measurements",
+          "temperature uncertainty as ±K"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Small sample (50 mg) DSC is the most widely used thermal analysis technique, employing heat-flux differential scanning calorimetry to measure the difference in heat flow between a sample (typically 1–50 mg) and an inert reference as both are subjected to a controlled temperature program. Developed from the original designs of Watson, O'Neill, and colleagues at Perkin-Elmer in the 1960s, DSC is the workhorse method for determining heat capacity, phase transition temperatures, transition enthalpies, glass transition temperatures, and purity across all classes of materials. The technique operates by placing sample and reference in matched pans on a calibrated thermoelectric sensor disk inside a controlled-atmosphere furnace. As the furnace temperature is ramped linearly, any thermal event in the sample (melting, crystallization, glass transition, chemical reaction) produces a difference in heat flow that is recorded as a peak or step in the DSC thermogram. With modern instruments achieving heat flow sensitivity below 1 µW and temperature precision of ±0.01 K, small sample DSC provides reliable thermodynamic data with relatively modest sample requirements, fast turnaround, and straightforward operation.",
+      "how_it_operates": "In a heat-flux DSC, the sample and reference pans sit on a single thermoelectric sensor disk (typically constantan) inside a furnace block. As the furnace is heated at a constant rate β (commonly 10 K/min), heat flows through the sensor disk to both sample and reference. When the sample undergoes a thermal event — for example, an endothermic melting — it absorbs extra heat, creating a temperature difference ΔT between sample and reference sides of the sensor. This ΔT produces a differential thermocouple voltage proportional to the differential heat flow dQ/dt = ΔT/R, where R is the thermal resistance of the sensor disk. The instrument electronics convert this voltage to heat flow in milliwatts using a cell calibration constant determined from melting a known standard (typically indium). The resulting DSC curve plots heat flow versus temperature, with endothermic events (melting, dehydration, glass transition) appearing as peaks or steps in one direction and exothermic events (crystallization, curing, decomposition) in the opposite direction. For heat capacity measurements, the absolute heat flow difference between sample and baseline is compared against a sapphire reference standard measured under identical conditions.",
+      "core_theory": "The heat-flux DSC operates on Fourier's law of heat conduction: the heat flow between the furnace and each pan is proportional to the temperature difference and inversely proportional to the thermal resistance of the sensor. For a sample of heat capacity Cp heated at rate β, the steady-state heat flow is dQ/dt = Cp × β. At a phase transition with enthalpy ΔH, the additional heat flow produces a peak whose integrated area equals the total enthalpy change: ΔH = ∫(dQ/dt)dt over the transition. The thermal lag τ = RCp introduces a time delay between the actual transition temperature and the observed onset, which must be minimized or corrected. For heat capacity determination, the three-run method compares the heat flow offset between sample and baseline runs against that of a known sapphire standard: Cp(sample) = Cp(sapphire) × [ΔQ(sample)/ΔQ(sapphire)] × [m(sapphire)/m(sample)], where all quantities are measured at the same temperature and heating rate. The van't Hoff equation is applied to the broadening of the melting peak for purity determination: 1/F = 1 − (x₂ × ΔHfus)/(R × Tm²) × (Tm − T), where F is the fraction melted, x₂ is the mole fraction impurity, and R is the gas constant.",
+      "setup": "A standard DSC setup consists of the DSC instrument containing a silver or aluminum furnace block with an embedded thermoelectric sensor disk. The sensor disk has two raised platforms — one for the sample pan and one for the reference pan — connected by area-type thermocouple junctions (chromel-constantan or platinum-based). The furnace is enclosed in a cell housing with purge gas inlet and outlet ports. A cooling accessory (refrigerated cooling system, liquid nitrogen cooling system, or mechanical intracooler) attaches to the furnace for sub-ambient measurements. Dry nitrogen purge gas flows through the cell at 50 mL/min to maintain an inert atmosphere and facilitate heat transfer. The instrument connects to a computer running data collection and analysis software. Samples are weighed on an analytical balance (0.01 mg precision), placed in aluminum pans, and sealed using a crimping press. A matching empty aluminum pan and lid serve as the reference. Before measurements, the instrument is calibrated for temperature using the melting onset of indium (429.75 K), for enthalpy using the heat of fusion of indium (28.45 J/g), and for Cp using a sapphire disk standard (NIST SRM 720).",
+      "suitable_for": "Small sample DSC is suitable for virtually any condensed-phase material where thermodynamic transition data or heat capacity is needed. Its primary applications include: determination of melting points, glass transition temperatures, and crystallization temperatures for polymers, pharmaceuticals, and organic compounds; measurement of transition enthalpies (fusion, crystallization, solid-solid transitions) used in thermodynamic databases; heat capacity determination from −180 °C to 700 °C for pure compounds and mixtures; purity assessment of pharmaceutical intermediates and fine chemicals; polymer characterization including degree of crystallinity, curing kinetics, and thermal stability screening; phase diagram construction for binary and ternary systems through scanning at multiple compositions; and excess heat capacity determination for liquid mixtures. The technique is particularly powerful when sample availability is limited, as reliable data can often be obtained from as little as 1–5 mg. It is the technique most heavily represented in the ThermoML database for heat capacity and transition property measurement.",
+      "core_limitations": "The primary limitation of standard heat-flux DSC is its moderate accuracy for absolute Cp (2–5%), which is inferior to adiabatic calorimetry (~0.1%) or drop calorimetry (~0.5%). This arises from the reliance on the sapphire calibration ratio method and the inherent thermal resistance between sample and sensor. Thermal lag shifts apparent transition temperatures by an amount proportional to heating rate and sample heat capacity, requiring either slow scan rates or post-correction. Temperature range is limited to approximately −180 °C to 700 °C with standard instruments, excluding many refractory or high-melting materials. The technique cannot easily measure Cp under elevated pressures without specialized (and rare) high-pressure DSC cells. Sample uniformity and thermal contact with the pan are critical — poorly packed powders or films with air gaps yield broadened peaks and underestimated Cp. At very low or very high temperatures, baseline curvature from radiative heat exchange complicates accurate Cp extraction. Standard DSC cannot separate overlapping thermal events occurring at similar temperatures without resorting to modulated DSC (MDSC) or step-scan methods.",
+      "sample_preparation": "Sample preparation for DSC requires weighing 5–15 mg of material (optimal range; up to 50 mg acceptable) on an analytical balance with ±0.01 mg precision. Solid samples are cut, ground, or pressed into flat pieces that make good thermal contact with the pan bottom — thin, flat specimens are preferred over granules or irregular chunks. Powders should be gently tamped or pressed to eliminate air voids and maximize pan-bottom contact. Liquids are injected or pipetted directly into the pan. The sample is placed in an aluminum pan (standard crimped for non-volatile solids, hermetically sealed for volatile liquids, high-pressure stainless steel for samples that generate gas). The pan is crimped or sealed with a press and die set. An empty pan of the same type is prepared as the reference; ideally the empty pan mass is matched to within ±0.1 mg. Hygroscopic samples should be dried under vacuum or nitrogen before encapsulation. For polymers, a standardized thermal history (e.g., heat-cool-reheat cycle) is run to erase prior processing history. The sample mass, pan type, and any pre-treatment are recorded in the instrument logbook or data file metadata.",
+      "calibration_and_references": "DSC calibration encompasses temperature, enthalpy, and heat capacity. Temperature calibration uses the melting onset of high-purity (≥99.999%) metal standards: indium (429.75 K) is the primary standard, supplemented by tin (505.08 K) for the intermediate range, zinc (692.68 K) for high temperature, and n-octane (216.38 K) or cyclohexane (186.09 K) for sub-ambient work. The instrument software applies a linear or polynomial correction mapping measured onsets to certified values. Enthalpy calibration uses the heat of fusion of indium (28.45 J/g ± 0.03 J/g) to determine the cell constant that converts raw thermocouple voltage to milliwatts. Heat capacity calibration uses a sapphire disk (α-Al2O3, NIST SRM 720) via the three-run method: (1) baseline run with empty pans, (2) sapphire run, (3) sample run, all at the same heating rate and gas flow. The ratio of net heat flows gives Cp directly. Calibration should be verified at the beginning of each measurement campaign and repeated after any cell maintenance, sensor replacement, or instrument relocation. ASTM E967 and E968, and ISO 11357-1 provide standardized calibration procedures.",
+      "data_interpretation": "The DSC thermogram (heat flow vs. temperature) is analyzed for three types of features: peaks (melting, crystallization, decomposition), step changes (glass transitions), and changes in slope or curvature (Cp changes). Transition onset temperatures are determined by the intersection of the pre-transition baseline tangent with the leading-edge tangent of the peak, per ASTM E967. Peak area integration against a constructed baseline (linear, sigmoidal, or spline) yields the transition enthalpy ΔH after normalization to sample mass. For heat capacity, the calibrated heat flow normalized by mass and heating rate directly gives Cp: Cp = (dQ/dt)/(m × β), with the sapphire ratio correction applied for absolute accuracy. Glass transition temperatures are reported as onset, midpoint, or inflection-point of the heat flow step, per ASTM E1356, with the midpoint being most common. Purity is determined by analyzing the shape of the melting peak using the van't Hoff linearization of the fraction-melted curve. Degree of crystallinity is calculated as the ratio of the observed ΔHfus to the theoretical ΔHfus for 100% crystalline material. When exothermic and endothermic events overlap, multi-rate experiments or MDSC may be needed to deconvolve them.",
+      "common_pitfalls": "The most frequent pitfall is using an excessively high heating rate for the sample mass, which produces large thermal lag (> 2 K), broadens peaks, and shifts onset temperatures away from equilibrium values. This is addressed by reducing heating rate or sample mass to keep the thermal lag below 0.5 K. Poor sample-pan contact — caused by irregular particle shape, air gaps under the sample, or inadequate crimping — leads to broadened and asymmetric peaks and underestimated Cp values. Failure to match the reference pan mass and type introduces a systematic heat flow offset that distorts the baseline. Neglecting to purge the cell with dry gas causes moisture condensation at sub-ambient temperatures, producing spurious endotherms near 0 °C. Running hygroscopic samples without drying produces a broad water-loss endotherm near 100 °C that can overlap with other transitions. Reusing calibration from a different heating rate without recalibrating introduces systematic onset temperature errors of 0.5–2 K. Baseline drift due to a contaminated or aged sensor disk accumulatively shifts Cp values and should be monitored via regular baseline verification runs.",
+      "artifacts_and_failure_modes": "Thermal lag is the most pervasive artifact: it shifts melting onsets to higher temperatures on heating (and lower on cooling) by Δ T ≈ R × Cp × β, where R is the effective thermal resistance. At 10 K/min with a 10 mg organic sample, the shift is typically 0.3–1.0 K. Baseline curvature, especially pronounced above 400 °C and below −100 °C, arises from asymmetric radiative heat exchange between sample and reference sides and requires careful baseline subtraction. Pan deformation during heating can change thermal contact, producing a baseline bump or shift most often seen in the first heating run. Supercooling on cooling scans causes crystallization to occur 10–50 K below the equilibrium melting point, which is an intrinsic nucleation kinetics effect rather than an instrumental artifact. Contact artifacts appear as a transient endothermic dip at the start of a scan when a powder sample settles and rearranges during initial heating. Hermetic pan failure (rupture or leakage) is catastrophic: the sample evaporates, the endothermic trace collapses, and the cell may be contaminated. Sensor contamination from a leaked or decomposed sample permanently alters the calibration and requires professional cell cleaning or replacement.",
+      "reporting_checklist": "Complete reporting of DSC results for ThermoML and general publication should include: instrument manufacturer and model; sample mass (mg) with balance precision; pan type (aluminum crimped, hermetic, platinum, etc.) and lid configuration; heating and cooling rate (K/min); purge gas type and flow rate (mL/min); temperature range scanned; calibration standards used and their certified values (indium Tm and ΔHfus, sapphire Cp source); whether temperature is reported as onset, peak, or extrapolated onset; baseline construction method for enthalpy integration (linear, sigmoidal, tangent); number of replicate measurements; thermal history applied (heat-cool-reheat protocol if used); for Cp: three-run sapphire method or continuous Cp mode specification; transition temperatures with associated uncertainty (±K); enthalpy values with associated uncertainty (±J/g or ±kJ/mol); combined expanded uncertainty at 95% confidence level (k = 2); software used for data analysis and version. For ThermoML encoding, all values use nCombExpandUncertValue at 95% confidence level."
+    }
+  }
+}

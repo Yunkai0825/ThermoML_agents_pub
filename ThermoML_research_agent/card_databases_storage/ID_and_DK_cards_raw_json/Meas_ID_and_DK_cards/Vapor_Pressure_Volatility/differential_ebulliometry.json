@@ -1,0 +1,328 @@
+{
+  "meas_ID": "differential_ebulliometry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Differential ebulliometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Differential ebulliometry",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Vapor Pressure / Volatility",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "yes",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 29,
+      "property_groups": [
+        "ActivityFugacityOsmoticProp"
+      ],
+      "n_papers": 6,
+      "per_group": {
+        "ActivityFugacityOsmoticProp": {
+          "instances": 29,
+          "papers": 6
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "boiling point elevation of solution relative to pure solvent (ΔT = T_soln − T_solvent)",
+          "equilibrium boiling temperature of pure solvent (T_solvent)",
+          "equilibrium boiling temperature of solution (T_soln)",
+          "system pressure (maintained constant by manostat)"
+        ],
+        "derived_observables": [
+          "activity coefficient of solvent (γ₁)",
+          "osmotic coefficient (φ)",
+          "number-average molar mass of solute (Mn)",
+          "excess Gibbs energy of mixing (GE)",
+          "vapor-liquid equilibrium composition at infinite dilution"
+        ],
+        "target_properties": [
+          "activity coefficients (γ) in dilute solutions",
+          "osmotic coefficients",
+          "molar mass of non-volatile solutes",
+          "limiting activity coefficients at infinite dilution (γ∞)",
+          "boiling point elevation constants",
+          "excess thermodynamic properties derived from activity data"
+        ],
+        "phases_measured": [
+          "liquid (solution at boiling point)",
+          "vapor-liquid equilibrium (isobaric)"
+        ],
+        "supported_sample_types": [
+          "dilute binary liquid solutions",
+          "dilute multicomponent liquid solutions",
+          "polymer solutions (dilute, for molar mass determination)",
+          "electrolyte solutions (at low to moderate concentration)",
+          "non-volatile solute dissolved in volatile solvent",
+          "volatile binary mixtures (comparative ebulliometry variant)"
+        ],
+        "unsupported_sample_types": [
+          "pure gases or supercritical fluids",
+          "solutions with thermally labile solutes that decompose at the boiling point",
+          "concentrated solutions where boiling point elevation exceeds the linear regime",
+          "immiscible liquid-liquid systems",
+          "highly viscous solutions that suppress Cottrell pump circulation",
+          "suspensions or slurries with solid particles"
+        ],
+        "typical_output_formats": [
+          "ΔT vs. molality (or mole fraction) curve",
+          "activity coefficient γ vs. composition",
+          "osmotic coefficient φ vs. molality",
+          "ln(γ) vs. 1/T or vs. composition at fixed pressure",
+          "tabulated ΔT, composition, and derived activity data"
+        ],
+        "units": {
+          "temperature_difference": "K or mK",
+          "temperature": "K",
+          "pressure": "kPa or mmHg",
+          "molality": "mol/kg",
+          "mole_fraction": "dimensionless",
+          "activity_coefficient": "dimensionless",
+          "osmotic_coefficient": "dimensionless",
+          "molar_mass": "g/mol"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "system_pressure",
+            "typical_range": "10 kPa to 200 kPa",
+            "hard_limits": "limited by manostat range and ebulliometer design; must keep both ebulliometers at identical pressure via shared manifold",
+            "notes": "most measurements performed near atmospheric pressure (101.325 kPa); reduced pressures used for high-boiling solvents"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "300 K to 500 K (solvent-dependent)",
+            "hard_limits": "lower limit set by solvent boiling point at operating pressure; upper limit set by thermal stability of solute and construction materials",
+            "notes": "water-based systems typically operate near 373 K; organic solvent systems vary widely"
+          },
+          {
+            "parameter": "solute_concentration",
+            "typical_range": "0.001 to 0.5 mol/kg (dilute regime)",
+            "hard_limits": "upper limit determined by departure from ideal-dilute behavior and instrument ΔT range; very dilute solutions limited by ΔT detection sensitivity",
+            "notes": "for molar mass determination, concentrations are kept very low (< 0.1 mol/kg); for activity coefficient work, slightly higher concentrations are used"
+          },
+          {
+            "parameter": "boiling_point_elevation",
+            "typical_range": "0.005 K to 2 K",
+            "hard_limits": "ΔT must exceed thermometer resolution (~0.001 K); very large ΔT (> 5 K) indicates concentrated regime where technique accuracy degrades",
+            "notes": "sensitivity is highest for solvents with large ebullioscopic constants (Kb)"
+          }
+        ],
+        "variables": [
+          {
+            "name": "solute_concentration",
+            "role": "primary experimental variable",
+            "typical_values": "0.005 to 0.3 mol/kg (series of concentrations)",
+            "effect": "increasing concentration increases ΔT; activity coefficient is extracted from the concentration dependence of ΔT"
+          },
+          {
+            "name": "system_pressure",
+            "role": "controlled variable (held constant by manostat)",
+            "typical_values": "101.325 kPa (atmospheric) or selected reduced pressure",
+            "effect": "determines the boiling temperature of the solvent; must be identical in both ebulliometers"
+          },
+          {
+            "name": "solvent_identity",
+            "role": "defines the measurement system",
+            "typical_values": "water, benzene, acetone, cyclohexane, toluene, chloroform",
+            "effect": "solvent determines the ebullioscopic constant Kb = R·T²·M₁/ΔHvap, which sets the sensitivity of ΔT to solute concentration"
+          },
+          {
+            "name": "heating_power",
+            "role": "controlled to maintain steady boiling",
+            "typical_values": "adjusted to produce stable Cottrell pump circulation in both ebulliometers",
+            "effect": "insufficient power causes intermittent boiling and noisy ΔT; excessive power causes superheating artifacts"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "twin Swietoslawski-type ebulliometers — matched pair with Cottrell pump sections for vapor-lift circulation of boiling liquid over the thermometer wells",
+          "Cottrell pump — re-entrant tube where rising vapor bubbles entrain liquid, ensuring the thermometer is bathed in a vapor-liquid equilibrium mixture rather than superheated liquid",
+          "matched platinum resistance thermometers (PRTs) or quartz crystal thermometers — one in each ebulliometer, connected differentially to measure ΔT directly",
+          "manostat (pressure controller) — ballast volume and precision needle valve or electronic pressure controller maintaining constant pressure over both ebulliometers via a shared vapor manifold",
+          "pressure manifold with condenser connections — glass or stainless steel tubing connecting the vapor spaces of both ebulliometers to the common manostat",
+          "reflux condensers — one per ebulliometer to return condensed vapor, preventing solvent loss and composition drift",
+          "electric heaters — immersion or external mantle heaters for each ebulliometer, independently adjustable",
+          "resistance bridge or precision digital thermometer readout — for differential and absolute temperature measurement with ±0.001 K resolution",
+          "barometer or precision pressure transducer — to monitor and record system pressure",
+          "sample injection system — calibrated syringe or burette for adding known amounts of solute"
+        ],
+        "environmental_requirements": [
+          "draft-free laboratory to prevent asymmetric heat losses between the two ebulliometers",
+          "stable ambient temperature to minimize baseline drift in ΔT",
+          "adequate ventilation or fume hood for organic solvent vapors",
+          "vibration-free benchtop to prevent disturbance of the boiling equilibrium"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid solution — no geometric constraint on sample shape",
+            "solute can be solid, liquid, or (in some designs) gaseous, provided it dissolves in the solvent"
+          ],
+          "size_limits": "typically 50–200 mL of solvent per ebulliometer; solute mass depends on target concentration (milligrams to grams)",
+          "thickness_limits": "",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "solvent must be freshly distilled or of high purity (≥ 99.5%) to ensure a sharp boiling point",
+            "solute must be accurately weighed (±0.1 mg) and thoroughly dissolved before measurement",
+            "degassing of solvent and solution by boiling or vacuum treatment to prevent dissolved gas artifacts",
+            "for hygroscopic solutes or solvents, handling under dry atmosphere"
+          ]
+        },
+        "calibration_requirements": [
+          "thermometer matching — verify that the two PRTs read identically (ΔT = 0) when both ebulliometers contain pure solvent under identical conditions",
+          "ebullioscopic constant verification — measure ΔT for a solute of known molar mass (e.g., naphthalene in benzene) and compare to the theoretical Kb",
+          "pressure stability check — confirm manostat holds pressure constant to ±0.01 kPa during measurement",
+          "Cottrell pump performance — verify steady circulation in both ebulliometers at the selected heating rate",
+          "thermometer calibration against ITS-90 fixed points or NIST-traceable standard thermometer"
+        ],
+        "reference_materials": [
+          "naphthalene in benzene — classical ebullioscopic standard with well-known molar mass and activity coefficients",
+          "sodium chloride in water — reference system for aqueous electrolyte osmotic coefficients",
+          "urea in water — non-electrolyte reference for aqueous ebullioscopy",
+          "sucrose in water — reference for molar mass determination by boiling point elevation"
+        ],
+        "consumables": [
+          "high-purity solvents (distilled/HPLC grade)",
+          "boiling chips or boiling stones (anti-bumping granules)",
+          "silicone grease for ground-glass joints",
+          "drying agents (molecular sieves, anhydrous salts) for solvent purification",
+          "calibrated syringes for solute addition"
+        ],
+        "safety_notes": [
+          "organic solvent vapors are flammable — ensure adequate ventilation and absence of ignition sources",
+          "boiling liquid and hot glassware present burn hazards",
+          "system operates slightly above or at atmospheric pressure — glass components should be inspected for cracks",
+          "reduced-pressure operation requires implosion protection for glass ebulliometers"
+        ]
+      },
+      "performance": {
+        "sensitivity": "ΔT resolution of ±0.001 K with matched platinum resistance thermometers; corresponds to detecting ~0.001 mol/kg solute in water (Kb ≈ 0.513 K·kg/mol)",
+        "detection_limit": "minimum detectable boiling point elevation ~0.002–0.005 K, corresponding to solute concentrations of ~0.005 mol/kg in typical solvents",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement)",
+          "temporal": "equilibrium typically reached in 5–20 minutes per concentration point after solute addition",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "ΔT from ~0.002 K to ~5 K; concentrations from ~0.001 to ~1 mol/kg depending on solvent and solute",
+        "accuracy": "±0.003–0.01 K in ΔT for well-optimized instruments; 1–3% in derived activity coefficients; 2–5% in molar mass determination",
+        "precision": "±0.001–0.005 K repeatability in ΔT; ±0.5–2% in activity coefficients from replicate measurements",
+        "throughput": "one system (solvent + solute pair) at a time; a series of 5–10 concentration points typically requires 2–6 hours",
+        "measurement_speed": "5–20 minutes per equilibrium point; full concentration series in a few hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "differential resistance (or voltage) from the paired platinum resistance thermometers, converted to temperature difference ΔT = T_soln − T_solvent; absolute temperature T_solvent from the reference ebulliometer",
+        "preprocessing_steps": [
+          "zero-point correction — subtract any residual ΔT offset measured with pure solvent in both ebulliometers",
+          "pressure correction — adjust ΔT if small pressure fluctuations occurred during the measurement using Clausius-Clapeyron relation",
+          "solvent evaporation correction — account for any change in solution concentration due to solvent loss during the measurement",
+          "thermocouple or PRT calibration curve application to convert raw resistance to temperature"
+        ],
+        "analysis_methods": [
+          "Clausius-Clapeyron relation for boiling point elevation: ΔT ≈ (R·T²/ΔHvap)·ln(a₁) where a₁ is solvent activity",
+          "van't Hoff relation (dilute limit): ΔT = Kb·m where Kb = R·T²·M₁/ΔHvap and m is molality",
+          "activity coefficient extraction: γ₁ = a₁/x₁ where a₁ = exp(−ΔHvap·ΔT/(R·T²))",
+          "osmotic coefficient calculation: φ = −(1000/(ν·m·M₁))·ln(a₁) for electrolyte solutions",
+          "extrapolation methods: plot ΔT/m vs. m and extrapolate to m → 0 to obtain Kb or to determine deviations from ideal behavior",
+          "Margules, van Laar, or Wilson equation fitting to activity coefficient data for thermodynamic modeling"
+        ],
+        "model_assumptions": [
+          "vapor phase behaves ideally or corrections for vapor-phase non-ideality are applied",
+          "solute is non-volatile — does not contribute to the vapor phase (or corrections are applied for volatile solutes)",
+          "pressure is truly identical in both ebulliometers (shared manostat ensures this)",
+          "thermodynamic equilibrium is attained — the liquid around the thermometer is at its true bubble point",
+          "enthalpy of vaporization ΔHvap is constant over the small temperature interval ΔT (valid for dilute solutions)",
+          "no association or dissociation of solute in solution (or appropriate corrections are applied for electrolytes)"
+        ],
+        "fit_parameters": [
+          "activity coefficient γ₁ (or γ₂ for the solute via Gibbs-Duhem relation)",
+          "osmotic coefficient φ",
+          "interaction parameters in solution models (Margules, Wilson, NRTL)",
+          "apparent molar mass of solute (from ΔT/m extrapolation)",
+          "ebullioscopic constant Kb (verification parameter)"
+        ],
+        "common_artifacts": [
+          "superheating artifact — liquid boils above true equilibrium temperature when Cottrell pump circulation is inadequate, giving erroneously high T_soln or T_solvent",
+          "composition drift — solvent evaporation and imperfect reflux gradually change solution concentration during measurement",
+          "hydrostatic head difference — unequal liquid levels in the two ebulliometers produce a slight pressure difference and apparent ΔT offset",
+          "dissolved gas artifact — residual dissolved air depresses the boiling point and distorts ΔT at low solute concentrations",
+          "asymmetric heat loss — unequal insulation or draft exposure between the two ebulliometers introduces a systematic ΔT bias",
+          "foaming — surface-active solutes cause foaming that disrupts the Cottrell pump and produces noisy, unreliable ΔT readings"
+        ],
+        "quality_control_checks": [
+          "verify ΔT = 0 (within ±0.002 K) with pure solvent in both ebulliometers before adding solute",
+          "check linearity of ΔT vs. molality at low concentrations against the expected Kb value",
+          "measure a reference system (e.g., NaCl/water) and compare derived osmotic coefficients to literature values",
+          "confirm steady-state equilibrium by monitoring ΔT for at least 5 minutes at each concentration — ΔT should be constant within ±0.001 K",
+          "perform replicate measurements at selected concentrations to assess repeatability",
+          "verify mass balance — total solute added should be consistent with final solution concentration"
+        ],
+        "failure_modes": [
+          "loss of steady boiling (bumping) — intermittent boiling produces erratic ΔT oscillations",
+          "Cottrell pump failure — cessation of circulation leads to superheating and meaningless ΔT",
+          "condenser failure or clogging — solvent loss changes solution concentration and invalidates the measurement",
+          "manostat instability — pressure drift produces systematic ΔT changes mimicking concentration effects",
+          "thermometer drift or failure — degradation of PRT stability over time introduces systematic error",
+          "solute precipitation — if solute reaches its solubility limit during concentration series, the effective concentration is unknown"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty: ±0.003–0.01 K in ΔT; 1–3% in activity coefficients; 2–5% in derived molar mass",
+        "random_sources": [
+          "boiling fluctuations (nucleation noise) producing short-term ΔT variations",
+          "thermometer noise (Johnson noise in resistance bridge circuit)",
+          "pressure fluctuations from manostat hunting",
+          "ambient temperature variations causing asymmetric heat loss fluctuations",
+          "concentration uncertainty from volumetric/gravimetric preparation of solution"
+        ],
+        "systematic_sources": [
+          "residual ΔT offset between matched thermometers (zero-point bias)",
+          "pressure difference between ebulliometers due to hydrostatic head or flow restriction",
+          "incomplete reflux causing gradual composition drift",
+          "superheating bias if Cottrell pump circulation is marginally adequate",
+          "impurities in solvent or solute shifting the boiling point",
+          "assumption of non-volatile solute when the solute has finite vapor pressure",
+          "use of temperature-independent ΔHvap over the ΔT range"
+        ],
+        "operator_dependence": "moderate — correct adjustment of heating rate to maintain steady Cottrell pump circulation, gas-tight assembly of glassware, accurate preparation of solutions, and patience to wait for true equilibrium all depend on operator skill",
+        "model_dependence": "moderate — Clausius-Clapeyron derivation assumes ideal vapor and constant ΔHvap over ΔT; non-ideal vapor corrections require second virial coefficients; choice of activity coefficient model (Margules vs. Wilson vs. NRTL) affects extrapolated values",
+        "dominant_error_sources": [
+          "thermometer zero-point offset (often the largest systematic error, especially for small ΔT)",
+          "superheating artifact if steady-state boiling equilibrium is not fully achieved",
+          "solvent purity — trace impurities in the pure solvent ebulliometer shift its boiling point"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ΔT) at 95% confidence (k = 2)",
+          "relative uncertainty in activity coefficient as percentage",
+          "standard deviation from replicate ΔT measurements at each concentration"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Differential ebulliometry is a comparative boiling-point method that measures the boiling point elevation (or depression) of a solution relative to its pure solvent by operating two matched ebulliometers simultaneously at the same pressure. One ebulliometer contains the pure solvent and the other contains the solution under study, both connected to a common manostat through a shared vapor manifold. By measuring the small temperature difference ΔT = T_soln − T_solvent at isobaric equilibrium, the technique provides direct access to solvent activity and hence to activity coefficients, osmotic coefficients, and solute molar masses. The differential configuration cancels pressure fluctuations and systematic temperature offsets, achieving ΔT resolution of ±0.001 K. In the NIST ThermoML database, differential ebulliometry appears under ActivityFugacityOsmoticProp, reflecting its primary use for thermodynamic solution properties.",
+      "how_it_operates": "Two Swietoslawski-type ebulliometers are charged with equal volumes of liquid — one with pure solvent and one with the solution of interest. Both are heated electrically to achieve steady-state boiling. Inside each ebulliometer, a Cottrell pump (a re-entrant vertical tube) uses rising vapor bubbles to entrain a stream of boiling liquid upward and over the thermometer well, ensuring the temperature sensor is continuously bathed in a vapor-liquid equilibrium mixture rather than superheated bulk liquid. The vapor spaces of both ebulliometers are connected to a common manostat that holds the total pressure constant, so any fluctuation affects both units identically and cancels in the differential measurement. Matched platinum resistance thermometers in each ebulliometer are wired in a Wheatstone or Mueller bridge configuration to read ΔT directly with millikelvin resolution. At equilibrium, the solvent ebulliometer reads the pure-solvent boiling point and the solution ebulliometer reads the elevated boiling point; their difference gives ΔT from which thermodynamic quantities are derived.",
+      "core_theory": "The thermodynamic basis is the Clausius-Clapeyron equation applied at the bubble point. For a solution at constant pressure, the solvent boiling point is elevated because the solvent activity a₁ < 1, reducing its effective vapor pressure and requiring a higher temperature to reach the system pressure. The fundamental relation is ln(a₁) = −(ΔHvap/R)·(1/T_solvent − 1/T_soln) ≈ −ΔHvap·ΔT/(R·T²), valid when ΔT << T. For an ideal-dilute solution, a₁ = x₁ and the classical result is ΔT = Kb·m, where Kb = R·T²·M₁/ΔHvap is the ebullioscopic constant (M₁ = solvent molar mass, m = molality). For real solutions, the activity coefficient γ₁ is extracted from a₁ = γ₁·x₁, and the osmotic coefficient φ is related via ln(a₁) = −ν·m·M₁·φ/1000 for electrolytes. Extrapolation of ΔT/m to infinite dilution yields Kb and the solute molar mass, while the concentration dependence of ΔT/m reveals departures from ideality and provides activity coefficient data.",
+      "setup": "A typical differential ebulliometry apparatus consists of two identical Swietoslawski-type ebulliometers fabricated from borosilicate glass, each comprising a boiling flask (100–250 mL), a Cottrell pump section, a thermometer well (designed for close-fitting PRTs), and a reflux condenser. The two ebulliometers are connected at their vapor outlets through a glass manifold to a common manostat — either a large ballast volume with a precision needle valve and mercury manometer, or a modern electronic pressure controller with a capacitance pressure transducer. Heating is provided by electric mantles or immersion heaters, independently adjustable to set the boiling rate. Temperature is measured with two matched 100 Ω platinum resistance thermometers read by a precision AC resistance bridge (resolution ≤ 0.001 K). The entire assembly is typically placed in a draft-free enclosure or is symmetrically insulated to minimize asymmetric heat losses.",
+      "suitable_for": "Differential ebulliometry is particularly well-suited for measuring thermodynamic properties of dilute solutions where direct vapor-liquid equilibrium (VLE) methods have insufficient sensitivity. It excels at determining activity coefficients and osmotic coefficients of non-volatile solutes (polymers, salts, sugars, biological macromolecules) in volatile solvents. The technique is the classical method for molar mass determination of unknown solutes by boiling point elevation. It provides valuable data for calibrating and validating solution models (Margules, Wilson, NRTL, UNIQUAC) in the dilute composition range. The isobaric nature of the measurement makes it directly relevant to distillation column design data. Differential ebulliometry is also used for quality control of solvent purity, since even trace non-volatile impurities produce a measurable boiling point elevation.",
+      "core_limitations": "The technique is inherently limited to solutions at their boiling point, so it cannot probe solution behavior at arbitrary temperatures. It is most accurate in the dilute regime; at high solute concentrations, the assumptions of constant ΔHvap and ideal vapor become poor, and multi-point corrections are needed. The solute must be sufficiently non-volatile that it does not contribute appreciably to the vapor phase, or else corrections for solute volatility must be applied, which require additional VLE data. The method cannot be applied to thermally unstable solutes that decompose at the solvent's boiling point. Measurement times of 5–20 minutes per equilibrium point make it slower than spectroscopic methods. The ΔT sensitivity, while excellent (±0.001 K), still limits the technique to solute concentrations above ~0.001 mol/kg in most solvents.",
+      "sample_preparation": "The pure solvent must be of the highest available purity (≥ 99.5%, preferably freshly distilled) because even trace non-volatile impurities produce a boiling point elevation that biases ΔT. Both ebulliometers are initially charged with the same batch of pure solvent, and a baseline ΔT = 0 measurement is performed. The solution is then prepared by adding accurately weighed aliquots of solute (using an analytical balance, ±0.1 mg) to the solution ebulliometer, either directly or via a calibrated syringe through a septum. The solute must dissolve completely; dissolution is aided by the continuous circulation in the Cottrell pump. For hygroscopic solutes, handling under dry nitrogen is required. The solvent in both ebulliometers should be degassed by a brief period of vigorous boiling before the differential measurement begins, to avoid dissolved-gas artifacts that affect the apparent boiling point.",
+      "calibration_and_references": "Calibration proceeds in several stages: (1) Thermometer matching — both PRTs are placed in a well-stirred isothermal bath or both ebulliometers are run with pure solvent, and any residual ΔT offset is recorded as the zero-point correction for all subsequent measurements. (2) Ebullioscopic constant verification — a standard solute of known molar mass (e.g., naphthalene in benzene, or sucrose in water) is measured at several concentrations, and the derived Kb is compared to the literature value to confirm instrument accuracy. (3) Pressure calibration — the manostat setpoint is verified against a NIST-traceable barometer or precision pressure transducer. (4) Standard reference system — osmotic coefficients of NaCl in water at 373 K are measured and compared to the Pitzer model values to validate the full measurement-to-derivation chain. Calibration should be repeated whenever thermometers are changed, glassware is reassembled, or the manostat is adjusted.",
+      "data_interpretation": "The primary measured quantity is ΔT at each solute concentration. For a non-electrolyte, the solvent activity is obtained from a₁ = exp(−ΔHvap·ΔT/(R·T_solvent²)) and the activity coefficient from γ₁ = a₁/x₁. For electrolytes, the osmotic coefficient is calculated from φ = −1000·ln(a₁)/(ν·m·M₁). A useful diagnostic is the plot of ΔT/m vs. m: in the ideal-dilute limit this equals Kb, and its concentration dependence reveals solute-solvent interactions. Extrapolation of ΔT/m to m → 0 gives the ebullioscopic constant (or, if Kb is known, the solute molar mass). For more quantitative work, the raw ΔT data are fitted to solution models — Margules equations for simple non-electrolytes, or Pitzer equations for electrolytes — using least-squares regression. Corrections for vapor-phase non-ideality using second virial coefficients may be necessary for precise activity coefficient determination.",
+      "common_pitfalls": "The most critical pitfall is superheating — if the Cottrell pump does not maintain vigorous, steady circulation, the liquid around the thermometer may be superheated above the true boiling point, producing a systematic positive bias in both T_soln and T_solvent that does not fully cancel in ΔT. Another common error is inadequate degassing: dissolved air lowers the apparent boiling point, and differential amounts of dissolved air in the two ebulliometers produce a false ΔT offset. Solvent purity is critical; even 0.1% non-volatile impurity in the 'pure' solvent produces a measurable boiling point elevation, shifting all ΔT values. Operators frequently underestimate the time needed for equilibrium — adding solute changes the solution composition, and 10–15 minutes of steady boiling may be needed for the new equilibrium ΔT to stabilize. Finally, neglecting the correction for volume change on mixing (which changes the headspace volume and hence the effective pressure) can introduce a small systematic error at higher concentrations.",
+      "artifacts_and_failure_modes": "Superheating artifacts produce ΔT values that are systematically high and poorly reproducible; the signature is large scatter (>0.01 K) and failure of ΔT to stabilize. Dissolved gas artifacts appear as an initial negative ΔT that gradually approaches zero as gases are boiled off, and can be mistaken for a real effect at low concentrations. Hydrostatic head differences — from unequal liquid levels in the two ebulliometers — cause a constant pressure offset equivalent to a few millikelvin of apparent ΔT, shifting all data points. Foaming in surfactant-containing solutions prevents proper Cottrell pump operation and produces erratic ΔT with large noise. Composition drift from imperfect condenser operation causes ΔT to change slowly over time at nominally fixed concentration. Condenser flooding at very high reflux rates can cause liquid solvent to back-flow into the vapor manifold, disrupting the pressure equalization between ebulliometers.",
+      "reporting_checklist": "Published differential ebulliometry results should report: solvent identity and purity, solute identity and purity, ebulliometer design (Swietoslawski or other), thermometer type and resolution, measured ΔT values at each solute concentration, system pressure and manostat type, uncertainty in ΔT (combined expanded uncertainty at 95% confidence, k = 2), ΔHvap value used for data reduction and its source, method of solvent degassing, zero-point ΔT for pure solvent in both ebulliometers, equilibration time per data point, calibration reference system and comparison to literature, derived activity or osmotic coefficients with propagated uncertainty, solution model used for fitting (if applicable), and any corrections applied (vapor non-ideality, solute volatility, hydrostatic head). For ThermoML encoding, property values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

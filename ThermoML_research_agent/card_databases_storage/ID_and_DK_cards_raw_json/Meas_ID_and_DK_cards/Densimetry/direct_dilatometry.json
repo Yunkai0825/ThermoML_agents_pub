@@ -1,0 +1,336 @@
+{
+  "meas_ID": "direct_dilatometry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Direct dilatometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Direct dilatometry",
+    "thermoml_custom_codes": [
+      "DIRDIL"
+    ],
+    "measurement_family": "Densimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 123,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 30,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 123,
+          "papers": 30
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "displacement of mercury meniscus in calibrated capillary (Δh)",
+          "piston displacement in piston dilatometer (Δx)",
+          "bellows deflection (for bellows dilatometers)"
+        ],
+        "derived_observables": [
+          "volume change ΔV = Δh × A_capillary (mercury dilatometer)",
+          "specific volume v(T) = V(T)/m",
+          "density ρ(T) = m/V(T)",
+          "thermal expansion coefficient α = (1/V)(dV/dT)_P",
+          "excess molar volume V^E for mixtures",
+          "compressibility (from high-pressure piston dilatometers)"
+        ],
+        "target_properties": [
+          "molar volume",
+          "specific volume",
+          "density as a function of temperature",
+          "isobaric thermal expansion coefficient",
+          "excess molar volume of mixtures",
+          "phase transition temperatures (via volume discontinuities or slope changes)",
+          "isothermal compressibility (high-pressure variants)"
+        ],
+        "phases_measured": [
+          "liquid",
+          "solid (crystalline)",
+          "solid (amorphous/glassy)",
+          "polymer melt",
+          "liquid mixtures"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "liquid mixtures (binary and multicomponent)",
+          "pure solids (metals, ceramics, polymers)",
+          "polymer melts and glasses",
+          "waxes and fats",
+          "resins and adhesives",
+          "ionic liquids",
+          "alloys"
+        ],
+        "unsupported_sample_types": [
+          "gases",
+          "highly volatile liquids that evaporate during measurement",
+          "samples that react with mercury (mercury dilatometer)",
+          "corrosive liquids that attack glass or metal components",
+          "powders or granular materials (unless compressed into a pellet)",
+          "samples requiring extreme pressures beyond dilatometer limits"
+        ],
+        "typical_output_formats": [
+          "ΔV/V vs. T curve",
+          "V(T) or v(T) vs. T curve",
+          "ρ(T) vs. T curve",
+          "α(T) vs. T curve (from numerical derivative)",
+          "tabulated V, ρ, or α at discrete temperatures"
+        ],
+        "units": {
+          "volume_change": "cm³ or mL",
+          "specific_volume": "cm³/g",
+          "molar_volume": "cm³/mol",
+          "density": "g/cm³ or kg/m³",
+          "thermal_expansion_coefficient": "K⁻¹",
+          "temperature": "K or °C",
+          "capillary_height": "mm or cm",
+          "pressure": "MPa (for high-pressure variants)"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 600 K",
+            "hard_limits": "lower limit set by freezing of mercury confining liquid (234 K); upper limit set by mercury vapor pressure and glass softening (~573 K for mercury dilatometers); piston dilatometers extend higher",
+            "notes": "silicone oil or gallium can replace mercury for temperatures outside its liquid range"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (atmospheric) for mercury dilatometers",
+            "hard_limits": "piston dilatometers operate up to ~200 MPa; bellows dilatometers up to ~50 MPa",
+            "notes": "standard mercury capillary dilatometers are limited to near-atmospheric pressure"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "0.1 K/min to 2 K/min",
+            "hard_limits": "must be slow enough to maintain thermal equilibrium throughout the sample and confining liquid",
+            "notes": "step-and-hold protocols (isothermal plateaus) are preferred for highest accuracy"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "1 cm³ to 50 cm³",
+            "hard_limits": "minimum volume set by capillary sensitivity; maximum by dilatometer bulb size",
+            "notes": "larger samples improve sensitivity to small ΔV/V but increase thermal equilibration time"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "250 K to 550 K",
+            "effect": "temperature variation drives thermal expansion; volume increases approximately linearly for simple liquids, with slope change at phase transitions"
+          },
+          {
+            "name": "pressure",
+            "role": "fixed or secondary variable (high-pressure variants)",
+            "typical_values": "0.1 MPa to 200 MPa",
+            "effect": "elevated pressure compresses the sample, enabling measurement of compressibility and PVT surfaces"
+          },
+          {
+            "name": "composition",
+            "role": "varied for mixture studies",
+            "typical_values": "mole fraction 0 to 1",
+            "effect": "composition variation at fixed T and P yields excess molar volume V^E as a function of composition"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "dilatometer bulb — calibrated glass or quartz vessel that holds the sample and confining liquid",
+          "calibrated capillary tube — precision-bore glass capillary (typical bore 0.5–2 mm) graduated or read with a cathetometer",
+          "confining liquid — triple-distilled mercury (most common) or silicone oil for mercury-free applications",
+          "cathetometer or traveling microscope — reads mercury meniscus position to ±0.01 mm",
+          "thermostat bath — liquid-filled (oil, water, or silicone) constant-temperature bath with ±0.01 K stability",
+          "platinum resistance thermometer or calibrated thermocouple — measures sample temperature",
+          "piston and cylinder assembly (piston dilatometer variant) — precision-lapped piston with LVDT or micrometer displacement readout",
+          "bellows assembly (bellows dilatometer variant) — metallic bellows with LVDT displacement sensor for high-pressure work",
+          "pressure controller and transducer (for high-pressure variants)",
+          "data logger or computer acquisition system"
+        ],
+        "environmental_requirements": [
+          "constant-temperature thermostat bath with stability ±0.01 K or better",
+          "vibration-free bench to avoid mercury meniscus disturbance",
+          "draft-free room to prevent temperature gradients across the capillary",
+          "adequate ventilation if using mercury (fume hood or mercury vapor monitor)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid samples fill the dilatometer bulb directly",
+            "solid samples are machined to fit the bulb with minimal void space and immersed in confining liquid",
+            "polymer samples may be cast, molded, or cut to shape"
+          ],
+          "size_limits": "typically 1–50 cm³; small capillary-bore dilatometers work with 1–5 cm³, larger research dilatometers up to 50 cm³",
+          "thickness_limits": "not directly applicable for liquids; solid specimens should fit within the dilatometer bulb (typically < 3 cm diameter)",
+          "surface_requirements": [
+            "solid samples require smooth surfaces to minimize trapped air pockets at the sample–mercury interface",
+            "degassing of the sample surface to prevent bubble formation"
+          ],
+          "mounting_requirements": [
+            "sample is loaded into the dilatometer bulb, which is then filled with confining liquid under vacuum to eliminate trapped air",
+            "bulb is sealed at the capillary junction, leaving only the capillary open for mercury column displacement"
+          ],
+          "preparation_requirements": [
+            "known mass weighed to ±0.1 mg on analytical balance",
+            "degassing under vacuum to remove dissolved air (especially for liquids)",
+            "drying for hygroscopic samples",
+            "filtration of liquid samples to remove suspended particles that could block the capillary"
+          ]
+        },
+        "calibration_requirements": [
+          "calibration of capillary bore cross-sectional area A using a known mass of mercury thread",
+          "determination of initial sample volume V₀ from dilatometer bulb calibration with mercury",
+          "correction for thermal expansion of the glass (or quartz) dilatometer vessel itself",
+          "correction for thermal expansion of mercury confining liquid (well-known from literature data)",
+          "temperature calibration of the thermometer against a certified standard",
+          "verification using a reference liquid with well-known density-temperature relationship"
+        ],
+        "reference_materials": [
+          "water (IAPWS-95 equation of state) — liquid volume standard",
+          "mercury — confining liquid with well-characterized thermal expansion",
+          "toluene — reference liquid with well-known density vs. temperature",
+          "n-heptane — reference liquid for thermal expansion verification",
+          "NIST SRM 717a (borosilicate glass) — solid thermal expansion standard",
+          "copper or aluminum — solid reference materials with well-known linear expansion coefficients"
+        ],
+        "consumables": [
+          "triple-distilled mercury (for mercury dilatometers)",
+          "silicone oil (for mercury-free variants)",
+          "vacuum grease for sealing joints",
+          "cleaning solvents (acetone, chromic acid solution for glass)",
+          "thermostat bath fluid (silicone oil or mineral oil)"
+        ],
+        "safety_notes": [
+          "mercury is toxic — handle in a well-ventilated area with spill containment trays and mercury vapor monitoring",
+          "use personal protective equipment (gloves, safety glasses) when handling mercury",
+          "dispose of mercury waste according to local hazardous materials regulations",
+          "glass dilatometers under vacuum can implode — use safety shields",
+          "high-pressure piston dilatometers require standard high-pressure safety protocols"
+        ]
+      },
+      "performance": {
+        "sensitivity": "volume change sensitivity of ~0.001 cm³ for standard mercury capillary dilatometers; ~0.0001 cm³ for precision instruments with fine-bore capillaries",
+        "detection_limit": "minimum detectable ΔV/V ~ 10⁻⁵ to 10⁻⁴ depending on capillary bore and cathetometer resolution",
+        "resolution": {
+          "spatial": "not applicable (bulk volumetric measurement)",
+          "temporal": "equilibration time per temperature step: 10–60 min depending on sample size and thermal conductivity",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "ΔV/V from ~10⁻⁵ to ~0.1 (10% volume change); suitable from near room temperature to ~600 K",
+        "accuracy": "0.01–0.1% in ΔV/V for well-calibrated instruments; absolute density accuracy 0.01–0.05%",
+        "precision": "0.005–0.02% in ΔV/V (repeatability from replicate runs)",
+        "throughput": "single sample per dilatometer; one full temperature scan takes hours to a full day",
+        "measurement_speed": "slow — each temperature point requires 10–60 min for thermal equilibration; a full T-scan of 200 K range at 10 K steps takes 3–12 hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "mercury meniscus height h(T) read from the calibrated capillary by cathetometer or traveling microscope; or piston/bellows displacement read by LVDT or micrometer",
+        "preprocessing_steps": [
+          "convert meniscus height reading to volume change: ΔV_apparent = Δh × A_capillary",
+          "apply correction for thermal expansion of the glass dilatometer vessel: ΔV_glass = V_bulb × 3α_glass × ΔT",
+          "apply correction for thermal expansion of the mercury confining liquid: ΔV_Hg = V_Hg × β_Hg(T) × ΔT",
+          "calculate true sample volume change: ΔV_sample = ΔV_apparent + ΔV_glass − ΔV_Hg",
+          "compute absolute volume: V(T) = V₀ + ΔV_sample, where V₀ is the calibrated initial volume"
+        ],
+        "analysis_methods": [
+          "direct calculation: ρ(T) = m / V(T), where m is the known sample mass",
+          "numerical differentiation of V(T) to obtain α(T) = (1/V)(dV/dT)_P",
+          "polynomial or rational function fit of V(T) or ρ(T) for interpolation",
+          "detection of phase transitions from discontinuities or slope changes in V(T)",
+          "integration of α(T) to verify internal consistency with directly measured ΔV(T)"
+        ],
+        "model_assumptions": [
+          "sample is in thermal equilibrium with the thermostat bath at each measurement point",
+          "confining liquid (mercury) does not dissolve in or react with the sample",
+          "no significant vapor space above the mercury column (or it is accounted for)",
+          "glass vessel and mercury expansion corrections use accurate literature thermal expansion data",
+          "pressure head of the mercury column is negligible or corrected for (especially for tall capillaries)"
+        ],
+        "fit_parameters": [
+          "initial sample volume V₀",
+          "polynomial coefficients for V(T) or ρ(T) fit",
+          "thermal expansion coefficient α (constant or T-dependent)",
+          "phase transition temperature T_tr and associated volume jump ΔV_tr"
+        ],
+        "common_artifacts": [
+          "trapped air bubbles in the mercury-sample interface — cause spurious apparent volume changes as bubbles expand or dissolve with temperature",
+          "meniscus reading error — parallax or wetting angle variations introduce systematic bias in h readings",
+          "mercury column breakage — column separates in the capillary, causing a sudden apparent volume jump",
+          "incomplete thermal equilibration — reading h before equilibrium gives apparent thermal lag, with the error sign depending on heating vs. cooling",
+          "glass vessel hysteresis — borosilicate glass exhibits small irreversible dimensional changes on first heating (annealing effect)"
+        ],
+        "quality_control_checks": [
+          "verify capillary bore calibration by weighing a mercury thread of known length",
+          "run a reference liquid (water or toluene) and compare measured ρ(T) to literature within stated accuracy",
+          "compare heating and cooling scans to confirm thermal equilibrium and absence of hysteresis",
+          "check for trapped bubbles by inspecting the capillary meniscus for discontinuous jumps",
+          "repeat measurement with a fresh mercury fill to verify reproducibility"
+        ],
+        "failure_modes": [
+          "mercury oxidation producing a skin on the meniscus that distorts the reading",
+          "capillary blockage by particulate contamination from the sample or degraded mercury",
+          "sample leaking past the mercury seal (for immiscible liquid samples with low interfacial tension)",
+          "glass bulb cracking due to thermal shock from too-rapid heating",
+          "LVDT drift or micrometer backlash in piston dilatometers"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.01–0.1% in ΔV/V; absolute density uncertainty 0.01–0.05% for well-calibrated instruments",
+        "random_sources": [
+          "cathetometer reading precision (±0.01–0.05 mm in meniscus height)",
+          "thermostat bath temperature fluctuations (±0.005–0.02 K)",
+          "meniscus shape variability between readings",
+          "vibration-induced meniscus oscillation"
+        ],
+        "systematic_sources": [
+          "capillary bore calibration uncertainty",
+          "initial volume V₀ calibration uncertainty",
+          "thermal expansion correction for the glass dilatometer vessel",
+          "thermal expansion correction for the mercury confining liquid",
+          "sample mass uncertainty",
+          "temperature measurement bias (thermometer calibration offset)",
+          "incomplete degassing (residual trapped air)"
+        ],
+        "operator_dependence": "moderate to high — cathetometer readings require trained operator for consistent meniscus sighting; sample loading and mercury filling technique affect trapped-air risk",
+        "model_dependence": "low to moderate — corrections for glass and mercury expansion rely on well-established literature data; accuracy depends on quality of these correction values",
+        "dominant_error_sources": [
+          "capillary bore calibration (directly scales all ΔV values)",
+          "meniscus reading precision (especially for narrow-bore capillaries)",
+          "trapped air bubbles (undetected bubbles can dominate error budget)",
+          "glass vessel expansion correction at high temperatures"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ρ) or U(V) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of ΔV/V or ρ",
+          "standard deviation from replicate measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Direct dilatometry is a classical volumetric technique that measures the volume change of a sample directly as a function of temperature or pressure. The method relies on confining the sample (liquid or solid) within a calibrated vessel and tracking the displacement of a confining liquid (typically mercury) in a precision-bore capillary tube. First employed systematically in the 19th century, dilatometry remains one of the most straightforward and reliable approaches for determining thermal expansion, density, and phase-transition behavior of condensed-phase materials. Its directness — volume change is measured geometrically rather than inferred from buoyancy or oscillation frequency — gives it a conceptual simplicity and traceability that complement more modern densimetry methods.",
+      "how_it_operates": "In a mercury-filled dilatometer, the sample is placed in a calibrated glass bulb, which is then completely filled with triple-distilled mercury under vacuum to eliminate trapped air. A precision-bore capillary tube extends from the bulb, and the mercury meniscus position in this capillary is the measurand. As the entire assembly is immersed in a thermostat bath and the temperature is changed, the sample and mercury expand at different rates. The net displacement of the mercury meniscus Δh, multiplied by the calibrated capillary cross-section A, gives the apparent volume change. After correcting for the thermal expansion of both the glass vessel and the mercury itself, the true sample volume change ΔV_sample is obtained. In piston dilatometer variants, the confining liquid transmits volume change to a precision piston whose displacement is read by an LVDT or micrometer; in bellows dilatometers used for high-pressure work, a metallic bellows deflects in proportion to the volume change.",
+      "core_theory": "The fundamental measurement equation for a mercury capillary dilatometer is: ΔV_sample(T) = A_cap × Δh(T) + V_bulb × 3α_glass × ΔT − V_Hg × β_Hg(T) × ΔT, where A_cap is the capillary bore area, Δh is the observed meniscus displacement, α_glass is the linear thermal expansion coefficient of the glass, and β_Hg is the volumetric expansion coefficient of mercury. The first term is the apparent (uncorrected) volume change; the second term adds back the expansion of the glass container (which would otherwise accommodate part of the sample expansion without displacing mercury); the third term subtracts the expansion of the mercury confining liquid itself. From V(T) = V₀ + ΔV_sample(T), density follows as ρ(T) = m/V(T), and the isobaric volumetric thermal expansion coefficient is α(T) = (1/V)(∂V/∂T)_P.",
+      "setup": "A standard mercury capillary dilatometer consists of a Pyrex or quartz bulb (1–50 cm³ capacity) fused to a precision-bore capillary tube (bore diameter 0.5–2 mm, length 20–50 cm). The bulb is loaded with the sample and then filled with mercury under vacuum via a side arm. The assembled dilatometer is clamped vertically in a thermostat bath (oil or silicone fluid) regulated to ±0.01 K by a PID controller. A cathetometer or traveling microscope mounted on a rigid stand reads the mercury meniscus position to ±0.01 mm. Temperature is measured by a calibrated platinum resistance thermometer (PRT) or thermocouple immersed adjacent to the dilatometer. For piston variants, the bulb connects to a precision-lapped piston-cylinder assembly with an LVDT displacement sensor, and the entire assembly sits in a thermostat or pressure vessel for high-pressure PVT studies.",
+      "suitable_for": "Direct dilatometry is well-suited for measuring thermal expansion and density of liquids, liquid mixtures, polymers, glasses, and metallic or ceramic solids over moderate temperature ranges. It is particularly valuable for detecting phase transitions — melting, crystallization, glass transitions, and polymorphic transformations — that manifest as discontinuities or slope changes in the V(T) curve. The technique is widely used in polymer science for determining glass transition temperatures (T_g) via the change in expansion coefficient, in materials science for measuring coefficients of linear and volumetric thermal expansion, and in thermodynamics for determining excess molar volumes of liquid mixtures. Its simplicity makes it accessible for routine measurements when high-throughput or automation is not required.",
+      "core_limitations": "Mercury dilatometry is limited to the liquid range of mercury (~234 K to ~573 K at atmospheric pressure) unless an alternative confining liquid is used. The technique cannot be applied to samples that react with, dissolve in, or are wetted by mercury. Measurement speed is slow because complete thermal equilibration of the sample, mercury, and glass vessel is required at each temperature point, typically demanding 10–60 minutes per step. Accuracy depends critically on the calibration of the capillary bore area, which is a persistent source of systematic error. For solids, voids between the sample and the mercury can trap air and cause spurious readings. Volatile samples cannot be measured unless the system is hermetically sealed. The method is labor-intensive compared to vibrating-tube densimetry or pycnometry and is not easily automated.",
+      "sample_preparation": "Liquid samples should be degassed under vacuum or by ultrasonic treatment to remove dissolved air, then filtered through a fine membrane to exclude particulates that could block the capillary. The sample mass is determined by weighing on an analytical balance to ±0.1 mg. For mercury dilatometry, the sample is introduced into the clean, dry bulb first, and mercury is then added under vacuum to displace all air. Solid samples are machined or cast to fit the bulb shape with minimal clearance; surfaces should be polished smooth to prevent air entrapment at the mercury-solid interface. Hygroscopic samples must be dried; reactive samples require an inert atmosphere during loading. The dilatometer glassware is cleaned with chromic acid solution, rinsed with distilled water, and oven-dried before each use.",
+      "calibration_and_references": "Calibration of a mercury dilatometer involves three key steps: (1) determination of the capillary bore area A_cap by weighing a precisely measured length of mercury thread in the capillary — since mercury density is known to high accuracy, A_cap = m_thread / (ρ_Hg × L_thread); (2) determination of the initial bulb volume V₀ by filling entirely with mercury and weighing the mercury displaced; and (3) verification of the complete system by measuring a reference liquid such as distilled water (compared against the IAPWS-95 equation of state) or toluene (compared against literature density data). The thermal expansion of the glass vessel is calibrated independently or taken from the manufacturer's certified value. Temperature is calibrated against fixed points or a certified PRT. Reference materials include NIST SRM 717a (borosilicate glass) for solid expansion and water or n-heptane for liquid density verification.",
+      "data_interpretation": "The raw data consist of meniscus height h(T) readings at each temperature step. These are converted to apparent volume change ΔV_app = A_cap × (h(T) − h(T₀)), then corrected for glass and mercury expansion to yield ΔV_sample. The absolute volume V(T) = V₀ + ΔV_sample gives density via ρ(T) = m/V(T). The thermal expansion coefficient α(T) is obtained by numerical differentiation of V(T), often after fitting V(T) to a polynomial. Phase transitions appear as discontinuities (first-order: step in V) or slope changes (second-order: kink in V, step in α) in the V(T) curve. For mixture studies at fixed temperature, excess molar volume is computed as V^E = V_mix − Σ x_i V_i*, where V_i* are pure-component molar volumes. Uncertainty propagation from meniscus reading, capillary bore, mass, and correction terms yields the combined uncertainty in ρ or V.",
+      "common_pitfalls": "The most common pitfall is trapped air bubbles in the mercury-sample system, which expand on heating and produce an erroneously large apparent volume change. Careful vacuum filling is essential. Parallax errors in cathetometer readings or inconsistent meniscus sighting (top vs. center of convex mercury meniscus) degrade precision; a consistent sighting protocol is mandatory. Errors in capillary bore calibration propagate as a multiplicative bias on all volume-change results. Reading the mercury level before thermal equilibrium is reached produces systematic errors that depend on whether the system is being heated or cooled. Applying inaccurate values for the thermal expansion of the glass vessel (e.g., using soda-lime glass values for borosilicate glass) introduces a systematic correction error that grows with temperature range.",
+      "artifacts_and_failure_modes": "Trapped air bubbles are the most insidious artifact: they can remain undetected for many temperature points and produce smooth-looking but systematically biased V(T) curves. Mercury column breakage in the capillary — caused by rapid temperature changes or vibration — appears as a sudden apparent volume jump and invalidates data beyond that point until the column is re-established. Oxidation of the mercury surface produces a dull oxide skin that alters the meniscus shape and contact angle, degrading cathetometer reading consistency. Glass hysteresis (irreversible dimensional change on the first heating cycle of a new dilatometer) produces non-reproducible results between the first and subsequent runs; a conditioning cycle is recommended before collecting data. For high-pressure piston dilatometers, O-ring seal friction and piston-bore clearance can introduce hysteresis between pressurization and depressurization cycles.",
+      "reporting_checklist": "Published direct dilatometry results should report: dilatometer type (mercury capillary, piston, or bellows) and material (Pyrex, quartz); capillary bore diameter and calibration method; confining liquid identity and purity; sample mass and initial volume V₀; thermostat type and temperature stability; temperature measurement method and calibration; heating/cooling protocol (scan rate or step-and-hold details); corrections applied (glass expansion, mercury expansion); reference material used for verification and agreement obtained; tabulated V(T) or ρ(T) with associated combined expanded uncertainty at 95% confidence; whether thermal expansion coefficient was measured directly or derived by differentiation; and any evidence of phase transitions observed. For ThermoML encoding, density or volume values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

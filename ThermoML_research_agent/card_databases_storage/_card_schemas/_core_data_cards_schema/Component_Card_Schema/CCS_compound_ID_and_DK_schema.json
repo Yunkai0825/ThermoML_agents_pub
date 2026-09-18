@@ -1,0 +1,142 @@
+{
+  "$schema": "thermoml_compound_identity_schema_v1",
+  "$id": "CDS_compound_identity",
+  "title": "CDS Compound Identity Card",
+  "description": "Static chemical identity for one unique compound. Keyed by global comp_num_id. Contains all known names, structural identifiers (SMILES, InChI), and molecular formula. Sample/purity information lives in the per-DOI CCS INDIV card.",
+  "version": "1.0.0",
+  "database_stats": {
+    "total_unique_compounds": 8502,
+    "total_compound_entries_across_papers": 60461,
+    "compounds_without_InChI": 6,
+    "median_names_per_compound": 2,
+    "max_names_per_compound": 29
+  },
+  "card_structure": {
+    "comp_num_id": {
+      "type": "string",
+      "description": "Global compound registry ID. Required format: GLOBcomp_<positive integer>.",
+      "example": "GLOBcomp_1"
+    },
+    "identity": {
+      "description": "Primary structural identifiers — the canonical key for this compound",
+      "fields": {
+        "SMILES": {
+          "type": "string|null",
+          "description": "Canonical SMILES derived from InChI via RDKit. Null for ~61 compounds missing InChI. Primary structural search key.",
+          "example": "O"
+        },
+        "InChI": {
+          "type": "string|null",
+          "description": "IUPAC Standard InChI (sStandardInChI) — full canonical structure string. Null for ~6 compounds.",
+          "example": "InChI=1S/H2O/h1H2"
+        },
+        "formula": {
+          "type": "string",
+          "description": "Molecular formula (sFormulaMolec)",
+          "example": "H2O"
+        },
+        "inchi_key": {
+          "type": "string",
+          "description": "[audited] Present in 100.0% of cards. Example: AAAQKTZKLRYKHR-UHFFFAOYSA-N"
+        }
+      }
+    },
+    "names": {
+      "description": "All known names for this compound, collected and deduplicated across all papers in the database. Includes common names, trade names, IUPAC names.",
+      "fields": {
+        "primary_name": {
+          "type": "string",
+          "description": "Most frequently used common name across all papers (chosen as the canonical display name)"
+        },
+        "all_names": {
+          "type": "array",
+          "description": "All unique sCommonName values observed for this compound across the entire database, sorted by frequency (most common first). Median 2, max 29.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "field_universe_audit": {
+    "generated": "2026-08-03",
+    "source": "full scan of every card in the database (audit_card_fields.py)",
+    "rows_scanned": 8526,
+    "distinct_paths": 10,
+    "wildcards": "ID-grammar keys collapsed: <GLOBxxx_N>, <PROPblock_N>, <BLKxxx_N>, <DOIcomp_N>, <doi>, <n>",
+    "paths": {
+      "comp_num_id": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "GLOBcomp_1559"
+      },
+      "identity": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "identity.InChI": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "InChI=1S/C19H16/c1-4-10-16(11-5-1)19(17-12-6-2-7-13-17)18-14-8-3-9-15-18/h1-15,1…"
+      },
+      "identity.SMILES": {
+        "types": [
+          "null",
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "c1ccc(C(c2ccccc2)c2ccccc2)cc1"
+      },
+      "identity.formula": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "C19H16"
+      },
+      "identity.inchi_key": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "AAAQKTZKLRYKHR-UHFFFAOYSA-N"
+      },
+      "names": {
+        "types": [
+          "object"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "names.all_names": {
+        "types": [
+          "array"
+        ],
+        "pct": 100.0,
+        "example": null
+      },
+      "names.all_names[]": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "triphenylmethane"
+      },
+      "names.primary_name": {
+        "types": [
+          "string"
+        ],
+        "pct": 100.0,
+        "example": "triphenylmethane"
+      }
+    }
+  }
+}

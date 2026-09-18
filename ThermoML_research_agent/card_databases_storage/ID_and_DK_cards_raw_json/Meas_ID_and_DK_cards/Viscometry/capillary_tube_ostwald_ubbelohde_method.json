@@ -1,0 +1,326 @@
+{
+  "meas_ID": "capillary_tube_ostwald_ubbelohde_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Capillary tube (Ostwald; Ubbelohde) method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Capillary tube (Ostwald; Ubbelohde) method",
+    "thermoml_custom_codes": [
+      "CAPTUB"
+    ],
+    "measurement_family": "Viscometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 3407,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 716,
+      "per_group": {
+        "TransportProp": {
+          "instances": 3407,
+          "papers": 716
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "efflux time — time for liquid meniscus to fall between two etched fiducial marks on the viscometer bulb (s)",
+          "temperature of thermostat bath (K)"
+        ],
+        "derived_observables": [
+          "kinematic viscosity ν = Ct − K/t, where C is the viscometer constant, t is efflux time, and K/t is the Hagenbach–Couette kinetic energy correction (mm²/s)",
+          "dynamic (absolute) viscosity η = νρ, where ρ is the liquid density (mPa·s)"
+        ],
+        "target_properties": [
+          "kinematic viscosity (ν)",
+          "dynamic viscosity (η)",
+          "viscosity deviation (Δη) for mixtures",
+          "excess viscosity for binary and multicomponent systems",
+          "viscosity–temperature coefficients (Arrhenius parameters, VTF parameters)",
+          "activation energy of viscous flow (Ea)"
+        ],
+        "phases_measured": [
+          "liquid (Newtonian fluids)",
+          "liquid mixtures and solutions"
+        ],
+        "supported_sample_types": [
+          "pure Newtonian liquids",
+          "binary and multicomponent liquid mixtures",
+          "dilute and moderately concentrated solutions",
+          "electrolyte solutions",
+          "ionic liquids",
+          "organic solvents and solvent mixtures",
+          "petroleum fractions and lubricant base oils",
+          "aqueous solutions of salts, sugars, and surfactants"
+        ],
+        "unsupported_sample_types": [
+          "non-Newtonian or shear-thinning/thickening fluids (viscosity is shear-rate dependent)",
+          "highly viscous liquids with efflux times exceeding ~2000 s (evaporation, temperature drift)",
+          "very low viscosity gases or supercritical fluids",
+          "suspensions or slurries containing particles that can clog the capillary",
+          "reactive or polymerizing systems that change viscosity during measurement",
+          "opaque liquids where meniscus timing marks cannot be observed (unless automated optical detection is used)"
+        ],
+        "typical_output_formats": [
+          "kinematic viscosity ν vs. temperature T",
+          "dynamic viscosity η vs. temperature T",
+          "viscosity vs. composition (mole fraction) at fixed T",
+          "ln(η) vs. 1/T (Arrhenius plot)",
+          "viscosity deviation Δη vs. mole fraction"
+        ],
+        "units": {
+          "kinematic_viscosity": "mm²/s (= cSt)",
+          "dynamic_viscosity": "mPa·s (= cP)",
+          "efflux_time": "s",
+          "temperature": "K",
+          "density": "kg/m³ or g/cm³",
+          "viscometer_constant": "mm²/s²"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 373 K",
+            "hard_limits": "limited by thermostat bath capability and solvent boiling/freezing points; specialized baths extend to 200 K or 473 K",
+            "notes": "temperature must be controlled to ±0.01 K or better for 0.1% viscosity accuracy; viscosity has strong T-dependence (often 1–3% per K)"
+          },
+          {
+            "parameter": "efflux_time",
+            "typical_range": "200 s to 1000 s",
+            "hard_limits": "minimum ~200 s to reduce kinetic energy correction to <1%; maximum ~2000 s to avoid evaporation and temperature drift errors",
+            "notes": "select capillary bore size to place efflux time in the optimal range for the liquid viscosity"
+          },
+          {
+            "parameter": "capillary_bore_diameter",
+            "typical_range": "0.2 mm to 3.0 mm",
+            "hard_limits": "must be large enough to avoid clogging and small enough to maintain laminar flow (Re < 1 in capillary)",
+            "notes": "viscometers designated by size number (e.g., Size 25, 50, 75…600) with each covering approximately a decade of kinematic viscosity"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "ambient (0.1 MPa)",
+            "hard_limits": "standard glass viscometers operate at ambient pressure only; driving head is provided by gravity (hydrostatic pressure of liquid column)",
+            "notes": "the technique measures viscosity at atmospheric pressure; high-pressure viscometry requires different apparatus"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "278 K to 363 K in 5 K or 10 K steps",
+            "effect": "viscosity decreases exponentially with increasing temperature for most liquids; precise T-control dominates measurement accuracy"
+          },
+          {
+            "name": "composition",
+            "role": "mixture variable",
+            "typical_values": "mole fractions from 0 to 1 in increments of 0.05 or 0.1",
+            "effect": "viscosity varies nonlinearly with composition; mixtures often show negative or positive viscosity deviations from ideal mixing"
+          },
+          {
+            "name": "capillary_size",
+            "role": "instrument selection parameter",
+            "typical_values": "size numbers 25–600 (corresponding to constants C ≈ 0.002 to 30 mm²/s²)",
+            "effect": "selected to keep efflux time in the optimal 200–1000 s range for the expected viscosity"
+          },
+          {
+            "name": "hydrostatic_head",
+            "role": "driving force (Ostwald) or eliminated (Ubbelohde)",
+            "typical_values": "typically 10–20 cm of liquid column (Ostwald); irrelevant for Ubbelohde (suspended level)",
+            "effect": "in Ostwald viscometers the head height determines the pressure drop and must be reproducible; Ubbelohde design makes the result independent of sample volume"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "glass capillary viscometer — Ostwald (U-tube with fixed volume marks) or Ubbelohde (three-arm suspended-level design with vented bulb) conforming to ISO 3105 / ASTM D446",
+          "precision thermostat water bath — transparent-walled, stirred liquid bath providing temperature uniformity and stability of ±0.01 K (or better); baths typically use water, silicone oil, or ethylene glycol/water depending on temperature range",
+          "calibrated thermometer or platinum resistance thermometer (PRT) — traceable to ITS-90, resolution ≤0.001 K",
+          "timing device — electronic stopwatch (resolution 0.01 s) or automated photoelectric/optical sensor pair positioned at upper and lower fiducial marks for hands-free efflux time measurement",
+          "viscometer holder/mount — vertical alignment fixture ensuring the viscometer is plumb within ±0.5° of vertical",
+          "pipette or syringe — for charging precisely the required volume of sample into the viscometer (Ostwald requires exact volume; Ubbelohde is less critical)",
+          "suction/pressure source — rubber aspirator bulb or small pump for drawing sample into the upper reservoir before releasing for gravity flow",
+          "cleaning and drying apparatus — chromic acid or detergent solutions, distilled water rinse, filtered dry air or nitrogen for drying the capillary between samples"
+        ],
+        "environmental_requirements": [
+          "draft-free laboratory environment to maintain bath temperature stability",
+          "constant ambient temperature (±2 K) to minimize thermal gradients in the exposed viscometer arms",
+          "clean, dust-free conditions to prevent particulate contamination of the capillary",
+          "stable bench free from vibration that could influence meniscus timing or bath temperature"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "free-flowing liquid at the measurement temperature"
+          ],
+          "size_limits": "Ubbelohde: 10–15 mL typical charge; Ostwald: a precisely specified volume (to ±0.1 mL) as defined by the viscometer marks, typically 3–10 mL",
+          "thickness_limits": "",
+          "surface_requirements": [
+            "liquid must wet the glass walls cleanly to form a reproducible meniscus",
+            "sample must be optically transparent (or translucent) so that fiducial marks can be observed visually or by optical sensor"
+          ],
+          "mounting_requirements": [
+            "viscometer must be held perfectly vertical in the bath (± 0.5° of plumb) — tilting alters the effective hydrostatic head",
+            "the viscometer must be immersed so that both bulbs and the capillary section are fully within the thermostated liquid"
+          ],
+          "preparation_requirements": [
+            "filter sample through a 0.45 µm or finer membrane filter to remove particulates",
+            "degas the sample (by gentle vacuum or ultrasonic bath) to prevent bubble formation in the capillary during flow",
+            "dry the viscometer thoroughly between successive samples using filtered air or dry nitrogen",
+            "for hygroscopic or volatile liquids, handle under dry or inert atmosphere and minimize exposure time"
+          ]
+        },
+        "calibration_requirements": [
+          "determine viscometer constant C by measuring efflux time with a certified viscosity reference standard (or pure water with known viscosity) at two or more temperatures",
+          "verify calibration periodically (at least annually or whenever the viscometer is cleaned with aggressive agents) using a fresh reference liquid",
+          "apply Hagenbach–Couette kinetic energy correction: ν = Ct − K/t or determine effective C and K by two-point calibration with reference oils of different viscosities",
+          "confirm viscometer constant stability by tracking control-chart data from repeated reference oil measurements"
+        ],
+        "reference_materials": [
+          "NIST traceable certified viscosity reference oils (e.g., Cannon N-series or S-series standards covering 0.3 to 100,000 mm²/s)",
+          "ultra-pure water (IAPWS viscosity standard: η = 1.0016 mPa·s at 293.15 K; ν ≈ 1.004 mm²/s)",
+          "NIST SRM 2490 (polyisobutylene solution in 2,6,10,14-tetramethylpentadecane) for Newtonian viscosity reference"
+        ],
+        "consumables": [
+          "chromic acid cleaning solution or commercial viscometer cleaning detergent",
+          "distilled and deionized water for rinsing",
+          "filtered dry nitrogen or clean compressed air for drying",
+          "membrane syringe filters (0.45 µm) for sample filtration",
+          "silicone oil, water, or ethylene glycol/water mixture as thermostat bath fluid"
+        ],
+        "safety_notes": [
+          "chromic acid cleaning solution is a strong oxidizer and known carcinogen — use in a fume hood with appropriate PPE; prefer modern non-chromic cleaning alternatives where possible",
+          "glass viscometers are fragile — handle with care to avoid breakage and injury from glass shards",
+          "hot bath fluids (>373 K) or cryogenic bath fluids present burn/frostbite hazards",
+          "volatile organic solvents require ventilation and avoidance of ignition sources"
+        ]
+      },
+      "performance": {
+        "sensitivity": "can distinguish kinematic viscosity differences as small as 0.01 mm²/s for low-viscosity liquids",
+        "detection_limit": "lower limit of kinematic viscosity ~0.2 mm²/s (limited by capillary bore size and minimum practical efflux time); upper limit ~100,000 mm²/s with large-bore viscometers",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement)",
+          "temporal": "single measurement per efflux cycle (200–1000 s); typical experimental campaign reports 3–5 replicate efflux times per condition",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "kinematic viscosity from ~0.2 mm²/s to ~100,000 mm²/s; a single viscometer size covers approximately one decade of viscosity",
+        "accuracy": "0.1–0.5% for kinematic viscosity with proper calibration, temperature control (±0.01 K), and kinetic energy correction; 0.2–0.7% for dynamic viscosity (includes density uncertainty)",
+        "precision": "0.05–0.2% (repeatability of replicate efflux times at the same temperature and composition)",
+        "throughput": "low — one sample/condition at a time; a single T-composition point requires 15–30 min including equilibration; full viscosity-temperature curve with 5–10 replicates takes several hours",
+        "measurement_speed": "individual efflux time 200–1000 s; thermal equilibration in bath 15–30 min per temperature step"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "elapsed time t (in seconds) for the liquid meniscus to descend between two fiducial marks etched on the viscometer upper bulb; measured by stopwatch or photoelectric sensor",
+        "preprocessing_steps": [
+          "compute mean efflux time from 3–5 replicate runs at each condition, rejecting outliers (>2σ)",
+          "apply Hagenbach–Couette kinetic energy correction: ν = Ct − K/t (or use the two-term calibration equation if C and K are determined separately)",
+          "for Ostwald viscometers: confirm that the charged sample volume matches the calibration volume (volume must be precise)",
+          "correct for buoyancy of air if working with high-precision density data",
+          "compute dynamic viscosity η = νρ using independently measured or literature density at the same T and P"
+        ],
+        "analysis_methods": [
+          "direct calculation: ν = Ct − K/t from calibrated viscometer constant C and kinetic energy correction constant K",
+          "Arrhenius fit: ln(η) = A + Ea/(RT) for activation energy of viscous flow",
+          "Vogel–Tammann–Fulcher (VTF) fit: ln(η) = A + B/(T − T0) for liquids approaching glass transition",
+          "Grunberg–Nissan equation: ln(η_mix) = x1·ln(η1) + x2·ln(η2) + x1·x2·G12 for binary mixture viscosity",
+          "Redlich–Kister polynomial: Δη = x1·x2·Σ Ai·(x1 − x2)^i for excess viscosity correlation",
+          "McAllister model: three-body or four-body interaction model for mixture kinematic viscosity"
+        ],
+        "model_assumptions": [
+          "flow through the capillary is fully developed, laminar, and Newtonian (Hagen–Poiseuille flow: Re < 1 in capillary)",
+          "the liquid is incompressible and behaves as a Newtonian fluid (viscosity independent of shear rate)",
+          "end effects (entrance and exit losses) are adequately accounted for by the Hagenbach–Couette kinetic energy correction",
+          "the capillary bore is perfectly cylindrical and uniform along its length",
+          "the liquid fully wets the glass wall (no-slip boundary condition holds)",
+          "for Ubbelohde viscometers: the suspended-level bulb vents to atmosphere, so hydrostatic head is determined solely by the design geometry and is independent of sample volume"
+        ],
+        "fit_parameters": [
+          "viscometer constant C (mm²/s²)",
+          "kinetic energy correction constant K (mm²·s)",
+          "Arrhenius pre-exponential A and activation energy Ea",
+          "VTF parameters A, B, T0",
+          "Redlich–Kister coefficients Ai for mixture excess viscosity"
+        ],
+        "common_artifacts": [
+          "air bubbles trapped in the capillary — produce erroneously long efflux times and poor reproducibility",
+          "particulate contamination or fiber in the capillary bore — partially blocks flow, giving anomalously high apparent viscosity",
+          "incomplete thermal equilibration — viscosity decreasing/increasing systematically across successive runs",
+          "meniscus adhesion or 'hanging drop' at the upper timing mark — operator-dependent timing error (eliminated by automated optical detection)",
+          "solvent evaporation during extended measurements on volatile samples — causes concentration and viscosity drift above the initial value"
+        ],
+        "quality_control_checks": [
+          "measure certified viscosity reference oil at a standard temperature (e.g., 298.15 K) and confirm agreement within ±0.3% of certified value",
+          "verify that replicate efflux times agree within ±0.1% of the mean (coefficient of variation)",
+          "measure at two temperatures and confirm viscosity–temperature trend is physically reasonable (monotonic decrease for most liquids)",
+          "cross-check: if two viscometer sizes overlap in range, measure the same liquid in both and confirm agreement",
+          "for Ostwald viscometers: verify that changing the sample volume slightly produces different results (evidence that volume control matters); for Ubbelohde: verify volume independence",
+          "inspect the viscometer bore for deposits or discoloration after each set of measurements; clean and recalibrate if contamination is found"
+        ],
+        "failure_modes": [
+          "capillary clogging by particles or crystallized solute — flow stops or becomes erratic",
+          "cracking or chipping of the viscometer glass — changes bore geometry and invalidates calibration",
+          "thermostat bath failure or oscillation — temperature excursions cause large viscosity errors",
+          "degradation of reference oil standard (oxidation, moisture absorption) — leads to incorrect recalibration",
+          "timing device malfunction or operator reaction-time variability (manual timing) — random errors in efflux time >0.5 s"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.1–0.5% for kinematic viscosity; 0.2–0.7% for dynamic viscosity (additional density uncertainty)",
+        "random_sources": [
+          "operator reaction time in starting/stopping manual timer (±0.1–0.3 s per mark; eliminated by automated sensors)",
+          "meniscus shape variability at the timing marks",
+          "short-term temperature fluctuations (bath stability)",
+          "micro-bubble formation between runs",
+          "small variations in sample charge volume (Ostwald design)"
+        ],
+        "systematic_sources": [
+          "viscometer constant calibration uncertainty (typically 0.1–0.2%)",
+          "kinetic energy correction uncertainty (significant for short efflux times <200 s)",
+          "temperature measurement offset or drift (0.01 K ≈ 0.02–0.05% in viscosity)",
+          "non-Newtonian behavior of nominally Newtonian sample at high shear rates in fine capillaries",
+          "capillary bore non-uniformity or dimensional change from aggressive cleaning",
+          "surface tension effects on meniscus curvature (Ostwald design, volume-dependent)",
+          "density uncertainty propagated into dynamic viscosity (typically 0.01–0.05%)"
+        ],
+        "operator_dependence": "moderate for manual timing (reaction-time variability is the largest operator-dependent error); low for automated photoelectric detection systems; sample loading and viscometer cleaning technique also depend on operator skill",
+        "model_dependence": "low — the Hagen–Poiseuille equation with Hagenbach–Couette correction is well-established for Newtonian laminar flow; model dependence increases only if the sample exhibits non-Newtonian behavior or if kinetic energy correction is poorly characterized",
+        "dominant_error_sources": [
+          "temperature control and measurement (dominates total budget for well-calibrated systems)",
+          "viscometer constant calibration (propagates directly to reported viscosity)",
+          "kinetic energy correction (dominant for fluids with efflux times <200 s)",
+          "density uncertainty (for dynamic viscosity η = νρ)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ν) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of ν or η",
+          "standard deviation of replicate efflux times"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The capillary tube (Ostwald; Ubbelohde) method is the most widely used laboratory technique for measuring kinematic viscosity of Newtonian liquids. The sample flows under gravity through a precision-bore glass capillary, and the time for a fixed volume of liquid to drain between two etched marks is recorded. This efflux time is directly proportional to kinematic viscosity via a calibrated instrument constant. With 3,407 measurement instances across 716 papers in the NIST ThermoML database, it is the dominant viscometry technique in the thermophysical property literature. Two principal designs exist: the Ostwald U-tube viscometer (ca. 1890), which requires a precisely known sample volume, and the Ubbelohde suspended-level viscometer (ca. 1937), whose vented design makes the result independent of the volume of liquid charged, simplifying operation and improving reproducibility.",
+      "how_it_operates": "A measured quantity of liquid is loaded into the viscometer and brought to thermal equilibrium in a precision thermostat bath (±0.01 K). The liquid is drawn by suction into the upper reservoir above the capillary section, then released to flow under gravity. As the meniscus descends through the capillary and into the lower bulb, the operator (or an automated photoelectric detector) records the time for the meniscus to pass between two fiducial marks etched on the glass. This efflux time t is related to kinematic viscosity by ν = Ct − K/t, where C is the viscometer constant determined by calibration and K/t is the Hagenbach–Couette kinetic energy correction that accounts for acceleration losses at the capillary entrance and exit. In the Ubbelohde design, the lower end of the capillary opens into a bulb that is vented to the atmosphere, creating a suspended (free-hanging) liquid column whose driving head is fixed by geometry alone, independent of the total volume charged. In the Ostwald design, the driving hydrostatic head depends on the liquid level in both arms, so only the exact calibration volume must be used.",
+      "core_theory": "The measurement is grounded in the Hagen–Poiseuille equation for steady, laminar, incompressible Newtonian flow through a cylindrical tube: Q = πR⁴ΔP/(8ηL), where Q is the volumetric flow rate, R is the capillary radius, L is the capillary length, ΔP is the pressure drop (from the hydrostatic head ρgΔh), and η is the dynamic viscosity. Because the driving pressure is ρgΔh, the flow rate depends on density, and the ratio η/ρ = ν (kinematic viscosity) emerges naturally: ν = πR⁴gΔh·t/(8LV), where V is the volume of liquid that flows during time t. This quantity πR⁴gΔh/(8LV) is absorbed into the viscometer constant C, yielding the working equation ν = Ct. A correction for the kinetic energy consumed in accelerating the liquid from rest in the reservoir into the capillary and decelerating it upon exit is applied as a negative term −K/t (Hagenbach–Couette correction), giving the complete equation ν = Ct − K/t. For well-designed viscometers with long efflux times (>200 s), the correction term is small (<1%). The Reynolds number in the capillary must remain below ~1 to ensure fully laminar flow.",
+      "setup": "A standard capillary viscometry setup consists of the glass viscometer (Ostwald or Ubbelohde, selected by size number to match the expected viscosity range), a transparent thermostat bath with continuous mechanical stirring and a PID-controlled heater/cooler maintaining ±0.01 K stability, a calibrated thermometer (PRT or ASTM liquid-in-glass thermometer) immersed adjacent to the viscometer, and a timing system. Modern installations use paired photoelectric sensors clamped at the upper and lower timing marks, connected to an electronic timer with 0.01 s resolution, eliminating operator reaction-time error. The viscometer is clamped vertically (within ±0.5° of plumb) in the bath, immersed so that the entire capillary section and both bulbs are below the bath liquid level. A rubber aspirator bulb or small vacuum line is used to draw the sample into the upper bulb before each run.",
+      "suitable_for": "Capillary viscometry is ideally suited for Newtonian liquids with kinematic viscosities from about 0.2 mm²/s (e.g., diethyl ether) to 100,000 mm²/s (e.g., heavy petroleum fractions), with the most common application range being 0.3 to 1,000 mm²/s. It is the technique of choice for systematic viscosity-temperature and viscosity-composition studies on pure liquids and their binary or multicomponent mixtures — the bread-and-butter measurements that dominate the ThermoML transport property dataset. Typical target systems include organic solvents, alcohols, hydrocarbons, esters, ionic liquids, aqueous electrolyte solutions, and dilute polymer solutions (for intrinsic viscosity determination). The method produces reference-grade data (0.1–0.5% accuracy) and is accepted as the primary standard for kinematic viscosity by ASTM (D445/D446) and ISO (3104/3105).",
+      "core_limitations": "The method is restricted to Newtonian fluids because the shear rate in the capillary varies radially (zero at the center, maximum at the wall) and is not controlled independently — non-Newtonian fluids yield an apparent viscosity that is not a material property. Each viscometer size covers only about one decade of kinematic viscosity, so a set of viscometers is needed to span a broad range. The measurement is slow (15–30 min per data point including equilibration), making it impractical for high-throughput screening. It operates only at ambient pressure, so high-pressure viscosity measurements require different instrumentation. Temperature dependence of viscosity is steep (often 1–3% per kelvin), placing extreme demands on thermostat stability. The Ostwald design requires exact sample volume reproducibility, limiting convenience; the Ubbelohde design eliminates this constraint but at higher instrument cost. Very volatile liquids or those with low surface tension can produce variable meniscus behavior.",
+      "sample_preparation": "The sample must be filtered through a 0.45 µm (or finer) membrane filter to remove any particles that could lodge in the capillary bore (typical diameter 0.2–3 mm) and cause erroneous results. Dissolved gas should be removed by gentle vacuum degassing or brief ultrasonication, since bubbles nucleating in the capillary during flow will interrupt the meniscus and invalidate the efflux time. For hygroscopic liquids (e.g., ionic liquids, glycerol), preparation and loading should be performed under dry nitrogen to prevent water uptake, which markedly lowers viscosity. The viscometer itself must be scrupulously clean: a typical cleaning protocol involves successive rinses with chromic acid solution (or a non-chromic alternative such as NoChromix), copious distilled water, reagent-grade acetone, and filtered dry air or nitrogen. Any residual film on the capillary wall alters the wetting behavior and the effective bore diameter. Between different samples, at least three solvent rinses followed by thorough drying are needed to prevent cross-contamination.",
+      "calibration_and_references": "The viscometer constant C (and kinetic energy correction K, if treated separately) is determined by measuring the efflux time of a certified reference liquid of known kinematic viscosity at one or more temperatures. The most common references are NIST-traceable Cannon certified viscosity reference oils (S-series or N-series), which cover the range from 0.3 to 100,000 mm²/s with certified uncertainties of 0.1–0.3%. Ultra-pure water (IAPWS recommended viscosity value η = 1.0016 mPa·s at 293.15 K) serves as a convenient low-viscosity calibrant. For highest accuracy, a two-oil calibration is performed: efflux times with two reference oils of substantially different viscosity allow independent determination of both C and K. The calibration must be verified periodically (at least annually, or whenever the viscometer is cleaned aggressively or shows signs of deposit buildup) by running a fresh reference standard and comparing the measured viscosity to its certified value. Acceptable recalibration agreement is typically within ±0.3% of the certified reference viscosity.",
+      "data_interpretation": "The raw data are a set of replicate efflux times at each temperature–composition condition. The mean efflux time (typically 3–5 replicates, outliers rejected by Grubbs or Dixon test) is converted to kinematic viscosity using ν = Ct − K/t. If dynamic (absolute) viscosity is the target property, an independently measured or literature value of density at the identical temperature and pressure is used: η = νρ. For mixture studies, viscosity deviations Δη = η_mix − (x₁η₁ + x₂η₂) or excess quantities are computed and typically correlated with Redlich–Kister polynomials. Temperature-dependence is commonly fitted to the Arrhenius equation ln(η) = A + Ea/(RT) for limited temperature ranges, or the three-parameter VTF equation ln(η) = A + B/(T − T₀) for wider ranges or liquids approaching glass transition. For dilute polymer solutions, the specific viscosity η_sp = (η − η₀)/η₀ and intrinsic viscosity [η] = lim(η_sp/c) as c→0 are derived from capillary viscometer data at multiple concentrations.",
+      "common_pitfalls": "The single most common pitfall is inadequate temperature control or equilibration. Because liquid viscosity changes by 1–3% per kelvin near room temperature, a thermostat instability of only ±0.02 K can introduce a systematic error comparable to the instrument's intrinsic precision. Operators must allow sufficient equilibration time (typically 15–30 min per temperature step) before beginning efflux time measurements. A second major pitfall is using an Ostwald viscometer with an imprecise sample volume — even a 0.5% volume error shifts the hydrostatic head and biases the viscosity result (this problem is entirely avoided by using the Ubbelohde design). Air bubbles formed by insufficient degassing or by drawing the liquid too vigorously into the upper bulb cause sporadic long efflux times. Dirty or contaminated capillaries produce irreproducible results and systematic positive bias (effectively reducing the bore). Finally, choosing a viscometer size that yields an efflux time below 200 s introduces a large kinetic energy correction (>1%), amplifying calibration uncertainty.",
+      "artifacts_and_failure_modes": "Air bubbles trapped in the capillary manifest as anomalously long or erratic efflux times; they are usually evident from poor replicate agreement (CV > 0.5%) and are eliminated by careful degassing and gentle loading. Particulate clogging produces progressively increasing efflux times across successive runs, eventually leading to complete blockage. Deposits from semi-volatile or polymerizing samples build up on the capillary wall over time, narrowing the bore and increasing apparent viscosity — this is detected by periodic reference oil checks and remedied by thorough cleaning and recalibration. A cracked or chipped viscometer alters the capillary geometry and invalidates the calibration constant; any damaged viscometer must be discarded or recalibrated after repair. Solvent evaporation from volatile samples during extended runs causes a progressive increase in concentration and viscosity, detectable as a monotonic upward drift in replicate efflux times. Thermostat failure (sudden temperature excursion) produces step changes in efflux time that are easily identified but render the affected data unusable.",
+      "reporting_checklist": "Complete reporting of capillary viscometer results for ThermoML and archival publication should include: (1) viscometer type (Ostwald or Ubbelohde) and size designation or capillary bore diameter; (2) viscometer constant C and kinetic energy correction K, with source of calibration (reference oil identity and certified value); (3) thermostat bath type and temperature stability (±0.01 K or better); (4) thermometer type and calibration traceability; (5) timing method (manual stopwatch or automated photoelectric); (6) number of replicate efflux times per condition and their standard deviation; (7) sample purity, source, and any purification or drying procedure; (8) filtration and degassing procedure; (9) temperature (K), kinematic viscosity (mm²/s), and/or dynamic viscosity (mPa·s) at each condition; (10) density values used for computing dynamic viscosity, with source and uncertainty; (11) combined expanded uncertainty U(ν) or U(η) at 95% confidence (k = 2) with an uncertainty budget identifying the dominant contributions; (12) applicable standards followed (ASTM D445/D446 or ISO 3104/3105). In ThermoML encoding, viscosity values are accompanied by nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

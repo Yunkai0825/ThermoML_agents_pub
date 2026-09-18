@@ -1,0 +1,336 @@
+{
+  "meas_ID": "flow_calorimetry",
+  "identity": {
+    "name": "Flow calorimetry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Flow calorimetry",
+    "thermoml_custom_codes": [
+      "FLOW"
+    ],
+    "measurement_family": "Calorimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 1003,
+      "property_groups": [
+        "ExcessPartialApparentEnergyProp",
+        "HeatCapacityAndDerivedProp",
+        "PhaseTransition"
+      ],
+      "n_papers": 246,
+      "per_group": {
+        "ExcessPartialApparentEnergyProp": {
+          "instances": 768,
+          "papers": 192
+        },
+        "HeatCapacityAndDerivedProp": {
+          "instances": 231,
+          "papers": 58
+        },
+        "PhaseTransition": {
+          "instances": 4,
+          "papers": 3
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "temperature difference across mixing cell (ΔT)",
+          "electrical compensation power to maintain isothermal condition (Pcomp)",
+          "volumetric or mass flow rates of each input stream",
+          "baseline power (steady-state heater power before/after mixing)"
+        ],
+        "derived_observables": [
+          "molar excess enthalpy (HE)",
+          "enthalpy of mixing (ΔmixH)",
+          "enthalpy of dilution (ΔdilH)",
+          "partial molar excess enthalpy at infinite dilution (HE,∞)",
+          "specific heat capacity at constant pressure (Cp) via flow-Cp variant"
+        ],
+        "target_properties": [
+          "molar excess enthalpy (HE)",
+          "enthalpy of mixing (ΔmixH)",
+          "enthalpy of dilution (ΔdilH)",
+          "partial molar excess enthalpy",
+          "heat of solution",
+          "heat capacity at constant pressure (flow-Cp mode)",
+          "enthalpy of reaction (continuous-flow variant)"
+        ],
+        "phases_measured": [
+          "liquid",
+          "liquid mixtures",
+          "liquid–liquid partially miscible systems (within single-phase region)",
+          "supercritical fluids (high-pressure flow calorimeters)"
+        ],
+        "supported_sample_types": [
+          "binary liquid mixtures",
+          "multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "polymer solutions (low-to-moderate viscosity)",
+          "aqueous and non-aqueous solutions",
+          "ionic liquid mixtures",
+          "surfactant solutions",
+          "supercritical fluid mixtures (high-pressure variants)"
+        ],
+        "unsupported_sample_types": [
+          "solids or slurries (cannot be pumped as homogeneous flow)",
+          "highly viscous liquids (> ~500 mPa·s, impede steady laminar flow)",
+          "gaseous mixtures (require specialized gas-phase flow calorimeters)",
+          "samples with very small heat effects (< ~0.5 J/mol) at low flow rates",
+          "reactive mixtures that produce precipitates clogging the mixing cell"
+        ],
+        "typical_output_formats": [
+          "HE vs. mole fraction (x) curve at fixed T and P",
+          "HE vs. T at fixed composition",
+          "ΔdilH vs. final molality or concentration",
+          "Cp vs. T (flow-Cp mode)",
+          "raw power–time or ΔT–time trace during composition sweep"
+        ],
+        "units": {
+          "excess_enthalpy": "J/mol",
+          "enthalpy_of_mixing": "J/mol",
+          "enthalpy_of_dilution": "J/mol or J/kg",
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "temperature": "K",
+          "temperature_difference": "mK or K",
+          "flow_rate": "cm³/min or mL/min or mol/min",
+          "power": "mW or W",
+          "pressure": "MPa"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "273 K to 473 K",
+            "hard_limits": "200 K to 700 K depending on thermostat and pump design; high-pressure variants extend to 573 K",
+            "notes": "must remain above the freezing point of the mixture and below the thermal stability limit of the fluids"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa to 40 MPa",
+            "hard_limits": "atmospheric to ~100 MPa for specialized high-pressure flow calorimeters",
+            "notes": "pressure must exceed the vapor pressure of the most volatile component at the operating temperature to maintain single-phase liquid flow"
+          },
+          {
+            "parameter": "total_flow_rate",
+            "typical_range": "0.005 cm³/s to 0.05 cm³/s (Picker-type); 0.5–5 mL/min (SETARAM-type)",
+            "hard_limits": "must be high enough to give measurable heat effect but low enough to ensure complete mixing and quasi-steady-state thermal equilibrium in the cell",
+            "notes": "too-high flow rates cause incomplete mixing; too-low rates increase heat leak relative to signal"
+          },
+          {
+            "parameter": "composition_range",
+            "typical_range": "x = 0 to 1 (full mole fraction range for binary systems)",
+            "hard_limits": "limited by miscibility gap; compositions in the two-phase region are excluded",
+            "notes": "coverage of extreme dilution ends (x < 0.01 or x > 0.99) requires low flow rate of the minor component and high precision pumps"
+          }
+        ],
+        "variables": [
+          {
+            "name": "mole_fraction",
+            "role": "primary experimental variable",
+            "typical_values": "0 to 1 (typically 15–25 compositions across the full range)",
+            "effect": "determines the composition of the mixture; HE is mapped as a function of x"
+          },
+          {
+            "name": "temperature",
+            "role": "controlled variable",
+            "typical_values": "288 K to 353 K (common), up to 573 K in high-pressure setups",
+            "effect": "temperature dependence of HE reveals information about solution non-ideality and intermolecular interactions"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed; variable in high-pressure studies",
+            "typical_values": "0.1 MPa (atmospheric) for standard work; 1–40 MPa for high-pressure studies",
+            "effect": "pressure dependence of HE is related to the excess volume through (∂HE/∂P)T = VE − T(∂VE/∂T)P"
+          },
+          {
+            "name": "flow_rate_ratio",
+            "role": "composition-setting variable",
+            "typical_values": "ratio of two pump flow rates varied to achieve target mole fraction",
+            "effect": "the ratio of volumetric flow rates of the two input streams sets the mixture composition in the mixing cell"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "high-precision metering pumps — two (or more) constant-flow pumps (HPLC-type, syringe, or peristaltic) delivering each liquid at known, stable flow rates",
+          "mixing cell — low dead-volume cell where the two streams merge; designs include coiled-tube, packed-bead, or micro-channel mixers",
+          "calorimetric detector — thermopile (Seebeck array), Peltier compensation element, or closely spaced thermistors measuring the temperature change upon mixing",
+          "compensation heater — electrical heater in or around the mixing cell used for power-compensation mode or for baseline calibration (Joule heating)",
+          "thermostat — precision temperature-controlled bath (water or oil) surrounding the calorimeter, stability ±0.001 K to ±0.01 K",
+          "back-pressure regulator — maintains constant pressure downstream of the mixing cell; essential for volatile mixtures and high-pressure operation",
+          "preheater/heat exchanger — brings each input stream to the exact thermostat temperature before entering the mixing cell",
+          "data acquisition system — digitizer recording power compensation signal, ΔT, flow rates, and temperature as a function of time"
+        ],
+        "environmental_requirements": [
+          "thermostated environment with stability ≤ ±0.01 K for isothermal operation",
+          "vibration-free setting to ensure stable flow and thermocouple readings",
+          "draft-free room or enclosed cabinet to minimize ambient temperature fluctuations",
+          "adequate ventilation for volatile or hazardous solvents"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "homogeneous liquid, free of particulates and bubbles"
+          ],
+          "size_limits": "typically 50–500 mL of each pure liquid per full composition sweep; smaller volumes (5–50 mL) for micro-flow calorimeters",
+          "thickness_limits": "not applicable (flowing liquid)",
+          "surface_requirements": [],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "liquids degassed under vacuum or ultrasonic agitation to remove dissolved air and prevent bubble formation in the mixing cell",
+            "dried over appropriate desiccant or molecular sieves for water-sensitive systems",
+            "filtered through 0.45 µm or finer membrane filter to remove particulates",
+            "density of each pure component measured independently for accurate mole fraction calculation from volumetric flow rates",
+            "known molar mass and purity (≥ 99% for most work; ≥ 99.5% preferred)"
+          ]
+        },
+        "calibration_requirements": [
+          "electrical (Joule) calibration: known power dissipated in the compensation heater to establish the relationship between measured signal (ΔT or voltage) and heat flow (W or mW)",
+          "chemical calibration: measurement of a well-characterized reference system (e.g., cyclohexane + hexane or methanol + water) to verify overall accuracy",
+          "flow rate calibration: gravimetric check of each pump by collecting and weighing effluent over a timed interval",
+          "baseline determination: measurement with identical liquid in both pumps (pure component mixed with itself) to quantify systematic heat effects from flow and friction"
+        ],
+        "reference_materials": [
+          "cyclohexane + hexane at 298.15 K — IUPAC recommended HE reference system, well-characterized endothermic mixing curve",
+          "methanol + water at 298.15 K — strongly exothermic reference system for testing large-HE accuracy",
+          "ethanol + water — widely measured HE reference for intermediate exothermic range",
+          "benzene + cyclohexane at 298.15 K — classical HE reference with moderate endothermic values"
+        ],
+        "consumables": [
+          "HPLC-grade or anhydrous solvents for the systems under study",
+          "molecular sieves (3Å or 4Å) for drying solvents",
+          "membrane filters (0.2–0.45 µm)",
+          "PTFE or PEEK tubing and fittings for fluid connections",
+          "O-rings and seals for high-pressure cells"
+        ],
+        "safety_notes": [
+          "flammable organic solvents require appropriate ventilation and ignition source exclusion",
+          "high-pressure operation requires burst-rated tubing and proper pressure relief valves",
+          "corrosive or toxic liquids require chemical-resistant wetted parts and fume hood operation",
+          "waste effluent from the calorimeter must be collected and disposed of according to chemical safety regulations"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of detecting heat effects as small as ~0.5 J/mol for well-optimized instruments; typical sensitivity ~2–5 J/mol",
+        "detection_limit": "minimum detectable HE ≈ 0.5–5 J/mol depending on flow rate, cell volume, and detector type",
+        "resolution": {
+          "spatial": "not applicable (bulk flowing liquid measurement)",
+          "temporal": "response time 5–60 s depending on flow rate and cell dead volume; steady-state reached in 1–5 min per composition point",
+          "spectral": "not applicable",
+          "energy": "energy resolution ~0.5–2% of measured HE for well-calibrated systems"
+        },
+        "dynamic_range": "HE from ~1 J/mol to ~30,000 J/mol; covers weakly interacting systems (alkane + alkane) to strongly interacting systems (acid + base, ionic liquid + water)",
+        "accuracy": "0.5–2% of HE for moderate-to-large heat effects (|HE| > 50 J/mol); degrades to 5–10% for very small HE values (< 10 J/mol)",
+        "precision": "0.2–1% (repeatability of HE at a given composition, T, and P)",
+        "throughput": "one full binary HE vs. x curve (15–25 points) in 4–8 hours; faster with automated composition stepping",
+        "measurement_speed": "each composition point requires 5–20 min for thermal equilibration and stable signal; total sweep limited by number of points and equilibration time"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "in power-compensation mode: change in electrical heater power (ΔP in mW) required to maintain isothermal conditions when mixing occurs; in heat-flux mode: voltage from thermopile or ΔT from thermistors proportional to rate of heat absorption/release",
+        "preprocessing_steps": [
+          "baseline subtraction: remove the steady-state signal measured with pure solvent in both pump lines",
+          "flow rate correction: convert volumetric flow rates to molar flow rates using measured densities and molar masses of the pure components",
+          "heat leak correction: account for residual heat exchange between the mixing cell and thermostat not captured by the detector",
+          "dead-volume correction: correct for the time delay between composition change at the pumps and arrival at the mixing cell",
+          "signal averaging: average the power or ΔT reading over a stable plateau period (typically 2–5 min) for each composition"
+        ],
+        "analysis_methods": [
+          "molar heat flow calculation: HE = (ΔP or Q̇) / ṅ_total, where ṅ_total is the total molar flow rate",
+          "Redlich-Kister polynomial fitting: HE(x) = x(1−x) Σ Ai(2x−1)^i to obtain a smooth composition-dependent curve",
+          "Margules, van Laar, Wilson, NRTL, or UNIQUAC model fitting to extract activity coefficient parameters from HE(x) data",
+          "partial molar excess enthalpy calculation by differentiation: H̄E₁ = HE + (1−x)(dHE/dx)",
+          "integration of HE(x) for thermodynamic consistency check with activity coefficient data"
+        ],
+        "model_assumptions": [
+          "steady-state flow and complete mixing in the calorimetric cell",
+          "no heat of vaporization/condensation (system remains entirely liquid throughout)",
+          "heat effects arise solely from the mixing process, not from mechanical dissipation or viscous heating",
+          "pure component streams are at exactly the same temperature and pressure before mixing",
+          "ideal solution behavior for converting volumetric to molar flow rates (or corrected with known excess volumes)"
+        ],
+        "fit_parameters": [
+          "Redlich-Kister coefficients Ai (typically 3–6 parameters)",
+          "NRTL binary interaction parameters (Δg12, Δg21, α12)",
+          "Wilson parameters (Λ12, Λ21)",
+          "UNIQUAC binary interaction parameters (Δu12, Δu21)"
+        ],
+        "common_artifacts": [
+          "incomplete mixing artifact: if the mixing cell has dead zones or the residence time is too short, measured HE is systematically low",
+          "bubble formation: dissolved gas coming out of solution in the mixing cell creates apparent endothermic spikes",
+          "viscous heating: high-viscosity mixtures generate frictional heat in the mixing cell that appears as exothermic artifact",
+          "composition error at extreme dilutions: pump flow rate precision limits the accuracy of x near 0 or 1, producing anomalous end points",
+          "adsorption/desorption on tubing walls: polar solutes can adsorb onto PTFE or stainless steel, causing apparent composition-dependent baseline drift"
+        ],
+        "quality_control_checks": [
+          "pure-component baseline test: run identical liquid in both pumps; any non-zero signal indicates systematic heat leak or viscous heating",
+          "reference system validation: measure cyclohexane + hexane at 298.15 K and compare with IUPAC recommended values (within ±1–2%)",
+          "symmetry check: for a binary system, measurements should be internally consistent whether component 1 or 2 is in pump A",
+          "repeatability: replicate measurements at selected compositions should agree within stated precision",
+          "endpoint smoothness: HE must approach zero as x → 0 and x → 1; non-zero intercepts indicate bubble, leak, or calibration errors"
+        ],
+        "failure_modes": [
+          "pump failure or flow pulsation causing irregular signal baseline",
+          "air bubble trapped in mixing cell producing noisy ΔT signal and apparent endothermic drift",
+          "clogged mixing cell from precipitate formation in reactive or partially miscible systems",
+          "thermostat instability producing baseline oscillations that mimic small heat effects",
+          "leaking high-pressure fittings causing loss of one component and erroneous composition"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for |HE| > 50 J/mol; 5–10% for |HE| < 10 J/mol",
+        "random_sources": [
+          "pump flow rate fluctuations",
+          "thermocouple or thermopile noise",
+          "short-term thermostat temperature fluctuations",
+          "mixing cell turbulence causing transient ΔT variations",
+          "digitization noise in data acquisition"
+        ],
+        "systematic_sources": [
+          "electrical calibration heater power uncertainty (typically ±0.1–0.5%)",
+          "flow rate calibration error (gravimetric method typically ±0.1–0.3%)",
+          "incomplete mixing in the calorimetric cell",
+          "heat leak between mixing cell and thermostat (residual after correction)",
+          "impurity of the pure component liquids",
+          "density values used for volumetric-to-molar flow rate conversion",
+          "dead-volume correction error (lag between nominal and actual composition)"
+        ],
+        "operator_dependence": "moderate — proper degassing of solvents, leak-free assembly of flow lines, and correct pump programming are operator-dependent; experienced operators achieve better baseline stability",
+        "model_dependence": "low for the primary HE measurement (direct calorimetric quantity); moderate for derived activity coefficients and partial molar quantities which depend on the chosen fitting model (Redlich-Kister, NRTL, etc.)",
+        "dominant_error_sources": [
+          "pump flow rate accuracy (especially at extreme composition ratios where one pump operates at very low flow)",
+          "incomplete mixing at high total flow rates or with viscous mixtures",
+          "impurity of the pure liquids (even 0.5% impurity can shift HE by several percent)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(HE) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of HE",
+          "standard deviation from replicate measurements at each composition"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Flow calorimetry is a continuous-flow technique for measuring the heat effect that accompanies the mixing of two or more liquid streams. Two precisely metered liquid flows are brought together in a small-volume mixing cell housed inside a calorimetric detector, and the resulting temperature change or compensating electrical power is recorded. The technique is the primary method for determining molar excess enthalpies (HE), enthalpies of mixing (ΔmixH), and enthalpies of dilution (ΔdilH) of liquid systems. Pioneered by Picker, Jolicoeur, and Desnoyers in the 1960s–70s, flow calorimetry has become the dominant workhorse for HE measurements, contributing roughly 1,000+ datapoints in the NIST ThermoML archive across hundreds of binary and multicomponent liquid systems.",
+      "how_it_operates": "Two precision pumps (typically HPLC-grade piston or syringe pumps) deliver pure liquid components at accurately known, constant flow rates through pre-equilibration heat exchangers that bring each stream to the exact thermostat temperature. The streams converge in a low-dead-volume mixing cell where the heat of mixing is released or absorbed. In power-compensation mode, a Peltier element or resistance heater maintains the mixing cell at the thermostat temperature, and the change in compensation power ΔP when mixing begins is directly proportional to the rate of enthalpy change. In heat-flux mode, a thermopile surrounding the cell measures the temperature difference ΔT between the mixing zone and the thermostat, which is converted to heat flow via a calibration constant. By varying the ratio of the two pump flow rates while keeping the total flow constant, the operator sweeps through the full composition range, generating HE as a function of mole fraction x in a single continuous experiment.",
+      "core_theory": "The steady-state energy balance on the mixing cell gives Q̇_mix = ṅ_total · HE(x), where Q̇_mix is the thermal power of mixing (W) and ṅ_total is the combined molar flow rate (mol/s). In power-compensation mode, Q̇_mix is equal to the change in heater power ΔP; in heat-flux mode, Q̇_mix = K · ΔT, where K is the calorimetric calibration constant (W/K) determined by electrical Joule calibration. The mole fraction is calculated from the individual molar flow rates: x₁ = ṅ₁/(ṅ₁ + ṅ₂), which in turn are derived from the volumetric flow rates and the pure-component molar volumes. The Redlich-Kister expansion HE = x₁x₂ Σᵢ Aᵢ(x₁ − x₂)ⁱ is the standard functional form used to represent the composition dependence, from which partial molar excess enthalpies and thermodynamic model parameters are extracted.",
+      "setup": "A typical flow calorimeter (e.g., Picker-type or SETARAM C80/BT2.15 in flow configuration) consists of two high-precision pumps connected via stainless steel or PEEK capillary tubing to a thermostatted block containing pre-equilibration coils and the mixing cell. The mixing cell is a low-volume chamber (~0.1–1 mL) designed for rapid, complete mixing through turbulence-inducing geometries (constrictions, bead packings, or helical channels). The calorimetric sensor (thermopile or Peltier array) surrounds the cell, and a compensation heater provides the Joule calibration or compensation signal. A back-pressure regulator downstream maintains the desired operating pressure, which must exceed the bubble-point pressure of the most volatile component to prevent cavitation. The entire fluid path is immersed in a precision thermostat (water or oil bath, ±0.001–0.01 K stability). A computer controls the pump flow rates, acquires the calorimetric signal, and calculates HE in real time.",
+      "suitable_for": "Flow calorimetry is the method of choice for determining molar excess enthalpies of binary and multicomponent liquid mixtures over wide composition and temperature ranges. It is ideally suited for mobile, low-to-moderate-viscosity liquids including aqueous and organic solvent mixtures, electrolyte solutions, ionic liquid systems, and surfactant/co-solvent formulations. The technique excels for systematically mapping HE(x) at multiple temperatures and pressures, providing essential data for calibrating activity coefficient models (NRTL, UNIQUAC, Wilson) and equations of state. High-pressure flow calorimeters extend the capability to supercritical fluid mixtures and systems relevant to petroleum and natural gas processing. It is also used in a Cp-mode variant where a single liquid is heated in the flow cell, yielding isobaric heat capacity as a function of temperature.",
+      "core_limitations": "Flow calorimetry requires both components to be pumpable liquids at the experimental temperature and pressure, excluding solids, high-viscosity melts, and gas-phase mixtures from standard instruments. The technique demands relatively large sample volumes (50–500 mL of each pure liquid) compared to batch calorimetry, making it impractical for rare or expensive materials. Accuracy degrades at extreme dilution ends (x < 0.01 or x > 0.99) because one pump operates at very low flow rate where pulsation and precision limitations dominate. Very small heat effects (|HE| < 5 J/mol) approach the detection limit of most instruments, requiring specialized micro-flow designs. The assumption of complete, instantaneous mixing may be violated for viscous systems, and bubble formation from dissolved gases is a persistent nuisance requiring careful degassing.",
+      "sample_preparation": "Both liquids must be of high purity (≥99%, preferably ≥99.5%) and are characterized by independent density and refractive index measurements to verify composition. Liquids are thoroughly degassed by vacuum distillation, ultrasonic agitation under reduced pressure, or prolonged helium sparging to remove dissolved air that would otherwise nucleate bubbles in the mixing cell. Water-sensitive systems require drying over activated molecular sieves (3Å or 4Å) with Karl Fischer titration confirming water content below an acceptable threshold (typically < 100 ppm). All liquids are filtered through 0.2–0.45 µm membrane filters to remove particulates that could clog the narrow channels of the mixing cell. Densities of the pure components at the experimental temperature are measured (e.g., by vibrating-tube densimetry) to convert volumetric flow rates to molar flow rates.",
+      "calibration_and_references": "Calibration proceeds in three stages: (1) electrical Joule calibration — a known power is dissipated in the compensation heater embedded in or adjacent to the mixing cell, establishing the proportionality between the calorimetric signal and thermal power with a traceable uncertainty of ±0.1–0.3%; (2) flow rate calibration — each pump's volumetric delivery is verified gravimetrically by collecting and weighing the effluent over a timed interval; and (3) chemical validation — the well-characterized system cyclohexane + hexane at 298.15 K (IUPAC recommended HE data, maximum HE ≈ +800 J/mol) is measured to verify that the instrument reproduces literature values within ±1–2%. Methanol + water at 298.15 K serves as a secondary reference for the strongly exothermic range (minimum HE ≈ −900 J/mol). A pure-component baseline (same liquid in both pumps) must show zero heat effect within the noise floor, confirming the absence of systematic heat leaks or viscous heating artifacts.",
+      "data_interpretation": "The primary data product is the molar excess enthalpy HE as a function of mole fraction x at fixed T and P. For each steady-state composition point, HE = ΔP/ṅ_total (power-compensation) or HE = K·ΔT/ṅ_total (heat-flux mode), where ṅ_total is the total molar flow rate calculated from the two pump rates and the pure-component densities. The HE(x) curve is fitted to a Redlich-Kister polynomial to smooth the data and allow interpolation. From the fitted curve, partial molar excess enthalpies H̄E₁ and H̄E₂ are obtained by differentiation, and activity coefficient model parameters (NRTL, Wilson, UNIQUAC) can be extracted for process simulation use. The temperature dependence of HE yields the excess heat capacity CpE via (∂HE/∂T)P. For dilution experiments, ΔdilH is plotted against final concentration and extrapolated to infinite dilution to obtain the partial molar enthalpy of solution at infinite dilution.",
+      "common_pitfalls": "The most frequent error source is inadequate degassing — even small amounts of dissolved gas can produce bubbles in the mixing cell when two liquids with different gas solubilities are combined, generating erratic endothermic noise that corrupts the HE signal. Operating one pump at very low flow rates (for compositions near x = 0 or 1) amplifies pump pulsation and flow rate uncertainty, producing anomalously scattered data at the dilute ends. Failing to achieve complete mixing — evident when HE changes with total flow rate — leads to systematically low values. Temperature mismatch between the two inlet streams, even by 0.01 K, creates a spurious heat effect that is indistinguishable from a true mixing enthalpy. Neglecting to measure the pure-component baseline (identical liquid in both pumps) can leave systematic offsets undetected.",
+      "artifacts_and_failure_modes": "Bubble artifacts are the most common problem: dissolved gas nucleating in the low-pressure zone of the mixing cell produces apparent endothermic spikes (gas expansion absorbs heat). Viscous heating artifacts arise when high-viscosity mixtures generate frictional heat in narrow mixing channels, appearing as a spurious exothermic contribution that is proportional to flow rate. Incomplete mixing artifacts systematically underestimate |HE| because a fraction of the fluid passes through the cell without equilibrating. Adsorption artifacts occur when surface-active components adsorb onto tubing or cell walls, shifting the effective composition and causing slow baseline drift during composition sweeps. Pump seal failure or check-valve leakage in HPLC pumps causes sudden step changes or oscillations in the calorimetric signal.",
+      "reporting_checklist": "Published flow calorimetry HE data should report: instrument type and manufacturer (or custom design details), pump type and flow rate range, mixing cell volume and design, thermostat temperature and stability, operating pressure and back-pressure regulation method, purity and source of each component, degassing procedure, density values used for flow-rate-to-composition conversion, electrical and chemical calibration procedure and reference system results, number of composition points and whether scanning or discrete-step mode was used, Redlich-Kister polynomial coefficients (or other fitting function), combined expanded uncertainty U(HE) with confidence level and whether it is absolute (J/mol) or relative (%), and any deviations from reference system values. For ThermoML encoding, HE values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

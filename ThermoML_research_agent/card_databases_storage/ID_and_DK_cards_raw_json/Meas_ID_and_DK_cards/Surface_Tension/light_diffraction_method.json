@@ -1,0 +1,339 @@
+{
+  "meas_ID": "light_diffraction_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Light diffraction method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Light diffraction method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Surface Tension",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 14,
+      "property_groups": [
+        "RefractionSurfaceTensionSoundSpeed"
+      ],
+      "n_papers": 6,
+      "per_group": {
+        "RefractionSurfaceTensionSoundSpeed": {
+          "instances": 14,
+          "papers": 6
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "heterodyne power spectrum of scattered light (frequency shift and linewidth)",
+          "homodyne photon correlation function (temporal autocorrelation of scattered intensity)",
+          "Doppler frequency shift of light scattered from capillary waves (Δω)",
+          "spectral linewidth (damping rate Γ) of capillary wave modes"
+        ],
+        "derived_observables": [
+          "surface tension γ from capillary wave dispersion relation",
+          "shear viscosity η from spectral linewidth (damping rate)",
+          "dilational viscoelastic modulus ε of adsorbed monolayers",
+          "surface dilational viscosity κ",
+          "capillary wave propagation frequency ω_q at selected wavevector q"
+        ],
+        "target_properties": [
+          "surface tension (liquid–vapor interface)",
+          "interfacial tension (liquid–liquid interface)",
+          "dynamic viscosity (bulk, from capillary wave damping)",
+          "surface dilational modulus of surfactant or polymer films",
+          "surface viscoelastic properties of monolayers"
+        ],
+        "phases_measured": [
+          "liquid–vapor interface",
+          "liquid–liquid interface",
+          "liquid surfaces with adsorbed monolayers or surfactant films",
+          "polymer melt surfaces"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "aqueous surfactant solutions",
+          "polymer melts and solutions",
+          "ionic liquids",
+          "liquid metals and molten salts (with appropriate optical access)",
+          "liquid–liquid interfaces (immiscible pairs)",
+          "thin adsorbed films and Langmuir monolayers"
+        ],
+        "unsupported_sample_types": [
+          "highly opaque or strongly absorbing liquids that prevent scattered light detection",
+          "extremely viscous fluids where capillary waves are overdamped beyond detection bandwidth",
+          "solid surfaces (no capillary wave propagation)",
+          "systems with very low surface tension contrast (Δγ < 0.1 mN/m) at the chosen wavevector",
+          "turbulent or rapidly flowing surfaces where coherent capillary wave spectra are destroyed"
+        ],
+        "typical_output_formats": [
+          "power spectrum of scattered light intensity vs. frequency shift",
+          "autocorrelation function of scattered light intensity vs. delay time",
+          "surface tension γ vs. temperature T",
+          "surface tension γ vs. composition (mole fraction)",
+          "spectral linewidth Γ vs. wavevector q"
+        ],
+        "units": {
+          "surface_tension": "mN/m",
+          "viscosity": "mPa·s",
+          "frequency_shift": "Hz or kHz",
+          "linewidth": "Hz or kHz",
+          "wavevector": "cm⁻¹ or m⁻¹",
+          "temperature": "K",
+          "dilational_modulus": "mN/m",
+          "correlation_time": "µs or ms"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "scattering_wavevector_q",
+            "typical_range": "100 cm⁻¹ to 2000 cm⁻¹",
+            "hard_limits": "lower limit set by laser beam geometry and coherence; upper limit by detector angular resolution and signal-to-noise ratio",
+            "notes": "q is selected by the scattering angle θ via q = (4π/λ)sin(θ/2) projected onto the surface plane; typical capillary wavelengths probed are 30–600 µm"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "250 K to 600 K",
+            "hard_limits": "lower limit set by liquid freezing; upper limit by optical window materials, laser stability, and sample decomposition",
+            "notes": "cryogenic operation possible with specialized cells; high-temperature molten salt measurements up to ~1200 K reported with sapphire windows"
+          },
+          {
+            "parameter": "laser_wavelength",
+            "typical_range": "488 nm to 633 nm (Ar-ion or He-Ne laser)",
+            "hard_limits": "wavelength must be non-absorbing in the sample; sufficient coherence length required (> several cm)",
+            "notes": "532 nm (frequency-doubled Nd:YAG) also common; wavelength choice affects q-range accessible at practical scattering angles"
+          },
+          {
+            "parameter": "laser_power",
+            "typical_range": "10 mW to 500 mW",
+            "hard_limits": "too high power causes local surface heating and thermal convection artifacts; too low gives insufficient scattered signal",
+            "notes": "typically 50–200 mW for standard surface tension measurements; power must be reduced for volatile or thermally sensitive samples"
+          }
+        ],
+        "variables": [
+          {
+            "name": "scattering_wavevector_q",
+            "role": "primary experimental variable",
+            "typical_values": "200 cm⁻¹ to 1200 cm⁻¹",
+            "effect": "selects the capillary wavelength probed; dispersion relation maps ω(q) to extract surface tension; multiple q values overdetermine γ and η"
+          },
+          {
+            "name": "temperature",
+            "role": "scanned thermodynamic variable",
+            "typical_values": "273 K to 473 K for most organic liquids",
+            "effect": "surface tension decreases with increasing temperature; viscosity changes affect linewidth"
+          },
+          {
+            "name": "composition",
+            "role": "sample composition variable",
+            "typical_values": "full mole fraction range 0–1 for binary mixtures",
+            "effect": "surface tension varies with composition; surfactant concentration changes interfacial rheology"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "measurements typically performed at ambient pressure; pressurized cells can extend to moderate pressures but are uncommon"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "laser source — continuous-wave single-mode laser (He-Ne 633 nm, Ar-ion 488/514 nm, or Nd:YAG 532 nm) with stable output power and long coherence length",
+          "beam-steering optics — mirrors and beam expander to direct the laser onto the liquid surface at a defined angle of incidence",
+          "transmission diffraction grating or precision goniometer — defines the scattering wavevector q by selecting the diffraction order or scattering angle",
+          "sample cell — thermostated optical cell with flat optical windows (glass or sapphire) and temperature control (±0.01 K stability via circulating bath or Peltier)",
+          "photomultiplier tube (PMT) or avalanche photodiode (APD) — single-photon-counting detector positioned at the selected scattering angle",
+          "digital correlator or spectrum analyzer — computes the autocorrelation function (homodyne) or power spectrum (heterodyne) of the detected photocurrent",
+          "reference beam optics (heterodyne mode) — beamsplitter and mirror to mix a local oscillator beam with the scattered light for heterodyne detection",
+          "temperature sensor — Pt100 RTD or calibrated thermistor immersed in or contacting the sample cell",
+          "data acquisition and control computer — records spectra, controls temperature ramp, and performs fitting"
+        ],
+        "environmental_requirements": [
+          "vibration-isolated optical table (pneumatic or active isolation) to prevent spurious surface disturbances",
+          "draft-free enclosure or cover over the sample to eliminate air convection on the liquid surface",
+          "stable ambient temperature in the laboratory (±1 K) to minimize thermal drift",
+          "low-dust environment or clean enclosure to prevent dust particles on the liquid surface from scattering stray light",
+          "electromagnetic shielding for the single-photon detector to reduce dark count noise"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "flat horizontal liquid surface in an open or windowed container",
+            "liquid depth ≥ 5 mm to ensure bulk-like capillary wave behavior",
+            "container diameter ≥ 30 mm to avoid meniscus and wall effects on the probed region"
+          ],
+          "size_limits": "minimum sample volume ~2 mL; typical 5–50 mL depending on cell geometry",
+          "thickness_limits": "liquid depth must exceed capillary wavelength being probed (typically > 5 mm); no upper limit",
+          "surface_requirements": [
+            "clean, dust-free surface — contamination by surfactants or particulates at sub-monolayer levels can alter surface tension",
+            "quiescent surface — convection currents or vibrations broaden or shift the capillary wave spectrum",
+            "optically accessible — the liquid surface must be visible through the optical windows without obstruction"
+          ],
+          "mounting_requirements": [
+            "sample cell must be level (within 0.1°) to present a horizontal liquid surface to the laser",
+            "rigid mounting of cell on the optical table to suppress vibration coupling",
+            "good thermal contact between temperature sensor and liquid for accurate temperature reading"
+          ],
+          "preparation_requirements": [
+            "thorough cleaning of sample cell with chromic acid, piranha solution, or plasma cleaning to remove organic residues",
+            "filtration of liquid samples through 0.2 µm membrane filters to remove particulates",
+            "degassing under mild vacuum or ultrasonic treatment to eliminate dissolved gas bubbles that distort the surface",
+            "for surfactant solutions: equilibration time (minutes to hours) to allow adsorption equilibrium at the surface"
+          ]
+        },
+        "calibration_requirements": [
+          "wavevector calibration: verify q by measuring capillary wave frequency on a reference liquid of known surface tension and viscosity (e.g., water at 25 °C) and comparing with the dispersion relation",
+          "temperature calibration: calibrate the immersion thermometer against a certified reference (ITS-90 fixed points or a calibrated Pt100)",
+          "detector linearity check: verify single-photon counting is in the linear regime (count rate well below detector saturation)",
+          "correlator or spectrum analyzer validation: input a known signal (e.g., from a signal generator) to verify the instrument function width"
+        ],
+        "reference_materials": [
+          "ultrapure water (Milli-Q, 18.2 MΩ·cm) — surface tension 71.97 mN/m at 25 °C (IAPWS standard), primary calibration liquid",
+          "toluene — surface tension 28.4 mN/m at 25 °C, well-characterized organic reference",
+          "n-hexadecane — surface tension 27.5 mN/m at 25 °C, low volatility alkane reference",
+          "diethylene glycol — surface tension ~44.8 mN/m at 25 °C, intermediate polarity reference"
+        ],
+        "consumables": [
+          "ultrapure water or reference liquids for calibration",
+          "membrane filters (0.2 µm, PTFE or nylon) for sample filtration",
+          "cleaning solvents (acetone, ethanol, chromic acid) for cell preparation",
+          "inert gas supply (nitrogen or argon) for purging headspace or creating a clean atmosphere"
+        ],
+        "safety_notes": [
+          "Class 3B or 4 laser hazard: laser safety eyewear mandatory; interlocked enclosure recommended",
+          "avoid specular reflections from the liquid surface directed toward personnel",
+          "chemical safety precautions for sample handling (flammable solvents, corrosive cleaning agents)",
+          "high-temperature cells require burn protection and appropriate ventilation"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving surface tension differences of ~0.05 mN/m between samples; detects capillary wave amplitudes on the order of angstroms (thermally excited fluctuations)",
+        "detection_limit": "surface tension measurable for any liquid with γ > ~1 mN/m; practical lower limit ~5 mN/m for reliable spectral fitting",
+        "resolution": {
+          "spatial": "probed area on the surface is typically 0.5–2 mm² (determined by laser spot size and collection optics)",
+          "temporal": "single spectrum acquisition 30 s to 5 min depending on signal strength; rapid measurements possible at ~10 s with high laser power",
+          "spectral": "frequency resolution of power spectrum ~10 Hz to 100 Hz depending on correlator/spectrum analyzer settings and acquisition time",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "surface tension range ~1 mN/m to ~2000 mN/m (liquid metals); viscosity sensitivity from ~0.3 mPa·s to ~100 mPa·s before capillary waves become overdamped",
+        "accuracy": "0.5–2% for surface tension of pure liquids after proper calibration; 1–3% for viscosity derived from linewidth",
+        "precision": "0.1–0.5% repeatability for surface tension at fixed temperature and wavevector",
+        "throughput": "one sample at a time; full temperature scan (20 points) takes 1–4 hours depending on equilibration and acquisition times",
+        "measurement_speed": "individual measurement at a single temperature and wavevector: 1–5 minutes (including spectral acquisition and fitting)"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "photon count time series from single-photon detector, processed into either a heterodyne power spectrum S(ω) showing a Lorentzian peak at the capillary wave frequency, or a homodyne intensity autocorrelation function g²(τ) showing damped oscillatory decay",
+        "preprocessing_steps": [
+          "accumulation of photon counts over acquisition time to build the autocorrelation function or power spectrum with adequate statistics",
+          "subtraction of background (dark counts, stray light, and static scattering) from the raw spectrum or correlation function",
+          "normalization of autocorrelation function to the baseline (g²(τ→∞) = 1 for homodyne; amplitude normalization for heterodyne)",
+          "correction for instrumental broadening (finite aperture of detector, laser linewidth) if significant compared to capillary wave linewidth",
+          "verification that the spectrum shows a single well-resolved peak (or damped oscillation) corresponding to the selected wavevector q"
+        ],
+        "analysis_methods": [
+          "Lorentzian fit to the heterodyne power spectrum: S(ω) = A·Γ/[(ω − ω_q)² + Γ²], extracting propagation frequency ω_q and damping rate Γ",
+          "damped cosine fit to the homodyne autocorrelation: g²(τ) − 1 = B·exp(−Γτ)·cos(ω_q·τ + φ), extracting ω_q and Γ",
+          "capillary wave dispersion relation fitting: ω_q² = (γ/ρ)q³ + gq, solved for surface tension γ given known density ρ and wavevector q",
+          "Kelvin equation extension for viscous damping: Γ = 2ηq²/ρ, solved for viscosity η",
+          "full dispersion relation analysis including viscosity and gravity: simultaneous determination of γ and η from ω_q(q) and Γ(q) at multiple wavevectors",
+          "Lucassen-van den Tempel model fitting for monolayer-covered surfaces: extended dispersion relation including dilational modulus ε and surface viscosity κ"
+        ],
+        "model_assumptions": [
+          "capillary waves are thermally excited and described by linearized Navier-Stokes hydrodynamics at the interface",
+          "liquid is Newtonian with frequency-independent bulk viscosity over the relevant frequency range (kHz regime)",
+          "interfacial region is infinitely thin (sharp interface approximation); no diffuse interface effects",
+          "gravitational contribution to wave dispersion is correctly accounted for (significant only at the lowest wavevectors probed, q < ~50 cm⁻¹)",
+          "scattered light is singly scattered (first Born approximation); no multiple scattering from the bulk",
+          "thermal equilibrium: capillary wave amplitudes follow equipartition theorem, ⟨|ξ_q|²⟩ = k_BT/(γq² + ρgq)"
+        ],
+        "fit_parameters": [
+          "surface tension γ (primary target)",
+          "capillary wave propagation frequency ω_q",
+          "damping rate Γ (related to viscosity)",
+          "bulk shear viscosity η (derived from Γ and q)",
+          "dilational viscoelastic modulus ε (for monolayer-covered surfaces)",
+          "surface dilational viscosity κ (for monolayer-covered surfaces)"
+        ],
+        "common_artifacts": [
+          "dust or particle contamination on the liquid surface: introduces additional scattering peaks or broadens the capillary wave spectrum; may shift apparent γ",
+          "surface-active impurities: trace surfactant contamination lowers the measured surface tension below the true pure-liquid value",
+          "laser heating of the surface: local temperature rise reduces surface tension in the probed region, producing a systematic low bias",
+          "vibration-induced surface waves: external mechanical vibrations create non-thermal surface modes that appear as spurious low-frequency peaks in the spectrum",
+          "multiple scattering: at high turbidity or near critical opalescence, multiply scattered light distorts the spectral shape",
+          "meniscus and wall effects: if the laser probes near the container walls, the capillary wave dispersion is modified by boundary conditions"
+        ],
+        "quality_control_checks": [
+          "measure ultrapure water at 25 °C and verify surface tension agrees with IAPWS value (71.97 ± 0.05 mN/m) within stated uncertainty",
+          "acquire spectra at multiple wavevectors q and verify that all yield the same γ within uncertainty (consistency check on dispersion relation)",
+          "compare heterodyne and homodyne detection modes (if both available) to confirm agreement",
+          "inspect spectra visually for spurious peaks, asymmetry, or excessive background that would indicate contamination or alignment problems",
+          "verify temperature stability: repeated measurements at the same set point should agree within 0.1%",
+          "check for laser power dependence: γ should be independent of laser power (rules out local heating artifact)"
+        ],
+        "failure_modes": [
+          "surface contamination by dust or surfactant (most common failure): produces anomalously low surface tension or irreproducible results",
+          "laser misalignment: scattered light not collected at the intended wavevector, yielding incorrect ω_q and hence incorrect γ",
+          "vibration coupling to the liquid surface: broadens or splits the capillary wave peak, preventing reliable fitting",
+          "detector saturation from specular reflection: overwhelming the single-photon counter, producing dead-time distortions in the correlation function",
+          "sample decomposition or evaporation: progressive change in surface tension during measurement, visible as drift between successive spectra",
+          "loss of thermal equilibrium: rapid temperature changes or convection currents in the sample distort the capillary wave spectrum"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–2% for surface tension; 2–5% for viscosity derived from linewidth analysis",
+        "random_sources": [
+          "photon counting (shot) noise in the detected scattered light",
+          "thermal fluctuations of the liquid surface (fundamental limit on spectral linewidth measurement)",
+          "temperature fluctuations of the thermostated cell",
+          "mechanical vibrations transmitted to the liquid surface despite isolation",
+          "laser intensity fluctuations affecting signal-to-noise ratio"
+        ],
+        "systematic_sources": [
+          "wavevector q determination: uncertainty in scattering angle calibration propagates directly to γ (Δγ/γ ≈ 3Δq/q from the q³ dependence)",
+          "temperature measurement offset between sensor and actual liquid surface temperature",
+          "liquid density uncertainty (ρ enters the dispersion relation; typically known to ±0.1%)",
+          "surface contamination by trace surfactants reducing γ below the true value",
+          "laser-induced local heating of the surface",
+          "instrumental broadening of the power spectrum (finite detector aperture, laser linewidth)",
+          "neglected higher-order terms in the dispersion relation (bulk viscosity, surface viscoelasticity) for simple liquids"
+        ],
+        "operator_dependence": "moderate — surface cleanliness, optical alignment quality, and dust-free sample preparation depend strongly on operator technique",
+        "model_dependence": "moderate — extraction of γ from the dispersion relation requires accurate knowledge of liquid density ρ and assumes Newtonian behavior; for monolayer-covered surfaces, the choice of interfacial rheological model (Lucassen vs. more complex models) significantly affects derived viscoelastic parameters",
+        "dominant_error_sources": [
+          "surface contamination (trace surfactants or dust particles), the single largest source of systematic error",
+          "wavevector calibration uncertainty (propagates as 3× relative error to γ due to q³ dependence)",
+          "liquid density uncertainty at the measurement temperature"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(γ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of γ",
+          "standard deviation from repeated measurements at the same conditions"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The light diffraction method, more precisely known as surface light scattering (SLS) or surface quasi-elastic light scattering (SQELS), determines surface tension and interfacial viscosity by analyzing laser light scattered from thermally excited capillary waves (ripplons) on a liquid surface. A coherent laser beam illuminates the liquid interface, and the light scattered by spontaneous nanometer-amplitude surface fluctuations is collected at a well-defined angle, selecting a specific surface wavevector q. The power spectrum or autocorrelation function of the scattered light encodes the propagation frequency and damping rate of the capillary waves, from which surface tension and viscosity are extracted via the hydrodynamic dispersion relation. The technique is entirely non-contact and non-invasive, making it one of the few methods that can measure surface tension without disturbing the interface.",
+      "how_it_operates": "A continuous-wave laser (typically He-Ne at 633 nm or Nd:YAG at 532 nm, 50–200 mW) is directed onto the horizontal free surface of a liquid sample. Thermally excited capillary waves — spontaneous nanoscale corrugations of the interface driven by thermal energy k_BT — act as a transient diffraction grating, scattering a small fraction of the incident light. A transmission diffraction grating in the incident or scattered beam path selects a specific wavevector q (typically 200–1200 cm⁻¹) corresponding to capillary wavelengths of 50–300 µm. The scattered light is collected by a photomultiplier tube or avalanche photodiode operating in single-photon counting mode. In heterodyne detection, the scattered light is mixed with a reference beam (local oscillator) derived from the specularly reflected or diffracted beam, producing a beat signal at the capillary wave frequency. A digital correlator or fast Fourier transform spectrum analyzer computes the power spectrum, revealing a Lorentzian peak centered at the capillary wave propagation frequency ω_q with a half-width at half-maximum equal to the damping rate Γ.",
+      "core_theory": "The technique rests on the dispersion relation for capillary-gravity waves on a Newtonian liquid surface. For a wave of wavevector q on a liquid of density ρ and surface tension γ, the squared propagation frequency is ω_q² = (γ/ρ)q³ + gq, where g is gravitational acceleration. For typical wavevectors probed by SLS (q > 100 cm⁻¹), the gravity term gq is negligible compared to the capillary term (γ/ρ)q³, and the relation simplifies to ω_q² ≈ (γ/ρ)q³. The damping rate of the capillary waves is Γ = 2ηq²/ρ for a clean Newtonian liquid of shear viscosity η. By measuring ω_q and Γ at a known q and with known ρ, both γ and η are determined independently. The thermal excitation amplitude follows the equipartition theorem: the mean-square amplitude of mode q is ⟨|ξ_q|²⟩ = k_BT/(γq² + ρg), confirming that the scattering intensity is governed by the same surface tension that determines the wave frequency. For surfaces covered by monolayers or surfactant films, the dispersion relation generalizes to include the surface dilational modulus ε and surface dilational viscosity κ, which modify both ω_q and Γ.",
+      "setup": "A standard SLS apparatus is built on a vibration-isolated optical table. The laser output passes through a beam expander and spatial filter to produce a clean Gaussian beam of ~1 mm diameter, which is directed onto the liquid surface at a shallow angle of incidence (typically 1–10° from the vertical or via a grating arrangement). A precision transmission diffraction grating placed in the beam path before the sample diffracts the incident light into multiple orders; the first-order diffracted beam defines the reference (local oscillator) while the capillary-wave-scattered light from the zeroth-order beam interferes with it at the detector plane. Alternatively, a goniometer arrangement without a grating can select the scattering angle directly. The sample sits in a thermostated glass or quartz cell with optical-quality windows, controlled to ±0.01 K by a circulating fluid bath. The detector (PMT or APD) is positioned to collect the combined scattered and reference beams, and its output feeds into a digital correlator (e.g., ALV-5000 or Brookhaven BI-9000) or a real-time spectrum analyzer. The entire optical path is enclosed to minimize stray light and air currents on the sample surface.",
+      "suitable_for": "Surface light scattering is ideally suited for measuring the surface tension of pure liquids and liquid mixtures where non-contact measurement is essential — for example, for highly reactive, toxic, or ultrapure samples that would be contaminated by a probe. It excels at liquid–vapor and liquid–liquid interfaces and is one of the few techniques that simultaneously yields both surface tension and viscosity from a single measurement. The method is particularly powerful for studying the interfacial rheology of surfactant monolayers, polymer films, and biological membranes, where the dilational viscoelastic modulus is of interest. It can access elevated temperatures (molten salts, liquid metals with appropriate optical access) and is applicable to very small sample volumes (~2 mL). The technique is well suited for systems where surface equilibration must be verified in situ, since the measurement is continuous and non-perturbative.",
+      "core_limitations": "The most significant limitation is the extreme sensitivity to surface contamination: even sub-monolayer amounts of surface-active impurities reduce the measured surface tension, making sample purity and handling critical. The liquid must be optically transparent or at least semi-transparent at the laser wavelength, excluding opaque liquids or heavily absorbing solutions. For highly viscous liquids (η > ~100 mPa·s), capillary waves become overdamped and the spectral peak collapses into a broad, featureless signal that is difficult to fit reliably. The method requires an optically flat, quiescent liquid surface, making it impractical for high-pressure cells with thick windows or for surfaces experiencing convection or flow. The wavevector q must be accurately calibrated, and because γ scales as q³, small errors in q produce three-fold amplified errors in surface tension. The instrumentation is relatively complex and expensive compared to classical tensiometry methods such as the Wilhelmy plate or pendant drop.",
+      "sample_preparation": "Sample cleanliness is paramount and the dominant source of systematic error if neglected. The sample cell must be scrupulously cleaned by soaking in chromic acid or piranha solution, followed by copious rinsing with ultrapure water (18.2 MΩ·cm) and drying in a dust-free environment. Liquid samples should be filtered through 0.2 µm PTFE membrane filters immediately before filling the cell to remove particulate matter. Volatile samples should be degassed under mild vacuum or by gentle ultrasonication to eliminate dissolved gas bubbles that could nucleate at the surface. The liquid is poured gently into the cell to avoid splashing, and the surface is allowed to equilibrate for 5–30 minutes (or longer for surfactant solutions) before measurement. The filled cell is placed on the optical table and carefully leveled using a spirit level or autocollimation of the reflected laser beam.",
+      "calibration_and_references": "Wavevector calibration is the critical first step: ultrapure water at a known temperature (typically 25 °C, γ = 71.97 mN/m per IAPWS) is measured, and the observed capillary wave frequency ω_q is compared with the value predicted by the dispersion relation using the known surface tension and density. Any discrepancy reveals the effective q, which is then used for subsequent measurements. Alternatively, q is determined geometrically from the grating pitch and diffraction order, with water serving as a verification standard. Temperature calibration is performed by comparing the immersed thermometer reading against ITS-90 fixed points or a NIST-traceable reference thermometer. The detector and correlator are validated by measuring a stable reference signal to verify the width and shape of the instrument function. Periodic re-measurement of water surface tension throughout an experimental campaign monitors for drift in alignment or contamination of the optical path.",
+      "data_interpretation": "The raw output — heterodyne power spectrum S(ω) or homodyne autocorrelation g²(τ) — is fit with the appropriate model function to extract the capillary wave propagation frequency ω_q and damping rate Γ. For heterodyne detection, a Lorentzian fit to S(ω) yields ω_q (peak position) and Γ (half-width). For homodyne detection, an exponentially damped cosine fit to g²(τ) − 1 yields the same parameters. Surface tension is then calculated from the dispersion relation: γ = ρ(ω_q² − gq)/q³. If measurements are made at multiple q values, a global fit of ω_q(q) and Γ(q) to the full dispersion relation overdetermines both γ and η, improving accuracy. For monolayer-covered surfaces, the full complex dispersion relation (including dilational modulus ε) must be solved numerically, and ω_q and Γ are fit simultaneously to extract γ, η, ε, and κ using, for example, the Lucassen-van den Tempel model.",
+      "common_pitfalls": "The most frequent pitfall is surface contamination — even fingerprint residues on the cell or trace surfactants in nominally pure solvents can reduce the measured γ by several mN/m without any obvious indication in the spectral shape. Failing to equilibrate the surface before measurement produces time-dependent γ values that do not represent the equilibrium surface tension. Poor vibration isolation allows external mechanical disturbances (building vibrations, nearby equipment) to excite low-frequency surface waves that overlap with or obscure the thermal capillary wave signal. Misalignment of the optical path (incorrect scattering angle) leads to probing the wrong wavevector, and because γ ∝ q³, even a 1% error in q produces a 3% error in γ. Excessive laser power can locally heat the surface by 0.1–1 K, reducing γ in the probed spot. Using the simplified dispersion relation (neglecting gravity) at very low q without correction introduces a systematic low bias in γ.",
+      "artifacts_and_failure_modes": "Dust particle contamination produces broadened or asymmetric spectral peaks with satellite features, and can mimic a lower surface tension due to the associated surface-active organic film. Vibration artifacts appear as sharp spikes or peaks at discrete low frequencies (often harmonics of building resonances at 10–50 Hz) superimposed on the thermal capillary wave spectrum. Laser heating artifacts cause γ to decrease with increasing laser power, detectable by measuring γ as a function of incident power and extrapolating to zero power. Detector dead-time distortions in the photon correlator at high count rates compress the correlation function, producing erroneously high damping rates and hence overestimated viscosity values. Meniscus effects arise when the laser probes too close to the cell walls, where the contact-line boundary condition modifies the capillary wave dispersion and the extracted γ deviates from the free-surface value. Surface evaporation of volatile components in a mixture causes progressive enrichment of the less-volatile component at the surface, producing a systematic drift in γ over time.",
+      "reporting_checklist": "Published SLS surface tension results should report: laser wavelength and power, scattering wavevector q (and how it was determined — grating pitch or scattering angle), detection mode (heterodyne or homodyne), spectral acquisition time, temperature and its uncertainty, sample purity and preparation procedure (filtration, degassing, cell cleaning), liquid density used in the dispersion relation (with source), whether the simplified or full (gravity-inclusive) dispersion relation was used, number of q values measured and whether a global fit or single-q extraction was used, reference liquid measurement result (water γ at 25 °C) for calibration verification, surface tension value with combined expanded uncertainty at 95% confidence (k = 2), viscosity value (if extracted) with uncertainty, and any corrections applied for instrumental broadening or monolayer effects. For ThermoML encoding, surface tension is reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

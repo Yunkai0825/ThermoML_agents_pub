@@ -1,0 +1,340 @@
+{
+  "meas_ID": "constant_volume_piezometry",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Constant-volume piezometry",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Constant-volume piezometry",
+    "thermoml_custom_codes": [
+      "PIEZOM"
+    ],
+    "measurement_family": "PVT / Volumetric",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 64,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 27,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 64,
+          "papers": 27
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "pressure (from calibrated pressure transducer or deadweight gauge)",
+          "temperature (from platinum resistance thermometer or thermocouple)",
+          "cell volume (fixed, determined during calibration)"
+        ],
+        "derived_observables": [
+          "molar density ρ = m/V (from known mass and calibrated cell volume)",
+          "specific volume v = V/m",
+          "compressibility factor Z = PV/(nRT)",
+          "isochoric pressure coefficient (∂P/∂T)_V",
+          "phase boundary pressures (dew and bubble points from P-T slope discontinuities)"
+        ],
+        "target_properties": [
+          "density (ρ) along isochores",
+          "compressibility factor Z",
+          "saturation pressure (bubble pressure, dew pressure)",
+          "phase envelope (P-T phase boundary)",
+          "second and third virial coefficients (from low-density isochores)",
+          "isochoric heat capacity Cv (when combined with speed-of-sound or PVT equation of state)",
+          "critical point parameters (Tc, Pc, ρc)"
+        ],
+        "phases_measured": [
+          "compressed liquid",
+          "superheated vapor",
+          "supercritical fluid",
+          "two-phase (liquid + vapor) — via phase boundary detection",
+          "near-critical region"
+        ],
+        "supported_sample_types": [
+          "pure gases and vapors",
+          "pure liquids",
+          "binary and multicomponent gas mixtures",
+          "binary and multicomponent liquid mixtures",
+          "refrigerants and working fluids",
+          "hydrocarbons and natural gas components",
+          "supercritical fluids",
+          "cryogenic fluids (with specialized low-temperature cells)"
+        ],
+        "unsupported_sample_types": [
+          "solids",
+          "highly viscous liquids that cannot uniformly fill the cell",
+          "reactive or corrosive fluids that attack cell materials (unless specialized alloy cells are used)",
+          "fluids that decompose at the measurement temperature",
+          "suspensions or slurries with settling particles"
+        ],
+        "typical_output_formats": [
+          "P vs. T along constant-density isochores",
+          "ρ vs. P at constant T (isotherms, derived from multiple isochores)",
+          "ρ vs. T at constant P (isobars, derived from multiple isochores)",
+          "Z vs. P or Z vs. ρ at constant T",
+          "P-T phase boundary (saturation curve)"
+        ],
+        "units": {
+          "pressure": "MPa or bar",
+          "temperature": "K",
+          "density": "kg/m³ or mol/dm³",
+          "specific_volume": "m³/kg or dm³/mol",
+          "compressibility_factor": "dimensionless",
+          "mass": "g or kg",
+          "volume": "cm³ or dm³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 100 MPa",
+            "hard_limits": "limited by cell wall thickness and transducer rating; specialized cells reach 200–400 MPa",
+            "notes": "cell must withstand full pressure at maximum temperature; safety factor ≥ 3 on burst pressure is standard"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "200 K to 700 K",
+            "hard_limits": "lower bound set by cryostat capability; upper bound by cell seal integrity, transducer rating, and fluid thermal stability",
+            "notes": "cryogenic cells extend to 100 K; high-temperature cells with metal gaskets operate to 800 K"
+          },
+          {
+            "parameter": "density_range",
+            "typical_range": "10 kg/m³ to 1500 kg/m³ (fluid-dependent)",
+            "hard_limits": "lower limit set by mass measurement accuracy and minimum filling ratio; upper limit by cell volume and fluid compressibility",
+            "notes": "very low densities (gas phase) require precise mass determination; very high densities require high-pressure cells"
+          },
+          {
+            "parameter": "cell_volume",
+            "typical_range": "10 cm³ to 500 cm³",
+            "hard_limits": "smaller cells reduce sample mass needed but increase relative volume uncertainty; larger cells improve accuracy but require more sample",
+            "notes": "volume is fixed by design and confirmed by calibration; typical effective volumes are 30–100 cm³"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "200 K to 700 K in steps of 1–10 K",
+            "effect": "temperature is ramped or stepped while pressure is recorded; defines the P-T isochore trajectory"
+          },
+          {
+            "name": "filling_density",
+            "role": "set by initial mass loading",
+            "typical_values": "controlled by the mass of fluid charged into the known cell volume",
+            "effect": "each filling defines one isochore; multiple fillings at different masses map out the PVT surface"
+          },
+          {
+            "name": "pressure",
+            "role": "measured response variable",
+            "typical_values": "0.1 MPa to 100+ MPa (depends on isochore and temperature)",
+            "effect": "pressure rises with temperature along an isochore; slope changes indicate phase transitions"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "constant-volume cell — thick-walled stainless steel, Hastelloy, or titanium vessel with precisely known internal volume; sealed with metal gaskets or cone fittings",
+          "pressure transducer — piezoresistive, strain-gauge, or vibrating-quartz type (e.g., Paroscientific Digiquartz) for high-accuracy P measurement",
+          "deadweight pressure gauge — used as primary standard for transducer calibration",
+          "platinum resistance thermometer (PRT) — ITS-90 calibrated, inserted into well in cell wall or immersed in thermostat fluid",
+          "thermostat — liquid bath (silicone oil, ethanol, or water depending on T range) or air-bath oven providing uniform temperature control to ±5 mK",
+          "temperature controller — PID-regulated; maintains set-point stability during equilibration",
+          "filling and vacuum manifold — stainless steel tubing with high-pressure valves for evacuation, degassing, and fluid charging",
+          "analytical balance — for determining mass of fluid charged into cell (accuracy ±0.5 mg or better)",
+          "data acquisition system — computer logging P, T, and time at each equilibrium point"
+        ],
+        "environmental_requirements": [
+          "thermostat stability ±5 mK or better during measurement at each temperature set-point",
+          "laboratory temperature controlled to ±1 K to minimize thermostat load variations",
+          "vibration-free mounting for pressure transducer to avoid noise",
+          "adequate ventilation or fume extraction for volatile or toxic fluids"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid sample — no geometric constraint; must be loadable into the cell via transfer line"
+          ],
+          "size_limits": "sample mass typically 5–200 g depending on cell volume and target density; precise mass measurement is critical",
+          "thickness_limits": "not applicable — fluid fills the cell volume uniformly",
+          "surface_requirements": [],
+          "mounting_requirements": [
+            "cell must be leak-tight at maximum operating pressure and temperature",
+            "all wetted surfaces must be chemically compatible with the sample fluid",
+            "dead volume in connecting tubing must be minimized and accounted for"
+          ],
+          "preparation_requirements": [
+            "sample fluid must be degassed (freeze-pump-thaw or vacuum boiling) to remove dissolved air",
+            "sample purity should be verified (typically ≥ 99.5 mol% by GC or other analysis)",
+            "for mixtures, composition must be gravimetrically prepared to ±0.01 mol% and homogenized",
+            "cell must be evacuated to < 1 Pa before filling",
+            "mass of fluid charged is determined by differential weighing of sample cylinder before and after transfer"
+          ]
+        },
+        "calibration_requirements": [
+          "cell volume calibration using a reference fluid (water, nitrogen, or helium) with well-known PVT equation of state",
+          "pressure transducer calibration against a deadweight gauge traceable to national standards (NIST, PTB)",
+          "PRT calibration at fixed points (triple point of water, melting point of gallium, etc.) traceable to ITS-90",
+          "thermal expansion correction for cell volume as a function of temperature: V(T) = V(T_ref) × [1 + α_cell × (T − T_ref)]",
+          "pressure distortion correction for cell volume as a function of pressure: V(P) = V(0) × [1 + β_cell × P]",
+          "dead volume and connecting-line volume correction"
+        ],
+        "reference_materials": [
+          "water — IAPWS-95 equation of state provides reference PVT data; primary calibrant for cell volume",
+          "nitrogen — reference EOS by Span et al.; used for gas-phase cell volume calibration",
+          "helium — reference EOS by Ortiz-Vega; used for low-temperature cell volume calibration",
+          "carbon dioxide — Span-Wagner EOS; alternate calibrant covering wide P-T range",
+          "propane — Lemmon et al. EOS; used for hydrocarbon cell calibration"
+        ],
+        "consumables": [
+          "metal gaskets (copper, silver, or Inconel) for high-pressure cell sealing",
+          "O-rings (Viton, Kalrez) for moderate-pressure applications",
+          "thermostat fluid (silicone oil, ethanol, or water depending on temperature range)",
+          "inert gas supply (nitrogen, helium) for leak testing and purging",
+          "high-purity sample fluids for calibration"
+        ],
+        "safety_notes": [
+          "high-pressure systems require burst disk or pressure relief valve rated for maximum cell pressure",
+          "all high-pressure components must be pressure-tested to 1.5× maximum operating pressure before use",
+          "flammable fluids (hydrocarbons, refrigerants) require grounding, ventilation, and elimination of ignition sources",
+          "cryogenic operation requires standard cryogen safety protocols (ventilation, oxygen monitoring, PPE)",
+          "toxic or asphyxiant gases require fume hood operation, gas leak detection, and emergency ventilation"
+        ]
+      },
+      "performance": {
+        "sensitivity": "pressure resolution of 0.01% full scale enables detection of density differences of ~0.01 kg/m³ in typical operating conditions",
+        "detection_limit": "minimum measurable density determined by mass measurement accuracy and cell volume; typically ≥ 5 kg/m³ for gas-phase isochores",
+        "resolution": {
+          "spatial": "not applicable — bulk volumetric measurement",
+          "temporal": "equilibration time per data point: 10–60 minutes depending on thermal mass and thermostat response",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "pressure: 0.01 MPa to 200+ MPa; density: 5 kg/m³ to 1500 kg/m³; covers gas, liquid, supercritical, and two-phase regions",
+        "accuracy": "density accuracy 0.05–0.1% (best practice with careful calibration); 0.1–0.3% for routine measurements; pressure accuracy 0.01–0.05% of reading",
+        "precision": "density repeatability 0.02–0.05% (successive fillings at same nominal density); temperature repeatability ±2 mK",
+        "throughput": "one full isochore (20–50 temperature points) takes 1–3 days; complete PVT surface requires multiple fillings over weeks to months",
+        "measurement_speed": "each P-T data point requires 15–60 minutes for thermal equilibration; faster for liquid phase, slower near the critical point"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "pressure reading (from transducer voltage or frequency) and temperature reading (from PRT resistance) recorded at each equilibrium point along a constant-density isochore",
+        "preprocessing_steps": [
+          "apply pressure transducer calibration polynomial to convert raw signal to pressure in MPa",
+          "apply PRT calibration function to convert resistance to temperature on ITS-90",
+          "correct cell volume for thermal expansion: V(T) = V_ref × [1 + α(T − T_ref)]",
+          "correct cell volume for pressure distortion: V(T,P) = V(T) × [1 + β × P]",
+          "subtract dead volume contributions from connecting tubing and valves",
+          "compute density: ρ = m / V(T,P) where m is the charged mass",
+          "verify thermal equilibrium by checking dP/dt < threshold before recording each point"
+        ],
+        "analysis_methods": [
+          "isochoric P-T analysis: plot P vs. T at constant ρ; linear in single-phase, slope change marks phase boundary",
+          "phase boundary detection: intersect the liquid-phase and vapor-phase P-T linear segments to locate bubble/dew temperatures",
+          "PVT surface construction: combine multiple isochores to build ρ(P,T) tables",
+          "equation-of-state fitting: fit Helmholtz-energy-explicit EOS (e.g., MBWR, Span-Wagner type) to isochoric data",
+          "virial coefficient extraction: fit low-density isochores to Z = 1 + B/V + C/V² to obtain B(T) and C(T)",
+          "critical point determination: convergence of isochores near Tc, Pc identifies critical parameters",
+          "derivative properties: compute (∂P/∂T)_V directly from isochore slope; use with EOS for Cv, Cp, speed of sound"
+        ],
+        "model_assumptions": [
+          "cell volume is constant (or correctable) at each P-T state point — elastic distortion follows linear model V(P,T)",
+          "fluid in the cell is in thermodynamic equilibrium at each measured state point",
+          "mass of fluid in the cell does not change between data points (no leaks)",
+          "fluid is homogeneous within the cell (single phase), or two coexisting phases are in full equilibrium",
+          "thermal expansion and pressure distortion coefficients of the cell material are known and constant over the operating range",
+          "dead volume in tubing is accurately determined and thermally equilibrated with the cell"
+        ],
+        "fit_parameters": [
+          "cell volume at reference conditions V_ref",
+          "cell thermal expansion coefficient α",
+          "cell pressure distortion coefficient β",
+          "equation-of-state parameters (substance-specific, e.g., Helmholtz coefficients)",
+          "virial coefficients B(T), C(T) for gas-phase analysis",
+          "phase boundary intersection temperatures and pressures"
+        ],
+        "common_artifacts": [
+          "adsorption artifact: at low densities, fluid adsorption on cell walls reduces effective gas-phase mass, causing apparent density error",
+          "thermal gradient artifact: incomplete thermal equilibration produces pressure reading errors; especially problematic near the critical point where (∂P/∂T)_V diverges",
+          "leak artifact: slow leak from the cell causes progressive decrease in apparent density over time; detected by non-reproducibility of isochore on repeated heating/cooling",
+          "dead volume artifact: incorrect accounting of fluid in connecting tubing shifts the apparent density systematically",
+          "cell distortion hysteresis: after high-pressure runs, permanent cell deformation shifts V_ref; detected by recalibration"
+        ],
+        "quality_control_checks": [
+          "verify cell volume by measuring a reference fluid (water or nitrogen) and comparing ρ to reference EOS values within stated accuracy",
+          "check for leaks by monitoring P at constant T over extended periods (hours); dP/dt should be within noise",
+          "compare heating and cooling isochores — they should overlay within measurement uncertainty if equilibrium was achieved",
+          "verify that multiple isochores intersect consistently at the saturation curve",
+          "cross-check derived densities against literature data or established EOS for the same fluid",
+          "repeat a calibration isochore periodically to verify long-term cell volume stability"
+        ],
+        "failure_modes": [
+          "cell seal failure (gasket blowout) leading to sudden pressure loss and potential fluid release",
+          "pressure transducer drift or failure producing systematic P errors over time",
+          "PRT calibration shift due to mechanical shock or thermal cycling",
+          "sample decomposition at high temperatures producing non-condensable gases that contaminate the isochore",
+          "corrosion of cell walls by aggressive fluids narrowing cell volume over time",
+          "valve failure during filling allowing uncontrolled pressure release"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.05–0.1% in density for best-practice measurements; 0.1–0.3% for routine work",
+        "random_sources": [
+          "pressure transducer noise and short-term drift",
+          "temperature measurement noise from PRT and bridge electronics",
+          "thermostat temperature fluctuations",
+          "vibration-induced pressure readings",
+          "incomplete thermal equilibration at each data point"
+        ],
+        "systematic_sources": [
+          "cell volume calibration uncertainty (dominant at 0.02–0.05%)",
+          "cell thermal expansion coefficient uncertainty",
+          "cell pressure distortion coefficient uncertainty",
+          "pressure transducer calibration offset and nonlinearity",
+          "PRT calibration bias (ITS-90 realization uncertainty)",
+          "mass determination uncertainty (including buoyancy correction)",
+          "dead volume estimation error",
+          "fluid purity and composition uncertainty (for mixtures)",
+          "adsorption effects at low densities"
+        ],
+        "operator_dependence": "low to moderate — filling procedure (degassing quality, mass transfer accuracy) depends on operator skill; measurement execution is largely automated once the cell is charged",
+        "model_dependence": "low to moderate — primary results (P, T, ρ) have minimal model dependence; derived quantities (EOS parameters, virial coefficients, phase boundaries) depend on fitting models and extrapolation assumptions",
+        "dominant_error_sources": [
+          "cell volume calibration uncertainty (usually the single largest contributor)",
+          "mass of fluid charged into cell (especially for low-density gas-phase isochores)",
+          "thermal equilibration near the critical point (where ρ is extremely sensitive to T)"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ρ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of density",
+          "individual uncertainty components for P, T, and V tabulated separately",
+          "combined expanded uncertainty U(P_sat) for saturation pressure measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Constant-volume piezometry is a PVT measurement technique in which a fluid of known mass is confined in a cell of precisely calibrated, fixed volume, and the pressure is measured as a function of temperature. Each filling at a specific mass defines a constant-density (isochoric) path through the PVT surface. By performing multiple fillings at different densities and scanning temperature at each density, the complete PVT behavior of the fluid is mapped. The technique is one of the oldest and most reliable methods for measuring fluid density at high pressures, and it remains a primary data source for developing and validating thermodynamic equations of state for pure fluids and mixtures in the NIST ThermoML database.",
+      "how_it_operates": "A thick-walled pressure vessel of precisely known internal volume is evacuated, and a known mass of fluid is charged into it via a transfer line. The cell is sealed and immersed in a thermostat (liquid bath or air oven) that controls temperature to within a few millikelvins. As the thermostat temperature is stepped through a programmed sequence, the fluid pressure changes along the isochore ρ = m/V(T,P) and is recorded at each equilibrium point by a calibrated pressure transducer. The density at each state point is computed from the charged mass divided by the cell volume (corrected for thermal expansion and pressure distortion). Phase transitions are detected as discontinuities in the slope of the P-T isochore: in the two-phase region, P follows the saturation curve independent of overall density, while in the single-phase region, P rises more steeply (liquid) or less steeply (vapor).",
+      "core_theory": "The fundamental relation is the trivial equation of state for a confined fluid: ρ(T,P) = m / V(T,P), where m is the fixed mass of fluid and V(T,P) is the cell volume corrected for thermal expansion (coefficient α) and elastic pressure distortion (coefficient β). Along an isochore in the single-phase region, P is a smooth function of T whose slope (∂P/∂T)_ρ = α_P/κ_T relates the isobaric expansivity α_P to the isothermal compressibility κ_T. At a phase boundary (bubble or dew point), the isochore enters the two-phase region where P follows the Clausius-Clapeyron saturation curve dP/dT = ΔH/(TΔV), producing a distinct slope change. For low-density isochores, the virial expansion Z = PV/(nRT) = 1 + B(T)/V + C(T)/V² + ... allows extraction of the second virial coefficient B(T) and third virial coefficient C(T), which are fundamental parameters in thermodynamic modeling.",
+      "setup": "A typical constant-volume piezometer consists of a thick-walled cylindrical cell machined from stainless steel (316L), Hastelloy, or titanium, with an internal volume of 30–100 cm³ and pressure rating of 50–200 MPa. The cell is sealed with a metal-to-metal cone fitting or a compressed metal gasket (copper or silver annealed washer). A calibrated platinum resistance thermometer (25 Ω or 100 Ω standard PRT) is inserted into a close-fitting well in the cell wall. The cell connects to a high-pressure manifold via small-bore stainless steel tubing (1/16\" or 1/8\" OD) with high-pressure valves for evacuation, filling, and venting. Pressure is measured by a vibrating-quartz transducer (e.g., Paroscientific Digiquartz) or a strain-gauge transducer calibrated against a deadweight tester. The cell is immersed in a stirred liquid thermostat or placed in a precision air oven, and a PID controller maintains temperature stability within ±5 mK. A computer data acquisition system logs pressure, temperature, and elapsed time at each equilibrium point.",
+      "suitable_for": "Constant-volume piezometry is ideally suited for measuring density and PVT properties of pure fluids and fluid mixtures over wide ranges of pressure and temperature, including compressed liquid, superheated vapor, supercritical, and near-critical conditions. It is especially valuable for high-pressure measurements (10–200 MPa) where other volumetric methods (vibrating-tube densimetry, pycnometry) become impractical. The technique is widely used for refrigerants, hydrocarbons, natural gas components, and industrial working fluids. It excels at detecting phase boundaries (bubble and dew curves) through the characteristic slope changes in P-T isochores, making it a standard method for mapping phase envelopes. The data are directly usable for fitting and validating Helmholtz-energy-explicit equations of state.",
+      "core_limitations": "The technique measures discrete isochoric paths rather than arbitrary (P,T) state points, so constructing complete isotherms or isobars requires interpolation across multiple isochores. Each isochore requires a separate filling, making comprehensive PVT mapping time-intensive (weeks to months for a full data set). Near the critical point, the extreme sensitivity of density to temperature and pressure amplifies all uncertainty sources, and anomalously long equilibration times (hours) are needed due to critical slowing down. The cell volume calibration uncertainty (typically 0.02–0.05%) sets a floor on achievable density accuracy. At very low gas-phase densities, adsorption of fluid on cell walls introduces a systematic mass error that is difficult to quantify. For mixtures, mass transfer between phases in the two-phase region can alter the effective overall composition, complicating phase boundary measurements.",
+      "sample_preparation": "The sample fluid must be of verified high purity (typically ≥ 99.5 mol%, confirmed by gas chromatography or other analytical methods) because even trace impurities alter PVT behavior and shift phase boundaries. The fluid is thoroughly degassed by repeated freeze-pump-thaw cycles (for condensable fluids) or by prolonged evacuation of dissolved air, since non-condensable gases produce systematic pressure offsets. The piezometric cell and all connecting lines are evacuated to below 1 Pa using a turbomolecular or diffusion pump, then leak-checked at both vacuum and operating pressure. The sample mass is determined by differential weighing of the supply cylinder on an analytical balance (±0.5 mg) before and after transfer, with buoyancy corrections applied. For mixtures, components are loaded gravimetrically in sequence or from a homogenized pre-mixed sample, with composition confirmed by analysis.",
+      "calibration_and_references": "Cell volume calibration is the most critical step and is performed by filling with a reference fluid whose PVT equation of state is established to high accuracy. Water (IAPWS-95 EOS), nitrogen (Span et al. EOS), or helium (Ortiz-Vega EOS) are standard calibrants depending on the temperature range. The calibration involves measuring P at multiple temperatures, computing the cell volume that reconciles measured P with the reference EOS density, and fitting V(T) to determine the thermal expansion coefficient α. Pressure distortion coefficient β is obtained similarly from measurements at multiple pressures at fixed temperature, or from the known elastic properties of the cell material. The pressure transducer is calibrated against a deadweight gauge with NIST-traceable mass standards, and the PRT is calibrated at ITS-90 fixed points (triple point of water, melting point of gallium, freezing point of indium or tin). Calibrations are repeated periodically and after any mechanical disturbance to the cell.",
+      "data_interpretation": "The primary data product is a set of (P, T) pairs along each constant-density isochore. Density at each point is computed as ρ = m / V(T,P) after applying thermal expansion and pressure distortion corrections to the cell volume. Phase boundaries are identified by the break in slope of the P-T isochore: the two-phase segment follows the saturation curve (lower slope for bubble-point side, nearly flat for dew-point side near the critical point), while the single-phase segment has a distinctly different slope. The intersection point defines the saturation temperature at the isochoric density. Multiple isochores provide a set of (T_sat, P_sat, ρ) points that map the phase envelope. Single-phase P-T-ρ data are combined across isochores and fitted to an equation of state (typically Helmholtz-energy-explicit, such as Span-Wagner or MBWR multi-parameter forms) to generate continuous thermodynamic surfaces. Virial coefficients B(T) are extracted from the lowest-density isochores by extrapolating (Z − 1) × V to infinite volume.",
+      "common_pitfalls": "The most frequent pitfall is inadequate thermal equilibration — recording a P-T point before the cell contents have reached uniform temperature produces systematic error, particularly near phase boundaries and the critical point where thermal equilibration is slow. Failure to properly correct for cell thermal expansion introduces a density error that grows with temperature deviation from the calibration reference. Incomplete degassing of the sample produces an excess pressure from dissolved non-condensable gas, shifting the apparent phase boundary and inflating gas-phase densities. Neglecting the dead volume in connecting tubing and transducer lines systematically offsets the apparent density, especially at low densities where the dead volume mass fraction is significant. Using an outdated or inappropriate reference EOS for cell volume calibration propagates a systematic bias into all subsequent density measurements.",
+      "artifacts_and_failure_modes": "Adsorption artifacts appear at low gas-phase densities, where monolayer or multilayer adsorption of fluid on the cell walls removes mass from the gas phase and causes the apparent density to be lower than the true value; this effect scales with the surface-to-volume ratio and is worst for polar fluids. Thermal gradient artifacts arise when the cell wall, thermostat fluid, and cell interior are not at the same temperature, producing a pressure reading that corresponds to an ill-defined average temperature — this is severe near the critical point where (∂P/∂T)_ρ diverges. Leak artifacts manifest as a slow, irreversible drift in pressure over time at constant temperature, leading to non-reproducible isochores on repeated heating and cooling cycles. Cell distortion hysteresis occurs when operating at pressures near the elastic limit of the cell material, causing a permanent increase in cell volume detectable only by recalibration. Transducer zero-drift over long measurement campaigns introduces a slowly varying pressure offset that can be mistaken for a physical effect.",
+      "reporting_checklist": "Published constant-volume piezometry results should report: cell material, design, and nominal volume; method and reference fluid used for cell volume calibration (with calibration uncertainty); pressure transducer type, range, and calibration traceability; PRT calibration and ITS-90 realization uncertainty; sample identity, purity, and degassing procedure; sample mass charged and method of mass determination; thermal expansion and pressure distortion correction formulas and coefficients; thermostat type and temperature stability; equilibration criterion used (e.g., dP/dt threshold); tabulated P-T-ρ data for each isochore; phase boundary points with method of determination (slope intersection, visual observation, or both); combined expanded uncertainty in density U(ρ) and in pressure U(P) at 95% confidence level (k=2); comparison with reference EOS or literature data. For ThermoML encoding, density and pressure values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

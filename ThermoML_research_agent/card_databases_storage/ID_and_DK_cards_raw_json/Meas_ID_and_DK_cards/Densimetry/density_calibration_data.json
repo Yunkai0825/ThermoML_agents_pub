@@ -1,0 +1,340 @@
+{
+  "meas_ID": "density_calibration_data",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Density calibration data",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Density calibration data",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Densimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 1157,
+      "property_groups": [
+        "CompositionAtPhaseEquilibrium"
+      ],
+      "n_papers": 170,
+      "per_group": {
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 1157,
+          "papers": 170
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "vibration period of oscillating U-tube (for vibrating-tube densimeters)",
+          "buoyancy force on sinker (for magnetic suspension or hydrostatic densimeters)",
+          "float position or equilibrium height (for magnetic float densimeters)",
+          "pycnometer mass difference (filled vs. empty)",
+          "differential pressure in isochoric cells"
+        ],
+        "derived_observables": [
+          "density of calibration fluid at measurement temperature and pressure",
+          "deviation of measured density from accepted reference values (Δρ = ρ_measured − ρ_reference)",
+          "apparatus constants (e.g., vibrating-tube parameters A and B from two-fluid calibration)",
+          "linearity and sensitivity coefficients of the densimeter",
+          "temperature- and pressure-dependent correction functions for the apparatus"
+        ],
+        "target_properties": [
+          "density of reference/calibration fluids (ρ / kg·m⁻³)",
+          "instrument calibration parameters (apparatus constants)",
+          "bias and drift assessment of the densimeter",
+          "uncertainty budget for subsequent density measurements",
+          "temperature and pressure response of the measuring cell"
+        ],
+        "phases_measured": [
+          "liquid (most common — water, organic reference liquids)",
+          "gas (dry air, nitrogen for low-density calibration point)",
+          "compressed liquid (high-pressure calibration using reference fluids)"
+        ],
+        "supported_sample_types": [
+          "ultrapure degassed water (primary reference)",
+          "dry atmospheric air or dry nitrogen (low-density anchor point)",
+          "NIST-traceable standard reference liquids",
+          "toluene (secondary liquid reference)",
+          "n-heptane, n-decane, n-hexadecane (hydrocarbon references)",
+          "NaCl(aq) at certified molalities (electrolyte reference)",
+          "mercury (historical high-density reference, now uncommon)",
+          "certified viscosity/density standard oils"
+        ],
+        "unsupported_sample_types": [
+          "unknown or uncharacterized fluids (defeats calibration purpose)",
+          "reactive fluids that attack wetted surfaces of the densimeter",
+          "fluids with particles or suspended solids that foul the measuring cell",
+          "supercritical fluids outside the valid range of reference equations of state",
+          "fluids significantly more viscous than the reference fluids used in calibration (viscosity correction may be unreliable)"
+        ],
+        "typical_output_formats": [
+          "calibration table: T, p, ρ_reference, ρ_measured, Δρ",
+          "apparatus constant(s) as a function of temperature and pressure",
+          "deviation plot: Δρ vs. T at fixed pressure",
+          "deviation plot: Δρ vs. p at fixed temperature",
+          "polynomial or rational fit of apparatus parameters over (T, p) range"
+        ],
+        "units": {
+          "density": "kg/m³ or g/cm³",
+          "temperature": "K",
+          "pressure": "MPa or kPa",
+          "vibration_period": "µs",
+          "density_deviation": "kg/m³ or %",
+          "mass": "g",
+          "buoyancy_force": "mN or µN"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "273.15 K to 363.15 K (water reference); wider with other fluids",
+            "hard_limits": "limited by freezing/boiling points of calibration fluid and by apparatus temperature rating",
+            "notes": "IAPWS-95 water reference is valid from 251.165 K to 1273 K; practical densimeter calibrations typically span 278–353 K"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 70 MPa",
+            "hard_limits": "depends on densimeter pressure rating and availability of reference EOS data at elevated pressures",
+            "notes": "atmospheric calibrations (0.1 MPa) are most common; high-pressure work uses water or n-heptane EOS up to 100+ MPa"
+          },
+          {
+            "parameter": "number_of_calibration_fluids",
+            "typical_range": "2 to 4 fluids",
+            "hard_limits": "minimum 2 for a linear two-parameter calibration; 3+ for nonlinear models or to check for viscosity effects",
+            "notes": "water + air is the classic two-fluid pair for vibrating-tube densimeters; adding a third fluid (e.g., toluene or NaCl(aq)) tests for systematic biases"
+          },
+          {
+            "parameter": "equilibration_time",
+            "typical_range": "10 min to 60 min per set point",
+            "hard_limits": "must be long enough for full thermal equilibration of fluid, cell, and thermostat",
+            "notes": "shorter equilibration leads to temperature gradients within the cell and systematic density errors"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "scanned variable",
+            "typical_values": "278.15 K to 353.15 K in 5–10 K steps",
+            "effect": "density of calibration fluid varies with temperature; apparatus constants may also be temperature-dependent"
+          },
+          {
+            "name": "pressure",
+            "role": "scanned variable or fixed at atmospheric",
+            "typical_values": "0.1 MPa (atmospheric) or stepped up to 70 MPa",
+            "effect": "high-pressure calibration is essential for densimeters intended for compressed-liquid measurements"
+          },
+          {
+            "name": "calibration_fluid_identity",
+            "role": "discrete experimental variable",
+            "typical_values": "ultrapure water, dry air, toluene, n-heptane, NaCl(aq)",
+            "effect": "each fluid provides a density anchor point; spanning a range of densities improves apparatus constant determination"
+          },
+          {
+            "name": "viscosity_of_calibration_fluid",
+            "role": "covariate (may require correction)",
+            "typical_values": "0.01 mPa·s (air) to ~1.0 mPa·s (water at 293 K) to ~3 mPa·s (heavier organics)",
+            "effect": "viscosity mismatch between calibration and sample fluids can introduce damping-related systematic errors in vibrating-tube densimeters"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "primary densimeter — vibrating-tube (e.g., Anton Paar DMA series), hydrostatic balance, magnetic suspension densimeter, or pycnometer",
+          "thermostat — circulating bath or Peltier-controlled jacket providing temperature stability ≤ ±0.01 K",
+          "pressure control system — syringe pump, hand pump, or pressurized gas supply for high-pressure calibrations",
+          "calibrated temperature sensor — platinum resistance thermometer (PRT) traceable to ITS-90",
+          "calibrated pressure transducer — strain gauge or quartz crystal transducer traceable to national standards",
+          "fluid handling system — syringe, tubing, valves for filling and flushing the measuring cell",
+          "water purification system — Milli-Q or equivalent producing 18.2 MΩ·cm ultrapure water",
+          "degassing apparatus — vacuum pump, ultrasonic bath, or helium sparging setup for removing dissolved gases",
+          "data acquisition system — computer logging temperature, pressure, and densimeter raw signal (period, force, or mass)"
+        ],
+        "environmental_requirements": [
+          "laboratory temperature stable within ±1 K to minimize thermostat load variations",
+          "vibration isolation for high-precision vibrating-tube densimeters (building vibrations shift resonance frequency)",
+          "clean, dust-free environment for pycnometry (particle contamination affects meniscus and volume)",
+          "humidity control when using dry air as calibration gas (moisture changes air density)"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fluid must completely fill the measuring cell without trapped bubbles",
+            "for pycnometry: fluid must form a stable meniscus at the calibrated volume mark"
+          ],
+          "size_limits": "typically 1–3 mL for vibrating-tube cells; 10–50 mL for pycnometers; variable for hydrostatic methods",
+          "thickness_limits": "",
+          "surface_requirements": [
+            "measuring cell must be scrupulously clean — residual contaminants alter wetting and apparent density",
+            "U-tube bore must be free of deposits, biofilm, or corrosion products"
+          ],
+          "mounting_requirements": [],
+          "preparation_requirements": [
+            "water: freshly purified (18.2 MΩ·cm resistivity), degassed by boiling under vacuum or helium sparging for ≥30 min",
+            "air: dried over molecular sieves or desiccant; composition assumed to match standard dry air (CRC/CIPM formula)",
+            "organic reference liquids: high-purity grade (≥99.9%), dried over molecular sieves, degassed before use",
+            "NaCl(aq): prepared gravimetrically from dried NaCl (dried at 573 K for 24 h) and degassed water on a calibrated analytical balance"
+          ]
+        },
+        "calibration_requirements": [
+          "this IS the calibration procedure — it establishes the apparatus response function",
+          "temperature sensor must be independently calibrated against ITS-90 fixed points or a NIST-traceable reference PRT",
+          "pressure transducer must be calibrated against a dead-weight tester or NIST-traceable reference",
+          "reference density values are computed from accepted equations of state (IAPWS-95 for water, Lemmon et al. for air, recommended EOS for organics)",
+          "cell volume (pycnometry) or apparatus constants (vibrating tube) must be redetermined after any mechanical disturbance, cleaning cycle, or extended period of disuse"
+        ],
+        "reference_materials": [
+          "ultrapure water — density from IAPWS-95 formulation (Wagner and Pruß, 2002), primary liquid reference",
+          "dry air — density from CIPM-2007 formula or Lemmon et al. EOS, primary gas-phase reference",
+          "toluene — density from Lemmon and Span (2006) EOS, secondary liquid reference spanning ~860–870 kg/m³ at ambient",
+          "n-heptane — density from Span and Wagner (2003) EOS, hydrocarbon reference ~680–684 kg/m³ at 298 K",
+          "n-decane — density from Lemmon and Span (2006) EOS, mid-range hydrocarbon reference ~726–730 kg/m³",
+          "NaCl(aq) — density from Archer (1992) or NIST databases at certified molalities",
+          "NIST Standard Reference Materials (SRMs) for density when available"
+        ],
+        "consumables": [
+          "ultrapure water (18.2 MΩ·cm)",
+          "high-purity reference solvents (toluene, n-heptane, etc.)",
+          "analytical-grade NaCl for solution preparation",
+          "molecular sieves (3Å or 4Å) for drying reference liquids",
+          "desiccant or drying columns for air calibration",
+          "cleaning solvents (acetone, ethanol, chromic acid solution for stubborn deposits)",
+          "syringes, PTFE tubing, and fittings for fluid handling"
+        ],
+        "safety_notes": [
+          "use organic solvents (toluene, n-heptane) in a fume hood — flammable and toxic vapors",
+          "high-pressure calibrations require burst disks, pressure relief valves, and protective shielding",
+          "mercury (if used historically) requires specialized handling, containment, and disposal per local regulations",
+          "boiling/degassing water under vacuum — use borosilicate glassware rated for vacuum service"
+        ]
+      },
+      "performance": {
+        "sensitivity": "depends on the underlying densimeter; vibrating-tube instruments resolve ~0.001 kg/m³; hydrostatic balance ~0.01 kg/m³; magnetic suspension ~0.002 kg/m³",
+        "detection_limit": "not applicable (calibration is performed on known fluids with density ~1–1200 kg/m³)",
+        "resolution": {
+          "spatial": "not applicable (bulk fluid property)",
+          "temporal": "vibrating-tube: period measurement in 10–60 s; hydrostatic: single weighing in 2–10 min",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "calibration spans from ~1.2 kg/m³ (dry air at 0.1 MPa) to ~1000 kg/m³ (water), covering roughly three orders of magnitude in density",
+        "accuracy": "target accuracy of calibration: agreement with reference EOS within ±0.01 kg/m³ (±0.001%) for best vibrating-tube densimeters; ±0.1 kg/m³ (±0.01%) for routine instruments; pycnometry ±0.05–0.5 kg/m³ depending on volume calibration",
+        "precision": "repeatability: ±0.001–0.005 kg/m³ for vibrating-tube; ±0.01–0.05 kg/m³ for pycnometry; ±0.005–0.02 kg/m³ for hydrostatic balances",
+        "throughput": "one calibration fluid at one (T, p) point takes 15–60 min; a full calibration campaign over a T–p grid with 2–3 fluids requires 1–5 days",
+        "measurement_speed": "individual reading: seconds (vibrating tube) to minutes (hydrostatic weighing); overall calibration is slow because equilibration at each set point dominates"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "depends on densimeter type: vibration period τ (µs) for vibrating-tube; apparent mass or buoyancy force for hydrostatic/magnetic-suspension; mass of fluid filling a calibrated volume for pycnometry",
+        "preprocessing_steps": [
+          "record raw signal (period, mass, force) at each stabilized (T, p) set point",
+          "apply temperature and pressure corrections to raw signal if instrument firmware does not do so automatically",
+          "compute measured density from raw signal using current apparatus constants (or directly for pycnometry: ρ = m_fluid / V_pyc(T,p))",
+          "retrieve reference density of calibration fluid from accepted EOS at the measured (T, p)",
+          "calculate deviation Δρ = ρ_measured − ρ_reference",
+          "for vibrating-tube: fit ρ = A·τ² − B (or extended models) to the calibration data set to determine new apparatus constants A(T,p) and B(T,p)"
+        ],
+        "analysis_methods": [
+          "two-fluid (water + air) linear calibration: ρ = A(T)·τ²(T) − B(T) with A and B determined at each temperature",
+          "polynomial fit of apparatus constants A(T,p) and B(T,p) as functions of temperature and pressure",
+          "forced-path mechanical model (Brachthäuser et al.) incorporating elastic properties of the U-tube material for high-pressure corrections",
+          "viscosity correction (Heinonen model or Fritz–Haase relation) for vibrating-tube damping effects",
+          "comparison method: direct deviation Δρ from reference EOS used to assess bias and apply post-hoc correction curves",
+          "pycnometric analysis: V_pyc(T) calibrated with water, then fluid density obtained from mass ratio"
+        ],
+        "model_assumptions": [
+          "reference EOS (e.g., IAPWS-95 for water) is accurate to within its stated uncertainty at the calibration conditions",
+          "calibration fluids are of stated purity and are free of dissolved gases or particulate contamination",
+          "the densimeter response is stable between calibration and subsequent sample measurements (no drift)",
+          "for vibrating-tube: the density–period relationship is adequately described by the chosen functional form (linear, quadratic, etc.)",
+          "thermal equilibrium has been fully achieved at each set point",
+          "viscosity effects are either negligible or adequately corrected"
+        ],
+        "fit_parameters": [
+          "apparatus constant A(T,p) — relates vibration period² to density (vibrating-tube)",
+          "apparatus constant B(T,p) — offset parameter (vibrating-tube)",
+          "polynomial coefficients for A(T) and B(T) as functions of temperature",
+          "pressure correction coefficients for high-pressure extensions",
+          "viscosity damping correction coefficient (if applied)",
+          "pycnometer volume V(T) or V(T,p)"
+        ],
+        "common_artifacts": [
+          "dissolved gas effect: incompletely degassed water yields a density lower than IAPWS-95 by up to 0.01–0.05 kg/m³",
+          "viscosity-induced bias: calibrating with low-viscosity fluids (water, air) and measuring higher-viscosity samples without correction introduces systematic positive density errors in vibrating-tube densimeters",
+          "adsorption/wetting artifact: incomplete wetting of the U-tube surface after cleaning can trap microbubbles, producing erratic low-density readings",
+          "thermal gradient artifact: insufficient equilibration time causes the cell and thermostat temperatures to differ, biasing density toward the wrong isotherm",
+          "pressure hysteresis: elastic relaxation of the vibrating tube after pressurization/depressurization causes apparatus constants to shift temporarily",
+          "contamination carryover: residual previous sample in dead volumes alters the effective composition of the calibration fluid"
+        ],
+        "quality_control_checks": [
+          "verify repeat measurements of water density at 293.15 K and 0.1 MPa agree with IAPWS-95 within ±0.01 kg/m³",
+          "check internal consistency: apparatus constants from water+air calibration should predict density of a third reference fluid (e.g., toluene) within stated uncertainty",
+          "compare calibration constants before and after a measurement campaign to detect drift",
+          "inspect deviation plot Δρ(T) for systematic curvature indicating model inadequacy",
+          "measure water density at the same (T, p) on successive days to assess short-term repeatability",
+          "verify that air density measurement agrees with CIPM formula using measured T, p, and humidity"
+        ],
+        "failure_modes": [
+          "microbubbles trapped in measuring cell — produces low, noisy, or oscillating density readings",
+          "contaminated reference fluid — density deviates systematically from EOS values",
+          "thermostat malfunction — temperature drift during measurement invalidates equilibrium assumption",
+          "cracked or corroded U-tube (vibrating-tube) — irreversible shift in apparatus constants",
+          "pressure seal leak — prevents stable high-pressure calibration points",
+          "electronic drift in period counter or frequency reference — slow systematic shift in raw signal"
+        ]
+      },
+      "uncertainty": {
+        "level": "target combined standard uncertainty for calibration: 0.01–0.05 kg/m³ (best practice); 0.1–0.5 kg/m³ for routine instruments; this sets the floor uncertainty for all subsequent sample density measurements",
+        "random_sources": [
+          "temperature measurement noise (PRT reading fluctuations ±0.001–0.01 K → ±0.001–0.01 kg/m³)",
+          "pressure measurement noise (transducer fluctuations at ±0.001 MPa)",
+          "vibration-period counting noise (digitization and short-term electronic jitter)",
+          "meniscus reading uncertainty in pycnometry",
+          "ambient vibrations perturbing oscillating-tube frequency"
+        ],
+        "systematic_sources": [
+          "uncertainty of reference EOS (e.g., IAPWS-95 states ±0.001% for liquid water density at ambient, rising to ±0.1% near critical point)",
+          "impurity in calibration fluid (dissolved gases, trace organics, ionic contaminants)",
+          "temperature sensor calibration offset (ITS-90 traceability uncertainty ±0.005–0.05 K)",
+          "pressure transducer calibration offset",
+          "viscosity correction model uncertainty (can contribute ±0.01–0.1 kg/m³ for mismatched viscosities)",
+          "incomplete thermal equilibration at each set point",
+          "cell volume uncertainty for pycnometry (thermal expansion coefficient uncertainty)"
+        ],
+        "operator_dependence": "moderate — degassing effectiveness, cleaning thoroughness, bubble detection, and fluid handling technique significantly affect calibration quality",
+        "model_dependence": "moderate — choice of calibration function (linear vs. polynomial vs. mechanical model) and whether viscosity correction is applied can shift reported density by ±0.01–0.1 kg/m³",
+        "dominant_error_sources": [
+          "reference fluid purity (especially dissolved air in water — the single largest controllable error source)",
+          "temperature measurement accuracy and thermal equilibration",
+          "viscosity mismatch when apparatus constants from low-viscosity calibrants are applied to higher-viscosity samples",
+          "reference EOS uncertainty at extreme temperatures and pressures"
+        ],
+        "reported_as": [
+          "deviation from reference EOS: Δρ ± U(Δρ) at 95% confidence (k=2)",
+          "combined expanded uncertainty of calibrated density U(ρ) at 95% confidence (k=2)",
+          "relative uncertainty as 100·U(ρ)/ρ in percent"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Density calibration data refers to measurements of fluids with well-known density — most commonly ultrapure water, dry air, and select reference liquids — performed on the same densimeter that will be used for subsequent sample measurements. This is not a measurement technique in its own right but rather a calibration and quality-assurance protocol applied to an underlying density measurement device (vibrating-tube densimeter, pycnometer, hydrostatic balance, or magnetic suspension densimeter). In the ThermoML database, this tag appears when authors explicitly report density values obtained on calibration or reference fluids alongside their main experimental results, documenting instrument performance, establishing apparatus constants, and anchoring the uncertainty budget. With 1157 instances across 170 papers, it is a widely reported metadata category indicating rigorous experimental practice.",
+      "how_it_operates": "The operator fills the measuring cell of the densimeter with a calibration fluid of known density (computed from an accepted equation of state at the measured temperature and pressure) and records the instrument's raw signal — vibration period for a vibrating-tube densimeter, apparent mass or buoyancy force for a hydrostatic or magnetic suspension device, or fluid mass for a pycnometer. This process is repeated at multiple temperatures and, for high-pressure instruments, at multiple pressures, building a grid of (T, p, raw signal, ρ_reference) data. The relationship between the raw signal and the reference density is then fitted to a calibration model (e.g., ρ = A·τ² − B for vibrating-tube instruments), yielding apparatus constants that convert raw signals into density for unknown samples. The procedure is typically performed with at least two fluids spanning the density range of interest — classically water (~997 kg/m³ at 298 K) and dry air (~1.2 kg/m³) — to constrain both the slope and intercept of the calibration function.",
+      "core_theory": "For vibrating-tube densimeters, the fundamental relation is ρ = A(T,p)·τ²(T,p) − B(T,p), derived from the physics of a fluid-filled oscillating tube where the resonance period τ depends on the total mass (tube + fluid). The constants A and B are determined by measuring the period with two fluids of known density (ρ₁, τ₁) and (ρ₂, τ₂): A = (ρ₁ − ρ₂)/(τ₁² − τ₂²) and B = (ρ₁·τ₂² − ρ₂·τ₁²)/(τ₁² − τ₂²). For hydrostatic methods, Archimedes' principle gives ρ = m_apparent/(V_sinker(T,p)), with the sinker volume calibrated against water. For pycnometry, ρ_sample = ρ_water × (m_sample,filled − m_empty)/(m_water,filled − m_empty), where the pycnometer volume is established via the water calibration. The accuracy of all these methods is fundamentally limited by the accuracy of the reference density values, which derive from multiparameter equations of state such as IAPWS-95 for water (uncertainty ±0.001% for liquid at ambient conditions) or the Lemmon–Span EOS for toluene and hydrocarbons.",
+      "setup": "A density calibration campaign requires the densimeter itself, a precision thermostat (circulating bath or Peltier jacket) providing temperature stability of ±0.01 K or better, a calibrated platinum resistance thermometer (PRT) traceable to ITS-90, and — for high-pressure work — a calibrated pressure transducer and a pressure-generating system (syringe pump or hand pump). A water purification system producing 18.2 MΩ·cm ultrapure water and a degassing apparatus (vacuum line with boiling flask, or helium sparging system) are essential. Reference organic liquids (toluene, n-heptane) are sourced at ≥99.9% purity and dried over activated molecular sieves. For air calibration, the cell is thoroughly cleaned, dried, and exposed to laboratory air whose temperature, pressure, and humidity are recorded so that the CIPM-2007 air-density formula can be applied. A data acquisition system logs the raw densimeter signal and the thermometer and pressure transducer readings simultaneously.",
+      "suitable_for": "Density calibration data is generated whenever quantitative density measurements are reported to a metrological standard. It is essential for all vibrating-tube densimeters (which require periodic recalibration of apparatus constants A and B), for pycnometry (which requires volume calibration), and for hydrostatic and magnetic suspension densimeters (which require sinker-volume validation). The calibration protocol is applicable over any temperature and pressure range accessible to the instrument, provided reference fluids with accurate EOS data are available. It is universally encountered in papers reporting density of pure liquids, liquid mixtures, electrolyte solutions, ionic liquids, and petroleum fluids, serving as the foundation that all subsequent density values rest upon.",
+      "core_limitations": "The calibration is only as good as the reference data — the uncertainty floor is set by the equation of state used to compute reference densities. For water at ambient conditions this is extremely small (~0.001%), but it grows at high temperatures, high pressures, or near the critical point. The two-fluid linear calibration model assumes that apparatus constants are truly linear in τ² over the full density range; for very wide density spans or extreme pressures, nonlinear corrections become necessary. Viscosity mismatch between the calibration fluids (low-viscosity water and air) and higher-viscosity samples introduces a damping-related bias in vibrating-tube densimeters that is not captured by the standard calibration model unless an explicit viscosity correction is applied. Finally, the calibration implicitly assumes that the instrument's response does not drift between calibration and sample measurement — any mechanical shock, tube fouling, or electronic drift after calibration invalidates the apparatus constants.",
+      "sample_preparation": "Ultrapure water is the most demanding calibration fluid to prepare correctly. It must be freshly drawn from a purification system producing 18.2 MΩ·cm resistivity water and then thoroughly degassed, because dissolved atmospheric gases (primarily N₂ and O₂) reduce water density by up to 0.004 kg/m³. Degassing is achieved by boiling under reduced pressure (~20 kPa) for at least 30 minutes, or by extended helium sparging followed by vacuum treatment. The degassed water is transferred to the densimeter cell via gas-tight syringes or tubing to avoid re-saturation. For organic reference liquids, the material is dried over freshly activated 3Å or 4Å molecular sieves for 24–48 hours and degassed by ultrasonication under vacuum. NaCl(aq) reference solutions are prepared gravimetrically, with NaCl dried at 573 K for 24 hours and weighed on a calibrated microbalance. Thorough cleaning of the densimeter cell between fluids — using solvents (acetone, ethanol), then copious water rinses, then drying with filtered air or nitrogen — is critical to prevent cross-contamination.",
+      "calibration_and_references": "This entry IS the calibration protocol, so the relevant discussion concerns the choice and quality of reference data. The IAPWS-95 equation of state (Wagner and Pruß, JPCRD 2002) is the internationally accepted standard for water density; its uncertainty is ±0.001% in the liquid region at 273–473 K and pressures up to 100 MPa. The CIPM-2007 formula (Picard et al., Metrologia 2008) gives dry air density as a function of T, p, humidity, and CO₂ mole fraction. For organic references, the recommended equations of state are those tabulated in the NIST REFPROP database: Lemmon and Span (2006) for toluene, Span and Wagner (2003) for n-heptane, and Lemmon and Huber (2004) for n-decane. NaCl(aq) density is available from the Archer (1992) model. Traceability of temperature to ITS-90 and pressure to SI standards is mandatory. Calibration should be verified against a third reference fluid not used in the primary calibration to confirm consistency.",
+      "data_interpretation": "The principal output of a density calibration campaign is a set of apparatus constants — for vibrating-tube densimeters, A(T,p) and B(T,p) — fitted to the calibration data using least-squares regression. The quality of the calibration is assessed by computing residuals (Δρ = ρ_measured − ρ_reference) for each calibration point and plotting them against temperature and pressure. A well-performing calibration shows residuals randomly scattered within the target uncertainty band (e.g., ±0.01 kg/m³). Systematic curvature in Δρ(T) indicates that the calibration model is inadequate (e.g., a linear model is used where a quadratic is needed). If a third verification fluid is measured, its deviation from EOS values provides an independent check. For pycnometry, the pycnometer volume V(T) is the fitted parameter, and verification consists of reproducing a known density with the calibrated volume. The calibration results propagate directly into the uncertainty budget of all subsequent sample measurements: U²(ρ_sample) includes contributions from U(A), U(B), and their covariance.",
+      "common_pitfalls": "The most pervasive pitfall is inadequate degassing of water — even a few percent of dissolved air lowers the density measurably and biases apparatus constants. Operating the thermostat without waiting for full thermal equilibrium (cell wall, fluid interior, and thermometer all at the same temperature) introduces temperature-dependent biases that masquerade as curvature in Δρ(T). Using only two calibration fluids without ever verifying against a third gives no protection against model error or systematic bias. Ignoring viscosity correction when the calibrants (water, air) have viscosities far below those of the intended samples (e.g., ionic liquids at η > 50 mPa·s) can introduce density errors exceeding 0.5 kg/m³. Failing to reclean and recalibrate after measuring aggressive or surface-active samples leads to slow drift in apparatus constants that may go undetected for months.",
+      "artifacts_and_failure_modes": "Microbubbles trapped in the vibrating tube are the most common failure mode: they produce density readings that are low, noisy, and irreproducible. Slow adsorption of contaminants onto tube walls changes the effective tube mass, causing the apparatus constant B to drift upward over time. Pressure hysteresis occurs when a vibrating tube is cycled to high pressures — elastic relaxation shifts the calibration constants for hours after depressurization. Contaminated reference liquids (e.g., toluene exposed to light or air, water left standing for days) deviate from their EOS values by amounts that are absorbed silently into the calibration constants, propagating undetected bias to all subsequent measurements. Cracked or corroded U-tubes produce irreversible frequency shifts and require instrument replacement. Electronic failures in period counters or frequency references cause sudden step changes in apparent density.",
+      "reporting_checklist": "Published density calibration data should include: identities and purities of all calibration fluids used (including water resistivity and degassing procedure), equations of state and literature sources used to compute reference densities, temperature and pressure ranges covered in calibration, type and model of densimeter, calibration model employed (linear, polynomial, mechanical), fitted apparatus constants and their uncertainties, deviation table or plot (Δρ vs. T and/or p) showing agreement with reference values, verification measurement on a third fluid if available, viscosity correction method if applied, traceability of temperature and pressure sensors, and combined expanded uncertainty (k=2, 95% confidence) attributed to the calibration. In ThermoML, the calibration density values are encoded with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

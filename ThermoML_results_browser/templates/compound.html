@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% from "_raw_json_panel.html" import raw_json_panel with context %}
+{% block title %}{{ compound.names[0] }} — ThermoML{% endblock %}
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+    <li class="breadcrumb-item active">{{ compound.names[0] }}</li>
+  </ol>
+</nav>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>{{ compound.names[0] }}</h4>
+    {% if compound.names|length > 1 %}
+    <p class="text-muted">Also known as: {{ compound.names[1:]|join(', ') }}</p>
+    {% endif %}
+    <p class="mb-0">
+      <strong>Formula:</strong> <span class="font-monospace">{{ compound.formula }}</span><br>
+      <strong>InChIKey:</strong> <span class="font-monospace small">{{ compound.inchikey }}</span><br>
+      <strong>InChI:</strong> <span class="font-monospace small">{{ compound.inchi }}</span>
+    </p>
+  </div>
+</div>
+
+<h5>Appears in {{ papers|length }} paper{{ 's' if papers|length != 1 else '' }}</h5>
+<div class="list-group mb-4">
+  {% for p in papers %}
+  <div class="list-group-item">
+    <a href="{{ url_for('paper_detail', doi=p.doi) }}" class="text-body text-decoration-none d-block">
+    <div class="d-flex justify-content-between">
+      <h6 class="mb-1">{{ p.title[:130] }}{% if p.title|length > 130 %}…{% endif %}</h6>
+      <small class="text-nowrap ms-2">{{ p.year }}</small>
+    </div>
+    <small class="text-muted">{{ p.journal }} · {{ p.doi }}</small>
+    </a>
+    {{ raw_json_panel(p.doi) }}
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

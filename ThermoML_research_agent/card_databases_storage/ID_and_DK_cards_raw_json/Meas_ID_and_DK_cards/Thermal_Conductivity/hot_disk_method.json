@@ -1,0 +1,355 @@
+{
+  "meas_ID": "hot_disk_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Hot disk method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Hot disk method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Thermal Conductivity",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 11,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 6,
+      "per_group": {
+        "TransportProp": {
+          "instances": 11,
+          "papers": 6
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "transient temperature rise of the sensor element ΔT(t)",
+          "electrical resistance change of the nickel double-spiral sensor R(t)",
+          "voltage across the sensor during heating pulse V(t)",
+          "time-dependent power dissipated in the sensor P(t)"
+        ],
+        "derived_observables": [
+          "thermal conductivity λ [W/(m·K)]",
+          "thermal diffusivity α [m²/s]",
+          "volumetric heat capacity ρCp [J/(m³·K)] (from λ/α)",
+          "specific heat capacity Cp [J/(g·K)] (if density is known)"
+        ],
+        "target_properties": [
+          "thermal conductivity",
+          "thermal diffusivity",
+          "specific heat capacity",
+          "volumetric heat capacity"
+        ],
+        "phases_measured": [
+          "solid (crystalline)",
+          "solid (amorphous/glassy)",
+          "solid (polymeric)",
+          "solid (composite)",
+          "solid (porous/foam)",
+          "liquid",
+          "paste/gel",
+          "powder/granular"
+        ],
+        "supported_sample_types": [
+          "bulk solids (metals, ceramics, minerals, polymers)",
+          "insulating materials (foams, aerogels, building materials)",
+          "composite materials (fiber-reinforced, particle-filled)",
+          "liquids and melts",
+          "pastes, gels, and greases",
+          "powders and granular materials",
+          "thin slab samples (with thin-slab module)",
+          "single anisotropic samples (with anisotropic module)",
+          "binary and multicomponent liquid mixtures",
+          "nanofluids and suspensions"
+        ],
+        "unsupported_sample_types": [
+          "gases (convection dominates; not suited to TPS geometry)",
+          "samples smaller than the sensor diameter (~3.2 mm minimum piece size)",
+          "highly volatile liquids that evaporate during measurement",
+          "electrically conducting liquids in direct sensor contact (require insulating barriers)",
+          "samples thinner than ~0.5 mm without specialized thin-slab analysis"
+        ],
+        "typical_output_formats": [
+          "λ value with uncertainty at specified temperature",
+          "α value with uncertainty at specified temperature",
+          "ρCp value with uncertainty at specified temperature",
+          "temperature-rise curve ΔT vs. t for quality assessment",
+          "residual plot (measured − fitted ΔT) for fit quality evaluation"
+        ],
+        "units": {
+          "thermal_conductivity": "W/(m·K)",
+          "thermal_diffusivity": "mm²/s or m²/s",
+          "volumetric_heat_capacity": "MJ/(m³·K)",
+          "specific_heat_capacity": "J/(g·K)",
+          "temperature": "K or °C",
+          "time": "s",
+          "power": "W or mW",
+          "sensor_resistance": "Ω"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "−50 °C to 300 °C (standard Kapton sensors); −253 °C to 1000 °C (mica-insulated sensors)",
+            "hard_limits": "limited by sensor insulation material: Kapton degrades above ~300 °C; mica sensors extend to ~1000 °C",
+            "notes": "cryogenic measurements require cryostat and specialized sensor leads"
+          },
+          {
+            "parameter": "thermal_conductivity_range",
+            "typical_range": "0.01 to 500 W/(m·K)",
+            "hard_limits": "lower limit set by radiation/convection losses; upper limit by minimum detectable ΔT and sensor heating uniformity",
+            "notes": "full range 0.005–500 W/(m·K) achievable with appropriate sensor size and power settings"
+          },
+          {
+            "parameter": "measurement_time",
+            "typical_range": "1 s to 40 s",
+            "hard_limits": "must be short enough that the thermal front does not reach the outer boundary of the sample (semi-infinite assumption); must be long enough to establish sufficient ΔT for signal-to-noise",
+            "notes": "shorter for high-conductivity samples; longer for insulators"
+          },
+          {
+            "parameter": "heating_power",
+            "typical_range": "10 mW to 2 W",
+            "hard_limits": "must produce ΔT of 0.5–5 K in the sensor; too much power violates the assumption of small perturbation and risks damaging the sample",
+            "notes": "power selected to keep temperature rise within optimal range; software typically suggests starting values"
+          },
+          {
+            "parameter": "sensor_radius",
+            "typical_range": "0.5 mm to 30 mm (Hot Disk sensors 5465 to 4922)",
+            "hard_limits": "sensor must be smaller than sample face; probing depth is approximately the sensor radius times Θ^(1/2)",
+            "notes": "larger sensors average over more volume; smaller sensors suit smaller samples and thin slabs"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled variable (set point)",
+            "typical_values": "−50 °C to 300 °C standard; up to 1000 °C with mica sensors",
+            "effect": "thermal conductivity and diffusivity are strong functions of temperature for most materials"
+          },
+          {
+            "name": "heating_power",
+            "role": "primary experimental input",
+            "typical_values": "10 mW to 2 W",
+            "effect": "determines magnitude of temperature rise ΔT; must be tuned so ΔT is 0.5–5 K for optimal signal-to-noise"
+          },
+          {
+            "name": "measurement_time",
+            "role": "primary experimental input",
+            "typical_values": "1 s to 40 s",
+            "effect": "sets the probing depth; must satisfy the semi-infinite boundary condition (thermal front must not reach sample boundary)"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient",
+            "typical_values": "0.1 MPa (atmospheric)",
+            "effect": "elevated pressure measurements possible with pressure cells for liquids; affects thermal conductivity of porous and granular samples"
+          },
+          {
+            "name": "sensor_size",
+            "role": "selected per sample geometry",
+            "typical_values": "radius 0.5–30 mm",
+            "effect": "determines probing volume and minimum sample dimensions; smaller sensors suit smaller samples but average less volume"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "Hot Disk TPS sensor — thin nickel double-spiral element (10 µm foil), Kapton- or mica-insulated, acting as both resistive heater and resistance thermometer",
+          "Wheatstone bridge circuit — precision bridge for measuring sensor resistance change ΔR(t) during heating; includes series resistor and reference arm",
+          "constant current/voltage source — supplies controlled electrical power step to the sensor",
+          "high-resolution voltmeter/ADC — digitizes bridge imbalance voltage at high sampling rate (typically 10–200 points per measurement)",
+          "temperature-controlled enclosure or furnace — maintains sample at target temperature before and during measurement",
+          "sample holder/clamp — holds two sample pieces in firm contact against both faces of the sensor with uniform pressure",
+          "computer with Hot Disk Thermal Constants Analyser software — controls measurement, performs iterative least-squares fitting of transient temperature-rise data",
+          "cryostat (optional) — for measurements below ambient temperature"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature (±0.5 °C) or thermostated enclosure during measurement",
+          "vibration-free surface to avoid mechanical noise in resistance measurement",
+          "draft-free environment to minimize convective disturbances",
+          "for high-temperature measurements: inert atmosphere or vacuum to prevent sensor oxidation"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "two identical flat pieces (most common — sensor sandwiched between them)",
+            "single flat piece with sensor on one face (one-sided or slab module)",
+            "bulk monolith that can be cut or machined to the required shape"
+          ],
+          "size_limits": "each sample piece must extend at least 1× sensor radius beyond the sensor edge in all directions; minimum ~6 mm diameter for smallest sensor; typical pieces 30–50 mm diameter",
+          "thickness_limits": "each piece must be thick enough that the thermal front does not reach the outer boundary during measurement; rule of thumb: thickness ≥ sensor radius; minimum ~2 mm for standard measurements, can be less with thin-slab module",
+          "surface_requirements": [
+            "flat, smooth surfaces at the sensor-sample interface (surface roughness < 10 µm preferred)",
+            "surfaces free of cracks, voids, or depressions that would create air gaps",
+            "for powders: surfaces self-level around the sensor under gentle compaction"
+          ],
+          "mounting_requirements": [
+            "sensor sandwiched between two identical sample pieces with uniform, light clamping pressure",
+            "no thermal grease needed (dry contact is standard for Hot Disk method)",
+            "for liquids: sensor immersed in sample contained in a vessel; sample volume must be sufficient to satisfy boundary conditions",
+            "for powders: sensor placed horizontally at the midplane of a container of loose or compacted powder"
+          ],
+          "preparation_requirements": [
+            "surfaces machined, ground, or polished flat (parallelism ±50 µm)",
+            "samples equilibrated at measurement temperature for at least 15 minutes before measurement",
+            "minimum wait time between successive measurements to allow full thermal re-equilibration (typically 10–30 minutes depending on thermal diffusivity)",
+            "for hygroscopic materials: drying or conditioning to known moisture state"
+          ]
+        },
+        "calibration_requirements": [
+          "sensor TCR calibration — measure sensor resistance vs. temperature to determine the temperature coefficient of resistance (TCR) of the nickel spiral",
+          "verification with certified reference materials at periodic intervals",
+          "bridge balance and zero-point adjustment before each measurement session",
+          "software module self-check (Hot Disk Thermal Constants Analyser built-in diagnostics)"
+        ],
+        "reference_materials": [
+          "stainless steel AISI 316 — λ ≈ 14 W/(m·K), common mid-range verification standard",
+          "PMMA (Perspex/Plexiglas) — λ ≈ 0.19 W/(m·K), low-conductivity polymer reference",
+          "Pyroceram 9606 — λ ≈ 4 W/(m·K), NIST-traceable thermal conductivity standard",
+          "fused silica (quartz glass) — λ ≈ 1.4 W/(m·K), well-characterized insulator reference",
+          "distilled water — λ ≈ 0.60 W/(m·K) at 25 °C, reference for liquid measurements",
+          "BK7 optical glass — λ ≈ 1.1 W/(m·K), frequently used verification material"
+        ],
+        "consumables": [
+          "replacement Hot Disk TPS sensors (Kapton or mica insulated, various radii)",
+          "liquid sample containers (stainless steel or glass vessels)",
+          "powder sample containers with lid",
+          "inert gas supply (nitrogen or argon for high-temperature operation)"
+        ],
+        "safety_notes": [
+          "sensor operates at low voltages (< 1 V) — no electrical shock hazard from measurement circuit",
+          "high-temperature furnace operation requires standard burn protection and heat-resistant gloves",
+          "cryogenic measurements require standard cryogen handling precautions (frostbite, oxygen displacement)",
+          "liquid samples at elevated temperatures may splatter — use appropriate containment"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving thermal conductivity differences of ~0.001 W/(m·K) for insulating materials; ΔT resolution ~1 mK in the sensor resistance measurement",
+        "detection_limit": "thermal conductivity as low as 0.005 W/(m·K) (super-insulating materials); thermal diffusivity as low as 0.01 mm²/s",
+        "resolution": {
+          "spatial": "probing volume approximately a cylinder of radius ≈ sensor radius and depth ≈ sensor radius × √(measurement time × α); typically mm to cm scale",
+          "temporal": "sampling interval ~0.01–1 s; total measurement time 1–40 s per data acquisition",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "thermal conductivity 0.005–500 W/(m·K) (5 decades); thermal diffusivity 0.01–100 mm²/s",
+        "accuracy": "±2–5% for thermal conductivity (typical); ±5–10% for thermal diffusivity; better than ±2% achievable with careful optimization and reference material verification",
+        "precision": "±1–2% (repeatability of λ from successive measurements on the same sample at constant temperature)",
+        "throughput": "single measurement takes 1–40 s; including thermal re-equilibration between runs, ~2–6 measurements per hour at one temperature",
+        "measurement_speed": "transient measurement itself completes in 1–40 s; fast compared to steady-state methods that require hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "time-dependent voltage imbalance from the Wheatstone bridge, proportional to the resistance change ΔR(t) of the nickel sensor as it heats; digitized as V(t) at defined time intervals over the measurement window",
+        "preprocessing_steps": [
+          "conversion of bridge voltage V(t) to sensor temperature rise ΔT_sensor(t) using the pre-calibrated TCR of the nickel spiral",
+          "subtraction of the sensor's own thermal inertia contribution (thin-film correction) to obtain the sample-side temperature rise ΔT_sample(t)",
+          "selection of valid time window — early-time data (before heat has penetrated into the sample) and late-time data (if boundary effects appear) are excluded",
+          "compensation for thermal contact resistance between sensor and sample (contact-resistance module, if used)"
+        ],
+        "analysis_methods": [
+          "Gustafsson TPS model: ΔT(t) = (P₀)/(π^(3/2) · a · λ) · D(τ), where D(τ) is a dimensionless time-dependent function for concentric ring sources, τ = √(α·t)/a, a is sensor radius",
+          "iterative least-squares fitting of ΔT(t) data to D(τ) to simultaneously extract λ and α",
+          "thin-slab module: modified analysis for samples with restricted thickness where the standard semi-infinite model does not apply",
+          "anisotropic module: separate determination of in-plane and through-plane thermal conductivity for layered or oriented materials",
+          "residual analysis: inspection of (measured − fitted) ΔT to verify model validity and identify artifacts"
+        ],
+        "model_assumptions": [
+          "sample is semi-infinite — the thermal penetration front does not reach the outer boundaries of the sample during the measurement time",
+          "sensor is an ideal thin planar heat source with negligible thermal mass (thin-film correction applied to approximate this)",
+          "sample is homogeneous and isotropic within the probing volume (anisotropic module relaxes the isotropic assumption)",
+          "thermal properties λ and α are constant over the small temperature rise ΔT (typically 0.5–5 K)",
+          "thermal contact between sensor and sample surfaces is uniform and reproducible",
+          "radiative heat transfer is negligible (valid below ~300 °C for most materials; corrections needed at higher temperatures)"
+        ],
+        "fit_parameters": [
+          "thermal conductivity λ [W/(m·K)]",
+          "thermal diffusivity α [mm²/s]",
+          "thermal contact resistance Rc [m²·K/W] (if contact-resistance module is used)",
+          "time correction t₀ (accounts for finite pulse rise time and initial thermal equilibration)"
+        ],
+        "common_artifacts": [
+          "boundary effect: if thermal front reaches sample edge, fitted λ and α are systematically biased high; diagnosed by drift in late-time residuals",
+          "contact resistance artifact: poor sensor-sample contact introduces an early-time offset that biases α to lower values and can affect λ",
+          "initial transient artifact: very early time points corrupted by sensor thermal inertia or current-switching transients; excluded from fit",
+          "convection artifact in liquids: natural convection onset during longer measurement times produces upward drift in ΔT; requires shorter measurement times or lower power",
+          "moisture migration in porous samples: heating drives moisture away from sensor, artificially lowering apparent λ",
+          "anisotropy artifact: fitting an anisotropic sample with the isotropic model yields an effective λ that is neither the in-plane nor through-plane value"
+        ],
+        "quality_control_checks": [
+          "inspect residual plot — residuals should scatter randomly around zero with no systematic curvature",
+          "verify that total characteristic time (τ = t_measurement · α / a²) falls in the recommended range of 0.33–1.0",
+          "check that temperature rise is in the 0.5–5 K range (optimal signal-to-noise without violating small-perturbation assumption)",
+          "compare results from at least three successive measurements — relative standard deviation should be < 2%",
+          "validate with a certified reference material at least once per measurement campaign",
+          "check that probing depth does not exceed sample dimensions (probing depth ≈ a × √(α·t)/a)"
+        ],
+        "failure_modes": [
+          "sensor breakage — nickel spiral fracture from mechanical stress or thermal shock renders the sensor non-functional (open circuit)",
+          "delamination of Kapton insulation — sensor insulation failure at elevated temperatures causes current leakage into the sample, producing erratic readings",
+          "sample cracking or fracturing during thermal cycling — surfaces separate from sensor, violating contact assumptions",
+          "inadequate sample size — thermal wave reaches boundary, producing systematically incorrect results that may not be obvious from residuals alone",
+          "sensor contamination or surface deposits — alter TCR calibration and effective thermal contact",
+          "bridge imbalance drift — electronics instability or loose connections produce baseline wander"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 2–5% for thermal conductivity; 5–10% for thermal diffusivity; 7–15% for derived volumetric heat capacity",
+        "random_sources": [
+          "electrical noise in the Wheatstone bridge and voltmeter",
+          "temperature fluctuations in the enclosure during measurement",
+          "variability in sensor-sample contact quality between remountings",
+          "sample surface roughness variation",
+          "ambient vibrations affecting sensor resistance readings"
+        ],
+        "systematic_sources": [
+          "TCR calibration uncertainty of the nickel sensor",
+          "thermal contact resistance between sensor and sample (unaccounted or variable)",
+          "deviation from semi-infinite geometry (boundary effects)",
+          "sensor thin-film thermal inertia correction model uncertainty",
+          "radiation heat loss at elevated temperatures (not included in standard model)",
+          "sample inhomogeneity within the probing volume",
+          "moisture content variation in porous or hygroscopic samples",
+          "time-base accuracy of the data acquisition system"
+        ],
+        "operator_dependence": "low to moderate — sample surface preparation and clamping uniformity are the primary operator-dependent factors; the measurement and fitting are largely automated by software",
+        "model_dependence": "moderate — accuracy depends on validity of semi-infinite, isotropic, constant-property assumptions; deviations (anisotropy, boundary effects, large ΔT) require specialized analysis modules",
+        "dominant_error_sources": [
+          "thermal contact resistance between sensor and sample surfaces (largest single contributor for solid samples)",
+          "boundary effects from undersized samples",
+          "convection onset in liquid measurements",
+          "sample inhomogeneity and anisotropy when isotropic model is applied"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(λ) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of measured λ",
+          "standard deviation from repeated measurements",
+          "residual mean square from the least-squares fit"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The Hot Disk method, formally known as the Transient Plane Source (TPS) technique, is a versatile thermal property measurement method standardized as ISO 22007-2. Invented by Silas Gustafsson in the 1990s and commercialized by Hot Disk AB (Gothenburg, Sweden), the technique simultaneously determines thermal conductivity (λ), thermal diffusivity (α), and volumetric heat capacity (ρCp) from a single transient measurement lasting 1–40 seconds. A thin nickel double-spiral sensor, insulated with Kapton polyimide film, serves as both the heat source and the resistance thermometer. The sensor is sandwiched between two identical sample pieces, a brief power pulse is applied, and the resulting time-dependent temperature rise is analyzed to extract thermal properties. The method covers an exceptionally wide range of thermal conductivity from 0.005 to 500 W/(m·K), spanning super-insulators to highly conductive metals, and accommodates solids, liquids, pastes, powders, and foams.",
+      "how_it_operates": "The sensor consists of a thin nickel foil (≈10 µm thick) etched into a double-spiral pattern and encapsulated between two layers of Kapton polyimide insulation (total sensor thickness ≈50 µm). The sensor is clamped between two flat faces of identical sample pieces. During a measurement, a controlled electrical current step is applied to the sensor, causing Joule heating that dissipates a known power P₀ into both sample faces simultaneously. The nickel spiral's electrical resistance increases linearly with temperature (via its temperature coefficient of resistance, TCR), so the time-dependent resistance change ΔR(t), measured through a Wheatstone bridge, directly tracks the average temperature rise ΔT(t) of the sensor surface. Higher thermal conductivity samples conduct heat away faster, resulting in a smaller ΔT for a given power, while thermal diffusivity governs the time dependence of the temperature-rise curve. A precision voltmeter digitizes the bridge imbalance voltage at closely spaced time intervals, and the resulting ΔT(t) dataset is fitted to the Gustafsson analytical model to extract λ and α simultaneously.",
+      "core_theory": "The TPS theory treats the sensor as a set of concentric ring sources in an infinite medium. The mean temperature rise of the sensor is given by ΔT(τ) = P₀/(π^(3/2) · a · λ) · D(τ), where P₀ is the total power, a is the sensor radius, λ is the sample thermal conductivity, and D(τ) is a dimensionless shape function that depends on the number of rings and the dimensionless time τ = √(α·t)/a. The function D(τ) is computed analytically as a double integral over the ring-source geometry. Both λ and α are extracted simultaneously by iterative least-squares fitting: the algorithm adjusts λ to match the magnitude of ΔT(t) and adjusts α (embedded in τ) to match the curvature of the temperature-rise trace. A thin-film correction accounts for the finite thermal inertia of the Kapton insulation, which adds a small, fast-decaying transient at early times. For the analysis to be valid, the thermal penetration depth during the measurement must not reach the outer boundaries of the sample (semi-infinite condition), and the temperature rise must be small enough (<5 K) that λ and α can be considered constant.",
+      "setup": "A standard Hot Disk TPS instrument consists of the sensor, a precision Wheatstone bridge with a series reference resistor, a stable current/voltage source, a high-resolution voltmeter or 22-bit ADC, and a computer running the Thermal Constants Analyser software. The sensor is placed horizontally between two sample pieces that are clamped together with light, uniform pressure in a sample holder. For temperature-dependent studies, the sample holder is placed inside a furnace, environmental chamber, or cryostat with a programmable temperature controller. For liquid measurements, the sensor is suspended vertically or horizontally inside a sample container filled with the liquid. Sensors are available in radii from 0.5 mm (sensor 5465) to about 30 mm (sensor 4922), and in Kapton-insulated versions for −50 to 300 °C or mica-insulated versions for temperatures up to 1000 °C. The measurement is fully automated: the operator selects the sensor type, enters the estimated thermal conductivity range, and the software suggests optimal power and measurement time settings.",
+      "suitable_for": "The Hot Disk method is suitable for measuring thermal conductivity and thermal diffusivity of virtually any condensed-phase material that can be shaped or contained to satisfy the sample geometry requirements. It is particularly valued for insulating and building materials (foams, aerogels, fiberglass, polymers) where steady-state methods are slow, for composite and anisotropic materials (using the anisotropic measurement module), for liquids and pastes where probe methods are less precise, and for research-grade measurements on metals, ceramics, minerals, and glasses. Its non-destructive nature and fast measurement time make it efficient for quality control and material screening. The technique is especially powerful when both thermal conductivity and thermal diffusivity are needed simultaneously, avoiding the need for separate experiments. It serves well for temperatures from cryogenic (−253 °C with appropriate cryostat) to 1000 °C.",
+      "core_limitations": "The principal limitation is the requirement that the thermal front must not reach the sample boundary during the measurement — this imposes minimum sample sizes that depend on thermal diffusivity and measurement time. Highly conductive samples (e.g., copper, aluminum) require very short measurement times and small sensor radii, which reduce signal-to-noise and increase uncertainty. The method assumes the sample is homogeneous within the probing volume, so materials with large-scale heterogeneity (voids, grain boundaries comparable to the probing depth) may yield unrepresentative averages. For anisotropic materials, the standard isotropic analysis produces an effective thermal conductivity that does not correspond to any principal axis — the anisotropic module is needed but requires additional constraints. Liquid measurements are limited by the onset of natural convection during heating, which restricts the usable measurement time and power. The accuracy for thermal diffusivity (5–10%) is inherently lower than for thermal conductivity (2–5%) because α enters the model through the time-dependent shape of the curve, which is more sensitive to contact resistance and early-time artifacts.",
+      "sample_preparation": "For solid samples, two pieces with flat, parallel faces are required. The test faces are typically machined, ground, or polished to a surface roughness below 10 µm and a parallelism of ±50 µm. Each piece must extend at least one sensor radius beyond the sensor edge in all in-plane directions, and its thickness must exceed the maximum probing depth (approximately the sensor radius for typical measurement times). The sensor is placed directly on the sample surface without thermal grease — the Hot Disk method relies on dry contact, distinguishing it from many competing techniques. For powders, the sensor is embedded at the midplane of a cylindrical container and the powder is gently packed around it. For liquids, the sensor is immersed in a thermostated vessel with sufficient volume to satisfy the semi-infinite boundary condition. All samples should be equilibrated at the target temperature for at least 15 minutes before measurement, and successive measurements require a re-equilibration wait of 10–30 minutes to allow the small temperature perturbation to dissipate fully.",
+      "calibration_and_references": "Calibration of the Hot Disk instrument centers on determining the temperature coefficient of resistance (TCR) of each individual nickel sensor by measuring its resistance at multiple known temperatures and performing a linear fit. This TCR calibration is stored in the software and must be redone if the sensor is replaced. The instrument electronics (bridge, current source, voltmeter) are factory-calibrated and verified periodically. Measurement accuracy is validated by testing certified reference materials: stainless steel AISI 316 (λ ≈ 14 W/(m·K)), PMMA (λ ≈ 0.19 W/(m·K)), Pyroceram 9606 (λ ≈ 4 W/(m·K)), and fused silica (λ ≈ 1.4 W/(m·K)) are commonly used. Results should fall within ±5% of the certified values. For liquid calibration, distilled water at 25 °C (λ = 0.607 W/(m·K)) serves as the primary reference. Reference material checks should be performed at the start of each measurement campaign and after any sensor replacement or significant temperature range change.",
+      "data_interpretation": "The Thermal Constants Analyser software converts the raw bridge voltage time series V(t) into sensor temperature rise ΔT(t) using the pre-calibrated TCR. A thin-film correction removes the early transient caused by the Kapton insulation's thermal inertia. The operator (or the software automatically) selects a time window that excludes the initial contact/transient region and any late-time data showing boundary effects. Within this window, the software performs iterative least-squares fitting of ΔT(t) to the Gustafsson D(τ) model function, simultaneously optimizing λ and α. Key diagnostic outputs include the residual plot (measured minus fitted ΔT), the total characteristic time ratio (recommended 0.33–1.0), the mean temperature increase, and the probing depth. A clean fit shows residuals scattering randomly around zero; systematic curvature indicates boundary effects (late-time upturn), poor contact (early-time offset), or convection (late-time downturn in liquids). The volumetric heat capacity is derived as ρCp = λ/α.",
+      "common_pitfalls": "The most frequent pitfall is using samples that are too small for the chosen sensor and measurement time, causing the thermal front to reach the boundary and systematically biasing results — this is often not immediately obvious from the fitted values alone and requires inspection of the residual plot and probing depth. Poor surface flatness or misalignment of the two sample pieces creates non-uniform contact resistance that affects both λ and α, particularly the latter. Applying excessive clamping pressure can deform soft samples (foams, polymers above Tg) and change their intrinsic thermal properties. Not waiting long enough between successive measurements leads to a residual temperature gradient from the previous measurement, biasing the next result. In liquid measurements, using too much power or too long a measurement time triggers natural convection, which adds anomalous heat transfer and inflates the apparent thermal conductivity. Neglecting to re-calibrate the sensor TCR after significant thermal cycling or sensor replacement propagates a systematic error into all subsequent measurements.",
+      "artifacts_and_failure_modes": "Boundary effects produce a characteristic upturn in the late-time residuals and result in overestimated λ and α; the cure is to use larger samples, a smaller sensor, or a shorter measurement time. Contact resistance artifacts appear as an offset in the early-time ΔT curve, leading to underestimated α and a slight bias in λ; improved surface preparation or use of the contact-resistance analysis module mitigates this. Convection onset in liquids manifests as a progressive downturn in the late-time residuals (the sample appears to conduct heat faster than expected) and can be minimized by reducing power and measurement time. Sensor delamination at high temperatures causes erratic resistance readings and noisy ΔT traces — the sensor must be replaced. Moisture migration in porous materials driven by the thermal gradient creates an apparent decrease in thermal conductivity over successive measurements as the region near the sensor dries out. Anisotropy misattribution occurs when the isotropic model is applied to layered or oriented samples, producing a fitted λ that is an ill-defined average of the principal-axis values.",
+      "reporting_checklist": "Published Hot Disk TPS results should report: sensor type and radius, heating power and measurement time, total characteristic time ratio, mean temperature rise during measurement, number of replicate measurements and standard deviation, sample dimensions relative to sensor and probing depth, sample surface preparation method, sensor TCR calibration temperature range, reference material validation results, temperature and pressure at measurement, whether isotropic or anisotropic analysis was used, probing depth, residual quality assessment, combined expanded uncertainty U(λ) with confidence level (typically 95%, k=2), and for ThermoML encoding, values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

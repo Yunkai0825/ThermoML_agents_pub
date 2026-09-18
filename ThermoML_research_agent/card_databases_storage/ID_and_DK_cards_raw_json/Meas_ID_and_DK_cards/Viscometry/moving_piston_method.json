@@ -1,0 +1,328 @@
+{
+  "meas_ID": "moving_piston_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Moving piston method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Moving piston method",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Viscometry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 55,
+      "property_groups": [
+        "TransportProp"
+      ],
+      "n_papers": 15,
+      "per_group": {
+        "TransportProp": {
+          "instances": 55,
+          "papers": 15
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "piston travel time between two detection points (t)",
+          "temperature of thermostated pressure vessel (T)",
+          "applied pressure on fluid (P)",
+          "piston position signal from magnetic or optical sensors"
+        ],
+        "derived_observables": [
+          "dynamic viscosity (η)",
+          "kinematic viscosity (ν = η/ρ, when density is known or measured concurrently)",
+          "viscosity–temperature coefficient",
+          "viscosity–pressure coefficient"
+        ],
+        "target_properties": [
+          "dynamic viscosity (η)",
+          "kinematic viscosity (ν)",
+          "viscosity as a function of temperature at constant pressure",
+          "viscosity as a function of pressure at constant temperature"
+        ],
+        "phases_measured": [
+          "liquid (Newtonian)",
+          "liquid (mildly non-Newtonian at low shear rates)",
+          "compressed liquid at elevated pressures"
+        ],
+        "supported_sample_types": [
+          "pure liquids",
+          "binary and multicomponent liquid mixtures",
+          "petroleum fluids and crude oils",
+          "lubricants and hydraulic fluids",
+          "ionic liquids",
+          "refrigerants and compressed gases in liquid phase",
+          "polymer solutions (dilute to moderately concentrated)",
+          "high-viscosity fluids (heavy oils, bitumen)"
+        ],
+        "unsupported_sample_types": [
+          "gases at low pressure (insufficient drag on piston)",
+          "highly abrasive slurries or suspensions containing large particles (damage to piston/cylinder surfaces)",
+          "fluids that chemically attack the piston or cylinder material",
+          "viscoelastic fluids with strong elastic recovery (piston rebound artifacts)",
+          "two-phase or foaming fluids (undefined viscosity regime)"
+        ],
+        "typical_output_formats": [
+          "η vs. T at constant P",
+          "η vs. P at constant T",
+          "log η vs. 1/T (Arrhenius plot)",
+          "η vs. composition at constant T and P",
+          "tabulated (T, P, η) data"
+        ],
+        "units": {
+          "dynamic_viscosity": "mPa·s (= cP) or Pa·s",
+          "kinematic_viscosity": "mm²/s (= cSt)",
+          "temperature": "K",
+          "pressure": "MPa",
+          "piston_travel_time": "s",
+          "density": "kg/m³"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "233 K to 473 K",
+            "hard_limits": "limited by seal materials and thermostating fluid; specialized cells extend to 523 K",
+            "notes": "low-temperature limit set by sample freezing or seal embrittlement; high-temperature limit by O-ring and seal degradation"
+          },
+          {
+            "parameter": "pressure_range",
+            "typical_range": "0.1 MPa to 200 MPa",
+            "hard_limits": "maximum set by pressure vessel rating and seal integrity; some designs rated to 300 MPa",
+            "notes": "a key advantage of this technique is robust high-pressure capability"
+          },
+          {
+            "parameter": "viscosity_range",
+            "typical_range": "0.2 mPa·s to 10,000 Pa·s",
+            "hard_limits": "lower limit set by minimum measurable travel time at maximum piston velocity; upper limit by practical measurement duration",
+            "notes": "range covered by selecting different piston densities and cylinder bore diameters; multiple piston sets extend overall range"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "2 mL to 10 mL",
+            "hard_limits": "must completely fill the measurement cylinder with no trapped gas",
+            "notes": "compressed-liquid measurements require careful degassing and filling under pressure"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary scanned variable",
+            "typical_values": "273 K to 423 K",
+            "effect": "viscosity decreases exponentially with increasing temperature for most liquids; temperature must be controlled to ±0.01 K for high-accuracy work"
+          },
+          {
+            "name": "pressure",
+            "role": "primary scanned variable (high-pressure studies) or fixed (ambient studies)",
+            "typical_values": "0.1 MPa to 200 MPa",
+            "effect": "viscosity generally increases with pressure; pressure–viscosity coefficient is a key derived quantity for lubricant characterization"
+          },
+          {
+            "name": "piston_type",
+            "role": "instrument configuration variable",
+            "typical_values": "selection of piston density and diameter for target viscosity range",
+            "effect": "heavier or larger-diameter pistons generate greater force, suitable for low-viscosity fluids; lighter pistons with tighter clearance for high-viscosity fluids"
+          },
+          {
+            "name": "applied_force_mode",
+            "role": "instrument configuration variable",
+            "typical_values": "gravity, electromagnetic, or pneumatic drive",
+            "effect": "determines the shear rate regime and suitability for different viscosity ranges; electromagnetic actuation enables automated cycling"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "precision-bore measurement cylinder — tight-tolerance bore (typical diameters 5–15 mm) made of stainless steel, Hastelloy, or sapphire for chemical resistance",
+          "calibrated piston — precision-ground cylinder (various densities and diameters) whose dimensions define the annular gap with the bore",
+          "position detection system — two magnetic proximity sensors, optical sensors, or inductive coils defining a fixed travel distance (typically 10–50 mm)",
+          "thermostated pressure vessel — jacketed cell with circulating fluid thermostat for temperature control (stability ±0.01 K)",
+          "pressure generation and measurement system — hand pump or syringe pump with calibrated pressure transducer (accuracy ±0.05 MPa)",
+          "timing circuit — high-resolution electronic timer triggered by position sensors (resolution ±0.001 s)",
+          "temperature measurement — calibrated PRT (Pt100) or thermistor embedded in cell wall near measurement zone",
+          "electromagnetic or pneumatic actuator — returns piston to starting position and controls drive force in non-gravity designs (e.g., Cambridge Viscosity SPL series)",
+          "data acquisition and control system — computer interface for automated measurement cycles, data logging, and temperature/pressure programming"
+        ],
+        "environmental_requirements": [
+          "temperature-controlled laboratory (±2 K ambient) to minimize thermal gradients in tubing and connections",
+          "vibration-free bench or mounting to prevent disturbing piston free-fall",
+          "pressure-rated fittings and burst containment for high-pressure operation",
+          "fume hood or ventilation when using volatile or toxic sample fluids"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid sample filling the cylindrical bore completely with no gas bubbles"
+          ],
+          "size_limits": "2–10 mL depending on cylinder volume; sufficient to fill cylinder and connecting tubing",
+          "thickness_limits": "not applicable (annular gap between piston and cylinder wall is the critical dimension, typically 10–200 µm)",
+          "surface_requirements": [
+            "sample must be free of suspended particles large enough to jam in the piston–cylinder annular gap",
+            "sample should be homogeneous and single-phase under measurement conditions"
+          ],
+          "mounting_requirements": [
+            "cylinder oriented vertically for gravity-driven designs, or in any orientation for magnetically/pneumatically driven designs",
+            "leak-free sealing of pressure vessel at all operating pressures"
+          ],
+          "preparation_requirements": [
+            "thorough degassing under vacuum or by helium sparging to eliminate dissolved gas that may form bubbles under changing pressure",
+            "filtration through 0.5–5 µm filter to remove particulates that could score piston or cylinder surfaces",
+            "drying over molecular sieves for moisture-sensitive fluids",
+            "density measurement of sample (if kinematic viscosity is required) using vibrating-tube densimeter or pycnometer"
+          ]
+        },
+        "calibration_requirements": [
+          "calibration with certified viscosity reference standards (e.g., Cannon S-series, PTB oils) spanning the target viscosity range to establish instrument constant K relating travel time to viscosity: η = K·(ρ_piston − ρ_fluid)·t",
+          "temperature calibration of embedded PRT against ITS-90 fixed points or a NIST-traceable reference thermometer",
+          "pressure transducer calibration against a deadweight tester or NIST-traceable reference pressure gauge",
+          "verification of piston and cylinder dimensions using coordinate measuring machine (CMM) at periodic intervals",
+          "repeatability check: multiple consecutive measurements of a reference fluid must agree within stated precision"
+        ],
+        "reference_materials": [
+          "NIST SRM 2490 — polyisobutylene solution in 2,6,10,14-tetramethylpentadecane (high viscosity standard)",
+          "Cannon certified viscosity reference standards (N-series, S-series) — available across 0.3 to 100,000 mm²/s range",
+          "NIST SRM 2492 — Bingham paste standard (for non-Newtonian verification, if applicable)",
+          "toluene — low-viscosity reference with well-characterized η(T,P) data from literature",
+          "diethylhexyl sebacate (DEHS) — intermediate-viscosity reference for high-pressure calibration"
+        ],
+        "consumables": [
+          "high-pressure O-rings and seals (Viton, Kalrez, or PTFE) rated to maximum operating pressure",
+          "replacement pistons of various materials and dimensions for different viscosity ranges",
+          "calibration reference oils (consumed during calibration runs)",
+          "cleaning solvents (acetone, toluene, n-hexane) for flushing between samples",
+          "filtration membranes (0.5–5 µm pore size)"
+        ],
+        "safety_notes": [
+          "high-pressure systems require pressure-rated enclosures and burst discs; never exceed rated pressure",
+          "use proper PPE (eye protection, face shields) when handling pressurized fluids",
+          "ensure proper ventilation when working with volatile or toxic solvents for cleaning or as samples",
+          "heavy pistons and pressure vessels should be handled with care to avoid injury from dropped components"
+        ]
+      },
+      "performance": {
+        "sensitivity": "capable of resolving viscosity differences of ~0.1% between consecutive measurements for well-conditioned piston/cylinder assemblies",
+        "detection_limit": "minimum measurable viscosity ~0.2 mPa·s (limited by piston inertia and minimum resolvable travel time)",
+        "resolution": {
+          "spatial": "not applicable (bulk fluid measurement)",
+          "temporal": "measurement cycle time 10 s to 300 s per data point depending on viscosity; automated cycling enables repeated measurements every 30–120 s",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "approximately five decades: 0.2 mPa·s to ~10,000 Pa·s achievable through piston selection",
+        "accuracy": "1–2% of measured value with proper calibration; 0.5% achievable for mid-range viscosities with careful calibration and temperature control",
+        "precision": "0.2–0.5% (repeatability of travel time measurement at stabilized T and P)",
+        "throughput": "single sample; one T-sweep or P-sweep typically requires 2–6 hours depending on number of state points and equilibration time",
+        "measurement_speed": "individual measurement: 10–300 s per piston fall cycle; automated instruments average 3–5 cycles per state point for statistical averaging"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "electrical pulses from position detectors marking the start and end of piston travel through a fixed distance, yielding travel time t; plus analog signals from PRT (temperature) and pressure transducer",
+        "preprocessing_steps": [
+          "averaging of multiple travel time measurements (typically 3–5 cycles) at each (T, P) state point to improve precision",
+          "correction for piston acceleration zone at start of travel (only the steady-state region between detection points is used)",
+          "correction for fluid buoyancy on the piston: effective driving force = (ρ_piston − ρ_fluid)·V_piston·g",
+          "temperature and pressure corrections applied to instrument constant K for thermal expansion of piston and cylinder",
+          "end-effect corrections for finite cylinder length (if piston approaches cylinder ends during measurement)"
+        ],
+        "analysis_methods": [
+          "primary equation: η = K·(ρ_piston − ρ_fluid)·t, where K is the instrument constant determined by calibration",
+          "alternative Stokes-flow derivation for annular geometry: η = (ρ_piston − ρ_fluid)·g·R_p²·t / (2L·f(R_p/R_c)), where f is a geometric factor depending on piston-to-cylinder radius ratio",
+          "Arrhenius or Vogel-Fulcher-Tammann (VFT) fitting: ln η = A + B/(T − T₀) for viscosity–temperature correlation",
+          "Barus equation fitting: η = η₀·exp(α·P) for viscosity–pressure dependence at constant T",
+          "linear or polynomial interpolation of η(T,P) tables for generating smoothed viscosity surfaces"
+        ],
+        "model_assumptions": [
+          "fully developed laminar (Stokes) flow in the piston–cylinder annular gap (Reynolds number << 1)",
+          "the fluid is Newtonian (shear stress proportional to shear rate) over the prevailing shear rate range in the annular gap",
+          "piston reaches terminal (constant) velocity within the detection zone — no acceleration transient contaminates the timing",
+          "the annular gap is concentric and uniform along the piston length (no eccentricity)",
+          "fluid density and piston density are constant (or corrected for) over the measurement temperature and pressure range",
+          "no wall slip at the piston or cylinder surfaces"
+        ],
+        "fit_parameters": [
+          "instrument constant K (determined from calibration)",
+          "dynamic viscosity η at each (T, P) state point",
+          "Arrhenius parameters A and Ea (activation energy) for η(T) modeling",
+          "VFT parameters A, B, T₀ for η(T) modeling",
+          "Barus coefficient α for η(P) modeling"
+        ],
+        "common_artifacts": [
+          "piston eccentricity artifact: if the piston is not centered in the bore, annular flow is non-uniform and measured viscosity deviates (typically lower than true value due to wider gap on one side)",
+          "inertia artifact at low viscosity: piston accelerates through the detection zone rather than reaching terminal velocity, producing anomalously short travel times",
+          "thermal gradient artifact: incomplete thermal equilibration of sample in the cylinder creates a viscosity gradient along the piston path, distorting the measurement",
+          "dissolved gas artifact: gas coming out of solution during pressure reduction creates bubbles that alter effective fluid density and flow resistance",
+          "surface scoring artifact: scratched piston or cylinder surfaces change the effective gap geometry, causing progressive drift in calibration constant"
+        ],
+        "quality_control_checks": [
+          "measure a certified viscosity reference standard at each temperature and pressure before and after sample runs to verify instrument constant stability",
+          "verify piston terminal velocity by comparing travel times for different detection zone lengths (if available) or from multiple consecutive runs",
+          "check that multiple piston fall/rise cycles yield consistent travel times (CV < 0.5%)",
+          "compare heating and cooling sweeps at the same state points to detect hysteresis or thermal lag",
+          "inspect piston and cylinder for visible scoring or wear at regular intervals; replace if tolerances are exceeded"
+        ],
+        "failure_modes": [
+          "piston jamming due to particulate contamination or sample solidification in the annular gap",
+          "seal failure at high pressure resulting in sample leak and pressure loss",
+          "loss of position sensor signal due to sensor malfunction or electromagnetic interference",
+          "cylinder bore contamination from sample residue causing progressive bias in travel time",
+          "piston corrosion or chemical attack from aggressive sample fluids changing piston dimensions and density"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 1–2% for dynamic viscosity; can be reduced to 0.5% with meticulous calibration and mid-range viscosity values",
+        "random_sources": [
+          "variability in piston travel time from run to run (fluid turbulence at lower viscosities)",
+          "short-term temperature fluctuations within the measurement cell",
+          "pressure fluctuations from pump pulsation or thermal volume changes",
+          "electronic noise in position sensor and timer circuits",
+          "vibration-induced disturbances to piston motion"
+        ],
+        "systematic_sources": [
+          "uncertainty in the calibration constant K (propagated from reference standard certification uncertainty)",
+          "piston and cylinder dimensional tolerances (bore diameter, piston diameter, roundness, cylindricity)",
+          "piston eccentricity within the bore (non-uniform annular gap)",
+          "thermal expansion corrections for piston and cylinder at temperatures far from calibration temperature",
+          "fluid density uncertainty (when converting to kinematic viscosity or computing buoyancy correction)",
+          "temperature measurement offset between PRT location and actual fluid temperature at the piston",
+          "pressure measurement calibration offset",
+          "end effects and piston acceleration corrections"
+        ],
+        "operator_dependence": "low to moderate — filling procedure (gas-free loading), cleaning quality, and sample filtration depend on operator care; less operator-dependent than capillary viscometry due to automated piston cycling",
+        "model_dependence": "moderate — accuracy depends on validity of Stokes flow assumption, concentricity of piston, and Newtonian behavior of sample; deviations from any of these require empirical corrections or alternative analysis",
+        "dominant_error_sources": [
+          "calibration constant uncertainty (especially when extrapolating far from the viscosity range of the reference standards)",
+          "temperature measurement and control (viscosity changes 2–5% per kelvin for typical liquids)",
+          "piston–cylinder dimensional stability and concentricity"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(η) at 95% confidence (k=2)",
+          "relative expanded uncertainty as percentage of η",
+          "standard deviation from replicate piston travel time measurements"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The moving piston method is a viscometry technique that determines the dynamic viscosity of a fluid by measuring the time required for a precision-machined piston to travel a fixed distance through a close-fitting cylinder filled with the sample fluid under a controlled driving force. Also known as the falling-piston or rising-piston viscometer, the technique is based on the Stokes drag principle adapted to cylindrical annular geometry. Commercial implementations include the Cambridge Viscosity SPL series, which uses electromagnetic actuation to cycle the piston back and forth, enabling automated, repeated measurements. The method is especially valued for high-pressure viscosity measurements (up to 200–300 MPa) and covers an exceptionally wide viscosity range from 0.2 mPa·s to over 10,000 Pa·s through selection of different piston sizes and densities.",
+      "how_it_operates": "A cylindrical piston of known density and precise dimensions is placed inside a close-fitting measurement cylinder filled with the sample fluid. A controlled driving force — gravity in falling-piston designs, or electromagnetic/pneumatic actuation in automated instruments — causes the piston to move through the fluid at a velocity determined by the balance between the driving force and the viscous drag in the narrow annular gap between the piston and cylinder wall. Two position sensors (magnetic, optical, or inductive) placed at a fixed separation along the cylinder detect the piston's passage and trigger a high-resolution timer. The measured travel time is directly proportional to the fluid viscosity through a calibration constant that encapsulates the piston and cylinder geometry, piston density, and driving force. Temperature and pressure are measured simultaneously by sensors embedded in or adjacent to the thermostated pressure vessel. Automated instruments cycle the piston back and forth using an electromagnetic coil, collecting multiple travel times per measurement for statistical averaging.",
+      "core_theory": "The measurement is based on Stokes flow (creeping flow) in a cylindrical annular geometry. When a cylindrical piston of radius R_p and length L falls under gravity through a cylinder of radius R_c filled with a Newtonian fluid, it reaches a terminal velocity where the gravitational force minus buoyancy equals the viscous drag. For the annular geometry, the dynamic viscosity is given by η = (ρ_piston − ρ_fluid)·g·R_p²·t / (2L·f(κ)), where κ = R_p/R_c is the radius ratio and f(κ) is a geometric factor derived from the exact solution of the Navier-Stokes equations for concentric cylinder Poiseuille-Couette flow. In practice, this is simplified to η = K·Δρ·t, where K is an instrument constant determined empirically by calibration with fluids of known viscosity, Δρ is the difference between piston and fluid densities, and t is the measured travel time. The validity requires that the Reynolds number based on piston velocity and annular gap width is much less than unity (Re << 1), ensuring the flow is purely viscous with no inertial effects.",
+      "setup": "A typical moving-piston viscometer consists of a precision-bore cylinder (stainless steel, Hastelloy, or sapphire, bore diameter 5–15 mm) housed inside a thermostated high-pressure vessel rated to 200–300 MPa. A precision-ground piston (various materials: tungsten carbide, stainless steel, aluminum — selected for appropriate density contrast with the sample) sits inside the cylinder. Two position sensors spaced 10–50 mm apart detect the piston magnetically or optically and trigger a high-resolution timer with ±0.001 s resolution. The pressure vessel is jacketed and connected to a circulating thermostat bath providing temperature stability to ±0.01 K. A calibrated PRT mounted in the vessel wall monitors temperature, while a calibrated pressure transducer measures the fluid pressure. In automated instruments (e.g., Cambridge Viscosity SPL), an electromagnetic coil at one end of the cylinder drives the piston back to its starting position after each fall, enabling continuous automated cycling. A computer-controlled data acquisition system records travel times, temperature, and pressure, and computes viscosity in real time.",
+      "suitable_for": "The moving piston method is particularly well-suited for viscosity measurements at elevated pressures, making it a workhorse for petroleum fluid characterization, lubricant evaluation, and compressed-liquid studies for equation-of-state development. It handles a remarkably wide viscosity range (0.2 mPa·s to 10,000 Pa·s) through piston selection, accommodating everything from light solvents to heavy crude oils. The compact, sealed-cell design enables measurements on small sample volumes (2–10 mL), which is advantageous for expensive or scarce fluids. The technique is well-suited for Newtonian fluids and mildly non-Newtonian fluids at the low shear rates prevailing in the annular gap. It is widely used for ionic liquids, refrigerants, deep eutectic solvents, and hydrocarbon mixtures at reservoir conditions.",
+      "core_limitations": "The fundamental assumption of Newtonian Stokes flow limits the technique to Newtonian or near-Newtonian fluids — highly non-Newtonian, viscoelastic, or thixotropic fluids produce shear-rate-dependent results that do not represent a unique viscosity value. The shear rate in the annular gap is not precisely controlled or uniform, making it unsuitable for rheological characterization requiring defined shear rates. Piston eccentricity (off-center positioning) within the bore introduces systematic errors that are difficult to detect and correct. For very low-viscosity fluids (< 0.2 mPa·s), the piston may not reach terminal velocity within the detection zone due to inertial effects, degrading accuracy. The technique requires knowledge of the fluid density (or the density difference between piston and fluid) for absolute viscosity determination, introducing an additional uncertainty source. Sample fluids containing abrasive particles can damage the precision surfaces of the piston and cylinder, requiring frequent inspection and replacement.",
+      "sample_preparation": "Sample fluids must be thoroughly degassed before loading into the measurement cell, as dissolved gases can nucleate into bubbles under pressure changes, disrupting piston motion and altering effective fluid density. Degassing is performed under vacuum or by helium sparging. The sample should be filtered through a membrane filter (0.5–5 µm pore size) to remove particulates that could jam in the narrow annular gap between piston and cylinder. For hygroscopic or moisture-sensitive fluids (e.g., ionic liquids), the sample should be dried over molecular sieves and handled under inert atmosphere. The cell and all wetted components must be thoroughly cleaned with appropriate solvents (acetone, toluene, or n-hexane depending on sample compatibility) and dried between measurements. If kinematic viscosity is the target, the sample density must be independently measured at the same temperature and pressure conditions using a vibrating-tube densimeter or other suitable method. Sample volume of 2–10 mL is typically required, and the fluid must completely fill the cylinder with no trapped air.",
+      "calibration_and_references": "Calibration establishes the instrument constant K by measuring the travel time for certified viscosity reference standards (e.g., Cannon N-series or S-series oils) of known viscosity at precisely controlled temperatures. The calibration equation η = K·Δρ·t is solved for K using multiple reference fluids spanning the target viscosity range, ideally bracketing the expected sample viscosity. Temperature calibration is performed by comparing the embedded PRT reading against an ITS-90 traceable reference thermometer. The pressure transducer is calibrated against a deadweight piston gauge or NIST-traceable reference. Calibration must be verified at regular intervals and after any disassembly or piston/cylinder replacement. Recommended reference materials include Cannon certified viscosity standards (covering 0.3 to 100,000 mm²/s), toluene (well-characterized low-viscosity standard with extensive η(T,P) literature data), DEHS (intermediate viscosity for high-pressure work), and NIST SRM 2490 (polyisobutylene solution for high-viscosity verification). Piston and cylinder dimensions should be verified periodically by coordinate measuring machine (CMM).",
+      "data_interpretation": "The primary data reduction is straightforward: the measured travel time t at each (T, P) state point, combined with the calibration constant K and the piston–fluid density difference Δρ = ρ_piston − ρ_fluid, yields the dynamic viscosity η = K·Δρ·t. Multiple travel time measurements (3–5 piston cycles) are averaged to provide a mean viscosity and standard deviation at each state point. The buoyancy correction requires the fluid density at measurement conditions; this is either measured independently or estimated from an equation of state. Viscosity–temperature data are typically correlated using the Arrhenius equation (ln η = A + E_a/RT) for limited temperature ranges, or the Vogel-Fulcher-Tammann (VFT) equation (ln η = A + B/(T − T₀)) for wider ranges. Viscosity–pressure data are correlated using the Barus equation (η = η₀·exp(α·P)) or more sophisticated models such as the modified Tait–Doolittle equation for strongly nonlinear pressure dependence. For comprehensive (T, P) coverage, multiparameter correlations or interpolation surfaces are constructed.",
+      "common_pitfalls": "The most critical pitfall is incomplete degassing of the sample, which leads to bubble formation in the measurement cylinder — particularly during pressure reduction steps — causing erratic travel times and large scatter. Failure to filter samples adequately allows particulates to accumulate in the annular gap, gradually increasing travel times and eventually jamming the piston. Neglecting to correct for thermal expansion of piston and cylinder dimensions at temperatures far from the calibration temperature introduces a systematic bias that grows with temperature offset. Using a single calibration point (one reference fluid) rather than a multi-point calibration spanning the measurement range can lead to nonlinearity errors, as the instrument constant K may have a weak viscosity dependence due to end effects and piston acceleration. Conducting measurements before thermal equilibration is achieved produces biased viscosity values because viscosity is highly temperature-sensitive (2–5% per kelvin for typical liquids). Ignoring piston eccentricity — which arises from wear, manufacturing tolerances, or improper orientation — leads to systematically low viscosity readings.",
+      "artifacts_and_failure_modes": "Piston eccentricity artifacts cause the measured viscosity to be lower than the true value because the wider side of the non-concentric annular gap carries disproportionately more flow, reducing the overall drag on the piston. Inertia artifacts at low viscosities result from the piston not reaching terminal velocity within the detection zone, producing travel times shorter than expected and anomalously low apparent viscosity. Thermal gradient artifacts arise when the sample fluid in the cylinder is not thermally homogeneous, creating a viscosity gradient along the piston path that biases the average travel time. Dissolved gas artifacts manifest as bubble formation during depressurization, causing sudden erratic readings. Surface scoring of the piston or cylinder from abrasive samples or handling damage progressively alters the effective gap geometry, causing calibration drift. Seal failure at high pressure is the most consequential hardware failure mode, resulting in sample leakage, loss of system pressure, and potentially hazardous release of pressurized fluid. Electromagnetic interference can corrupt position sensor signals, producing missed or spurious trigger events.",
+      "reporting_checklist": "Published moving-piston viscometry results should report: instrument make and model (or custom apparatus description with piston and cylinder dimensions); piston material, density, and dimensions; measurement cylinder bore diameter and material; driving force type (gravity, electromagnetic, pneumatic); number of piston cycles averaged per data point; temperature measurement method and calibration (ITS-90 traceability); pressure measurement method and calibration (traceability); viscosity reference standards used for calibration (manufacturer, lot, certified values, temperatures); sample purity, source, and preparation (degassing, filtration, drying); sample density values used for buoyancy correction and their source; thermal equilibration time at each state point; raw travel times or coefficient of variation; combined expanded uncertainty with coverage factor (typically k = 2, 95% confidence); any corrections applied (thermal expansion, end effects, buoyancy). For ThermoML encoding, viscosity values are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

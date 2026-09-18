@@ -1,0 +1,322 @@
+{
+  "meas_ID": "closed_cup_calorimetry",
+  "identity": {
+    "name": "Closed cup calorimetry ",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Closed cup calorimetry ",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Other",
+    "modality": {
+      "contact": "",
+      "destructive": "",
+      "in_situ": "",
+      "imaging": ""
+    },
+    "db_usage": {
+      "instance_count": 4,
+      "property_groups": [
+        "HeatCapacityAndDerivedProp"
+      ],
+      "n_papers": 1,
+      "per_group": {
+        "HeatCapacityAndDerivedProp": {
+          "instances": 4,
+          "papers": 1
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "heat flux between sample cell and reference cell (dQ/dt)",
+          "temperature difference between sample and reference (ΔT)",
+          "temperature of sealed sample cell as a function of time"
+        ],
+        "derived_observables": [
+          "enthalpy of mixing (ΔmixH)",
+          "enthalpy of solution/dissolution (ΔsolH)",
+          "excess enthalpy (HE)",
+          "isobaric heat capacity (Cp)",
+          "enthalpy of reaction (ΔrH)"
+        ],
+        "target_properties": [
+          "molar enthalpy of mixing",
+          "molar excess enthalpy",
+          "molar enthalpy of solution",
+          "isobaric heat capacity at constant pressure (Cp)",
+          "enthalpy of vaporization (from sealed-cell measurements)",
+          "enthalpy of reaction for volatile systems"
+        ],
+        "phases_measured": [
+          "liquid",
+          "liquid mixtures (including volatile components)",
+          "liquid–vapor equilibrium (within sealed cell)",
+          "solution phase"
+        ],
+        "supported_sample_types": [
+          "volatile pure liquids",
+          "volatile liquid mixtures",
+          "solutions of gases dissolved in liquids",
+          "binary and multicomponent liquid mixtures with significant vapor pressure",
+          "reactive mixtures requiring containment",
+          "hygroscopic liquids requiring sealed environment",
+          "ionic liquid mixtures with volatile co-solvents"
+        ],
+        "unsupported_sample_types": [
+          "gases at ambient pressure (requires high-pressure closed-cell variants)",
+          "highly viscous or solid samples that cannot be mixed in situ",
+          "samples that corrode or react with the cell material (stainless steel, Hastelloy)",
+          "systems requiring pressures exceeding the cell burst rating",
+          "very large sample volumes (cell volume typically limited to a few mL)"
+        ],
+        "typical_output_formats": [
+          "heat flux vs. time thermogram",
+          "integrated enthalpy vs. composition curve",
+          "excess enthalpy (HE) vs. mole fraction",
+          "Cp vs. T curve",
+          "enthalpy of mixing vs. mole fraction at constant T and P"
+        ],
+        "units": {
+          "heat_flux": "mW or µW",
+          "enthalpy": "J/mol or kJ/mol",
+          "heat_capacity": "J/(mol·K) or J/(g·K)",
+          "temperature": "K",
+          "pressure": "MPa",
+          "volume": "mL or cm³",
+          "composition": "mole fraction"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature_range",
+            "typical_range": "250 K to 450 K",
+            "hard_limits": "limited by cell seal integrity and thermostat capability; specialized cells extend to 200 K or 520 K",
+            "notes": "upper limit determined by seal material and internal vapor pressure at operating temperature"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "ambient to ~5 MPa (autogenous vapor pressure within sealed cell)",
+            "hard_limits": "cell burst pressure rating, typically 10–20 MPa for high-pressure closed cells",
+            "notes": "pressure is not independently controlled — it is the autogenous pressure of the sealed system at the measurement temperature"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "0.5 mL to 5 mL",
+            "hard_limits": "fixed by cell internal volume; underfilling leaves excessive vapor headspace; overfilling risks seal failure",
+            "notes": "optimal fill level minimizes vapor headspace to reduce vaporization corrections"
+          },
+          {
+            "parameter": "heating_rate",
+            "typical_range": "0.1 K/min to 2 K/min (scanning mode), isothermal for mixing experiments",
+            "hard_limits": "must be slow enough to maintain thermal equilibrium within the sealed cell",
+            "notes": "isothermal operation is standard for mixing enthalpy measurements; scanning mode used for heat capacity"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "controlled variable (isothermal) or scanned variable (scanning mode)",
+            "typical_values": "273 K to 423 K",
+            "effect": "temperature determines vapor pressure inside sealed cell; higher T increases autogenous pressure and may shift equilibrium"
+          },
+          {
+            "name": "composition",
+            "role": "primary variable for mixing enthalpy measurements",
+            "typical_values": "0 to 1 mole fraction, typically 5–20 discrete compositions",
+            "effect": "enthalpy of mixing is measured as a function of composition to map the full HE(x) curve"
+          },
+          {
+            "name": "pressure",
+            "role": "dependent variable (autogenous) or controlled in high-pressure variants",
+            "typical_values": "0.1 MPa to 5 MPa (autogenous)",
+            "effect": "internal pressure affects liquid–vapor partitioning and may require vapor-space corrections"
+          },
+          {
+            "name": "injection_volume",
+            "role": "controlled input for titration-type mixing experiments",
+            "typical_values": "5 µL to 200 µL per injection",
+            "effect": "determines composition increment per step; smaller injections give higher resolution of HE(x) but longer experiment time"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "hermetically sealed sample cell — stainless steel, Hastelloy, or gold-lined cell with O-ring or metal gasket seal rated for internal vapor pressure",
+          "reference cell — identical sealed cell, empty or filled with inert reference fluid, for differential measurement",
+          "calorimetric detector — thermopile or Peltier-based heat flux sensor surrounding both cells for differential heat flow measurement",
+          "thermostat — precision temperature-controlled block or bath maintaining isothermal conditions or providing controlled temperature ramp",
+          "injection/mixing system — syringe pump or ampoule-breaking mechanism for introducing one component into the other within the sealed cell",
+          "stirring mechanism — magnetic stirrer or rocking mechanism to ensure homogeneous mixing inside the closed cell",
+          "pressure transducer (optional) — monitors autogenous pressure inside the sealed cell",
+          "data acquisition system — digitizer and computer for recording heat flux, temperature, and pressure as a function of time"
+        ],
+        "environmental_requirements": [
+          "stable ambient temperature or temperature-controlled room to minimize thermal drift",
+          "vibration isolation to reduce baseline noise in the heat flux signal",
+          "inert atmosphere glove box or Schlenk line for loading air-sensitive or moisture-sensitive samples into the sealed cell"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "liquid samples — no specific geometry requirement",
+            "sample must be injectable or loadable into the sealed cell prior to sealing"
+          ],
+          "size_limits": "typically 0.5–5 mL total liquid volume; cell-dependent",
+          "thickness_limits": "not applicable (liquid samples fill the cell)",
+          "surface_requirements": [
+            "cell interior must be clean and free of residual contaminants from previous experiments",
+            "cell sealing surfaces must be undamaged to maintain hermetic seal"
+          ],
+          "mounting_requirements": [
+            "cell must be properly seated in the calorimeter block with reproducible thermal contact",
+            "O-ring or gasket must be correctly positioned and torqued to specification"
+          ],
+          "preparation_requirements": [
+            "degassing of liquid components to remove dissolved gases that could produce spurious exothermic or endothermic signals upon mixing",
+            "accurate gravimetric or volumetric determination of component amounts loaded into the cell",
+            "drying of hygroscopic liquids under inert atmosphere before loading",
+            "leak testing of sealed cell assembly before insertion into the calorimeter"
+          ]
+        },
+        "calibration_requirements": [
+          "electrical calibration — Joule effect heater inside the cell delivers known power pulses to establish the heat flux conversion factor (mW per µV of thermopile signal)",
+          "chemical calibration — measurement of a well-characterized mixing enthalpy system (e.g., cyclohexane + hexane or methanol + water) to verify accuracy",
+          "temperature calibration — verification of thermostat temperature against a certified reference thermometer",
+          "baseline stability check — long-duration isothermal run with empty sealed cells to quantify drift and noise level"
+        ],
+        "reference_materials": [
+          "cyclohexane + hexane — standard mixing enthalpy reference system (IUPAC recommended)",
+          "methanol + water — widely measured mixing enthalpy reference with large exothermic signal",
+          "1-propanol + water — alternative mixing enthalpy reference system",
+          "sapphire (α-Al2O3) — heat capacity reference (NIST SRM 720) for scanning-mode Cp measurements",
+          "naphthalene — enthalpy of fusion reference for temperature calibration"
+        ],
+        "consumables": [
+          "O-rings or metal gaskets for cell sealing (PTFE, Viton, or metal depending on temperature and chemical compatibility)",
+          "syringe needles and PTFE tubing for sample injection",
+          "inert gas supply (nitrogen or argon) for sample handling and cell purging",
+          "cleaning solvents (acetone, ethanol, hexane) for cell decontamination between experiments"
+        ],
+        "safety_notes": [
+          "sealed cells develop internal pressure at elevated temperatures — observe rated pressure limits and use appropriate burst protection",
+          "volatile and flammable solvents must be handled in a well-ventilated area or fume hood during loading",
+          "opening a sealed cell after measurement at elevated temperature requires cooling to room temperature first to reduce internal pressure",
+          "corrosive or toxic volatile samples require additional containment and appropriate PPE"
+        ]
+      },
+      "performance": {
+        "sensitivity": "heat flux detection sensitivity typically 0.1–1 µW for isothermal microcalorimeters; 1–10 µW for standard closed-cup calorimeters",
+        "detection_limit": "minimum detectable enthalpy change ~0.01 J for microcalorimetry implementations; ~0.1 J for conventional setups",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement)",
+          "temporal": "time constant 5–60 s depending on cell design and thermal coupling; determines minimum peak separation in sequential injection experiments",
+          "spectral": "not applicable",
+          "energy": "enthalpy resolution ~0.5–2% of measured value for well-calibrated systems"
+        },
+        "dynamic_range": "enthalpy of mixing from ~1 J/mol to ~30 kJ/mol; Cp from ~0.5 to ~5 J/(g·K)",
+        "accuracy": "0.5–2% for enthalpy of mixing after vapor-space correction and calibration; 1–3% for heat capacity in scanning mode",
+        "precision": "0.2–1% (repeatability of enthalpy measurement at fixed composition and temperature)",
+        "throughput": "one sample composition per injection; a complete HE(x) curve (10–20 points) requires 2–8 hours depending on equilibration time",
+        "measurement_speed": "individual mixing event: signal returns to baseline in 5–30 minutes depending on mixing kinetics and cell time constant"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "differential heat flux (µV or mW) from thermopile between sample cell and reference cell as a function of time; each injection or thermal event produces a peak in the heat flux signal",
+        "preprocessing_steps": [
+          "baseline correction — subtract linear or polynomial drift from the heat flux signal before and after each thermal event",
+          "peak integration — integrate the corrected heat flux peak over time to obtain the total enthalpy change (ΔQ) for each injection or mixing event",
+          "electrical calibration factor application — convert integrated thermopile signal (µV·s) to energy (J) using the Joule calibration constant",
+          "vapor-space correction — account for the enthalpy of vaporization/condensation in the headspace as composition and temperature change",
+          "dead volume correction — correct for any liquid retained in injection tubing or mixing channels"
+        ],
+        "analysis_methods": [
+          "direct integration of heat flux peaks to obtain partial molar or integral molar enthalpy of mixing",
+          "composition-weighted summation to construct the full HE(x) curve from sequential injection data",
+          "Redlich-Kister or Margules polynomial fitting of HE(x) data to obtain excess enthalpy model parameters",
+          "NRTL, Wilson, or UNIQUAC model fitting to extract binary interaction parameters from HE data",
+          "differentiation of integral HE(x) to obtain partial molar excess enthalpies"
+        ],
+        "model_assumptions": [
+          "complete and instantaneous mixing of injected component with bulk liquid in the sealed cell",
+          "negligible heat of friction from stirring mechanism",
+          "vapor–liquid equilibrium is established rapidly within the sealed cell after each injection",
+          "heat flux sensor response is well-described by a single exponential time constant (Tian equation)",
+          "the vapor-space composition correction can be computed from an equation of state or activity coefficient model"
+        ],
+        "fit_parameters": [
+          "integral molar excess enthalpy HE at each composition point",
+          "Redlich-Kister coefficients (A0, A1, A2, ...) for HE(x)",
+          "binary interaction parameters for solution models (NRTL, Wilson, UNIQUAC)",
+          "calorimeter time constant τ for peak deconvolution"
+        ],
+        "common_artifacts": [
+          "vapor-space artifact: uncorrected vaporization or condensation in headspace produces a systematic bias in apparent mixing enthalpy, especially for highly volatile systems",
+          "incomplete mixing artifact: viscous or immiscible systems yield broadened, tailing heat flux peaks and underestimated enthalpy if integration window is too short",
+          "seal leak artifact: slow loss of volatile component produces a drifting baseline and systematic error that grows with time and temperature",
+          "injection heat artifact: frictional or expansion heat from the syringe injection appears as a small exothermic or endothermic baseline perturbation unrelated to mixing",
+          "thermal lag artifact: in scanning-mode Cp measurements, finite cell thermal mass causes apparent shift of transition temperatures"
+        ],
+        "quality_control_checks": [
+          "verify that the sum of all partial enthalpy contributions closes to the known integral enthalpy for a reference system",
+          "run the standard cyclohexane + hexane mixing enthalpy and compare against published IUPAC values within stated uncertainty",
+          "check that forward (component A into B) and reverse (component B into A) mixing produce consistent HE(x) curves",
+          "inspect baseline stability before and after each experiment — drift > 1 µW indicates potential seal failure or thermal instability",
+          "repeat selected compositions in triplicate to verify precision within stated repeatability limits"
+        ],
+        "failure_modes": [
+          "seal failure — loss of volatile component leads to progressively inaccurate results, identified by baseline drift or pressure drop",
+          "stirrer malfunction — incomplete mixing produces irreproducible peak shapes and poor enthalpy closure",
+          "cell corrosion — sample-cell material incompatibility leads to contamination and anomalous thermal signals over time",
+          "syringe blockage — partially clogged injection needle delivers incorrect volume, introducing composition errors",
+          "thermostat instability — temperature oscillations exceed ±0.01 K, degrading baseline noise and enthalpy accuracy"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 0.5–3% for molar enthalpy of mixing; 1–3% for heat capacity in scanning mode",
+        "random_sources": [
+          "baseline noise from detector electronics and thermal fluctuations",
+          "variability in injection volume from syringe pump reproducibility",
+          "stirring-induced noise in the heat flux signal",
+          "temperature fluctuations from thermostat instability"
+        ],
+        "systematic_sources": [
+          "vapor-space correction uncertainty — depends on accuracy of the equation of state or activity coefficient model used",
+          "electrical calibration factor uncertainty (typically 0.1–0.5%)",
+          "sample mass or volume determination uncertainty",
+          "incomplete mixing or slow equilibration leading to truncated peak integration",
+          "dead volume in injection system introducing composition errors",
+          "heat exchange with surroundings through imperfect adiabatic shielding"
+        ],
+        "operator_dependence": "moderate — cell loading, sealing torque, degassing quality, and injection timing depend on operator technique; automated instruments reduce but do not eliminate dependence",
+        "model_dependence": "moderate to high — vapor-space correction is model-dependent and can be the dominant uncertainty source for highly volatile systems; choice of excess enthalpy fitting function affects interpolated values",
+        "dominant_error_sources": [
+          "vapor-space correction for volatile systems (can be 1–10% of measured enthalpy if headspace fraction is large)",
+          "incomplete mixing or equilibration for viscous systems",
+          "seal integrity for extended high-temperature measurements"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(HE) at 95% confidence (k=2)",
+          "relative uncertainty as percentage of molar enthalpy",
+          "standard deviation from replicate measurements at representative compositions"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "Closed cup calorimetry is a thermal measurement technique that uses a hermetically sealed sample cell to determine enthalpies of mixing, dissolution, and reaction for systems containing volatile components. By preventing vapor escape, the technique captures the full thermodynamic enthalpy change that would otherwise be lost to evaporative cooling in an open system. It is especially valuable for measuring excess enthalpies of liquid mixtures where one or more components have significant vapor pressures at the measurement temperature. In the NIST ThermoML database, closed cup calorimetry appears in the HeatCapacityAndDerivedProp property group, reflecting its use for both enthalpy and heat capacity determinations under sealed conditions.",
+      "how_it_operates": "The technique operates by placing measured quantities of liquid components inside a sealed calorimeter cell equipped with a differential heat flux sensor. In a mixing experiment, one component is loaded into the closed cell and a second component is injected through a septum or valve using a precision syringe pump, while the cell remains sealed. The heat released or absorbed upon mixing is detected as a differential signal between the sample cell and an identical sealed reference cell. A stirring mechanism (magnetic or rocking) ensures homogeneous mixing. The thermopile or Peltier sensor generates a voltage proportional to the heat flux, which is integrated over time to yield the total enthalpy change. For heat capacity measurements, the sealed cell is subjected to a slow temperature ramp and the differential heat flux is used to compute Cp.",
+      "core_theory": "The measurement rests on the first law of thermodynamics applied to a closed system at constant pressure (or more precisely, at the autogenous pressure within the sealed cell). For a mixing process, the integral molar excess enthalpy is HE = ΔQ/(n1 + n2), where ΔQ is the integrated heat and n1, n2 are the moles of each component. The sealed cell ensures that the total enthalpy change includes contributions from both the liquid-phase mixing and any vapor–liquid re-equilibration, providing the true thermodynamic mixing enthalpy. The Tian equation, dQ_meas/dt = dQ_true/dt − τ·(d²Q_meas/dt²), corrects for the finite time constant τ of the calorimeter. A vapor-space correction is applied when the headspace above the liquid is non-negligible: ΔQ_corrected = ΔQ_measured − ΔH_vap_space, where the vapor contribution is estimated from an equation of state and the known headspace volume.",
+      "setup": "A typical closed cup calorimeter comprises twin sealed cells (sample and reference) housed symmetrically within a temperature-controlled block or thermostated bath. Each cell is a thick-walled stainless steel or Hastelloy vessel (0.5–5 mL internal volume) sealed with an O-ring or metal gasket and closure cap tightened to a specified torque. A thermopile wraps around or is embedded between the cell and the isothermal block, providing differential heat flux detection. One cell contains one liquid component and receives injections of the second component via a syringe pump connected through a narrow capillary that penetrates the cell seal. A small magnetic stir bar inside the cell is driven by an external rotating magnet. An optional pressure transducer monitors the autogenous pressure. Temperature is controlled by a precision thermostat (Peltier or fluid-circulated) with stability of ±0.005 K or better.",
+      "suitable_for": "Closed cup calorimetry is ideally suited for measuring enthalpies of mixing of volatile liquid systems where conventional open or flow calorimeters would lose material to evaporation. Typical applications include: binary mixtures of low-boiling organic solvents (e.g., ethanol + ethyl acetate), aqueous solutions of volatile solutes, gas–liquid dissolution enthalpies at moderate pressures, reaction enthalpies involving volatile reactants or products, and heat capacity measurements of volatile liquids that cannot be maintained in open pans. It is commonly employed for systems studied at temperatures approaching or exceeding the normal boiling point of one or more components.",
+      "core_limitations": "The primary limitation is the presence of a vapor headspace inside the sealed cell, which introduces a vapor-space correction that becomes the dominant uncertainty source for highly volatile systems. The correction requires knowledge of the vapor–liquid equilibrium, which may itself be uncertain for the system under study. Cell volume is fixed and relatively small (typically ≤ 5 mL), limiting the amount of sample and the number of injection steps in a single experiment. The sealed design makes stirring less effective than in open calorimeters, potentially leading to incomplete mixing for viscous or partially miscible systems. High internal vapor pressure at elevated temperatures reduces the usable temperature range and poses safety concerns. Scanning-mode heat capacity measurements in sealed cells have lower accuracy than dedicated adiabatic or DSC techniques due to the additional thermal mass of the heavy cell walls.",
+      "sample_preparation": "Liquid components should be of known purity and are typically degassed before loading to eliminate dissolved air that could produce spurious thermal signals upon pressure changes during injection. Degassing is performed by vacuum distillation, freeze-pump-thaw cycling, or ultrasonic degassing under reduced pressure. Components are accurately weighed or dispensed volumetrically into the cell under dry inert atmosphere if moisture-sensitive. The cell interior is cleaned with appropriate solvents (acetone, hexane), dried, and inspected before each experiment. The O-ring or gasket is checked for damage and replaced as needed. After loading, the cell is sealed and a brief leak check (pressure hold test or gravimetric check) is performed before insertion into the calorimeter.",
+      "calibration_and_references": "Calibration follows a two-step protocol: (1) Electrical calibration — a precision resistive heater inside or attached to the cell delivers known Joule heat pulses (typically 0.1–10 J) to establish the integral sensitivity (J per µV·s of thermopile signal) and to verify time constant corrections. (2) Chemical calibration — the mixing enthalpy of a standard reference system, most commonly cyclohexane + hexane (endothermic, IUPAC recommended), is measured and compared against published values to validate the entire measurement chain including injection, mixing, and integration procedures. Temperature calibration uses certified reference thermometers traceable to ITS-90. Baseline stability is verified by running sealed empty cells for several hours; drift exceeding 0.5–1 µW indicates need for maintenance.",
+      "data_interpretation": "Each injection event produces a heat flux peak that is integrated over time (after baseline subtraction) to yield the enthalpy increment ΔQi for the ith injection. The cumulative integral gives the total excess enthalpy HE at the final composition. The molar excess enthalpy at each intermediate composition is computed as HE(xi) = ΣΔQj/(ntotal), accounting for progressive dilution. A vapor-space correction is applied by estimating the change in headspace vapor composition and its associated enthalpy. The resulting HE(x) data are typically fitted to a Redlich-Kister polynomial HE = x1·x2·Σ Ak·(x1−x2)^k to obtain a smooth thermodynamic model and extract partial molar excess enthalpies by differentiation. For heat capacity measurements, the differential heat flux during temperature scanning is converted to Cp using the standard DSC equation Cp = (dQ/dt)/(β·m), where β is the scan rate and m is the sample mass.",
+      "common_pitfalls": "The most critical pitfall is neglecting or inadequately performing the vapor-space correction — for highly volatile mixtures with large headspace, this correction can be several percent of the measured enthalpy and its omission introduces a systematic error. Insufficient degassing of components leads to bubble formation upon injection, causing erratic heat flux signals and poor reproducibility. Over-tightening or under-tightening the cell seal causes either sample contamination from gasket material or vapor leaks, respectively. Using an injection rate that is too fast overwhelms the stirring capacity and produces incomplete mixing, manifesting as broadened, irreproducible peaks. Failure to equilibrate the syringe and injection line at the measurement temperature causes heat-of-temperature-equilibration artifacts.",
+      "artifacts_and_failure_modes": "Vapor-space artifacts are the most characteristic issue: as volatile component is injected and the liquid composition changes, the headspace re-equilibrates, absorbing or releasing additional enthalpy that is superimposed on the mixing signal. Incomplete mixing artifacts appear as extended tailing of the heat flux peak, indicating that thermal equilibrium has not been fully restored before the next injection. Seal degradation over time at elevated temperature causes a slow monotonic baseline drift as volatile material escapes, with the drift accelerating at higher temperatures. Injection artifacts — small exothermic or endothermic spikes caused by frictional heating, pressure pulses, or temperature mismatch of the injected liquid — appear as sharp features at the start of each peak. Magnetic stirrer coupling loss due to high viscosity or improper cell positioning results in sudden noise bursts and poor data quality.",
+      "reporting_checklist": "Published closed cup calorimetry results should include: cell type and material, internal volume, and headspace volume fraction; thermostat type and temperature stability; injection system description and total number of injections; individual and total injection volumes; degassing procedure for each component; electrical and chemical calibration procedures with reference system and agreement; vapor-space correction method and magnitude; raw and corrected molar excess enthalpy or heat capacity values with composition, temperature, and pressure; combined expanded uncertainty at 95% confidence level (k=2); fitting model used for HE(x) and residuals; and any observed anomalies. For ThermoML encoding, enthalpies and heat capacities are reported with nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

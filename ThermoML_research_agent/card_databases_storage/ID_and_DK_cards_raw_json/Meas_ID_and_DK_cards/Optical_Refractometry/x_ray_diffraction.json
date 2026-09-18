@@ -1,0 +1,375 @@
+{
+  "meas_ID": "x_ray_diffraction",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "X-ray diffraction",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "X-ray diffraction",
+    "thermoml_custom_codes": [],
+    "measurement_family": "Optical / Refractometry",
+    "modality": {
+      "contact": "no",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 213,
+      "property_groups": [
+        "VolumetricProp",
+        "CompositionAtPhaseEquilibrium",
+        "PhaseTransition"
+      ],
+      "n_papers": 113,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 203,
+          "papers": 112
+        },
+        "CompositionAtPhaseEquilibrium": {
+          "instances": 7,
+          "papers": 1
+        },
+        "PhaseTransition": {
+          "instances": 3,
+          "papers": 2
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "diffraction angle 2θ (degrees)",
+          "diffracted beam intensity I(2θ) (counts or counts per second)",
+          "incident X-ray wavelength λ (Å)"
+        ],
+        "derived_observables": [
+          "interplanar spacings d_hkl from Bragg's law (nλ = 2d sin θ)",
+          "lattice parameters (a, b, c, α, β, γ)",
+          "unit cell volume V_cell",
+          "crystal density ρ_xtal = Z·M/(N_A·V_cell)",
+          "crystallographic phase identity (matched to reference patterns)",
+          "crystallite size from peak broadening (Scherrer equation)",
+          "microstrain from peak broadening analysis",
+          "thermal expansion coefficients from temperature-dependent lattice parameters",
+          "relative phase fractions in multiphase mixtures (Rietveld refinement)"
+        ],
+        "target_properties": [
+          "crystal density (molar volume)",
+          "solid phase identification and crystal structure type",
+          "phase transition temperatures (solid–solid polymorphic transitions)",
+          "thermal expansion (linear and volumetric)",
+          "composition at phase equilibrium (phase fractions in multiphase systems)"
+        ],
+        "phases_measured": [
+          "solid (crystalline — single crystal or polycrystalline)",
+          "solid (partially crystalline / semicrystalline polymers)",
+          "solid (multiphase crystalline mixtures)"
+        ],
+        "supported_sample_types": [
+          "polycrystalline powders (most common for PXRD)",
+          "single crystals",
+          "pressed pellets",
+          "thin films on substrates",
+          "crystalline fibers",
+          "semicrystalline polymers",
+          "binary and multicomponent solid mixtures",
+          "inorganic salts and minerals",
+          "metal alloys",
+          "coordination compounds and metal-organic frameworks"
+        ],
+        "unsupported_sample_types": [
+          "amorphous solids (no sharp Bragg peaks; only broad humps)",
+          "liquids (no long-range order; use X-ray scattering instead)",
+          "gases",
+          "solutions",
+          "samples that decompose under X-ray irradiation (radiation-sensitive organics without cryoprotection)",
+          "samples requiring containment incompatible with X-ray transmission"
+        ],
+        "typical_output_formats": [
+          "powder diffraction pattern: I(2θ) vs. 2θ",
+          "list of d-spacings and relative intensities (d, I/I_max, hkl)",
+          "refined lattice parameters with standard uncertainties",
+          "unit cell volume and crystal density",
+          "Rietveld refinement profile with residuals (R_wp, R_p, χ²)",
+          "variable-temperature diffraction series: lattice parameters vs. T"
+        ],
+        "units": {
+          "diffraction_angle": "degrees 2θ",
+          "d_spacing": "Å (angstroms)",
+          "wavelength": "Å",
+          "lattice_parameters": "Å (lengths) and degrees (angles)",
+          "unit_cell_volume": "Å³",
+          "crystal_density": "kg/m³ or g/cm³",
+          "intensity": "counts or counts/s (arbitrary units after normalization)",
+          "crystallite_size": "nm",
+          "thermal_expansion": "K⁻¹"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "X-ray_wavelength",
+            "typical_range": "0.7–2.3 Å (laboratory sources)",
+            "hard_limits": "Cu Kα = 1.5406 Å (most common); Mo Kα = 0.7107 Å; Co Kα = 1.7889 Å; synchrotron sources tunable 0.3–3 Å",
+            "notes": "wavelength choice affects accessible d-spacing range and fluorescence from certain elements; Cu Kα is standard for most ThermoML-reported work"
+          },
+          {
+            "parameter": "2θ_range",
+            "typical_range": "5°–90° (routine); 2°–160° (extended)",
+            "hard_limits": "minimum 2θ limited by beam stop; maximum limited by goniometer geometry",
+            "notes": "low-angle region important for large d-spacings (MOFs, layered materials); high-angle data improve lattice parameter precision"
+          },
+          {
+            "parameter": "temperature_range",
+            "typical_range": "90 K to 1273 K (variable-temperature stages)",
+            "hard_limits": "cryostat-equipped: down to 10 K; furnace-equipped: up to 2000 K (in vacuum or inert atmosphere)",
+            "notes": "temperature-dependent measurements require calibrated stage and correction for sample displacement"
+          },
+          {
+            "parameter": "step_size",
+            "typical_range": "0.01°–0.05° in 2θ",
+            "hard_limits": "minimum ~0.001° for high-resolution diffractometers; coarser steps for rapid screening",
+            "notes": "step size should be ≤ FWHM/5 of the narrowest peak for adequate profile sampling"
+          },
+          {
+            "parameter": "counting_time_per_step",
+            "typical_range": "0.5 s to 10 s per step",
+            "hard_limits": "short counts for phase ID; long counts for precise lattice parameters and Rietveld refinement",
+            "notes": "total scan time ranges from minutes (rapid screening) to several hours (high-resolution)"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary variable for thermal expansion and phase transition studies",
+            "typical_values": "100 K to 1000 K",
+            "effect": "lattice parameters change with temperature; phase transitions cause abrupt changes in diffraction pattern"
+          },
+          {
+            "name": "X-ray_wavelength",
+            "role": "fixed instrumental parameter",
+            "typical_values": "1.5406 Å (Cu Kα₁)",
+            "effect": "determines the mapping between d-spacing and diffraction angle via Bragg's law"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient; variable in high-pressure XRD",
+            "typical_values": "0.1 MPa (atmospheric); up to 100 GPa in diamond anvil cells",
+            "effect": "compresses unit cell, changes lattice parameters and potentially induces phase transitions"
+          },
+          {
+            "name": "atmosphere",
+            "role": "environmental control",
+            "typical_values": "ambient air, nitrogen, argon, vacuum, controlled humidity",
+            "effect": "prevents oxidation or hydration of air-sensitive samples; required for high-temperature measurements"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "X-ray source — sealed tube (Cu, Mo, Co anode) or rotating anode generator; typical operating power 1–3 kW; synchrotron beamline for highest intensity and tunability",
+          "monochromator — crystal monochromator (Ge(111), graphite) or Kβ filter (Ni foil for Cu radiation) to select Kα₁ or Kα₁₂ radiation",
+          "goniometer — θ-θ or θ-2θ geometry; angular accuracy ±0.001° for high-resolution instruments",
+          "detector — scintillation counter (point detector), position-sensitive detector (PSD), silicon strip detector, or 2D area detector (CCD, CMOS, pixel detector)",
+          "incident and diffracted beam optics — Soller slits, divergence slits, anti-scatter slits, primary and secondary beam masks",
+          "sample stage — flat-plate holder for powders, spinner for powder averaging, capillary mount (Debye-Scherrer geometry), variable-temperature stage (cryo or furnace)",
+          "variable-temperature attachment — cryostream (Oxford Cryosystems, 80–500 K), heating stage (Anton Paar HTK), or cryostat for sub-ambient work",
+          "data acquisition and control software — instrument control, peak search, indexing, and Rietveld refinement packages"
+        ],
+        "environmental_requirements": [
+          "radiation safety enclosure — fully interlocked housing around the X-ray beam path; compliance with local radiation safety regulations",
+          "stable temperature environment around the goniometer to minimize thermal drift of alignment",
+          "vibration-free floor siting (desirable for high-resolution measurements)",
+          "controlled humidity for hygroscopic samples",
+          "inert or vacuum atmosphere capability for air-sensitive or high-temperature measurements"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "fine powder packed in flat sample holder (Bragg-Brentano geometry)",
+            "powder loaded in glass or Kapton capillary (Debye-Scherrer geometry)",
+            "single crystal mounted on glass fiber, MiTeGen loop, or goniometer head",
+            "thin film on flat substrate (grazing incidence geometry)"
+          ],
+          "size_limits": "powder: 0.5–5 g for flat plate; 1–50 mg for capillary; single crystal: 50–500 µm edge length",
+          "thickness_limits": "flat-plate powder bed: 0.5–2 mm depth (sufficient to be 'infinitely thick' for the X-ray beam); capillary diameter 0.1–1.0 mm",
+          "surface_requirements": [
+            "flat, smooth surface for Bragg-Brentano geometry to avoid surface roughness errors",
+            "no preferred orientation (random crystallite orientations) for accurate intensity measurements"
+          ],
+          "mounting_requirements": [
+            "powder: side-loaded or back-loaded into sample holder to minimize preferred orientation; use light pressure",
+            "capillary: sealed with wax or epoxy; spun during measurement for better powder averaging",
+            "single crystal: centered on goniometer with optical microscope alignment",
+            "variable-temperature: secure mounting that accommodates thermal expansion without sample displacement"
+          ],
+          "preparation_requirements": [
+            "grinding to uniform particle size (ideally 1–10 µm) to ensure random orientation and reduce microabsorption",
+            "sieving through 325 mesh (44 µm) sieve for routine PXRD",
+            "mixing with internal standard (e.g., Si, LaB₆) if absolute lattice parameters are needed",
+            "drying or storing under inert atmosphere for hygroscopic or air-sensitive samples",
+            "avoiding excessive grinding that induces amorphization or strain broadening"
+          ]
+        },
+        "calibration_requirements": [
+          "2θ zero-offset calibration using a well-characterized standard (Si NIST SRM 640, LaB₆ NIST SRM 660)",
+          "wavelength verification using known reflection positions of a standard",
+          "sample displacement correction (especially in Bragg-Brentano geometry)",
+          "detector linearity check at high count rates to avoid dead-time errors",
+          "variable-temperature stage temperature calibration using phase transition standards (e.g., KNO₃ at 401 K, BaTiO₃ at 393 K)"
+        ],
+        "reference_materials": [
+          "silicon (NIST SRM 640) — lattice parameter and instrumental profile standard",
+          "lanthanum hexaboride LaB₆ (NIST SRM 660) — instrumental line profile and 2θ calibration standard",
+          "corundum α-Al₂O₃ (NIST SRM 676) — quantitative phase analysis standard",
+          "yttrium oxide Y₂O₃ — lattice parameter standard",
+          "quartz — widely used internal standard for geochemical and mineralogical work",
+          "ICDD Powder Diffraction File (PDF) database — reference patterns for phase identification"
+        ],
+        "consumables": [
+          "glass or Kapton capillaries (various diameters)",
+          "sample holders (aluminum, zero-background silicon wafer, quartz plate)",
+          "mounting wax, vacuum grease, or epoxy for sealing capillaries",
+          "Kβ filter foils (Ni for Cu, Zr for Mo)",
+          "X-ray tube (periodic replacement; typical lifetime 5000–10000 hours)"
+        ],
+        "safety_notes": [
+          "X-ray radiation hazard: all work must be conducted within properly interlocked enclosures; personal dosimeters required",
+          "never bypass safety interlocks; hands and body must never enter the primary beam path",
+          "beryllium windows are toxic if broken — handle X-ray tube windows with care",
+          "high-voltage electrical hazard from X-ray generator (30–60 kV)",
+          "cryogenic hazards if liquid nitrogen cryostats are used",
+          "high-temperature burn risk when using furnace attachments"
+        ]
+      },
+      "performance": {
+        "sensitivity": "can detect crystalline phases present at ≥ 0.5–1 wt% in a mixture (routine PXRD); synchrotron sources push detection to ~0.1 wt%",
+        "detection_limit": "minimum sample mass ~0.5 mg for capillary PXRD; single crystal minimum ~10 µm edge for laboratory sources",
+        "resolution": {
+          "spatial": "illuminated area typically 5–20 mm × 0.1–2 mm on flat samples; microdiffraction to ~50 µm with focused beams or synchrotron",
+          "temporal": "minutes per full diffraction pattern (modern position-sensitive detectors); seconds per pattern with area detectors",
+          "spectral": "Kα₁/Kα₂ doublet resolved at high 2θ; monochromated Kα₁ gives Δλ/λ ~ 3×10⁻⁴",
+          "energy": "not applicable (monochromatic technique); energy-dispersive XRD uses ΔE/E ~ 1–2%"
+        },
+        "dynamic_range": "d-spacings from ~0.5 Å to ~50 Å (2θ range dependent on wavelength); intensity dynamic range 10⁴–10⁶ with modern detectors",
+        "accuracy": "lattice parameters to ±0.0001–0.001 Å with internal standard calibration; crystal density accuracy ±0.01–0.1% from refined cell volume",
+        "precision": "lattice parameter repeatability ~10⁻⁵ Å for well-calibrated high-resolution instruments; density precision ~0.01–0.05%",
+        "throughput": "one sample per 15–90 minutes for routine PXRD; automated sample changers enable unattended operation of 50–200 samples per day",
+        "measurement_speed": "rapid phase identification in 5–10 minutes; high-resolution data collection for Rietveld refinement 1–8 hours"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "diffracted X-ray photon counts as a function of diffraction angle 2θ, recorded as a digital diffractogram I(2θ)",
+        "preprocessing_steps": [
+          "Kα₂ stripping (if not using monochromated Kα₁ radiation)",
+          "background subtraction (amorphous scattering, air scatter, fluorescence)",
+          "Lorentz-polarization correction",
+          "absorption correction (for capillary or transmission geometry)",
+          "smoothing and noise filtering (optional; care to preserve peak shapes)",
+          "2θ zero-offset and sample displacement correction using internal standard reflections"
+        ],
+        "analysis_methods": [
+          "peak search and indexing: identify peak positions, match to Miller indices (hkl), determine crystal system",
+          "whole-pattern fitting / Rietveld refinement: refine lattice parameters, atomic positions, thermal parameters, and phase fractions simultaneously against the full diffraction profile",
+          "Le Bail or Pawley extraction: profile fitting without structural model to obtain accurate peak intensities and lattice parameters",
+          "phase identification by search-match against the ICDD PDF database or Crystallography Open Database (COD)",
+          "Scherrer analysis: estimate crystallite size from integral breadth or FWHM of Bragg peaks after instrumental broadening correction",
+          "Williamson-Hall analysis: separate crystallite size and microstrain contributions to peak broadening",
+          "quantitative phase analysis (QPA): determine weight fractions of phases in mixtures via Rietveld or reference intensity ratio (RIR) methods",
+          "thermal expansion analysis: fit lattice parameter vs. temperature data to polynomial or Einstein/Debye models"
+        ],
+        "model_assumptions": [
+          "Bragg's law (nλ = 2d sin θ) assumes elastic scattering from infinite periodic lattice planes",
+          "kinematic (single-scattering) approximation: each X-ray photon is diffracted at most once (valid for small mosaic crystals and powders; breaks down for perfect single crystals)",
+          "random crystallite orientation in powder samples (absence of preferred orientation / texture)",
+          "sample is homogeneous and representative within the irradiated volume",
+          "crystal structure model used in Rietveld refinement correctly describes the actual structure (space group, site occupancies)",
+          "peak shape function (pseudo-Voigt, Pearson VII, or fundamental parameters) adequately models both instrumental and sample broadening"
+        ],
+        "fit_parameters": [
+          "lattice parameters (a, b, c, α, β, γ)",
+          "2θ zero offset and sample displacement",
+          "peak shape parameters (U, V, W Caglioti parameters; Lorentzian/Gaussian mixing ratio η)",
+          "background polynomial coefficients",
+          "preferred orientation correction (March-Dollase parameter or spherical harmonics coefficients)",
+          "scale factor(s) for each phase",
+          "isotropic or anisotropic atomic displacement parameters (B_iso or U_ij)",
+          "atomic coordinates (in full structural refinement)"
+        ],
+        "common_artifacts": [
+          "preferred orientation: non-random crystallite alignment (e.g., plate-like or needle-like crystals) distorts relative peak intensities, leading to systematic errors in phase fractions and apparent lattice parameters",
+          "sample displacement error: sample surface not at the goniometer axis shifts all peaks systematically in 2θ (cos θ dependence in Bragg-Brentano geometry)",
+          "peak overlap: closely spaced reflections merge, complicating peak fitting and indexing, especially in low-symmetry or multiphase samples",
+          "fluorescence background: characteristic X-ray fluorescence from the sample (e.g., Fe with Cu radiation) raises the background and degrades signal-to-noise ratio",
+          "sample transparency: low-absorbing samples allow beam penetration below the focusing plane, causing asymmetric peak broadening",
+          "thermal diffuse scattering: elevated temperatures increase diffuse background beneath Bragg peaks, reducing peak-to-background ratio"
+        ],
+        "quality_control_checks": [
+          "run a standard (Si SRM 640 or LaB₆ SRM 660) before and after sample measurements to verify 2θ calibration stability",
+          "check Rietveld residuals: R_wp < 10–15%, goodness-of-fit χ² close to 1, and difference plot (I_obs − I_calc) free of systematic features",
+          "verify refined lattice parameters against published values for known compounds",
+          "inspect for preferred orientation by comparing measured intensities to the PDF reference; apply March-Dollase correction if needed",
+          "confirm random orientation by rotating sample and checking intensity reproducibility",
+          "verify crystal density against pycnometric or other independent measurements when available"
+        ],
+        "failure_modes": [
+          "sample is amorphous or nanocrystalline: no sharp Bragg peaks observed; only broad humps — XRD cannot provide lattice parameters",
+          "severe preferred orientation: systematically wrong peak intensities lead to incorrect phase identification or erroneous Rietveld results",
+          "wrong phase assignment from search-match: an incorrect reference pattern is matched, leading to misidentification of the crystal phase",
+          "sample decomposition under X-ray beam: radiation damage (especially organic crystals) causes peak broadening or disappearance during measurement",
+          "sample displacement or height error: unrecognized displacement produces systematic 2θ shifts, yielding lattice parameters biased by 0.01–0.1 Å",
+          "detector saturation: very intense peaks exceed detector linear range, causing truncated or distorted peak shapes"
+        ]
+      },
+      "uncertainty": {
+        "level": "lattice parameters: relative standard uncertainty 10⁻⁴ to 10⁻⁵ (with internal standard); crystal density: 0.01–0.1% relative",
+        "random_sources": [
+          "counting statistics (Poisson noise in diffracted intensity)",
+          "particle statistics (finite number of crystallites in the diffracting condition)",
+          "mechanical reproducibility of goniometer positioning",
+          "temperature fluctuations during variable-temperature measurements",
+          "sample preparation variability (packing density, surface flatness)"
+        ],
+        "systematic_sources": [
+          "2θ zero-offset calibration error",
+          "sample displacement from the goniometer axis",
+          "X-ray wavelength uncertainty (significant only at highest precision)",
+          "absorption effects in flat-plate geometry (varies with sample composition and packing density)",
+          "preferred orientation biasing peak intensities",
+          "temperature calibration error in variable-temperature stage",
+          "incorrect structure model in Rietveld refinement propagating to lattice parameters"
+        ],
+        "operator_dependence": "moderate — sample preparation (grinding, packing, capillary filling) significantly affects data quality; preferred orientation is strongly operator-dependent; interpretation of complex multiphase patterns requires expertise",
+        "model_dependence": "moderate to high — crystal density requires correct assignment of space group, Z, and formula weight; Rietveld refinement quality depends on the structural model; wrong space group assignment biases lattice parameters",
+        "dominant_error_sources": [
+          "sample displacement (Bragg-Brentano geometry) — often the largest systematic error unless corrected with an internal standard",
+          "preferred orientation — dominant source of intensity errors in powder patterns",
+          "temperature calibration and gradient across sample (variable-temperature measurements)",
+          "formula weight uncertainty (propagates directly to crystal density)"
+        ],
+        "reported_as": [
+          "standard uncertainty on lattice parameters from Rietveld refinement (e.s.d. values in parentheses notation)",
+          "combined expanded uncertainty U on crystal density at 95% confidence (k=2)",
+          "Rietveld residuals (R_wp, R_p, χ²) as indicators of overall fit quality"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "X-ray diffraction (XRD) is a crystallographic technique that determines the atomic arrangement and lattice dimensions of crystalline materials by analyzing the angular distribution of X-rays scattered from periodic lattice planes. In ThermoML, XRD is primarily reported as the measurement method for crystal density (derived from refined unit cell parameters), solid phase identification, and thermal expansion of crystalline compounds. With 213 measurement instances across 113 papers — overwhelmingly in the VolumetricProp group (203 instances) — it is the standard method for obtaining high-precision crystallographic densities that serve as benchmarks for other density measurement techniques. Powder X-ray diffraction (PXRD) is the most commonly reported variant, though single-crystal diffraction also appears for high-accuracy structural studies.",
+      "how_it_operates": "An X-ray beam of known wavelength λ (most commonly Cu Kα at 1.5406 Å) irradiates a crystalline sample, and the periodic arrangement of atoms acts as a three-dimensional diffraction grating. When the Bragg condition nλ = 2d sin θ is satisfied for a set of lattice planes with spacing d, constructive interference produces a diffracted beam at angle 2θ from the incident beam. A detector (scintillation counter, silicon strip detector, or area detector) mounted on a goniometer records the diffracted intensity as a function of 2θ. In powder diffraction, the random orientation of many small crystallites ensures that all families of lattice planes simultaneously satisfy the Bragg condition, yielding a characteristic set of peaks whose positions encode the lattice parameters and whose intensities encode the atomic arrangement within the unit cell.",
+      "core_theory": "The fundamental relationship is Bragg's law: nλ = 2d sin θ, where n is the diffraction order (usually 1), λ is the X-ray wavelength, d is the spacing between parallel lattice planes indexed by Miller indices (hkl), and θ is the Bragg angle. The d-spacings are related to the lattice parameters (a, b, c, α, β, γ) through geometric relationships specific to each crystal system — for example, 1/d² = h²/a² + k²/b² + l²/c² for an orthorhombic cell. Once lattice parameters are refined from measured peak positions, the unit cell volume V is calculated, and crystal density follows as ρ = Z·M/(N_A·V), where Z is the number of formula units per unit cell, M is the molar mass, and N_A is Avogadro's number. The diffracted intensity depends on the structure factor F(hkl), which encodes the positions and scattering power of all atoms in the unit cell: I(hkl) ∝ |F(hkl)|² × multiplicity × Lorentz-polarization factor × absorption factor.",
+      "setup": "A typical laboratory powder X-ray diffractometer in Bragg-Brentano (θ-θ or θ-2θ) geometry comprises a sealed X-ray tube (Cu anode at 40 kV, 40 mA), line-focus optics with Soller slits and divergence slits to define the beam, a flat sample holder (back-loaded to minimize preferred orientation), and a solid-state silicon strip detector or scintillation counter on a goniometer arm. A Ni Kβ filter or crystal monochromator selects Cu Kα radiation. For variable-temperature studies, a heating stage (Anton Paar HTK series, room temperature to 1200°C) or cryostream (Oxford Cryosystems, 80–500 K) is mounted on the sample position. Alternative geometries include Debye-Scherrer (capillary transmission, ideal for air-sensitive samples or small quantities) and grazing-incidence (thin films). Data collection is controlled by software that drives the goniometer and records I(2θ), with analysis using packages such as HighScore, TOPAS, GSAS, or FullProf for Rietveld refinement.",
+      "suitable_for": "XRD is the method of choice for crystallographic density determination, yielding ρ with accuracy of ±0.01–0.1% when Z and M are known and lattice parameters are refined against an internal standard. It excels at solid-phase identification by matching the diffraction fingerprint against databases (ICDD PDF, COD), making it invaluable for verifying the polymorphic form of a compound under study. Variable-temperature XRD directly tracks lattice parameter changes during thermal expansion, identifies solid–solid phase transition temperatures, and detects thermally induced amorphization or decomposition. The technique is broadly applicable to inorganic crystals, salts, minerals, metal alloys, coordination compounds, metal-organic frameworks, and crystalline organics. It is the primary technique in ThermoML for reporting crystal densities of ionic liquids' crystalline precursors, pharmaceutical polymorphs, and high-melting inorganic compounds.",
+      "core_limitations": "XRD requires long-range crystalline order, so amorphous materials produce only broad, featureless scattering humps from which neither lattice parameters nor crystal density can be extracted. It is inherently a bulk-average technique — the diffraction pattern represents the irradiated volume — and cannot resolve local compositional or structural heterogeneity below the coherence length. Crystal density calculation requires independent knowledge of the formula weight M and the number of formula units per cell Z, introducing an additional source of uncertainty if the composition or site occupancy is uncertain. Hydrogen atoms are nearly invisible to X-rays (low electron density), so structures containing hydrogen rely on geometrically constrained positions rather than direct observation. Light elements in the presence of heavy elements produce weak scattering contributions that are difficult to refine. Powder samples suffering from preferred orientation give unreliable intensities, which propagates to incorrect phase fractions and, in extreme cases, wrong phase identification.",
+      "sample_preparation": "For powder XRD, the crystalline material is ground gently in an agate mortar to produce a uniform particle size of 1–10 µm. Excessive grinding must be avoided as it can induce amorphization, lattice strain, or polymorphic transformation. The powder is sieved through a 325-mesh (44 µm) sieve and packed into a flat sample holder by back-loading or side-loading to minimize preferred orientation from plate-like or needle-shaped crystallites. Alternatively, the powder is loaded into a glass or Kapton capillary (0.3–1.0 mm diameter) for Debye-Scherrer geometry, which naturally reduces preferred orientation and is preferred for small quantities or air-sensitive materials. When an internal standard is required for absolute lattice parameter calibration, 10–20 wt% silicon (NIST SRM 640) or LaB₆ (NIST SRM 660) is mixed uniformly with the sample. Hygroscopic or air-sensitive samples must be handled in a glove box and sealed in capillaries or measured under protective atmosphere.",
+      "calibration_and_references": "Instrumental calibration centers on establishing an accurate 2θ scale using a certified standard: silicon NIST SRM 640 (a = 5.43123 Å at 22.5°C) provides well-separated sharp peaks across a wide 2θ range, while LaB₆ NIST SRM 660 provides additional peaks and is the standard for instrumental line profile characterization. The 2θ zero-offset, sample displacement, and any systematic goniometer errors are determined by refining the standard pattern and applying corrections to subsequent sample data. When an internal standard is run mixed with the sample, these corrections are inherently captured. Temperature calibration of variable-temperature stages uses materials with well-known phase transition temperatures — KNO₃ (orthorhombic to trigonal at 401 K), BaTiO₃ (tetragonal to cubic at 393 K), or quartz (α to β at 846 K). Detector dead-time correction is verified at high count rates using attenuators.",
+      "data_interpretation": "The measured diffractogram I(2θ) is first corrected for background (linear or polynomial fit between peaks), Kα₂ contribution (if unmonochromated), and instrumental effects. Peak positions are extracted by profile fitting (pseudo-Voigt or fundamental parameters approach) and indexed to assign Miller indices (hkl). Lattice parameters are refined by least-squares fitting of observed d-spacings against the unit cell geometry equations, or preferably by Rietveld whole-pattern refinement that simultaneously optimizes lattice parameters, peak shapes, background, preferred orientation, and scale factors against the full profile. The refined unit cell volume V (with standard uncertainty from the covariance matrix) is combined with Z and M to compute crystal density ρ = Z·M/(N_A·V). For phase identification, the peak position and intensity pattern is matched against the ICDD PDF or COD database. Quantitative phase analysis in multiphase samples uses Rietveld-refined scale factors to determine weight fractions. Variable-temperature data are analyzed by plotting lattice parameters or cell volume versus T, and fitting to thermal expansion models.",
+      "common_pitfalls": "The single most common pitfall in reporting XRD-derived density is using an incorrect value of Z (formula units per cell) or M (molar mass), which propagates directly and proportionally to the density error. Preferred orientation from plate-like crystals (e.g., layered compounds) distorts peak intensities and can lead to systematic errors in Rietveld residuals and misassignment of the crystal phase. Insufficient grinding produces poor particle statistics, manifesting as 'spotty' Debye rings or irreproducible intensities between repeat measurements. Sample displacement in Bragg-Brentano geometry causes 2θ-dependent peak shifts that bias lattice parameters unless corrected with an internal standard or sample height alignment. Over-reliance on automatic search-match for phase identification without visual inspection of the fit can lead to incorrect phase assignment, especially for mixtures or novel compounds. Variable-temperature measurements without proper temperature calibration report transition temperatures biased by the thermal lag between the stage thermocouple and the sample surface.",
+      "artifacts_and_failure_modes": "Preferred orientation is the most pervasive artifact, recognizable by systematic disagreements between observed and calculated intensities for specific families of peaks (e.g., abnormally strong 00l peaks for plate-like crystals). Sample displacement shifts all peaks systematically — to higher 2θ at high angles and lower 2θ at low angles in Bragg-Brentano geometry — introducing a cos θ-dependent error that can bias lattice parameters by 0.01–0.05 Å if uncorrected. Fluorescence background (e.g., iron-containing samples measured with Cu radiation) degrades signal-to-noise and can obscure weak peaks; switching to Co or Mo radiation eliminates this. Sample transparency in low-absorbing organic compounds causes asymmetric peak tails and apparent peak shifts. At elevated temperatures, the Debye-Waller factor reduces Bragg peak intensities and thermal diffuse scattering raises the background, requiring longer counting times. Radiation-sensitive samples (organic single crystals, protein crystals) may degrade under prolonged X-ray exposure, manifesting as progressive peak broadening and loss of high-angle reflections.",
+      "reporting_checklist": "ThermoML entries using XRD as the measurement method should document: (1) instrument type and geometry (Bragg-Brentano, Debye-Scherrer, single-crystal); (2) X-ray source and wavelength (e.g., Cu Kα₁, 1.5406 Å); (3) 2θ range scanned and step size; (4) detector type; (5) temperature and whether a variable-temperature stage was used, with its calibration method; (6) sample preparation (powder grinding, capillary loading, internal standard used); (7) data analysis method (Rietveld refinement software, Le Bail extraction, or peak fitting); (8) refined lattice parameters with standard uncertainties (a, b, c, α, β, γ in parentheses notation); (9) space group and Z used for density calculation; (10) formula weight and its source; (11) Rietveld residuals (R_wp, R_p, χ²) if applicable; (12) crystal density with combined expanded uncertainty at 95% confidence (k=2); and (13) any corrections applied (preferred orientation, absorption, sample displacement). Uncertainties are encoded in ThermoML as nCombExpandUncertValue at the 95% confidence level."
+    }
+  }
+}

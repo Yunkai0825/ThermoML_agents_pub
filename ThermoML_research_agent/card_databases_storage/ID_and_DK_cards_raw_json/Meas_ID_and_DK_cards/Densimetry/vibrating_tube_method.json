@@ -1,0 +1,331 @@
+{
+  "meas_ID": "vibrating_tube_method",
+  "card_type": "standard_dk",
+  "identity": {
+    "name": "Vibrating tube method",
+    "acronym": "",
+    "aliases": [],
+    "thermoml_standard_name": "Vibrating tube method",
+    "thermoml_custom_codes": [
+      "VIBTUB"
+    ],
+    "measurement_family": "Densimetry",
+    "modality": {
+      "contact": "yes",
+      "destructive": "no",
+      "in_situ": "no",
+      "imaging": "no"
+    },
+    "db_usage": {
+      "instance_count": 13110,
+      "property_groups": [
+        "VolumetricProp"
+      ],
+      "n_papers": 2683,
+      "per_group": {
+        "VolumetricProp": {
+          "instances": 13110,
+          "papers": 2683
+        }
+      }
+    }
+  },
+  "domain_knowledge": {
+    "structured_block": {
+      "measurement_scope": {
+        "direct_observables": [
+          "oscillation period τ of the vibrating U-tube",
+          "tube temperature (measured by integrated Pt-100 or NTC sensor)"
+        ],
+        "derived_observables": [
+          "density ρ via ρ = A·τ² + B",
+          "molar volume Vm = M/ρ",
+          "excess molar volume VE from mixture density and pure-component data",
+          "apparent molar volume Vφ",
+          "thermal expansion coefficient αp = −(1/ρ)(∂ρ/∂T)p",
+          "isothermal compressibility κT (when combined with speed-of-sound data)",
+          "partial molar volume V̄i"
+        ],
+        "target_properties": [
+          "density ρ (mass density)",
+          "molar volume Vm",
+          "excess molar volume VE",
+          "apparent molar volume Vφ",
+          "partial molar volume",
+          "thermal expansion coefficient αp",
+          "specific volume"
+        ],
+        "phases_measured": [
+          "liquid",
+          "liquid mixtures and solutions",
+          "compressed liquid (with high-pressure cell)",
+          "supercritical fluid (specialized high-P/T cells)"
+        ],
+        "supported_sample_types": [
+          "pure liquids (organic solvents, ionic liquids, water)",
+          "binary and multicomponent liquid mixtures",
+          "electrolyte solutions",
+          "polymer solutions (dilute to moderate concentration)",
+          "surfactant solutions",
+          "petroleum fractions and fuel blends",
+          "ionic liquids and deep eutectic solvents",
+          "biological fluids and pharmaceutical solutions",
+          "liquefied gases (with pressure adapter)"
+        ],
+        "unsupported_sample_types": [
+          "gases at ambient pressure (insufficient density contrast)",
+          "solids, pastes, or slurries (cannot flow through U-tube)",
+          "highly viscous liquids (>700 mPa·s) without viscosity correction",
+          "samples containing suspended particles or bubbles",
+          "strongly corrosive liquids (HF, concentrated strong acids) unless with Hastelloy tube",
+          "samples that precipitate or crystallize inside the tube"
+        ],
+        "typical_output_formats": [
+          "density ρ at specified (T, p) conditions",
+          "ρ vs. T isobars",
+          "ρ vs. composition isotherms",
+          "excess molar volume VE vs. mole fraction",
+          "apparent molar volume Vφ vs. molality"
+        ],
+        "units": {
+          "density": "g/cm³ or kg/m³",
+          "molar_volume": "cm³/mol",
+          "excess_molar_volume": "cm³/mol",
+          "temperature": "K",
+          "pressure": "MPa",
+          "oscillation_period": "µs",
+          "thermal_expansion_coefficient": "K⁻¹"
+        }
+      },
+      "experimental_parameters": {
+        "constraints": [
+          {
+            "parameter": "temperature",
+            "typical_range": "278.15 K to 363.15 K",
+            "hard_limits": "253.15 K to 473.15 K (instrument-dependent; DMA 5000 covers 273.15–363.15 K; DMA HP covers to 473 K)",
+            "notes": "Peltier thermostat provides ±0.01 K stability in standard range; circulating bath needed outside Peltier range"
+          },
+          {
+            "parameter": "pressure",
+            "typical_range": "0.1 MPa (ambient)",
+            "hard_limits": "up to 70 MPa with DMA HP high-pressure cell; specialized cells to 150 MPa",
+            "notes": "standard U-tube is designed for ambient pressure; high-pressure measurements require dedicated cell with metal tube"
+          },
+          {
+            "parameter": "sample_viscosity",
+            "typical_range": "0.3 to 100 mPa·s (no correction needed)",
+            "hard_limits": "measurements possible to ~700 mPa·s with automatic viscosity correction",
+            "notes": "viscosity >100 mPa·s causes damping of oscillation; correction Δρ = (−0.5 + 0.45√(η·ρ)) × 10⁻⁴ g/cm³ (instrument-specific)"
+          },
+          {
+            "parameter": "sample_volume",
+            "typical_range": "0.7 mL to 1.5 mL",
+            "hard_limits": "minimum ~0.5 mL to fill U-tube completely",
+            "notes": "larger volumes recommended to ensure complete filling and avoid bubble formation"
+          }
+        ],
+        "variables": [
+          {
+            "name": "temperature",
+            "role": "primary controlled variable",
+            "typical_values": "288.15 K to 328.15 K in 5 K steps",
+            "effect": "density decreases with increasing temperature for most liquids; αp = −(1/ρ)(∂ρ/∂T)p is the primary derived quantity from T-scans"
+          },
+          {
+            "name": "pressure",
+            "role": "usually fixed at ambient; scanned in high-pressure studies",
+            "typical_values": "0.1 MPa (ambient); 0.1–70 MPa for compressed-liquid studies",
+            "effect": "density increases with pressure; enables determination of isothermal compressibility κT"
+          },
+          {
+            "name": "composition",
+            "role": "scanned variable for mixture studies",
+            "typical_values": "0 to 1 mole fraction in 0.05–0.1 increments",
+            "effect": "composition dependence of ρ yields excess molar volumes VE and partial molar volumes"
+          }
+        ]
+      },
+      "setup_and_requirements": {
+        "instrument_components": [
+          "U-shaped borosilicate glass or Hastelloy C-276 tube (oscillating element)",
+          "electronic excitation and pickup system (piezoelectric or electromagnetic) to drive and detect tube oscillation",
+          "high-resolution period counter (measures τ to ±0.001 µs or better)",
+          "Peltier thermostat (standard instruments) or circulating liquid thermostat for temperature control",
+          "integrated Pt-100 or NTC temperature sensor in thermal contact with tube",
+          "sample injection port with Luer-lock fitting",
+          "built-in viscosity correction module (modern instruments)",
+          "data acquisition and control unit with digital interface (RS-232, USB, or Ethernet)"
+        ],
+        "environmental_requirements": [
+          "vibration-free bench or anti-vibration mount (external vibrations alter oscillation period)",
+          "stable ambient temperature (±2 K) to reduce thermal drift of electronics",
+          "draft-free environment to avoid temperature gradients near the cell",
+          "clean dry air or nitrogen supply for tube drying between samples"
+        ],
+        "sample_requirements": {
+          "geometry": [
+            "homogeneous liquid that flows freely through the U-tube bore (~1 mm inner diameter)"
+          ],
+          "size_limits": "0.7 mL minimum; 1–2 mL typical injection volume",
+          "thickness_limits": "not applicable (liquid fills the tube bore uniformly)",
+          "surface_requirements": [
+            "sample must be free of suspended particles and bubbles",
+            "sample must not deposit films or precipitates on inner tube wall"
+          ],
+          "mounting_requirements": [
+            "complete filling of the U-tube with no trapped air bubbles",
+            "sample injected slowly via syringe through the inlet port",
+            "visual inspection through transparent tube section to verify absence of bubbles"
+          ],
+          "preparation_requirements": [
+            "degassing by ultrasonication (15–30 min) or vacuum to remove dissolved gas",
+            "filtration through 0.45 µm membrane filter to remove particulates",
+            "drying over molecular sieves for hygroscopic samples",
+            "preparation of mixtures by mass using an analytical balance (±0.0001 g)"
+          ]
+        },
+        "calibration_requirements": [
+          "two-point calibration: measure oscillation period for dry air (or vacuum) and ultrapure degassed water at each temperature",
+          "calibration determines instrument constants A and B in ρ = A·τ² + B",
+          "recalibration required after tube replacement, significant temperature excursion, or chemical contamination",
+          "adjustment verification with a check standard (e.g., toluene, n-hexane, or DMSO) after calibration",
+          "periodic check of water density match to confirm calibration remains valid"
+        ],
+        "reference_materials": [
+          "ultrapure degassed water (NIST density reference; ρ known to ±0.0001 kg/m³)",
+          "dry air at known T, p (density from CIPM-2007 equation or NIST tables)",
+          "toluene — NIST certified reference value for density validation",
+          "n-tetradecane — recommended by IUPAC as density reference liquid",
+          "DMSO — commonly used check standard with well-known ρ(T)"
+        ],
+        "consumables": [
+          "disposable plastic syringes (1–5 mL, Luer-lock)",
+          "syringe membrane filters (0.45 µm PTFE)",
+          "cleaning solvents (ethanol, acetone, petroleum ether — chosen for solubility with sample)",
+          "dry air or nitrogen for tube drying",
+          "ultrapure water (Type I, 18.2 MΩ·cm) for calibration"
+        ],
+        "safety_notes": [
+          "glass U-tubes are fragile; handle with care to avoid fracture and potential sample release",
+          "volatile or flammable solvents require fume hood operation during injection and cleaning",
+          "high-pressure cells: follow manufacturer pressure ratings strictly; use burst-disc protection",
+          "corrosive samples: verify compatibility with tube material (borosilicate glass or Hastelloy)"
+        ]
+      },
+      "performance": {
+        "sensitivity": "period counter resolves density changes of ~1 × 10⁻⁶ g/cm³ in best instruments (Anton Paar DMA 5000)",
+        "detection_limit": "density values from ~0.0012 g/cm³ (air) to ~3 g/cm³; minimum detectable density difference ~1 × 10⁻⁶ g/cm³",
+        "resolution": {
+          "spatial": "not applicable (bulk liquid measurement)",
+          "temporal": "1–5 min per measurement including thermal equilibration",
+          "spectral": "not applicable",
+          "energy": "not applicable"
+        },
+        "dynamic_range": "0 to 3 g/cm³ density range; oscillation period typically 2000–5000 µs",
+        "accuracy": "±1 × 10⁻⁶ g/cm³ (DMA 5000 class); ±5 × 10⁻⁵ g/cm³ (routine DMA 4500/4100); ±1 × 10⁻⁴ g/cm³ (older or lower-tier instruments)",
+        "precision": "±1 × 10⁻⁶ g/cm³ repeatability (DMA 5000); ±1 × 10⁻⁵ g/cm³ (standard instruments)",
+        "throughput": "approximately 10–30 samples per hour for single-temperature measurements with autosampler; less for multi-temperature scans",
+        "measurement_speed": "1–5 min per (T, p) point including equilibration; faster for pre-thermostatted samples or narrow temperature ranges"
+      },
+      "data_and_interpretation": {
+        "raw_signal_type": "oscillation period τ (in µs) of the vibrating U-tube, measured by high-resolution period counter averaging over thousands of oscillation cycles",
+        "preprocessing_steps": [
+          "wait for thermal equilibration (oscillation period stability criterion, e.g., Δτ < 0.002 µs over 30 s)",
+          "apply viscosity correction for samples with η > 100 mPa·s",
+          "convert oscillation period to density via ρ = A·τ² + B using calibration constants",
+          "correct for pressure effects on tube volume if operating above ambient pressure",
+          "apply air buoyancy correction if weighing is involved in sample preparation"
+        ],
+        "analysis_methods": [
+          "direct calculation: ρ = A·τ² + B from two-point calibration (air + water)",
+          "Redlich-Kister polynomial fitting of VE vs. mole fraction for mixture data",
+          "polynomial regression of ρ(T) to determine thermal expansion coefficient αp",
+          "Tait equation fitting of ρ(T, p) data for compressed liquid studies",
+          "Masson equation fitting of Vφ vs. √m for electrolyte apparent molar volumes",
+          "numerical differentiation of ρ(T) to obtain isobaric expansivity"
+        ],
+        "model_assumptions": [
+          "the U-tube behaves as a simple harmonic oscillator: τ² is linearly proportional to the mass (and hence density) of the fluid filling it",
+          "calibration constants A and B are independent of the fluid (valid when fluid does not alter the tube elastic properties)",
+          "the tube is completely and uniformly filled — no bubbles, dead volumes, or heterogeneous regions",
+          "temperature is uniform throughout the fluid column in the tube at the moment of measurement",
+          "viscosity correction model (when applied) adequately accounts for damping effects on apparent period"
+        ],
+        "fit_parameters": [
+          "instrument constant A (relates τ² to mass sensitivity of tube)",
+          "instrument constant B (offset, determined by tube mass and elasticity)",
+          "Redlich-Kister coefficients Ai for VE(x) fitting",
+          "polynomial coefficients for ρ(T) or ρ(p) correlations"
+        ],
+        "common_artifacts": [
+          "air bubble trapped in U-tube: density reads too low and is irreproducible — visible as noisy or drifting period",
+          "film or deposit on inner tube wall: systematic positive density bias that persists across samples",
+          "viscosity-induced period shift: uncorrected viscosity >100 mPa·s gives apparent density that is slightly too low",
+          "sample evaporation at elevated temperature: apparent density drift upward as volatile component escapes",
+          "incomplete thermal equilibration: density recorded before T stability reached, especially during temperature scans"
+        ],
+        "quality_control_checks": [
+          "check density of ultrapure degassed water against NIST reference table at each measurement temperature",
+          "verify dry-air density matches CIPM value to within ±0.0001 g/cm³",
+          "measure a check standard (e.g., toluene) before and after a sample series — deviation flags recalibration need",
+          "repeat selected samples in triplicate to confirm repeatability within stated precision",
+          "visually inspect tube for bubbles before accepting each measurement",
+          "monitor oscillation period stability (live display) to ensure thermal equilibrium"
+        ],
+        "failure_modes": [
+          "bubble in tube: most common failure — produces outlier density values that are too low",
+          "tube contamination: persistent organic or inorganic film on inner wall shifts period systematically",
+          "Peltier thermostat fault: loss of temperature control leads to drifting density values",
+          "chemical attack on tube: prolonged exposure to strong bases or HF etches borosilicate glass, changing tube mass and elastic constant",
+          "electronic excitation failure: loss of oscillation signal — instrument shows error code or zero period",
+          "blocked inlet/outlet: sample partially filling tube due to high viscosity or particulate blockage"
+        ]
+      },
+      "uncertainty": {
+        "level": "typical combined standard uncertainty 5 × 10⁻⁵ g/cm³ (routine) to 1 × 10⁻⁶ g/cm³ (best practice with DMA 5000)",
+        "random_sources": [
+          "period counter digitization noise",
+          "short-term temperature fluctuations within thermostat regulation bandwidth",
+          "incomplete sample-to-sample reproducibility in tube filling",
+          "ambient vibration coupling to tube oscillation"
+        ],
+        "systematic_sources": [
+          "calibration uncertainty (water reference density, air density calculation)",
+          "temperature measurement accuracy of the integrated sensor",
+          "viscosity correction model error for viscous samples",
+          "residual tube contamination from previous sample",
+          "pressure effects on tube geometry (uncorrected at ambient conditions, relevant at high P)",
+          "sample purity and water content"
+        ],
+        "operator_dependence": "low for modern automated instruments (DMA 5000 with autosampler); moderate for manual injection — bubble avoidance and cleaning thoroughness depend on operator skill",
+        "model_dependence": "low — the ρ = A·τ² + B relation is a rigorous result of harmonic oscillator mechanics for a uniform fluid column; viscosity correction adds minor model dependence for viscous samples",
+        "dominant_error_sources": [
+          "bubble formation during sample injection (largest source of gross error)",
+          "calibration quality — purity and degassing of calibration water",
+          "temperature accuracy — 0.01 K error ≈ 1 × 10⁻⁵ g/cm³ density error for organic liquids",
+          "sample purity and moisture content"
+        ],
+        "reported_as": [
+          "combined expanded uncertainty U(ρ) at 95% confidence level (k=2)",
+          "absolute uncertainty in g/cm³ or kg/m³",
+          "repeatability standard deviation from replicate injections"
+        ],
+        "thermoml_encoding": "nCombExpandUncertValue at 95% confidence level"
+      }
+    },
+    "description_block": {
+      "technique_overview": "The vibrating tube method is the most widely used technique for precise liquid density measurement in modern thermophysical property research. A hollow U-shaped tube, typically made of borosilicate glass or Hastelloy alloy, is electronically excited at its natural resonant frequency. When the tube is filled with a liquid sample, the added mass changes the resonant frequency (equivalently the oscillation period τ), from which the fluid density is calculated via a simple linear relation ρ = A·τ² + B. First commercialized by Anton Paar in the 1960s based on the work of Kratky, Leopold, and Stabinger, vibrating tube densimeters have become the standard laboratory instrument for density determination, combining ease of use, small sample volume (~0.7 mL), rapid measurement (1–5 min), and excellent accuracy (down to ±1 × 10⁻⁶ g/cm³). With over 13,000 measurement instances across 2,683 papers in ThermoML, it is by far the dominant density measurement technique in the thermodynamics literature.",
+      "how_it_operates": "A U-shaped tube is clamped at both ends and continuously excited to vibrate at its fundamental flexural resonant frequency by a piezoelectric or electromagnetic drive. A pickup sensor on the opposite side of the tube detects the oscillation and feeds the signal to an electronic circuit that maintains the tube at resonance. The oscillation period τ is measured by a high-resolution digital counter that averages over thousands of cycles for stability. When the tube is filled with a fluid of density ρ, the total oscillating mass increases, lowering the resonant frequency and increasing the period. The relationship between density and period is ρ = A·τ² + B, where A depends on the tube volume and spring constant, and B depends on the tube's own mass. The instrument thermostat (Peltier or circulating bath) maintains the tube at the target temperature to within ±0.01 K, and a built-in temperature sensor records the exact measurement temperature.",
+      "core_theory": "The vibrating U-tube is modeled as a mechanical spring-mass oscillator. The tube acts as the spring (with elastic restoring force constant k), and the oscillating mass comprises the tube mass m_tube plus the mass of fluid inside it (ρ·V, where V is the internal volume). The resonant period is τ = 2π√((m_tube + ρV)/k). Rearranging gives ρ = (k/(4π²V))·τ² − m_tube/V, which has the form ρ = A·τ² + B with instrument constants A = k/(4π²V) and B = −m_tube/V. These constants are determined by measuring the period for two substances of known density: typically dry air (or vacuum) and ultrapure degassed water at the same temperature. The linearity of ρ vs. τ² is an exact consequence of the harmonic oscillator model and holds extremely well for low-viscosity fluids. For viscous samples, the oscillation is damped, which shifts the apparent resonant period; modern instruments apply an automatic viscosity correction derived from the damping decrement of the oscillation envelope.",
+      "setup": "A typical vibrating tube densimeter (e.g., Anton Paar DMA 5000 or DMA 4500) is a compact benchtop instrument containing the oscillating U-tube housed in a thermostatted metal block. The Peltier thermostat maintains the tube temperature within ±0.01 K over the operational range (typically 278–363 K). The sample is introduced through a Luer-lock inlet port using a disposable syringe, flowing through the tube and exiting at the outlet. A built-in light source and camera (on premium models) allow the operator to visually confirm complete tube filling and absence of bubbles. The instrument connects to a PC or has a built-in display for real-time monitoring of oscillation period, temperature, and calculated density. For multi-temperature scans, the instrument automatically steps through a programmed temperature sequence, equilibrating and measuring at each point. High-pressure configurations add a metal external cell around the oscillating tube, with a manual or automated pressure generator and a pressure transducer.",
+      "suitable_for": "Vibrating tube densimetry is ideally suited for measuring the density of homogeneous liquids and liquid mixtures across a wide range of compositions and temperatures. It is the method of choice for determining excess molar volumes of binary and multicomponent mixtures, apparent molar volumes of electrolyte solutions, and thermal expansion coefficients from density-temperature data. The small sample volume (~0.7 mL) makes it excellent for expensive or scarce materials such as ionic liquids, pharmaceutical compounds, and specialty chemicals. It is widely applied in quality control for petroleum products, beverages, and chemical manufacturing. With high-pressure accessories, it extends to compressed-liquid and near-critical measurements needed for equation-of-state development and calibration of industrial process densimeters.",
+      "core_limitations": "The vibrating tube method is inherently limited to homogeneous fluid samples that can flow through and completely fill the narrow U-tube bore (~1 mm diameter). It cannot measure gases at ambient pressure with useful accuracy due to the small density-induced period change. Highly viscous samples (>100 mPa·s) require a viscosity correction that introduces additional uncertainty; above ~700 mPa·s, the damping is too severe for reliable measurement. Samples containing suspended particles, precipitates, or bubbles produce erratic results, as do samples that deposit films on the tube wall. The standard glass tube is incompatible with HF and strong alkalis; a Hastelloy tube is required for corrosive media but has somewhat lower sensitivity. Temperature range is limited by the thermostatting system: Peltier-based instruments typically cover 273–363 K, while circulating-bath setups extend to ~473 K. Standard instruments operate at ambient pressure only; high-pressure measurements require specialized cells with reduced sensitivity.",
+      "sample_preparation": "Proper sample preparation is critical for achieving the stated accuracy of vibrating tube densimeters. Liquid samples must be thoroughly degassed to prevent bubble formation inside the tube — the most common source of measurement error. Degassing is typically accomplished by ultrasonication under partial vacuum for 15–30 minutes, or by sparging with helium. Samples should be filtered through a 0.45 µm PTFE membrane to remove particulates that could lodge in the narrow tube bore. Hygroscopic samples must be dried over molecular sieves and handled under dry atmosphere. For mixture studies, components are weighed on an analytical balance with ±0.0001 g resolution and mixed immediately before measurement. The water content of hygroscopic liquids (e.g., ionic liquids) should be verified by Karl Fischer titration, as even 100 ppm water can shift the density of some compounds by 1 × 10⁻⁴ g/cm³. Samples should be at or near ambient temperature before injection to avoid thermal shock and bubble nucleation in the thermostatted tube.",
+      "calibration_and_references": "Calibration of a vibrating tube densimeter follows a two-point procedure that determines the instrument constants A and B. First, the period τ_air is measured with the tube filled with dry air (density calculated from the CIPM-2007 equation using ambient temperature, pressure, and humidity). Second, the period τ_water is measured with ultrapure degassed water (density from the IAPWS-95 equation of state, known to ±0.0001 kg/m³). From these two (ρ, τ²) pairs, A and B are calculated by solving two simultaneous linear equations. This calibration must be repeated at each measurement temperature for scanning instruments, or the instrument firmware performs internal interpolation between calibration points. After calibration, a check standard — commonly toluene (NIST-certified ρ), n-tetradecane (IUPAC recommended), or DMSO — is measured to verify accuracy. Recalibration is triggered by: replacement of the U-tube, chemical contamination that cannot be cleaned, deviation of check standard by more than the stated accuracy, or every 3–6 months as preventive maintenance.",
+      "data_interpretation": "Data interpretation in vibrating tube densimetry is straightforward: the instrument directly outputs density ρ at the measured temperature T (and pressure p). For single-component fluids, density values are often fitted to a polynomial in temperature — ρ(T) = a₀ + a₁T + a₂T² — from which the isobaric thermal expansion coefficient αp = −(1/ρ)(dρ/dT) is derived. For binary mixtures, the excess molar volume is computed as VE = (x₁M₁ + x₂M₂)/ρ_mix − x₁M₁/ρ₁ − x₂M₂/ρ₂ and typically fitted with a Redlich-Kister polynomial VE = x₁x₂ Σ Aᵢ(x₁ − x₂)ⁱ. For electrolyte solutions, apparent molar volumes Vφ = (M₂/ρ) − (ρ − ρ₀)/(m·ρ·ρ₀) × 1000 are plotted against √m and fitted to the Masson equation or Pitzer model. High-pressure ρ(T, p) data are correlated with the Tait equation or used to develop parameters for cubic or SAFT equations of state. The derived quantities (VE, Vφ, αp) are particularly sensitive to small density errors, so propagation of uncertainty through these calculations is essential.",
+      "common_pitfalls": "The most frequent and consequential pitfall is the presence of air bubbles in the U-tube, which causes the measured density to be too low and irreproducible. Bubbles are introduced by inadequate degassing, injecting cold sample into a warm tube, or incomplete tube filling. A close second is insufficient cleaning between chemically dissimilar samples — residual trace of the previous sample (especially involatile compounds like ionic liquids or polymer solutions) alters the inner wall mass and shifts the baseline period. Operators sometimes neglect to check calibration after handling corrosive or film-forming samples. Another pitfall is ignoring the viscosity correction for moderately viscous samples (100–300 mPa·s), which can introduce errors of 10⁻⁴ g/cm³ or more. For mixture work, gravimetric preparation errors (imprecise weighing, evaporation of volatile components during transfer) propagate directly into composition uncertainty and can dominate the error in VE. Finally, assuming the stated instrument specification applies without verifying it against a check standard at the measurement temperature is a common oversight — calibration drift can easily reach 5 × 10⁻⁵ g/cm³ over weeks if unchecked.",
+      "artifacts_and_failure_modes": "Bubbles in the tube are the dominant artifact: they produce density values that are systematically low and exhibit abnormal scatter (standard deviation 10–100× worse than normal). On instruments with an integrated viewing window, bubbles are visually detectable; on older models, they are inferred from period instability. Tube contamination manifests as a persistent positive or negative density offset that does not respond to normal cleaning with ethanol/acetone and air drying — aggressive cleaning with chromosulfuric acid or hot detergent solution is then required. Viscosity-induced period shift is an instrumental artifact where the oscillation damping in viscous fluids increases the apparent period, yielding a density that is too low by an amount proportional to √(η·ρ). Modern instruments apply an automatic correction, but the correction model itself has finite accuracy (~1 × 10⁻⁵ g/cm³). Sample evaporation at temperatures above the boiling point of a volatile component causes the measured density to drift upward over time. Electronic failure of the oscillation excitation circuit manifests as loss of signal, erratic period values, or an instrument error code. Peltier degradation causes slow thermal drift, detectable as non-convergence of density during equilibration.",
+      "reporting_checklist": "Published vibrating tube density measurements should report: instrument make and model (e.g., Anton Paar DMA 5000M); calibration fluids used (water + air or water + vacuum) and reference equation for water density (IAPWS-95); temperature measurement uncertainty and thermostat stability; check standard identity and measured vs. reference density; sample purity (mass fraction or mole fraction), source, and purification method; water content (Karl Fischer) for hygroscopic samples; degassing procedure; whether viscosity correction was applied and the correction method; the combined expanded uncertainty U(ρ) at 95% confidence level (k = 2); number of replicate injections and standard deviation; for mixtures — composition uncertainty, balance precision, and method of mixture preparation (by mass); and any derived quantities (VE, Vφ, αp) with their propagated uncertainties. In ThermoML, density is encoded with nCombExpandUncertValue at the 95% confidence level, and the measurement method is identified as 'Vibrating tube method'."
+    }
+  }
+}
